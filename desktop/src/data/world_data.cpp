@@ -346,7 +346,8 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
 
         for (const Json& n : j.at("npcs")) {
             p.npcs.push_back({n.at("key").get<std::string>(), n.at("dialogue").get<std::string>(),
-                              n.at("variant").get<std::string>(), n.at("dx").get<int>(), n.at("dy").get<int>()});
+                              n.at("variant").get<std::string>(), n.at("dx").get<int>(), n.at("dy").get<int>(),
+                              n.contains("when") ? n.at("when").dump() : std::string()});
         }
         return p;
     } catch (const std::exception& e) {

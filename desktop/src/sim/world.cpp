@@ -104,6 +104,9 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
     m_companion_pos_ = m_player_.position;
     m_companion_cooldown_ = m_setup_.companion ? m_setup_.companion->cooldown_ticks : 0;
     for (const NpcDef& npc : m_setup_.story.npcs) {
+        if (npc.when) {
+            continue;  // a resident is never solid (spec 07, "Residents")
+        }
         m_collision_.add_prop({npc.x, npc.y, kNpcRadius});
     }
     if (m_setup_.enabled) {

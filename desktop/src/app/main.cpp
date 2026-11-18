@@ -4010,7 +4010,9 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         }
     }
     for (const aether::NpcDef& npc : sim.story().setup().npcs) {
-        items.push_back({npc.y, 3, nullptr, nullptr, &npc});
+        if (sim.story().npc_present(npc)) {  // a resident is drawn once it has come (spec 07, "Residents")
+            items.push_back({npc.y, 3, nullptr, nullptr, &npc});
+        }
     }
     for (const aether::NpcDef& npc : sim.story().dynamic_npcs()) {
         items.push_back({npc.y, 3, nullptr, nullptr, &npc});

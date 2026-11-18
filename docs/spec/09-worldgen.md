@@ -209,7 +209,7 @@ Conformance suite `fauna`: the region and the enemy of spawners near the center 
 
 ## Spawn and NPCs
 
-The player starts at the center of tile `(cx, cy)`. Each `npcs[i]` stands at the center of tile `(cx + dx, cy + dy)`.
+The player starts at the center of tile `(cx, cy)`. Each `npcs[i]` stands at the center of tile `(cx + dx, cy + dy)`. An entry with `when` is a resident (spec 07, "Residents"): it is there only while its condition holds, and is never solid.
 
 ## Order and digests
 

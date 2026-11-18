@@ -256,6 +256,13 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         def.variant = npc.variant;
         def.x = npc.x;
         def.y = npc.y;
+        if (!npc.when.empty()) {  // a resident (spec 07, "Residents")
+            def.when = parse_condition_text(npc.when, error);
+            if (!def.when) {
+                error = npc.key + ": " + error;
+                return std::nullopt;
+            }
+        }
         setup.story.npcs.push_back(std::move(def));
     }
 

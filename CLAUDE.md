@@ -64,10 +64,10 @@ The conformance harnesses that run the vectors are `desktop/tests/conformance_te
 | Quests | 319 (24 tales of the villagers) |
 | Items and recipes | 222 items, 76 recipes (8 secret) |
 | Progression | 44 titles, 16 talents, 26 deeds |
-| Named people | 37 in the world data, besides the generated villagers |
+| Named people | 45 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3318 keys, in Italian and English |
-| Same rules on both clients | 30 files of conformance vectors, 542 cases, run by the C++ and the Kotlin tests |
+| Texts | 3352 keys, in Italian and English |
+| Same rules on both clients | 30 files of conformance vectors, 545 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->` (READMEs, this file, the roadmap) | `tools/make_facts.py` |
 | `data/base/art/**`, `fonts/aether.json`, `audio/sfx/`, `stamps/` | the art tools, `make_font.py`, `make_sfx.py`, `make_stamps.py` |
@@ -153,7 +153,7 @@ The numbers (counted from the data by `tools/make_facts.py`):
 <!-- facts:begin -->
 <!-- facts:end -->
 
-- **World:** a streamed 16384 x 16384 world with eight regions, generated settlements and hand-made sites: dungeons and lairs with guardians, eight outposts, eight sanctums of the Echoes (`tools/make_echoes.py`), Fenwick (the home village), the Guest's cottage east of it (Old Tam; Nana Brin gives it, flag `cottage_given`) and Aldermere (the guild town). Fenwick, Aldermere and every outpost have named people with quests (`tools/make_towns.py`, `tools/towns_outposts.py`; Nana Brin, Old Tam, Corvin the pedlar and the eight pedlars of the outposts, who sell the goods of a region a day with the condition `day_mod`, are written by `tools/make_home.py`). Seasons, weather (rain and night hide the player from creatures, rain and snow slow them, the wind of the weather speeds the player, `wind_pm` and `wind_haste_pm`: spec 08; snow in Frostveil), Threshold Stones; the map reveals 5 x 5 cells around the player.
+- **World:** a streamed 16384 x 16384 world with eight regions, generated settlements and hand-made sites: dungeons and lairs with guardians, eight outposts, eight sanctums of the Echoes (`tools/make_echoes.py`), Fenwick (the home village), the Guest's cottage east of it (Old Tam; Nana Brin gives it, flag `cottage_given`) and Aldermere (the guild town). Fenwick, Aldermere and every outpost have named people with quests (`tools/make_towns.py`, `tools/towns_outposts.py`; Nana Brin, Old Tam, Corvin the pedlar and the eight pedlars of the outposts, who sell the goods of a region a day with the condition `day_mod`, are written by `tools/make_home.py`; the eight residents of the outposts, people with `when` who come with the renown of the region and are never solid, by `tools/make_residents.py`: spec 07, "Residents"). Seasons, weather (rain and night hide the player from creatures, rain and snow slow them, the wind of the weather speeds the player, `wind_pm` and `wind_haste_pm`: spec 08; snow in Frostveil), Threshold Stones; the map reveals 5 x 5 cells around the player.
 - **People and content:** eight protagonists (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon: spec 18), each with a prologue, a companion, two personal quests, a story in three acts, an epilogue against their own Echo and a fifth act, "A Life Here" (`tools/make_stories.py`, `stories_act2.py` to `stories_act5.py`). Tales of the villagers, three per region (`tools/make_region_tales.py`). The content in tables: `docs/design/catalog.md`.
 - **Combat:** attack, power strike, dodge, parry, elements, status effects on creatures and on the player, stagger, a guardian bar at the top of the screen. The world difficulty is `enemy_hp_pct` 100 and `enemy_atk_pct` 70: easy on purpose.
 - **Progression:** levels, a tree of talents, four of them abilities (whirl, kill_heal, kill_mana, riposte) and two used on command (burst and mend, `use_ability`: `tools/make_talents.py`), titles with effects (attack, gathering, crafting, fine work, parry, experience; one of renown for each region; `tools/make_titles.py`), a bestiary, a status window, a shared `profile.json` with echoes (titles, past lives, deeds), the heirloom of gold and weapon (reincarnation from the title screen at level 10), deeds read from the profile (`data/base/deeds.json`, `tools/make_deeds.py`, spec 11; listed from the title screen with `A`), runes engraved on the worn weapon at an anvil (`runes` in the save, spec 06, `tools/make_furnishings.py`).

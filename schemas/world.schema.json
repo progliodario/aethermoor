@@ -537,6 +537,10 @@
           },
           "dy": {
             "type": "integer"
+          },
+          "when": {
+            "type": "object",
+            "description": "A resident (spec 07, \"Residents\"): a dialogue condition; the person is there only while it holds, and is never solid."
           }
         }
       }

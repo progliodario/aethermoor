@@ -38,10 +38,10 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Missioni | 319 (24 storie dei paesani) |
 | Oggetti e ricette | 222 oggetti, 76 ricette (8 segrete) |
 | Progressione | 44 titoli, 16 talenti, 26 imprese |
-| Persone con nome | 37 nei dati del mondo, oltre ai paesani generati |
+| Persone con nome | 45 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3318 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 542 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3352 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 545 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -54,7 +54,7 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Combattimento | completo: elementi, stati, parata, stagger, guardiani, abilità a comando | ritocchi, sempre verso scontri facili |
 | Mondo | enorme, otto regioni, città, sotterranei, meteo che nasconde e rallenta, vento che spinge | prestazioni misurate su un telefono, nebbia e temporali |
 | Missioni e storie | storie in cinque atti per ogni protagonista, storie dei paesani, gilda, leggende, taglie | la modalità Dungeon di Gideon |
-| Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite con i suoi mobili, venditori ambulanti, ricette segrete, cibi con effetti | altri residenti, mercanti che viaggiano davvero |
+| Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite con i suoi mobili, venditori ambulanti, ricette segrete, cibi con effetti | residenti anche nei villaggi generati, mercanti che viaggiano davvero |
 | Compagni | uno per protagonista con comandi, legame e cura; Haruka doma un secondo compagno | più compagni scelti dal giocatore |
 | Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi | tag e affissi |
 | Accessibilità | consigli, numeri dei danni e lampi disattivabili, testo grande, tasti configurabili | — |
@@ -91,6 +91,7 @@ Il catalogo completo, generato dai dati, è in [`docs/design/catalog.md`](docs/d
 - Cibi e infusi che fortificano, proteggono, rigenerano o fanno correre; una pozione che purifica.
 - Un **baule** in ogni villaggio e città: tutti tengono le stesse cose.
 - Il **cottage dell'Ospite**: baule, falò, incudine, orti, galline, una capra e una Pietra della Soglia; Nonna Brin te lo regala dopo i suoi tre favori. Sei tappeti aspettano i **mobili** che costruisci all'incudine: letto, rastrelliera, libreria, essiccatoio, manichino e banco, e ognuno ti aiuta ovunque come un titolo.
+- **Residenti**: quando una regione ti conosce (sei missioni finite lì), qualcuno si trasferisce nel suo avamposto, ti saluta e ti regala una runa.
 - Negozi con giorni di mercato, merci di altre regioni, pezzi rari per gli amici; pagano meno se vendi troppo della stessa cosa. Corvin ad Aldermere e un venditore in ogni avamposto portano ogni giorno le merci di una regione diversa.
 
 **Progressione**
@@ -238,7 +239,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine)):
 
 - **A breve:** controlli automatici della grafica; tag; affissi.
-- **A medio termine:** altri residenti e mercanti che viaggiano; nebbia e temporali; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
+- **A medio termine:** residenti anche nei villaggi generati e mercanti che viaggiano; nebbia e temporali; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** pacchetti firmati, documentazione per chi fa mod, altre lingue.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1).
 

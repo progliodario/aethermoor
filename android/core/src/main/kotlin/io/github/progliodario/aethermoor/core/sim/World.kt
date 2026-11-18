@@ -220,6 +220,18 @@ class WorldSim(
         private set
     val enemies = ArrayList<Enemy>()
     override val inventory = java.util.TreeMap<String, Long>()
+
+    /** The runes engraved on the weapons (spec 06, "Runes"): weapon item -> rune item. */
+    val runes = java.util.TreeMap<String, String>()
+
+    /** The furniture placed on the spots of the home (spec 06, "Furniture"): (x100, y100) -> item. */
+    val furniture = java.util.TreeMap<Pair<Int, Int>, String>(compareBy({ it.first }, { it.second }))
+
+    /** The wind of this tick (spec 08, "Wind"), and what it adds to the speed of walking, in permille. */
+    var windPm = 0
+        private set
+    private var windBoost = 0
+
     private val hitSet = ArrayList<Boolean>(List(combat.spawns.size) { false })
     /** Spawner tile -> world tick of the death. */
     private val cleared = java.util.TreeMap<Pair<Int, Int>, Long>(compareBy({ it.first }, { it.second }))
@@ -668,7 +680,7 @@ class WorldSim(
             story.questResolver = { id -> resolveOffer(store.seed, store.params, id)?.let { questFromOffer(it) } }
         }
         collision.dynamicProps = npcCircles
-        for (npc in combat.story.npcs) collision.addProp(Circle(npc.x, npc.y, NPC_RADIUS))
+        for (npc in combat.story.npcs) if (npc.whenCond == null) collision.addProp(Circle(npc.x, npc.y, NPC_RADIUS)) // a resident is never solid (spec 07)
         if (combat.enabled) {
             player.level = combat.startLevel.toLong()
             recomputeDerived()
@@ -1160,8 +1172,6 @@ class WorldSim(
 
     /** Makes a recipe from the bag (spec 06, "Crafting"). Returns false, changing nothing, when it is refused. */
     /** Whether a prop of [art] is within 2 tiles (plus its radius); an empty art is everywhere (spec 06, "Stations"). */
-    /** The runes engraved on the weapons (spec 06, "Runes"): weapon item -> rune item. */
-    val runes = java.util.TreeMap<String, String>()
 
     /** The rune of the worn weapon, or null. */
     fun wornRune(): RuneStats? = runes[equippedWeapon]?.let { combat.items[it]?.rune }
@@ -1183,8 +1193,6 @@ class WorldSim(
         return true
     }
 
-    /** The furniture placed on the spots of the home (spec 06, "Furniture"): (x100, y100) -> item. */
-    val furniture = java.util.TreeMap<Pair<Int, Int>, String>(compareBy({ it.first }, { it.second }))
 
     /** The nearest furniture spot in reach, where a piece would be placed; null: none. */
     fun spotNear(): Vec2? {
@@ -1224,10 +1232,6 @@ class WorldSim(
     fun homeBonus(pick: (FurnitureStats) -> Long): Long =
         furniture.values.toSortedSet().sumOf { id -> combat.items[id]?.furniture?.let(pick) ?: 0L }
 
-    /** The wind of this tick (spec 08, "Wind"), and what it adds to the speed of walking, in permille. */
-    var windPm = 0
-        private set
-    private var windBoost = 0
 
     fun nearStation(art: String): Boolean {
         if (art.isEmpty()) return true

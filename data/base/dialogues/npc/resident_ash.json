@@ -1,0 +1,62 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/resident_ash",
+  "start": "c_gift",
+  "nodes": {
+    "c_gift": {
+      "type": "condition",
+      "when": {
+        "flag": "resident_ash_gift"
+      },
+      "then": "talk",
+      "else": "hello"
+    },
+    "hello": {
+      "type": "say",
+      "speaker": "resident_ash",
+      "text": "$i18n:dlg.resident.ash.hello",
+      "next": "gift"
+    },
+    "gift": {
+      "type": "say",
+      "speaker": "resident_ash",
+      "text": "$i18n:dlg.resident.ash.gift",
+      "next": "give"
+    },
+    "give": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "add_item",
+          "item": "base:item/rune_ember",
+          "qty": 1
+        },
+        {
+          "effect": "set_flag",
+          "flag": "resident_ash_gift",
+          "value": true
+        }
+      ],
+      "next": "end"
+    },
+    "talk": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.resident.ask",
+          "next": "life"
+        },
+        {
+          "text": "$i18n:dlg.resident.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "life": {
+      "type": "say",
+      "speaker": "resident_ash",
+      "text": "$i18n:dlg.resident.ash.talk",
+      "next": "end"
+    }
+  }
+}

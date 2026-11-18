@@ -33,6 +33,8 @@ struct WorldNpc {
     std::string variant;
     int dx = 0;
     int dy = 0;
+    std::string
+        when;  // a resident (spec 07, "Residents"): the JSON of the condition that brings it; empty: always there
 };
 
 // An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops.

@@ -41,6 +41,7 @@ struct NpcPoint {
     std::string variant;
     float x = 0.0F;
     float y = 0.0F;
+    std::string when;  // a resident (spec 07, "Residents"): the JSON of its condition; empty: always there
 };
 
 struct TileMap {

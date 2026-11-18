@@ -289,7 +289,7 @@ fun loadCombatSetup(
                 dialogues[id] = parseDialogue(text).getOrThrow()
             }
         }
-        val npcs = map.npcs.map { NpcDef(it.key, it.dialogue, it.variant, it.x, it.y) }
+        val npcs = map.npcs.map { NpcDef(it.key, it.dialogue, it.variant, it.x, it.y, whenCond = it.whenJson.takeIf { w -> w.isNotEmpty() }?.let { w -> parseConditionText(w) }) }
 
         // Items that can be used (spec 06).
         val items = HashMap<String, ItemDef>()

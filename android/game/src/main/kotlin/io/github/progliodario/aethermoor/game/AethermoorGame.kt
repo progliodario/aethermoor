@@ -966,7 +966,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val items = ArrayList<Item>()
         world.forEachProp(cam.x - 2f, cam.y - 1f, cam.x + viewW + 2f, cam.y + viewH + 4f) { prop -> items.add(Item(prop.y, prop, null)) }
         for (enemy in world.enemies) if (enemy.state != EnemyState.DEAD) items.add(Item(enemy.position.y, null, enemy))
-        for (npc in world.story.setup.npcs + world.story.dynamicNpcs) items.add(Item(npc.y, null, null, npc))
+        for (npc in world.story.setup.npcs + world.story.dynamicNpcs) if (world.story.npcPresent(npc)) items.add(Item(npc.y, null, null, npc)) // a resident once it has come
         items.add(Item(world.player.position.y, null, null))
         world.companionPosition?.let { items.add(Item(it.y, null, null, null, true)) }
         world.tamedFriend?.let { items.add(Item(it.position.y, null, null, null, friend = true)) }

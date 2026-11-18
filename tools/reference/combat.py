@@ -81,7 +81,8 @@ class CombatSim:
         self.props = [tuple(p) for p in scenario["props"]]
         story_setup = scenario.get("story")
         if story_setup:
-            self.props += [(n["pos"][0], n["pos"][1], NPC_RADIUS) for n in story_setup["npcs"]]
+            # a resident (an NPC with `when`) is never solid (spec 07, "Residents")
+            self.props += [(n["pos"][0], n["pos"][1], NPC_RADIUS) for n in story_setup["npcs"] if "when" not in n]
         seed = int(scenario["seed"], 16)
         self.seed = seed
         # Gathering (spec 06, "Gathering"): the nodes by prop art, the props that can be gathered from, and what is gathered: (x100, y100) -> (tick it grows back, times)

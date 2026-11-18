@@ -76,6 +76,7 @@ A dialogue is a graph of named nodes with a `start` node and the special target 
 - Map object `type: "npc"`: properties `key` (name used for `talk` and for the text key `speaker.<key>`), `dialogue` (dialogue ID), `variant` (art palette variant of the player rig). NPCs are solid circles of radius 0.3.
 - `interact`: when a dialogue is open it behaves as `advance`. Otherwise the nearest NPC within 1.5 tiles (first in list order on ties) is talked to:
   first the `talk` event is processed, then its dialogue starts.
+- **Residents**: an NPC may have `when`, a condition of the closed catalog above. It is there only while the condition holds: otherwise it is not drawn and cannot be talked to (`interact` and the `talk` event skip it). A resident is **never solid**, there or not, so that its coming and going never moves the player or a creature. In the scenarios the NPCs of `story.npcs` may have `when`; in the world data, the entries of `npcs` (spec 09). Conformance: the scenario `resident_arrives` of the suite `story` and a save split of it.
 
 ## Guild
 
@@ -226,6 +227,7 @@ Fenwick and Aldermere have people with names (`tools/make_towns.py`), and two mo
 - **Corvin the pedlar**, on the square of Aldermere: his cart goes round the eight regions, one a day, in a cycle of eight days (the condition `day_mod` with `every` 8), and he opens the shop of the region of the day (`open_shop` with a `region` and `markup_pct` 110, spec 06, "Goods from afar"). Conformance of the condition: the scenario `day_cycle`.
 - **Old Tam**, keeper of **the Guest's cottage** east of Fenwick (the landmark `guest_cottage`, spec 09): anyone may sleep by its fire for free (`heal_full`). When Nana Brin's three favours are done she gives the cottage to the Guest (the flag `cottage_given`), and Tam welcomes its owner home. The cottage has a chest (spec 06, "Chests"), a campfire, an anvil, three garden plots, a hen coop, a goat pen and a Threshold Stone.
 - **The pedlars of the roads**: one at the outpost of every region (Hobb, Fennick, Garrow, Marisol, Ylva, Rashid, Celeste and Tarn). Their carts go round the same cycle as Corvin's, each a day ahead of the one before, so that on any day the pedlars sell the goods of different regions, at 115 percent. Each greets the Guest the first time (the flag `<name>_met`).
+- **The residents of the outposts** (`tools/make_residents.py`): eight people who move to the outpost of a region once the Guest is known there (`"when": {"renown_at_least": 6}`, section "Renown"): Maela the farmer (Verdalis), Sorrel the herb-witch (Whisperwood), Bram the stonecutter (Ironspine), Yasmin the caravan cook (Sunscar), Hald the ice fisher (Frostveil), Cormac the retired sailor (Tidehaven), Ash the cinder-gardener (the Ashen Wastes) and Ines the apprentice astronomer (Lumeria). Each greets the Guest, gives a rune of the region once (spec 06, "Runes"; the flag `resident_<name>_gift`) and then has a word about the new life there.
 
 ## Journal
 

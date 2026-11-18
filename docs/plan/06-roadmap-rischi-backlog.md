@@ -281,10 +281,10 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Missioni | 319 (24 storie dei paesani) |
 | Oggetti e ricette | 222 oggetti, 76 ricette (8 segrete) |
 | Progressione | 44 titoli, 16 talenti, 26 imprese |
-| Persone con nome | 37 nei dati del mondo, oltre ai paesani generati |
+| Persone con nome | 45 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3318 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 542 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3352 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 545 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -300,7 +300,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, 75 creature con comportamenti, XP e livelli | nulla di aperto: nessuno scontro del modello dura più di tre secondi al proprio livello (`docs/design/balance.md`); si ricontrolla a ogni creatura nuova |
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario) |
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve e notte che nascondono il giocatore, vento che lo spinge, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale |
-| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili | altri residenti nei villaggi, mercanti che viaggiano davvero |
+| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti | mercanti che viaggiano davvero |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
 | M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi | tag e affissi, premi per le imprese |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo e quinto atto, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
@@ -344,6 +344,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - Cibi e infusi con effetti a tempo: fortifica (attacco), protegge (difesa), rigenera (vita a ogni secondo), rapidità (velocità a piedi); la pozione purificante toglie gli stati alterati.
 - Tre posti di equipaggiamento: arma, armatura, accessorio (nove accessori, tra cui uno che restituisce vita a ogni colpo); i guardiani li lasciano.
 - Negozi per regione, locande, gilda con ranghi F-S.
+- **Residenti** (dal 18 novembre): otto persone si trasferiscono negli avamposti quando hai finito sei missioni nella regione (Maela, Sorrel, Bram, Yasmin, Hald, Cormac, Ash, Ines); ognuna ti saluta, ti regala una runa e racconta la vita nuova.
 - **Bauli** (dal 17 novembre): uno in ogni villaggio e città, tutti con le stesse cose; Nonna Brin a Fenwick (riposo gratis, tre favori) e Corvin, il venditore ambulante di Aldermere, con le merci di una regione diversa ogni giorno; la pioggia fa crescere prima gli orti.
 
 **Compagni** (spec 10)
@@ -404,7 +405,7 @@ Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due c
 
 Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
-Il 18 novembre: le **rune** incise sulle armi all'incudine (sette, una per elemento e una di forza), i **mobili del cottage** (sei, da posare sui tappeti del cottage, che aiutano come titoli; Tam li spiega), il **vento** del meteo che spinge il giocatore e muove le piante, due titoli (Incisore di rune, Padrone di casa), un'impresa (Focolare e lama), due consigli nuovi; i numeri scritti a mano che erano rimasti indietro in questa sezione sono tolti o corretti.
+Il 18 novembre: le **rune** incise sulle armi all'incudine (sette, una per elemento e una di forza), i **mobili del cottage** (sei, da posare sui tappeti del cottage, che aiutano come titoli; Tam li spiega), il **vento** del meteo che spinge il giocatore e muove le piante, due titoli (Incisore di rune, Padrone di casa), un'impresa (Focolare e lama), due consigli nuovi; otto **residenti** che si trasferiscono negli avamposti quando la regione ti conosce (sei missioni) e ti regalano una runa (la condizione `when` delle persone); i numeri scritti a mano che erano rimasti indietro in questa sezione sono tolti o corretti.
 
 Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte, tre piatti), sedici storie dei paesani (due per regione), i negozi che pagano meno se vendi troppo, un consiglio per gli orti, il titolo Pollice verde; il rapporto di bilanciamento segnala solo gli scontri troppo duri o lenti (nessuno).
 
@@ -416,7 +417,7 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-4. **Altri residenti** (M6; Nonna Brin, Tam e Corvin ci sono): persone che si trasferiscono nei villaggi aiutati.
+4. **Altri residenti** (M6; gli otto residenti degli avamposti ci sono): anche nei villaggi generati, con mestieri e missioni.
 5. **Mercanti che viaggiano davvero** (M6; Corvin e gli otto venditori degli avamposti ci sono): carri che si spostano lungo le strade.
 6. **Altri effetti del meteo** (M5; pioggia, neve, notte e vento ci sono): la nebbia, i temporali.
 7. **Più mobili e una casa più grande** (M6; i sei mobili del cottage ci sono).

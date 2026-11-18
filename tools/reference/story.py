@@ -229,6 +229,10 @@ class Story:
             self.apply(effect)
         self._go(choice["next"])
 
+    def npc_present(self, npc: dict) -> bool:
+        """Whether an NPC is there now: always, or while the condition of a resident holds (spec 07, "Residents")."""
+        return "when" not in npc or self.holds(npc["when"])
+
     def interact(self) -> None:
         if self.dialogue is not None:
             self.advance()
@@ -236,6 +240,8 @@ class Story:
         best = None
         best_dist = INTERACT_RANGE
         for npc in self.npcs:
+            if not self.npc_present(npc):  # a resident that has not come yet (spec 07, "Residents")
+                continue
             d = math.sqrt((npc["pos"][0] - self.host.x) ** 2 + (npc["pos"][1] - self.host.y) ** 2)
             if d <= best_dist and (best is None or d < best_dist):
                 best, best_dist = npc, d
