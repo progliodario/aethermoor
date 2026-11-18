@@ -89,10 +89,12 @@ TimeSample sample_time(std::uint64_t seed, const TimeParams& p, std::int64_t wor
         s.rain_pm = cur.rain_pm;
         s.dim_pm = cur.dim_pm;
         s.wind_pm = cur.wind_pm;
+        s.fog_pm = cur.fog_pm;
     } else {
         s.rain_pm = (prev.rain_pm * (p.fade_ticks - since) + cur.rain_pm * since) / p.fade_ticks;
         s.dim_pm = (prev.dim_pm * (p.fade_ticks - since) + cur.dim_pm * since) / p.fade_ticks;
         s.wind_pm = (prev.wind_pm * (p.fade_ticks - since) + cur.wind_pm * since) / p.fade_ticks;
+        s.fog_pm = (prev.fog_pm * (p.fade_ticks - since) + cur.fog_pm * since) / p.fade_ticks;
     }
     s.effective_light_pm = s.light_pm * (1000 - s.dim_pm) / 1000;
     return s;

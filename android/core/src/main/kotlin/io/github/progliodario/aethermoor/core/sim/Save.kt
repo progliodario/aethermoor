@@ -81,6 +81,8 @@ data class SaveState(
     val runes: Map<String, String> = emptyMap(),
     /** The furniture of the home (spec 06, "Furniture"), in order of the spots. */
     val furniture: List<FurnitureSave> = emptyList(),
+    /** The tag worn (spec 11, "Tags"); empty: none. */
+    val tag: String = "",
     /** The companion (spec 10): x, y and cooldown; null: no companion in the save. */
     val companion: Triple<Float, Float, Int>? = null,
     /** The companion was told to stay, and the creatures it has killed (spec 10). */
@@ -214,6 +216,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
             put("plots", JsonArray(s.plots.map { p -> JsonArray(listOf(JsonPrimitive(p.x), JsonPrimitive(p.y), JsonPrimitive(p.seed), JsonPrimitive(p.ripe))) }))
         }
         if (s.runes.isNotEmpty()) put("runes", buildJsonObject { for ((weapon, rune) in s.runes.toSortedMap()) put(weapon, rune) })
+        if (s.tag.isNotEmpty()) put("tag", s.tag)
         if (s.furniture.isNotEmpty()) {
             put("furniture", JsonArray(s.furniture.map { f -> JsonArray(listOf(JsonPrimitive(f.x), JsonPrimitive(f.y), JsonPrimitive(f.item))) }))
         }
@@ -347,6 +350,7 @@ fun saveFromJson(text: String): Result<SaveState> =
                 val a = p.jsonArray
                 PlotSave(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, a[2].jsonPrimitive.content, a[3].jsonPrimitive.long)
             } ?: emptyList(),
+            tag = (j["tag"] as? JsonPrimitive)?.content ?: "",
             runes = (j["runes"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap(),
             furniture = (j["furniture"] as? JsonArray)?.map { f ->
                 val a = f.jsonArray

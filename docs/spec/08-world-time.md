@@ -55,7 +55,7 @@ The effective light is `light_pm * (1000 - dim_pm) / 1000`. Clients darken the s
 the client's art direction, not from data yet) and draw rain with density `rain_pm`.
 
 Conformance suite `worldtime`: for a list of `world_ticks` (also huge ones and the edges of the seasons) and seeds, `day`, `tod_pm`, `light_pm`, the kind id of the period, `rain_pm`, `dim_pm`,
-`wind_pm` (section "Wind"), the effective light and the season id.
+`wind_pm` (section "Wind"), `fog_pm` (section "Fog"), the effective light and the season id.
 
 ## Routines
 
@@ -145,6 +145,31 @@ creatures are not changed. The wind also moves the plants more (presentation): t
 In the conformance scenarios of `combat` (no clock) the wind is `weather.wind_pm` and `weather.wind_haste_pm`: `wind_full`,
 `wind_light`, `wind_and_haste` (with a brew of haste and a full rain, which slows only the creatures). The suite `worldtime` has
 `wind_pm` in every sample.
+
+## Fog
+
+Every weather kind may have `fog_pm` (0..1000, 0 when absent): how thick the fog is. It fades from one period to the next like the
+rain, and the sample of the world time has it (`fog_pm`).
+
+`time.weather.fog_aggro_cut_pm` (default 0; 400 in the base world) says how much a **full fog** shortens the distance at which
+creatures notice the player. With the `fog_pm` of the moment, taken at the start of a tick like the rain:
+
+```
+fog_aggro_pm = 1000 - fog_pm * fog_aggro_cut_pm / 1000
+aggro distance = aggro_x100 * gift.aggro_pct / 100 * rain_aggro_pm / 1000 * night_aggro_pm / 1000 * fog_aggro_pm / 1000
+```
+
+(integer divisions, in this order; section "Rain hides you"). A creature that already chases keeps chasing.
+
+The base world has two more kinds of weather: **fog** (no rain, dimmed 300, no wind, full fog), most of all in autumn and winter, and
+the **storm** (full rain, dimmed 550, full wind), most of all in summer. A storm is the rain and the wind together: it hides, slows the
+creatures and pushes the player like both. Presentation: the fog lays a pale veil over the world with banks of mist drifting
+across it (`110 * fog_pm / 1000` of alpha); in a storm (rain and wind both 900 or more) the screen flashes white for a moment every
+7.3 seconds, unless the flashes are turned off (spec 16, "Settings"). The clock of the interface names the weather of the period
+(`weather.<kind>`). A hint tells about the fog (spec 16, "Hints").
+
+In the conformance scenarios the fog is `weather.fog_pm` and `weather.fog_aggro_cut_pm`: `fog_hides`, `fog_light`,
+`fog_rain_and_night`. The suite `worldtime` has `fog_pm` in every sample.
 
 ## The colour of the hour
 

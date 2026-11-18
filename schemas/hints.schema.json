@@ -46,7 +46,9 @@
               "plot",
               "chest",
               "home",
-              "wind"
+              "wind",
+              "fog",
+              "tag"
             ]
           },
           "text": {

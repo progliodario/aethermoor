@@ -67,9 +67,10 @@ private fun loadTalents(pack: Pack): Pair<List<TalentDef>, Int> {
 }
 
 /** The titles (spec 11); none when the pack has no table. */
-private fun loadTitles(pack: Pack): List<TitleDef> {
-    val text = pack.readDocument("base:titles/all") ?: return emptyList()
-    val titles = Json.parseToJsonElement(text).jsonObject["titles"]?.jsonArray ?: return emptyList()
+/** The titles (spec 11), or with [doc] and [key] the tags (spec 11, "Tags"), which have the same fields. */
+private fun loadTitles(pack: Pack, doc: String = "base:titles/all", key: String = "titles"): List<TitleDef> {
+    val text = pack.readDocument(doc) ?: return emptyList()
+    val titles = Json.parseToJsonElement(text).jsonObject[key]?.jsonArray ?: return emptyList()
     return titles.map { element ->
         val t = element.jsonObject
         TitleDef(
@@ -339,6 +340,7 @@ fun loadCombatSetup(
             homeReachX100 = pack.readDocument("base:home/cottage")?.let { Json.parseToJsonElement(it).jsonObject["reach_x100"]?.jsonPrimitive?.int } ?: 200,
             recipes = loadRecipes(pack),
             titles = loadTitles(pack),
+            tags = loadTitles(pack, "base:tags/all", "tags"),
             talents = loadTalents(pack).first,
             talentPointsPerLevel = loadTalents(pack).second,
             companion = loadCompanion(pack, protagonist.companion),

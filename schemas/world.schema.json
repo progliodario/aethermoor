@@ -417,6 +417,12 @@
                     "minimum": 0,
                     "maximum": 1000
                   },
+                  "fog_pm": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000,
+                    "description": "How thick the fog is in this weather, in permille; 0 when absent (spec 08, \"Fog\")."
+                  },
                   "wind_pm": {
                     "type": "integer",
                     "minimum": 0,
@@ -437,6 +443,12 @@
               "minimum": 0,
               "maximum": 1000,
               "description": "How much full rain (and snow) slows the creatures, in permille (spec 08, \"Rain slows\")."
+            },
+            "fog_aggro_cut_pm": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000,
+              "description": "How much a full fog shortens the distance at which creatures notice the player, in permille (spec 08, \"Fog\")."
             },
             "wind_haste_pm": {
               "type": "integer",

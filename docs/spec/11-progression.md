@@ -1,6 +1,6 @@
 # 11. Progression: bestiary and titles
 
-Status: **v1 (bestiary, counters, titles with effects, talents, echoes; tags, real skill trees and the full reincarnation come later)**. Reference: `CombatSim._on_kill` and `CombatSim.earned_titles` in `tools/reference/combat.py`.
+Status: **v1 (bestiary, counters, titles with effects, tags, talents, echoes; real skill trees and the full reincarnation come later)**. Reference: `CombatSim._on_kill` and `CombatSim.earned_titles` in `tools/reference/combat.py`.
 Schema: `schemas/titles.schema.json`. Conformance: the scenarios `bestiary_titles`, `counter_titles` and `board_quest_rewards` of the suite `combat` (the checkpoints carry `bestiary`, `counters` and `titles`).
 
 ## Bestiary
@@ -33,6 +33,26 @@ Three **counters** tell how one plays: `gathered` goes up by one for every gathe
 
 The titles earned are **not saved**: they are computed from the state, in the order of the data (`earned_titles`), so a title cannot be lost nor given twice, and a new title in a later version is
 earned at once by those who already satisfy it. The last title earned is the one that counts as the current one.
+
+## Tags
+
+A **tag** is a trait the game reads from how one plays. `data/base/tags.json` (ID `base:tags/all`, schema `tags`) lists them with the
+fields of a title (`id`, `name`, `kind`, `count`, `enemy`, and the effects `atk_pct`, `gather_bonus`, `craft_bonus`, `parry_bonus`,
+`xp_pct`, `fine_pm`), in the order the player goes through them. A tag is **earned** like a title, when the number its kind counts
+reaches `count` (section "Titles"); but an earned tag does nothing by itself: the player **wears one tag at a time**, and only the
+worn one adds its effects, to the same sums as the titles and the furniture (section "Titles with effects").
+
+- `wear_tag(id)` wears an earned tag; `wear_tag("")` takes the worn one off. It is refused, changing nothing, while a dialogue is open,
+  when the tag is not earned, and when it is the one already worn (or none is worn and `""` is asked).
+- The worn tag is saved (`tag`, spec 12); a game without it wears none.
+- The clients go through the tags earned: `Y` on desktop (an action of the keys panel, spec 16) and the `Tag` button at the bottom of
+  the journal on Android wear the next one in the order of the data, then none. The status window names the worn tag and what it does.
+
+The base pack has eight (`tools/make_tags.py`): Berserker (60 kills, +15% attack), Sentinel (20 parries, a parry ten ticks longer and
++5% attack), Pathfinder (50 gatherings, two more of every drop), Artificer (15 recipes, one more of every recipe and +15% fine work),
+Epicure (30 things used, +15% experience), Grower (10 harvests, two more of every drop and +5% experience), Naturalist (15 kinds of
+creature, +20% experience) and Champion of the People (25 quests, +8% attack and +10% experience). Conformance: the scenario
+`tags_worn` (its checkpoints carry `tag` and the `tags` earned) and two save splits of it.
 
 ## Talents
 

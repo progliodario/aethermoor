@@ -1533,6 +1533,13 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
         }
         m_wind_pm_ = wind;
         m_wind_boost_ = wind * wind_haste / 1000;
+        int fog = m_setup_.fog_pm;  // the fog hides the player (spec 08, "Fog")
+        int fog_cut = m_setup_.fog_aggro_cut_pm;
+        if (m_store_) {
+            fog = sample_time(m_store_->seed(), m_store_->params().time, m_world_ticks_).fog_pm;
+            fog_cut = m_store_->params().time.fog_aggro_cut_pm;
+        }
+        m_fog_aggro_pm_ = 1000 - fog * fog_cut / 1000;
     }
     if (m_store_ && m_window_valid_ && time_of_day_pm() != m_routine_tod_) {
         refresh_people(m_window_x_, m_window_y_);  // somebody goes home or comes out (spec 08)
@@ -1925,7 +1932,48 @@ std::int64_t WorldSim::title_bonus(const std::string& what) const {
                                        : t.xp_pct;
         }
     }
-    return bonus + home_bonus(what);  // and the furniture of the home (spec 06, "Furniture")
+    return bonus + home_bonus(what) + tag_bonus(what);  // and the furniture of the home, and the worn tag
+}
+
+std::vector<std::string> WorldSim::earned_tags() const {
+    std::vector<std::string> earned;
+    for (const TitleDef& t : m_setup_.tags) {
+        if (title_progress(t) >= t.count) {
+            earned.push_back(t.id);
+        }
+    }
+    return earned;
+}
+
+bool WorldSim::wear_tag(const std::string& tag_id) {
+    if (m_story_.dialogue_active() || tag_id == m_tag_) {
+        return false;
+    }
+    if (!tag_id.empty()) {
+        const std::vector<std::string> earned = earned_tags();
+        if (std::find(earned.begin(), earned.end(), tag_id) == earned.end()) {
+            return false;
+        }
+    }
+    m_tag_ = tag_id;
+    return true;
+}
+
+std::int64_t WorldSim::tag_bonus(const std::string& what) const {
+    if (m_tag_.empty()) {
+        return 0;
+    }
+    for (const TitleDef& t : m_setup_.tags) {
+        if (t.id == m_tag_) {
+            return what == "atk"      ? t.atk_pct
+                   : what == "gather" ? t.gather_bonus
+                   : what == "craft"  ? t.craft_bonus
+                   : what == "parry"  ? t.parry_bonus
+                   : what == "fine"   ? t.fine_pm
+                                      : t.xp_pct;
+        }
+    }
+    return 0;
 }
 
 std::int64_t WorldSim::title_attack_pct() const {
@@ -1936,7 +1984,7 @@ std::int64_t WorldSim::title_attack_pct() const {
             pct += t.atk_pct;
         }
     }
-    return pct + home_bonus("atk");
+    return pct + home_bonus("atk") + tag_bonus("atk");
 }
 
 void WorldSim::grant_xp(std::int64_t amount) {
@@ -2032,7 +2080,7 @@ void WorldSim::behave_enemy(Enemy& enemy) {
     switch (enemy.state) {
         case EnemyState::Idle:
             if (dist <= static_cast<float>(b.aggro_x100 * m_setup_.gift.aggro_pct / 100 * m_rain_aggro_pm_ / 1000 *
-                                           m_night_aggro_pm_ / 1000) /
+                                           m_night_aggro_pm_ / 1000 * m_fog_aggro_pm_ / 1000) /
                             100.0F) {
                 enemy.state = EnemyState::Chase;
                 enemy.state_tick = 0;
@@ -2231,6 +2279,7 @@ SaveState WorldSim::capture() const {
     s.chest = m_chest_;
     s.runes = m_runes_;
     s.furniture = m_furniture_;
+    s.tag = m_tag_;
     if (m_setup_.companion) {
         s.has_companion = true;
         s.companion_x = m_companion_pos_.x;
@@ -2383,6 +2432,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     m_chest_open_ = false;
     m_runes_ = s.runes;
     m_furniture_ = s.furniture;
+    m_tag_ = s.tag;
     recompute_derived();       // the talents change the derived stats
     if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
         m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;

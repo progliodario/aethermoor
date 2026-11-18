@@ -1571,7 +1571,9 @@
                 "weights": {
                   "clear": 450,
                   "cloudy": 250,
-                  "rain": 300
+                  "rain": 300,
+                  "fog": 100,
+                  "storm": 60
                 }
               },
               {
@@ -1586,7 +1588,9 @@
                 "weights": {
                   "clear": 750,
                   "cloudy": 200,
-                  "rain": 50
+                  "rain": 50,
+                  "fog": 20,
+                  "storm": 90
                 },
                 "light": [
                   [
@@ -1627,7 +1631,9 @@
                 "weights": {
                   "clear": 400,
                   "cloudy": 350,
-                  "rain": 250
+                  "rain": 250,
+                  "fog": 180,
+                  "storm": 50
                 }
               },
               {
@@ -1642,7 +1648,9 @@
                 "weights": {
                   "clear": 450,
                   "cloudy": 450,
-                  "rain": 100
+                  "rain": 100,
+                  "fog": 150,
+                  "storm": 20
                 },
                 "light": [
                   [
@@ -1676,6 +1684,7 @@
               "rain_aggro_cut_pm": 300,
               "rain_slow_pm": 250,
               "wind_haste_pm": 150,
+              "fog_aggro_cut_pm": 400,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -1699,6 +1708,21 @@
                   "rain_pm": 1000,
                   "dim_pm": 400,
                   "wind_pm": 500
+                },
+                {
+                  "id": "fog",
+                  "weight": 80,
+                  "rain_pm": 0,
+                  "dim_pm": 300,
+                  "wind_pm": 0,
+                  "fog_pm": 1000
+                },
+                {
+                  "id": "storm",
+                  "weight": 50,
+                  "rain_pm": 1000,
+                  "dim_pm": 550,
+                  "wind_pm": 1000
                 }
               ]
             }
@@ -8948,7 +8972,9 @@
                 "weights": {
                   "clear": 450,
                   "cloudy": 250,
-                  "rain": 300
+                  "rain": 300,
+                  "fog": 100,
+                  "storm": 60
                 }
               },
               {
@@ -8963,7 +8989,9 @@
                 "weights": {
                   "clear": 750,
                   "cloudy": 200,
-                  "rain": 50
+                  "rain": 50,
+                  "fog": 20,
+                  "storm": 90
                 },
                 "light": [
                   [
@@ -9004,7 +9032,9 @@
                 "weights": {
                   "clear": 400,
                   "cloudy": 350,
-                  "rain": 250
+                  "rain": 250,
+                  "fog": 180,
+                  "storm": 50
                 }
               },
               {
@@ -9019,7 +9049,9 @@
                 "weights": {
                   "clear": 450,
                   "cloudy": 450,
-                  "rain": 100
+                  "rain": 100,
+                  "fog": 150,
+                  "storm": 20
                 },
                 "light": [
                   [
@@ -9053,6 +9085,7 @@
               "rain_aggro_cut_pm": 300,
               "rain_slow_pm": 250,
               "wind_haste_pm": 150,
+              "fog_aggro_cut_pm": 400,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -9076,6 +9109,21 @@
                   "rain_pm": 1000,
                   "dim_pm": 400,
                   "wind_pm": 500
+                },
+                {
+                  "id": "fog",
+                  "weight": 80,
+                  "rain_pm": 0,
+                  "dim_pm": 300,
+                  "wind_pm": 0,
+                  "fog_pm": 1000
+                },
+                {
+                  "id": "storm",
+                  "weight": 50,
+                  "rain_pm": 1000,
+                  "dim_pm": 550,
+                  "wind_pm": 1000
                 }
               ]
             }
@@ -16321,7 +16369,9 @@
                 "weights": {
                   "clear": 450,
                   "cloudy": 250,
-                  "rain": 300
+                  "rain": 300,
+                  "fog": 100,
+                  "storm": 60
                 }
               },
               {
@@ -16336,7 +16386,9 @@
                 "weights": {
                   "clear": 750,
                   "cloudy": 200,
-                  "rain": 50
+                  "rain": 50,
+                  "fog": 20,
+                  "storm": 90
                 },
                 "light": [
                   [
@@ -16377,7 +16429,9 @@
                 "weights": {
                   "clear": 400,
                   "cloudy": 350,
-                  "rain": 250
+                  "rain": 250,
+                  "fog": 180,
+                  "storm": 50
                 }
               },
               {
@@ -16392,7 +16446,9 @@
                 "weights": {
                   "clear": 450,
                   "cloudy": 450,
-                  "rain": 100
+                  "rain": 100,
+                  "fog": 150,
+                  "storm": 20
                 },
                 "light": [
                   [
@@ -16426,6 +16482,7 @@
               "rain_aggro_cut_pm": 300,
               "rain_slow_pm": 250,
               "wind_haste_pm": 150,
+              "fog_aggro_cut_pm": 400,
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -16449,6 +16506,21 @@
                   "rain_pm": 1000,
                   "dim_pm": 400,
                   "wind_pm": 500
+                },
+                {
+                  "id": "fog",
+                  "weight": 80,
+                  "rain_pm": 0,
+                  "dim_pm": 300,
+                  "wind_pm": 0,
+                  "fog_pm": 1000
+                },
+                {
+                  "id": "storm",
+                  "weight": 50,
+                  "rain_pm": 1000,
+                  "dim_pm": 550,
+                  "wind_pm": 1000
                 }
               ]
             }

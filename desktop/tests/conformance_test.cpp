@@ -757,6 +757,8 @@ Scenario scenario_from_json(const Json& in) {
         setup.night_aggro_cut_pm = in.at("weather").value("night_aggro_cut_pm", 0);
         setup.wind_pm = in.at("weather").value("wind_pm", 0);
         setup.wind_haste_pm = in.at("weather").value("wind_haste_pm", 0);
+        setup.fog_pm = in.at("weather").value("fog_pm", 0);
+        setup.fog_aggro_cut_pm = in.at("weather").value("fog_aggro_cut_pm", 0);
     }
     if (in.contains("gift")) {
         const Json& gift = in.at("gift");
@@ -857,6 +859,23 @@ Scenario scenario_from_json(const Json& in) {
                 talent.active_radius_x100 = t.at("active").value("radius_x100", 0);
             }
             setup.talents.push_back(std::move(talent));
+        }
+    }
+    if (in.contains("tags")) {  // tags (spec 11, "Tags"): earned like titles, one is worn
+        for (const Json& t : in.at("tags")) {
+            aether::TitleDef tag;
+            tag.id = t.at("id").get<std::string>();
+            tag.name = t.at("name").get<std::string>();
+            tag.kind = t.at("kind").get<std::string>();
+            tag.count = integer(t, "count");
+            tag.enemy = t.value("enemy", "");
+            tag.atk_pct = t.value("atk_pct", static_cast<std::int64_t>(0));
+            tag.gather_bonus = t.value("gather_bonus", static_cast<std::int64_t>(0));
+            tag.craft_bonus = t.value("craft_bonus", static_cast<std::int64_t>(0));
+            tag.parry_bonus = t.value("parry_bonus", static_cast<std::int64_t>(0));
+            tag.xp_pct = t.value("xp_pct", static_cast<std::int64_t>(0));
+            tag.fine_pm = t.value("fine_pm", static_cast<std::int64_t>(0));
+            setup.tags.push_back(std::move(tag));
         }
     }
     if (in.contains("titles")) {
@@ -1058,6 +1077,8 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
                 sim.tend();
             } else if (cmd == "tame") {
                 sim.tame();
+            } else if (cmd == "wear_tag") {
+                sim.wear_tag(command.at("tag").get<std::string>());
             } else if (cmd == "close_shop") {
                 sim.close_shop();
             } else if (cmd == "interact") {
@@ -1124,6 +1145,14 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
             REQUIRE(plot.second == wp[i].at(3).get<std::int64_t>());
             ++i;
         }
+    }
+    if (want.contains("tags")) {  // the tags earned and the one worn (spec 11, "Tags")
+        const std::vector<std::string> tags = sim.earned_tags();
+        REQUIRE(tags.size() == want.at("tags").size());
+        for (std::size_t i = 0; i < tags.size(); ++i) {
+            REQUIRE(tags[i] == want.at("tags")[i].get<std::string>());
+        }
+        REQUIRE(sim.worn_tag() == want.at("tag").get<std::string>());
     }
     if (want.contains("furniture")) {  // the furniture of the home (spec 06, "Furniture")
         const Json& wf = want.at("furniture");
@@ -1533,6 +1562,7 @@ TEST_CASE("conformance: worldtime", "[conformance]") {
             REQUIRE(s.rain_pm == want.at("rain_pm").get<int>());
             REQUIRE(s.dim_pm == want.at("dim_pm").get<int>());
             REQUIRE(s.wind_pm == want.value("wind_pm", 0));
+            REQUIRE(s.fog_pm == want.value("fog_pm", 0));
             REQUIRE(s.effective_light_pm == want.at("effective_light_pm").get<int>());
             const std::string got_season =
                 s.season_index >= 0 ? params->time.seasons[static_cast<std::size_t>(s.season_index)].id : "";

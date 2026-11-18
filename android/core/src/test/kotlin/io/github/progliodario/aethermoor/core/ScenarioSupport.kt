@@ -117,6 +117,18 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         nightAggroCutPm = input["weather"]?.jsonObject?.get("night_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
         windPm = input["weather"]?.jsonObject?.get("wind_pm")?.jsonPrimitive?.int ?: 0,
         windHastePm = input["weather"]?.jsonObject?.get("wind_haste_pm")?.jsonPrimitive?.int ?: 0,
+        fogPm = input["weather"]?.jsonObject?.get("fog_pm")?.jsonPrimitive?.int ?: 0,
+        fogAggroCutPm = input["weather"]?.jsonObject?.get("fog_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
+        tags = input["tags"]?.jsonArray?.map { t ->
+            val o = t.jsonObject
+            TitleDef(
+                o.getValue("id").jsonPrimitive.content, o.getValue("name").jsonPrimitive.content, o.getValue("kind").jsonPrimitive.content,
+                o.long("count"), o["enemy"]?.jsonPrimitive?.content ?: "", o["atk_pct"]?.jsonPrimitive?.long ?: 0L,
+                o["gather_bonus"]?.jsonPrimitive?.long ?: 0L, o["craft_bonus"]?.jsonPrimitive?.long ?: 0L,
+                o["parry_bonus"]?.jsonPrimitive?.long ?: 0L, o["xp_pct"]?.jsonPrimitive?.long ?: 0L,
+                finePm = o["fine_pm"]?.jsonPrimitive?.long ?: 0L,
+            )
+        } ?: emptyList(),
         gift = input["gift"]?.jsonObject?.let { g ->
             fun pct(key: String, neutral: Int) = g[key]?.jsonPrimitive?.int ?: neutral
             GiftDef(pct("mp_regen_pct", 100), pct("aggro_pct", 100), pct("heal_pct", 100), pct("dodge_cooldown_pct", 100), pct("death_save_ticks", 0), pct("companion_atk_pct", 100), pct("bond_gain", 1), pct("tame_hp_pct", 0), pct("tame_range_x100", 0), pct("tame_bond", 0), pct("pocket_keep_pm", 0), pct("friend_atk_pct", 0))
@@ -286,6 +298,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
                 if (region.isEmpty()) sim.openShop() else sim.openShopOf(region, cmd["markup_pct"]?.jsonPrimitive?.long ?: 100L)
             }
             "tame" -> sim.tame()
+            "wear_tag" -> sim.wearTag(cmd.getValue("tag").jsonPrimitive.content)
             "tend" -> sim.tend()
             "open_chest" -> sim.openChest()
             "close_chest" -> sim.closeChest()
@@ -338,6 +351,10 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
     want["plots"]?.jsonArray?.let { wp -> // the sown plots (spec 06, "Farming")
         val got = sim.plots.map { (key, plot) -> listOf(key.first.toString(), key.second.toString(), plot.first, plot.second.toString()) }
         assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at plots")
+    }
+    want["tags"]?.jsonArray?.let { wt -> // the tags earned and the one worn (spec 11, "Tags")
+        assertEquals(wt.map { it.jsonPrimitive.content }, sim.earnedTags(), "$at tags")
+        assertEquals(want.getValue("tag").jsonPrimitive.content, sim.wornTag, "$at tag worn")
     }
     want["furniture"]?.jsonArray?.let { wp -> // the furniture of the home (spec 06, "Furniture")
         val got = sim.furniture.map { (key, item) -> listOf(key.first.toString(), key.second.toString(), item) }

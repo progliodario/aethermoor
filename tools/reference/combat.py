@@ -110,6 +110,8 @@ class CombatSim:
         self.comp_care = 0      # ticks since it last tended the player (spec 10, "Care"); not saved
         self.friend: dict | None = None  # the tamed friend (spec 10): {"d": the creature, "x", "y", "cd"}, or None
         self.titles = scenario.get("titles", [])  # titles (spec 11)
+        self.tag_defs = scenario.get("tags", [])  # tags (spec 11, "Tags"): earned like titles, one is worn
+        self.tag = ""  # the tag worn, or ""
         self.counters: dict[str, int] = {}  # gathered, crafted, parried (spec 11)
         self.bestiary: dict[str, int] = {}  # creature id -> how many were killed (spec 11)
         self.recipes = {r["id"]: r for r in scenario.get("recipes", [])}  # crafting (spec 06, "Crafting")
@@ -613,23 +615,38 @@ class CombatSim:
                 enemy.state = DEAD
                 self._on_kill(enemy)
 
+    def progress(self, t: dict) -> int:
+        """How far the player is toward a title or a tag: the number its kind counts (spec 11, "Titles")."""
+        done = sum(1 for q in self.story.quests.values() if q["done"]) if self.story is not None else 0
+        return {"kills": self.kills, "kills_of": self.bestiary.get(t.get("enemy", ""), 0), "level": self.level,
+                "species": len(self.bestiary), "quests": done}.get(t["kind"], self.counters.get(t["kind"], 0))
+
     def earned_titles(self) -> list[str]:
         """The ids of the titles whose condition holds, in the order of the data (spec 11)."""
-        done = sum(1 for q in self.story.quests.values() if q["done"]) if self.story is not None else 0
-        out = []
-        for t in self.titles:
-            kind, count = t["kind"], t["count"]
-            have = {"kills": self.kills, "kills_of": self.bestiary.get(t.get("enemy", ""), 0), "level": self.level,
-                    "species": len(self.bestiary), "quests": done}.get(kind, self.counters.get(kind, 0))
-            if have >= count:
-                out.append(t["id"])
-        return out
+        return [t["id"] for t in self.titles if self.progress(t) >= t["count"]]
+
+    def earned_tags(self) -> list[str]:
+        """The ids of the tags whose condition holds, in the order of the data (spec 11, "Tags")."""
+        return [t["id"] for t in self.tag_defs if self.progress(t) >= t["count"]]
+
+    def wear_tag(self, tag_id: str) -> bool:
+        """Wears an earned tag, or with "" takes the worn one off (spec 11, "Tags"). False, changing nothing, when refused."""
+        if (self.story is not None and self.story.dialogue_active) or tag_id == self.tag:
+            return False
+        if tag_id and tag_id not in self.earned_tags():
+            return False
+        self.tag = tag_id
+        return True
+
+    def tag_bonus(self, key: str) -> int:
+        """What the worn tag adds, like a title (spec 11, "Tags")."""
+        return next((t.get(key, 0) for t in self.tag_defs if t["id"] == self.tag), 0) if self.tag else 0
 
     def title_bonus(self, key: str) -> int:
         """What the earned titles add (spec 11, "Titles with effects"): `gather_bonus` (more of every drop gathered), `craft_bonus` (more of every
         recipe made), `parry_bonus` (ticks added to the parry window), `xp_pct` (percent more experience from a kill)."""
         earned = set(self.earned_titles())
-        return sum(t.get(key, 0) for t in self.titles if t["id"] in earned) + self.home_bonus(key)
+        return sum(t.get(key, 0) for t in self.titles if t["id"] in earned) + self.home_bonus(key) + self.tag_bonus(key)
 
     def home_bonus(self, key: str) -> int:
         """What the furniture of the home adds, like a title (spec 06, "Furniture"): every kind of piece placed counts once."""
@@ -638,7 +655,7 @@ class CombatSim:
     def title_attack_pct(self) -> int:
         """The percent that the earned titles add to the attack of the player's hits (spec 11, "Titles with effects")."""
         earned = set(self.earned_titles())
-        return sum(t.get("atk_pct", 0) for t in self.titles if t["id"] in earned) + self.home_bonus("atk_pct")
+        return sum(t.get("atk_pct", 0) for t in self.titles if t["id"] in earned) + self.home_bonus("atk_pct") + self.tag_bonus("atk_pct")
 
     def _on_kill(self, enemy: _Enemy) -> None:
         self.kills += 1
@@ -721,7 +738,8 @@ class CombatSim:
         if e.state == IDLE:
             rain_pm = 1000 - self.weather.get("rain_pm", 0) * self.weather.get("rain_aggro_cut_pm", 0) // 1000
             night_pm = 1000 - (1000 - self.weather.get("light_pm", 1000)) * self.weather.get("night_aggro_cut_pm", 0) // 1000
-            if dist <= b["aggro_x100"] * self.gift.get("aggro_pct", 100) // 100 * rain_pm // 1000 * night_pm // 1000 / 100:
+            fog_pm = 1000 - self.weather.get("fog_pm", 0) * self.weather.get("fog_aggro_cut_pm", 0) // 1000  # the fog hides you (spec 08, "Fog")
+            if dist <= b["aggro_x100"] * self.gift.get("aggro_pct", 100) // 100 * rain_pm // 1000 * night_pm // 1000 * fog_pm // 1000 / 100:
                 e.state, e.t = CHASE, 0
         elif e.state == CHASE:
             if dist > b["leash_x100"] / 100:
@@ -1205,6 +1223,7 @@ class CombatSim:
             **({"chest": dict(sorted(self.chest.items()))} if self.chest else {}),
             **({"runes": dict(sorted(self.runes.items()))} if self.runes else {}),
             **({"furniture": [[k[0], k[1], item] for k, item in sorted(self.furniture.items())]} if self.furniture else {}),
+            **({"tag": self.tag} if self.tag else {}),
             "story": self.story.save_state() if self.story is not None else None,
         }
 
@@ -1237,6 +1256,7 @@ class CombatSim:
         self.chest_open = False
         self.runes = dict(save.get("runes", {}))
         self.furniture = {(f[0], f[1]): f[2] for f in save.get("furniture", [])}
+        self.tag = save.get("tag", "")
         self.derived = self._derive()
         if self.story is not None and save["story"] is not None:
             self.story.load_state(save["story"])
@@ -1261,6 +1281,7 @@ class CombatSim:
             **({"runes": dict(sorted(self.runes.items())), "atk": self.derived["atk"]} if any("rune" in i for i in self.items.values()) else {}),
             **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"], "stay": self.friend["stay"]}}
                if self.friend is not None else {}),
+            **({"tag": self.tag, "tags": self.earned_tags()} if self.tag_defs else {}),
             **({"bestiary": dict(sorted(self.bestiary.items())), "titles": self.earned_titles(),
                 "counters": dict(sorted(self.counters.items()))} if self.titles else {}),
             **({"story": self.story.snapshot()} if self.story is not None else {}),
@@ -1300,6 +1321,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] == "open_shop":
             sim.open_shop(command.get("region", ""), command.get("markup_pct", 100))
+            continue
+        if command["cmd"] == "wear_tag":
+            sim.wear_tag(command["tag"])
             continue
         if command["cmd"] == "tame":
             sim.tame()

@@ -64,6 +64,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `make_wildlife.py` | writes four more creatures of the regions (blossom slime, hollow armor, frost wisp, cinder wolf: enemies, a first art file with their palette, fauna of the regions) and their items; then run `art_creatures.py`, `make_recipes.py`, `gen_conformance.py` and `make_catalog.py` |
 | `make_hunting.py` | writes the game of the hunt (wild boar, ridge elk, dune fox: enemies, a first art file with their palette, fauna of the regions) and its items (spec 06, "Hunting"); then run `art_creatures.py` (it draws them), `make_recipes.py` and `gen_conformance.py` |
 | `make_titles.py` | writes the titles `data/base/titles.json` and their names (spec 11) |
+| `make_tags.py` | writes the tags `data/base/tags.json`, their names and what they do (spec 11, "Tags"): traits earned like titles, one worn at a time |
 | `make_prologues.py` | writes the prologue of each protagonist, `data/base/dialogues/<name>/prologue.json`, and its texts (spec 18, "Prologue") |
 | `make_gathering.py` | writes the gatherable materials (items and their texts) and `data/base/gathering.json` (spec 06, "Gathering") |
 | `make_sfx.py` | writes the sound effect recipes of `data/base/audio/sfx/` and the table `events.json` (spec 14); the regional ambience is switched off there |
