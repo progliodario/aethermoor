@@ -465,6 +465,11 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                     node.drops.push_back({d.at("item").get<std::string>(), d.at("qty_min").get<std::int64_t>(),
                                           d.at("qty_max").get<std::int64_t>(), d.at("weight_pm").get<std::int64_t>()});
                 }
+                if (n.contains("season_bonus")) {  // spec 06, "Seasons of the gathering"
+                    for (const auto& [season, extra] : n.at("season_bonus").items()) {
+                        node.season_bonus[season] = extra.get<int>();
+                    }
+                }
                 setup.gather_nodes[n.at("prop").get<std::string>()] = std::move(node);
             }
         }

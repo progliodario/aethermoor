@@ -140,6 +140,7 @@ private fun loadGatherNodes(pack: Pack): Map<String, GatherNode> {
                 val d = it.jsonObject
                 GatherDrop(d.getValue("item").jsonPrimitive.content, d.getValue("qty_min").jsonPrimitive.long, d.getValue("qty_max").jsonPrimitive.long, d.getValue("weight_pm").jsonPrimitive.long)
             },
+            seasonBonus = n["season_bonus"]?.jsonObject?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
         )
     }
 }

@@ -1327,7 +1327,7 @@ class WorldSim(
         val got = ArrayList<Pair<String, Long>>()
         for ((i, drop) in node.drops.withIndex()) {
             if (mix64(h + (2 * i).toULong()) % 1000uL < drop.weightPm.toULong()) {
-                val qty = drop.qtyMin + (mix64(h + (2 * i + 1).toULong()) % (drop.qtyMax - drop.qtyMin + 1).toULong()).toLong() + titleBonus(gather = true) // the titles of a forager (spec 11)
+                val qty = drop.qtyMin + (mix64(h + (2 * i + 1).toULong()) % (drop.qtyMax - drop.qtyMin + 1).toULong()).toLong() + titleBonus(gather = true) + (node.seasonBonus[seasonId()] ?: 0) // the titles of a forager (spec 11), the season (spec 06)
                 inventory[drop.item] = (inventory[drop.item] ?: 0L) + qty
                 got.add(Pair(drop.item, qty))
             }

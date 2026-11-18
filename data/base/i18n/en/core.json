@@ -1277,5 +1277,14 @@
   "dlg.caravan.odo.sunscar": "Tomorrow we roll to Sunscar, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
   "dlg.caravan.odo.lumeria": "Tomorrow we roll to Lumeria, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
   "dlg.caravan.odo.ashen_wastes": "Tomorrow we roll to Ashen Wastes, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
+  "dlg.caravan.way_odo_axles.offer": "One of my axles groaned all the way here. Twelve good logs and I can spare you a rune I picked up on the coast. Will you?",
+  "dlg.caravan.way_odo_axles.busy": "Twelve logs, friend. Find me at any outpost: I am never far, only elsewhere.",
+  "dlg.caravan.way_odo_axles.thanks": "Oak, and dry. The wagons will sing. Here, the rune: it pulls like a gale.",
+  "dlg.caravan.way_odo_horseshoes.offer": "My horses walk eight regions a week and their shoes walk with them. Eight lumps of iron ore, and I will pay like a merchant who means it.",
+  "dlg.caravan.way_odo_horseshoes.busy": "Eight lumps of ore. The horses are patient; I am less so.",
+  "dlg.caravan.way_odo_horseshoes.thanks": "Iron for eight horses, and gold for you. The road thanks you, and so do I.",
+  "dlg.caravan.way_odo_provisions.offer": "The longest road is ahead: Frostveil to the Ashen Wastes, nobody in between. Five travel rations, and a blade I have been keeping for someone like you.",
+  "dlg.caravan.way_odo_provisions.busy": "Five rations. Berries and a dry branch at a fire, nothing more.",
+  "dlg.caravan.way_odo_provisions.thanks": "Now we can go anywhere. Take the blade; a shepherd of Verdalis gave it to me, and you have kept the roads like a shepherd keeps a flock.",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

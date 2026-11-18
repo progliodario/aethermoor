@@ -102,6 +102,15 @@ Four options are kept in the settings file as booleans: `hints` (the hints of th
 
 The credits are `data/base/credits.json` (ID `base:credits/all`, schema `credits`): a list of sections, each a `heading` and its `lines`; a heading or a line that starts with `$i18n:` is a text key, any other line is shown as it is (the names of the libraries). They open from the title screen: `C` on desktop (again, or `Esc`, closes them), a `Credits` button at the top right on Android (a tap or Back closes them). Presentation only.
 
+## Checks of the frames
+
+The desktop CI runs three smoke tests (the demo map, the world at the start, a settlement) that write PNG frames: the title, the chooser
+of the protagonists, walking, a dialogue, the bag, the map, Analyze. `tools/check_frames.py` checks them after the tests (the step "Check
+the smoke-test frames" of `ci-desktop`): every frame of the references `tests/frames/<folder>.json` must be there, at least 640 x 360,
+not blank, not black and with enough colours, and its fingerprint (the mean colour of a 16 x 9 grid) must stay near the reference (a mean
+difference of at most 38 out of 255). A change that moves the frames on purpose writes the references again from the frames of its CI
+run (`python tools/check_frames.py --write <folders>`). Windows and Linux draw the same frames, so one set of references serves both.
+
 ## Orientation (Android)
 
 The app allows portrait and landscape (`fullUser`) and handles configuration changes itself (no activity restart).

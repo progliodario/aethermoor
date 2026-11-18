@@ -1362,7 +1362,9 @@ WorldSim::GatherResult WorldSim::gather() {
                 drop.qty_min +
                 static_cast<std::int64_t>(mix64(h + 2 * i + 1) %
                                           static_cast<std::uint64_t>(drop.qty_max - drop.qty_min + 1)) +
-                title_bonus("gather");  // the titles of a forager (spec 11)
+                title_bonus("gather") +  // the titles of a forager (spec 11)
+                (best_node->season_bonus.count(season_id()) != 0 ? best_node->season_bonus.at(season_id())
+                                                                 : 0);  // spec 06
             m_inventory_[drop.item] += qty;
             result.items.emplace_back(drop.item, qty);
         }

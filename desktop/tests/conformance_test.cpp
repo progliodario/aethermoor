@@ -938,6 +938,11 @@ Scenario scenario_from_json(const Json& in) {
                 node.drops.push_back({d.at("item").get<std::string>(), integer(d, "qty_min"), integer(d, "qty_max"),
                                       integer(d, "weight_pm")});
             }
+            if (n.contains("season_bonus")) {  // spec 06, "Seasons of the gathering"
+                for (const auto& [season, extra] : n.at("season_bonus").items()) {
+                    node.season_bonus[season] = extra.get<int>();
+                }
+            }
             setup.gather_nodes[n.at("prop").get<std::string>()] = std::move(node);
         }
     }

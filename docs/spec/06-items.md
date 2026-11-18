@@ -25,6 +25,13 @@ the dead tree, the rock (stone, a little iron ore), the cactus (pulp), the **mus
 - Presentation: a message with the items, and the sound `gather.<sound>` (the creature cue `gather`, spec 14). The conformance scenario `gather_nodes` covers the nearest prop, the cooldown, the reach and
   the draws.
 
+### Seasons of the gathering
+
+A gatherable prop may have `season_bonus`, an object from season id to a number: in that season (the season of the day, spec 08; the
+`season` of a scenario) every drop found there gives that many more, after the titles. The base pack: bushes in summer and autumn,
+flowers and ferns in spring, mushrooms in autumn, the reeds of the fishing in summer, oaks, pines and shards of ice in winter, one more
+each (`tools/make_gathering.py`). Conformance: the scenarios `gather_in_autumn`, `gather_in_spring`.
+
 ## Farming
 
 `data/base/farming.json` (ID `base:farming/all`, schema `farming`) names the **plot** prop, the reach of the player and the **crops**, in order: each a `seed` item, a `crop` item, `qty_min`, `qty_max` and `grow_ticks`. `tend()`:

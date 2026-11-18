@@ -38,6 +38,19 @@ ITEMS = {
     "fern_salad": ("food", 9, [("heal", 18)], "Fern salad", "Insalata di felci", "Crisp fronds and berries. Restores some health.", "Fronde croccanti e bacche. Ripristina un po' di salute."),
 }
 
+# Seasons of the gathering (spec 06): one more of every drop of a prop in its seasons (berries in summer and autumn, flowers and ferns in
+# spring, mushrooms in autumn, fish in summer, wood and ice in winter).
+SEASON_BONUS = {
+    "base:art/prop/bush": {"summer": 1, "autumn": 1},
+    "base:art/prop/flowers": {"spring": 1},
+    "base:art/prop/fern": {"spring": 1},
+    "base:art/prop/mushrooms": {"autumn": 1},
+    "base:art/prop/reeds": {"summer": 1},
+    "base:art/prop/tree_oak": {"winter": 1},
+    "base:art/prop/pine": {"winter": 1},
+    "base:art/prop/ice_shard": {"winter": 1},
+}
+
 # prop art -> what it gives; every drop rolls on its own (`weight_pm` out of 1000), `qty` is a range
 NODES = [
     {"prop": "base:art/prop/bush", "sound": "plant", "cooldown_ticks": 7200, "reach_x100": 150,
@@ -115,7 +128,8 @@ def main() -> None:
     add_texts("en", en)
     add_texts("it", it)
     nodes = [{"prop": n["prop"], "sound": n["sound"], "cooldown_ticks": n["cooldown_ticks"], "reach_x100": n["reach_x100"],
-              "drops": [{"item": f"base:item/{item}", "qty_min": lo, "qty_max": hi, "weight_pm": w} for item, lo, hi, w in n["drops"]]} for n in NODES]
+              "drops": [{"item": f"base:item/{item}", "qty_min": lo, "qty_max": hi, "weight_pm": w} for item, lo, hi, w in n["drops"]],
+              **({"season_bonus": SEASON_BONUS[n["prop"]]} if n["prop"] in SEASON_BONUS else {})} for n in NODES]
     write_json(DATA / "gathering.json", {"$schema": "../../schemas/gathering.schema.json", "id": "base:gathering/nodes", "nodes": nodes})
     print(f"wrote {len(ITEMS)} items and {len(NODES)} gatherable props")
 

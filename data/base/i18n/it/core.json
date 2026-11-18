@@ -1277,5 +1277,14 @@
   "dlg.caravan.odo.sunscar": "Domani si riparte verso Cicatrice del Sole, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
   "dlg.caravan.odo.lumeria": "Domani si riparte verso Lumeria, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
   "dlg.caravan.odo.ashen_wastes": "Domani si riparte verso Terre di Cenere, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
+  "dlg.caravan.way_odo_axles.offer": "Uno dei miei assi ha cigolato per tutta la strada. Dodici bei ceppi e posso cederti una runa trovata sulla costa. Ci stai?",
+  "dlg.caravan.way_odo_axles.busy": "Dodici ceppi, amico. Trovami in un avamposto qualsiasi: non sono mai lontano, solo altrove.",
+  "dlg.caravan.way_odo_axles.thanks": "Quercia, e secca. I carri canteranno. Ecco la runa: tira come una burrasca.",
+  "dlg.caravan.way_odo_horseshoes.offer": "I miei cavalli percorrono otto regioni a settimana e i ferri con loro. Otto pezzi di minerale di ferro, e pagherò come un mercante che fa sul serio.",
+  "dlg.caravan.way_odo_horseshoes.busy": "Otto pezzi di minerale. I cavalli sono pazienti; io meno.",
+  "dlg.caravan.way_odo_horseshoes.thanks": "Ferro per otto cavalli, e oro per te. La strada ti ringrazia, e anch'io.",
+  "dlg.caravan.way_odo_provisions.offer": "Davanti c'è la strada più lunga: dal Velo di Gelo alle Terre di Cenere, senza nessuno in mezzo. Cinque razioni da viaggio, e una lama che tengo da parte per qualcuno come te.",
+  "dlg.caravan.way_odo_provisions.busy": "Cinque razioni. Bacche e un ramo secco a un falò, niente di più.",
+  "dlg.caravan.way_odo_provisions.thanks": "Ora possiamo andare ovunque. Prendi la lama; me l'ha data un pastore di Verdalis, e tu hai custodito le strade come un pastore il suo gregge.",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

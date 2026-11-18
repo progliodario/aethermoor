@@ -46,7 +46,7 @@ CI (`.github/workflows/`) runs on every pull request and on pushes to `main`:
 | Workflow | What it does |
 |---|---|
 | `ci-data` | `ruff check tools`, `tools/validate_data.py`, `pytest tools/tests`, `gen_conformance.py --check` |
-| `ci-desktop` | on Windows (MSVC) and Linux (GCC): vcpkg (binary cache), configure, build, `ctest` (unit tests, every conformance suite, three smoke tests), then packages the playable build and uploads it with the smoke-test frames |
+| `ci-desktop` | on Windows (MSVC) and Linux (GCC): vcpkg (binary cache), configure, build, `ctest` (unit tests, every conformance suite, three smoke tests), checks the smoke-test frames against `tests/frames/` (`tools/check_frames.py`), then packages the playable build and uploads it with the frames |
 | `ci-android` | JDK 17, Gradle 8.10.2, `:core:test` (JVM tests, including every conformance suite), `:app:assembleDebug`, uploads the debug APK |
 | `labeler` | labels the pull request from the paths it touches |
 | `release` | on a `v*` tag: validates the data and creates a draft release (no artifacts yet) |

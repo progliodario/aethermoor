@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_odo_horseshoes",
+  "name": "$i18n:quest.way_odo_horseshoes.name",
+  "kind": "side",
+  "faction": "wayfarers",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.way_odo_horseshoes.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/iron_ore",
+          "count": 8
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 100
+    },
+    {
+      "effect": "add_gold",
+      "amount": 160
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/potion_medium",
+      "qty": 3
+    }
+  ]
+}

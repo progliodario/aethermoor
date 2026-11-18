@@ -933,6 +933,7 @@ class CombatSim:
             if nm.mix64((h + 2 * i) & 0xFFFFFFFFFFFFFFFF) % 1000 < drop["weight_pm"]:
                 qty = drop["qty_min"] + nm.mix64((h + 2 * i + 1) & 0xFFFFFFFFFFFFFFFF) % (drop["qty_max"] - drop["qty_min"] + 1)
                 qty += self.title_bonus("gather_bonus")  # the titles of a forager
+                qty += node.get("season_bonus", {}).get(self.season_id(), 0)  # and the season (spec 06, "Seasons of the gathering")
                 found.append((drop["item"], qty))
                 self.inventory[drop["item"]] = self.inventory.get(drop["item"], 0) + qty
         self.gathered[key] = (self.world_ticks + node["cooldown_ticks"], times + 1)
