@@ -1267,5 +1267,15 @@
   "ui.deed_gifts": "Le tue imprese ti hanno lasciato {count} doni nello zaino.",
   "hint.storm": "Un temporale: il fulmine colpisce le creature che ti inseguono. Lasciale venire.",
   "hint.storm.touch": "Un temporale: il fulmine colpisce le creature che ti inseguono. Lasciale venire.",
+  "speaker.caravan_master_odo": "Odo, capo della carovana",
+  "dlg.caravan.odo.hello": "Odo della lunga strada, al tuo servizio. I miei carri non dormono mai due notti nello stesso posto: ogni giorno un altro avamposto, tutti e otto e di nuovo da capo. Cercami lungo le strade.",
+  "dlg.caravan.odo.verdalis": "Domani si riparte verso Verdalis, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
+  "dlg.caravan.odo.whisperwood": "Domani si riparte verso Bosco dei Sussurri, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
+  "dlg.caravan.odo.ironspine": "Domani si riparte verso Dorsale di Ferro, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
+  "dlg.caravan.odo.tidehaven": "Domani si riparte verso Porto della Marea, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
+  "dlg.caravan.odo.frostveil": "Domani si riparte verso Velo di Gelo, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
+  "dlg.caravan.odo.sunscar": "Domani si riparte verso Cicatrice del Sole, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
+  "dlg.caravan.odo.lumeria": "Domani si riparte verso Lumeria, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
+  "dlg.caravan.odo.ashen_wastes": "Domani si riparte verso Terre di Cenere, quindi i carri sono pieni delle sue merci. Comprale qui al prezzo che costano là; io guadagno sulla strada, non su di te.",
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
 }

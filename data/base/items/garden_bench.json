@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/garden_bench",
+  "name": "$i18n:item.garden_bench.name",
+  "description": "$i18n:item.garden_bench.desc",
+  "kind": "furniture",
+  "rarity": "uncommon",
+  "price": 180,
+  "stack_max": 3,
+  "furniture": {
+    "art": "base:art/prop/garden_bench",
+    "xp_pct": 5
+  }
+}

@@ -569,6 +569,24 @@
           "when": {
             "type": "object",
             "description": "A resident (spec 07, \"Residents\"): a dialogue condition; the person is there only while it holds, and is never solid."
+          },
+          "route": {
+            "type": "array",
+            "minItems": 1,
+            "description": "A traveller (spec 07, \"Travellers\"): where it stands on each day of its cycle, as [dx, dy]; it is never solid.",
+            "items": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "minItems": 2,
+              "maxItems": 2
+            }
           }
         }
       }

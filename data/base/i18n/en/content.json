@@ -1538,5 +1538,13 @@
   "item.starglass_staff.desc": "A lens for spells. Light. Affix: +8 magic.",
   "item.comet_robe.name": "Comet robe",
   "item.comet_robe.desc": "Embroidered with the path of a comet. Affix: +6 magic, +3 magic defense.",
+  "item.garden_bench.name": "Garden bench",
+  "item.garden_bench.desc": "Place it in the garden of the cottage. Evenings spent thinking back: 5% more experience from every victory.",
+  "item.scarecrow.name": "Scarecrow",
+  "item.scarecrow.desc": "Place it in the garden of the cottage. The birds leave more for you: one more of everything you gather.",
+  "item.archery_target.name": "Archery target",
+  "item.archery_target.desc": "Place it in the garden of the cottage. Practice every morning: your hits are 5% stronger.",
+  "item.stone_lantern.name": "Stone lantern",
+  "item.stone_lantern.desc": "Place it in the garden of the cottage. Calm light for careful work: 5% more fine work, and a steadier parry.",
   "quest.personal_gideon_2.task": "Four tawny wolves and two furs: the village, politely, asks for a tribute."
 }

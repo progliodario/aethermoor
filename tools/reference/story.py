@@ -229,6 +229,13 @@ class Story:
             self.apply(effect)
         self._go(choice["next"])
 
+    def move_travellers(self, day: int) -> None:
+        """Puts every traveller (an NPC with `route`) where its route says for that day: stop `(day - 1) % len(route)` (spec 07, "Travellers")."""
+        for npc in self.npcs:
+            route = npc.get("route")
+            if route:
+                npc["pos"] = list(route[(day - 1) % len(route)])
+
     def npc_present(self, npc: dict) -> bool:
         """Whether an NPC is there now: always, or while the condition of a resident holds (spec 07, "Residents")."""
         return "when" not in npc or self.holds(npc["when"])

@@ -1,0 +1,315 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/scarecrow",
+  "canvas": {
+    "w": 36,
+    "h": 52,
+    "origin": [
+      18,
+      47
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          18.5,
+          47,
+          11,
+          3
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.4,
+      "blur": 1.05
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18.5,
+          47,
+          6.6,
+          1.65
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.32,
+      "blur": 0.75
+    },
+    {
+      "shape": {
+        "rect": [
+          16.6,
+          18,
+          2.8,
+          29
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 781,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#66452A"
+            ],
+            [
+              0.5,
+              "#7A5232"
+            ],
+            [
+              0.72,
+              "#8D6A4F"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          3,
+          19,
+          30,
+          2.6
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 782,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#744C28"
+            ],
+            [
+              0.5,
+              "#8A5A30"
+            ],
+            [
+              0.72,
+              "#9A714D"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.35
+      }
+    },
+    {
+      "shape": {
+        "path": "M 8 18 L 28 18 L 26 34 L 10 34 Z"
+      },
+      "fill": {
+        "color": "$p.coat"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.45
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          12,
+          22,
+          5,
+          5
+        ]
+      },
+      "fill": {
+        "color": "#C04A4A"
+      },
+      "stroke": {
+        "color": "#5A2A2A",
+        "width": 0.25
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "rect": [
+          20,
+          27,
+          4,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#E8B848"
+      },
+      "stroke": {
+        "color": "#7A5A18",
+        "width": 0.25
+      },
+      "alpha": 0.9
+    },
+    {
+      "shape": {
+        "path": "M 3.4 19.6 L 1.6 18.6"
+      },
+      "stroke": {
+        "color": "$p.straw",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 3.4 20.6 L 1.6 20"
+      },
+      "stroke": {
+        "color": "$p.straw",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 3.4 21.6 L 1.6 21.4"
+      },
+      "stroke": {
+        "color": "$p.straw",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 32.6 19.6 L 34.4 18.6"
+      },
+      "stroke": {
+        "color": "$p.straw",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 32.6 20.6 L 34.4 20"
+      },
+      "stroke": {
+        "color": "$p.straw",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 32.6 21.6 L 34.4 21.4"
+      },
+      "stroke": {
+        "color": "$p.straw",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          12,
+          5,
+          5.2
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 783,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#B09858"
+            ],
+            [
+              0.55,
+              "#D8C090"
+            ],
+            [
+              0.8,
+              "#F0E0B0"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.45
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          11.4,
+          0.7,
+          0.7
+        ]
+      },
+      "fill": {
+        "color": "#1E1830"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          11.4,
+          0.7,
+          0.7
+        ]
+      },
+      "fill": {
+        "color": "#1E1830"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 15.6 14.2 Q 18 15.8 20.4 14.2"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 9 8 L 27 8 L 24 6 Q 18 1 12 6 Z"
+      },
+      "fill": {
+        "color": "$p.hat"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.45
+      }
+    },
+    {
+      "shape": {
+        "path": "M 18 18 L 28 18 L 26 34 L 18 34 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.3,
+      "blur": 0.8,
+      "clip": true,
+      "blend": "multiply"
+    }
+  ],
+  "palette": {
+    "coat": "#5A7AB0",
+    "straw": "#E0C070",
+    "hat": "#C8A050"
+  }
+}

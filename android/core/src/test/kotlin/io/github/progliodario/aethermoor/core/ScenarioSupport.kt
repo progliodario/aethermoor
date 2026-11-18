@@ -115,6 +115,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         rainSlowPm = input["weather"]?.jsonObject?.get("rain_slow_pm")?.jsonPrimitive?.int ?: 0,
         lightPm = input["weather"]?.jsonObject?.get("light_pm")?.jsonPrimitive?.int ?: 1000,
         nightAggroCutPm = input["weather"]?.jsonObject?.get("night_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
+        season = input["season"]?.jsonPrimitive?.content ?: "",
         windPm = input["weather"]?.jsonObject?.get("wind_pm")?.jsonPrimitive?.int ?: 0,
         windHastePm = input["weather"]?.jsonObject?.get("wind_haste_pm")?.jsonPrimitive?.int ?: 0,
         fogPm = input["weather"]?.jsonObject?.get("fog_pm")?.jsonPrimitive?.int ?: 0,
@@ -223,6 +224,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                     FarmCrop(o.getValue("seed").jsonPrimitive.content, o.getValue("crop").jsonPrimitive.content, o.long("qty_min"), o.long("qty_max"), o.long("grow_ticks"))
                 },
                 f["rain_grow_cut_pm"]?.jsonPrimitive?.int ?: 0,
+                f["season_grow_pm"]?.jsonObject?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             )
         },
         gatherNodes = input["gather_nodes"]?.jsonArray?.associate { n ->

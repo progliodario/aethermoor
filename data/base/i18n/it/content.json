@@ -1538,5 +1538,13 @@
   "item.starglass_staff.desc": "Una lente per gli incantesimi. Luce. Affisso: +8 di magia.",
   "item.comet_robe.name": "Veste della cometa",
   "item.comet_robe.desc": "Ricamata con la scia di una cometa. Affisso: +6 di magia, +3 di difesa magica.",
+  "item.garden_bench.name": "Panchina del giardino",
+  "item.garden_bench.desc": "Posala nel giardino del cottage. Sere passate a ripensare: il 5% di esperienza in più da ogni vittoria.",
+  "item.scarecrow.name": "Spaventapasseri",
+  "item.scarecrow.desc": "Posalo nel giardino del cottage. Gli uccelli ti lasciano di più: uno in più di tutto ciò che raccogli.",
+  "item.archery_target.name": "Bersaglio",
+  "item.archery_target.desc": "Posalo nel giardino del cottage. Esercizio ogni mattina: i tuoi colpi sono più forti del 5%.",
+  "item.stone_lantern.name": "Lanterna di pietra",
+  "item.stone_lantern.desc": "Posala nel giardino del cottage. Luce calma per un lavoro attento: il 5% in più di opere pregiate, e una parata più salda.",
   "quest.personal_gideon_2.task": "Quattro lupi fulvi e due pellicce: il villaggio, con garbo, chiede un tributo."
 }

@@ -104,8 +104,8 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
     m_companion_pos_ = m_player_.position;
     m_companion_cooldown_ = m_setup_.companion ? m_setup_.companion->cooldown_ticks : 0;
     for (const NpcDef& npc : m_setup_.story.npcs) {
-        if (npc.when) {
-            continue;  // a resident is never solid (spec 07, "Residents")
+        if (npc.when || !npc.route.empty()) {
+            continue;  // a resident and a traveller are never solid (spec 07, "Residents", "Travellers")
         }
         m_collision_.add_prop({npc.x, npc.y, kNpcRadius});
     }
@@ -161,7 +161,7 @@ void WorldSim::rebuild_npc_circles() {
 
 std::string WorldSim::season_id() const {
     if (!m_store_) {
-        return {};
+        return m_setup_.season;  // a world without a clock: the season of the setup, if any
     }
     const TimeParams& time = m_store_->params().time;
     const int index = season_index_of(time, m_world_ticks_ / time.day_ticks + 1);
@@ -1502,7 +1502,10 @@ WorldSim::TendResult WorldSim::tend() {
             rain = sample_time(m_store_->seed(), m_store_->params().time, m_world_ticks_).rain_pm;
         }
         const std::int64_t rain_cut = static_cast<std::int64_t>(rain) * m_setup_.farming->rain_grow_cut_pm / 1000;
-        m_plots_[key] = {crop.seed, m_world_ticks_ + crop.grow_ticks * (1000 - rain_cut) / 1000};
+        // and the season makes it grow sooner or later (spec 06, "Seasons on the plots")
+        const auto in_season = m_setup_.farming->season_grow_pm.find(season_id());
+        const std::int64_t season_pm = in_season != m_setup_.farming->season_grow_pm.end() ? in_season->second : 1000;
+        m_plots_[key] = {crop.seed, m_world_ticks_ + crop.grow_ticks * (1000 - rain_cut) / 1000 * season_pm / 1000};
         ++m_counters_["sown"];
         m_cues_.push_back({"gather", "plant", m_player_.position});
         result = {"sown", crop.seed, 1};
@@ -1517,6 +1520,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     Player& p = m_player_;
     const bool combat = m_setup_.enabled;
     ++m_world_ticks_;
+    m_story_.move_travellers(day_now());  // the travellers stand where their route puts them today (spec 07)
     sync_window();
     {  // the rain hides the player (spec 08): creatures notice from a shorter distance
         int rain = m_setup_.rain_pm;

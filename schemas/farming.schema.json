@@ -66,6 +66,14 @@
       "type": "integer",
       "minimum": 0,
       "maximum": 1000
+    },
+    "season_grow_pm": {
+      "description": "How long a seed sown in each season takes to grow, in permille of its time; a season not listed: 1000 (spec 06, \"Seasons on the plots\")",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
     }
   }
 }

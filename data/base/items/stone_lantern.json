@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/stone_lantern",
+  "name": "$i18n:item.stone_lantern.name",
+  "description": "$i18n:item.stone_lantern.desc",
+  "kind": "furniture",
+  "rarity": "uncommon",
+  "price": 220,
+  "stack_max": 3,
+  "furniture": {
+    "art": "base:art/prop/stone_lantern",
+    "fine_pm": 50,
+    "parry_bonus": 2
+  }
+}

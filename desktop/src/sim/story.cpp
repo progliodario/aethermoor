@@ -308,6 +308,11 @@ std::optional<StorySetup> parse_story_setup(std::string_view json_text, std::str
             if (n.contains("when")) {  // a resident (spec 07, "Residents")
                 npc.when = parse_condition(n.at("when"));
             }
+            if (n.contains("route")) {  // a traveller (spec 07, "Travellers")
+                for (const Json& stop : n.at("route")) {
+                    npc.route.emplace_back(stop.at(0).get<float>(), stop.at(1).get<float>());
+                }
+            }
             setup.npcs.push_back(std::move(npc));
         }
         return setup;

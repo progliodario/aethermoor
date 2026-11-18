@@ -35,6 +35,14 @@ the dead tree, the rock (stone, a little iron ore), the cactus (pulp), the **mus
 
 The sown plots are saved (`plots` in the save document, spec 12): `[x100, y100, seed, ripe]`, where `x100` and `y100` are the position of the plot in hundredths of a tile. The base pack has a **garden plot** (art `base:art/prop/garden_plot`): three of them by the campfire of every village of the `village` stamp, Fenwick among them, and four seeds sold by every shop: herb seeds (healing herbs in a minute), berry seeds, mint seeds (a minute and a half) and mushroom spores (spore caps in two minutes). The clients tend a plot with the action of talking (`E`, or the `Tend` button), and draw sprouts on a growing plot and flowers on a ripe one. Conformance: the scenario `farming_plots` (its checkpoints carry `plots`).
 
+### Seasons on the plots
+
+`season_grow_pm` of the farming data (an object from season id to permille; a season not listed, and a world without seasons, is 1000)
+makes a seed grow sooner or later with the season of the day it is sown (spec 08, "Seasons"): the ripe tick is
+`now + grow_ticks * (1000 - rain_cut) / 1000 * season_pm / 1000` (integer divisions, in this order, with the rain of the next section).
+The base pack: spring 800, summer 900, autumn 1000, winter 1250. In the scenarios the season is `season` of the scenario:
+`farming_in_winter`, `farming_in_spring` (with the rain).
+
 ### Rain on the plots
 
 `rain_grow_cut_pm` of the farming data (default 0) says how much **full rain** shortens the growing of a seed: a seed sown while it rains is ripe at `world_ticks + grow_ticks * (1000 - rain_pm * rain_grow_cut_pm / 1000) / 1000` (integer divisions, in this order), with the `rain_pm` of that tick (spec 08; 0 on a map without weather). The rain that falls later does not change a plot already sown. In the base pack the cut is 500: a seed sown in a downpour grows in half the time. Conformance: the scenario `farming_in_the_rain`.
@@ -75,7 +83,7 @@ The base pack has seven, made at an anvil (`tools/make_furnishings.py`): the emb
 
 What the pieces add counts **like the effects of a title** (spec 11, "Titles with effects"), wherever the player is: `atk_pct` adds to the percent of the titles on the attack of the hits, `gather_bonus`, `craft_bonus`, `parry_bonus`, `xp_pct` and `fine_pm` to the bonuses of the same name. Every **kind** of piece counts once, however many of it stand in the home. The placed pieces are saved (`furniture`, spec 12).
 
-The base pack has six pieces, made at an anvil (`tools/make_furnishings.py`): the quilted bed (+10% experience), the weapon rack (+5% attack), the bookshelf (+5% fine work), the drying rack (one more of everything gathered), the training dummy (the parry four ticks longer) and the work table (one more of every recipe). The Guest's cottage (spec 07) has six spots, the round braided rugs along its walls (art `base:art/prop/furniture_spot`); a piece is drawn on its rug. Old Tam tells the owner about them. Conformance: the scenario `furniture_home` (its checkpoints carry `furniture`) and a save split of it.
+The base pack has ten pieces, made at an anvil (`tools/make_furnishings.py`): the quilted bed (+10% experience), the weapon rack (+5% attack), the bookshelf (+5% fine work), the drying rack (one more of everything gathered), the training dummy (the parry four ticks longer) and the work table (one more of every recipe) for the house, and for the garden the bench (+5% experience), the scarecrow (one more of everything gathered), the archery target (+5% attack) and the stone lantern (+5% fine work, the parry two ticks longer). The Guest's cottage (spec 07) has ten spots, the round braided rugs along the walls of its house (art `base:art/prop/furniture_spot`, the stamp legend `[`) and four in its garden (`]`, on the grass); any piece can stand on any spot, and is drawn on its rug. Old Tam tells the owner about them. Conformance: the scenario `furniture_home` (its checkpoints carry `furniture`) and a save split of it.
 
 ## Hunting
 

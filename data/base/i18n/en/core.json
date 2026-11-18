@@ -1267,5 +1267,15 @@
   "ui.deed_gifts": "Your deeds left {count} gifts in the bag.",
   "hint.storm": "A storm: the lightning strikes the creatures that chase you. Let them come.",
   "hint.storm.touch": "A storm: the lightning strikes the creatures that chase you. Let them come.",
+  "speaker.caravan_master_odo": "Odo, master of the caravan",
+  "dlg.caravan.odo.hello": "Odo of the long road, at your service. My wagons never sleep two nights in the same place: every day another outpost, all eight and round again. Look for me on the roads.",
+  "dlg.caravan.odo.verdalis": "Tomorrow we roll to Verdalis, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
+  "dlg.caravan.odo.whisperwood": "Tomorrow we roll to Whisperwood, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
+  "dlg.caravan.odo.ironspine": "Tomorrow we roll to Ironspine, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
+  "dlg.caravan.odo.tidehaven": "Tomorrow we roll to Tidehaven, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
+  "dlg.caravan.odo.frostveil": "Tomorrow we roll to Frostveil, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
+  "dlg.caravan.odo.sunscar": "Tomorrow we roll to Sunscar, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
+  "dlg.caravan.odo.lumeria": "Tomorrow we roll to Lumeria, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
+  "dlg.caravan.odo.ashen_wastes": "Tomorrow we roll to Ashen Wastes, so the wagons are full of its goods. Buy them here at the price they cost there; I make my coin on the road, not on you.",
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
 }

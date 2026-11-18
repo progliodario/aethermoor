@@ -1367,6 +1367,86 @@
       "station": "base:art/prop/anvil"
     },
     {
+      "id": "garden_bench",
+      "output": {
+        "item": "base:item/garden_bench",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 5
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "scarecrow",
+      "output": {
+        "item": "base:item/scarecrow",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 3
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 4
+        },
+        {
+          "item": "base:item/tawny_fur",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "archery_target",
+      "output": {
+        "item": "base:item/archery_target",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 3
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 3
+        },
+        {
+          "item": "base:item/wildflowers",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "stone_lantern",
+      "output": {
+        "item": "base:item/stone_lantern",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/stone_chunk",
+          "qty": 6
+        },
+        {
+          "item": "base:item/pine_resin",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "grandmothers_pie",
       "output": {
         "item": "base:item/grandmothers_pie",

@@ -4,6 +4,7 @@
   "plot": "base:art/prop/garden_plot",
   "reach_x100": 150,
   "rain_grow_cut_pm": 500,
+  "season_grow_pm": { "spring": 800, "summer": 900, "autumn": 1000, "winter": 1250 },
   "crops": [
     {
       "seed": "base:item/herb_seeds",

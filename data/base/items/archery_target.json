@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/archery_target",
+  "name": "$i18n:item.archery_target.name",
+  "description": "$i18n:item.archery_target.desc",
+  "kind": "furniture",
+  "rarity": "uncommon",
+  "price": 200,
+  "stack_max": 3,
+  "furniture": {
+    "art": "base:art/prop/archery_target",
+    "atk_pct": 5
+  }
+}

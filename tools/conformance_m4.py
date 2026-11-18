@@ -139,7 +139,18 @@ def build_scenarios() -> list[dict]:
             "s": {"type": "say", "speaker": "settler", "text": "t.settler", "next": "end"}}}},
         "npcs": [{"key": "herald", "pos": [2.6, 5.8], "dialogue": "test:dialogue/herald"},
                  {"key": "settler", "pos": [4.5, 4.5], "dialogue": "test:dialogue/settler", "when": {"flag": "settled"}}]}
-    return [flow, decline, frozen, trader, barter, rest, resident]
+    # Travellers (spec 07, "Travellers"): a day is 60 ticks; the merchant stands at the first stop on day 1, at the second on day 2 (out of reach
+    # where the player stands, who walks through the first stop), at the first again on day 3.
+    traveller = scenario(
+        "traveller_moves",
+        [], [do(interact), do(advance), segment(60), do(interact), segment(40, move=(1, 0)), do(interact), do(advance), segment(30, move=(-1, 0)),
+             do(interact), do(advance)],
+        player={"start": [3.4, 4.5]}, day_ticks=60)
+    traveller["story"] = {"quests": {}, "dialogues": {
+        "test:dialogue/merchant": {"id": "test:dialogue/merchant", "start": "s", "nodes": {
+            "s": {"type": "say", "speaker": "merchant", "text": "t.goods", "next": "end"}}}},
+        "npcs": [{"key": "merchant", "pos": [4.0, 4.5], "dialogue": "test:dialogue/merchant", "route": [[4.0, 4.5], [6.6, 4.5]]}]}
+    return [flow, decline, frozen, trader, barter, rest, resident, traveller]
 
 
 def suite_story() -> list[dict]:
@@ -160,6 +171,7 @@ SAVE_SPLITS = {
     "trader_conditions_and_effects": (2, 5),  # inventory, flags and an open dialogue
     "affixes_worn": (2,),             # the affixes come back with the equipment (spec 06, "Affixes")
     "tags_worn": (3, 5),              # the worn tag is saved (spec 11, "Tags")
+    "traveller_moves": (3,),           # the traveller is where the day says after a load
     "resident_arrives": (3, 5),       # the flag that brings the resident is saved, so it is there after a load
     "chest_storage": (3, 5),          # things in the chest (spec 06, "Chests"); a loaded game has it closed
     "runes_engrave": (2, 4),          # runes on two weapons (spec 06, "Runes"); the worn one still adds to the attack

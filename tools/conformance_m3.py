@@ -666,6 +666,19 @@ def build_scenarios() -> list[dict]:
                  gather_props=[{"art": "base:art/prop/garden_plot", "x": 2.8, "y": 5.4, "radius": 0.2}],
                  farming={"plot": "base:art/prop/garden_plot", "reach_x100": 150, "rain_grow_cut_pm": 500, "crops": [
                      {"seed": "base:item/healing_herb", "crop": "base:item/wild_berries", "qty_min": 2, "qty_max": 4, "grow_ticks": 240}]}),
+        # Seasons on the plots (spec 06): in winter (1500 permille here) a seed of 240 ticks is ripe after 360, in a winter rain sooner.
+        scenario("farming_in_winter", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "tend"}]), segment(300), segment(1, do=[{"cmd": "tend"}]), segment(70), segment(1, do=[{"cmd": "tend"}])],
+                 inventory={"base:item/healing_herb": 1}, story=EMPTY_STORY, season="winter",
+                 gather_props=[{"art": "base:art/prop/garden_plot", "x": 2.8, "y": 5.4, "radius": 0.2}],
+                 farming={"plot": "base:art/prop/garden_plot", "reach_x100": 150, "season_grow_pm": {"spring": 800, "winter": 1500}, "crops": [
+                     {"seed": "base:item/healing_herb", "crop": "base:item/wild_berries", "qty_min": 2, "qty_max": 4, "grow_ticks": 240}]}),
+        scenario("farming_in_spring", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "tend"}]), segment(200), segment(1, do=[{"cmd": "tend"}])],
+                 inventory={"base:item/healing_herb": 1}, story=EMPTY_STORY, season="spring", weather={"rain_pm": 1000},
+                 gather_props=[{"art": "base:art/prop/garden_plot", "x": 2.8, "y": 5.4, "radius": 0.2}],
+                 farming={"plot": "base:art/prop/garden_plot", "reach_x100": 150, "rain_grow_cut_pm": 500, "season_grow_pm": {"spring": 800, "winter": 1500},
+                          "crops": [{"seed": "base:item/healing_herb", "crop": "base:item/wild_berries", "qty_min": 2, "qty_max": 4, "grow_ticks": 240}]}),
         # The glut (spec 06): every chain mail sold the same day is paid 150 permille less, down to half; another item has its own glut; on the
         # next day (30 ticks here) the shop pays full price again.
         scenario("shop_glut", [enemy(12.0, 7.5, **passive)],

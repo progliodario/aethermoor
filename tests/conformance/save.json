@@ -4879,6 +4879,459 @@
       }
     },
     {
+      "name": "save_traveller_moves_at_3",
+      "input": {
+        "op": "save_resume",
+        "split": 3,
+        "save": {
+          "player": {
+            "x": 3.4,
+            "y": 4.5,
+            "facing": [
+              1.0,
+              0.0
+            ],
+            "facing_left": false,
+            "moving": false,
+            "clip_tick": 60,
+            "hp": 142,
+            "level": 1,
+            "xp": 0,
+            "deaths": 0,
+            "kills": 0,
+            "iframes": 0,
+            "cooldown": 0,
+            "phase": "none",
+            "phase_tick": 0,
+            "hit_set": []
+          },
+          "rng": {
+            "combat": {
+              "state": "0xe7c42fc2c24cb470",
+              "inc": "0x9417f2f99ce2f643"
+            },
+            "loot": {
+              "state": "0xceb2d59802171b7d",
+              "inc": "0x9bd9d15ae1ab096f"
+            }
+          },
+          "enemies": [],
+          "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
+          "story": {
+            "flags": {},
+            "gold": 0,
+            "guild_points": 0,
+            "quests": {},
+            "dialogue": null
+          }
+        },
+        "day_ticks": 60,
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            3.4,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [],
+        "script": [
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 40,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 30,
+            "move": [
+              -1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          }
+        ],
+        "story": {
+          "quests": {},
+          "dialogues": {
+            "test:dialogue/merchant": {
+              "id": "test:dialogue/merchant",
+              "start": "s",
+              "nodes": {
+                "s": {
+                  "type": "say",
+                  "speaker": "merchant",
+                  "text": "t.goods",
+                  "next": "end"
+                }
+              }
+            }
+          },
+          "npcs": [
+            {
+              "key": "merchant",
+              "pos": [
+                4.0,
+                4.5
+              ],
+              "dialogue": "test:dialogue/merchant",
+              "route": [
+                [
+                  4.0,
+                  4.5
+                ],
+                [
+                  6.6,
+                  4.5
+                ]
+              ]
+            }
+          ]
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 3.4,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 6.10666666666667,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 6.10666666666667,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "merchant",
+                "text": "t.goods"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 6.10666666666667,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.076666666666667,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.076666666666667,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "say",
+                "speaker": "merchant",
+                "text": "t.goods"
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 4.076666666666667,
+              "y": 4.5
+            },
+            "enemies": [],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
       "name": "save_resident_arrives_at_3",
       "input": {
         "op": "save_resume",

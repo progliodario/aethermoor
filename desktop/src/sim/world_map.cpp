@@ -25,6 +25,7 @@ TileMap make_tilemap(const GeneratedWorld& world, const WorldParams& params, std
                             n.variant,
                             static_cast<float>(n.x256) / 256.0F,
                             static_cast<float>(n.y256) / 256.0F,
+                            {},
                             {}});
     }
     return map;
@@ -40,8 +41,17 @@ TileMap make_stream_map(const WorldParams& params) {
     map.spawn_x = static_cast<float>(cx * 256 + 128) / 256.0F;
     map.spawn_y = static_cast<float>(cy * 256 + 128) / 256.0F;
     for (const WorldNpc& n : params.npcs) {
-        map.npcs.push_back({n.key, n.dialogue, n.variant, static_cast<float>((cx + n.dx) * 256 + 128) / 256.0F,
-                            static_cast<float>((cy + n.dy) * 256 + 128) / 256.0F, n.when});
+        map.npcs.push_back({n.key,
+                            n.dialogue,
+                            n.variant,
+                            static_cast<float>((cx + n.dx) * 256 + 128) / 256.0F,
+                            static_cast<float>((cy + n.dy) * 256 + 128) / 256.0F,
+                            n.when,
+                            {}});
+        for (const auto& [dx, dy] : n.route) {  // a traveller (spec 07, "Travellers"): the centres of its stops
+            map.npcs.back().route.emplace_back(static_cast<float>((cx + dx) * 256 + 128) / 256.0F,
+                                               static_cast<float>((cy + dy) * 256 + 128) / 256.0F);
+        }
     }
     return map;
 }

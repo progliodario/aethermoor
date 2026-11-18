@@ -917,6 +917,11 @@ Scenario scenario_from_json(const Json& in) {
         farming.plot = f.at("plot").get<std::string>();
         farming.reach_x100 = f.at("reach_x100").get<int>();
         farming.rain_grow_cut_pm = f.value("rain_grow_cut_pm", 0);
+        if (f.contains("season_grow_pm")) {  // spec 06, "Seasons on the plots"
+            for (const auto& [season, pm] : f.at("season_grow_pm").items()) {
+                farming.season_grow_pm[season] = pm.get<int>();
+            }
+        }
         for (const Json& c : f.at("crops")) {
             farming.crops.push_back({c.at("seed").get<std::string>(), c.at("crop").get<std::string>(),
                                      integer(c, "qty_min"), integer(c, "qty_max"), integer(c, "grow_ticks")});
@@ -1028,6 +1033,7 @@ Scenario scenario_from_json(const Json& in) {
         setup.shop = std::move(shop);
     }
     setup.region = in.value("region", "");
+    setup.season = in.value("season", "");
     if (in.contains("far_shops")) {  // the shops of other regions (spec 06, "Goods from afar")
         for (const auto& [region, def] : in.at("far_shops").items()) {
             aether::ShopDef far;
