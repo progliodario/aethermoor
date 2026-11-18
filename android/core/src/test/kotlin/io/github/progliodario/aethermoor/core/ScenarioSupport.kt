@@ -245,6 +245,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 armor = d["armor"]?.jsonObject?.let { ArmorStats(it.long("def"), it.long("mdef")) },
                 accessory = d["accessory"]?.jsonObject?.let { accessoryOf(it) },
                 rune = d["rune"]?.jsonObject?.let { runeOf(it) },
+                affix = d["affix"]?.jsonObject?.let { accessoryOf(it) },
                 furniture = d["furniture"]?.jsonObject?.let { furnitureOf(it) },
             )
         } ?: emptyMap(),
@@ -351,6 +352,14 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
     want["plots"]?.jsonArray?.let { wp -> // the sown plots (spec 06, "Farming")
         val got = sim.plots.map { (key, plot) -> listOf(key.first.toString(), key.second.toString(), plot.first, plot.second.toString()) }
         assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at plots")
+    }
+    want["derived"]?.jsonObject?.let { wd -> // the derived stats with the affixes (spec 06, "Affixes")
+        assertEquals(wd.long("atk"), sim.derived.atk, "$at atk")
+        assertEquals(wd.long("matk"), sim.derived.matk, "$at matk")
+        assertEquals(wd.long("def"), sim.derived.def, "$at def")
+        assertEquals(wd.long("mdef"), sim.derived.mdef, "$at mdef")
+        assertEquals(wd.long("max_hp"), sim.derived.maxHp, "$at max hp")
+        assertEquals(wd.long("crit_chance_pm"), sim.derived.critChancePm, "$at crit")
     }
     want["tags"]?.jsonArray?.let { wt -> // the tags earned and the one worn (spec 11, "Tags")
         assertEquals(wt.map { it.jsonPrimitive.content }, sim.earnedTags(), "$at tags")

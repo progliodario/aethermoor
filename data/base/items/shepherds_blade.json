@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/shepherds_blade",
+  "name": "$i18n:item.shepherds_blade.name",
+  "description": "$i18n:item.shepherds_blade.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1100,
+  "weapon": {
+    "atk": 15,
+    "matk": 0
+  },
+  "affix": {
+    "max_hp": 40
+  }
+}

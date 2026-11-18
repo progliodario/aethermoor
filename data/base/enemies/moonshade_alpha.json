@@ -29,6 +29,18 @@
       "qty_min": 1,
       "qty_max": 1,
       "weight_pm": 350
+    },
+    {
+      "item": "base:item/owl_eye_dagger",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 200
+    },
+    {
+      "item": "base:item/moss_cloak",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 200
     }
   ],
   "radius_x100": 50,

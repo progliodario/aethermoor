@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/moss_cloak",
+  "name": "$i18n:item.moss_cloak.name",
+  "description": "$i18n:item.moss_cloak.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 1100,
+  "armor": {
+    "def": 6,
+    "mdef": 8
+  },
+  "affix": {
+    "crit_pm": 40,
+    "mdef": 2
+  }
+}

@@ -193,11 +193,17 @@ class CombatSim:
             if rank > 0:
                 for key in TALENT_STATS.get(talent["stat"], ()):
                     derived[key] = derived[key] * (100 + talent["pct_per_rank"] * rank) // 100
-        accessory = self.items.get(self.equipped["accessory"], {}).get("accessory")
-        if accessory:  # an accessory adds its flat bonuses last (spec 06, "Equipment")
+        # an accessory adds its flat bonuses last (spec 06, "Equipment"), and so do the affixes of the worn weapon and armor ("Affixes")
+        for block in self._flat_bonuses():
             for key, stat in (("atk", "atk"), ("matk", "matk"), ("def", "def"), ("mdef", "mdef"), ("max_hp", "max_hp"), ("crit_pm", "crit_chance_pm")):
-                derived[stat] += accessory.get(key, 0)
+                derived[stat] += block.get(key, 0)
         return derived
+
+    def _flat_bonuses(self) -> list[dict]:
+        """The blocks of flat bonuses worn (spec 06, "Equipment", "Affixes"): the accessory, then the affix of the weapon, then the armor's."""
+        blocks = [self.items.get(self.equipped["accessory"], {}).get("accessory")]
+        blocks += [self.items.get(self.equipped[slot], {}).get("affix") for slot in ("weapon", "armor")]
+        return [b for b in blocks if b]
 
     def _rune(self) -> dict:
         """The `rune` block of the rune engraved on the worn weapon (spec 06, "Runes"), or {}."""
@@ -599,8 +605,8 @@ class CombatSim:
             if enemy.broken > 0:
                 damage = damage * STAGGER_DAMAGE_PCT // 100
             enemy.hp -= damage
-            drain = (self.items.get(self.equipped["accessory"], {}).get("accessory") or {}).get("drain_pm", 0)
-            if drain > 0 and 0 < self.hp < self.derived["max_hp"]:  # an accessory that drains (spec 06, "Equipment")
+            drain = sum(b.get("drain_pm", 0) for b in self._flat_bonuses())
+            if drain > 0 and 0 < self.hp < self.derived["max_hp"]:  # an accessory or an affix that drains (spec 06, "Equipment")
                 self.hp = min(self.derived["max_hp"], self.hp + max(1, damage * drain // 1000))
             if enemy.hp > 0:
                 self._apply_status(enemy)
@@ -1279,6 +1285,8 @@ class CombatSim:
             **({"plots": [[k[0], k[1], seed, ripe] for k, (seed, ripe) in sorted(self.plots.items())]} if self.farming is not None else {}),
             **({"furniture": [[k[0], k[1], item] for k, item in sorted(self.furniture.items())]} if self.home is not None else {}),
             **({"runes": dict(sorted(self.runes.items())), "atk": self.derived["atk"]} if any("rune" in i for i in self.items.values()) else {}),
+            **({"derived": {k: self.derived[k] for k in ("atk", "matk", "def", "mdef", "max_hp", "crit_chance_pm")}}
+               if any("affix" in i for i in self.items.values()) else {}),
             **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"], "stay": self.friend["stay"]}}
                if self.friend is not None else {}),
             **({"tag": self.tag, "tags": self.earned_tags()} if self.tag_defs else {}),

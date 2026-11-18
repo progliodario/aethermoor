@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/sailcloth_vest",
+  "name": "$i18n:item.sailcloth_vest.name",
+  "description": "$i18n:item.sailcloth_vest.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 1100,
+  "armor": {
+    "def": 8,
+    "mdef": 7
+  },
+  "affix": {
+    "max_hp": 40,
+    "def": 1
+  }
+}

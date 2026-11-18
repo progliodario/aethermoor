@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/forgeborn_axe",
+  "name": "$i18n:item.forgeborn_axe.name",
+  "description": "$i18n:item.forgeborn_axe.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1400,
+  "weapon": {
+    "atk": 20,
+    "matk": 0,
+    "element": "earth"
+  },
+  "affix": {
+    "def": 3,
+    "drain_pm": 80
+  }
+}

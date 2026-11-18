@@ -29,6 +29,18 @@
       "qty_min": 1,
       "qty_max": 1,
       "weight_pm": 350
+    },
+    {
+      "item": "base:item/starglass_staff",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 200
+    },
+    {
+      "item": "base:item/comet_robe",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 200
     }
   ],
   "radius_x100": 54,

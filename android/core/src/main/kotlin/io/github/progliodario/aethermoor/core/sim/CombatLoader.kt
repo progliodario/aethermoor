@@ -311,6 +311,7 @@ fun loadCombatSetup(
                 armor = doc["armor"]?.jsonObject?.let { ArmorStats(it.getValue("def").jsonPrimitive.long, it.getValue("mdef").jsonPrimitive.long) },
                 accessory = doc["accessory"]?.jsonObject?.let { accessoryOf(it) },
                 rune = doc["rune"]?.jsonObject?.let { runeOf(it) },
+                affix = doc["affix"]?.jsonObject?.let { accessoryOf(it) },
                 furniture = doc["furniture"]?.jsonObject?.let { furnitureOf(it) },
             )
         }

@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/meadow_coat",
+  "name": "$i18n:item.meadow_coat.name",
+  "description": "$i18n:item.meadow_coat.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 1000,
+  "armor": {
+    "def": 7,
+    "mdef": 5
+  },
+  "affix": {
+    "max_hp": 60
+  }
+}

@@ -158,6 +158,7 @@ SAVE_SPLITS = {
     "player_death": (1,),             # after a death and respawn
     "leash_and_return": (2,),         # the slime is walking home
     "trader_conditions_and_effects": (2, 5),  # inventory, flags and an open dialogue
+    "affixes_worn": (2,),             # the affixes come back with the equipment (spec 06, "Affixes")
     "tags_worn": (3, 5),              # the worn tag is saved (spec 11, "Tags")
     "resident_arrives": (3, 5),       # the flag that brings the resident is saved, so it is there after a load
     "chest_storage": (3, 5),          # things in the chest (spec 06, "Chests"); a loaded game has it closed

@@ -346,6 +346,17 @@ void WorldSim::recompute_derived() {
         m_derived_.max_hp += accessory->second.acc_max_hp;
         m_derived_.crit_chance_pm += accessory->second.acc_crit_pm;
     }
+    for (const std::string* worn : {&m_equipped_weapon_, &m_equipped_armor_}) {  // and the affixes (spec 06, "Affixes")
+        const auto piece = m_setup_.items.find(*worn);
+        if (piece != m_setup_.items.end() && piece->second.has_affix) {
+            m_derived_.atk += piece->second.aff_atk;
+            m_derived_.matk += piece->second.aff_matk;
+            m_derived_.def += piece->second.aff_def;
+            m_derived_.mdef += piece->second.aff_mdef;
+            m_derived_.max_hp += piece->second.aff_max_hp;
+            m_derived_.crit_chance_pm += piece->second.aff_crit_pm;
+        }
+    }
 }
 
 int WorldSim::talent_points() const {
@@ -1795,10 +1806,19 @@ void WorldSim::do_hits() {
             amount = amount * kStaggerDamagePct / 100;
         }
         enemy.hp -= amount;
-        if (const auto charm = m_setup_.items.find(m_equipped_accessory_);  // an accessory that drains (spec 06)
-            charm != m_setup_.items.end() && charm->second.acc_drain_pm > 0 && p.hp > 0 && p.hp < m_derived_.max_hp) {
-            p.hp = std::min(m_derived_.max_hp,
-                            p.hp + std::max<std::int64_t>(1, amount * charm->second.acc_drain_pm / 1000));
+        std::int64_t drain = 0;  // an accessory or an affix that drains (spec 06, "Equipment", "Affixes")
+        if (const auto charm = m_setup_.items.find(m_equipped_accessory_);
+            charm != m_setup_.items.end() && charm->second.is_accessory) {
+            drain += charm->second.acc_drain_pm;
+        }
+        for (const std::string* worn : {&m_equipped_weapon_, &m_equipped_armor_}) {
+            const auto piece = m_setup_.items.find(*worn);
+            if (piece != m_setup_.items.end() && piece->second.has_affix) {
+                drain += piece->second.aff_drain_pm;
+            }
+        }
+        if (drain > 0 && p.hp > 0 && p.hp < m_derived_.max_hp) {
+            p.hp = std::min(m_derived_.max_hp, p.hp + std::max<std::int64_t>(1, amount * drain / 1000));
         }
         enemy.hit_flash = kHitFlashTicks;
         m_events_.push_back({enemy.position, amount, crit, false, in.elem_mult_pm > 1000});

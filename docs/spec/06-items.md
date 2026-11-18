@@ -153,6 +153,21 @@ An item of kind `accessory` has `accessory {atk, matk, def, mdef, max_hp, crit_p
 `equip(id)` is refused (nothing changes) when the inventory does not hold the item, it is unknown, it is not a weapon, an armor or an accessory, or it is already the one in its slot. Otherwise it fills the slot,
 the derived statistics are recomputed at once and the current hit points are capped to the new maximum. The previous item stays in the inventory.
 
+## Affixes
+
+A weapon or an armor may have an **affix**: `affix {atk, matk, def, mdef, max_hp, crit_pm, drain_pm}`, the fields of an accessory
+(each optional, 0 when absent). While the piece is worn its affix adds to the derived statistics like an accessory, after it: the
+flat bonuses of the accessory, then of the affix of the weapon, then of the armor (section "Equipment"). The drains add up: every hit
+gives back `max(1, damage * (accessory drain_pm + weapon affix drain_pm + armor affix drain_pm) / 1000)` health, on the same terms.
+Nothing else changes: an affixed piece is an item like any other, with its own ID.
+
+The base pack has sixteen (`tools/make_affixes.py`), an affixed weapon and an affixed armor for every region (the shepherd's blade and
+the meadow coat of Verdalis, the owl-eye dagger and the moss cloak of Whisperwood, the forgeborn axe and plate of Ironspine, the dune
+scimitar and the sand-silk robe of Sunscar, the glacier spear and the snowbear coat of Frostveil, the tidecaller cutlass and the
+sailcloth vest of Tidehaven, the cinder brand and the ashwalker mail of the Ashen Wastes, the starglass staff and the comet robe of
+Lumeria). Every guardian of a region (the creatures that drop the accessory of the region) leaves each of the two one time in five
+(200 per mille). Conformance: the scenario `affixes_worn` (its checkpoints carry the `derived` stats) and a save split of it.
+
 ## Shops
 
 A region sells goods: `regions[].shop` is `{price_pm, stock}` (spec 09); a settlement shop sells the stock of its region, so prices and goods differ across the world. Shops open from a dialogue with the effect

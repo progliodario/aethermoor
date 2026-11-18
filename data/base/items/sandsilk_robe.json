@@ -1,0 +1,17 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/sandsilk_robe",
+  "name": "$i18n:item.sandsilk_robe.name",
+  "description": "$i18n:item.sandsilk_robe.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 1200,
+  "armor": {
+    "def": 7,
+    "mdef": 7
+  },
+  "affix": {
+    "crit_pm": 30,
+    "max_hp": 20
+  }
+}

@@ -736,6 +736,17 @@ def build_scenarios() -> list[dict]:
                     home={"spot": "base:art/prop/furniture_spot", "reach_x100": 150},
                     titles=[{"id": "homemaker", "name": "t", "kind": "furnished", "count": 3}]),
          "items": {**ITEMS, **FURNITURE_ITEMS}},
+        # Affixes (spec 06, "Affixes"): the affixed sword and coat add their flat bonuses to the derived stats, with the accessory; both
+        # drain, and the drains add up; changing the weapon takes its affix away.
+        {**scenario("affixes_worn", [enemy(3.6, 4.5, hp=400, **passive)],
+                    [segment(1, do=[{"cmd": "equip", "item": "test:item/keen_sword"}, {"cmd": "equip", "item": "test:item/warm_coat"},
+                                    {"cmd": "equip", "item": "base:item/bat_charm"}]),
+                     segment(60, attack=True), segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"}]), segment(60, attack=True)],
+                    inventory={"test:item/keen_sword": 1, "test:item/warm_coat": 1, "base:item/bat_charm": 1, "base:item/iron_sword": 1},
+                    player={"start": [2.2, 4.5]}),
+         "items": {**ITEMS,
+                   "test:item/keen_sword": {"kind": "weapon", "price": 900, "weapon": {"atk": 12, "matk": 0}, "affix": {"atk": 5, "crit_pm": 80, "drain_pm": 100}},
+                   "test:item/warm_coat": {"kind": "armor", "price": 900, "armor": {"def": 6, "mdef": 4}, "affix": {"max_hp": 60, "mdef": 3}}}},
         # The fog hides you (spec 08, "Fog"): a full fog with a cut of 400, a light one, and the fog with the rain and the night.
         scenario("fog_hides", [enemy(7.5, 4.5)], [segment(120)], weather={"fog_pm": 1000, "fog_aggro_cut_pm": 400}),
         scenario("fog_light", [enemy(6.3, 4.5)], [segment(120)], weather={"fog_pm": 300, "fog_aggro_cut_pm": 400}),

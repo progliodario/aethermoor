@@ -29,6 +29,18 @@
       "qty_min": 1,
       "qty_max": 1,
       "weight_pm": 350
+    },
+    {
+      "item": "base:item/glacier_spear",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 200
+    },
+    {
+      "item": "base:item/snowbear_coat",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 200
     }
   ],
   "radius_x100": 62,

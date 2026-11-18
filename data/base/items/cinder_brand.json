@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/cinder_brand",
+  "name": "$i18n:item.cinder_brand.name",
+  "description": "$i18n:item.cinder_brand.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1800,
+  "weapon": {
+    "atk": 24,
+    "matk": 0,
+    "element": "fire"
+  },
+  "affix": {
+    "atk": 8,
+    "crit_pm": 30
+  }
+}

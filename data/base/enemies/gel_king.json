@@ -35,6 +35,18 @@
       "qty_min": 1,
       "qty_max": 1,
       "weight_pm": 350
+    },
+    {
+      "item": "base:item/shepherds_blade",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 200
+    },
+    {
+      "item": "base:item/meadow_coat",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 200
     }
   ],
   "radius_x100": 60,

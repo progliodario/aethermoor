@@ -309,6 +309,18 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 def.acc_crit_pm = a.value("crit_pm", static_cast<std::int64_t>(0));
                 def.acc_drain_pm = a.value("drain_pm", static_cast<std::int64_t>(0));
             }
+            if ((*item).contains(
+                    "affix")) {  // spec 06, "Affixes": flat bonuses of a weapon or an armor, like an accessory's
+                const Json& f = (*item).at("affix");
+                def.has_affix = true;
+                def.aff_atk = f.value("atk", static_cast<std::int64_t>(0));
+                def.aff_matk = f.value("matk", static_cast<std::int64_t>(0));
+                def.aff_def = f.value("def", static_cast<std::int64_t>(0));
+                def.aff_mdef = f.value("mdef", static_cast<std::int64_t>(0));
+                def.aff_max_hp = f.value("max_hp", static_cast<std::int64_t>(0));
+                def.aff_crit_pm = f.value("crit_pm", static_cast<std::int64_t>(0));
+                def.aff_drain_pm = f.value("drain_pm", static_cast<std::int64_t>(0));
+            }
             if (item->contains("rune")) {  // spec 06, "Runes"
                 const Json& r = item->at("rune");
                 def.is_rune = true;

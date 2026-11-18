@@ -29,6 +29,18 @@
       "qty_min": 1,
       "qty_max": 1,
       "weight_pm": 350
+    },
+    {
+      "item": "base:item/dune_scimitar",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 200
+    },
+    {
+      "item": "base:item/sandsilk_robe",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 200
     }
   ],
   "radius_x100": 55,
