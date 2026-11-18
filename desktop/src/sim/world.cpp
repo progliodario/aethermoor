@@ -2531,6 +2531,7 @@ bool WorldSim::restore(const SaveState& s, std::string& error) {
     if (m_store_ && m_window_valid_) {
         refresh_people(m_window_x_, m_window_y_);  // the people of the saved time of day
     }
+    m_story_.move_travellers(day_now());  // and the travellers where the saved day puts them (spec 07, "Travellers")
     m_events_.clear();
     return true;
 }

@@ -91,8 +91,13 @@ def commit(title: str, trailers: list[str]) -> None:
     run(["git", "commit", "--quiet", "-s", "-m", message])
 
 
+# The checks every pull request runs (.github/workflows: ci-data, ci-android, ci-desktop): a pull request is never merged before all of
+# them have reported, even when GitHub is slow to start a workflow and the other checks are already done.
+REQUIRED_CHECKS = ("validate", "build", "windows-msvc", "linux-gcc")
+
+
 def wait_for_checks(pr: str) -> tuple[bool, str]:
-    """Waits until every check has finished; returns (all passed, a line per check)."""
+    """Waits until every required check is there and every check has finished; returns (all passed, a line per check)."""
     deadline = time.time() + 45 * 60
     time.sleep(20)  # the checks need a moment to be registered
     while time.time() < deadline:
@@ -101,7 +106,8 @@ def wait_for_checks(pr: str) -> tuple[bool, str]:
             rows = json.loads(out)
         except json.JSONDecodeError:
             rows = []
-        if rows and all(r["bucket"] != "pending" for r in rows):
+        present = {r["name"] for r in rows}
+        if rows and all(name in present for name in REQUIRED_CHECKS) and all(r["bucket"] != "pending" for r in rows):
             summary = ", ".join(f"{r['name']} {r['bucket']}" for r in rows)
             return all(r["bucket"] in ("pass", "skipping") for r in rows), summary
         time.sleep(10)

@@ -6,6 +6,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Fixed
 
+- After loading a game, Odo the caravan master stood at his first stop until the next moment of the clock instead of where the day of the save puts him; the Python reference now also keeps the clock in its saves (`world_ticks`), as the clients always did. Found by the conformance tests of both clients on `main`.
+- `tools/ship.py` merged a pull request whose builds GitHub had not started yet (only the labeler had reported): it now waits until every check of the three workflows (`validate`, `build`, `windows-msvc`, `linux-gcc`) has reported.
 - The schema of the save document did not allow the accessory slot (`equipped.accessory`) nor document the runes, the furniture and the worn tag; a save split of the new scenario found it.
 - The roadmap (section 8) still had numbers written by hand that the game had outgrown (the places, the recipes, the titles, the talents, the conformance cases) and listed large text as missing: they are gone or right now.
 

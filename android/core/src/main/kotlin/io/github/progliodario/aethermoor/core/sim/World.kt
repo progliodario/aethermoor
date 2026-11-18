@@ -2074,6 +2074,7 @@ class WorldSim(
         explored.addAll(s.explored)
         markExplored()
         worldTicks = if (s.worldTicks >= 0) s.worldTicks else chunks?.params?.time?.startTick ?: 0L
+        story.moveTravellers(dayNow()) // the travellers are where the saved day puts them (spec 07, "Travellers")
         if (chunks != null && windowValid) refreshPeople(windowX, windowY) // the people of the saved time of day
         events.clear()
         return Result.success(Unit)
