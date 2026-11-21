@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/knight_sword_might",
+  "name": "$i18n:item.knight_sword_might.name",
+  "description": "$i18n:item.knight_sword_might.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 1300,
+  "weapon": {
+    "atk": 16,
+    "matk": 0
+  },
+  "affix": {
+    "atk": 5
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

@@ -552,11 +552,21 @@ std::optional<std::string> stamp_spawner_at(std::uint64_t seed, const WorldParam
     return std::nullopt;
 }
 
-std::string spawner_enemy_at(std::uint64_t seed, const WorldParams& p, int x, int y) {
+std::string spawner_enemy_at(std::uint64_t seed, const WorldParams& p, int x, int y, const std::string& season) {
     if (auto enemy = stamp_spawner_at(seed, p, x, y)) {
         return *enemy;
     }
-    return fauna_at(seed, p, x, y).enemy;
+    const FaunaEntry& entry = fauna_at(seed, p, x, y);
+    if (!season.empty()) {
+        for (const FaunaVisitor& visitor :
+             entry.seasons) {  // the visitors of the season (spec 09, "Seasonal visitors")
+            if (visitor.season == season &&
+                (hash64(seed, x, y, 13) >> 20) % 1000 < static_cast<std::uint64_t>(visitor.pm)) {
+                return visitor.enemy;
+            }
+        }
+    }
+    return entry.enemy;
 }
 
 std::vector<std::string> world_enemy_ids(const WorldParams& p) {
@@ -564,6 +574,9 @@ std::vector<std::string> world_enemy_ids(const WorldParams& p) {
     for (const Region& region : p.regions) {
         for (const FaunaEntry& entry : region.fauna) {
             ids.insert(entry.enemy);
+            for (const FaunaVisitor& visitor : entry.seasons) {
+                ids.insert(visitor.enemy);
+            }
         }
     }
     for (const auto& [stamp_id, stamp] : p.stamps) {

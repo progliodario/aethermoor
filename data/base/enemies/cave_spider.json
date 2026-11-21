@@ -22,6 +22,21 @@
       "qty_min": 1,
       "qty_max": 2,
       "weight_pm": 550
+    },
+    {
+      "item": "base:item/knight_sword_vigor",
+      "pick": [
+        "base:item/knight_sword_might",
+        "base:item/knight_sword_keenness",
+        "base:item/knight_sword_leech",
+        "base:item/chain_mail_vigor",
+        "base:item/chain_mail_might",
+        "base:item/chain_mail_keenness",
+        "base:item/chain_mail_leech"
+      ],
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 30
     }
   ],
   "radius_x100": 36,

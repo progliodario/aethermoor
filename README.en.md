@@ -36,12 +36,12 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Protagonists | 8, each with a companion (8 companions) and a story of five acts (96 story quests) |
 | Creatures | 75, of which 27 guardians and 8 Echoes |
 | Quests | 330 (24 tales of the villagers) |
-| Items and recipes | 242 items, 80 recipes (8 secret) |
+| Items and recipes | 266 items, 80 recipes (8 secret) |
 | Progression | 44 titles, 8 tags, 16 talents, 26 deeds |
 | Named people | 46 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3539 keys, in Italian and English |
-| Same rules on both clients | 30 files of conformance vectors, 569 cases, run by the C++ and the Kotlin tests |
+| Texts | 3612 keys, in Italian and English |
+| Same rules on both clients | 30 files of conformance vectors, 570 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->
 
@@ -56,7 +56,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Quests and stories | a story in five acts for every protagonist, tales of the villagers, guild, legends, bounties | Gideon's Dungeon mode |
 | Life | gathering, fishing, hunting, gardens, animals, shared chests, the Guest's cottage and its furniture, pedlars, secret recipes, food with effects | wagons seen travelling, a bigger house |
 | Companions | one per protagonist with commands, bond and care; Haruka tames a second one | more companions chosen by the player |
-| Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear, weapons and armors with rolled affixes, gifts of the deeds | random affixes on common pieces |
+| Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear, weapons and armors with rolled affixes (also on twenty-four common pieces), gifts of the deeds | retempering affixes |
 | Accessibility | hints, damage numbers and flashes can be turned off, large text, configurable keys | — |
 | Release | test builds from CI | Alpha 0.1 and then 1.0 (the owner decides) |
 
@@ -238,7 +238,7 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 The next things, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine), in Italian):
 
-- **Soon:** ktlint and detekt in CI; random affixes on common pieces; village feasts.
+- **Soon:** ktlint and detekt in CI; retempering affixes; games at the feasts.
 - **Medium term:** wagons seen travelling; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** signed packages, documentation for modders, more languages.
 - **The owner decides:** when to publish the first release (Alpha 0.1).

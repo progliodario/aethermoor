@@ -202,7 +202,10 @@ roll of a worn piece grows, the derived stats are worked out again at once. The 
 the bag or in the chest. Selling the last copy of the bag, with none in the chest, forgets it.
 
 The base pack rolls the sixteen regional pieces from 100 to 160 percent (`tools/make_affixes.py`): a piece found is never weaker than
-the one of the shop. The rolls are saved (`rolls`, spec 12). Presentation: the bag and the status window write the roll after the name
+the one of the shop. It also has twenty-four **common pieces with an affix** (`tools/make_common_affixes.py`): the iron sword and the
+leather vest, the knight's sword and the chain mail, the claymore and the knight's plate, each of vigor (health), of might (attack), of
+keenness (critical chance) and of the leech (a drain), rolled from 100 to 150 percent. Every creature of the fauna leaves one of the
+eight of its tier (level up to 4, up to 8, above) one time in thirty: a drop "one of a list" (`pick`, spec 05, "Loot"). The rolls are saved (`rolls`, spec 12). Presentation: the bag and the status window write the roll after the name
 (`ui.affix_roll`, "affix 132%"). Conformance: the scenario `affixes_rolled` (its checkpoints carry `rolls`) and two save
 splits of it.
 

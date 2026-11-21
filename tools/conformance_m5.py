@@ -194,8 +194,9 @@ def suite_fauna() -> list[dict]:
                 for i in range(site["x"] // worldgen.CHUNK_SIZE, (site["x"] + site["w"] - 1) // worldgen.CHUNK_SIZE + 1):
                     tiles.extend(t for t in worldgen.chunk_spawners(seed, params, i, j) if t not in tiles)
         expect = [[x, y, worldgen.region_at(params, x, y), worldgen.spawner_enemy(seed, params, x, y, sites),
-                   "" if worldgen.stamp_spawner(seed, params, x, y, sites) else worldgen.fauna_at(seed, params, x, y)["drop"]]
-                  for x, y in tiles]
+                   "" if worldgen.stamp_spawner(seed, params, x, y, sites) else worldgen.fauna_at(seed, params, x, y)["drop"],
+                   [worldgen.spawner_enemy(seed, params, x, y, sites, season["id"]) for season in params["time"]["seasons"]]]
+                  for x, y in tiles]  # the last: the enemy on a day of every season, in the order of the seasons ("Seasonal visitors")
         cases.append({
             "name": f"fauna_{name}",
             "input": {"op": "fauna", "seed": h64(seed), "tiles": tiles, "params": params},

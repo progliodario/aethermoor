@@ -53,7 +53,8 @@ data class GiftDef(
     val friendAtkPct: Int = 0,
 )
 
-data class DropDef(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long)
+/** [pick]: one of a list (spec 05, "Loot"): the item or one of these, drawn when it drops. */
+data class DropDef(val item: String, val qtyMin: Long, val qtyMax: Long, val weightPm: Long, val pick: List<String> = emptyList())
 
 data class BehaviorDef(
     val aggroX100: Int = 600,

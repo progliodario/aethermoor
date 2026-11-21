@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/knight_plate_vigor",
+  "name": "$i18n:item.knight_plate_vigor.name",
+  "description": "$i18n:item.knight_plate_vigor.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 2600,
+  "armor": {
+    "def": 12,
+    "mdef": 5
+  },
+  "affix": {
+    "max_hp": 90
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

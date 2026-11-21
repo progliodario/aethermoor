@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/claymore_might",
+  "name": "$i18n:item.claymore_might.name",
+  "description": "$i18n:item.claymore_might.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 2200,
+  "weapon": {
+    "atk": 21,
+    "matk": 0
+  },
+  "affix": {
+    "atk": 8
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

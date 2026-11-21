@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/claymore_leech",
+  "name": "$i18n:item.claymore_leech.name",
+  "description": "$i18n:item.claymore_leech.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 2200,
+  "weapon": {
+    "atk": 21,
+    "matk": 0
+  },
+  "affix": {
+    "drain_pm": 100
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

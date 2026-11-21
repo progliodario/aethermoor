@@ -273,3 +273,31 @@ def test_the_echoes_wait_only_in_their_sanctums_and_the_cottage_has_its_spots():
     home = json.loads((DATA / "stamps" / "hamlet_home.json").read_text(encoding="utf-8"))
     spots = sum(1 for row in home["rows"] for ch in row if home["legend"].get(ch, {}).get("prop") == "base:art/prop/furniture_spot")
     assert spots == 10
+
+
+def test_seasonal_visitors_common_affixes_and_feasts():
+    """The visitors of the seasons are creatures of the world, of real seasons, and never more than 400 per mille of their entry (spec 09,
+    "Seasonal visitors"); every item a drop may pick exists (spec 05, "Loot"); every region has a feast on its own day (spec 07, "Feasts")."""
+    world = json.loads((DATA / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    seasons = {s["id"] for s in world["time"]["seasons"]}
+    fauna = {e["enemy"] for region in world["regions"] for e in region["fauna"]}
+    visitors = 0
+    for region in world["regions"]:
+        for entry in region["fauna"]:
+            for visitor in entry.get("seasons", []):
+                assert visitor["season"] in seasons and visitor["enemy"] in fauna and visitor["pm"] <= 400, (region["id"], visitor)
+                visitors += 1
+    assert visitors >= 8
+    items = load_all("items")
+    for enemy in load_all("enemies").values():
+        for drop in enemy["drops"]:
+            for item in drop.get("pick", []):
+                assert item in items, (enemy["id"], item)
+                assert "affix_roll" in items[item], item
+    days = set()
+    for path in sorted((DATA / "dialogues" / "role").glob("innkeeper_*.json")):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        feast = [c for c in doc["nodes"]["menu"]["choices"] if c.get("next") == "feast"]
+        assert len(feast) == 1, path.stem
+        days.add(feast[0]["when"]["day_mod"]["at"])
+    assert len(days) == 8

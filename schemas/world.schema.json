@@ -874,6 +874,20 @@
                 "weight": {
                   "type": "integer",
                   "minimum": 1
+                },
+                "seasons": {
+                  "type": "array",
+                  "description": "The visitors of the seasons (spec 09, Seasonal visitors): on a day of the season, the share pm of the spawners of this entry make the visitor.",
+                  "items": {
+                    "type": "object",
+                    "required": ["season", "enemy", "pm"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "season": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+                      "enemy": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" },
+                      "pm": { "type": "integer", "minimum": 0, "maximum": 1000 }
+                    }
+                  }
                 }
               }
             }

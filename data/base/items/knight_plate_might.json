@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/knight_plate_might",
+  "name": "$i18n:item.knight_plate_might.name",
+  "description": "$i18n:item.knight_plate_might.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 2600,
+  "armor": {
+    "def": 12,
+    "mdef": 5
+  },
+  "affix": {
+    "atk": 8
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

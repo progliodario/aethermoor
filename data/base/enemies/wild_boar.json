@@ -28,6 +28,21 @@
       "qty_min": 1,
       "qty_max": 1,
       "weight_pm": 500
+    },
+    {
+      "item": "base:item/iron_sword_vigor",
+      "pick": [
+        "base:item/iron_sword_might",
+        "base:item/iron_sword_keenness",
+        "base:item/iron_sword_leech",
+        "base:item/leather_vest_vigor",
+        "base:item/leather_vest_might",
+        "base:item/leather_vest_keenness",
+        "base:item/leather_vest_leech"
+      ],
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 30
     }
   ],
   "radius_x100": 38,

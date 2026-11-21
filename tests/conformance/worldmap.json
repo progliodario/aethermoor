@@ -88,7 +88,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 6
+                  "weight": 6,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/slime_blue",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_mint",
@@ -98,7 +105,14 @@
                 {
                   "enemy": "base:enemy/wolf_tawny",
                   "drop": "base:item/tawny_fur",
-                  "weight": 1
+                  "weight": 1,
+                  "seasons": [
+                    {
+                      "season": "autumn",
+                      "enemy": "base:enemy/wolf_grey",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/myconid",
@@ -178,12 +192,26 @@
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/wolf_frost",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 5
+                  "weight": 5,
+                  "seasons": [
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_bloom",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -316,7 +344,14 @@
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "weight": 3,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/wolf_frost",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_slate",
@@ -326,7 +361,14 @@
                 {
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 1,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/slime_ice",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -462,7 +504,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 3
+                  "weight": 3,
+                  "seasons": [
+                    {
+                      "season": "summer",
+                      "enemy": "base:enemy/slime_sand",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_amber",
@@ -492,7 +541,14 @@
                 {
                   "enemy": "base:enemy/dune_fox",
                   "drop": "base:item/fox_pelt",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/wolf_grey",
+                      "pm": 400
+                    }
+                  ]
                 }
               ],
               "shop": {
@@ -597,7 +653,14 @@
                 {
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_tide",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_ice",
@@ -622,7 +685,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "summer",
+                      "enemy": "base:enemy/slime_bloom",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/ridge_elk",
@@ -726,7 +796,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 3
+                  "weight": 3,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/slime_blue",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_coral",
@@ -746,7 +823,14 @@
                 {
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "summer",
+                      "enemy": "base:enemy/shore_crab",
+                      "pm": 400
+                    }
+                  ]
                 }
               ],
               "shop": {
@@ -876,12 +960,26 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "summer",
+                      "enemy": "base:enemy/slime_ember",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/dune_fox",
                   "drop": "base:item/fox_pelt",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "autumn",
+                      "enemy": "base:enemy/wolf_ember",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/wolf_ember",
@@ -1016,7 +1114,14 @@
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 1
+                  "weight": 1,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/wolf_storm",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/wolf_storm",
@@ -1051,7 +1156,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_bloom",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/ridge_elk",
@@ -8366,7 +8478,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 6
+                  "weight": 6,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/slime_blue",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_mint",
@@ -8376,7 +8495,14 @@
                 {
                   "enemy": "base:enemy/wolf_tawny",
                   "drop": "base:item/tawny_fur",
-                  "weight": 1
+                  "weight": 1,
+                  "seasons": [
+                    {
+                      "season": "autumn",
+                      "enemy": "base:enemy/wolf_grey",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/myconid",
@@ -8456,12 +8582,26 @@
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/wolf_frost",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 5
+                  "weight": 5,
+                  "seasons": [
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_bloom",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -8594,7 +8734,14 @@
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 3
+                  "weight": 3,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/wolf_frost",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_slate",
@@ -8604,7 +8751,14 @@
                 {
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
-                  "weight": 1
+                  "weight": 1,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/slime_ice",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/wolf_dire",
@@ -8740,7 +8894,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 3
+                  "weight": 3,
+                  "seasons": [
+                    {
+                      "season": "summer",
+                      "enemy": "base:enemy/slime_sand",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_amber",
@@ -8770,7 +8931,14 @@
                 {
                   "enemy": "base:enemy/dune_fox",
                   "drop": "base:item/fox_pelt",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/wolf_grey",
+                      "pm": 400
+                    }
+                  ]
                 }
               ],
               "shop": {
@@ -8875,7 +9043,14 @@
                 {
                   "enemy": "base:enemy/slime_blue",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_tide",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_ice",
@@ -8900,7 +9075,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "summer",
+                      "enemy": "base:enemy/slime_bloom",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/ridge_elk",
@@ -9004,7 +9186,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 3
+                  "weight": 3,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/slime_blue",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/slime_coral",
@@ -9024,7 +9213,14 @@
                 {
                   "enemy": "base:enemy/wild_boar",
                   "drop": "base:item/boar_hide",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "summer",
+                      "enemy": "base:enemy/shore_crab",
+                      "pm": 400
+                    }
+                  ]
                 }
               ],
               "shop": {
@@ -9154,12 +9350,26 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "summer",
+                      "enemy": "base:enemy/slime_ember",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/dune_fox",
                   "drop": "base:item/fox_pelt",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "autumn",
+                      "enemy": "base:enemy/wolf_ember",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/wolf_ember",
@@ -9294,7 +9504,14 @@
                 {
                   "enemy": "base:enemy/wolf_grey",
                   "drop": "base:item/wolf_fang",
-                  "weight": 1
+                  "weight": 1,
+                  "seasons": [
+                    {
+                      "season": "winter",
+                      "enemy": "base:enemy/wolf_storm",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/wolf_storm",
@@ -9329,7 +9546,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_bloom",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/ridge_elk",

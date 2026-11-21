@@ -39,10 +39,19 @@ struct WorldNpc {
 };
 
 // An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops.
+// A visitor of a season (spec 09, "Seasonal visitors"): on a day of `season`, the share `pm` of the spawners of the
+// entry make it.
+struct FaunaVisitor {
+    std::string season;
+    std::string enemy;
+    int pm = 0;
+};
+
 struct FaunaEntry {
     std::string enemy;
     std::string drop;
     int weight = 1;
+    std::vector<FaunaVisitor> seasons;
 };
 
 struct Region {
@@ -333,7 +342,9 @@ std::optional<Offer> resolve_offer(std::uint64_t seed, const WorldParams& params
 // The enemy that the stamp under the tile names for a spawner there (dungeons), if any.
 std::optional<std::string> stamp_spawner_at(std::uint64_t seed, const WorldParams& params, int x, int y);
 // The enemy of the spawner on the tile: the one of its stamp, else a pick of the fauna of its region (spec 09).
-std::string spawner_enemy_at(std::uint64_t seed, const WorldParams& params, int x, int y);
+// On a day of `season` (empty: none), the visitor of that season for the spawners it takes ("Seasonal visitors").
+std::string spawner_enemy_at(std::uint64_t seed, const WorldParams& params, int x, int y,
+                             const std::string& season = "");
 // Every enemy a spawner of the world can make (fauna of the regions and spawners of the stamps), sorted.
 std::vector<std::string> world_enemy_ids(const WorldParams& params);
 

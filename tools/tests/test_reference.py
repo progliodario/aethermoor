@@ -291,6 +291,9 @@ def test_every_elder_offers_a_local_errand_that_pays_once():
         def tod_pm(self) -> int:
             return 500
 
+        def day(self) -> int:  # the day of the world (spec 08): the tests find the choices by name
+            return 1
+
     data = TOOLS.parent / "data" / "base"
     params = worldgen.load_params()
     tones = {region["tone"] for region in params["regions"]}
@@ -352,6 +355,9 @@ def test_every_innkeeper_has_a_favor_and_every_villager_a_legend():
 
         def tod_pm(self) -> int:
             return 500
+
+        def day(self) -> int:  # the day of the world (spec 08): the tests find the choices by name
+            return 1
 
     data = TOOLS.parent / "data" / "base"
     params = worldgen.load_params()
@@ -456,6 +462,9 @@ def test_every_elder_has_a_second_errand_after_the_first():
         def tod_pm(self) -> int:
             return 500
 
+        def day(self) -> int:  # the day of the world (spec 08): the tests find the choices by name
+            return 1
+
     data = TOOLS.parent / "data" / "base"
     params = worldgen.load_params()
     quests = {}
@@ -514,6 +523,9 @@ class _InnHost:
 
     def tod_pm(self) -> int:
         return 500
+
+    def day(self) -> int:  # the day of the world (spec 08): the tests find the choices by name
+        return 1
 
 
 def _regional_dialogues(role: str) -> dict:
@@ -642,6 +654,9 @@ def test_the_wayfarers_tell_three_stories_and_pass_letters_around_a_ring():
         def tod_pm(self) -> int:
             return 500
 
+        def day(self) -> int:  # the day of the world (spec 08): the tests find the choices by name
+            return 1
+
     host = Host()
     s = story.Story(host, {"quests": quests, "dialogues": dialogues, "npcs": []})
 
@@ -703,6 +718,9 @@ class _TimeHost(_InnHost):
 
     def tod_pm(self) -> int:
         return self.tod
+
+    def day(self) -> int:  # the day of the world (spec 08): the tests find the choices by name
+        return 1
 
 
 def test_season_and_time_of_day_conditions():
