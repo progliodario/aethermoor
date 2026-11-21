@@ -735,14 +735,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
         if (world.combat.items[itemId]?.temperStation != null) { // the affix of a worn piece is tempered (spec 06, "Tempering")
-            if (world.useItem(itemId)) {
-                val target = if (world.rollOf(world.equippedWeapon) > 0L) world.equippedWeapon else world.equippedArmor
-                val piece = pack.text(language, "\$i18n:${target.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
-                showNotice(pack.text(language, "\$i18n:ui.tempered", mapOf("item" to piece, "pct" to world.rollOf(target))))
-                bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
-            } else {
-                showNotice(pack.text(language, "\$i18n:ui.temper_refused"))
-            }
+            temperSelected(world, itemId)
             return
         }
         if (world.combat.items[itemId]?.furniture != null) { // a piece stands on a place of the home (spec 06, "Furniture")
@@ -3119,6 +3112,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     private fun itemName(data: Assets, item: String, count: Long): String =
         data.pack.text(language, "\$i18n:${item.substringAfter(':').replace('/', '.')}.name", mapOf("count" to count))
+
+    /** Uses a tempering item of the bag and says what it did (spec 06, "Tempering"). */
+    private fun temperSelected(world: WorldSim, itemId: String) {
+        val pack = assets?.pack ?: return
+        if (world.useItem(itemId)) {
+            val target = if (world.rollOf(world.equippedWeapon) > 0L) world.equippedWeapon else world.equippedArmor
+            val piece = pack.text(language, "\$i18n:${target.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
+            showNotice(pack.text(language, "\$i18n:ui.tempered", mapOf("item" to piece, "pct" to world.rollOf(target))))
+            bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.temper_refused"))
+        }
+    }
 
     /** How strong the affix of a piece came out (spec 06, "Rolled affixes"), after [gap]; empty when it was never rolled. */
     private fun rollText(world: WorldSim, data: Assets, item: String, gap: String): String {
