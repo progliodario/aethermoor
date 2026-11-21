@@ -35,13 +35,13 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in cinque atti (96 missioni di storia) |
 | Creature | 75, di cui 27 guardiani e 8 Echi |
-| Missioni | 322 (24 storie dei paesani) |
+| Missioni | 330 (24 storie dei paesani) |
 | Oggetti e ricette | 242 oggetti, 80 ricette (8 segrete) |
 | Progressione | 44 titoli, 8 tag, 16 talenti, 26 imprese |
 | Persone con nome | 46 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3477 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 561 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3539 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 569 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -56,7 +56,7 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Missioni e storie | storie in cinque atti per ogni protagonista, storie dei paesani, gilda, leggende, taglie | la modalità Dungeon di Gideon |
 | Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite con i suoi mobili, venditori ambulanti, ricette segrete, cibi con effetti | carri che si vedono viaggiare, una casa più grande |
 | Compagni | uno per protagonista con comandi, legame e cura; Haruka doma un secondo compagno | più compagni scelti dal giocatore |
-| Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi, tag da indossare, armi e armature con affissi, doni delle imprese | affissi a caso |
+| Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi, tag da indossare, armi e armature con affissi tirati a sorte, doni delle imprese | affissi a caso sui pezzi comuni |
 | Accessibilità | consigli, numeri dei danni e lampi disattivabili, testo grande, tasti configurabili | — |
 | Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
 
@@ -91,12 +91,12 @@ Il catalogo completo, generato dai dati, è in [`docs/design/catalog.md`](docs/d
 - Cibi e infusi che fortificano, proteggono, rigenerano o fanno correre; una pozione che purifica.
 - Un **baule** in ogni villaggio e città: tutti tengono le stesse cose.
 - Il **cottage dell'Ospite**: baule, falò, incudine, orti, galline, una capra e una Pietra della Soglia; Nonna Brin te lo regala dopo i suoi tre favori. Dieci tappeti, in casa e in giardino, aspettano i **mobili** che costruisci all'incudine (letto, rastrelliera, libreria, essiccatoio, manichino, banco, panchina, spaventapasseri, bersaglio, lanterna di pietra), e ognuno ti aiuta ovunque come un titolo.
-- **Residenti**: quando una regione ti conosce (sei missioni finite lì), qualcuno si trasferisce nel suo avamposto, ti saluta e ti regala una runa; con otto missioni arriva un colono in ogni villaggio della regione.
+- **Residenti**: quando una regione ti conosce (sei missioni finite lì), qualcuno si trasferisce nel suo avamposto, ti saluta e ti regala una runa; con otto missioni arriva un colono in ogni villaggio della regione, con il suo mestiere (fornaia, scalpellino, pescatore del ghiaccio...), una missione e una bottega.
 - Negozi con giorni di mercato, merci di altre regioni, pezzi rari per gli amici; pagano meno se vendi troppo della stessa cosa. Corvin ad Aldermere e un venditore in ogni avamposto portano ogni giorno le merci di una regione diversa; Odo, il capo carovana, ogni giorno è in un avamposto diverso. Gli orti crescono più svelti in primavera e più lenti d'inverno, e ogni pianta dà di più nella sua stagione; Odo ha tre commissioni per la carovana.
 
 **Progressione**
 
-- Livelli, un albero di talenti con abilità (due da usare con un tasto), titoli che cambiano il gioco, un bestiario con le debolezze; **rune** fatte all'incudine da incidere sull'arma, che allora colpisce più forte e con l'elemento della runa; **tag**, tratti guadagnati da come giochi, da indossare uno alla volta; **affissi**: ogni regione ha un'arma e un'armatura con un bonus in più, lasciate dai suoi guardiani.
+- Livelli, un albero di talenti con abilità (due da usare con un tasto), titoli che cambiano il gioco, un bestiario con le debolezze; **rune** fatte all'incudine da incidere sull'arma, che allora colpisce più forte e con l'elemento della runa; **tag**, tratti guadagnati da come giochi, da indossare uno alla volta; **affissi**: ogni regione ha un'arma e un'armatura con un bonus in più, lasciate dai suoi guardiani, con un affisso tirato a sorte (dal 100 al 160%).
 - Un profilo comune a tutte le partite: titoli, vite passate e **imprese** danno "echi" (salute in più a ogni partita); ogni impresa fatta lascia un dono nello zaino di ogni partita nuova; dal livello 10 una partita può **reincarnarsi** e lasciare in eredità metà dell'oro e l'arma.
 - Un compagno per protagonista che segue, combatte, resta, torna e cura; Haruka doma le creature e l'ultima resta con lei.
 
@@ -238,7 +238,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine)):
 
-- **A breve:** ktlint e detekt in CI; affissi a caso; più vita nei villaggi.
+- **A breve:** ktlint e detekt in CI; affissi a caso sui pezzi comuni; feste dei villaggi.
 - **A medio termine:** carri che si vedono viaggiare; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** pacchetti firmati, documentazione per chi fa mod, altre lingue.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1).

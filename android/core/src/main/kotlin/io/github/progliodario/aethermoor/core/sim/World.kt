@@ -224,6 +224,19 @@ class WorldSim(
     /** The runes engraved on the weapons (spec 06, "Runes"): weapon item -> rune item. */
     val runes = java.util.TreeMap<String, String>()
 
+    /** The rolled affixes of the pieces found (spec 06, "Rolled affixes"): item -> percent. */
+    val rolls = java.util.TreeMap<String, Long>()
+
+    /** The percent the affix of a piece was rolled at, 0 when it was never rolled (spec 06, "Rolled affixes"). */
+    fun rollOf(itemId: String): Long = rolls[itemId] ?: 0L
+
+    /** The affix of a piece as it is held: the data times its roll (spec 06, "Rolled affixes"); null: no affix. */
+    fun affixOf(itemId: String): AccessoryStats? {
+        val affix = combat.items[itemId]?.affix ?: return null
+        val pct = rollOf(itemId)
+        return if (pct == 0L) affix else affix.scaled(pct)
+    }
+
     /** The furniture placed on the spots of the home (spec 06, "Furniture"): (x100, y100) -> item. */
     val furniture = java.util.TreeMap<Pair<Int, Int>, String>(compareBy({ it.first }, { it.second }))
 
@@ -232,6 +245,11 @@ class WorldSim(
         private set
     private var windBoost = 0
     private var fogAggroPm = 1000 // what the fog leaves of the aggro distance, this tick (spec 08, "Fog")
+    /** What the season of this tick leaves of the aggro distance and of the speed of the creatures (spec 08, "Seasons and the creatures"). */
+    var seasonAggroPm = 1000
+        private set
+    var seasonSlowPm = 1000
+        private set
     private var rainPmNow = 0 // the rain of this tick (a storm is rain and wind: spec 08, "Lightning")
     private var lightningTick = -1000000L // when the lightning last struck; presentation, not saved
 
@@ -864,7 +882,7 @@ class WorldSim(
 
     /** The blocks of flat bonuses worn (spec 06, "Equipment", "Affixes"): the accessory, then the affix of the weapon, then the armor's. */
     private fun flatBonuses(): List<AccessoryStats> =
-        listOfNotNull(combat.items[equippedAccessory]?.accessory, combat.items[equippedWeapon]?.affix, combat.items[equippedArmor]?.affix)
+        listOfNotNull(combat.items[equippedAccessory]?.accessory, affixOf(equippedWeapon), affixOf(equippedArmor))
 
     /** Puts the player at (x, y) in tiles, loading the chunks around (developer option, later the Threshold Stones). */
     fun teleport(x: Float, y: Float) {
@@ -1055,7 +1073,12 @@ class WorldSim(
             soldToday.clear()
         }
         soldToday[itemId] = (soldToday[itemId] ?: 0L) + 1L
-        if (owned == 1L) inventory.remove(itemId) else inventory[itemId] = owned - 1L
+        if (owned == 1L) {
+            inventory.remove(itemId)
+            if ((chest[itemId] ?: 0L) == 0L) rolls.remove(itemId) // the last one is gone: so is its roll (spec 06, "Rolled affixes")
+        } else {
+            inventory[itemId] = owned - 1L
+        }
         return true
     }
 
@@ -1373,6 +1396,10 @@ class WorldSim(
             windPm = sample.windPm // the wind at the back of the player (spec 08, "Wind")
             windBoost = sample.windPm * store.params.time.windHastePm / 1000
             fogAggroPm = 1000 - sample.fogPm * store.params.time.fogAggroCutPm / 1000 // the fog hides the player (spec 08, "Fog")
+            val time = store.params.time // and the season (spec 08, "Seasons and the creatures")
+            val index = if (time.dayTicks > 0) seasonIndexOf(time, worldTicks / time.dayTicks + 1) else -1
+            seasonSlowPm = 1000 - (if (index >= 0) time.seasons[index].creatureSlowPm else 0)
+            seasonAggroPm = 1000 - (if (index >= 0) time.seasons[index].creatureAggroCutPm else 0)
         } else {
             rainAggroPm = 1000 - combat.rainPm * combat.rainAggroCutPm / 1000
             rainPmNow = combat.rainPm
@@ -1381,6 +1408,8 @@ class WorldSim(
             windPm = combat.windPm
             windBoost = combat.windPm * combat.windHastePm / 1000
             fogAggroPm = 1000 - combat.fogPm * combat.fogAggroCutPm / 1000
+            seasonSlowPm = 1000 - combat.seasonSlowPm
+            seasonAggroPm = 1000 - combat.seasonAggroCutPm
         }
         if (chunks != null && windowValid && timeOfDayPm() != routineTod) refreshPeople(windowX, windowY) // somebody goes home or comes out (spec 08)
         markExplored()
@@ -1633,6 +1662,13 @@ class WorldSim(
                 var quantity = drop.qtyMin
                 if (drop.qtyMax > drop.qtyMin) quantity += lootRng.nextBounded(drop.qtyMax - drop.qtyMin + 1)
                 inventory[drop.item] = (inventory[drop.item] ?: 0L) + quantity
+                val roll = combat.items[drop.item]?.affixRoll
+                if (roll != null) { // a piece with an affix found on a creature: how strong its affix came out (spec 06, "Rolled affixes")
+                    var pct = roll.first.toLong()
+                    if (roll.second > roll.first) pct += lootRng.nextBounded((roll.second - roll.first + 1).toLong())
+                    rolls[drop.item] = maxOf(rollOf(drop.item), pct) // the better of the two is kept
+                    if (drop.item == equippedWeapon || drop.item == equippedArmor || drop.item == equippedAccessory) recomputeDerived()
+                }
             }
         }
         grantXp(xpGain(enemy.def.xp, enemy.def.level, p.level) * (100 + titleXpPct()) / 100) // a veteran's titles (spec 11)
@@ -1760,7 +1796,7 @@ class WorldSim(
         val p = player
         val dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y)
         when (enemy.state) {
-            EnemyState.IDLE -> if (dist <= (b.aggroX100 * combat.gift.aggroPct / 100 * rainAggroPm / 1000 * nightAggroPm / 1000 * fogAggroPm / 1000).toFloat() / 100f) {
+            EnemyState.IDLE -> if (dist <= (b.aggroX100 * combat.gift.aggroPct / 100 * rainAggroPm / 1000 * nightAggroPm / 1000 * fogAggroPm / 1000 * seasonAggroPm / 1000).toFloat() / 100f) {
                 enemy.state = EnemyState.CHASE
                 enemy.stateTick = 0
                 cues.add(SimCue("aggro", enemy.def.sound, enemy.position))
@@ -1804,7 +1840,7 @@ class WorldSim(
         val dx = targetX - enemy.position.x
         val dy = targetY - enemy.position.y
         val dist = sqrt(dx * dx + dy * dy)
-        val speed = (enemy.def.speedX100.toLong() * rainSlowPm / 1000).toFloat() / 100f
+        val speed = (enemy.def.speedX100.toLong() * rainSlowPm / 1000 * seasonSlowPm / 1000).toFloat() / 100f // the rain and the season (spec 08)
         val step = (if (enemy.chill > 0) speed / 2f else speed) * TICK_DT
         var x = enemy.position.x
         var y = enemy.position.y
@@ -1934,6 +1970,7 @@ class WorldSim(
             plots = plots.map { (key, plot) -> PlotSave(key.first, key.second, plot.first, plot.second) },
             chest = chest.toMap(),
             runes = runes.toMap(),
+            rolls = rolls.toMap(),
             furniture = furniture.map { (key, item) -> FurnitureSave(key.first, key.second, item) },
             tag = wornTag,
             companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
@@ -2062,6 +2099,8 @@ class WorldSim(
         for (p in s.plots) plots[Pair(p.x, p.y)] = Pair(p.seed, p.ripe)
         runes.clear()
         runes.putAll(s.runes)
+        rolls.clear()
+        rolls.putAll(s.rolls)
         furniture.clear()
         for (f in s.furniture) furniture[Pair(f.x, f.y)] = f.item
         wornTag = s.tag

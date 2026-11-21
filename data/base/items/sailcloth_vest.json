@@ -13,5 +13,9 @@
   "affix": {
     "max_hp": 40,
     "def": 1
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 160
   }
 }

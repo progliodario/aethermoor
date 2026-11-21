@@ -356,15 +356,20 @@ void WorldSim::recompute_derived() {
     }
     for (const std::string* worn : {&m_equipped_weapon_, &m_equipped_armor_}) {  // and the affixes (spec 06, "Affixes")
         const auto piece = m_setup_.items.find(*worn);
-        if (piece != m_setup_.items.end() && piece->second.has_affix) {
-            m_derived_.atk += piece->second.aff_atk;
-            m_derived_.matk += piece->second.aff_matk;
-            m_derived_.def += piece->second.aff_def;
-            m_derived_.mdef += piece->second.aff_mdef;
-            m_derived_.max_hp += piece->second.aff_max_hp;
-            m_derived_.crit_chance_pm += piece->second.aff_crit_pm;
+        if (piece != m_setup_.items.end() && piece->second.has_affix) {  // as it is held: rolled ("Rolled affixes")
+            m_derived_.atk += held_affix(*worn, piece->second.aff_atk);
+            m_derived_.matk += held_affix(*worn, piece->second.aff_matk);
+            m_derived_.def += held_affix(*worn, piece->second.aff_def);
+            m_derived_.mdef += held_affix(*worn, piece->second.aff_mdef);
+            m_derived_.max_hp += held_affix(*worn, piece->second.aff_max_hp);
+            m_derived_.crit_chance_pm += held_affix(*worn, piece->second.aff_crit_pm);
         }
     }
+}
+
+std::int64_t WorldSim::held_affix(const std::string& item_id, std::int64_t value) const {
+    const std::int64_t pct = roll_of(item_id);
+    return pct == 0 ? value : value * pct / 100;  // a piece never rolled has the affix of the data
 }
 
 int WorldSim::talent_points() const {
@@ -784,6 +789,10 @@ bool WorldSim::sell(const std::string& item_id) {
     ++m_sold_today_[item_id];
     if (--owned->second == 0) {
         m_inventory_.erase(owned);
+        const auto stored = m_chest_.find(item_id);
+        if (stored == m_chest_.end() || stored->second == 0) {
+            m_rolls_.erase(item_id);  // the last one is gone: so is its roll (spec 06, "Rolled affixes")
+        }
     }
     return true;
 }
@@ -1566,6 +1575,16 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
             fog_cut = m_store_->params().time.fog_aggro_cut_pm;
         }
         m_fog_aggro_pm_ = 1000 - fog * fog_cut / 1000;
+        int season_slow = m_setup_.season_slow_pm;  // the season (spec 08, "Seasons and the creatures")
+        int season_cut = m_setup_.season_aggro_cut_pm;
+        if (m_store_) {
+            const TimeParams& time = m_store_->params().time;
+            const int index = time.day_ticks > 0 ? season_index_of(time, m_world_ticks_ / time.day_ticks + 1) : -1;
+            season_slow = index >= 0 ? time.seasons[static_cast<std::size_t>(index)].creature_slow_pm : 0;
+            season_cut = index >= 0 ? time.seasons[static_cast<std::size_t>(index)].creature_aggro_cut_pm : 0;
+        }
+        m_season_slow_pm_ = 1000 - season_slow;
+        m_season_aggro_pm_ = 1000 - season_cut;
     }
     if (m_store_ && m_window_valid_ && time_of_day_pm() != m_routine_tod_) {
         refresh_people(m_window_x_, m_window_y_);  // somebody goes home or comes out (spec 08)
@@ -1830,7 +1849,7 @@ void WorldSim::do_hits() {
         for (const std::string* worn : {&m_equipped_weapon_, &m_equipped_armor_}) {
             const auto piece = m_setup_.items.find(*worn);
             if (piece != m_setup_.items.end() && piece->second.has_affix) {
-                drain += piece->second.aff_drain_pm;
+                drain += held_affix(*worn, piece->second.aff_drain_pm);
             }
         }
         if (drain > 0 && p.hp > 0 && p.hp < m_derived_.max_hp) {
@@ -1947,6 +1966,22 @@ void WorldSim::on_kill(Enemy& enemy) {
                     m_loot_rng_.next_bounded(static_cast<std::uint32_t>(drop.qty_max - drop.qty_min + 1)));
             }
             m_inventory_[drop.item] += quantity;
+            const auto found = m_setup_.items.find(drop.item);
+            if (found != m_setup_.items.end() && found->second.has_affix_roll) {
+                // a piece with an affix found on a creature: how strong its affix came out (spec 06, "Rolled affixes")
+                const ItemDef& piece = found->second;
+                std::int64_t pct = piece.roll_min_pct;
+                if (piece.roll_max_pct > piece.roll_min_pct) {
+                    pct += static_cast<std::int64_t>(m_loot_rng_.next_bounded(
+                        static_cast<std::uint32_t>(piece.roll_max_pct - piece.roll_min_pct + 1)));
+                }
+                std::int64_t& held = m_rolls_[drop.item];
+                held = std::max(held, pct);  // the better of the two is kept
+                if (drop.item == m_equipped_weapon_ || drop.item == m_equipped_armor_ ||
+                    drop.item == m_equipped_accessory_) {
+                    recompute_derived();
+                }
+            }
         }
     }
     grant_xp(xp_gain(enemy.def.xp, enemy.def.level, p.level) * (100 + title_bonus("xp")) /
@@ -2157,9 +2192,10 @@ void WorldSim::behave_enemy(Enemy& enemy) {
     const float dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y);
     switch (enemy.state) {
         case EnemyState::Idle:
-            if (dist <= static_cast<float>(b.aggro_x100 * m_setup_.gift.aggro_pct / 100 * m_rain_aggro_pm_ / 1000 *
-                                           m_night_aggro_pm_ / 1000 * m_fog_aggro_pm_ / 1000) /
-                            100.0F) {
+            if (dist <=
+                static_cast<float>(b.aggro_x100 * m_setup_.gift.aggro_pct / 100 * m_rain_aggro_pm_ / 1000 *
+                                   m_night_aggro_pm_ / 1000 * m_fog_aggro_pm_ / 1000 * m_season_aggro_pm_ / 1000) /
+                    100.0F) {
                 enemy.state = EnemyState::Chase;
                 enemy.state_tick = 0;
                 m_cues_.push_back({"aggro", enemy.def.sound, enemy.position});
@@ -2209,7 +2245,9 @@ void WorldSim::move_enemy(Enemy& enemy, float target_x, float target_y) {
     const float dy = target_y - enemy.position.y;
     const float dist = std::sqrt(dx * dx + dy * dy);
     const float speed =
-        static_cast<float>(static_cast<std::int64_t>(enemy.def.speed_x100) * m_rain_slow_pm_ / 1000) / 100.0F;
+        static_cast<float>(static_cast<std::int64_t>(enemy.def.speed_x100) * m_rain_slow_pm_ / 1000 *
+                           m_season_slow_pm_ / 1000) /
+        100.0F;  // the rain and the cold of the season (spec 08, "Rain slows", "Seasons and the creatures")
     const float step = (enemy.chill > 0 ? speed / 2.0F : speed) * kTickDt;
     if (dist > 0.0F) {
         if (dist <= step) {
@@ -2356,6 +2394,7 @@ SaveState WorldSim::capture() const {
     s.plots = m_plots_;
     s.chest = m_chest_;
     s.runes = m_runes_;
+    s.rolls = m_rolls_;
     s.furniture = m_furniture_;
     s.tag = m_tag_;
     if (m_setup_.companion) {
@@ -2532,6 +2571,7 @@ bool WorldSim::restore(const SaveState& saved, std::string& error) {
     m_chest_ = s.chest;
     m_chest_open_ = false;
     m_runes_ = s.runes;
+    m_rolls_ = s.rolls;
     m_furniture_ = s.furniture;
     m_tag_ = s.tag;
     recompute_derived();       // the talents change the derived stats

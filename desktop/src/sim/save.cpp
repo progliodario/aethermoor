@@ -135,6 +135,13 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         }
         j["plots"] = plots;
     }
+    if (!s.rolls.empty()) {  // the rolled affixes of the pieces found (spec 06, "Rolled affixes")
+        Json rolls = Json::object();
+        for (const auto& [item, pct] : s.rolls) {
+            rolls[item] = pct;
+        }
+        j["rolls"] = rolls;
+    }
     if (!s.runes.empty()) {  // the runes engraved on the weapons (spec 06, "Runes")
         Json runes = Json::object();
         for (const auto& [weapon, rune] : s.runes) {
@@ -315,6 +322,11 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             for (const Json& plot : j.at("plots")) {
                 s.plots[{plot.at(0).get<int>(), plot.at(1).get<int>()}] = {plot.at(2).get<std::string>(),
                                                                            plot.at(3).get<std::int64_t>()};
+            }
+        }
+        if (j.contains("rolls")) {
+            for (const auto& [item, pct] : j.at("rolls").items()) {
+                s.rolls[item] = pct.get<std::int64_t>();
             }
         }
         if (j.contains("runes")) {

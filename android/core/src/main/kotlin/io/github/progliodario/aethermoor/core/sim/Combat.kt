@@ -115,6 +115,8 @@ class ItemDef(
     val rune: RuneStats? = null,
     /** An affix (spec 06, "Affixes"): the flat bonuses of a weapon or an armor while it is worn, like an accessory's. */
     val affix: AccessoryStats? = null,
+    /** How strong the affix comes out when the piece is found on a creature (spec 06, "Rolled affixes"): (min, max) percent; null: never rolled. */
+    val affixRoll: Pair<Int, Int>? = null,
     /** A piece of furniture (spec 06, "Furniture"): placed on a spot of the home. */
     val furniture: FurnitureStats? = null,
 )
@@ -160,7 +162,12 @@ class AccessoryStats(
     val critPm: Long = 0,
     /** The share of the damage of every hit given back to the player, in permille. */
     val drainPm: Long = 0,
-)
+) {
+    /** Every bonus times [pct] percent, field by field (spec 06, "Rolled affixes"). */
+    fun scaled(pct: Long): AccessoryStats = AccessoryStats(
+        atk * pct / 100, matk * pct / 100, def * pct / 100, mdef * pct / 100, maxHp * pct / 100, critPm * pct / 100, drainPm * pct / 100,
+    )
+}
 
 /** The bonuses of an accessory document (`accessory` of an item). */
 fun accessoryOf(o: kotlinx.serialization.json.JsonObject): AccessoryStats {
@@ -326,6 +333,9 @@ class CombatSetup(
     /** The fog of a world without a clock, and how much a full fog shortens the aggro distance (spec 08, "Fog"). */
     val fogPm: Int = 0,
     val fogAggroCutPm: Int = 0,
+    /** What the season of a world without a clock does to the creatures (spec 08, "Seasons and the creatures"). */
+    val seasonSlowPm: Int = 0,
+    val seasonAggroCutPm: Int = 0,
     /** The lightning of a storm of a world without a clock (spec 08, "Lightning"). */
     val lightningTicks: Int = 0,
     val lightningPct: Int = 0,

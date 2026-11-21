@@ -314,6 +314,7 @@ fun loadCombatSetup(
                 accessory = doc["accessory"]?.jsonObject?.let { accessoryOf(it) },
                 rune = doc["rune"]?.jsonObject?.let { runeOf(it) },
                 affix = doc["affix"]?.jsonObject?.let { accessoryOf(it) },
+                affixRoll = doc["affix_roll"]?.jsonObject?.let { Pair(it.getValue("min_pct").jsonPrimitive.int, it.getValue("max_pct").jsonPrimitive.int) },
                 furniture = doc["furniture"]?.jsonObject?.let { furnitureOf(it) },
             )
         }

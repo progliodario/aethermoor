@@ -2490,7 +2490,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         // what the player wears (spec 06, "Equipment"): weapon, armor and accessory
         val worn = listOf(world.equippedWeapon, world.equippedArmor, world.equippedAccessory).filter { it.isNotEmpty() }.joinToString(", ") { id ->
             val rune = world.runes[id]?.takeIf { id == world.equippedWeapon } // and the rune engraved on the weapon (spec 06, "Runes")
-            itemName(data, id, 1L) + (if (rune != null) " (" + itemName(data, rune, 1L) + ")" else "")
+            itemName(data, id, 1L) + rollText(world, data, id, " ") + (if (rune != null) " (" + itemName(data, rune, 1L) + ")" else "")
         }
         if (worn.isNotEmpty()) entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.status_worn", mapOf("list" to worn)), 2))
         if (world.wornTag.isNotEmpty()) { // the tag worn (spec 11, "Tags")
@@ -3039,6 +3039,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun itemName(data: Assets, item: String, count: Long): String =
         data.pack.text(language, "\$i18n:${item.substringAfter(':').replace('/', '.')}.name", mapOf("count" to count))
 
+    /** How strong the affix of a piece came out (spec 06, "Rolled affixes"), after [gap]; empty when it was never rolled. */
+    private fun rollText(world: WorldSim, data: Assets, item: String, gap: String): String {
+        val pct = world.rollOf(item)
+        return if (pct > 0L) gap + data.pack.text(language, "\$i18n:ui.affix_roll", mapOf("pct" to pct)) else ""
+    }
+
     private fun craftSelected(world: WorldSim) {
         val data = assets ?: return
         val pack = data.pack
@@ -3082,6 +3088,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         "wind" -> world.windPm >= 600 // a strong wind at the back (spec 08, "Wind")
         "fog" -> (world.time()?.fogPm ?: 0) >= 600 // a thick fog (spec 08, "Fog")
         "storm" -> world.time()?.let { it.rainPm >= 900 && it.windPm >= 900 } ?: false // its lightning strikes (spec 08, "Lightning")
+        "season" -> world.seasonSlowPm < 1000 || world.seasonAggroPm < 1000 // the season changes the creatures (spec 08)
         "tag" -> world.earnedTags().isNotEmpty() && world.wornTag.isEmpty() // a tag earned and none worn (spec 11, "Tags")
         else -> false
     }
@@ -3914,7 +3921,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 // "base:item/slime_gel" -> text key "item.slime_gel.name"
                 val key = itemId.substringAfter(':').replace('/', '.')
                 val name = data.pack.text(language, "\$i18n:$key.name", mapOf("count" to quantity))
-                val worn = if (itemId == world.equippedWeapon || itemId == world.equippedArmor || itemId == world.equippedAccessory) "  " + data.pack.text(language, "\$i18n:ui.worn") else ""
+                val worn = rollText(world, data, itemId, "  ") +
+                    if (itemId == world.equippedWeapon || itemId == world.equippedArmor || itemId == world.equippedAccessory) "  " + data.pack.text(language, "\$i18n:ui.worn") else ""
                 if (index == cursor) {
                     selectedKey = key
                     font.color = Color.WHITE

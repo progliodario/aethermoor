@@ -13,6 +13,10 @@
       "type": "choice",
       "choices": [
         {
+          "text": "$i18n:dlg.role.settler.trade",
+          "next": "trade"
+        },
+        {
           "text": "$i18n:dlg.role.settler.why",
           "next": "why"
         },
@@ -45,6 +49,101 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.role.settler.gruff.soup",
+      "next": "end"
+    },
+    "trade": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/settle_ironspine"
+      },
+      "then": "done",
+      "else": "trade_say"
+    },
+    "trade_say": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.settler.gruff.trade",
+      "next": "asked"
+    },
+    "asked": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/settle_ironspine"
+      },
+      "then": "busy",
+      "else": "offer"
+    },
+    "offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.settler.gruff.offer",
+      "next": "offer_choice"
+    },
+    "offer_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.settler.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/settle_ironspine"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.settler.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.settler.gruff.busy",
+      "next": "end"
+    },
+    "done": {
+      "type": "condition",
+      "when": {
+        "flag": "settle_ironspine_thanked"
+      },
+      "then": "workshop",
+      "else": "thanks"
+    },
+    "thanks": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.settler.gruff.thanks",
+      "next": "thanked"
+    },
+    "thanked": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "settle_ironspine_thanked",
+          "value": true
+        }
+      ],
+      "next": "workshop"
+    },
+    "workshop": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.settler.gruff.workshop",
+      "next": "shop"
+    },
+    "shop": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "ironspine",
+          "markup_pct": 90
+        }
+      ],
       "next": "end"
     }
   }

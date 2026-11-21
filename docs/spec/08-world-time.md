@@ -171,6 +171,27 @@ across it (`110 * fog_pm / 1000` of alpha); in a storm (rain and wind both 900 o
 In the conformance scenarios the fog is `weather.fog_pm` and `weather.fog_aggro_cut_pm`: `fog_hides`, `fog_light`,
 `fog_rain_and_night`. The suite `worldtime` has `fog_pm` in every sample.
 
+## Seasons and the creatures
+
+Every season may have `creature_slow_pm` and `creature_aggro_cut_pm` (0..1000, 0 when absent): how much the season slows the creatures
+and how much it shortens the distance at which they notice the player. With the season of the day (section "Seasons"), taken at the
+start of a tick like the rain:
+
+```
+season_slow_pm = 1000 - creature_slow_pm
+season_aggro_pm = 1000 - creature_aggro_cut_pm
+aggro distance = ... * fog_aggro_pm / 1000 * season_aggro_pm / 1000                 (after the fog, section "Fog")
+speed = speed_x100 * rain_slow_pm / 1000 * season_slow_pm / 1000 / 100            (after the rain, section "Rain slows")
+```
+
+(integer divisions, in this order). A world without seasons, or a day without a season, changes nothing. The player, the companion
+and the tamed friend are not slowed. The seasons only ever help the Guest: in the base world the cold of **winter** slows the
+creatures by 15%, the heat of **summer** makes them drowsy (they notice from 15% nearer) and in **autumn** they are busy fattening
+for the winter (10% nearer); spring changes nothing. A hint tells about it (spec 16, "Hints").
+
+In the conformance scenarios the season is `weather.season_slow_pm` and `weather.season_aggro_cut_pm` (the values of the season of
+the scenario): `season_slows`, `season_slows_with_rain`, `season_hides`, `season_hides_little`, `season_fog_and_night`.
+
 ## Lightning
 
 A **storm** is a moment when `rain_pm` and `wind_pm` are both 900 or more (taken at the start of the tick). `time.weather.lightning_ticks`

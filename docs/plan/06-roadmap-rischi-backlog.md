@@ -262,7 +262,7 @@ Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di a
 
 ## 8. Stato e prossimi passi
 
-Aggiornato al 18 novembre 2026.
+Aggiornato al 21 novembre 2026.
 
 Questa sezione è la fotografia di **dove si è arrivati** e di **che cosa resta da fare**. Le sezioni 1-7 sono il piano di partenza e non vengono riscritte; qui si dice, voce per voce, che cosa è diventato realtà.
 
@@ -278,13 +278,13 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in cinque atti (96 missioni di storia) |
 | Creature | 75, di cui 27 guardiani e 8 Echi |
-| Missioni | 322 (24 storie dei paesani) |
+| Missioni | 330 (24 storie dei paesani) |
 | Oggetti e ricette | 242 oggetti, 80 ricette (8 segrete) |
 | Progressione | 44 titoli, 8 tag, 16 talenti, 26 imprese |
 | Persone con nome | 46 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3477 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 561 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3539 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 569 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -299,10 +299,10 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M2 Motore e arte | quasi | rasterizzatore proprio nei due client (ADR 0012) con sfumature, ritagli, fusioni e rumore (ADR 0013, spec 13 v2); arte da anime per persone, terreni, oggetti e creature; persone viste di fronte, di lato e di spalle; luce dell'ora, vento, acqua che si muove, ombre lunghe, font del pack sui due client, texture cotte a rate, fotogrammi controllati in CI | prova della perdita del contesto GL su Android |
 | M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, 75 creature con comportamenti, XP e livelli | nulla di aperto: nessuno scontro del modello dura più di tre secondi al proprio livello (`docs/design/balance.md`); si ricontrolla a ogni creatura nuova |
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario) |
-| M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve, nebbia e notte che nascondono il giocatore, vento che lo spinge, temporali, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale |
-| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti, Odo il capo carovana che ogni giorno è in un altro avamposto, stagioni che cambiano i raccolti, il giardino del cottage, un colono in ogni villaggio generato | carri che si vedono viaggiare |
+| M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve, nebbia e notte che nascondono il giocatore, vento che lo spinge, temporali, stagioni che rallentano le creature o le rendono meno attente, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale |
+| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti, Odo il capo carovana che ogni giorno è in un altro avamposto, stagioni che cambiano i raccolti, il giardino del cottage, un colono in ogni villaggio generato con il suo mestiere, la sua missione e la sua bottega | carri che si vedono viaggiare |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
-| M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi, doni delle imprese a ogni partita nuova | affissi a caso sui pezzi trovati |
+| M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi tirati a sorte quando si trovano, doni delle imprese a ogni partita nuova | affissi a caso anche sui pezzi comuni |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo e quinto atto, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento | un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
@@ -409,6 +409,8 @@ Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due c
 
 Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
+Il 21 novembre: gli **affissi tirati a sorte** (un pezzo con affisso trovato su una creatura ha l'affisso dal 100 al 160%, e si tiene il tiro migliore; salvati nella partita), le **stagioni per le creature** (l'inverno le rallenta, l'estate e l'autunno le rendono meno attente; un consiglio nuovo), i **coloni con un mestiere** (otto mestieri, una missione per regione e una bottega con le merci della regione al 90%); il validatore rifiuta le chiavi scritte due volte (un testo dei talenti lo era).
+
 Il 18 novembre, settima PR: i **coloni** dei villaggi generati: in ogni villaggio arriva una persona nuova quando hai finito otto missioni nella regione (il ruolo `settler`, la condizione `role_when` dei dati del mondo), con la sua voce regionale e qualcosa di caldo da offrire.
 
 Il 18 novembre, sesta PR: i **controlli automatici della grafica** (`tools/check_frames.py`: i fotogrammi del test di fumo confrontati in CI con le loro impronte in `tests/frames/`), le **stagioni della raccolta** (ogni pianta dà di più nella sua stagione), le tre **commissioni di Odo** per la carovana.
@@ -428,14 +430,14 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 **A breve (le prossime PR)**
 
 1. **ktlint e detekt in CI** (M10; i controlli dei fotogrammi ci sono): lo stile del Kotlin controllato come quello del C++.
-2. **Affissi a caso** (M8; i sedici pezzi regionali ci sono, nei bottini e nei negozi): proprietà tirate a sorte sui pezzi trovati.
-3. **Più vita nei villaggi** (M6; residenti e coloni ci sono): i coloni con un mestiere e una missione.
+2. **Altri affissi** (M8; i sedici pezzi regionali con il tiro dal 100 al 160% ci sono): pezzi comuni con un affisso a caso, scelto da una lista.
+3. **Più vita nei villaggi** (M6; residenti e coloni con mestiere, missione e bottega ci sono): feste dei villaggi nei giorni di mercato.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
 4. **Altri pezzi di storia** (M9; cinque atti per protagonista ci sono): un sesto atto, o storie che legano due protagonisti.
 5. **Altri viaggiatori** (M6; Odo e la sua carovana ci sono): carri che si vedono camminare lungo le strade, altri mercanti con il loro giro.
-6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, stagioni degli orti e della raccolta ci sono): le stagioni anche per le creature.
+6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, stagioni degli orti, della raccolta e delle creature ci sono): creature che compaiono solo in una stagione.
 7. **Una casa più grande** (M6; i dieci mobili del cottage, in casa e in giardino, ci sono): stanze in più da comprare.
 8. **Più compagni scelti dal giocatore** (M7; il compagno di ognuno e la creatura domata di Haruka ci sono).
 9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base.

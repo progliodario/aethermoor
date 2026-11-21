@@ -764,6 +764,8 @@ Scenario scenario_from_json(const Json& in) {
         setup.wind_haste_pm = in.at("weather").value("wind_haste_pm", 0);
         setup.fog_pm = in.at("weather").value("fog_pm", 0);
         setup.fog_aggro_cut_pm = in.at("weather").value("fog_aggro_cut_pm", 0);
+        setup.season_slow_pm = in.at("weather").value("season_slow_pm", 0);  // spec 08, "Seasons and the creatures"
+        setup.season_aggro_cut_pm = in.at("weather").value("season_aggro_cut_pm", 0);
         setup.lightning_ticks = in.at("weather").value("lightning_ticks", 0);
         setup.lightning_pct = in.at("weather").value("lightning_pct", 0);
         setup.lightning_range_x100 = in.at("weather").value("lightning_range_x100", 0);
@@ -993,6 +995,12 @@ Scenario scenario_from_json(const Json& in) {
                 parsed.aff_crit_pm = f.value("crit_pm", static_cast<std::int64_t>(0));
                 parsed.aff_drain_pm = f.value("drain_pm", static_cast<std::int64_t>(0));
             }
+            if (def.contains("affix_roll")) {  // spec 06, "Rolled affixes"
+                const Json& r = def.at("affix_roll");
+                parsed.has_affix_roll = true;
+                parsed.roll_min_pct = r.at("min_pct").get<std::int64_t>();
+                parsed.roll_max_pct = r.at("max_pct").get<std::int64_t>();
+            }
             if (def.contains("rune")) {  // spec 06, "Runes"
                 const Json& r = def.at("rune");
                 parsed.is_rune = true;
@@ -1203,6 +1211,13 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
             REQUIRE(key.second == wf[i].at(1).get<int>());
             REQUIRE(item == wf[i].at(2).get<std::string>());
             ++i;
+        }
+    }
+    if (want.contains("rolls")) {  // the rolls of the pieces found (spec 06, "Rolled affixes")
+        const Json& wr = want.at("rolls");
+        REQUIRE(sim.rolls().size() == wr.size());
+        for (const auto& [item, pct] : wr.items()) {
+            REQUIRE(sim.rolls().at(item) == pct.get<std::int64_t>());
         }
     }
     if (want.contains("runes")) {  // the runes engraved on the weapons (spec 06, "Runes")

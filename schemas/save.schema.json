@@ -349,6 +349,7 @@
       }
     },
     "runes": { "description": "The runes engraved on the weapons, weapon item -> rune item (spec 06, \"Runes\")", "type": "object", "additionalProperties": { "type": "string" } },
+    "rolls": { "description": "The percent the affix of a piece found was rolled at, item -> percent (spec 06, \"Rolled affixes\")", "type": "object", "additionalProperties": { "type": "integer", "minimum": 1 } },
     "furniture": {
       "description": "The furniture of the home, [x100, y100, item] in order (spec 06, \"Furniture\")",
       "type": "array",

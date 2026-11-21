@@ -184,6 +184,28 @@ Lumeria). Every guardian of a region (the creatures that drop the accessory of t
 (200 per mille), and the shop of the region keeps them for its friends (`renown_stock`, spec 07 "Renown": the weapon from renown 15,
 the armor from 20). Conformance: the scenario `affixes_worn` (its checkpoints carry the `derived` stats) and a save split of it.
 
+## Rolled affixes
+
+An affixed piece may also have `affix_roll {min_pct, max_pct}` (`min_pct` at least 1, `max_pct` at least `min_pct`): how strong its
+affix comes out when the piece is **found on a creature**. When a kill drops it (spec 05, "Loot"), right after the quantity of that drop
+is drawn, the percent is drawn from the same `loot` stream:
+
+```
+pct = min_pct + loot.next_bounded(max_pct - min_pct + 1)       (no draw when max_pct == min_pct: pct = min_pct)
+rolls[item] = max(rolls[item] or 0, pct)                        (finding it again keeps the better roll)
+```
+
+The **affix held** of a piece with a roll is every bonus of its `affix` times the roll, `value * pct / 100` (integer division, field by
+field: `atk`, `matk`, `def`, `mdef`, `max_hp`, `crit_pm`, `drain_pm`); a piece without a roll (bought, given by a quest or a gift, or
+never rolled) has the affix of the data. The affix held is what adds to the derived stats and to the drain (section "Affixes"); when a
+roll of a worn piece grows, the derived stats are worked out again at once. The roll belongs to the item ID: every copy has it, in
+the bag or in the chest. Selling the last copy of the bag, with none in the chest, forgets it.
+
+The base pack rolls the sixteen regional pieces from 100 to 160 percent (`tools/make_affixes.py`): a piece found is never weaker than
+the one of the shop. The rolls are saved (`rolls`, spec 12). Presentation: the bag and the status window write the roll after the name
+(`ui.affix_roll`, "affix 132%"). Conformance: the scenario `affixes_rolled` (its checkpoints carry `rolls`) and two save
+splits of it.
+
 ## Shops
 
 A region sells goods: `regions[].shop` is `{price_pm, stock}` (spec 09); a settlement shop sells the stock of its region, so prices and goods differ across the world. Shops open from a dialogue with the effect

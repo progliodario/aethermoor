@@ -144,6 +144,10 @@ struct ItemDef {
     std::int64_t aff_max_hp = 0;
     std::int64_t aff_crit_pm = 0;
     std::int64_t aff_drain_pm = 0;
+    bool has_affix_roll =
+        false;  // rolled when found on a creature (spec 06, "Rolled affixes"): a percent in [min, max]
+    std::int64_t roll_min_pct = 100;
+    std::int64_t roll_max_pct = 100;
     bool is_rune = false;  // a rune (spec 06, "Runes"): engraved on the worn weapon at its station
     std::string rune_element = "none";
     std::int64_t rune_atk = 0;
@@ -291,6 +295,9 @@ struct CombatSetup {
     int wind_haste_pm = 0;
     int fog_pm = 0;  // the fog (spec 08, "Fog"): how thick it is, and how much a full fog shortens the aggro distance
     int fog_aggro_cut_pm = 0;
+    int season_slow_pm =
+        0;  // what the season of the setup does to the creatures (spec 08, "Seasons and the creatures")
+    int season_aggro_cut_pm = 0;
     int lightning_ticks = 0;  // the lightning of a storm (spec 08, "Lightning"): how often, how hard, how far
     int lightning_pct = 0;
     int lightning_range_x100 = 0;

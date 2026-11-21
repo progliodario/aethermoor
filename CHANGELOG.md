@@ -4,7 +4,15 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Added
+
+- **Rolled affixes** (spec 06, "Rolled affixes"): an affixed weapon or armor found on a creature comes out stronger or weaker, from 100 to 160 percent of its affix (never weaker than the one of the shop); finding it again keeps the better roll. The bag and the status window show it ("affix 132%"), and the rolls are saved (`rolls`). All sixteen regional pieces of the guardians are rolled.
+- **The seasons change the creatures** (spec 08, "Seasons and the creatures"): the cold of winter slows them by 15%, in summer they are drowsy and notice you from 15% nearer, in autumn they are busy fattening and notice you from 10% nearer. A hint tells about it the first time.
+- **The settlers have a trade** (spec 07): the settler of every generated village is the baker of Verdalis, the tea-brewer of Whisperwood, the stonemason of Ironspine, the spice seller of Sunscar, the ice fisher of Frostveil, the net-mender of Tidehaven, the charcoal burner of the Ashen Wastes or the lens grinder of Lumeria. Each asks for two things to gather so that the workshop can open (eight quests, for the Folk), pays with experience, gold and what the trade makes, and then sells the goods of the region at 90 percent.
+
 ### Fixed
+
+- The text of a talent refused was written twice in the texts of both languages, and the clients showed the old one, which did not say that a branch of the tree can still be closed. `tools/validate_data.py` now refuses a JSON file that writes a key twice.
 
 - **Old saves load after the world data changes**: a save of the world whose creatures no longer match it (a place was redrawn, as the cottage now) was refused; it is now repaired: the creatures of spawners that are gone are dropped and new spawners get their creature (spec 12).
 - **The cottage had Echoes instead of rugs**: the characters chosen for the places of the furniture were already the characters of the Echoes of Daichi and Haruka, so the cottage spawned those Echoes and had no place for furniture. The stamps can now give a character a meaning of their own, the cottage has its ten rugs again, and a test checks that an Echo spawns only in its sanctum.

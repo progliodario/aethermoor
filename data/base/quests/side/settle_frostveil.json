@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/settle_frostveil",
+  "name": "$i18n:quest.settle_frostveil.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "gather",
+      "journal": "$i18n:quest.settle_frostveil.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/ice_crystal",
+          "count": 5
+        },
+        {
+          "type": "collect",
+          "item": "base:item/wood_log",
+          "count": 8
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 300
+    },
+    {
+      "effect": "add_gold",
+      "amount": 420
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/fish_stew",
+      "qty": 3
+    }
+  ]
+}

@@ -166,6 +166,8 @@ struct SaveState {
     std::map<std::pair<int, int>, std::pair<std::string, std::int64_t>> plots;
     std::map<std::string, std::int64_t> chest;  // what the chests hold, shared by all of them (spec 06, "Chests")
     std::map<std::string, std::string> runes;   // weapon item -> the rune engraved on it (spec 06, "Runes")
+    std::map<std::string, std::int64_t>
+        rolls;  // item -> the percent its affix was rolled at (spec 06, "Rolled affixes")
     // the furniture placed on the spots of the home (spec 06, "Furniture"): (x100, y100) -> item
     std::map<std::pair<int, int>, std::string> furniture;
     std::string tag;  // the tag worn (spec 11, "Tags"); empty: none
@@ -360,6 +362,16 @@ public:
     const std::map<std::string, std::int64_t>& chest() const { return m_chest_; }
     // Runes (spec 06, "Runes"): weapon item -> the rune engraved on it; the rune of the worn weapon, or nullptr.
     const std::map<std::string, std::string>& runes() const { return m_runes_; }
+    // The rolled affixes of the pieces found (spec 06, "Rolled affixes"): item -> percent; 0 when it has none.
+    const std::map<std::string, std::int64_t>& rolls() const { return m_rolls_; }
+    // What the season of this tick leaves of the speed and of the aggro distance of the creatures (spec 08), in
+    // permille.
+    int season_slow_pm() const { return m_season_slow_pm_; }
+    int season_aggro_pm() const { return m_season_aggro_pm_; }
+    std::int64_t roll_of(const std::string& item_id) const {
+        const auto it = m_rolls_.find(item_id);
+        return it == m_rolls_.end() ? 0 : it->second;
+    }
     const ItemDef* worn_rune() const;
     // Furniture (spec 06, "Furniture"): what stands on the spots of the home, (x100, y100) -> item; the nearest spot
     // in reach (where a piece would be placed), and what the pieces add, like a title ("atk", "gather", "craft",
@@ -495,17 +507,23 @@ private:
     std::map<std::pair<int, int>, std::pair<std::int64_t, int>>
         m_gathered_;  // (x100, y100) -> (tick it grows back, times); not saved
     std::map<std::pair<int, int>, std::pair<std::string, std::int64_t>> m_plots_;  // sown plots (spec 06, "Farming")
-    std::map<std::string, std::int64_t> m_chest_;             // what the chests hold (spec 06, "Chests")
-    std::map<std::string, std::string> m_runes_;              // weapon -> rune (spec 06, "Runes")
+    std::map<std::string, std::int64_t> m_chest_;  // what the chests hold (spec 06, "Chests")
+    std::map<std::string, std::string> m_runes_;   // weapon -> rune (spec 06, "Runes")
+    std::map<std::string, std::int64_t> m_rolls_;  // item -> rolled percent (spec 06, "Rolled affixes")
+    // A field of the affix of a worn piece as it is held: the value of the data times its roll (spec 06, "Rolled
+    // affixes").
+    std::int64_t held_affix(const std::string& item_id, std::int64_t value) const;
     std::map<std::pair<int, int>, std::string> m_furniture_;  // spot (x100, y100) -> item (spec 06, "Furniture")
     bool engrave(const std::string& item_id, const ItemDef& rune);
     bool place_furniture(const std::string& item_id);
     void take_one(const std::string& item_id);
-    std::string m_tag_;          // the tag worn (spec 11, "Tags")
-    int m_fog_aggro_pm_ = 1000;  // what the fog leaves of the aggro distance, this tick (spec 08, "Fog")
-    int m_rain_pm_ = 0;          // the rain of this tick (a storm is rain and wind: spec 08, "Lightning")
-    void lightning();            // the lightning of a storm strikes a creature that chases the player
-    int m_wind_pm_ = 0;          // the wind of this tick (spec 08, "Wind")
+    std::string m_tag_;             // the tag worn (spec 11, "Tags")
+    int m_fog_aggro_pm_ = 1000;     // what the fog leaves of the aggro distance, this tick (spec 08, "Fog")
+    int m_season_aggro_pm_ = 1000;  // what the season leaves of it, and of the speed of the creatures (spec 08,
+    int m_season_slow_pm_ = 1000;   // "Seasons and the creatures")
+    int m_rain_pm_ = 0;             // the rain of this tick (a storm is rain and wind: spec 08, "Lightning")
+    void lightning();               // the lightning of a storm strikes a creature that chases the player
+    int m_wind_pm_ = 0;             // the wind of this tick (spec 08, "Wind")
     std::int64_t m_lightning_tick_ = -1000000;  // when the lightning last struck; presentation, not saved
     int m_wind_boost_ = 0;                      // and what it adds to the speed of walking, in permille
     bool m_chest_open_ = false;

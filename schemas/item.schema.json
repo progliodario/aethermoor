@@ -242,6 +242,16 @@
         }
       }
     },
+    "affix_roll": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min_pct", "max_pct"],
+      "description": "how strong the affix comes out when the piece is found on a creature (spec 06, \"Rolled affixes\"): a percent drawn from min_pct to max_pct",
+      "properties": {
+        "min_pct": { "type": "integer", "minimum": 1 },
+        "max_pct": { "type": "integer", "minimum": 1 }
+      }
+    },
     "affix": {
       "type": "object",
       "additionalProperties": false,

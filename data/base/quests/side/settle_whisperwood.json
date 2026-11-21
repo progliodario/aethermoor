@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/settle_whisperwood",
+  "name": "$i18n:quest.settle_whisperwood.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "gather",
+      "journal": "$i18n:quest.settle_whisperwood.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/moss_clump",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/fern_frond",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 220
+    },
+    {
+      "effect": "add_gold",
+      "amount": 300
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/moonlit_tea",
+      "qty": 2
+    }
+  ]
+}

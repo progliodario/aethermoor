@@ -218,7 +218,6 @@
   "ui.talent_critical": "probabilità di critico",
   "ui.talent_magic": "magia",
   "ui.talent_learned": "{name} è ora al rango {rank}",
-  "ui.talent_refused": "Nessun punto da spendere, o il talento è al rango massimo",
   "ui.craft_tab_hint": "Tab: creazione / talenti",
   "ui.talents_hint": "W/S scegli   E impara   Tab creazione   C o Esc chiudi",
   "ui.talent_notice": "Hai punti talento da spendere ({points}): apri Creazione e premi Tab",
@@ -1286,5 +1285,8 @@
   "dlg.caravan.way_odo_provisions.offer": "Davanti c'è la strada più lunga: dal Velo di Gelo alle Terre di Cenere, senza nessuno in mezzo. Cinque razioni da viaggio, e una lama che tengo da parte per qualcuno come te.",
   "dlg.caravan.way_odo_provisions.busy": "Cinque razioni. Bacche e un ramo secco a un falò, niente di più.",
   "dlg.caravan.way_odo_provisions.thanks": "Ora possiamo andare ovunque. Prendi la lama; me l'ha data un pastore di Verdalis, e tu hai custodito le strade come un pastore il suo gregge.",
-  "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene."
+  "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene.",
+  "ui.affix_roll": "affisso {pct}%",
+  "hint.season": "Le stagioni cambiano le creature: il freddo dell'inverno le rallenta, e d'estate e d'autunno ti notano più tardi.",
+  "hint.season.touch": "Le stagioni cambiano le creature: il freddo dell'inverno le rallenta, e d'estate e d'autunno ti notano più tardi."
 }

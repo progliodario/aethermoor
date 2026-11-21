@@ -101,6 +101,7 @@ class CombatSim:
         self.home = scenario.get("home")
         self.furniture: dict[tuple[int, int], str] = {}
         self.runes: dict[str, str] = {}  # the runes engraved on the weapons (spec 06, "Runes"): weapon item -> rune item
+        self.rolls: dict[str, int] = {}  # the rolled affixes of the pieces found (spec 06, "Rolled affixes"): item -> percent
         self.world_ticks = 0
         self.companion = scenario.get("companion")  # the definition of the companion (spec 10), or None
         self.comp_x, self.comp_y = scenario["player"]["start"]
@@ -203,8 +204,17 @@ class CombatSim:
     def _flat_bonuses(self) -> list[dict]:
         """The blocks of flat bonuses worn (spec 06, "Equipment", "Affixes"): the accessory, then the affix of the weapon, then the armor's."""
         blocks = [self.items.get(self.equipped["accessory"], {}).get("accessory")]
-        blocks += [self.items.get(self.equipped[slot], {}).get("affix") for slot in ("weapon", "armor")]
+        blocks += [self.affix_of(self.equipped[slot]) for slot in ("weapon", "armor")]
         return [b for b in blocks if b]
+
+    def affix_of(self, item_id: str) -> dict | None:
+        """The affix of a piece as it is held (spec 06, "Rolled affixes"): every bonus of the data times the percent rolled when it was
+        found, `value * pct / 100`; a piece never rolled (bought, given) has the affix of the data. None: no affix."""
+        affix = self.items.get(item_id, {}).get("affix")
+        pct = self.rolls.get(item_id, 0)
+        if affix is None or pct == 0:
+            return affix
+        return {key: value * pct // 100 for key, value in affix.items()}
 
     def _rune(self) -> dict:
         """The `rune` block of the rune engraved on the worn weapon (spec 06, "Runes"), or {}."""
@@ -699,6 +709,14 @@ class CombatSim:
                 if drop["qty_max"] > drop["qty_min"]:
                     qty += self.loot.next_bounded(drop["qty_max"] - drop["qty_min"] + 1)
                 self.inventory[drop["item"]] = self.inventory.get(drop["item"], 0) + qty
+                roll = self.items.get(drop["item"], {}).get("affix_roll")
+                if roll is not None:  # a piece with an affix found on a creature: how strong its affix came out (spec 06, "Rolled affixes")
+                    pct = roll["min_pct"]
+                    if roll["max_pct"] > roll["min_pct"]:
+                        pct += self.loot.next_bounded(roll["max_pct"] - roll["min_pct"] + 1)
+                    self.rolls[drop["item"]] = max(self.rolls.get(drop["item"], 0), pct)  # the better of the two is kept
+                    if drop["item"] in self.equipped.values():
+                        self.derived = self._derive()
         self.grant_xp(rules.xp_gain(enemy.d["xp"], enemy.d["level"], self.level) * (100 + self.title_bonus("xp_pct")) // 100)  # a veteran's titles
         if self.story is not None:
             self.story.on_kill(enemy.d.get("id", ""))
@@ -771,7 +789,9 @@ class CombatSim:
             rain_pm = 1000 - self.weather.get("rain_pm", 0) * self.weather.get("rain_aggro_cut_pm", 0) // 1000
             night_pm = 1000 - (1000 - self.weather.get("light_pm", 1000)) * self.weather.get("night_aggro_cut_pm", 0) // 1000
             fog_pm = 1000 - self.weather.get("fog_pm", 0) * self.weather.get("fog_aggro_cut_pm", 0) // 1000  # the fog hides you (spec 08, "Fog")
-            if dist <= b["aggro_x100"] * self.gift.get("aggro_pct", 100) // 100 * rain_pm // 1000 * night_pm // 1000 * fog_pm // 1000 / 100:
+            season_pm = 1000 - self.weather.get("season_aggro_cut_pm", 0)  # and the season (spec 08, "Seasons and the creatures")
+            if dist <= (b["aggro_x100"] * self.gift.get("aggro_pct", 100) // 100 * rain_pm // 1000 * night_pm // 1000 * fog_pm // 1000
+                        * season_pm // 1000 / 100):
                 e.state, e.t = CHASE, 0
         elif e.state == CHASE:
             if dist > b["leash_x100"] / 100:
@@ -801,7 +821,8 @@ class CombatSim:
         dist = math.sqrt(dx * dx + dy * dy)
         # the rain makes the ground heavy (spec 08, "Rain slows"): the speed of the data, in hundredths, cut by the rain of the moment
         slow_pm = 1000 - self.weather.get("rain_pm", 0) * self.weather.get("rain_slow_pm", 0) // 1000
-        speed = e.d["speed_x100"] * slow_pm // 1000 / 100
+        season_pm = 1000 - self.weather.get("season_slow_pm", 0)  # and the cold of the season (spec 08, "Seasons and the creatures")
+        speed = e.d["speed_x100"] * slow_pm // 1000 * season_pm // 1000 / 100
         step = (speed / 2 if e.chill > 0 else speed) * mv.TICK_DT
         if dist > 0:
             if dist <= step:
@@ -1232,6 +1253,8 @@ class CombatSim:
         self.inventory[item_id] = owned - 1
         if self.inventory[item_id] == 0:
             del self.inventory[item_id]
+            if self.chest.get(item_id, 0) == 0:
+                self.rolls.pop(item_id, None)  # the last one is gone: so is its roll (spec 06, "Rolled affixes")
         return True
 
     def save_state(self) -> dict:
@@ -1257,6 +1280,7 @@ class CombatSim:
             **({"talents": dict(sorted(self.talents.items()))} if self.talents else {}),
             **({"chest": dict(sorted(self.chest.items()))} if self.chest else {}),
             **({"runes": dict(sorted(self.runes.items()))} if self.runes else {}),
+            **({"rolls": dict(sorted(self.rolls.items()))} if self.rolls else {}),
             **({"furniture": [[k[0], k[1], item] for k, item in sorted(self.furniture.items())]} if self.furniture else {}),
             **({"tag": self.tag} if self.tag else {}),
             "story": self.story.save_state() if self.story is not None else None,
@@ -1291,6 +1315,7 @@ class CombatSim:
         self.chest = dict(save.get("chest", {}))
         self.chest_open = False
         self.runes = dict(save.get("runes", {}))
+        self.rolls = dict(save.get("rolls", {}))
         self.furniture = {(f[0], f[1]): f[2] for f in save.get("furniture", [])}
         self.tag = save.get("tag", "")
         self.derived = self._derive()
@@ -1320,6 +1345,7 @@ class CombatSim:
             **({"runes": dict(sorted(self.runes.items())), "atk": self.derived["atk"]} if any("rune" in i for i in self.items.values()) else {}),
             **({"derived": {k: self.derived[k] for k in ("atk", "matk", "def", "mdef", "max_hp", "crit_chance_pm")}}
                if any("affix" in i for i in self.items.values()) else {}),
+            **({"rolls": dict(sorted(self.rolls.items()))} if any("affix_roll" in i for i in self.items.values()) else {}),
             **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"], "stay": self.friend["stay"]}}
                if self.friend is not None else {}),
             **({"tag": self.tag, "tags": self.earned_tags()} if self.tag_defs else {}),

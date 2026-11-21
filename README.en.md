@@ -35,13 +35,13 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | World | 8 regions, 45 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
 | Protagonists | 8, each with a companion (8 companions) and a story of five acts (96 story quests) |
 | Creatures | 75, of which 27 guardians and 8 Echoes |
-| Quests | 322 (24 tales of the villagers) |
+| Quests | 330 (24 tales of the villagers) |
 | Items and recipes | 242 items, 80 recipes (8 secret) |
 | Progression | 44 titles, 8 tags, 16 talents, 26 deeds |
 | Named people | 46 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3477 keys, in Italian and English |
-| Same rules on both clients | 30 files of conformance vectors, 561 cases, run by the C++ and the Kotlin tests |
+| Texts | 3539 keys, in Italian and English |
+| Same rules on both clients | 30 files of conformance vectors, 569 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->
 
@@ -56,7 +56,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Quests and stories | a story in five acts for every protagonist, tales of the villagers, guild, legends, bounties | Gideon's Dungeon mode |
 | Life | gathering, fishing, hunting, gardens, animals, shared chests, the Guest's cottage and its furniture, pedlars, secret recipes, food with effects | wagons seen travelling, a bigger house |
 | Companions | one per protagonist with commands, bond and care; Haruka tames a second one | more companions chosen by the player |
-| Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear, weapons and armors with affixes, gifts of the deeds | random affixes |
+| Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear, weapons and armors with rolled affixes, gifts of the deeds | random affixes on common pieces |
 | Accessibility | hints, damage numbers and flashes can be turned off, large text, configurable keys | — |
 | Release | test builds from CI | Alpha 0.1 and then 1.0 (the owner decides) |
 
@@ -91,12 +91,12 @@ The full catalog, generated from the data, is [`docs/design/catalog.md`](docs/de
 - Food and brews that fortify, ward, regenerate or speed you up; a draught that cleanses.
 - A **chest** in every village and town: they all hold the same things.
 - **The Guest's cottage**: a chest, a campfire, an anvil, gardens, hens, a goat and a Threshold Stone; Nana Brin gives it to you after her three favours. Ten rugs, in the house and in the garden, wait for the **furniture** you make at an anvil (a bed, a weapon rack, a bookshelf, a drying rack, a training dummy, a work table, a bench, a scarecrow, an archery target, a stone lantern), and each one helps you everywhere like a title.
-- **Residents**: once a region knows you (six quests finished there), somebody moves to its outpost, greets you and gives you a rune; with eight, a settler comes to every village of the region.
+- **Residents**: once a region knows you (six quests finished there), somebody moves to its outpost, greets you and gives you a rune; with eight, a settler comes to every village of the region, with a trade (baker, stonemason, ice fisher...), a quest and a workshop.
 - Shops with market days, goods from other regions, rare wares for friends; they pay less when you sell too much of one thing. Corvin in Aldermere and a pedlar at every outpost bring the goods of a different region every day.
 
 **Progression**
 
-- Levels, a talent tree with abilities (two used with a key of their own), titles that change the game, a bestiary with weaknesses; **runes** made at an anvil to engrave on your weapon, which then hits harder and with the element of the rune; **tags**, traits earned by how you play, worn one at a time; **affixes**: every region has a weapon and an armor with a bonus more, left by its guardians.
+- Levels, a talent tree with abilities (two used with a key of their own), titles that change the game, a bestiary with weaknesses; **runes** made at an anvil to engrave on your weapon, which then hits harder and with the element of the rune; **tags**, traits earned by how you play, worn one at a time; **affixes**: every region has a weapon and an armor with a bonus more, left by its guardians, with an affix rolled at random (100 to 160%).
 - A profile shared by all games: titles, past lives and **deeds** give "echoes" (more health in every game); every deed done leaves a gift in the bag of every new game; from level 10 a game can **reincarnate** and leave half its gold and its weapon to the next.
 - A companion per protagonist that follows, fights, stays, comes back and heals; Haruka tames creatures, and the last one stays with her.
 
@@ -238,7 +238,7 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 The next things, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine), in Italian):
 
-- **Soon:** ktlint and detekt in CI; random affixes; more life in the villages.
+- **Soon:** ktlint and detekt in CI; random affixes on common pieces; village feasts.
 - **Medium term:** wagons seen travelling; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** signed packages, documentation for modders, more languages.
 - **The owner decides:** when to publish the first release (Alpha 0.1).

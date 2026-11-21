@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/settle_lumeria",
+  "name": "$i18n:quest.settle_lumeria.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "gather",
+      "journal": "$i18n:quest.settle_lumeria.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/star_dust",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/ice_crystal",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 300
+    },
+    {
+      "effect": "add_gold",
+      "amount": 420
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/starlight_elixir",
+      "qty": 1
+    }
+  ]
+}
