@@ -688,8 +688,11 @@ aether::EnemyDef enemy_def_from_json(const Json& d) {
         }
     }
     for (const Json& drop : d.at("drops")) {
-        def.drops.push_back({drop.at("item").get<std::string>(), drop.at("qty_min").get<std::int64_t>(),
-                             drop.at("qty_max").get<std::int64_t>(), drop.at("weight_pm").get<std::int64_t>()});
+        def.drops.push_back({drop.at("item").get<std::string>(),
+                             drop.at("qty_min").get<std::int64_t>(),
+                             drop.at("qty_max").get<std::int64_t>(),
+                             drop.at("weight_pm").get<std::int64_t>(),
+                             {}});
         if (drop.contains("pick")) {  // one of a list (spec 05, "Loot")
             def.drops.back().pick = drop.at("pick").get<std::vector<std::string>>();
         }

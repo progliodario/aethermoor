@@ -53,7 +53,9 @@ TEST_CASE("combat setup is built from the content pack", "[combat]") {
     REQUIRE(demo.setup.spawns.size() == 12);
     REQUIRE(demo.setup.spawns[0].def.id == "base:enemy/slime_green");
     REQUIRE(demo.setup.spawns[0].def.hp == 28);
-    REQUIRE(demo.setup.spawns[0].def.drops.size() == 1);
+    REQUIRE(demo.setup.spawns[0].def.drops.size() ==
+            2);  // the gel, and one of the common pieces with an affix (spec 06)
+    REQUIRE(demo.setup.spawns[0].def.drops[1].pick.size() == 7);
     REQUIRE(demo.setup.spawns[0].def.behavior.windup_ticks == 18);
     REQUIRE(demo.setup.skill.startup == 6);
     REQUIRE(demo.setup.skill.angle_deg == 110);
