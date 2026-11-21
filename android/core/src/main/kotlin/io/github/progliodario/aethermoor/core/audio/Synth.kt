@@ -1,5 +1,11 @@
 package io.github.progliodario.aethermoor.core.audio
 
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.exp
@@ -8,12 +14,6 @@ import kotlin.math.ln
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sin
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.boolean
-import kotlinx.serialization.json.int
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 
 // Sound effect synthesizer. Spec: docs/spec/14-audio.md (normative algorithm). Schema: schemas/sfx_recipe.schema.json.
 // Headless: it produces 16 bit samples; playing them is the job of the game module.
@@ -122,7 +122,13 @@ fun synthesize(recipe: SfxRecipe): ShortArray {
             wrapped = phase >= 1.0
             if (wrapped) phase -= 1.0
             val ms = i.toDouble() * 1000.0 / SAMPLE_RATE.toDouble()
-            val env = if (recipe.loop) 1.0 else if (ms < attack) ms / attack else max(0.0, 1.0 - (ms - attack) / decay)
+            val env = if (recipe.loop) {
+                1.0
+            } else if (ms < attack) {
+                ms / attack
+            } else {
+                max(0.0, 1.0 - (ms - attack) / decay)
+            }
             val gain = if (amDepth > 0.0) 1.0 - amDepth * (0.5 - 0.5 * cos(2.0 * Math.PI * amHz * (i.toDouble() / SAMPLE_RATE.toDouble()))) else 1.0
             mix[i] += w * env * volume * gain
         }

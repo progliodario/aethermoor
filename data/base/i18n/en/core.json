@@ -1288,5 +1288,7 @@
   "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you.",
   "ui.affix_roll": "affix {pct}%",
   "hint.season": "The seasons change the creatures: the cold of winter slows them, and in summer and autumn they notice you later.",
-  "hint.season.touch": "The seasons change the creatures: the cold of winter slows them, and in summer and autumn they notice you later."
+  "hint.season.touch": "The seasons change the creatures: the cold of winter slows them, and in summer and autumn they notice you later.",
+  "ui.tempered": "{item} tempered: affix {pct}%.",
+  "ui.temper_refused": "Temper at an anvil, holding a weapon or wearing an armor whose affix can roll."
 }

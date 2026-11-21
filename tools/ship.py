@@ -93,7 +93,7 @@ def commit(title: str, trailers: list[str]) -> None:
 
 # The checks every pull request runs (.github/workflows: ci-data, ci-android, ci-desktop): a pull request is never merged before all of
 # them have reported, even when GitHub is slow to start a workflow and the other checks are already done.
-REQUIRED_CHECKS = ("validate", "build", "windows-msvc", "linux-gcc")
+REQUIRED_CHECKS = ("validate", "build", "kotlin-style", "windows-msvc", "linux-gcc")
 
 
 def wait_for_checks(pr: str) -> tuple[bool, str]:

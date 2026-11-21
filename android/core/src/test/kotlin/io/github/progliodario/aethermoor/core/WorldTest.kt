@@ -11,14 +11,14 @@ import io.github.progliodario.aethermoor.core.vector.parseClip
 import io.github.progliodario.aethermoor.core.vector.parseRecipe
 import io.github.progliodario.aethermoor.core.vector.parseRig
 import io.github.progliodario.aethermoor.core.vector.rasterize
-import java.io.File
-import kotlin.math.abs
-import kotlin.math.sqrt
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.io.File
+import kotlin.math.abs
+import kotlin.math.sqrt
 
 /** Tests for tile maps, the world simulation and the rig, on the real demo data (mirror of sim_test.cpp). */
 class WorldTest {

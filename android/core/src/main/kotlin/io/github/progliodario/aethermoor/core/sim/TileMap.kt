@@ -68,8 +68,10 @@ fun parseTileset(jsonText: String): Result<Tileset> =
             val t = tile.jsonObject
             tiles[t.getValue("gid").jsonPrimitive.int] =
                 TileDef(
-                    t.getValue("art").jsonPrimitive.content, t.getValue("solid").jsonPrimitive.boolean,
-                    t["surface"]?.jsonPrimitive?.content ?: "grass", t["blend"]?.jsonPrimitive?.int ?: 0,
+                    t.getValue("art").jsonPrimitive.content,
+                    t.getValue("solid").jsonPrimitive.boolean,
+                    t["surface"]?.jsonPrimitive?.content ?: "grass",
+                    t["blend"]?.jsonPrimitive?.int ?: 0,
                 )
         }
         Tileset((j["id"] as? JsonPrimitive)?.contentOrNull ?: "", tiles)

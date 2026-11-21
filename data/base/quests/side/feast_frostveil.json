@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/feast_frostveil",
+  "name": "$i18n:quest.feast_frostveil.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.feast_frostveil.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/ice_crystal",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 280
+    },
+    {
+      "effect": "add_gold",
+      "amount": 350
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/tempering_oil",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/frost_tonic",
+      "qty": 1
+    }
+  ]
+}

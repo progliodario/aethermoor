@@ -3,9 +3,6 @@ package io.github.progliodario.aethermoor.core.sim
 import io.github.progliodario.aethermoor.core.DamageInput
 import io.github.progliodario.aethermoor.core.DerivedStats
 import io.github.progliodario.aethermoor.core.Equipment
-import io.github.progliodario.aethermoor.core.fnv1a64
-import io.github.progliodario.aethermoor.core.hash64
-import io.github.progliodario.aethermoor.core.mix64
 import io.github.progliodario.aethermoor.core.Offer
 import io.github.progliodario.aethermoor.core.Settlement
 import io.github.progliodario.aethermoor.core.TimeSample
@@ -13,7 +10,9 @@ import io.github.progliodario.aethermoor.core.damage
 import io.github.progliodario.aethermoor.core.deriveStream
 import io.github.progliodario.aethermoor.core.derivedStats
 import io.github.progliodario.aethermoor.core.explore
-import io.github.progliodario.aethermoor.core.spawnerEnemyAt
+import io.github.progliodario.aethermoor.core.fnv1a64
+import io.github.progliodario.aethermoor.core.hash64
+import io.github.progliodario.aethermoor.core.mix64
 import io.github.progliodario.aethermoor.core.offersFor
 import io.github.progliodario.aethermoor.core.personPlacement
 import io.github.progliodario.aethermoor.core.rankIndex
@@ -22,6 +21,7 @@ import io.github.progliodario.aethermoor.core.resolveOffer
 import io.github.progliodario.aethermoor.core.sampleTime
 import io.github.progliodario.aethermoor.core.seasonIndexOf
 import io.github.progliodario.aethermoor.core.settlementContaining
+import io.github.progliodario.aethermoor.core.spawnerEnemyAt
 import io.github.progliodario.aethermoor.core.xpGain
 import kotlin.math.PI
 import kotlin.math.abs
@@ -245,6 +245,7 @@ class WorldSim(
         private set
     private var windBoost = 0
     private var fogAggroPm = 1000 // what the fog leaves of the aggro distance, this tick (spec 08, "Fog")
+
     /** What the season of this tick leaves of the aggro distance and of the speed of the creatures (spec 08, "Seasons and the creatures"). */
     var seasonAggroPm = 1000
         private set
@@ -261,6 +262,7 @@ class WorldSim(
         private set
 
     private val hitSet = ArrayList<Boolean>(List(combat.spawns.size) { false })
+
     /** Spawner tile -> world tick of the death. */
     private val cleared = java.util.TreeMap<Pair<Int, Int>, Long>(compareBy({ it.first }, { it.second }))
 
@@ -480,7 +482,8 @@ class WorldSim(
         if (combat.companion == null) return false
         companionPosition = player.position
         companionStaying = false
-        tamedFriend?.let { // the tamed friend comes back too
+        tamedFriend?.let {
+            // the tamed friend comes back too
             it.position = player.position
             it.stay = false
         }
@@ -603,7 +606,17 @@ class WorldSim(
         }
         if (bestD < 0f) return null
         val sown = plots[plotKey(bestX, bestY)]
-        return PlotNear(bestX, bestY, if (sown == null) 0 else if (worldTicks >= sown.second) 2 else 1)
+        return PlotNear(
+            bestX,
+            bestY,
+            if (sown == null) {
+                0
+            } else if (worldTicks >= sown.second) {
+                2
+            } else {
+                1
+            },
+        )
     }
 
     private fun plotKey(x: Float, y: Float) = Pair(floor(x * 100f + 0.5f).toInt(), floor(y * 100f + 0.5f).toInt())
@@ -774,7 +787,12 @@ class WorldSim(
             val placement = personPlacement(store.params, person, tod) ?: continue // indoors (spec 08)
             npcList.add(
                 NpcDef(
-                    person.key, person.dialogue, person.variant, placement.x256 / 256f, placement.y256 / 256f, person.name,
+                    person.key,
+                    person.dialogue,
+                    person.variant,
+                    placement.x256 / 256f,
+                    placement.y256 / 256f,
+                    person.name,
                     mapOf("npc" to person.name, "place" to person.place, "region" to person.region, "quirk" to "\$i18n:${person.quirk}"),
                     whenCond = store.params.roleWhen[person.role]?.let { parseConditionText(it) }, // a role of residents (spec 07)
                 ),
@@ -874,8 +892,12 @@ class WorldSim(
         }
         for (a in flatBonuses()) { // its flat bonuses come last (spec 06), and the affixes of the weapon and the armor ("Affixes")
             derived = derived.copy(
-                atk = derived.atk + a.atk, matk = derived.matk + a.matk, def = derived.def + a.def, mdef = derived.mdef + a.mdef,
-                maxHp = derived.maxHp + a.maxHp, critChancePm = derived.critChancePm + a.critPm,
+                atk = derived.atk + a.atk,
+                matk = derived.matk + a.matk,
+                def = derived.def + a.def,
+                mdef = derived.mdef + a.mdef,
+                maxHp = derived.maxHp + a.maxHp,
+                critChancePm = derived.critChancePm + a.critPm,
             )
         }
     }
@@ -999,7 +1021,13 @@ class WorldSim(
     }
 
     private fun stackLimit(item: ItemDef): Int =
-        if (item.stackMax > 0) item.stackMax else if (item.kind == "weapon" || item.kind == "armor" || item.kind == "accessory") 1 else 99
+        if (item.stackMax > 0) {
+            item.stackMax
+        } else if (item.kind == "weapon" || item.kind == "armor" || item.kind == "accessory") {
+            1
+        } else {
+            99
+        }
 
     /** Price of buying an item in the open shop, 0 when it cannot be bought (spec 06). */
     fun buyPrice(itemId: String): Long {
@@ -1088,6 +1116,7 @@ class WorldSim(
         val item = combat.items[itemId] ?: return false
         if ((inventory[itemId] ?: 0L) < 1L) return false
         item.rune?.let { return engrave(itemId, it) }
+        item.temperStation?.let { return temper(itemId, it) }
         if (item.furniture != null) return placeFurniture(itemId)
         val heal = item.effects.filter { it.effect == "heal" }.sumOf { it.amount } * combat.gift.healPct / 100
         val mana = item.effects.filter { it.effect == "restore_mp" }.sumOf { it.amount }
@@ -1221,6 +1250,20 @@ class WorldSim(
     }
 
     /** Engraves a rune on the worn weapon: a weapon worn, the station of the rune in reach, and a weapon that does not bear it already. */
+    /** Tempers the affix of a worn piece (spec 06, "Tempering"): the worn weapon when its affix rolls, else the worn armor. */
+    private fun temper(itemId: String, station: String): Boolean {
+        val target = listOf(equippedWeapon, equippedArmor).firstOrNull { it.isNotEmpty() && combat.items[it]?.affixRoll != null } ?: return false
+        if (!nearStation(station)) return false
+        val roll = requireNotNull(combat.items[target]?.affixRoll)
+        var pct = roll.first.toLong()
+        if (roll.second > roll.first) pct += lootRng.nextBounded((roll.second - roll.first + 1).toLong())
+        takeOne(itemId)
+        rolls[target] = maxOf(rollOf(target), pct) // the better of the two is kept
+        count("tempered")
+        recomputeDerived()
+        return true
+    }
+
     private fun engrave(itemId: String, rune: RuneStats): Boolean {
         if (equippedWeapon.isEmpty() || combat.items[equippedWeapon]?.weapon == null || runes[equippedWeapon] == itemId) return false
         if (!nearStation(rune.station)) return false
@@ -1231,7 +1274,6 @@ class WorldSim(
         player.hp = minOf(player.hp, derived.maxHp)
         return true
     }
-
 
     /** The nearest furniture spot in reach, where a piece would be placed; null: none. */
     fun spotNear(): Vec2? {
@@ -1270,7 +1312,6 @@ class WorldSim(
     /** What the furniture of the home adds, like a title; every kind of piece placed counts once. */
     fun homeBonus(pick: (FurnitureStats) -> Long): Long =
         furniture.values.toSortedSet().sumOf { id -> combat.items[id]?.furniture?.let(pick) ?: 0L }
-
 
     fun nearStation(art: String): Boolean {
         if (art.isEmpty()) return true
@@ -2113,7 +2154,8 @@ class WorldSim(
         for (f in s.furniture) furniture[Pair(f.x, f.y)] = f.item
         wornTag = s.tag
         recomputeDerived() // the talents change the derived stats
-        combat.companion?.let { c -> // a save without a companion (an older one) puts it next to the player
+        combat.companion?.let { c ->
+            // a save without a companion (an older one) puts it next to the player
             val saved = s.companion
             companionPosition = if (saved != null) Vec2(saved.first, saved.second) else player.position
             companionCooldown = saved?.third ?: c.cooldownTicks

@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/tempering_oil",
+  "name": "$i18n:item.tempering_oil.name",
+  "description": "$i18n:item.tempering_oil.desc",
+  "kind": "temper",
+  "rarity": "uncommon",
+  "price": 160,
+  "stack_max": 9,
+  "temper": {
+    "station": "base:art/prop/anvil"
+  }
+}

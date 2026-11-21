@@ -2,8 +2,6 @@ package io.github.progliodario.aethermoor.core.sim
 
 import io.github.progliodario.aethermoor.core.Offer
 import io.github.progliodario.aethermoor.core.vector.f
-import kotlin.math.min
-import kotlin.math.sqrt
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -16,6 +14,8 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
+import kotlin.math.min
+import kotlin.math.sqrt
 
 // Quests, dialogue, conditions and effects. Spec: docs/spec/07-quests-and-dialogue.md.
 // Keep this file in step with desktop/src/sim/story.cpp and tools/reference/story.py.
@@ -112,7 +112,8 @@ fun questFromOffer(offer: Offer): QuestDef {
         name = "\$i18n:quest.board.${offer.template}.${offer.tone}.name",
         stages = listOf(
             QuestStage(
-                "work", "\$i18n:quest.board.${offer.template}.${offer.tone}.journal",
+                "work",
+                "\$i18n:quest.board.${offer.template}.${offer.tone}.journal",
                 listOf(Objective(if (offer.type == "kill") ObjectiveKind.KILL else ObjectiveKind.COLLECT, offer.target, offer.count.toLong())),
                 "end",
             ),
@@ -334,7 +335,12 @@ fun parseStorySetup(element: JsonElement): StorySetup {
             val n = it.jsonObject
             val pos = n.getValue("pos").jsonArray
             NpcDef(
-                n.str("key"), n.str("dialogue"), optStr(n, "variant"), pos[0].f(), pos[1].f(), whenCond = n["when"]?.let { w -> parseCondition(w) },
+                n.str("key"),
+                n.str("dialogue"),
+                optStr(n, "variant"),
+                pos[0].f(),
+                pos[1].f(),
+                whenCond = n["when"]?.let { w -> parseCondition(w) },
                 route = (n["route"] as? JsonArray)?.map { stop -> Pair(stop.jsonArray[0].f(), stop.jsonArray[1].f()) } ?: emptyList(),
             )
         },
@@ -348,6 +354,7 @@ private const val MAX_SETTLE_STEPS = 64
 
 class Story(val setup: StorySetup, private val host: StoryHost) {
     val flags = java.util.TreeMap<String, Boolean>()
+
     /** The gold of the player; shops and tests change it directly (spec 06). */
     var gold = 0L
 
@@ -599,8 +606,14 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
 
     fun capture(): StoryState =
         StoryState(
-            HashMap(flags), gold, quests.mapValues { QuestProgress(it.value.stage, it.value.progress.copyOf(), it.value.done) },
-            dialogueActive, dialogueId, nodeName, HashMap(dialogueArgs), guildPoints,
+            HashMap(flags),
+            gold,
+            quests.mapValues { QuestProgress(it.value.stage, it.value.progress.copyOf(), it.value.done) },
+            dialogueActive,
+            dialogueId,
+            nodeName,
+            HashMap(dialogueArgs),
+            guildPoints,
         )
 
     /** Returns false (and changes nothing) when the state names a quest, dialogue or node that does not exist. */

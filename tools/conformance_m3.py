@@ -757,7 +757,7 @@ def build_scenarios() -> list[dict]:
                                     {"cmd": "use", "item": "test:item/rack"}]),
                      segment(24, move=(1, 0)),
                      segment(1, do=[{"cmd": "use", "item": "test:item/bed"}]),
-                     segment(40, move=(1, 0)),
+                     segment(90, move=(1, 0)),
                      segment(1, do=[{"cmd": "use", "item": "test:item/shelf"}]),
                      segment(60, attack=True), segment(10)],
                     inventory={"test:item/bed": 1, "test:item/rack": 2, "test:item/shelf": 1}, player={"start": [4.0, 5.0]},
@@ -813,6 +813,21 @@ def build_scenarios() -> list[dict]:
         # rolled whenever it is the one.
         {**scenario("loot_pick", [enemy(3.6, 3.9 + 0.2 * i, hp=6, **passive, drops=PICK_DROPS) for i in range(6)], [segment(40, attack=True)]),
          "inventory": {}, "items": {**ITEMS, **ROLLED_ITEMS}},
+        # Tempering (spec 06): far from the anvil the oil is refused; with no piece that rolls worn it is refused; at the anvil the keen sword
+        # worn is tempered three times (the better roll is kept each time, the counter grows); with the iron sword worn the coat, which has
+        # no roll, is not a target, so it is refused again.
+        {**scenario("temper_affix", [enemy(12.0, 7.5, **passive)],
+                    [segment(1, do=[{"cmd": "use", "item": "test:item/oil"}]),
+                     segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"}, {"cmd": "use", "item": "test:item/oil"}]),
+                     segment(90, move=(1, 0)),
+                     segment(1, do=[{"cmd": "use", "item": "test:item/oil"}]),
+                     segment(1, do=[{"cmd": "equip", "item": "test:item/keen_sword"}] + [{"cmd": "use", "item": "test:item/oil"}] * 3),
+                     segment(1, do=[{"cmd": "equip", "item": "test:item/warm_coat"}, {"cmd": "equip", "item": "base:item/iron_sword"},
+                                    {"cmd": "use", "item": "test:item/oil"}])],
+                    inventory={"test:item/oil": 6, "test:item/keen_sword": 1, "test:item/warm_coat": 1, "base:item/iron_sword": 1},
+                    titles=TITLES, gather_props=[{"art": "base:art/prop/anvil", "x": 8.0, "y": 4.5, "radius": 0.3}]),
+         "items": {**ITEMS, **ROLLED_ITEMS, "test:item/oil": {"kind": "temper", "price": 160, "stack_max": 9,
+                                                             "temper": {"station": "base:art/prop/anvil"}}}},
         # Tags (spec 11, "Tags"): a tag not earned is refused; after the first kill the brawler tag is worn and its attack counts on the
         # second slime; taken off, the attack is the plain one again; the same tag twice is refused.
         scenario("tags_worn", [enemy(3.6, 4.5, hp=6, **passive), enemy(3.6, 4.9, hp=400, **passive)],

@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/feast_whisperwood",
+  "name": "$i18n:quest.feast_whisperwood.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.feast_whisperwood.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/fern_frond",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 200
+    },
+    {
+      "effect": "add_gold",
+      "amount": 250
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/tempering_oil",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/moonlit_tea",
+      "qty": 1
+    }
+  ]
+}

@@ -338,6 +338,13 @@
       "count": 6,
       "atk_pct": 3,
       "xp_pct": 5
+    },
+    {
+      "id": "temperer",
+      "name": "$i18n:title.temperer",
+      "kind": "tempered",
+      "count": 5,
+      "atk_pct": 3
     }
   ]
 }

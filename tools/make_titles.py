@@ -58,6 +58,7 @@ TITLES = {
     # the runes and the home (spec 06, "Runes", "Furniture")
     "runesmith": ("engraved", 3, None, "Runesmith", "Incisore di rune"),
     "homemaker": ("furnished", 6, None, "Homemaker", "Padrone di casa"),
+    "temperer": ("tempered", 5, None, "Temperer", "Temprista"),  # spec 06, "Tempering"
 }
 
 

@@ -1243,6 +1243,28 @@
       "station": "base:art/prop/anvil"
     },
     {
+      "id": "tempering_oil",
+      "output": {
+        "item": "base:item/tempering_oil",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/iron_ore",
+          "qty": 2
+        },
+        {
+          "item": "base:item/pine_resin",
+          "qty": 1
+        },
+        {
+          "item": "base:item/slime_gel",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "quilt_bed",
       "output": {
         "item": "base:item/quilt_bed",

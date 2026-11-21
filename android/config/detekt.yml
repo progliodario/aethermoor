@@ -1,0 +1,27 @@
+# detekt (spec-free code checks of the Kotlin of android/, run in CI): the default rules, with what ktlint already checks or what the
+# project wants on purpose turned off. The findings of the code before detekt came are in detekt-baseline.xml.
+style:
+  MagicNumber:
+    active: false          # the numbers of the rules live in the data; the rest are art and layout constants
+  MaxLineLength:
+    active: false          # ktlint and the reviewers keep the lines readable
+  WildcardImport:
+    active: false
+  ReturnCount:
+    active: false
+  ForbiddenComment:
+    active: false
+complexity:
+  LongMethod:
+    active: false          # the draw functions of the game are long on purpose: one panel each
+  LongParameterList:
+    active: false          # the setups of the simulation are data classes with many fields
+  TooManyFunctions:
+    active: false
+  LargeClass:
+    active: false
+  ComplexCondition:
+    active: false
+naming:
+  FunctionNaming:
+    excludes: ["**/test/**"]

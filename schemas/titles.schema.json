@@ -37,7 +37,7 @@
           },
           "kind": {
             "type": "string",
-            "pattern": "^(kills|kills_of|level|species|quests|gathered|crafted|crafted_fine|parried|tamed|used|pocket_kept|harvested|sown|engraved|furnished|renown:[a-z][a-z0-9_]*|faction:[a-z][a-z0-9_]*)$"
+            "pattern": "^(kills|kills_of|level|species|quests|gathered|crafted|crafted_fine|parried|tamed|used|pocket_kept|harvested|sown|engraved|tempered|furnished|renown:[a-z][a-z0-9_]*|faction:[a-z][a-z0-9_]*)$"
           },
           "count": {
             "type": "integer",

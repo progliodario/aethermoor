@@ -12,10 +12,6 @@ import io.github.progliodario.aethermoor.core.sim.parseTileset
 import io.github.progliodario.aethermoor.core.sim.questFromOffer
 import io.github.progliodario.aethermoor.core.sim.saveFromJson
 import io.github.progliodario.aethermoor.core.sim.saveToJson
-import java.io.File
-import kotlin.math.abs
-import kotlin.math.floor
-import kotlin.math.max
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
@@ -26,6 +22,10 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.io.File
+import kotlin.math.abs
+import kotlin.math.floor
+import kotlin.math.max
 
 class WorldGenTest {
     private val repoRoot = File(System.getProperty("aether.repoRoot") ?: error("aether.repoRoot is not set"))

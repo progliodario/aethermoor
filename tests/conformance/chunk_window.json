@@ -501,7 +501,8 @@
                   "base:item/roast_meat",
                   "base:item/hunters_jerkin",
                   "base:item/golem_amulet",
-                  "base:item/bat_charm"
+                  "base:item/bat_charm",
+                  "base:item/tempering_oil"
                 ]
               },
               "bias": {
@@ -7768,7 +7769,8 @@
                   "base:item/roast_meat",
                   "base:item/hunters_jerkin",
                   "base:item/golem_amulet",
-                  "base:item/bat_charm"
+                  "base:item/bat_charm",
+                  "base:item/tempering_oil"
                 ]
               },
               "bias": {

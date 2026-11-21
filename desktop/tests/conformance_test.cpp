@@ -1015,6 +1015,10 @@ Scenario scenario_from_json(const Json& in) {
                 parsed.rune_matk = r.value("matk", static_cast<std::int64_t>(0));
                 parsed.rune_station = r.value("station", "");
             }
+            if (def.contains("temper")) {  // spec 06, "Tempering"
+                parsed.is_temper = true;
+                parsed.temper_station = def.at("temper").value("station", "");
+            }
             if (def.contains("furniture")) {  // spec 06, "Furniture"
                 const Json& f = def.at("furniture");
                 parsed.is_furniture = true;

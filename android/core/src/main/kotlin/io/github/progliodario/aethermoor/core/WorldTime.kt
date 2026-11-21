@@ -152,8 +152,10 @@ fun parseTimeParams(time: JsonObject): TimeParams {
         kinds = weather.getValue("kinds").jsonArray.map {
             val k = it.jsonObject
             WeatherKind(
-                k.getValue("id").jsonPrimitive.content, k.getValue("weight").jsonPrimitive.int,
-                k.getValue("rain_pm").jsonPrimitive.int, k.getValue("dim_pm").jsonPrimitive.int,
+                k.getValue("id").jsonPrimitive.content,
+                k.getValue("weight").jsonPrimitive.int,
+                k.getValue("rain_pm").jsonPrimitive.int,
+                k.getValue("dim_pm").jsonPrimitive.int,
                 k["wind_pm"]?.jsonPrimitive?.int ?: 0,
                 k["fog_pm"]?.jsonPrimitive?.int ?: 0,
             )
@@ -161,7 +163,8 @@ fun parseTimeParams(time: JsonObject): TimeParams {
         seasons = (time["seasons"] as? JsonArray)?.map {
             val s = it.jsonObject
             Season(
-                s.getValue("id").jsonPrimitive.content, s.getValue("days").jsonPrimitive.int,
+                s.getValue("id").jsonPrimitive.content,
+                s.getValue("days").jsonPrimitive.int,
                 s.getValue("tint").jsonArray.map { v -> v.jsonPrimitive.int },
                 (s["weights"] as? JsonObject)?.mapValues { (_, v) -> v.jsonPrimitive.int } ?: emptyMap(),
                 (s["light"] as? JsonArray)?.map { f -> Pair(f.jsonArray[0].jsonPrimitive.int, f.jsonArray[1].jsonPrimitive.int) } ?: emptyList(),

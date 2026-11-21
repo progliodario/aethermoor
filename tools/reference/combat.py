@@ -1067,6 +1067,8 @@ class CombatSim:
             return False
         if "rune" in item:
             return self._engrave(item_id, item["rune"])
+        if "temper" in item:
+            return self._temper(item_id, item["temper"])
         if "furniture" in item:
             return self._place(item_id)
         heal = sum(e["amount"] for e in item["effects"] if e["effect"] == "heal") * self.gift.get("heal_pct", 100) // 100
@@ -1127,6 +1129,23 @@ class CombatSim:
         self.counters["engraved"] = self.counters.get("engraved", 0) + 1
         self.derived = self._derive()
         self.hp = min(self.hp, self.derived["max_hp"])
+        return True
+
+    def _temper(self, item_id: str, temper: dict) -> bool:
+        """Tempers the affix of a worn piece (spec 06, "Tempering"): the worn weapon when it has `affix_roll`, else the worn armor. It needs
+        the station of the item in reach. The roll is drawn again from the loot stream and the better of the two is kept."""
+        target = next((self.equipped[slot] for slot in ("weapon", "armor")
+                       if self.equipped[slot] and "affix_roll" in self.items.get(self.equipped[slot], {})), "")
+        if not target or not self.near_station(temper.get("station", "")):
+            return False
+        roll = self.items[target]["affix_roll"]
+        pct = roll["min_pct"]
+        if roll["max_pct"] > roll["min_pct"]:
+            pct += self.loot.next_bounded(roll["max_pct"] - roll["min_pct"] + 1)
+        self._take_one(item_id)
+        self.rolls[target] = max(self.rolls.get(target, 0), pct)
+        self.counters["tempered"] = self.counters.get("tempered", 0) + 1
+        self.derived = self._derive()
         return True
 
     def _spot_near(self):

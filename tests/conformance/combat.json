@@ -50936,7 +50936,7 @@
             ]
           },
           {
-            "ticks": 40,
+            "ticks": 90,
             "move": [
               1,
               0
@@ -51314,7 +51314,7 @@
               "level": 1,
               "xp": 0,
               "deaths": 0,
-              "x": 8.33066666666667,
+              "x": 11.713999999999963,
               "y": 5.0
             },
             "enemies": [
@@ -51360,7 +51360,7 @@
               "level": 1,
               "xp": 0,
               "deaths": 0,
-              "x": 8.33066666666667,
+              "x": 11.713999999999963,
               "y": 5.0
             },
             "enemies": [
@@ -51404,22 +51404,21 @@
             "player": {
               "hp": 142,
               "level": 1,
-              "xp": 9,
+              "xp": 0,
               "deaths": 0,
-              "x": 8.33066666666667,
+              "x": 11.713999999999963,
               "y": 5.0
             },
             "enemies": [
               {
-                "hp": 0,
-                "state": "dead",
+                "hp": 30,
+                "state": "idle",
                 "x": 9.8,
                 "y": 5.0
               }
             ],
-            "kills": 1,
+            "kills": 0,
             "inventory": {
-              "base:item/slime_gel": 1,
               "test:item/rack": 1,
               "test:item/shelf": 1
             },
@@ -51451,22 +51450,21 @@
             "player": {
               "hp": 142,
               "level": 1,
-              "xp": 9,
+              "xp": 0,
               "deaths": 0,
-              "x": 8.33066666666667,
+              "x": 11.713999999999963,
               "y": 5.0
             },
             "enemies": [
               {
-                "hp": 0,
-                "state": "dead",
+                "hp": 30,
+                "state": "idle",
                 "x": 9.8,
                 "y": 5.0
               }
             ],
-            "kills": 1,
+            "kills": 0,
             "inventory": {
-              "base:item/slime_gel": 1,
               "test:item/rack": 1,
               "test:item/shelf": 1
             },
@@ -54964,6 +54962,761 @@
             },
             "rolls": {
               "test:item/keen_sword": 125
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_temper_affix",
+      "input": {
+        "op": "combat",
+        "titles": [
+          {
+            "id": "grown",
+            "name": "t",
+            "kind": "level",
+            "count": 2
+          },
+          {
+            "id": "first_blood",
+            "name": "t",
+            "kind": "kills",
+            "count": 1,
+            "atk_pct": 20,
+            "xp_pct": 50
+          },
+          {
+            "id": "slime_hunter",
+            "name": "t",
+            "kind": "kills_of",
+            "count": 2,
+            "enemy": "base:enemy/slime_green",
+            "atk_pct": 30
+          },
+          {
+            "id": "wolf_bane",
+            "name": "t",
+            "kind": "kills_of",
+            "count": 2,
+            "enemy": "base:enemy/wolf_grey"
+          },
+          {
+            "id": "naturalist",
+            "name": "t",
+            "kind": "species",
+            "count": 2
+          },
+          {
+            "id": "helper",
+            "name": "t",
+            "kind": "quests",
+            "count": 1
+          },
+          {
+            "id": "forager",
+            "name": "t",
+            "kind": "gathered",
+            "count": 2,
+            "gather_bonus": 1
+          },
+          {
+            "id": "maker",
+            "name": "t",
+            "kind": "crafted",
+            "count": 1,
+            "craft_bonus": 2
+          },
+          {
+            "id": "guard",
+            "name": "t",
+            "kind": "parried",
+            "count": 1
+          }
+        ],
+        "gather_props": [
+          {
+            "art": "base:art/prop/anvil",
+            "x": 8.0,
+            "y": 4.5,
+            "radius": 0.3
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              12.0,
+              7.5
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/oil"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "equip",
+                "item": "base:item/iron_sword"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/oil"
+              }
+            ]
+          },
+          {
+            "ticks": 90,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/oil"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "equip",
+                "item": "test:item/keen_sword"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/oil"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/oil"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/oil"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "equip",
+                "item": "test:item/warm_coat"
+              },
+              {
+                "cmd": "equip",
+                "item": "base:item/iron_sword"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/oil"
+              }
+            ]
+          }
+        ],
+        "inventory": {
+          "test:item/oil": 6,
+          "test:item/keen_sword": 1,
+          "test:item/warm_coat": 1,
+          "base:item/iron_sword": 1
+        },
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/cleansing_draught": {
+            "kind": "food",
+            "price": 60,
+            "effects": [
+              {
+                "effect": "cleanse"
+              }
+            ]
+          },
+          "base:item/windleaf_brew": {
+            "kind": "food",
+            "price": 90,
+            "effects": [
+              {
+                "effect": "haste",
+                "amount": 50,
+                "ticks": 90
+              }
+            ]
+          },
+          "base:item/honey_cake": {
+            "kind": "food",
+            "price": 20,
+            "effects": [
+              {
+                "effect": "regen",
+                "amount": 6,
+                "ticks": 600
+              }
+            ]
+          },
+          "base:item/frost_tonic": {
+            "kind": "food",
+            "price": 160,
+            "effects": [
+              {
+                "effect": "ward",
+                "amount": 400,
+                "ticks": 300
+              }
+            ]
+          },
+          "base:item/roast_meat": {
+            "kind": "food",
+            "price": 30,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 20
+              },
+              {
+                "effect": "fortify",
+                "amount": 50,
+                "ticks": 200
+              }
+            ]
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          },
+          "base:item/fang_necklace": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "atk": 12,
+              "max_hp": 40
+            }
+          },
+          "base:item/bat_charm": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "drain_pm": 300
+            }
+          },
+          "test:item/keen_sword": {
+            "kind": "weapon",
+            "price": 900,
+            "weapon": {
+              "atk": 12,
+              "matk": 0
+            },
+            "affix": {
+              "atk": 5,
+              "crit_pm": 80,
+              "drain_pm": 100
+            },
+            "affix_roll": {
+              "min_pct": 100,
+              "max_pct": 160
+            }
+          },
+          "test:item/warm_coat": {
+            "kind": "armor",
+            "price": 900,
+            "armor": {
+              "def": 6,
+              "mdef": 4
+            },
+            "affix": {
+              "max_hp": 60,
+              "mdef": 3
+            }
+          },
+          "test:item/oil": {
+            "kind": "temper",
+            "price": 160,
+            "stack_max": 9,
+            "temper": {
+              "station": "base:art/prop/anvil"
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/keen_sword": 1,
+              "test:item/oil": 6,
+              "test:item/warm_coat": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "derived": {
+              "atk": 19,
+              "matk": 17,
+              "def": 8,
+              "mdef": 8,
+              "max_hp": 142,
+              "crit_chance_pm": 265
+            },
+            "rolls": {},
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/keen_sword": 1,
+              "test:item/oil": 6,
+              "test:item/warm_coat": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": ""
+            },
+            "derived": {
+              "atk": 23,
+              "matk": 17,
+              "def": 8,
+              "mdef": 8,
+              "max_hp": 142,
+              "crit_chance_pm": 265
+            },
+            "rolls": {},
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/keen_sword": 1,
+              "test:item/oil": 6,
+              "test:item/warm_coat": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": ""
+            },
+            "derived": {
+              "atk": 23,
+              "matk": 17,
+              "def": 8,
+              "mdef": 8,
+              "max_hp": 142,
+              "crit_chance_pm": 265
+            },
+            "rolls": {},
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/keen_sword": 1,
+              "test:item/oil": 6,
+              "test:item/warm_coat": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": ""
+            },
+            "derived": {
+              "atk": 23,
+              "matk": 17,
+              "def": 8,
+              "mdef": 8,
+              "max_hp": 142,
+              "crit_chance_pm": 265
+            },
+            "rolls": {},
+            "bestiary": {},
+            "titles": [],
+            "counters": {}
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/keen_sword": 1,
+              "test:item/oil": 3,
+              "test:item/warm_coat": 1
+            },
+            "equipped": {
+              "weapon": "test:item/keen_sword",
+              "armor": ""
+            },
+            "derived": {
+              "atk": 34,
+              "matk": 17,
+              "def": 8,
+              "mdef": 8,
+              "max_hp": 142,
+              "crit_chance_pm": 375
+            },
+            "rolls": {
+              "test:item/keen_sword": 138
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {
+              "tempered": 3
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/keen_sword": 1,
+              "test:item/oil": 3,
+              "test:item/warm_coat": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": "test:item/warm_coat"
+            },
+            "derived": {
+              "atk": 23,
+              "matk": 17,
+              "def": 14,
+              "mdef": 15,
+              "max_hp": 202,
+              "crit_chance_pm": 265
+            },
+            "rolls": {
+              "test:item/keen_sword": 138
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {
+              "tempered": 3
             }
           }
         ],

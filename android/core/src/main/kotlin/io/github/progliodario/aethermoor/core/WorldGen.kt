@@ -1,6 +1,5 @@
 package io.github.progliodario.aethermoor.core
 
-import kotlin.math.abs
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -9,6 +8,7 @@ import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlin.math.abs
 
 // World generation. Spec: docs/spec/09-worldgen.md. Reference: tools/reference/worldgen.py.
 // Integer arithmetic only: no floating point in this file. Keep it in step with desktop/src/core/worldgen.cpp.
@@ -29,13 +29,21 @@ data class WorldNpc(
     val route: List<Pair<Int, Int>> = emptyList(),
 )
 
-/** An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops. */
 /** A visitor of a season (spec 09, "Seasonal visitors"): on a day of [season], the share [pm] of the spawners of the entry make [enemy]. */
 class FaunaVisitor(val season: String, val enemy: String, val pm: Int)
 
+/** An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops, and its visitors of the seasons. */
 class FaunaEntry(val enemy: String, val drop: String, val weight: Int, val seasons: List<FaunaVisitor> = emptyList())
 
-class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: Int, val yPm: Int, val danger: Int, /** The voice of the people of the region. */ val tone: String,
+class Region(
+    val id: String,
+    /** An $i18n: key. */
+    val name: String,
+    val xPm: Int,
+    val yPm: Int,
+    val danger: Int,
+    /** The voice of the people of the region. */
+    val tone: String,
     /** What the shops of the region sell (spec 06): prices in permille and the stock. */
     val shopPricePm: Int,
     val shopStock: List<String>,
@@ -290,8 +298,12 @@ private fun inLandmarkClearing(p: WorldParams, x: Int, y: Int): Boolean {
 
 private fun biomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome {
     val biome = naturalBiomeAt(seed, p, x, y)
-    if ((biome == Biome.WATER || biome == Biome.MOUNTAIN) && x >= p.border && y >= p.border && x < p.width - p.border &&
-        y < p.height - p.border && inLandmarkClearing(p, x, y)
+    if ((biome == Biome.WATER || biome == Biome.MOUNTAIN) &&
+        x >= p.border &&
+        y >= p.border &&
+        x < p.width - p.border &&
+        y < p.height - p.border &&
+        inLandmarkClearing(p, x, y)
     ) {
         return Biome.PLAINS
     }
@@ -372,9 +384,11 @@ fun spawnerEnemyAt(seed: ULong, p: WorldParams, x: Int, y: Int, season: String =
 /** Every enemy a spawner of the world can make (fauna of the regions and spawners of the stamps), sorted. */
 fun worldEnemyIds(p: WorldParams): List<String> {
     val ids = sortedSetOf<String>()
-    for (region in p.regions) for (entry in region.fauna) {
-        ids.add(entry.enemy)
-        for (visitor in entry.seasons) ids.add(visitor.enemy) // the visitors of the seasons (spec 09)
+    for (region in p.regions) {
+        for (entry in region.fauna) {
+            ids.add(entry.enemy)
+            for (visitor in entry.seasons) ids.add(visitor.enemy) // the visitors of the seasons (spec 09)
+        }
     }
     for (stamp in p.stamps.values) for (entry in stamp.legend.values) if (entry.spawner.isNotEmpty()) ids.add(entry.spawner)
     return ids.toList()
@@ -493,7 +507,11 @@ private class Sites(private val seed: ULong, private val p: WorldParams) {
         val dy = (py - p.height / 2).toLong()
         if (dx * dx + dy * dy < keepOut * keepOut) return null
         val points = listOf(
-            Pair(px, py), Pair(ox, oy), Pair(ox + stamp.w - 1, oy), Pair(ox, oy + stamp.h - 1), Pair(ox + stamp.w - 1, oy + stamp.h - 1),
+            Pair(px, py),
+            Pair(ox, oy),
+            Pair(ox + stamp.w - 1, oy),
+            Pair(ox, oy + stamp.h - 1),
+            Pair(ox + stamp.w - 1, oy + stamp.h - 1),
         )
         for ((x, y) in points) {
             val biome = biomeAt(seed, p, x, y)
@@ -706,7 +724,8 @@ private fun propAt(seed: ULong, p: WorldParams, biome: Biome, x: Int, y: Int): G
         total += option.perMille
         if (roll < total) {
             return GenProp(
-                option.art, option.radiusX100,
+                option.art,
+                option.radiusX100,
                 x * 256 + 48 + ((h shr 8) and 0x7FuL).toInt(),
                 y * 256 + 128 + ((h shr 16) and 0x7FuL).toInt(),
             )
@@ -856,8 +875,10 @@ private fun parseStamp(d: JsonObject): Stamp {
     val legend = d.getValue("legend").jsonObject.entries.associate { (key, value) ->
         val e = value.jsonObject
         key[0] to StampEntry(
-            e["tile"]?.jsonPrimitive?.int ?: 0, e["prop"]?.jsonPrimitive?.content ?: "",
-            e["radius_x100"]?.jsonPrimitive?.int ?: 0, e["npc"]?.jsonPrimitive?.content ?: "",
+            e["tile"]?.jsonPrimitive?.int ?: 0,
+            e["prop"]?.jsonPrimitive?.content ?: "",
+            e["radius_x100"]?.jsonPrimitive?.int ?: 0,
+            e["npc"]?.jsonPrimitive?.content ?: "",
             e["spawner"]?.jsonPrimitive?.content ?: "",
         )
     }
@@ -936,8 +957,12 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             landmarks = (j["landmarks"] as? JsonArray)?.map {
                 val l = it.jsonObject
                 Landmark(
-                    l.getValue("id").jsonPrimitive.content, l.getValue("name").jsonPrimitive.content, l.getValue("stamp").jsonPrimitive.content,
-                    l.getValue("kind").jsonPrimitive.content, l.getValue("dx").jsonPrimitive.int, l.getValue("dy").jsonPrimitive.int,
+                    l.getValue("id").jsonPrimitive.content,
+                    l.getValue("name").jsonPrimitive.content,
+                    l.getValue("stamp").jsonPrimitive.content,
+                    l.getValue("kind").jsonPrimitive.content,
+                    l.getValue("dx").jsonPrimitive.int,
+                    l.getValue("dy").jsonPrimitive.int,
                 )
             } ?: emptyList(),
             guild = j.getValue("guild").jsonObject.let { g ->
@@ -976,7 +1001,9 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     r.getValue("fauna").jsonArray.map { f ->
                         val e = f.jsonObject
                         FaunaEntry(
-                            e.getValue("enemy").jsonPrimitive.content, e.getValue("drop").jsonPrimitive.content, e.getValue("weight").jsonPrimitive.int,
+                            e.getValue("enemy").jsonPrimitive.content,
+                            e.getValue("drop").jsonPrimitive.content,
+                            e.getValue("weight").jsonPrimitive.int,
                             (e["seasons"] as? JsonArray)?.map { v ->
                                 val o = v.jsonObject
                                 FaunaVisitor(o.getValue("season").jsonPrimitive.content, o.getValue("enemy").jsonPrimitive.content, o.getValue("pm").jsonPrimitive.int)
@@ -1007,7 +1034,8 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             settlementKinds = j.getValue("settlements").jsonObject.getValue("kinds").jsonArray.map {
                 val k = it.jsonObject
                 SettlementKind(
-                    k.getValue("id").jsonPrimitive.content, k.getValue("weight").jsonPrimitive.int,
+                    k.getValue("id").jsonPrimitive.content,
+                    k.getValue("weight").jsonPrimitive.int,
                     k.getValue("stamps").jsonArray.map { stamp -> stamp.jsonPrimitive.content },
                 )
             },
@@ -1024,8 +1052,11 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             npcs = j.getValue("npcs").jsonArray.map {
                 val n = it.jsonObject
                 WorldNpc(
-                    n.getValue("key").jsonPrimitive.content, n.getValue("dialogue").jsonPrimitive.content,
-                    n.getValue("variant").jsonPrimitive.content, n.getValue("dx").jsonPrimitive.int, n.getValue("dy").jsonPrimitive.int,
+                    n.getValue("key").jsonPrimitive.content,
+                    n.getValue("dialogue").jsonPrimitive.content,
+                    n.getValue("variant").jsonPrimitive.content,
+                    n.getValue("dx").jsonPrimitive.int,
+                    n.getValue("dy").jsonPrimitive.int,
                     n["when"]?.toString() ?: "",
                     (n["route"] as? JsonArray)?.map { stop -> Pair(stop.jsonArray[0].jsonPrimitive.int, stop.jsonArray[1].jsonPrimitive.int) } ?: emptyList(),
                 )

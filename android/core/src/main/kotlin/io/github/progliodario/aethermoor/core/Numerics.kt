@@ -13,7 +13,13 @@ val GOLDEN: ULong = 0x9E3779B97F4A7C15uL
 fun divFloor(a: Long, b: Long): Long = Math.floorDiv(a, b)
 
 fun clampLong(value: Long, low: Long, high: Long): Long =
-    if (value < low) low else if (value > high) high else value
+    if (value < low) {
+        low
+    } else if (value > high) {
+        high
+    } else {
+        value
+    }
 
 /** Q16.16 multiplication with floor rounding (arithmetic shift). */
 fun mulq(a: Long, b: Long): Long = (a * b) shr 16

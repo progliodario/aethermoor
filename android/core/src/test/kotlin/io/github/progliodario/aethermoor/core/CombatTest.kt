@@ -12,8 +12,6 @@ import io.github.progliodario.aethermoor.core.sim.parseTileset
 import io.github.progliodario.aethermoor.core.sim.saveFromJson
 import io.github.progliodario.aethermoor.core.sim.savePeek
 import io.github.progliodario.aethermoor.core.sim.saveToJson
-import java.io.File
-import kotlin.math.abs
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -24,6 +22,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.io.File
+import kotlin.math.abs
 
 /** Combat, story and saves on the real data (mirror of combat_test.cpp) and the shared scenarios. */
 class CombatTest {
@@ -199,7 +199,9 @@ class CombatTest {
                 for (i in split until script.size) {
                     runSegment(resumed, script[i].jsonObject)
                     assertCheckpoint(
-                        resumed, expect.getValue("checkpoints").jsonArray[i - split].jsonObject, tol,
+                        resumed,
+                        expect.getValue("checkpoints").jsonArray[i - split].jsonObject,
+                        tol,
                         "$label ($source) checkpoint $i",
                     )
                 }

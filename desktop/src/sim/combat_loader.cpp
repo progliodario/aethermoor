@@ -342,6 +342,10 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 def.rune_matk = r.value("matk", static_cast<std::int64_t>(0));
                 def.rune_station = r.value("station", "");
             }
+            if (item->contains("temper")) {  // spec 06, "Tempering"
+                def.is_temper = true;
+                def.temper_station = item->at("temper").value("station", "");
+            }
             if (item->contains("furniture")) {  // spec 06, "Furniture"
                 const Json& f = item->at("furniture");
                 def.is_furniture = true;

@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/feast_sunscar",
+  "name": "$i18n:quest.feast_sunscar.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.feast_sunscar.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/amber_drop",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 240
+    },
+    {
+      "effect": "add_gold",
+      "amount": 300
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/tempering_oil",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/sunfire_skewers",
+      "qty": 2
+    }
+  ]
+}

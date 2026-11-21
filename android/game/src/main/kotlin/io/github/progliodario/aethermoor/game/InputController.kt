@@ -53,11 +53,13 @@ class InputController {
             x = touch.first
             y = touch.second
         }
-        val attack = input.isKeyPressed(Input.Keys.SPACE) || input.isKeyPressed(Input.Keys.J) ||
+        val attack = input.isKeyPressed(Input.Keys.SPACE) ||
+            input.isKeyPressed(Input.Keys.J) ||
             (0 until MAX_POINTERS).any {
                 input.isTouched(it) && input.getX(it) >= Gdx.graphics.width / 2 && !inExcludedRect(input.getX(it), input.getY(it))
             }
-        val dodge = input.isKeyPressed(Input.Keys.L) || input.isKeyPressed(Input.Keys.SHIFT_LEFT) ||
+        val dodge = input.isKeyPressed(Input.Keys.L) ||
+            input.isKeyPressed(Input.Keys.SHIFT_LEFT) ||
             (0 until MAX_POINTERS).any { input.isTouched(it) && inRect(dodgeRect, input.getX(it), input.getY(it)) }
         val strike = input.isKeyPressed(Input.Keys.K) ||
             (0 until MAX_POINTERS).any { input.isTouched(it) && inRect(strikeRect, input.getX(it), input.getY(it)) }

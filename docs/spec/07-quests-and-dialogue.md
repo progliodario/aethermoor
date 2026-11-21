@@ -235,6 +235,14 @@ of Verdalis, the lanterns of Whisperwood, the Forge Day of Ironspine, the Blessi
 Frostveil, the Festival of Lanterns of Sunscar, the Night of the Comet of Lumeria and the Ember Wake of the Ashen Wastes
 (`tools/make_feasts.py`).
 
+On the feast day the innkeeper also offers the **games of the feast** (one more choice, after the feast): a contest of the region,
+`base:quest/side/feast_<region>` (for the Folk), offered while it is neither active nor done: the pie contest of Verdalis (berries and
+eggs), the lantern weaving of Whisperwood (fern fronds), the stone toss of Ironspine (stone chunks), the biggest catch of Tidehaven (a
+golden carp and river fish), the ice carving of Frostveil (ice crystals), the scent of the festival of Sunscar (drops of amber), the
+counting of the stars of Lumeria (star dust) and the ember walk of the Ashen Wastes (ember cores). A contest started can be finished on
+any day, and the innkeeper asks how it goes; it pays experience and gold that grow with the danger of the region, a tempering oil
+(spec 06, "Tempering") and a prize of the region.
+
 ## People of the towns
 
 Fenwick and Aldermere have people with names (`tools/make_towns.py`), and two more written by `tools/make_home.py`:

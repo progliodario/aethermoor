@@ -27,7 +27,11 @@ private fun splitTopLevelCommas(body: String, limit: Int): List<String> {
     var begin = 0
     for (i in body.indices) {
         val ch = body[i]
-        if (ch == '{') depth++ else if (ch == '}') depth--
+        if (ch == '{') {
+            depth++
+        } else if (ch == '}') {
+            depth--
+        }
         if (ch == ',' && depth == 0 && parts.size < limit) {
             parts.add(body.substring(begin, i))
             begin = i + 1

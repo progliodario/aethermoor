@@ -1,0 +1,46 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/feast_verdalis",
+  "name": "$i18n:quest.feast_verdalis.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.feast_verdalis.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/wild_berries",
+          "count": 8
+        },
+        {
+          "type": "collect",
+          "item": "base:item/egg",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 120
+    },
+    {
+      "effect": "add_gold",
+      "amount": 150
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/tempering_oil",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/honey_cake",
+      "qty": 4
+    }
+  ]
+}
