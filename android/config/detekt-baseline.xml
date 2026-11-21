@@ -83,10 +83,6 @@
     <ID>LoopWithTooManyJumpStatements:Raster.kt$while</ID>
     <ID>LoopWithTooManyJumpStatements:World.kt$WorldSim$for</ID>
     <ID>LoopWithTooManyJumpStatements:WorldGen.kt$for</ID>
-    <ID>MatchingDeclarationName:Protagonist.kt$ProtagonistDef</ID>
-    <ID>MatchingDeclarationName:Raster.kt$Bitmap</ID>
-    <ID>MatchingDeclarationName:ScenarioSupport.kt$ScenarioWorld</ID>
-    <ID>MayBeConst:Numerics.kt$/** SplitMix64 / hash increment. */ val GOLDEN: ULong = 0x9E3779B97F4A7C15uL</ID>
     <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun draw(world: WorldSim, data: Assets, tilePx: Int)</ID>
     <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun drawStory(world: WorldSim, data: Assets)</ID>
     <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun drawWorldMap(world: WorldSim, data: Assets)</ID>

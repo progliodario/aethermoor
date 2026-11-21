@@ -243,6 +243,9 @@ counting of the stars of Lumeria (star dust) and the ember walk of the Ashen Was
 any day, and the innkeeper asks how it goes; it pays experience and gold that grow with the danger of the region, a tempering oil
 (spec 06, "Tempering") and a prize of the region.
 
+The **villagers** talk of the feasts too (two more choices of their menu, first): on the feast day of their region they wish the Guest
+a happy feast; on the feast day of the next region of the cycle (the neighbours) they tell that half the village has gone there.
+
 ## People of the towns
 
 Fenwick and Aldermere have people with names (`tools/make_towns.py`), and two more written by `tools/make_home.py`:

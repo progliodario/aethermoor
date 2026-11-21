@@ -9,6 +9,9 @@ innkeeper also offers the **games of the feast**, a contest of the region (`base
 bring, gathered, fished or won from the creatures, paid with experience, gold, a tempering oil (spec 06, "Tempering") and a prize of
 the region. A contest started can be finished on any day; the innkeeper asks how it goes.
 
+The villagers talk about the feasts too: on the feast day of their region they wish the Guest a happy feast, and on the feast day of
+the next region of the cycle (the neighbours, `CYCLE[(i + 1) % 8]`) they tell that half the village has gone there.
+
 It changes the role dialogues `data/base/dialogues/role/innkeeper_<tone>.json` in place (the nodes written here are written again, and the
 choices keep their place, so it can be run any number of times), writes the quests of the games and their texts (`roles.json` and
 `content.json`, it and en). Then run `make_catalog.py` and `make_facts.py`.
@@ -177,6 +180,62 @@ def patch_innkeeper(region: str, tone: str, dish: str, qty: int) -> None:
     write_json(path, doc, raw)
 
 
+# tone: (on the feast of the region, on the feast of the next region: {region} is its name) in en and it
+VILLAGER_WORDS = {
+    "en": {
+        "warm": ("Happy Harvest Feast! Go on to the square, the tables are long and the pies are longer.",
+                 "Half the street has gone to the feast in {region}. Somebody has to mind the hens, and today that's me."),
+        "mystic": ("The lanterns are lit for the trees tonight. Walk under them; they remember who passes.",
+                   "Many of us went to the feast in {region}. The wood is quiet without them. Listen."),
+        "gruff": ("Forge Day. Eat something. Then eat more.", "Half the village went to the feast in {region}. More stew for me."),
+        "salty": ("Happy Blessing, mate! Go and see the boats, they've never been so pretty.",
+                  "The whole crew's gone off to the feast in {region}, mate. I'm minding the nets. And the rum."),
+        "stoic": ("The Long Night. Stay by a fire.", "Many went to the feast in {region}. The village is quiet. It is fine."),
+        "flowery": ("A thousand lanterns and one Guest! Dance, O Guest, the festival is too short for standing still!",
+                    "Alas, my cousins have all run off to the feast in {region}, and left me with the goats and the gossip!"),
+        "scholarly": ("Happy Night of the Comet. The observation begins at dusk; refreshments are free.",
+                      "Attendance here is low today: a significant share of the village is at the feast in {region}."),
+        "grim": ("The Ember Wake. Light something. Remember someone.", "Half of us went to the feast in {region}. The fires here can wait one night."),
+    },
+    "it": {
+        "warm": ("Buona Festa del Raccolto! Vai in piazza, le tavole sono lunghe e le torte ancora di più.",
+                 "Mezza strada è andata alla festa in {region}. Qualcuno deve badare alle galline, e oggi tocca a me."),
+        "mystic": ("Stanotte le lanterne sono accese per gli alberi. Cammina sotto di loro; ricordano chi passa.",
+                   "Molti di noi sono andati alla festa in {region}. Il bosco è silenzioso senza di loro. Ascolta."),
+        "gruff": ("Giorno della Forgia. Mangia qualcosa. Poi mangia ancora.", "Mezzo villaggio è andato alla festa in {region}. Più stufato per me."),
+        "salty": ("Buona Benedizione, amico! Vai a vedere le barche, non sono mai state così belle.",
+                  "Tutto l'equipaggio è andato alla festa in {region}, amico. Io bado alle reti. E al rum."),
+        "stoic": ("La Lunga Notte. Resta vicino a un fuoco.", "Molti sono andati alla festa in {region}. Il villaggio è silenzioso. Va bene."),
+        "flowery": ("Mille lanterne e un Ospite! Danza, o Ospite, la festa è troppo breve per stare fermi!",
+                    "Ahimè, i miei cugini sono tutti corsi alla festa in {region}, e mi hanno lasciato con le capre e i pettegolezzi!"),
+        "scholarly": ("Buona Notte della Cometa. L'osservazione comincia al tramonto; i rinfreschi sono gratuiti.",
+                      "Oggi qui la presenza è bassa: una quota significativa del villaggio è alla festa in {region}."),
+        "grim": ("La Veglia delle Braci. Accendi qualcosa. Ricorda qualcuno.", "Metà di noi è andata alla festa in {region}. I fuochi qui possono aspettare una notte."),
+    },
+}
+VILLAGER_SHARED = {"en": {"dlg.role.feast.happy": "Happy feast!", "dlg.role.feast.where": "Where is everybody today?"},
+                   "it": {"dlg.role.feast.happy": "Buona festa!", "dlg.role.feast.where": "Dove sono tutti, oggi?"}}
+
+
+def patch_villager(region: str, tone: str) -> None:
+    """The villagers on the feast of their region and on the feast of the next one (the choices keep their place, first the first time)."""
+    path = DATA / "dialogues" / "role" / f"villager_{tone}.json"
+    raw = path.read_text(encoding="utf-8", newline="")
+    doc = json.loads(raw)
+    nodes = doc["nodes"]
+    mine = ("feast_happy", "feast_where")
+    old = nodes["menu"]["choices"]
+    where = next((i for i, c in enumerate(old) if c.get("next") in mine), 0)
+    choices = [c for c in old if c.get("next") not in mine]
+    here = CYCLE.index(region)
+    added = [{"text": "$i18n:dlg.role.feast.happy", "when": {"day_mod": {"every": len(CYCLE), "at": here}}, "next": "feast_happy"},
+             {"text": "$i18n:dlg.role.feast.where", "when": {"day_mod": {"every": len(CYCLE), "at": (here + 1) % len(CYCLE)}}, "next": "feast_where"}]
+    nodes["menu"]["choices"] = choices[:where] + added + choices[where:]
+    nodes["feast_happy"] = {"type": "say", "speaker": "npc", "text": f"$i18n:dlg.feast.{tone}.villager_happy", "next": "end"}
+    nodes["feast_where"] = {"type": "say", "speaker": "npc", "text": f"$i18n:dlg.feast.{tone}.villager_where", "next": "end"}
+    write_json(path, doc, raw)
+
+
 def main() -> None:
     texts = {lang: dict(SHARED[lang]) for lang in ("en", "it")}
     content: dict[str, dict[str, str]] = {"en": {}, "it": {}}
@@ -198,6 +257,14 @@ def main() -> None:
             texts[lang].update({f"dlg.feast.{tone}.feast": feast, f"dlg.feast.{tone}.gift": gift, f"dlg.feast.{tone}.market": market,
                                 f"dlg.feast.{tone}.games": games, f"dlg.feast.{tone}.games_busy": busy})
             content[lang].update({f"quest.feast_{region}.name": name, f"quest.feast_{region}.task": task})
+    for region, (tone, _dish, _qty) in REGIONS.items():
+        patch_villager(region, tone)
+        neighbour = CYCLE[(CYCLE.index(region) + 1) % len(CYCLE)]
+        for lang in ("en", "it"):
+            names = json.loads((DATA / "i18n" / lang / "content.json").read_text(encoding="utf-8"))
+            happy, away = VILLAGER_WORDS[lang][tone]
+            texts[lang].update({**VILLAGER_SHARED[lang], f"dlg.feast.{tone}.villager_happy": happy,
+                                f"dlg.feast.{tone}.villager_where": away.format(region=names[f"region.{neighbour}.name"])})
     for lang in ("en", "it"):
         set_texts("roles.json", lang, texts[lang])
         set_texts("content.json", lang, content[lang])

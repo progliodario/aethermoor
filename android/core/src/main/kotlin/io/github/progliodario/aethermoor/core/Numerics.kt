@@ -7,7 +7,7 @@ package io.github.progliodario.aethermoor.core
 const val ONE: Long = 1L shl 16
 
 /** SplitMix64 / hash increment. */
-val GOLDEN: ULong = 0x9E3779B97F4A7C15uL
+const val GOLDEN: ULong = 0x9E3779B97F4A7C15uL
 
 /** Floor division (rounds toward negative infinity). */
 fun divFloor(a: Long, b: Long): Long = Math.floorDiv(a, b)
