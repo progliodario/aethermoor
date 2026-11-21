@@ -4,7 +4,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Changed
+
+- **The checks of GitHub take a fraction of the time.** The desktop builds rebuilt SDL3 and every dependency on every run: the cache of vcpkg had a key that never changed, so a cache of 3 November whose binaries no longer matched the compilers of the runners was restored (vcpkg used none of it) and never replaced. Every run now saves the binaries it built and the next restores the newest; the tools vcpkg downloads are kept too, and the Linux build reuses the objects of unchanged files (ccache). The check of the smoke-test frames reads the PNGs with byte slices instead of pixel by pixel (from three minutes to nine seconds on this machine, with the same fingerprints).
+
 ### Added
+
+- **Pieces with two affixes** (spec 06): twelve rare pieces, the claymore and the knight's plate of every pair of vigor, might, keenness and the leech, left by every guardian and Echo one time in four.
+- **The villagers at the feasts** (spec 07): on the feast day of their region the villagers wish you a happy feast, and on the feast of the next region they tell you that half the village has gone there.
 
 - **Tempering** (spec 06, "Tempering"): a tempering oil, made at an anvil (iron ore, pine resin, slime gel) or bought in Ironspine, tempers the affix of the weapon you hold (or of your armor) at an anvil: the roll is drawn again and the better one is kept. A piece bought in a shop gets its first roll this way. A new title, the Temperer, for five tempered affixes.
 - **Games of the feasts** (spec 07, "Feasts"): on its feast day the innkeeper of every region offers a contest (the pie contest of Verdalis, the stone toss of Ironspine, the biggest catch of Tidehaven, the ember walk of the Ashen Wastes...): eight quests, paid with experience, gold, a tempering oil and a prize of the region.

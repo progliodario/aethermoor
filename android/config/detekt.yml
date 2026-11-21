@@ -23,5 +23,7 @@ complexity:
   ComplexCondition:
     active: false
 naming:
+  MatchingDeclarationName:
+    active: false          # a file is named after its subject (Raster.kt holds the Bitmap it draws on), as in the specs
   FunctionNaming:
     excludes: ["**/test/**"]

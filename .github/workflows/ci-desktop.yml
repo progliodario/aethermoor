@@ -37,6 +37,7 @@ jobs:
     env:
       VCPKG_ROOT: ${{ matrix.os == 'windows-2022' && 'C:\vcpkg' || '/usr/local/share/vcpkg' }}
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-cache
+      VCPKG_DOWNLOADS: ${{ github.workspace }}/.vcpkg-downloads  # the tools vcpkg fetches (its own CMake), kept with the binaries
     steps:
       - uses: actions/checkout@v7
 
@@ -87,21 +88,42 @@ jobs:
           done
           exit 1
 
-      # The dependencies (SDL3 above all) take minutes to build; vcpkg keeps the binaries of a build here.
-      - name: Create the vcpkg cache folder
+      # The dependencies (SDL3 above all) take minutes to build; vcpkg keeps the binaries of a build here. The key ends with the run, so
+      # every run saves what it built: an exact key that never changed kept a cache of 3 November whose binaries no longer matched the
+      # compilers of the runners (vcpkg restored none and built everything again, two to six minutes a run). A run restores the newest.
+      - name: Create the vcpkg cache folders
         shell: bash
-        run: mkdir -p .vcpkg-cache
+        run: mkdir -p .vcpkg-cache .vcpkg-downloads
 
       - name: Restore the vcpkg binaries
         uses: actions/cache@v6
         with:
-          path: .vcpkg-cache
-          key: vcpkg-${{ matrix.name }}-${{ hashFiles('desktop/vcpkg.json', 'desktop/CMakePresets.json') }}
-          restore-keys: vcpkg-${{ matrix.name }}-
+          path: |
+            .vcpkg-cache
+            .vcpkg-downloads
+          key: vcpkg2-${{ matrix.name }}-${{ hashFiles('desktop/vcpkg.json', 'desktop/CMakePresets.json') }}-${{ github.run_id }}
+          restore-keys: |
+            vcpkg2-${{ matrix.name }}-${{ hashFiles('desktop/vcpkg.json', 'desktop/CMakePresets.json') }}-
+            vcpkg2-${{ matrix.name }}-
+
+      # The objects of the files that did not change come from ccache on Linux (Ninja passes the launcher; the Visual Studio generator of
+      # Windows does not, so MSVC builds everything, which takes about a minute and a half).
+      - name: Compiler cache (Linux)
+        if: runner.os == 'Linux'
+        uses: hendrikmuhs/ccache-action@v1.2.14
+        with:
+          key: ${{ matrix.name }}
+          max-size: 400M
 
       - name: Configure
         working-directory: desktop
-        run: cmake --preset ${{ matrix.preset }}
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Linux" ]; then
+            cmake --preset ${{ matrix.preset }} -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+          else
+            cmake --preset ${{ matrix.preset }}
+          fi
 
       - name: Build
         working-directory: desktop

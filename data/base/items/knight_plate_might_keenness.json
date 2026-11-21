@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/knight_plate_might_keenness",
+  "name": "$i18n:item.knight_plate_might_keenness.name",
+  "description": "$i18n:item.knight_plate_might_keenness.desc",
+  "kind": "armor",
+  "rarity": "epic",
+  "price": 3900,
+  "armor": {
+    "def": 12,
+    "mdef": 5
+  },
+  "affix": {
+    "atk": 8,
+    "crit_pm": 80
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

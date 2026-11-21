@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/claymore_keenness_leech",
+  "name": "$i18n:item.claymore_keenness_leech.name",
+  "description": "$i18n:item.claymore_keenness_leech.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 3300,
+  "weapon": {
+    "atk": 21,
+    "matk": 0
+  },
+  "affix": {
+    "crit_pm": 80,
+    "drain_pm": 100
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

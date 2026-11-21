@@ -1,0 +1,21 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/claymore_vigor_keenness",
+  "name": "$i18n:item.claymore_vigor_keenness.name",
+  "description": "$i18n:item.claymore_vigor_keenness.desc",
+  "kind": "weapon",
+  "rarity": "epic",
+  "price": 3300,
+  "weapon": {
+    "atk": 21,
+    "matk": 0
+  },
+  "affix": {
+    "max_hp": 90,
+    "crit_pm": 80
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

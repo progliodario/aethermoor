@@ -13,6 +13,26 @@
       "type": "choice",
       "choices": [
         {
+          "text": "$i18n:dlg.role.feast.happy",
+          "when": {
+            "day_mod": {
+              "every": 8,
+              "at": 2
+            }
+          },
+          "next": "feast_happy"
+        },
+        {
+          "text": "$i18n:dlg.role.feast.where",
+          "when": {
+            "day_mod": {
+              "every": 8,
+              "at": 3
+            }
+          },
+          "next": "feast_where"
+        },
+        {
           "text": "$i18n:dlg.role.tale.ask",
           "when": {
             "not": {
@@ -442,6 +462,18 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.tale.gruff.thanks_3",
+      "next": "end"
+    },
+    "feast_happy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.gruff.villager_happy",
+      "next": "end"
+    },
+    "feast_where": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.gruff.villager_where",
       "next": "end"
     }
   }
