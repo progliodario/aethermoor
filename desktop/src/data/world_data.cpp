@@ -126,6 +126,8 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
                         season.light.emplace_back(key.at(0).get<int>(), key.at(1).get<int>());
                     }
                 }
+                season.creature_slow_pm = entry.value("creature_slow_pm", 0);  // spec 08, "Seasons and the creatures"
+                season.creature_aggro_cut_pm = entry.value("creature_aggro_cut_pm", 0);
                 if (season.days < 1) {
                     error = "invalid season length";
                     return std::nullopt;

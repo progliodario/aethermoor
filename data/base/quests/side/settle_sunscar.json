@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/settle_sunscar",
+  "name": "$i18n:quest.settle_sunscar.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "gather",
+      "journal": "$i18n:quest.settle_sunscar.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/cactus_pulp",
+          "count": 6
+        },
+        {
+          "type": "collect",
+          "item": "base:item/dry_branch",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 260
+    },
+    {
+      "effect": "add_gold",
+      "amount": 360
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/sunfire_skewers",
+      "qty": 2
+    }
+  ]
+}

@@ -72,6 +72,7 @@
                 "fog": 20,
                 "storm": 90
               },
+              "creature_aggro_cut_pm": 150,
               "light": [
                 [
                   0,
@@ -114,7 +115,8 @@
                 "rain": 250,
                 "fog": 180,
                 "storm": 50
-              }
+              },
+              "creature_aggro_cut_pm": 100
             },
             {
               "id": "winter",
@@ -132,6 +134,7 @@
                 "fog": 150,
                 "storm": 20
               },
+              "creature_slow_pm": 150,
               "light": [
                 [
                   0,
@@ -623,6 +626,7 @@
                 "fog": 20,
                 "storm": 90
               },
+              "creature_aggro_cut_pm": 150,
               "light": [
                 [
                   0,
@@ -665,7 +669,8 @@
                 "rain": 250,
                 "fog": 180,
                 "storm": 50
-              }
+              },
+              "creature_aggro_cut_pm": 100
             },
             {
               "id": "winter",
@@ -683,6 +688,7 @@
                 "fog": 150,
                 "storm": 20
               },
+              "creature_slow_pm": 150,
               "light": [
                 [
                   0,
@@ -1174,6 +1180,7 @@
                 "fog": 20,
                 "storm": 90
               },
+              "creature_aggro_cut_pm": 150,
               "light": [
                 [
                   0,
@@ -1216,7 +1223,8 @@
                 "rain": 250,
                 "fog": 180,
                 "storm": 50
-              }
+              },
+              "creature_aggro_cut_pm": 100
             },
             {
               "id": "winter",
@@ -1234,6 +1242,7 @@
                 "fog": 150,
                 "storm": 20
               },
+              "creature_slow_pm": 150,
               "light": [
                 [
                   0,

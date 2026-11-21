@@ -14,5 +14,9 @@
   "affix": {
     "atk": 8,
     "crit_pm": 30
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 160
   }
 }

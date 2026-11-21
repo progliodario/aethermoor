@@ -3,7 +3,8 @@
 
 An affix is a block of flat bonuses on a weapon or an armor (`affix`, the same fields as an accessory's): while the piece is worn it adds
 them to the derived stats, after the accessory. Every region has an affixed weapon and an affixed armor of its own, which its guardians
-(the creatures that drop the accessory of the region) leave one time in five.
+(the creatures that drop the accessory of the region) leave one time in five. A piece found on a creature has its affix rolled, from
+100 to 160 percent (`affix_roll`, spec 06, "Rolled affixes").
 
 It writes the items `data/base/items/<piece>.json` and their texts, and adds or updates the two drops in the files of the guardians.
 It can be run any number of times. Then run `gen_conformance.py` (the vectors read the creatures), `make_catalog.py` and `make_facts.py`.
@@ -15,6 +16,8 @@ import json
 from make_towns import DATA, set_texts
 
 DROP_PM = 200
+# how strong the affix of a piece found on a creature comes out (spec 06, "Rolled affixes"): never weaker than the one of the shop
+ROLL = {"min_pct": 100, "max_pct": 160}
 # the accessory every guardian of a region already drops tells the region (spec 06, "Equipment")
 REGION_OF_ACCESSORY = {"fang_necklace": "verdalis", "owl_charm": "whisperwood", "golem_amulet": "ironspine", "bat_charm": "ironspine",
                        "sand_charm": "sunscar", "frost_locket": "frostveil", "pearl_pendant": "tidehaven", "ember_ring": "ashen_wastes",
@@ -91,7 +94,7 @@ def main() -> None:
         for piece, kind, stats, affix, price, name_en, name_it, desc_en, desc_it in pieces:
             write_json(DATA / "items" / f"{piece}.json", {
                 "$schema": "../../../schemas/item.schema.json", "id": f"base:item/{piece}", "name": f"$i18n:item.{piece}.name",
-                "description": f"$i18n:item.{piece}.desc", "kind": kind, "rarity": "rare", "price": price, kind: stats, "affix": affix})
+                "description": f"$i18n:item.{piece}.desc", "kind": kind, "rarity": "rare", "price": price, kind: stats, "affix": affix, "affix_roll": ROLL})
             texts["en"].update({f"item.{piece}.name": name_en, f"item.{piece}.desc": desc_en})
             texts["it"].update({f"item.{piece}.name": name_it, f"item.{piece}.desc": desc_it})
     for lang in ("en", "it"):

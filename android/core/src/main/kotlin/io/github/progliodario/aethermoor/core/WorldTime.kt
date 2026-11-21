@@ -14,7 +14,16 @@ import kotlinx.serialization.json.long
 class WeatherKind(val id: String, val weight: Int, val rainPm: Int, val dimPm: Int, val windPm: Int = 0, val fogPm: Int = 0)
 
 /** A season of the year (spec 08, "Seasons"): [tint] is r, g, b, a laid over the screen; [weights] replace the weather weights of the kinds. */
-class Season(val id: String, val days: Int, val tint: List<Int>, val weights: Map<String, Int>, val light: List<Pair<Int, Int>>)
+class Season(
+    val id: String,
+    val days: Int,
+    val tint: List<Int>,
+    val weights: Map<String, Int>,
+    val light: List<Pair<Int, Int>>,
+    /** How much the season slows the creatures and shortens their aggro distance (spec 08, "Seasons and the creatures"). */
+    val creatureSlowPm: Int = 0,
+    val creatureAggroCutPm: Int = 0,
+)
 
 class TimeParams(
     val dayTicks: Int,
@@ -156,6 +165,8 @@ fun parseTimeParams(time: JsonObject): TimeParams {
                 s.getValue("tint").jsonArray.map { v -> v.jsonPrimitive.int },
                 (s["weights"] as? JsonObject)?.mapValues { (_, v) -> v.jsonPrimitive.int } ?: emptyMap(),
                 (s["light"] as? JsonArray)?.map { f -> Pair(f.jsonArray[0].jsonPrimitive.int, f.jsonArray[1].jsonPrimitive.int) } ?: emptyList(),
+                creatureSlowPm = s["creature_slow_pm"]?.jsonPrimitive?.int ?: 0,
+                creatureAggroCutPm = s["creature_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
             )
         } ?: emptyList(),
     )

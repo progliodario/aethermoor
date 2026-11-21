@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/settle_verdalis",
+  "name": "$i18n:quest.settle_verdalis.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "gather",
+      "journal": "$i18n:quest.settle_verdalis.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/wood_log",
+          "count": 10
+        },
+        {
+          "type": "collect",
+          "item": "base:item/wild_berries",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 140
+    },
+    {
+      "effect": "add_gold",
+      "amount": 180
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/berry_pancakes",
+      "qty": 4
+    }
+  ]
+}

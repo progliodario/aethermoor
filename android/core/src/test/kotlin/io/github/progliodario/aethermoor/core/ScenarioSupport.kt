@@ -120,6 +120,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         windHastePm = input["weather"]?.jsonObject?.get("wind_haste_pm")?.jsonPrimitive?.int ?: 0,
         fogPm = input["weather"]?.jsonObject?.get("fog_pm")?.jsonPrimitive?.int ?: 0,
         fogAggroCutPm = input["weather"]?.jsonObject?.get("fog_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
+        seasonSlowPm = input["weather"]?.jsonObject?.get("season_slow_pm")?.jsonPrimitive?.int ?: 0,
+        seasonAggroCutPm = input["weather"]?.jsonObject?.get("season_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
         lightningTicks = input["weather"]?.jsonObject?.get("lightning_ticks")?.jsonPrimitive?.int ?: 0,
         lightningPct = input["weather"]?.jsonObject?.get("lightning_pct")?.jsonPrimitive?.int ?: 0,
         lightningRangeX100 = input["weather"]?.jsonObject?.get("lightning_range_x100")?.jsonPrimitive?.int ?: 0,
@@ -252,6 +254,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 accessory = d["accessory"]?.jsonObject?.let { accessoryOf(it) },
                 rune = d["rune"]?.jsonObject?.let { runeOf(it) },
                 affix = d["affix"]?.jsonObject?.let { accessoryOf(it) },
+                affixRoll = d["affix_roll"]?.jsonObject?.let { Pair(it.getValue("min_pct").jsonPrimitive.int, it.getValue("max_pct").jsonPrimitive.int) },
                 furniture = d["furniture"]?.jsonObject?.let { furnitureOf(it) },
             )
         } ?: emptyMap(),
@@ -374,6 +377,9 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
     want["furniture"]?.jsonArray?.let { wp -> // the furniture of the home (spec 06, "Furniture")
         val got = sim.furniture.map { (key, item) -> listOf(key.first.toString(), key.second.toString(), item) }
         assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at furniture")
+    }
+    want["rolls"]?.jsonObject?.let { wr -> // the rolls of the pieces found (spec 06, "Rolled affixes")
+        assertEquals(wr.mapValues { it.value.jsonPrimitive.long }, sim.rolls.toMap(), "$at rolls")
     }
     want["runes"]?.jsonObject?.let { wr -> // the runes engraved on the weapons (spec 06, "Runes")
         assertEquals(wr.mapValues { it.value.jsonPrimitive.content }, sim.runes.toMap(), "$at runes")

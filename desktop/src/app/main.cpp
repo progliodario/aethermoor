@@ -3142,6 +3142,9 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
             if (!id->empty()) {
                 worn += (worn.empty() ? "" : ", ") +
                         assets.pack.text(ui.lang, "$i18n:" + item_key(*id) + ".name", {{"count", std::int64_t{1}}});
+                if (sim.roll_of(*id) > 0) {  // and how strong its affix came out (spec 06, "Rolled affixes")
+                    worn += " " + assets.pack.text(ui.lang, "$i18n:ui.affix_roll", {{"pct", sim.roll_of(*id)}});
+                }
                 const auto rune = sim.runes().find(*id);  // and the rune engraved on the weapon (spec 06, "Runes")
                 if (id == &sim.equipped_weapon() && rune != sim.runes().end()) {
                     worn += " (" +
@@ -3561,6 +3564,9 @@ bool hint_holds(const aether::WorldSim& sim, const std::string& when) {
         const auto time = sim.time();
         return time && time->rain_pm >= 900 && time->wind_pm >= 900;
     }
+    if (when == "season") {  // the season changes the creatures (spec 08, "Seasons and the creatures")
+        return sim.season_slow_pm() < 1000 || sim.season_aggro_pm() < 1000;
+    }
     if (when == "tag") {  // a tag earned and none worn (spec 11, "Tags")
         return !sim.earned_tags().empty() && sim.worn_tag().empty();
     }
@@ -3945,6 +3951,9 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
             const std::string name =
                 assets.pack.text(ui.lang, "$i18n:" + key + ".name", {{"count", static_cast<std::int64_t>(quantity)}});
             std::string line = name + "  x" + std::to_string(quantity);
+            if (sim.roll_of(item_id) > 0) {  // how strong its affix came out (spec 06, "Rolled affixes")
+                line += "  " + assets.pack.text(ui.lang, "$i18n:ui.affix_roll", {{"pct", sim.roll_of(item_id)}});
+            }
             if (item_id == sim.equipped_weapon() || item_id == sim.equipped_armor() ||
                 item_id == sim.equipped_accessory()) {
                 line += "  " + assets.pack.text(ui.lang, "$i18n:ui.worn");

@@ -322,6 +322,12 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 def.aff_crit_pm = f.value("crit_pm", static_cast<std::int64_t>(0));
                 def.aff_drain_pm = f.value("drain_pm", static_cast<std::int64_t>(0));
             }
+            if (item->contains("affix_roll")) {  // spec 06, "Rolled affixes": how strong it comes out when found
+                const Json& r = item->at("affix_roll");
+                def.has_affix_roll = true;
+                def.roll_min_pct = r.at("min_pct").get<std::int64_t>();
+                def.roll_max_pct = r.at("max_pct").get<std::int64_t>();
+            }
             if (item->contains("rune")) {  // spec 06, "Runes"
                 const Json& r = item->at("rune");
                 def.is_rune = true;

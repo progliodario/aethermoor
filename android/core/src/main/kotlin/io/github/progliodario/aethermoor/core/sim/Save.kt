@@ -79,6 +79,8 @@ data class SaveState(
     val chest: Map<String, Long> = emptyMap(),
     /** The runes engraved on the weapons (spec 06, "Runes"): weapon item -> rune item. */
     val runes: Map<String, String> = emptyMap(),
+    /** The rolled affixes of the pieces found (spec 06, "Rolled affixes"): item -> percent. */
+    val rolls: Map<String, Long> = emptyMap(),
     /** The furniture of the home (spec 06, "Furniture"), in order of the spots. */
     val furniture: List<FurnitureSave> = emptyList(),
     /** The tag worn (spec 11, "Tags"); empty: none. */
@@ -215,6 +217,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         if (s.plots.isNotEmpty()) {
             put("plots", JsonArray(s.plots.map { p -> JsonArray(listOf(JsonPrimitive(p.x), JsonPrimitive(p.y), JsonPrimitive(p.seed), JsonPrimitive(p.ripe))) }))
         }
+        if (s.rolls.isNotEmpty()) put("rolls", buildJsonObject { for ((item, pct) in s.rolls.toSortedMap()) put(item, pct) })
         if (s.runes.isNotEmpty()) put("runes", buildJsonObject { for ((weapon, rune) in s.runes.toSortedMap()) put(weapon, rune) })
         if (s.tag.isNotEmpty()) put("tag", s.tag)
         if (s.furniture.isNotEmpty()) {
@@ -352,6 +355,7 @@ fun saveFromJson(text: String): Result<SaveState> =
             } ?: emptyList(),
             tag = (j["tag"] as? JsonPrimitive)?.content ?: "",
             runes = (j["runes"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap(),
+            rolls = (j["rolls"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
             furniture = (j["furniture"] as? JsonArray)?.map { f ->
                 val a = f.jsonArray
                 FurnitureSave(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, a[2].jsonPrimitive.content)

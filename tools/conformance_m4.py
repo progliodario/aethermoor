@@ -170,6 +170,7 @@ SAVE_SPLITS = {
     "leash_and_return": (2,),         # the slime is walking home
     "trader_conditions_and_effects": (2, 5),  # inventory, flags and an open dialogue
     "affixes_worn": (2,),             # the affixes come back with the equipment (spec 06, "Affixes")
+    "affixes_rolled": (2, 4),         # the rolls of the pieces found (spec 06, "Rolled affixes"), before and after a sale
     "tags_worn": (3, 5),              # the worn tag is saved (spec 11, "Tags")
     "traveller_moves": (3,),           # the traveller is where the day says after a load
     "resident_arrives": (3, 5),       # the flag that brings the resident is saved, so it is there after a load

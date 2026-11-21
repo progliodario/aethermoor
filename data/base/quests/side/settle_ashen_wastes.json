@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/settle_ashen_wastes",
+  "name": "$i18n:quest.settle_ashen_wastes.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "gather",
+      "journal": "$i18n:quest.settle_ashen_wastes.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/dry_branch",
+          "count": 10
+        },
+        {
+          "type": "collect",
+          "item": "base:item/stone_chunk",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 380
+    },
+    {
+      "effect": "add_gold",
+      "amount": 540
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/ember_chili",
+      "qty": 2
+    }
+  ]
+}

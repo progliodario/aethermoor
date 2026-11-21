@@ -218,7 +218,6 @@
   "ui.talent_critical": "critical chance",
   "ui.talent_magic": "magic",
   "ui.talent_learned": "{name} is now at rank {rank}",
-  "ui.talent_refused": "No points to spend, or the talent is at its top rank",
   "ui.craft_tab_hint": "Tab: crafting / talents",
   "ui.talents_hint": "W/S choose   E learn   Tab crafting   C or Esc close",
   "ui.talent_notice": "You have talent points to spend ({points}): open Crafting and press Tab",
@@ -1286,5 +1285,8 @@
   "dlg.caravan.way_odo_provisions.offer": "The longest road is ahead: Frostveil to the Ashen Wastes, nobody in between. Five travel rations, and a blade I have been keeping for someone like you.",
   "dlg.caravan.way_odo_provisions.busy": "Five rations. Berries and a dry branch at a fire, nothing more.",
   "dlg.caravan.way_odo_provisions.thanks": "Now we can go anywhere. Take the blade; a shepherd of Verdalis gave it to me, and you have kept the roads like a shepherd keeps a flock.",
-  "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you."
+  "dlg.pip.story.gideon.done": "The whole village agrees: you are a good king. Take the blade, it is nothing like the old one, but it suits you.",
+  "ui.affix_roll": "affix {pct}%",
+  "hint.season": "The seasons change the creatures: the cold of winter slows them, and in summer and autumn they notice you later.",
+  "hint.season.touch": "The seasons change the creatures: the cold of winter slows them, and in summer and autumn they notice you later."
 }

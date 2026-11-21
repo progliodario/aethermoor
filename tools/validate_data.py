@@ -50,8 +50,16 @@ def placeholders(text: str) -> set[str]:
 
 
 def load_json(path: Path, errors: list[str]):
+    def no_twins(pairs):  # a key written twice: the clients would keep one of the two values, and not all the same one
+        seen: set[str] = set()
+        for key, _value in pairs:
+            if key in seen:
+                errors.append(f"{path.relative_to(ROOT)}: the key {key!r} is written twice")
+            seen.add(key)
+        return dict(pairs)
+
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
+        return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=no_twins)
     except (OSError, json.JSONDecodeError) as exc:
         errors.append(f"{path.relative_to(ROOT)}: cannot parse JSON: {exc}")
         return None

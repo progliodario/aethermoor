@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/settle_ironspine",
+  "name": "$i18n:quest.settle_ironspine.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "gather",
+      "journal": "$i18n:quest.settle_ironspine.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/stone_chunk",
+          "count": 10
+        },
+        {
+          "type": "collect",
+          "item": "base:item/iron_ore",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 260
+    },
+    {
+      "effect": "add_gold",
+      "amount": 360
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/miners_broth",
+      "qty": 2
+    }
+  ]
+}

@@ -13,5 +13,9 @@
   },
   "affix": {
     "matk": 8
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 160
   }
 }
