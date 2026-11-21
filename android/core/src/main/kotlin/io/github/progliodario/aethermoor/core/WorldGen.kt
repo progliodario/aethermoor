@@ -30,7 +30,10 @@ data class WorldNpc(
 )
 
 /** An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops. */
-class FaunaEntry(val enemy: String, val drop: String, val weight: Int)
+/** A visitor of a season (spec 09, "Seasonal visitors"): on a day of [season], the share [pm] of the spawners of the entry make [enemy]. */
+class FaunaVisitor(val season: String, val enemy: String, val pm: Int)
+
+class FaunaEntry(val enemy: String, val drop: String, val weight: Int, val seasons: List<FaunaVisitor> = emptyList())
 
 class Region(val id: String, /** An $i18n: key. */ val name: String, val xPm: Int, val yPm: Int, val danger: Int, /** The voice of the people of the region. */ val tone: String,
     /** What the shops of the region sell (spec 06): prices in permille and the stock. */
@@ -351,13 +354,28 @@ const val SITE_CELL = 256
 fun stampSpawnerAt(seed: ULong, p: WorldParams, x: Int, y: Int): String? =
     Sites(seed, p).at(x, y)?.entry?.spawner?.takeIf { it.isNotEmpty() }
 
-/** The enemy of the spawner on the tile: the one of its stamp, else a pick of the fauna of its region (spec 09). */
-fun spawnerEnemyAt(seed: ULong, p: WorldParams, x: Int, y: Int): String = stampSpawnerAt(seed, p, x, y) ?: faunaAt(seed, p, x, y).enemy
+/**
+ * The enemy of the spawner on the tile: the one of its stamp, else a pick of the fauna of its region (spec 09); on a day of [season]
+ * (empty: none), the visitor of that season for the spawners it takes (spec 09, "Seasonal visitors").
+ */
+fun spawnerEnemyAt(seed: ULong, p: WorldParams, x: Int, y: Int, season: String = ""): String {
+    stampSpawnerAt(seed, p, x, y)?.let { return it }
+    val entry = faunaAt(seed, p, x, y)
+    if (season.isNotEmpty()) {
+        for (visitor in entry.seasons) {
+            if (visitor.season == season && (hash64(seed, x.toLong(), y.toLong(), 13L) shr 20) % 1000uL < visitor.pm.toULong()) return visitor.enemy
+        }
+    }
+    return entry.enemy
+}
 
 /** Every enemy a spawner of the world can make (fauna of the regions and spawners of the stamps), sorted. */
 fun worldEnemyIds(p: WorldParams): List<String> {
     val ids = sortedSetOf<String>()
-    for (region in p.regions) for (entry in region.fauna) ids.add(entry.enemy)
+    for (region in p.regions) for (entry in region.fauna) {
+        ids.add(entry.enemy)
+        for (visitor in entry.seasons) ids.add(visitor.enemy) // the visitors of the seasons (spec 09)
+    }
     for (stamp in p.stamps.values) for (entry in stamp.legend.values) if (entry.spawner.isNotEmpty()) ids.add(entry.spawner)
     return ids.toList()
 }
@@ -957,7 +975,13 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     r.getValue("shop").jsonObject.getValue("stock").jsonArray.map { it.jsonPrimitive.content },
                     r.getValue("fauna").jsonArray.map { f ->
                         val e = f.jsonObject
-                        FaunaEntry(e.getValue("enemy").jsonPrimitive.content, e.getValue("drop").jsonPrimitive.content, e.getValue("weight").jsonPrimitive.int)
+                        FaunaEntry(
+                            e.getValue("enemy").jsonPrimitive.content, e.getValue("drop").jsonPrimitive.content, e.getValue("weight").jsonPrimitive.int,
+                            (e["seasons"] as? JsonArray)?.map { v ->
+                                val o = v.jsonObject
+                                FaunaVisitor(o.getValue("season").jsonPrimitive.content, o.getValue("enemy").jsonPrimitive.content, o.getValue("pm").jsonPrimitive.int)
+                            } ?: emptyList(),
+                        )
                     }.also { list -> require(list.isNotEmpty() && list.all { it.weight >= 1 }) { "a region needs fauna with positive weights" } },
                     shopRenownStepPm = r.getValue("shop").jsonObject["renown_step_pm"]?.jsonPrimitive?.int ?: 0,
                     shopRenownMaxPm = r.getValue("shop").jsonObject["renown_max_pm"]?.jsonPrimitive?.int ?: 0,

@@ -223,6 +223,18 @@ The base pack has four (`tools/set_factions.py`, which gives every quest its fac
 
 The villagers of every region have a trouble of their own, told in three quests one after the other (`base:quest/side/tale_<region>_1`, `_2` and `_3`, `tools/make_region_tales.py`): each asks to hunt some creatures of the region and to bring back what they leave (the mint slimes of the kitchen gardens of Verdalis, the owls that fell silent in Whisperwood, the bats in the shafts of Ironspine, the picnic thieves of Sunscar...). Any villager of the region offers them, follows them and pays them, like the elders' errands: each opens once the one before is paid (the flags `tale_<region>_<n>_paid`); the reward is experience and gold that grow with the danger of the region and with the tale, and medium potions. The third tale is a harder hunt (the boars in the turnips of Verdalis, the golems in the quarries of Ironspine, the nebula slimes in the observatory domes of Lumeria...). Twenty-four quests, all for the Folk.
 
+## Feasts
+
+Every region has a **feast day** in the cycle of eight days of the pedlars (section "People of the towns"): the day its own goods
+would be on the pedlars' carts (`day_mod` with `every` 8 and `at` the index of the region in the cycle: Verdalis 0, Whisperwood 1,
+Ironspine 2, Tidehaven 3, Frostveil 4, Sunscar 5, Lumeria 6, the Ashen Wastes 7). On that day the innkeeper of every village and town
+of the region has one more choice, first in the menu: the Guest eats with the village (`heal_full`), the first time also takes home
+two dishes of the region (the flag `feast_<region>_gift`; one ember brew in the Ashen Wastes) and then the feast market opens, the goods
+of the region at 75 percent (`open_shop` with the `region`, spec 06, "Goods from afar"). Each region has its own: the Harvest Feast
+of Verdalis, the lanterns of Whisperwood, the Forge Day of Ironspine, the Blessing of the Boats of Tidehaven, the Long Night of
+Frostveil, the Festival of Lanterns of Sunscar, the Night of the Comet of Lumeria and the Ember Wake of the Ashen Wastes
+(`tools/make_feasts.py`).
+
 ## People of the towns
 
 Fenwick and Aldermere have people with names (`tools/make_towns.py`), and two more written by `tools/make_home.py`:

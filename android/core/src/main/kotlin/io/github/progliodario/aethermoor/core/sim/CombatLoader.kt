@@ -173,6 +173,7 @@ private fun loadEnemy(pack: Pack, id: String): EnemyDef {
                 d.getValue("qty_min").jsonPrimitive.long,
                 d.getValue("qty_max").jsonPrimitive.long,
                 d.getValue("weight_pm").jsonPrimitive.long,
+                d["pick"]?.jsonArray?.map { p -> p.jsonPrimitive.content } ?: emptyList(),
             )
         } ?: emptyList(),
         behavior = BehaviorDef(

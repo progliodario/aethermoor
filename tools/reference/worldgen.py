@@ -382,14 +382,23 @@ def stamp_spawner(seed: int, params: dict, x: int, y: int, sites: "Sites | None"
     return None
 
 
-def spawner_enemy(seed: int, params: dict, x: int, y: int, sites: "Sites | None" = None) -> str:
-    """The enemy ID of the spawner on tile (x, y): the one its stamp names, else a pick of the fauna of its region (spec 09)."""
-    return stamp_spawner(seed, params, x, y, sites) or fauna_at(seed, params, x, y)["enemy"]
+def spawner_enemy(seed: int, params: dict, x: int, y: int, sites: "Sites | None" = None, season: str = "") -> str:
+    """The enemy ID of the spawner on tile (x, y): the one its stamp names, else a pick of the fauna of its region (spec 09); on a day of
+    `season` the visitor of that season of the entry picked, for the spawners its `pm` takes (spec 09, "Seasonal visitors")."""
+    stamped = stamp_spawner(seed, params, x, y, sites)
+    if stamped:
+        return stamped
+    entry = fauna_at(seed, params, x, y)
+    for visitor in entry.get("seasons", []):
+        if season and visitor["season"] == season and (hash64(seed, x, y, 13) >> 20) % 1000 < visitor["pm"]:
+            return visitor["enemy"]
+    return entry["enemy"]
 
 
 def world_enemy_ids(params: dict) -> list[str]:
     """Every enemy a spawner of the world can make: the fauna of the regions and the spawners of the stamps, sorted."""
     ids = {entry["enemy"] for region in params["regions"] for entry in region["fauna"]}
+    ids.update(v["enemy"] for region in params["regions"] for entry in region["fauna"] for v in entry.get("seasons", []))
     for stamp in params["stamp_defs"].values():
         ids.update(entry["spawner"] for entry in stamp["legend"].values() if "spawner" in entry)
     return sorted(ids)

@@ -31,7 +31,10 @@ companions, mana for items and equipment.
 - player hit on an enemy: `variance = 950 + combat.next_bounded(101)`, then `crit = combat.next_bounded(1000) < crit_chance_pm`;
 - enemy hit on the player: `variance = 950 + combat.next_bounded(101)`; enemies never crit;
 - kill: for each drop in data order, `loot.next_bounded(1000) < weight_pm`; on success, if `qty_max > qty_min`
-  the quantity is `qty_min + loot.next_bounded(qty_max - qty_min + 1)`, else `qty_min`.
+  the quantity is `qty_min + loot.next_bounded(qty_max - qty_min + 1)`, else `qty_min`. A drop with `pick` (a list of
+  items) is **one of a list**: then `i = loot.next_bounded(1 + len(pick))` says which item it is (`item` for 0, else
+  `pick[i - 1]`), and that item gets the quantity; then the roll of its affix, if it has `affix_roll` (spec 06,
+  "Rolled affixes"). Conformance: the scenario `loot_pick`.
 
 ## Player state per tick (in this order)
 

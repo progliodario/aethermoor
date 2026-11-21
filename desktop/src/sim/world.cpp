@@ -219,7 +219,8 @@ void WorldSim::add_chunk_people(int cx, int cy) {
 }
 
 const EnemyDef& WorldSim::stream_enemy_at(int x, int y) const {
-    return m_setup_.stream_enemies.at(spawner_enemy_at(m_store_->seed(), m_store_->params(), x, y));
+    // on a day of a season, its visitors (spec 09, "Seasonal visitors")
+    return m_setup_.stream_enemies.at(spawner_enemy_at(m_store_->seed(), m_store_->params(), x, y, season_id()));
 }
 
 void WorldSim::add_chunk_enemies(int cx, int cy) {
@@ -1965,8 +1966,15 @@ void WorldSim::on_kill(Enemy& enemy) {
                 quantity += static_cast<std::int64_t>(
                     m_loot_rng_.next_bounded(static_cast<std::uint32_t>(drop.qty_max - drop.qty_min + 1)));
             }
-            m_inventory_[drop.item] += quantity;
-            const auto found = m_setup_.items.find(drop.item);
+            std::string item = drop.item;
+            if (!drop.pick.empty()) {  // one of a list (spec 05, "Loot"): the item, or one of `pick`
+                const std::uint32_t index = m_loot_rng_.next_bounded(static_cast<std::uint32_t>(drop.pick.size() + 1));
+                if (index > 0) {
+                    item = drop.pick[index - 1];
+                }
+            }
+            m_inventory_[item] += quantity;
+            const auto found = m_setup_.items.find(item);
             if (found != m_setup_.items.end() && found->second.has_affix_roll) {
                 // a piece with an affix found on a creature: how strong its affix came out (spec 06, "Rolled affixes")
                 const ItemDef& piece = found->second;
@@ -1975,10 +1983,9 @@ void WorldSim::on_kill(Enemy& enemy) {
                     pct += static_cast<std::int64_t>(m_loot_rng_.next_bounded(
                         static_cast<std::uint32_t>(piece.roll_max_pct - piece.roll_min_pct + 1)));
                 }
-                std::int64_t& held = m_rolls_[drop.item];
+                std::int64_t& held = m_rolls_[item];
                 held = std::max(held, pct);  // the better of the two is kept
-                if (drop.item == m_equipped_weapon_ || drop.item == m_equipped_armor_ ||
-                    drop.item == m_equipped_accessory_) {
+                if (item == m_equipped_weapon_ || item == m_equipped_armor_ || item == m_equipped_accessory_) {
                     recompute_derived();
                 }
             }
@@ -2523,6 +2530,8 @@ bool WorldSim::restore(const SaveState& saved, std::string& error) {
     m_combat_rng_.set_state(s.combat_state, s.combat_inc);
     m_loot_rng_.set_state(s.loot_state, s.loot_inc);
     if (m_store_) {
+        // the clock first: the creature of a spawner depends on the season of the day (spec 09, "Seasonal visitors")
+        m_world_ticks_ = s.world_ticks >= 0 ? s.world_ticks : m_store_->params().time.start_tick;
         m_enemies_.clear();
         for (const SaveEnemy& e : s.enemies) {
             Enemy enemy;

@@ -13,6 +13,16 @@
       "type": "choice",
       "choices": [
         {
+          "text": "$i18n:dlg.role.feast.ask",
+          "when": {
+            "day_mod": {
+              "every": 8,
+              "at": 1
+            }
+          },
+          "next": "feast"
+        },
+        {
           "text": "$i18n:dlg.role.friend_bed",
           "when": {
             "renown_at_least": 5
@@ -243,6 +253,68 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.role.innkeeper.mystic.known",
+      "next": "end"
+    },
+    "feast": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "heal_full"
+        }
+      ],
+      "next": "feast_say"
+    },
+    "feast_say": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.mystic.feast",
+      "next": "feast_gift_check"
+    },
+    "feast_gift_check": {
+      "type": "condition",
+      "when": {
+        "flag": "feast_whisperwood_gift"
+      },
+      "then": "feast_market",
+      "else": "feast_gift"
+    },
+    "feast_gift": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "feast_whisperwood_gift",
+          "value": true
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/moonlit_tea",
+          "qty": 2
+        }
+      ],
+      "next": "feast_gift_say"
+    },
+    "feast_gift_say": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.mystic.gift",
+      "next": "feast_market"
+    },
+    "feast_market": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.mystic.market",
+      "next": "feast_shop"
+    },
+    "feast_shop": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "open_shop",
+          "region": "whisperwood",
+          "markup_pct": 75
+        }
+      ],
       "next": "end"
     }
   }

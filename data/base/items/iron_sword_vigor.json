@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/iron_sword_vigor",
+  "name": "$i18n:item.iron_sword_vigor.name",
+  "description": "$i18n:item.iron_sword_vigor.desc",
+  "kind": "weapon",
+  "rarity": "uncommon",
+  "price": 300,
+  "weapon": {
+    "atk": 7,
+    "matk": 0
+  },
+  "affix": {
+    "max_hp": 30
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

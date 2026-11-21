@@ -79,6 +79,8 @@ ROLLED_ITEMS = {
 }
 ROLLED_DROPS = [{"item": "test:item/keen_sword", "qty_min": 1, "qty_max": 1, "weight_pm": 1000},
                 {"item": "test:item/warm_coat", "qty_min": 1, "qty_max": 1, "weight_pm": 1000}]
+PICK_DROPS = [{"item": "test:item/keen_sword", "pick": ["test:item/warm_coat", "base:item/slime_gel"], "qty_min": 1, "qty_max": 2,
+               "weight_pm": 1000}]
 COMPANION = {"atk_base": 12, "atk_per_level": 1, "range_x100": 300, "cooldown_ticks": 60, "speed_x100": 320, "follow_x100": 220}
 RECIPES = [
     {"id": "tonic", "output": {"item": "base:item/tonic", "qty": 2},
@@ -807,6 +809,10 @@ def build_scenarios() -> list[dict]:
                      segment(1, do=[{"cmd": "open_shop"}, {"cmd": "equip", "item": "base:item/iron_sword"}, {"cmd": "sell", "item": "test:item/keen_sword"}])],
                     inventory={"base:item/iron_sword": 1}, story=EMPTY_STORY, start_gold=0, shop={"price_pm": 1000, "stock": []}),
          "items": {**ITEMS, **ROLLED_ITEMS}},
+        # One of a list (spec 05, "Loot"): six slimes each leave the sword, the coat or the gel, drawn from the loot stream; the sword is
+        # rolled whenever it is the one.
+        {**scenario("loot_pick", [enemy(3.6, 3.9 + 0.2 * i, hp=6, **passive, drops=PICK_DROPS) for i in range(6)], [segment(40, attack=True)]),
+         "inventory": {}, "items": {**ITEMS, **ROLLED_ITEMS}},
         # Tags (spec 11, "Tags"): a tag not earned is refused; after the first kill the brawler tag is worn and its attack counts on the
         # second slime; taken off, the attack is the plain one again; the same tag twice is refused.
         scenario("tags_worn", [enemy(3.6, 4.5, hp=6, **passive), enemy(3.6, 4.9, hp=400, **passive)],

@@ -207,6 +207,18 @@ that `r = (hash64(seed, x, y, 12) >> 20) mod W` falls on, where `W` is the sum o
 The choice depends only on the seed, the tile and its region, so a spawner always makes the same enemy and a saved enemy is rebuilt from its spawner tile.
 Conformance suite `fauna`: the region and the enemy of spawners near the center of every region.
 
+**Seasonal visitors.** A fauna entry may have `seasons`: a list of `{season, enemy, pm}`. On a day of that season (spec 08, "Seasons"),
+a spawner whose pick is that entry makes the visitor instead when `(hash64(seed, x, y, 13) >> 20) mod 1000 < pm` (the first visitor of
+the list that matches); the stamps' spawners never change. The creature of a spawner is decided when its chunk enters the window (and
+when a saved game is loaded, with the day of the save): a creature already in the world stays what it is when the season turns. The
+visitors are creatures that live elsewhere in the world, and at most 400 per mille of an entry swap, so a quest that asks for the
+creature of the entry can always be done. The base world has sixteen (`tools/make_seasonal_fauna.py`): in winter the blue slimes come
+down to Verdalis and Tidehaven, frost wolves to Whisperwood and Ironspine, ice slimes to Ironspine, grey wolves to the dunes of
+Sunscar and storm wolves to Lumeria; in spring bloom slimes open in Whisperwood and Lumeria and tide slimes reach Frostveil; in summer
+sand slimes cross to Sunscar's villages, bloom slimes flower in the short summer of Frostveil, crabs walk the beaches of Tidehaven and
+ember slimes wake in the Ashen Wastes; in autumn grey wolves follow the herds into Verdalis and ember wolves hunt the foxes of the
+Wastes. The suite `fauna` has, for every spawner, its enemy on a day of every season.
+
 ## Spawn and NPCs
 
 The player starts at the center of tile `(cx, cy)`. Each `npcs[i]` stands at the center of tile `(cx + dx, cy + dy)`. An entry with `when` is a resident (spec 07, "Residents"): it is there only while its condition holds, and is never solid. `settlements.role_when` (an object from role to a dialogue condition) makes the people of a role residents (spec 07, "Residents"): a settlement person of such a role has that `when`, so it is there only while the condition holds and is never solid; nothing else of the person changes (its key, name and place come from its slot as for any role). An entry with `route` is a traveller (spec 07, "Travellers"): on day `d` it stands at the centre of tile `(cx + dx, cy + dy)` of stop `(d - 1) % len(route)`.

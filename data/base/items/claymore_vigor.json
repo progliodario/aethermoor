@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/claymore_vigor",
+  "name": "$i18n:item.claymore_vigor.name",
+  "description": "$i18n:item.claymore_vigor.desc",
+  "kind": "weapon",
+  "rarity": "rare",
+  "price": 2200,
+  "weapon": {
+    "atk": 21,
+    "matk": 0
+  },
+  "affix": {
+    "max_hp": 90
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

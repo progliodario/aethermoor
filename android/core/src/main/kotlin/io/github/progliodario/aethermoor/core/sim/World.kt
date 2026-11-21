@@ -785,7 +785,7 @@ class WorldSim(
     /** The enemy the spawner on a tile makes (spec 09, "Fauna"). */
     private fun streamEnemyAt(x: Int, y: Int): EnemyDef {
         val store = requireNotNull(chunks) { "not a streamed world" }
-        val id = spawnerEnemyAt(store.seed, store.params, x, y)
+        val id = spawnerEnemyAt(store.seed, store.params, x, y, seasonId()) // on a day of a season, its visitors (spec 09)
         return requireNotNull(combat.streamEnemies[id]) { "no enemy $id for the fauna" }
     }
 
@@ -1661,13 +1661,18 @@ class WorldSim(
             if (lootRng.nextBounded(1000) < drop.weightPm) {
                 var quantity = drop.qtyMin
                 if (drop.qtyMax > drop.qtyMin) quantity += lootRng.nextBounded(drop.qtyMax - drop.qtyMin + 1)
-                inventory[drop.item] = (inventory[drop.item] ?: 0L) + quantity
-                val roll = combat.items[drop.item]?.affixRoll
+                var item = drop.item
+                if (drop.pick.isNotEmpty()) { // one of a list (spec 05, "Loot"): the item, or one of `pick`
+                    val index = lootRng.nextBounded((drop.pick.size + 1).toLong()).toInt()
+                    if (index > 0) item = drop.pick[index - 1]
+                }
+                inventory[item] = (inventory[item] ?: 0L) + quantity
+                val roll = combat.items[item]?.affixRoll
                 if (roll != null) { // a piece with an affix found on a creature: how strong its affix came out (spec 06, "Rolled affixes")
                     var pct = roll.first.toLong()
                     if (roll.second > roll.first) pct += lootRng.nextBounded((roll.second - roll.first + 1).toLong())
-                    rolls[drop.item] = maxOf(rollOf(drop.item), pct) // the better of the two is kept
-                    if (drop.item == equippedWeapon || drop.item == equippedArmor || drop.item == equippedAccessory) recomputeDerived()
+                    rolls[item] = maxOf(rollOf(item), pct) // the better of the two is kept
+                    if (item == equippedWeapon || item == equippedArmor || item == equippedAccessory) recomputeDerived()
                 }
             }
         }
@@ -2043,7 +2048,10 @@ class WorldSim(
         p.usingStrike = false
         p.phase = s.phase
         p.phaseTick = s.phaseTick
-        if (chunks != null) {
+        val store = chunks
+        if (store != null) {
+            // the clock first: the creature of a spawner depends on the season of the day (spec 09, "Seasonal visitors")
+            worldTicks = if (s.worldTicks >= 0) s.worldTicks else store.params.time.startTick
             enemies.clear()
             for (e in s.enemies) {
                 val spawner = requireNotNull(e.spawner)

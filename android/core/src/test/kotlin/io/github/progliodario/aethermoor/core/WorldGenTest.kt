@@ -270,6 +270,11 @@ class WorldGenTest {
                 assertEquals(e[2].jsonPrimitive.int, regionAt(params, x, y), "$who region")
                 assertEquals(e[3].jsonPrimitive.content, spawnerEnemyAt(seed, params, x, y), "$who enemy")
                 assertEquals(e[4].jsonPrimitive.content, if (stampSpawnerAt(seed, params, x, y) != null) "" else faunaAt(seed, params, x, y).drop, "$who drop")
+                val seasonal = e[5].jsonArray // the enemy on a day of every season (spec 09, "Seasonal visitors")
+                assertEquals(params.time.seasons.size, seasonal.size, "$who seasons")
+                for ((s, season) in params.time.seasons.withIndex()) {
+                    assertEquals(seasonal[s].jsonPrimitive.content, spawnerEnemyAt(seed, params, x, y, season.id), "$who in ${season.id}")
+                }
             }
         }
     }

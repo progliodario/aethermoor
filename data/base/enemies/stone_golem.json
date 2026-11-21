@@ -22,6 +22,21 @@
       "qty_min": 1,
       "qty_max": 1,
       "weight_pm": 450
+    },
+    {
+      "item": "base:item/claymore_vigor",
+      "pick": [
+        "base:item/claymore_might",
+        "base:item/claymore_keenness",
+        "base:item/claymore_leech",
+        "base:item/knight_plate_vigor",
+        "base:item/knight_plate_might",
+        "base:item/knight_plate_keenness",
+        "base:item/knight_plate_leech"
+      ],
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 30
     }
   ],
   "radius_x100": 52,

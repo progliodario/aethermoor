@@ -73,7 +73,7 @@ private fun enemyDef(d: JsonObject): EnemyDef {
         weaknessesPm = d["weaknesses_pm"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
         drops = d.getValue("drops").jsonArray.map {
             val o = it.jsonObject
-            DropDef(o.getValue("item").jsonPrimitive.content, o.long("qty_min"), o.long("qty_max"), o.long("weight_pm"))
+            DropDef(o.getValue("item").jsonPrimitive.content, o.long("qty_min"), o.long("qty_max"), o.long("weight_pm"), o["pick"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList())
         },
         behavior = BehaviorDef(
             b.getValue("aggro_x100").jsonPrimitive.int, b.getValue("leash_x100").jsonPrimitive.int,

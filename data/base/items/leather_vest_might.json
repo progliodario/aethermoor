@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/leather_vest_might",
+  "name": "$i18n:item.leather_vest_might.name",
+  "description": "$i18n:item.leather_vest_might.desc",
+  "kind": "armor",
+  "rarity": "uncommon",
+  "price": 160,
+  "armor": {
+    "def": 2,
+    "mdef": 1
+  },
+  "affix": {
+    "atk": 3
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

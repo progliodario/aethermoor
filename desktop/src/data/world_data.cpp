@@ -222,6 +222,12 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
                 fauna.enemy = entry.at("enemy").get<std::string>();
                 fauna.drop = entry.at("drop").get<std::string>();
                 fauna.weight = entry.at("weight").get<int>();
+                if (entry.contains("seasons")) {  // the visitors of the seasons (spec 09, "Seasonal visitors")
+                    for (const Json& v : entry.at("seasons")) {
+                        fauna.seasons.push_back({v.at("season").get<std::string>(), v.at("enemy").get<std::string>(),
+                                                 v.at("pm").get<int>()});
+                    }
+                }
                 if (fauna.weight < 1) {
                     error = "invalid fauna weight";
                     return std::nullopt;

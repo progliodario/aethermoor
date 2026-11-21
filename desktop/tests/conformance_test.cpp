@@ -688,8 +688,14 @@ aether::EnemyDef enemy_def_from_json(const Json& d) {
         }
     }
     for (const Json& drop : d.at("drops")) {
-        def.drops.push_back({drop.at("item").get<std::string>(), drop.at("qty_min").get<std::int64_t>(),
-                             drop.at("qty_max").get<std::int64_t>(), drop.at("weight_pm").get<std::int64_t>()});
+        def.drops.push_back({drop.at("item").get<std::string>(),
+                             drop.at("qty_min").get<std::int64_t>(),
+                             drop.at("qty_max").get<std::int64_t>(),
+                             drop.at("weight_pm").get<std::int64_t>(),
+                             {}});
+        if (drop.contains("pick")) {  // one of a list (spec 05, "Loot")
+            def.drops.back().pick = drop.at("pick").get<std::vector<std::string>>();
+        }
     }
     const Json& b = d.at("behavior");
     def.behavior.aggro_x100 = b.at("aggro_x100").get<int>();
@@ -1441,6 +1447,12 @@ TEST_CASE("conformance: fauna", "[conformance]") {
             const std::string drop =
                 aether::stamp_spawner_at(seed, *params, x, y) ? "" : aether::fauna_at(seed, *params, x, y).drop;
             REQUIRE(drop == want.at(i).at(4).get<std::string>());
+            const Json& seasonal = want.at(i).at(5);  // the enemy on a day of every season ("Seasonal visitors")
+            REQUIRE(seasonal.size() == params->time.seasons.size());
+            for (std::size_t s = 0; s < seasonal.size(); ++s) {
+                REQUIRE(aether::spawner_enemy_at(seed, *params, x, y, params->time.seasons[s].id) ==
+                        seasonal.at(s).get<std::string>());
+            }
         }
     }
 }

@@ -124,6 +124,12 @@
           "item": {
             "$ref": "#/$defs/id"
           },
+          "pick": {
+            "type": "array",
+            "minItems": 1,
+            "description": "one of a list (spec 05, Loot): when the drop is found, the item or one of these, drawn from the loot stream",
+            "items": { "$ref": "#/$defs/id" }
+          },
           "qty_min": {
             "type": "integer",
             "minimum": 1

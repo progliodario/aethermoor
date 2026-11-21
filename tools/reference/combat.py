@@ -708,14 +708,18 @@ class CombatSim:
                 qty = drop["qty_min"]
                 if drop["qty_max"] > drop["qty_min"]:
                     qty += self.loot.next_bounded(drop["qty_max"] - drop["qty_min"] + 1)
-                self.inventory[drop["item"]] = self.inventory.get(drop["item"], 0) + qty
-                roll = self.items.get(drop["item"], {}).get("affix_roll")
+                item = drop["item"]
+                if drop.get("pick"):  # one of a list (spec 05, "Loot"): the item, or one of `pick`
+                    index = self.loot.next_bounded(1 + len(drop["pick"]))
+                    item = item if index == 0 else drop["pick"][index - 1]
+                self.inventory[item] = self.inventory.get(item, 0) + qty
+                roll = self.items.get(item, {}).get("affix_roll")
                 if roll is not None:  # a piece with an affix found on a creature: how strong its affix came out (spec 06, "Rolled affixes")
                     pct = roll["min_pct"]
                     if roll["max_pct"] > roll["min_pct"]:
                         pct += self.loot.next_bounded(roll["max_pct"] - roll["min_pct"] + 1)
-                    self.rolls[drop["item"]] = max(self.rolls.get(drop["item"], 0), pct)  # the better of the two is kept
-                    if drop["item"] in self.equipped.values():
+                    self.rolls[item] = max(self.rolls.get(item, 0), pct)  # the better of the two is kept
+                    if item in self.equipped.values():
                         self.derived = self._derive()
         self.grant_xp(rules.xp_gain(enemy.d["xp"], enemy.d["level"], self.level) * (100 + self.title_bonus("xp_pct")) // 100)  # a veteran's titles
         if self.story is not None:

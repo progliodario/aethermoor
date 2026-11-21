@@ -66,6 +66,7 @@ struct DropDef {
     std::int64_t qty_min = 1;
     std::int64_t qty_max = 1;
     std::int64_t weight_pm = 0;
+    std::vector<std::string> pick;  // one of a list (spec 05, "Loot"): the item or one of these, drawn when it drops
 };
 
 struct BehaviorDef {

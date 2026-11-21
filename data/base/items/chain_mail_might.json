@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/chain_mail_might",
+  "name": "$i18n:item.chain_mail_might.name",
+  "description": "$i18n:item.chain_mail_might.desc",
+  "kind": "armor",
+  "rarity": "rare",
+  "price": 600,
+  "armor": {
+    "def": 5,
+    "mdef": 2
+  },
+  "affix": {
+    "atk": 5
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/iron_sword_keenness",
+  "name": "$i18n:item.iron_sword_keenness.name",
+  "description": "$i18n:item.iron_sword_keenness.desc",
+  "kind": "weapon",
+  "rarity": "uncommon",
+  "price": 300,
+  "weapon": {
+    "atk": 7,
+    "matk": 0
+  },
+  "affix": {
+    "crit_pm": 40
+  },
+  "affix_roll": {
+    "min_pct": 100,
+    "max_pct": 150
+  }
+}
