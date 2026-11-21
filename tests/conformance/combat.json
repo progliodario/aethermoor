@@ -53884,6 +53884,9 @@
             "attack": false,
             "do": [
               {
+                "cmd": "open_shop"
+              },
+              {
                 "cmd": "equip",
                 "item": "base:item/iron_sword"
               },

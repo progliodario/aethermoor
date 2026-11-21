@@ -799,12 +799,12 @@ def build_scenarios() -> list[dict]:
                  weather={"season_aggro_cut_pm": 150, "fog_pm": 1000, "fog_aggro_cut_pm": 400, "light_pm": 180, "night_aggro_cut_pm": 250}),
         # Rolled affixes (spec 06): two slimes leave a keen sword each, rolled from 100 to 160 percent, and the better roll is kept; the coat
         # they leave has no `affix_roll` and is never rolled. Worn, the sword adds its rolled affix (the derived stats, and the drain on the
-        # wolf that bites); one sold of two keeps the roll, the last one sold forgets it.
+        # wolf that bites); one sold of two keeps the roll, the last one sold forgets it (the shop opens again: it is not saved).
         {**scenario("affixes_rolled", [enemy(3.6, 4.4, hp=6, **passive, drops=ROLLED_DROPS), enemy(3.6, 4.6, hp=6, **passive, drops=ROLLED_DROPS),
                                        enemy(3.7, 4.5, hp=900, atk=12)],
                     [segment(40, attack=True), segment(1, do=[{"cmd": "equip", "item": "test:item/keen_sword"}]), segment(150, attack=True),
                      segment(1, do=[{"cmd": "open_shop"}, {"cmd": "sell", "item": "test:item/keen_sword"}]),
-                     segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"}, {"cmd": "sell", "item": "test:item/keen_sword"}])],
+                     segment(1, do=[{"cmd": "open_shop"}, {"cmd": "equip", "item": "base:item/iron_sword"}, {"cmd": "sell", "item": "test:item/keen_sword"}])],
                     inventory={"base:item/iron_sword": 1}, story=EMPTY_STORY, start_gold=0, shop={"price_pm": 1000, "stock": []}),
          "items": {**ITEMS, **ROLLED_ITEMS}},
         # Tags (spec 11, "Tags"): a tag not earned is refused; after the first kill the brawler tag is worn and its attack counts on the
