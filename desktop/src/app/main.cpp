@@ -2407,6 +2407,19 @@ void bag_use(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
         }
         return;
     }
+    if (def != sim.combat().items.end() && def->second.is_temper) {  // the affix of a worn piece is tempered (spec 06)
+        if (sim.use_item(item_id)) {
+            const std::string& target =
+                sim.roll_of(sim.equipped_weapon()) > 0 ? sim.equipped_weapon() : sim.equipped_armor();
+            const std::string piece =
+                assets.pack.text(ui.lang, "$i18n:" + item_key(target) + ".name", {{"count", std::int64_t{1}}});
+            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.tempered", {{"item", piece}, {"pct", sim.roll_of(target)}}));
+            bag_move(sim, ui, 0);
+        } else {
+            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.temper_refused"));
+        }
+        return;
+    }
     if (def != sim.combat().items.end() && def->second.is_furniture) {  // a piece stands on a place of the home
         if (sim.use_item(item_id)) {
             notify(ui, assets.pack.text(ui.lang, "$i18n:ui.furniture_placed", {{"item", name}}));

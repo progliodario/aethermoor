@@ -119,8 +119,13 @@ private fun loadFarming(pack: Pack): FarmingDef? {
         reachX100 = doc["reach_x100"]?.jsonPrimitive?.int ?: 150,
         crops = doc.getValue("crops").jsonArray.map { c ->
             val o = c.jsonObject
-            FarmCrop(o.getValue("seed").jsonPrimitive.content, o.getValue("crop").jsonPrimitive.content, o.getValue("qty_min").jsonPrimitive.long,
-                o.getValue("qty_max").jsonPrimitive.long, o.getValue("grow_ticks").jsonPrimitive.long)
+            FarmCrop(
+                o.getValue("seed").jsonPrimitive.content,
+                o.getValue("crop").jsonPrimitive.content,
+                o.getValue("qty_min").jsonPrimitive.long,
+                o.getValue("qty_max").jsonPrimitive.long,
+                o.getValue("grow_ticks").jsonPrimitive.long,
+            )
         },
         rainGrowCutPm = doc["rain_grow_cut_pm"]?.jsonPrimitive?.int ?: 0,
         seasonGrowPm = doc["season_grow_pm"]?.jsonObject?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
@@ -258,7 +263,7 @@ fun loadCombatSetup(
                     radiusX100 = hitbox.getValue("radius_x100").jsonPrimitive.int,
                     angleDeg = hitbox.getValue("angle_deg").jsonPrimitive.int,
                     magical = s.getValue("damage").jsonObject.getValue("kind").jsonPrimitive.content == "magical",
-                element = s.getValue("damage").jsonObject["element"]?.jsonPrimitive?.content ?: "none",
+                    element = s.getValue("damage").jsonObject["element"]?.jsonPrimitive?.content ?: "none",
                 ),
             )
             break
@@ -317,6 +322,7 @@ fun loadCombatSetup(
                 affix = doc["affix"]?.jsonObject?.let { accessoryOf(it) },
                 affixRoll = doc["affix_roll"]?.jsonObject?.let { Pair(it.getValue("min_pct").jsonPrimitive.int, it.getValue("max_pct").jsonPrimitive.int) },
                 furniture = doc["furniture"]?.jsonObject?.let { furnitureOf(it) },
+                temperStation = doc["temper"]?.jsonObject?.let { it["station"]?.jsonPrimitive?.content ?: "" },
             )
         }
 

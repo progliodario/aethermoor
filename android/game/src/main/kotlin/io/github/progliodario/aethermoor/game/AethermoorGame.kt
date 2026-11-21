@@ -10,15 +10,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import io.github.progliodario.aethermoor.core.CreditLine
 import io.github.progliodario.aethermoor.core.GameInfo
+import io.github.progliodario.aethermoor.core.HintDef
 import io.github.progliodario.aethermoor.core.MAP_CELL
 import io.github.progliodario.aethermoor.core.Pack
 import io.github.progliodario.aethermoor.core.WorldParams
-import io.github.progliodario.aethermoor.core.biomeCode
-import io.github.progliodario.aethermoor.core.biomeCodeAt
-import io.github.progliodario.aethermoor.core.mapCodeAt
-import io.github.progliodario.aethermoor.core.regionAt
-import io.github.progliodario.aethermoor.core.settlementContaining
 import io.github.progliodario.aethermoor.core.audio.MusicContext
 import io.github.progliodario.aethermoor.core.audio.MusicDirector
 import io.github.progliodario.aethermoor.core.audio.PanelsOpen
@@ -27,62 +24,64 @@ import io.github.progliodario.aethermoor.core.audio.SoundCue
 import io.github.progliodario.aethermoor.core.audio.SoundDirector
 import io.github.progliodario.aethermoor.core.audio.SoundSnapshot
 import io.github.progliodario.aethermoor.core.audio.ambienceGains
-import io.github.progliodario.aethermoor.core.settlementMarker
-import io.github.progliodario.aethermoor.core.worldEnemyIds
-import io.github.progliodario.aethermoor.core.loadPack
-import io.github.progliodario.aethermoor.core.HintDef
-import io.github.progliodario.aethermoor.core.loadHints
-import io.github.progliodario.aethermoor.core.CreditLine
+import io.github.progliodario.aethermoor.core.biomeCode
 import io.github.progliodario.aethermoor.core.loadCredits
-import io.github.progliodario.aethermoor.core.parseProtagonist
+import io.github.progliodario.aethermoor.core.loadHints
+import io.github.progliodario.aethermoor.core.loadPack
 import io.github.progliodario.aethermoor.core.loadWorldParams
+import io.github.progliodario.aethermoor.core.mapCodeAt
+import io.github.progliodario.aethermoor.core.parseProtagonist
+import io.github.progliodario.aethermoor.core.regionAt
+import io.github.progliodario.aethermoor.core.settlementContaining
+import io.github.progliodario.aethermoor.core.settlementMarker
 import io.github.progliodario.aethermoor.core.sim.AttackPhase
-import io.github.progliodario.aethermoor.core.sim.Enemy
+import io.github.progliodario.aethermoor.core.sim.DeedDef
 import io.github.progliodario.aethermoor.core.sim.Effect
+import io.github.progliodario.aethermoor.core.sim.Enemy
 import io.github.progliodario.aethermoor.core.sim.EnemyState
 import io.github.progliodario.aethermoor.core.sim.NpcDef
+import io.github.progliodario.aethermoor.core.sim.ObjectiveKind
+import io.github.progliodario.aethermoor.core.sim.Profile
 import io.github.progliodario.aethermoor.core.sim.Prop
 import io.github.progliodario.aethermoor.core.sim.QuestStage
-import io.github.progliodario.aethermoor.core.sim.Profile
 import io.github.progliodario.aethermoor.core.sim.SaveMeta
-import io.github.progliodario.aethermoor.core.sim.claimHeirloom
-import io.github.progliodario.aethermoor.core.sim.DeedDef
-import io.github.progliodario.aethermoor.core.sim.mergeProfile
-import io.github.progliodario.aethermoor.core.sim.parseDeeds
-import io.github.progliodario.aethermoor.core.sim.profileDeeds
-import io.github.progliodario.aethermoor.core.sim.profileDeedGifts
-import io.github.progliodario.aethermoor.core.sim.parseProfile
-import io.github.progliodario.aethermoor.core.sim.profileEchoPct
-import io.github.progliodario.aethermoor.core.sim.profileToJson
-import io.github.progliodario.aethermoor.core.sim.reincarnate
 import io.github.progliodario.aethermoor.core.sim.StreamConfig
-import io.github.progliodario.aethermoor.core.sim.saveFromJson
-import io.github.progliodario.aethermoor.core.sim.saveToJson
 import io.github.progliodario.aethermoor.core.sim.TICK_DT
 import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
-import io.github.progliodario.aethermoor.core.sim.ObjectiveKind
 import io.github.progliodario.aethermoor.core.sim.WorldSim
+import io.github.progliodario.aethermoor.core.sim.claimHeirloom
 import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
-import io.github.progliodario.aethermoor.core.sim.questFromOffer
 import io.github.progliodario.aethermoor.core.sim.makeStreamMap
+import io.github.progliodario.aethermoor.core.sim.mergeProfile
+import io.github.progliodario.aethermoor.core.sim.parseDeeds
+import io.github.progliodario.aethermoor.core.sim.parseProfile
 import io.github.progliodario.aethermoor.core.sim.parseTileset
+import io.github.progliodario.aethermoor.core.sim.profileDeedGifts
+import io.github.progliodario.aethermoor.core.sim.profileDeeds
+import io.github.progliodario.aethermoor.core.sim.profileEchoPct
+import io.github.progliodario.aethermoor.core.sim.profileToJson
+import io.github.progliodario.aethermoor.core.sim.questFromOffer
+import io.github.progliodario.aethermoor.core.sim.reincarnate
+import io.github.progliodario.aethermoor.core.sim.saveFromJson
 import io.github.progliodario.aethermoor.core.sim.savePeek
+import io.github.progliodario.aethermoor.core.sim.saveToJson
 import io.github.progliodario.aethermoor.core.vector.Clip
 import io.github.progliodario.aethermoor.core.vector.Rig
 import io.github.progliodario.aethermoor.core.vector.evaluatePose
 import io.github.progliodario.aethermoor.core.vector.parseClip
 import io.github.progliodario.aethermoor.core.vector.parseRig
+import io.github.progliodario.aethermoor.core.worldEnemyIds
 import java.util.Locale
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.ceil
 import kotlin.math.floor
-import kotlin.math.sin
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.math.sin
 
 /**
  * Client: a vector-art character exploring the generated world, fighting and talking, drawn with libGDX.
@@ -708,8 +707,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val next = if (at < 0) earned.first() else earned.getOrElse(at + 1) { "" }
         if (!world.wearTag(next)) return
         showNotice(
-            if (next.isEmpty()) pack.text(language, "\$i18n:ui.tag_off")
-            else pack.text(language, "\$i18n:ui.tag_worn", mapOf("tag" to pack.text(language, "\$i18n:tag.$next"), "what" to pack.text(language, "\$i18n:tag.$next.desc"))),
+            if (next.isEmpty()) {
+                pack.text(language, "\$i18n:ui.tag_off")
+            } else {
+                pack.text(language, "\$i18n:ui.tag_worn", mapOf("tag" to pack.text(language, "\$i18n:tag.$next"), "what" to pack.text(language, "\$i18n:tag.$next.desc")))
+            },
         )
     }
 
@@ -729,6 +731,17 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
             } else {
                 showNotice(pack.text(language, "\$i18n:ui.rune_refused"))
+            }
+            return
+        }
+        if (world.combat.items[itemId]?.temperStation != null) { // the affix of a worn piece is tempered (spec 06, "Tempering")
+            if (world.useItem(itemId)) {
+                val target = if (world.rollOf(world.equippedWeapon) > 0L) world.equippedWeapon else world.equippedArmor
+                val piece = pack.text(language, "\$i18n:${target.substringAfter(':').replace('/', '.')}.name", mapOf("count" to 1L))
+                showNotice(pack.text(language, "\$i18n:ui.tempered", mapOf("item" to piece, "pct" to world.rollOf(target))))
+                bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
+            } else {
+                showNotice(pack.text(language, "\$i18n:ui.temper_refused"))
             }
             return
         }
@@ -782,7 +795,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 return
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-                if (showCredits) showCredits = false else if (showDeeds) showDeeds = false else Gdx.app.exit() // Back closes the credits or the deeds, or the game from the title screen
+                if (showCredits) {
+                    showCredits = false
+                } else if (showDeeds) {
+                    showDeeds = false
+                } else {
+                    Gdx.app.exit() // Back closes the credits or the deeds, or the game from the title screen
+                }
                 return
             }
             handleTitleInput(data, slots)
@@ -816,7 +835,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             data.deeds.firstOrNull { it.id == id }?.let { showNotice(data.pack.text(language, "\$i18n:ui.deed_done", mapOf("deed" to data.pack.text(language, it.name)))) }
         }
         if (options[0]) updateHints(world, data, free) // unless the hints are turned off (spec 16, "Settings")
-        world.combat.companion?.let { c -> // moments of the bond, once a game (spec 10)
+        world.combat.companion?.let { c ->
+            // moments of the bond, once a game (spec 10)
             val moment = c.moments.firstOrNull { (bond, _) -> world.companionBond >= bond && world.story.flags["moment_${c.id}_$bond"] != true }
             if (moment != null) {
                 world.story.apply(Effect.SetFlag("moment_${c.id}_${moment.first}", true))
@@ -881,8 +901,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             weapon = world.equippedWeapon,
             armor = world.equippedArmor,
             panels = PanelsOpen(
-                bag = showInventory, map = showMap, journal = showJournal || showCraft,
-                shop = world.shop != null, board = world.board != null, travel = world.travel != null,
+                bag = showInventory,
+                map = showMap,
+                journal = showJournal || showCraft,
+                shop = world.shop != null,
+                board = world.board != null,
+                travel = world.travel != null,
             ),
             dialogue = view.active,
             line = dialogueLines,
@@ -902,7 +926,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             if (store != null && snapshot.frame - placeFrame >= 30) {
                 placeFrame = snapshot.frame
                 val here = settlementContaining(store.seed, store.params, floor(hero.position.x).toInt(), floor(hero.position.y).toInt())
-                place = if (here == null) "wild" else if (here.kind == "dungeon") "dungeon" else "settlement"
+                place = if (here == null) {
+                    "wild"
+                } else if (here.kind == "dungeon") {
+                    "dungeon"
+                } else {
+                    "settlement"
+                }
             }
             val mood = MusicContext(
                 frame = snapshot.frame,
@@ -1305,8 +1335,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     private fun drawCharacter(
-        data: Assets, moving: Boolean, facingLeft: Boolean, clipTick: Int, blink: Boolean, variant: String?,
-        feetX: Float, feetY: Float, tilePx: Int, k: Float, back: Boolean = false, attackTick: Int = -1, side: Boolean = false,
+        data: Assets,
+        moving: Boolean,
+        facingLeft: Boolean,
+        clipTick: Int,
+        blink: Boolean,
+        variant: String?,
+        feetX: Float,
+        feetY: Float,
+        tilePx: Int,
+        k: Float,
+        back: Boolean = false,
+        attackTick: Int = -1,
+        side: Boolean = false,
     ) {
         // attackTick (0 or more): the figure is striking, and the clip of the blow is at that tick
         val blow = if (attackTick >= 0) data.attack else null
@@ -1314,11 +1355,29 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         // seen from behind (spec 13), the parts use their own recipe and draw order
         // seen from the side, the parts hang from their side joints and the figure looks right unless mirrored
         val pose = evaluatePose(data.rig, clip, (if (blow != null) attackTick else clipTick).toFloat(), facingLeft, side)
-            .sortedBy { if (side) data.rig.parts[it.partIndex].zSide else if (back) data.rig.parts[it.partIndex].zBack else it.z }
+            .sortedBy {
+                if (side) {
+                    data.rig.parts[it.partIndex].zSide
+                } else if (back) {
+                    data.rig.parts[it.partIndex].zBack
+                } else {
+                    it.z
+                }
+            }
         batch.setColor(1f, 1f, 1f, if (blink) 0.47f else 1f)
         for (posed in pose) {
             val part = data.rig.parts[posed.partIndex]
-            val sprite = cache.get(if (side) part.artSide else if (back) part.artBack else part.art, tilePx, variant) ?: continue
+            val sprite = cache.get(
+                if (side) {
+                    part.artSide
+                } else if (back) {
+                    part.artBack
+                } else {
+                    part.art
+                },
+                tilePx,
+                variant,
+            ) ?: continue
             val px = feetX + posed.x * k
             val py = feetY + posed.y * k
             val pivotX = sprite.originX * k
@@ -1462,7 +1521,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         // in the cold regions the rain is snow (spec 08)
         val store = world.chunks
-        val snowy = time.rainPm > 0 && store != null && grade.snowRegions.isNotEmpty() &&
+        val snowy = time.rainPm > 0 &&
+            store != null &&
+            grade.snowRegions.isNotEmpty() &&
             store.params.regions[regionAt(store.params, floor(world.player.position.x).toInt(), floor(world.player.position.y).toInt())].id in grade.snowRegions
         if (snowy) {
             val density = Gdx.graphics.density
@@ -1522,7 +1583,6 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
         }
     }
-
 
     /**
      * A panel of the interface: night-violet glass with a thread of the accent color around it, a soft shadow under it, a
@@ -1622,8 +1682,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val centerDeg = atan2(p.facing.y, p.facing.x) * 180f / PI.toFloat()
             shapes.color = Color(1f, 1f, 1f, if (p.phase == AttackPhase.ACTIVE) 0.35f else 0.12f)
             shapes.arc(
-                (p.position.x - camX) * tile, (p.position.y - camY) * tile - 0.5f * tile,
-                radius, centerDeg - skill.angleDeg / 2f, skill.angleDeg.toFloat(),
+                (p.position.x - camX) * tile,
+                (p.position.y - camY) * tile - 0.5f * tile,
+                radius,
+                centerDeg - skill.angleDeg / 2f,
+                skill.angleDeg.toFloat(),
             )
         }
 
@@ -1691,9 +1754,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val hour = time.todPm * 24 / 1000
             val minute = time.todPm * 1440 / 1000 % 60
             val clock = data.pack.text(
-                language, "\$i18n:ui.clock",
+                language,
+                "\$i18n:ui.clock",
                 mapOf(
-                    "day" to time.day, "time" to "%02d:%02d".format(hour, minute), "season" to seasonName(world, time),
+                    "day" to time.day,
+                    "time" to "%02d:%02d".format(hour, minute),
+                    "season" to seasonName(world, time),
                     "weather" to data.pack.text(language, "\$i18n:weather.${time.kind}"),
                 ),
             )
@@ -2053,7 +2119,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             journalScroll = 0
             return
         }
-        val confirm = input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) ||
+        val confirm = input.isKeyJustPressed(Input.Keys.E) ||
+            input.isKeyJustPressed(Input.Keys.ENTER) ||
             (view.active && input.isKeyJustPressed(Input.Keys.SPACE))
         if (view.active && view.isChoice) {
             val count = view.choices.size
@@ -2159,8 +2226,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     return
                 }
                 val rect = talkRect
-                if (rect != null && canInteract(world) &&
-                    x >= rect[0] && x <= rect[0] + rect[2] && y >= rect[1] && y <= rect[1] + rect[3]
+                if (rect != null &&
+                    canInteract(world) &&
+                    x >= rect[0] &&
+                    x <= rect[0] + rect[2] &&
+                    y >= rect[1] &&
+                    y <= rect[1] + rect[3]
                 ) {
                     interact(world)
                     choiceIndex = 0
@@ -2262,7 +2333,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             font.color = Color(0.435f, 0.89f, 1f, 1f)
             hudText(dialogueText(data.pack, def.name, def.args), x, y)
             y += font.lineHeight * 1.2f
-            questPlace(world, stage)?.let { place -> // where it sends the player (spec 07, "Places")
+            questPlace(world, stage)?.let { place ->
+                // where it sends the player (spec 07, "Places")
                 font.color = Color(1f, 0.71f, 0.35f, 1f)
                 hudText(data.pack.text(language, "\$i18n:ui.quest_place", mapOf("place" to placeLabel(data.pack, place.label))), x, y)
                 y += font.lineHeight * 1.2f
@@ -2290,8 +2362,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 else -> "gather"
             }
             font.draw(
-                batch, data.pack.text(language, "\$i18n:ui.touch_$what"),
-                button[0] + 12f * density, button[1] + button[3] / 2f - font.lineHeight / 2f,
+                batch,
+                data.pack.text(language, "\$i18n:ui.touch_$what"),
+                button[0] + 12f * density,
+                button[1] + button[3] / 2f - font.lineHeight / 2f,
             )
         }
 
@@ -2309,8 +2383,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 for ((i, choice) in view.choices.withIndex()) {
                     font.color = if (i == choiceIndex) Color(0.435f, 0.89f, 1f, 1f) else Color.WHITE
                     font.draw(
-                        batch, "${i + 1}. ${dialogueText(data.pack, choice, view.args)}",
-                        margin + 12f * density, ty + (font.lineHeight * 1.5f - font.lineHeight) / 2f,
+                        batch,
+                        "${i + 1}. ${dialogueText(data.pack, choice, view.args)}",
+                        margin + 12f * density,
+                        ty + (font.lineHeight * 1.5f - font.lineHeight) / 2f,
                     )
                     ty += font.lineHeight * 1.5f
                 }
@@ -2446,8 +2522,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.draw(batch, data.pack.text(language, "\$i18n:ui.travel"), panelX + 14f * density, panelY + 12f * density)
         font.color = Color(1f, 0.84f, 0.47f, 1f)
         font.draw(
-            batch, data.pack.text(language, if (travel.fresh) "\$i18n:ui.stone_awake" else "\$i18n:ui.stone_rest"),
-            panelX + 14f * density, panelY + 12f * density + font.lineHeight * 1.5f,
+            batch,
+            data.pack.text(language, if (travel.fresh) "\$i18n:ui.stone_awake" else "\$i18n:ui.stone_rest"),
+            panelX + 14f * density,
+            panelY + 12f * density + font.lineHeight * 1.5f,
         )
         for ((i, stop) in travel.stops.withIndex()) {
             if (i < first || i >= first + visible) continue
@@ -2516,7 +2594,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 for ((i, objective) in stage.objectives.withIndex()) {
                     if (objective.kind != ObjectiveKind.TALK) entries.add(Pair("${progress.progress[i]}/${objective.count}", 2))
                 }
-                questPlace(world, stage)?.let { place -> // where it sends the player (spec 07, "Places")
+                questPlace(world, stage)?.let { place ->
+                    // where it sends the player (spec 07, "Places")
                     entries.add(Pair(data.pack.text(language, "\$i18n:ui.quest_place", mapOf("place" to placeLabel(data.pack, place.label))), 2))
                 }
             }
@@ -2536,7 +2615,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             entries.add(Pair(data.pack.text(language, companion.name), 1))
             entries.add(Pair("  " + data.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_stays" else "\$i18n:ui.companion_follows"), 2))
             entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.journal_bond", mapOf("bond" to world.companionBond, "bonus" to minOf(world.companionBond / 5, 10))), 2))
-            world.tamedFriend?.let { tamed -> // the tamed friend (spec 10)
+            world.tamedFriend?.let { tamed ->
+                // the tamed friend (spec 10)
                 val name = data.pack.text(language, "\$i18n:enemy.${tamed.def.id.substringAfterLast('/')}.name")
                 entries.add(Pair("  " + data.pack.text(language, "\$i18n:ui.journal_friend", mapOf("name" to name)), 2))
             }
@@ -2736,7 +2816,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             font.draw(batch, layout, panelX + 30f * density, rowY + font.lineHeight * 1.1f)
             font.color = Color(1f, 0.84f, 0.47f, 1f)
             val reward = data.pack.text(
-                language, "\$i18n:ui.board_reward",
+                language,
+                "\$i18n:ui.board_reward",
                 mapOf("gold" to offer.gold, "xp" to offer.xp, "points" to offer.points),
             )
             font.draw(batch, reward, panelX + 30f * density, rowY + font.lineHeight * 2.2f)
@@ -3224,10 +3305,12 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             font.draw(
                 batch,
                 data.pack.text(
-                    language, "\$i18n:ui.talent_row",
+                    language,
+                    "\$i18n:ui.talent_row",
                     mapOf("name" to data.pack.text(language, talent.name), "rank" to rank, "max" to talent.maxRank, "pct" to talent.pctPerRank * rank, "what" to data.pack.text(language, "\$i18n:ui.talent_${talent.stat}")),
                 ) + lockedNote(world, data, talent),
-                r[0] + 16f * density, r[1] + (r[3] - font.lineHeight) / 2f,
+                r[0] + 16f * density,
+                r[1] + (r[3] - font.lineHeight) / 2f,
             )
         }
         font.color = Color.WHITE
@@ -3331,7 +3414,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val size = 64f * density
         val rect = floatArrayOf(
             Gdx.graphics.width - 84f * density - 24f * density + (84f * density - size) / 2f,
-            Gdx.graphics.height - 84f * density - 24f * density - 12f * density - 72f * density - 12f * density - size, size, size,
+            Gdx.graphics.height - 84f * density - 24f * density - 12f * density - 72f * density - 12f * density - size,
+            size,
+            size,
         )
         val visible = world.combat.enabled && !world.story.dialogueActive && !showMap && !showInventory && !showJournal && !showCraft
         input.parryRect = rect.takeIf { visible }
@@ -3358,7 +3443,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val size = 72f * density
         val rect = floatArrayOf(
             Gdx.graphics.width - 84f * density - 24f * density + (84f * density - size) / 2f,
-            Gdx.graphics.height - 84f * density - 24f * density - 12f * density - size, size, size,
+            Gdx.graphics.height - 84f * density - 24f * density - 12f * density - size,
+            size,
+            size,
         )
         val visible = world.hasStrike && !world.story.dialogueActive && !showMap && !showInventory && !showJournal && !showCraft
         input.strikeRect = rect.takeIf { visible }
@@ -3446,7 +3533,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         layout.setText(font, name)
         font.color = Color(1f, 0.86f, 0.59f, 1f)
         hudText(name, (width - layout.width) / 2f, y - font.lineHeight * 1.4f)
-        creatureElements(data.pack, boss.def).takeIf { it.isNotEmpty() }?.let { elements -> // weak to, resists (spec 05), under the bar
+        creatureElements(data.pack, boss.def).takeIf { it.isNotEmpty() }?.let { elements ->
+            // weak to, resists (spec 05), under the bar
             layout.setText(font, elements)
             font.color = Color(0.78f, 0.86f, 1f, 1f)
             hudText(elements, (width - layout.width) / 2f, y + h + 10f * density)
@@ -3642,7 +3730,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         // The text under (or beside) the view, measured first because the buttons come after it.
         val help = data.pack.text(language, "\$i18n:ui.map_help_touch")
         val where = data.pack.text(
-            language, "\$i18n:ui.map_pos",
+            language,
+            "\$i18n:ui.map_pos",
             mapOf("x" to floor(world.player.position.x).toInt(), "y" to floor(world.player.position.y).toInt(), "zoom" to (1 shl max(mapLevel, 0))),
         )
         var buttonsY = 0f
@@ -3729,7 +3818,15 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 if (mx < v.x || my < v.y || mx > v.x + v.side || my > v.y + v.side) continue
                 val marker = markerAt(store, x, y) ?: continue
                 val place = marker.kind == "town" || marker.kind == "village" || marker.kind == "hamlet"
-                val size = (if (marker.kind == "town") 7f else if (marker.kind == "village") 5f else 4f) * density * boost
+                val size = (
+                    if (marker.kind == "town") {
+                        7f
+                    } else if (marker.kind == "village") {
+                        5f
+                    } else {
+                        4f
+                    }
+                    ) * density * boost
                 shapes.color = Color(0.08f, 0.08f, 0.12f, 1f)
                 clipped(mx - size / 2f - 1f, my - size / 2f - 1f, size + 2f, size + 2f)
                 shapes.color = if (place) Color(1f, 0.92f, 0.59f, 1f) else Color(0.8f, 0.47f, 1f, 1f)
@@ -3807,12 +3904,22 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             // A name goes to the first free side of its marker (right, left, below, above): in the view, over no other marker or name.
             // Towns first, then villages, the other sites, hamlets (from level 3).
             val order = shown.filter { it.first.kind != "hamlet" || mapLevel >= 3 }
-                .sortedBy { (marker, _) -> when (marker.kind) { "town" -> 0; "village" -> 1; "hamlet" -> 3; else -> 2 } }
+                .sortedBy { (marker, _) ->
+                    when (marker.kind) {
+                        "town" -> 0
+                        "village" -> 1
+                        "hamlet" -> 3
+                        else -> 2
+                    }
+                }
             val obstacles = ArrayList<FloatArray>()
             for ((_, box) in shown) obstacles.add(box)
             val lineH = font.lineHeight
             fun free(c: FloatArray, own: FloatArray?): Boolean =
-                c[0] >= v.x && c[0] + c[2] <= v.x + v.side && c[1] >= v.y && c[1] + c[3] <= v.y + v.side &&
+                c[0] >= v.x &&
+                    c[0] + c[2] <= v.x + v.side &&
+                    c[1] >= v.y &&
+                    c[1] + c[3] <= v.y + v.side &&
                     obstacles.none { it !== own && c[0] < it[0] + it[2] && it[0] < c[0] + c[2] && c[1] < it[1] + it[3] && it[1] < c[1] + c[3] }
             for ((marker, m) in order) {
                 layout.setText(font, marker.name)
@@ -4069,7 +4176,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val x = input.x.toFloat()
             val y = input.y.toFloat()
             val row = chooserRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
-            if (row == chooserCursor) confirmProtagonist() else if (row >= 0) chooserCursor = row
+            if (row == chooserCursor) {
+                confirmProtagonist()
+            } else if (row >= 0) {
+                chooserCursor = row
+            }
         }
     }
 
@@ -4369,6 +4480,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             Color(0.431f, 0.706f, 0.353f, 1f),
             Color(0.353f, 0.627f, 0.902f, 1f), Color(0.667f, 0.51f, 0.333f, 1f), // a river, a road (spec 09)
         )
+
         /** The rectangle of a list row that is not on the screen: no tap can hit it. */
         private val OFF_SCREEN = floatArrayOf(-1f, -1f, 0f, 0f)
         private const val MAX_TICKS_PER_FRAME = 5

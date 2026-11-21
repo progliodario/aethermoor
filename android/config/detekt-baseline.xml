@@ -1,0 +1,114 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$override fun render()</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun draw(world: WorldSim, data: Assets, tilePx: Int)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawAnalyze(world: WorldSim, data: Assets)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawAtmosphere(world: WorldSim)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawBagAndNotice(world: WorldSim, data: Assets)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawCraft(world: WorldSim, data: Assets)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawJournal(world: WorldSim, data: Assets)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawMinimap(world: WorldSim)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawOverlays(world: WorldSim, camX: Float, camY: Float, tile: Float, k: Float)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawShop(world: WorldSim, data: Assets)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawStory(world: WorldSim, data: Assets)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawTitle(data: Assets, slots: List&lt;SlotSummary&gt;)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawWorldMap(world: WorldSim, data: Assets)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleBoardInput(world: WorldSim)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleChooserInput(data: Assets)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleMapInput(world: WorldSim)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleShopInput(world: WorldSim)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleStoryInput(world: WorldSim)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleTitleInput(data: Assets, slots: List&lt;SlotSummary&gt;)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleTravelInput(world: WorldSim)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun hintHolds(world: WorldSim, kind: String): Boolean</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun interact(world: WorldSim)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun journalEntries(world: WorldSim, data: Assets): List&lt;Pair&lt;String, Int&gt;&gt;</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun loadAutosave(world: WorldSim, pack: Pack)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun playChangeSounds(world: WorldSim)</ID>
+    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun questPlace(world: WorldSim, stage: QuestStage): QuestPlace?</ID>
+    <ID>CyclomaticComplexMethod:CombatLoader.kt$fun loadCombatSetup( pack: Pack, map: TileMap, protagonistId: String, seed: ULong, /** The enemies of the fauna of a streamed world, if the map is one. */ streamEnemyIds: Collection&lt;String&gt; = emptyList(), /** The difficulty of the world (spec 04): health and attack of the streamed creatures, in percent. */ enemyHpPct: Int = 100, enemyAtkPct: Int = 100, ): Result&lt;CombatSetup&gt;</ID>
+    <ID>CyclomaticComplexMethod:ConformanceAudioDirectorTest.kt$ConformanceAudioDirectorTest$@Test fun profileSuite()</ID>
+    <ID>CyclomaticComplexMethod:Director.kt$SoundDirector$fun update(s: SoundSnapshot): List&lt;SoundEvent&gt;</ID>
+    <ID>CyclomaticComplexMethod:InputController.kt$InputController$fun read(): FrameInput</ID>
+    <ID>CyclomaticComplexMethod:MessageFormat.kt$private fun parseBranches(spec: String): Map&lt;String, String&gt;?</ID>
+    <ID>CyclomaticComplexMethod:Movement.kt$CollisionWorld$fun resolve(start: Vec2, radius: Float = PLAYER_RADIUS): Vec2</ID>
+    <ID>CyclomaticComplexMethod:Music.kt$MusicDirector$fun update(ctx: MusicContext): MusicChoice</ID>
+    <ID>CyclomaticComplexMethod:Music.kt$private fun voice(patch: MusicPatch, freq: Double, length: Int, total: Int, stateSeed: Int): DoubleArray</ID>
+    <ID>CyclomaticComplexMethod:Pack.kt$fun loadPack(source: PackSource, errors: MutableList&lt;String&gt;): Pack?</ID>
+    <ID>CyclomaticComplexMethod:Profile.kt$fun parseProfile(text: String?): Profile</ID>
+    <ID>CyclomaticComplexMethod:Raster.kt$fun rasterize(recipe: Recipe, scale: Float, variant: String? = null): Bitmap</ID>
+    <ID>CyclomaticComplexMethod:Raster.kt$private fun coverage(polys: List&lt;List&lt;Pt&gt;&gt;, mask: Mask)</ID>
+    <ID>CyclomaticComplexMethod:Raster.kt$private fun parsePath(d: String, scale: Float): List&lt;Subpath&gt;</ID>
+    <ID>CyclomaticComplexMethod:Recipe.kt$fun parseRecipe(jsonText: String): Result&lt;Recipe&gt;</ID>
+    <ID>CyclomaticComplexMethod:Save.kt$fun saveFromJson(text: String): Result&lt;SaveState&gt;</ID>
+    <ID>CyclomaticComplexMethod:Save.kt$fun saveToJson(s: SaveState, meta: SaveMeta): String</ID>
+    <ID>CyclomaticComplexMethod:SaveBundle.kt$fun importBundle(text: String): Map&lt;String, String&gt;?</ID>
+    <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: String)</ID>
+    <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun runSegment(sim: WorldSim, segment: JsonObject)</ID>
+    <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun scenarioFromJson(input: JsonObject): ScenarioWorld</ID>
+    <ID>CyclomaticComplexMethod:SoundBoard.kt$SoundBoard$private fun mixLoop()</ID>
+    <ID>CyclomaticComplexMethod:Story.kt$Story$fun apply(effect: Effect)</ID>
+    <ID>CyclomaticComplexMethod:Story.kt$Story$fun holds(c: Condition): Boolean</ID>
+    <ID>CyclomaticComplexMethod:Story.kt$private fun parseCondition(element: JsonElement): Condition</ID>
+    <ID>CyclomaticComplexMethod:Synth.kt$fun synthesize(recipe: SfxRecipe): ShortArray</ID>
+    <ID>CyclomaticComplexMethod:TileMap.kt$fun parseTileMap(tmjText: String): Result&lt;TileMap&gt;</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun craft(recipeId: String): Boolean</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun restore(saved: SaveState): Result&lt;Unit&gt;</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun tame(): Boolean</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false, dodgeIn: Boolean = false, strikeIn: Boolean = false, parryIn: Boolean = false)</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun useAbility(kind: String): Boolean</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun useItem(itemId: String): Boolean</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$private fun behaveEnemy(enemy: Enemy)</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$private fun doHits()</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$private fun hurtPlayer(enemy: Enemy)</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$private fun lightning()</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$private fun onKill(enemy: Enemy)</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$private fun recomputeDerived()</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$private fun updateCompanion()</ID>
+    <ID>CyclomaticComplexMethod:World.kt$WorldSim$private fun updateFriend()</ID>
+    <ID>CyclomaticComplexMethod:WorldGen.kt$Sites$private fun compute(sx: Int, sy: Int): Settlement?</ID>
+    <ID>CyclomaticComplexMethod:WorldGen.kt$fun parseWorldParams(jsonText: String): Result&lt;WorldParams&gt;</ID>
+    <ID>CyclomaticComplexMethod:WorldGen.kt$private fun naturalBiomeAt(seed: ULong, p: WorldParams, x: Int, y: Int): Biome</ID>
+    <ID>CyclomaticComplexMethod:WorldGenTest.kt$WorldGenTest$@Test fun chunkWindowSuite()</ID>
+    <ID>CyclomaticComplexMethod:WorldGenTest.kt$WorldGenTest$@Test fun theOverworldIsStreamedFromTheContentPackAndIsPlayable()</ID>
+    <ID>CyclomaticComplexMethod:WorldTime.kt$fun parseTimeParams(time: JsonObject): TimeParams</ID>
+    <ID>LoopWithTooManyJumpStatements:AethermoorGame.kt$AethermoorGame$for</ID>
+    <ID>LoopWithTooManyJumpStatements:CombatLoader.kt$for</ID>
+    <ID>LoopWithTooManyJumpStatements:Font.kt$for</ID>
+    <ID>LoopWithTooManyJumpStatements:MessageFormat.kt$while</ID>
+    <ID>LoopWithTooManyJumpStatements:Pack.kt$for</ID>
+    <ID>LoopWithTooManyJumpStatements:Raster.kt$for</ID>
+    <ID>LoopWithTooManyJumpStatements:Raster.kt$while</ID>
+    <ID>LoopWithTooManyJumpStatements:World.kt$WorldSim$for</ID>
+    <ID>LoopWithTooManyJumpStatements:WorldGen.kt$for</ID>
+    <ID>MatchingDeclarationName:Protagonist.kt$ProtagonistDef</ID>
+    <ID>MatchingDeclarationName:Raster.kt$Bitmap</ID>
+    <ID>MatchingDeclarationName:ScenarioSupport.kt$ScenarioWorld</ID>
+    <ID>MayBeConst:Numerics.kt$/** SplitMix64 / hash increment. */ val GOLDEN: ULong = 0x9E3779B97F4A7C15uL</ID>
+    <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun draw(world: WorldSim, data: Assets, tilePx: Int)</ID>
+    <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun drawStory(world: WorldSim, data: Assets)</ID>
+    <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun drawWorldMap(world: WorldSim, data: Assets)</ID>
+    <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun handleStoryInput(world: WorldSim)</ID>
+    <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun journalEntries(world: WorldSim, data: Assets): List&lt;Pair&lt;String, Int&gt;&gt;</ID>
+    <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun questPlace(world: WorldSim, stage: QuestStage): QuestPlace?</ID>
+    <ID>NestedBlockDepth:ChunkStore.kt$ChunkStore$fun forEachPropIn(x0: Float, y0: Float, x1: Float, y1: Float, fn: (Prop) -&gt; Unit)</ID>
+    <ID>NestedBlockDepth:Movement.kt$CollisionWorld$fun resolve(start: Vec2, radius: Float = PLAYER_RADIUS): Vec2</ID>
+    <ID>NestedBlockDepth:Music.kt$fun renderMusic(piece: MusicPiece): Map&lt;String, ShortArray&gt;</ID>
+    <ID>NestedBlockDepth:Music.kt$private fun voice(patch: MusicPatch, freq: Double, length: Int, total: Int, stateSeed: Int): DoubleArray</ID>
+    <ID>NestedBlockDepth:Pack.kt$fun loadPack(source: PackSource, errors: MutableList&lt;String&gt;): Pack?</ID>
+    <ID>NestedBlockDepth:Raster.kt$private fun coverage(polys: List&lt;List&lt;Pt&gt;&gt;, mask: Mask)</ID>
+    <ID>NestedBlockDepth:Raster.kt$private fun parsePath(d: String, scale: Float): List&lt;Subpath&gt;</ID>
+    <ID>NestedBlockDepth:Synth.kt$fun synthesize(recipe: SfxRecipe): ShortArray</ID>
+    <ID>NestedBlockDepth:World.kt$WorldSim$private fun doHits()</ID>
+    <ID>NestedBlockDepth:World.kt$WorldSim$private fun onKill(enemy: Enemy)</ID>
+    <ID>NestedBlockDepth:WorldGenTest.kt$WorldGenTest$@Test fun chunkWindowSuite()</ID>
+    <ID>NestedBlockDepth:WorldGenTest.kt$WorldGenTest$@Test fun guildSuite()</ID>
+    <ID>NestedBlockDepth:WorldGenTest.kt$WorldGenTest$@Test fun theOverworldIsStreamedFromTheContentPackAndIsPlayable()</ID>
+    <ID>SwallowedException:AethermoorGame.kt$AethermoorGame$e: com.badlogic.gdx.utils.GdxRuntimeException</ID>
+    <ID>SwallowedException:Pack.kt$e: IllegalArgumentException</ID>
+    <ID>UnusedParameter:AethermoorGame.kt$AethermoorGame$data: Assets</ID>
+    <ID>UnusedPrivateProperty:Movement.kt$CollisionWorld$iteration</ID>
+  </CurrentIssues>
+</SmellBaseline>

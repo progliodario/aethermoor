@@ -1288,5 +1288,7 @@
   "dlg.pip.story.gideon.done": "Tutto il villaggio è d'accordo: sei un buon re. Prendi la lama, non è per niente come la vecchia, ma ti sta bene.",
   "ui.affix_roll": "affisso {pct}%",
   "hint.season": "Le stagioni cambiano le creature: il freddo dell'inverno le rallenta, e d'estate e d'autunno ti notano più tardi.",
-  "hint.season.touch": "Le stagioni cambiano le creature: il freddo dell'inverno le rallenta, e d'estate e d'autunno ti notano più tardi."
+  "hint.season.touch": "Le stagioni cambiano le creature: il freddo dell'inverno le rallenta, e d'estate e d'autunno ti notano più tardi.",
+  "ui.tempered": "{item} temprato: affisso {pct}%.",
+  "ui.temper_refused": "Si tempra a un'incudine, con in mano un'arma o indosso un'armatura il cui affisso si può tirare."
 }

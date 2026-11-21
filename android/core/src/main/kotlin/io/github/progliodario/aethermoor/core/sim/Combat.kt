@@ -120,6 +120,8 @@ class ItemDef(
     val affixRoll: Pair<Int, Int>? = null,
     /** A piece of furniture (spec 06, "Furniture"): placed on a spot of the home. */
     val furniture: FurnitureStats? = null,
+    /** Tempers the affix of a worn piece next to this station (spec 06, "Tempering"); empty: anywhere; null: not a tempering item. */
+    val temperStation: String? = null,
 )
 
 /** [element]: the element the weapon hits with, "none" to keep its own; [station]: the art of the prop it is engraved next to, empty: anywhere. */
@@ -166,7 +168,13 @@ class AccessoryStats(
 ) {
     /** Every bonus times [pct] percent, field by field (spec 06, "Rolled affixes"). */
     fun scaled(pct: Long): AccessoryStats = AccessoryStats(
-        atk * pct / 100, matk * pct / 100, def * pct / 100, mdef * pct / 100, maxHp * pct / 100, critPm * pct / 100, drainPm * pct / 100,
+        atk * pct / 100,
+        matk * pct / 100,
+        def * pct / 100,
+        mdef * pct / 100,
+        maxHp * pct / 100,
+        critPm * pct / 100,
+        drainPm * pct / 100,
     )
 }
 
@@ -368,7 +376,12 @@ fun primaryAtLevel(setup: PlayerSetup, level: Long): Primary {
     val b = setup.base
     val g = setup.growthPm
     return Primary(
-        stat(b.str, g.str), stat(b.vit, g.vit), stat(b.dex, g.dex), stat(b.agi, g.agi),
-        stat(b.int, g.int), stat(b.wis, g.wis), stat(b.luk, g.luk),
+        stat(b.str, g.str),
+        stat(b.vit, g.vit),
+        stat(b.dex, g.dex),
+        stat(b.agi, g.agi),
+        stat(b.int, g.int),
+        stat(b.wis, g.wis),
+        stat(b.luk, g.luk),
     )
 }

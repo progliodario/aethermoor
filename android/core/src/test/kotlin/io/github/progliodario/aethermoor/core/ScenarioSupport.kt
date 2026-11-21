@@ -33,7 +33,6 @@ import io.github.progliodario.aethermoor.core.sim.accessoryOf
 import io.github.progliodario.aethermoor.core.sim.furnitureOf
 import io.github.progliodario.aethermoor.core.sim.parseStorySetup
 import io.github.progliodario.aethermoor.core.sim.runeOf
-import kotlin.math.abs
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
@@ -49,6 +48,7 @@ import kotlinx.serialization.json.long
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
+import kotlin.math.abs
 
 // Shared helpers of the scenario-based conformance tests (suites combat, story and save).
 
@@ -76,9 +76,12 @@ private fun enemyDef(d: JsonObject): EnemyDef {
             DropDef(o.getValue("item").jsonPrimitive.content, o.long("qty_min"), o.long("qty_max"), o.long("weight_pm"), o["pick"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList())
         },
         behavior = BehaviorDef(
-            b.getValue("aggro_x100").jsonPrimitive.int, b.getValue("leash_x100").jsonPrimitive.int,
-            b.getValue("attack_range_x100").jsonPrimitive.int, b.getValue("hit_range_x100").jsonPrimitive.int,
-            b.getValue("windup_ticks").jsonPrimitive.int, b.getValue("recovery_ticks").jsonPrimitive.int,
+            b.getValue("aggro_x100").jsonPrimitive.int,
+            b.getValue("leash_x100").jsonPrimitive.int,
+            b.getValue("attack_range_x100").jsonPrimitive.int,
+            b.getValue("hit_range_x100").jsonPrimitive.int,
+            b.getValue("windup_ticks").jsonPrimitive.int,
+            b.getValue("recovery_ticks").jsonPrimitive.int,
         ),
     )
 }
@@ -99,8 +102,10 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
     val combat = CombatSetup(
         enabled = true,
         player = PlayerSetup(
-            primary(player.getValue("base_stats").jsonObject), primary(player.getValue("growth_pm").jsonObject),
-            player.long("weapon_atk"), player.long("weapon_matk"),
+            primary(player.getValue("base_stats").jsonObject),
+            primary(player.getValue("growth_pm").jsonObject),
+            player.long("weapon_atk"),
+            player.long("weapon_matk"),
         ),
         skill = SkillDef(
             s.getValue("startup").jsonPrimitive.int, s.getValue("active").jsonPrimitive.int,
@@ -206,7 +211,9 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         recipes = input["recipes"]?.jsonArray?.map { r ->
             val o = r.jsonObject
             RecipeDef(
-                o.getValue("id").jsonPrimitive.content, o.getValue("output").jsonObject.getValue("item").jsonPrimitive.content, o.getValue("output").jsonObject.long("qty"),
+                o.getValue("id").jsonPrimitive.content,
+                o.getValue("output").jsonObject.getValue("item").jsonPrimitive.content,
+                o.getValue("output").jsonObject.long("qty"),
                 o.getValue("inputs").jsonArray.map { i -> Pair(i.jsonObject.getValue("item").jsonPrimitive.content, i.jsonObject.long("qty")) },
                 o["station"]?.jsonPrimitive?.content ?: "",
                 finePm = o["fine_pm"]?.jsonPrimitive?.long ?: 0L,
@@ -220,7 +227,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         homeReachX100 = input["home"]?.jsonObject?.get("reach_x100")?.jsonPrimitive?.int ?: 200,
         farming = input["farming"]?.jsonObject?.let { f ->
             FarmingDef(
-                f.getValue("plot").jsonPrimitive.content, f.getValue("reach_x100").jsonPrimitive.int,
+                f.getValue("plot").jsonPrimitive.content,
+                f.getValue("reach_x100").jsonPrimitive.int,
                 f.getValue("crops").jsonArray.map { c ->
                     val o = c.jsonObject
                     FarmCrop(o.getValue("seed").jsonPrimitive.content, o.getValue("crop").jsonPrimitive.content, o.long("qty_min"), o.long("qty_max"), o.long("grow_ticks"))
@@ -232,8 +240,13 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         gatherNodes = input["gather_nodes"]?.jsonArray?.associate { n ->
             val o = n.jsonObject
             o.getValue("prop").jsonPrimitive.content to GatherNode(
-                o.getValue("sound").jsonPrimitive.content, o.getValue("cooldown_ticks").jsonPrimitive.int, o.getValue("reach_x100").jsonPrimitive.int,
-                o.getValue("drops").jsonArray.map { d -> val x = d.jsonObject; GatherDrop(x.getValue("item").jsonPrimitive.content, x.long("qty_min"), x.long("qty_max"), x.long("weight_pm")) },
+                o.getValue("sound").jsonPrimitive.content,
+                o.getValue("cooldown_ticks").jsonPrimitive.int,
+                o.getValue("reach_x100").jsonPrimitive.int,
+                o.getValue("drops").jsonArray.map { d ->
+                    val x = d.jsonObject
+                    GatherDrop(x.getValue("item").jsonPrimitive.content, x.long("qty_min"), x.long("qty_max"), x.long("weight_pm"))
+                },
                 o["season_bonus"]?.jsonObject?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             )
         } ?: emptyMap(),
@@ -242,7 +255,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             ItemDef(
                 effects = d["effects"]?.jsonArray?.map {
                     ItemEffect(
-                        it.jsonObject.getValue("effect").jsonPrimitive.content, it.jsonObject["amount"]?.jsonPrimitive?.long ?: 0L,
+                        it.jsonObject.getValue("effect").jsonPrimitive.content,
+                        it.jsonObject["amount"]?.jsonPrimitive?.long ?: 0L,
                         it.jsonObject["ticks"]?.jsonPrimitive?.int ?: 0,
                     )
                 } ?: emptyList(),
@@ -256,14 +270,17 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 affix = d["affix"]?.jsonObject?.let { accessoryOf(it) },
                 affixRoll = d["affix_roll"]?.jsonObject?.let { Pair(it.getValue("min_pct").jsonPrimitive.int, it.getValue("max_pct").jsonPrimitive.int) },
                 furniture = d["furniture"]?.jsonObject?.let { furnitureOf(it) },
+                temperStation = d["temper"]?.jsonObject?.let { it["station"]?.jsonPrimitive?.content ?: "" },
             )
         } ?: emptyMap(),
         startWeapon = input["equipped"]?.jsonObject?.get("weapon")?.jsonPrimitive?.content ?: "",
         startArmor = input["equipped"]?.jsonObject?.get("armor")?.jsonPrimitive?.content ?: "",
         shop = input["shop"]?.jsonObject?.let { shop ->
             ShopDef(
-                shop.getValue("price_pm").jsonPrimitive.int, shop.getValue("stock").jsonArray.map { it.jsonPrimitive.content },
-                shop["renown_step_pm"]?.jsonPrimitive?.int ?: 0, shop["renown_max_pm"]?.jsonPrimitive?.int ?: 0,
+                shop.getValue("price_pm").jsonPrimitive.int,
+                shop.getValue("stock").jsonArray.map { it.jsonPrimitive.content },
+                shop["renown_step_pm"]?.jsonPrimitive?.int ?: 0,
+                shop["renown_max_pm"]?.jsonPrimitive?.int ?: 0,
                 shop["market_swing_pm"]?.jsonPrimitive?.int ?: 0,
                 shop["renown_stock"]?.jsonArray?.map { w -> Pair(w.jsonObject.getValue("item").jsonPrimitive.content, w.jsonObject.getValue("renown").jsonPrimitive.int) } ?: emptyList(),
                 glutStepPm = shop["glut_step_pm"]?.jsonPrimitive?.int ?: 0,
@@ -354,15 +371,18 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(want.long("crit_chance_pm"), sim.derived.critChancePm, "$at crit")
         assertEquals(want.long("move_speed_x100"), sim.derived.moveSpeedX100, "$at speed")
     }
-    want["chest"]?.jsonObject?.let { wc -> // what the chests hold (spec 06, "Chests")
+    want["chest"]?.jsonObject?.let { wc ->
+        // what the chests hold (spec 06, "Chests")
         assertEquals(wc.mapValues { it.value.jsonPrimitive.long }, sim.chest.toMap(), "$at chest")
         assertEquals(want.getValue("chest_open").jsonPrimitive.boolean, sim.chestOpen, "$at chest open")
     }
-    want["plots"]?.jsonArray?.let { wp -> // the sown plots (spec 06, "Farming")
+    want["plots"]?.jsonArray?.let { wp ->
+        // the sown plots (spec 06, "Farming")
         val got = sim.plots.map { (key, plot) -> listOf(key.first.toString(), key.second.toString(), plot.first, plot.second.toString()) }
         assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at plots")
     }
-    want["derived"]?.jsonObject?.let { wd -> // the derived stats with the affixes (spec 06, "Affixes")
+    want["derived"]?.jsonObject?.let { wd ->
+        // the derived stats with the affixes (spec 06, "Affixes")
         assertEquals(wd.long("atk"), sim.derived.atk, "$at atk")
         assertEquals(wd.long("matk"), sim.derived.matk, "$at matk")
         assertEquals(wd.long("def"), sim.derived.def, "$at def")
@@ -370,18 +390,22 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(wd.long("max_hp"), sim.derived.maxHp, "$at max hp")
         assertEquals(wd.long("crit_chance_pm"), sim.derived.critChancePm, "$at crit")
     }
-    want["tags"]?.jsonArray?.let { wt -> // the tags earned and the one worn (spec 11, "Tags")
+    want["tags"]?.jsonArray?.let { wt ->
+        // the tags earned and the one worn (spec 11, "Tags")
         assertEquals(wt.map { it.jsonPrimitive.content }, sim.earnedTags(), "$at tags")
         assertEquals(want.getValue("tag").jsonPrimitive.content, sim.wornTag, "$at tag worn")
     }
-    want["furniture"]?.jsonArray?.let { wp -> // the furniture of the home (spec 06, "Furniture")
+    want["furniture"]?.jsonArray?.let { wp ->
+        // the furniture of the home (spec 06, "Furniture")
         val got = sim.furniture.map { (key, item) -> listOf(key.first.toString(), key.second.toString(), item) }
         assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at furniture")
     }
-    want["rolls"]?.jsonObject?.let { wr -> // the rolls of the pieces found (spec 06, "Rolled affixes")
+    want["rolls"]?.jsonObject?.let { wr ->
+        // the rolls of the pieces found (spec 06, "Rolled affixes")
         assertEquals(wr.mapValues { it.value.jsonPrimitive.long }, sim.rolls.toMap(), "$at rolls")
     }
-    want["runes"]?.jsonObject?.let { wr -> // the runes engraved on the weapons (spec 06, "Runes")
+    want["runes"]?.jsonObject?.let { wr ->
+        // the runes engraved on the weapons (spec 06, "Runes")
         assertEquals(wr.mapValues { it.value.jsonPrimitive.content }, sim.runes.toMap(), "$at runes")
         assertEquals(want.long("atk"), sim.derived.atk, "$at atk")
     }

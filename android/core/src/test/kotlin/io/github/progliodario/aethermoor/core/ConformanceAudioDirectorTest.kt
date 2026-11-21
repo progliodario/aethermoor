@@ -15,21 +15,20 @@ import io.github.progliodario.aethermoor.core.audio.parseMusicRules
 import io.github.progliodario.aethermoor.core.audio.renderMusic
 import io.github.progliodario.aethermoor.core.sim.claimHeirloom
 import io.github.progliodario.aethermoor.core.sim.exportBundle
+import io.github.progliodario.aethermoor.core.sim.importBundle
 import io.github.progliodario.aethermoor.core.sim.mergeProfile
-import io.github.progliodario.aethermoor.core.sim.parseProfile
 import io.github.progliodario.aethermoor.core.sim.parseDeeds
+import io.github.progliodario.aethermoor.core.sim.parseProfile
 import io.github.progliodario.aethermoor.core.sim.profileDeedGifts
-import io.github.progliodario.aethermoor.core.sim.profileEchoPct
 import io.github.progliodario.aethermoor.core.sim.profileDeeds
+import io.github.progliodario.aethermoor.core.sim.profileEchoPct
 import io.github.progliodario.aethermoor.core.sim.profileToJson
 import io.github.progliodario.aethermoor.core.sim.reincarnate
-import io.github.progliodario.aethermoor.core.sim.importBundle
-import kotlin.math.abs
-import java.io.File
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.int
@@ -37,10 +36,11 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.long
-import kotlinx.serialization.json.JsonPrimitive
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.io.File
+import kotlin.math.abs
 
 /** The conformance suites of the sound director and of the ambience (spec 14). */
 class ConformanceAudioDirectorTest {
@@ -70,16 +70,23 @@ class ConformanceAudioDirectorTest {
             cues = j.getValue("cues").jsonArray.map {
                 val c = it.jsonObject
                 SoundCue(
-                    kind = c.getValue("kind").jsonPrimitive.content, family = c.getValue("family").jsonPrimitive.content,
-                    x = c.getValue("x").jsonPrimitive.double, y = c.getValue("y").jsonPrimitive.double,
-                    crit = c["crit"]?.jsonPrimitive?.boolean ?: false, weak = c["weak"]?.jsonPrimitive?.boolean ?: false,
+                    kind = c.getValue("kind").jsonPrimitive.content,
+                    family = c.getValue("family").jsonPrimitive.content,
+                    x = c.getValue("x").jsonPrimitive.double,
+                    y = c.getValue("y").jsonPrimitive.double,
+                    crit = c["crit"]?.jsonPrimitive?.boolean ?: false,
+                    weak = c["weak"]?.jsonPrimitive?.boolean ?: false,
                 )
             },
             items = j.long("items"), gold = j.long("gold"), mp = j.long("mp"),
             weapon = j.getValue("weapon").jsonPrimitive.content, armor = j.getValue("armor").jsonPrimitive.content,
             panels = PanelsOpen(
-                bag = panels.bool("bag"), map = panels.bool("map"), journal = panels.bool("journal"),
-                shop = panels.bool("shop"), board = panels.bool("board"), travel = panels.bool("travel"),
+                bag = panels.bool("bag"),
+                map = panels.bool("map"),
+                journal = panels.bool("journal"),
+                shop = panels.bool("shop"),
+                board = panels.bool("board"),
+                travel = panels.bool("travel"),
             ),
             dialogue = j.bool("dialogue"), line = j.long("line"), cursor = j.long("cursor"),
             questsStarted = j.long("quests_started"), questsDone = j.long("quests_done"), stones = j.long("stones"),
@@ -236,13 +243,15 @@ class ConformanceAudioDirectorTest {
             assertEquals(expect.getValue("heirloom_item").jsonPrimitive.content, got.heirloomItem, "$label heirloom item")
             assertEquals(expect.getValue("lives").jsonPrimitive.int, got.lives, "$label lives")
             assertEquals(expect.getValue("echo_pct").jsonPrimitive.int, profileEchoPct(got), "$label echoes")
-            input["deeds"]?.let { defs -> // the deeds of the profile (spec 11, "Deeds")
+            input["deeds"]?.let { defs ->
+                // the deeds of the profile (spec 11, "Deeds")
                 val deeds = profileDeeds(got, parseDeeds(defs.toString()))
                 assertEquals(expect.getValue("deeds").jsonArray.map { it.jsonPrimitive.content }, deeds, "$label deeds")
                 assertEquals(expect.getValue("echo_pct_deeds").jsonPrimitive.int, profileEchoPct(got, deeds.size), "$label echoes with deeds")
                 assertEquals( // the gifts of the deeds (spec 11)
                     expect.getValue("gifts").jsonObject.mapValues { it.value.jsonPrimitive.long },
-                    profileDeedGifts(got, parseDeeds(defs.toString())).toMap(), "$label gifts",
+                    profileDeedGifts(got, parseDeeds(defs.toString())).toMap(),
+                    "$label gifts",
                 )
             }
             assertEquals(expect.getValue("bestiary").jsonObject.mapValues { it.value.jsonPrimitive.int }, got.bestiary.toMap(), "$label bestiary")

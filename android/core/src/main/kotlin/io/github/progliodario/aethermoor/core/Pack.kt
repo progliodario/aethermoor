@@ -1,6 +1,5 @@
 package io.github.progliodario.aethermoor.core
 
-import java.io.File
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -8,6 +7,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.longOrNull
+import java.io.File
 
 // Content pack loading (manifest, localization tables, numeric tables).
 // Spec: docs/spec/00-conventions.md and docs/spec/17-localization.md.

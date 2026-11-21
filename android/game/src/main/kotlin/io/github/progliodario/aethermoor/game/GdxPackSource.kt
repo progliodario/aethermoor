@@ -14,7 +14,11 @@ class GdxPackSource(private val root: String = "base") : PackSource {
         fun walk(handle: FileHandle, relative: String) {
             for (child in handle.list()) {
                 val childRelative = if (relative.isEmpty()) child.name() else "$relative/${child.name()}"
-                if (child.isDirectory) walk(child, childRelative) else if (child.extension() == "json") out.add(childRelative)
+                if (child.isDirectory) {
+                    walk(child, childRelative)
+                } else if (child.extension() == "json") {
+                    out.add(childRelative)
+                }
             }
         }
         walk(start, dir)

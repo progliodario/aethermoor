@@ -1,5 +1,10 @@
 package io.github.progliodario.aethermoor.core.audio
 
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.floor
@@ -10,11 +15,6 @@ import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sin
 import kotlin.math.sqrt
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.int
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 
 // Music: pieces of a few tracks on layers, rendered to seamless loops, and the director that chooses the piece and the layers.
 // Spec: docs/spec/14-audio.md ("Music", normative). Headless.
@@ -145,8 +145,11 @@ private fun voice(patch: MusicPatch, freq: Double, length: Int, total: Int, stat
     val lengthMs = length.toDouble() * 1000.0 / SAMPLE_RATE.toDouble()
     val out = DoubleArray(total)
     val ratios =
-        if (patch.detuneCents == 0) doubleArrayOf(1.0)
-        else doubleArrayOf(2.0.pow(patch.detuneCents / 1200.0), 2.0.pow(-patch.detuneCents / 1200.0))
+        if (patch.detuneCents == 0) {
+            doubleArrayOf(1.0)
+        } else {
+            doubleArrayOf(2.0.pow(patch.detuneCents / 1200.0), 2.0.pow(-patch.detuneCents / 1200.0))
+        }
     val g = patch.glidePm / 1000.0
     val lg = if (patch.glidePm != 1000) ln(g) else 0.0
     val noteSeconds = length.toDouble() / SAMPLE_RATE.toDouble()
@@ -159,8 +162,11 @@ private fun voice(patch: MusicPatch, freq: Double, length: Int, total: Int, stat
             val t = i.toDouble() / SAMPLE_RATE.toDouble()
             val phaseTotal =
                 if (patch.glidePm != 1000 && length > 0) {
-                    if (i <= length) f * noteSeconds / lg * (g.pow(min(i, length).toDouble() / length.toDouble()) - 1.0)
-                    else f * noteSeconds / lg * (g - 1.0) + f * g * (t - noteSeconds)
+                    if (i <= length) {
+                        f * noteSeconds / lg * (g.pow(min(i, length).toDouble() / length.toDouble()) - 1.0)
+                    } else {
+                        f * noteSeconds / lg * (g - 1.0) + f * g * (t - noteSeconds)
+                    }
                 } else {
                     f * t
                 }
@@ -184,9 +190,13 @@ private fun voice(patch: MusicPatch, freq: Double, length: Int, total: Int, stat
             val ms = i.toDouble() * 1000.0 / SAMPLE_RATE.toDouble()
             val heldMs = min(ms, lengthMs)
             var level =
-                if (heldMs < attack) heldMs / attack
-                else if (heldMs < attack + decay) 1.0 - (1.0 - sustain) * (heldMs - attack) / decay
-                else sustain
+                if (heldMs < attack) {
+                    heldMs / attack
+                } else if (heldMs < attack + decay) {
+                    1.0 - (1.0 - sustain) * (heldMs - attack) / decay
+                } else {
+                    sustain
+                }
             if (i >= length) level *= max(0.0, 1.0 - (ms - lengthMs) / release)
             val gain = if (amDepth > 0.0) 1.0 - amDepth * (0.5 - 0.5 * cos(2.0 * Math.PI * amHz * t)) else 1.0
             out[i] += w * level * gain / ratios.size.toDouble()

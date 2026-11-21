@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/feast_ironspine",
+  "name": "$i18n:quest.feast_ironspine.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "bring",
+      "journal": "$i18n:quest.feast_ironspine.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/stone_chunk",
+          "count": 12
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 240
+    },
+    {
+      "effect": "add_gold",
+      "amount": 300
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/tempering_oil",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/rune_stone",
+      "qty": 1
+    }
+  ]
+}

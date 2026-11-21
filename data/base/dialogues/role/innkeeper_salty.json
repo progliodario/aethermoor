@@ -23,6 +23,39 @@
           "next": "feast"
         },
         {
+          "text": "$i18n:dlg.role.feast.games",
+          "when": {
+            "all": [
+              {
+                "day_mod": {
+                  "every": 8,
+                  "at": 3
+                }
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/feast_tidehaven"
+                    },
+                    {
+                      "quest_done": "base:quest/side/feast_tidehaven"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "feast_games"
+        },
+        {
+          "text": "$i18n:dlg.role.feast.games_status",
+          "when": {
+            "quest_active": "base:quest/side/feast_tidehaven"
+          },
+          "next": "feast_games_busy"
+        },
+        {
           "text": "$i18n:dlg.role.friend_bed",
           "when": {
             "renown_at_least": 5
@@ -315,6 +348,37 @@
           "markup_pct": 75
         }
       ],
+      "next": "end"
+    },
+    "feast_games": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.salty.games",
+      "next": "feast_games_choice"
+    },
+    "feast_games_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.role.feast.join",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/feast_tidehaven"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.role.feast.not_now",
+          "next": "menu"
+        }
+      ]
+    },
+    "feast_games_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.salty.games_busy",
       "next": "end"
     }
   }

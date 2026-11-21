@@ -116,24 +116,42 @@ private fun parsePaint(fill: JsonObject): Paint {
     fill["color"]?.let { return Paint.Solid(it.jsonPrimitive.content) }
     fill["linear"]?.let {
         val g = it.jsonObject
-        return Paint.Linear(g.getValue("x0").f(), g.getValue("y0").f(), g.getValue("x1").f(), g.getValue("y1").f(),
-            parseStops(g.getValue("stops").jsonArray))
+        return Paint.Linear(
+            g.getValue("x0").f(),
+            g.getValue("y0").f(),
+            g.getValue("x1").f(),
+            g.getValue("y1").f(),
+            parseStops(g.getValue("stops").jsonArray),
+        )
     }
     fill["noise"]?.let {
         val n = it.jsonObject
         return Paint.Noise(
-            n.getValue("scale").f(), n["seed"]?.asInt() ?: 0, n["octaves"]?.asInt() ?: 3, n["period"]?.asInt() ?: 0,
+            n.getValue("scale").f(),
+            n["seed"]?.asInt() ?: 0,
+            n["octaves"]?.asInt() ?: 3,
+            n["period"]?.asInt() ?: 0,
             parseStops(n.getValue("stops").jsonArray),
         )
     }
     val g = fill.getValue("radial").jsonObject
-    return Paint.Radial(g.getValue("cx").f(), g.getValue("cy").f(), g.getValue("r").f(),
-        parseStops(g.getValue("stops").jsonArray))
+    return Paint.Radial(
+        g.getValue("cx").f(),
+        g.getValue("cy").f(),
+        g.getValue("r").f(),
+        parseStops(g.getValue("stops").jsonArray),
+    )
 }
 
 private fun parseShape(shape: JsonObject): Shape {
-    shape["rect"]?.let { val a = it.jsonArray; return Shape.Rect(a[0].f(), a[1].f(), a[2].f(), a[3].f()) }
-    shape["ellipse"]?.let { val a = it.jsonArray; return Shape.Ellipse(a[0].f(), a[1].f(), a[2].f(), a[3].f()) }
+    shape["rect"]?.let {
+        val a = it.jsonArray
+        return Shape.Rect(a[0].f(), a[1].f(), a[2].f(), a[3].f())
+    }
+    shape["ellipse"]?.let {
+        val a = it.jsonArray
+        return Shape.Ellipse(a[0].f(), a[1].f(), a[2].f(), a[3].f())
+    }
     shape["polygon"]?.let { poly ->
         return Shape.Polygon(poly.jsonArray.map { Pair(it.jsonArray[0].f(), it.jsonArray[1].f()) })
     }

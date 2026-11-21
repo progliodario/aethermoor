@@ -6,12 +6,12 @@ import io.github.progliodario.aethermoor.core.Pack
 import io.github.progliodario.aethermoor.core.audio.AmbienceRules
 import io.github.progliodario.aethermoor.core.audio.EventTable
 import io.github.progliodario.aethermoor.core.audio.MusicRules
-import io.github.progliodario.aethermoor.core.audio.parseMusic
-import io.github.progliodario.aethermoor.core.audio.parseMusicRules
-import io.github.progliodario.aethermoor.core.audio.renderMusic
 import io.github.progliodario.aethermoor.core.audio.SAMPLE_RATE
 import io.github.progliodario.aethermoor.core.audio.parseEventTable
+import io.github.progliodario.aethermoor.core.audio.parseMusic
+import io.github.progliodario.aethermoor.core.audio.parseMusicRules
 import io.github.progliodario.aethermoor.core.audio.parseSfx
+import io.github.progliodario.aethermoor.core.audio.renderMusic
 import io.github.progliodario.aethermoor.core.audio.synthesize
 
 /**
@@ -57,6 +57,7 @@ class SoundBoard {
     var musicRules: MusicRules? = null
         private set
     private var counter = 0L
+
     @Volatile
     private var device: AudioDevice? = null
     private var thread: Thread? = null
@@ -176,7 +177,10 @@ class SoundBoard {
                 musicRendering = name
                 Thread({
                     parseMusic(text).getOrNull()?.let { musicDone = MusicLoop(name, renderMusic(it)) }
-                }, "aethermoor-music").apply { isDaemon = true; start() }
+                }, "aethermoor-music").apply {
+                    isDaemon = true
+                    start()
+                }
             }
         }
     }

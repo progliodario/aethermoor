@@ -130,8 +130,10 @@ fun savePeek(text: String): Result<SavePeek> =
         val story = j["story"] as? JsonObject
         val equipped = j["equipped"] as? JsonObject
         SavePeek(
-            parseHex64(j.getValue("seed")), (j["map"] as? JsonPrimitive)?.content ?: "",
-            (player?.get("level") as? JsonPrimitive)?.int ?: 1, (story?.get("gold") as? JsonPrimitive)?.long ?: 0L,
+            parseHex64(j.getValue("seed")),
+            (j["map"] as? JsonPrimitive)?.content ?: "",
+            (player?.get("level") as? JsonPrimitive)?.int ?: 1,
+            (story?.get("gold") as? JsonPrimitive)?.long ?: 0L,
             (equipped?.get("weapon") as? JsonPrimitive)?.takeIf { it.isString }?.content ?: "",
         )
     }
@@ -179,8 +181,20 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         put(
             "rng",
             buildJsonObject {
-                put("combat", buildJsonObject { put("state", hex64(s.combatState)); put("inc", hex64(s.combatInc)) })
-                put("loot", buildJsonObject { put("state", hex64(s.lootState)); put("inc", hex64(s.lootInc)) })
+                put(
+                    "combat",
+                    buildJsonObject {
+                        put("state", hex64(s.combatState))
+                        put("inc", hex64(s.combatInc))
+                    },
+                )
+                put(
+                    "loot",
+                    buildJsonObject {
+                        put("state", hex64(s.lootState))
+                        put("inc", hex64(s.lootInc))
+                    },
+                )
             },
         )
         put(
@@ -226,8 +240,30 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         if (s.talents.isNotEmpty()) put("talents", buildJsonObject { for ((id, rank) in s.talents) put(id, rank) })
         if (s.counters.isNotEmpty()) put("counters", buildJsonObject { for ((name, count) in s.counters) put(name, count) })
         if (s.bestiary.isNotEmpty()) put("bestiary", buildJsonObject { for ((id, count) in s.bestiary) put(id, count) })
-        s.tamedFriend?.let { f -> put("friend", buildJsonObject { put("enemy", f.enemy); put("x", f.x); put("y", f.y); put("cooldown", f.cooldown); if (f.stay) put("stay", true) }) }
-        s.companion?.let { c -> put("companion", buildJsonObject { put("x", c.first); put("y", c.second); put("cooldown", c.third); if (s.companionStay) put("stay", true); if (s.companionBond > 0) put("bond", s.companionBond) }) }
+        s.tamedFriend?.let { f ->
+            put(
+                "friend",
+                buildJsonObject {
+                    put("enemy", f.enemy)
+                    put("x", f.x)
+                    put("y", f.y)
+                    put("cooldown", f.cooldown)
+                    if (f.stay) put("stay", true)
+                },
+            )
+        }
+        s.companion?.let { c ->
+            put(
+                "companion",
+                buildJsonObject {
+                    put("x", c.first)
+                    put("y", c.second)
+                    put("cooldown", c.third)
+                    if (s.companionStay) put("stay", true)
+                    if (s.companionBond > 0) put("bond", s.companionBond)
+                },
+            )
+        }
         if (meta.map == "world") {
             put("explored", JsonArray(s.explored.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
             put("stones", JsonArray(s.stones.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
@@ -331,8 +367,11 @@ fun saveFromJson(text: String): Result<SaveState> =
             enemies = j.getValue("enemies").jsonArray.map {
                 val e = it.jsonObject
                 SaveEnemy(
-                    e.getValue("x").f(), e.getValue("y").f(), e.getValue("hp").jsonPrimitive.long,
-                    parseEnemyState(e.getValue("state").jsonPrimitive.content), e.getValue("state_tick").jsonPrimitive.int,
+                    e.getValue("x").f(),
+                    e.getValue("y").f(),
+                    e.getValue("hp").jsonPrimitive.long,
+                    parseEnemyState(e.getValue("state").jsonPrimitive.content),
+                    e.getValue("state_tick").jsonPrimitive.int,
                     e["spawner"]?.jsonArray?.let { sp -> Pair(sp[0].jsonPrimitive.int, sp[1].jsonPrimitive.int) },
                 )
             },

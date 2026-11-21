@@ -77,8 +77,13 @@ class PackFont private constructor(val font: BitmapFont, private val atlas: Pixm
             val place = HashMap<Int, Int>()
             for ((index, entry) in drawn.withIndex()) {
                 val recipe = Recipe(
-                    id = "", width = def.cellW, height = def.cellH, originX = 0f, originY = 0f,
-                    palette = emptyMap(), variants = emptyMap(),
+                    id = "",
+                    width = def.cellW,
+                    height = def.cellH,
+                    originX = 0f,
+                    originY = 0f,
+                    palette = emptyMap(),
+                    variants = emptyMap(),
                     layers = listOf(Layer(Shape.Path(entry.value.path), Paint.None, StrokeStyle("#FFFFFF", stroke), 1f)),
                 )
                 val bitmap = rasterize(recipe, scale)

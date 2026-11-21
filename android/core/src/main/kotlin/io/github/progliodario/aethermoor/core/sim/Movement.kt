@@ -23,7 +23,13 @@ fun normalizeInput(x: Float, y: Float): Vec2 {
     return Vec2(x, y)
 }
 
-private fun clampf(v: Float, lo: Float, hi: Float) = if (v < lo) lo else if (v > hi) hi else v
+private fun clampf(v: Float, lo: Float, hi: Float) = if (v < lo) {
+    lo
+} else if (v > hi) {
+    hi
+} else {
+    v
+}
 
 class CollisionWorld(
     val width: Int,

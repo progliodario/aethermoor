@@ -36,7 +36,8 @@
         "food",
         "seed",
         "rune",
-        "furniture"
+        "furniture",
+        "temper"
       ]
     },
     "rarity": {
@@ -107,6 +108,14 @@
             }
           }
         }
+      }
+    },
+    "temper": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "tempers the affix of a worn piece (spec 06, \"Tempering\"): used from the bag next to its station, it rolls the affix again and keeps the better roll",
+      "properties": {
+        "station": { "type": "string" }
       }
     },
     "rune": {

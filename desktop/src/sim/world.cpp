@@ -810,6 +810,9 @@ bool WorldSim::use_item(const std::string& item_id) {
     if (item->second.is_rune) {
         return engrave(item_id, item->second);
     }
+    if (item->second.is_temper) {
+        return temper(item_id, item->second);
+    }
     if (item->second.is_furniture) {
         return place_furniture(item_id);
     }
@@ -903,6 +906,32 @@ const ItemDef* WorldSim::worn_rune() const {
     }
     const auto def = m_setup_.items.find(rune->second);
     return def != m_setup_.items.end() && def->second.is_rune ? &def->second : nullptr;
+}
+
+bool WorldSim::temper(const std::string& item_id, const ItemDef& oil) {
+    // spec 06, "Tempering": the worn weapon when its affix rolls, else the worn armor; the station of the item in reach
+    std::string target;
+    for (const std::string* worn : {&m_equipped_weapon_, &m_equipped_armor_}) {
+        const auto piece = m_setup_.items.find(*worn);
+        if (target.empty() && !worn->empty() && piece != m_setup_.items.end() && piece->second.has_affix_roll) {
+            target = *worn;
+        }
+    }
+    if (target.empty() || !near_station(oil.temper_station)) {
+        return false;
+    }
+    const ItemDef& piece = m_setup_.items.at(target);
+    std::int64_t pct = piece.roll_min_pct;
+    if (piece.roll_max_pct > piece.roll_min_pct) {
+        pct += static_cast<std::int64_t>(
+            m_loot_rng_.next_bounded(static_cast<std::uint32_t>(piece.roll_max_pct - piece.roll_min_pct + 1)));
+    }
+    take_one(item_id);
+    std::int64_t& held = m_rolls_[target];
+    held = std::max(held, pct);  // the better of the two is kept
+    ++m_counters_["tempered"];
+    recompute_derived();
+    return true;
 }
 
 bool WorldSim::engrave(const std::string& item_id, const ItemDef& rune) {

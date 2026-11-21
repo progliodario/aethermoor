@@ -49,7 +49,9 @@ class ChunkStore(val params: WorldParams, val seed: ULong, private val tileset: 
         chunks.getOrPut(key(cx, cy)) {
             val generated = generateChunk(seed, params, cx, cy)
             Chunk(
-                cx, cy, generated.tiles,
+                cx,
+                cy,
+                generated.tiles,
                 BooleanArray(generated.tiles.size) { tileset.tiles[generated.tiles[it]]?.solid ?: false },
                 generated.props.map { Prop(it.art, it.x256 / 256f, it.y256 / 256f, it.radiusX100 / 100f) },
                 generated.spawners,

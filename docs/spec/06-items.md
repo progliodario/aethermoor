@@ -79,6 +79,19 @@ The rune of the worn weapon adds its `atk` and `matk` to `weapon_atk` and `weapo
 
 The base pack has seven, made at an anvil (`tools/make_furnishings.py`): the ember (fire), tide (water), gale (wind), stone (earth), dawn (light) and dusk (dark) runes, each +6 attack (the stone +8), and the rune of might (+12 attack, no element). The status window names the rune after the weapon. Conformance: the scenario `runes_engrave` (its checkpoints carry `runes` and the derived `atk`) and two save splits of it.
 
+## Tempering
+
+An item of kind `temper` has `temper {station}` (anywhere when absent). **Using** it from the bag (`use_item`) tempers the affix of a
+worn piece: the **worn weapon** when its item has `affix_roll`, else the **worn armor** when its item has one (section "Rolled
+affixes"). It is refused, changing nothing, while a dialogue is open, when neither worn piece rolls and when the `station` is not in
+reach (as for the runes). Otherwise the percent is drawn from the `loot` stream like the roll of a piece found,
+`pct = min_pct + loot.next_bounded(max_pct - min_pct + 1)` (no draw when they are equal), the better of the held roll and `pct` is kept,
+one item leaves the bag, the counter `tempered` grows by one (spec 11) and the derived stats are worked out again. A piece never rolled
+(bought in a shop) gets its first roll this way.
+
+The base pack has the **tempering oil** (`tools/make_furnishings.py`), made at an anvil from two lumps of iron ore, a pine resin and two
+slime gels, and sold in Ironspine. Conformance: the scenario `temper_affix` and a save split of it.
+
 ## Furniture
 
 `data/base/home.json` (ID `base:home/cottage`, schema `home`) names the **spot** prop, an empty place of the home, and the reach of the player (`reach_x100`). An item of kind `furniture` has `furniture {art, atk_pct, gather_bonus, craft_bonus, parry_bonus, xp_pct, fine_pm}`: the prop it is drawn as and what it adds (each optional, 0 when absent).

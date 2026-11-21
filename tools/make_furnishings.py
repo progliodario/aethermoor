@@ -96,8 +96,16 @@ FURNITURE = {
                       "Posala nel giardino del cottage. Luce calma per un lavoro attento: il 5% in più di opere pregiate, e una parata più salda."),
 }
 
+# The items that temper an affix (spec 06, "Tempering"): (rarity, price, inputs, name en, name it, description en, description it)
+TEMPERS = {
+    "tempering_oil": ("uncommon", 160, {"iron_ore": 2, "pine_resin": 1, "slime_gel": 2}, "Tempering oil", "Olio di tempra",
+                      "Use it at an anvil: the affix of the weapon you hold (or of your armor) is tempered again, and the better roll is kept.",
+                      "Usalo a un'incudine: l'affisso dell'arma che impugni (o della tua armatura) viene temprato di nuovo, e si tiene il tiro migliore."),
+}
+
 # What make_recipes.py writes: recipe id -> (output item, quantity, inputs); all of them at an anvil.
 RECIPES = {name: (name, 1, spec[5]) for name, spec in RUNES.items()}
+RECIPES.update({name: (name, 1, spec[2]) for name, spec in TEMPERS.items()})
 RECIPES.update({name: (name, 1, spec[3]) for name, spec in FURNITURE.items()})
 
 HOME = {"$schema": "../../schemas/home.schema.json", "id": "base:home/cottage", "spot": "base:art/prop/furniture_spot", "reach_x100": 150}
@@ -121,6 +129,13 @@ def main() -> None:
                                                        "name": f"$i18n:item.{name}.name", "description": f"$i18n:item.{name}.desc",
                                                        "kind": "furniture", "rarity": "uncommon", "price": price, "stack_max": 3,
                                                        "furniture": {"art": f"base:art/prop/{art}", **adds}})
+        texts["en"].update({f"item.{name}.name": name_en, f"item.{name}.desc": desc_en})
+        texts["it"].update({f"item.{name}.name": name_it, f"item.{name}.desc": desc_it})
+    for name, (rarity, price, _inputs, name_en, name_it, desc_en, desc_it) in TEMPERS.items():
+        write_json(DATA / "items" / f"{name}.json", {"$schema": "../../../schemas/item.schema.json", "id": f"base:item/{name}",
+                                                       "name": f"$i18n:item.{name}.name", "description": f"$i18n:item.{name}.desc",
+                                                       "kind": "temper", "rarity": rarity, "price": price, "stack_max": 9,
+                                                       "temper": {"station": ANVIL}})
         texts["en"].update({f"item.{name}.name": name_en, f"item.{name}.desc": desc_en})
         texts["it"].update({f"item.{name}.name": name_it, f"item.{name}.desc": desc_it})
     write_json(DATA / "home.json", HOME)

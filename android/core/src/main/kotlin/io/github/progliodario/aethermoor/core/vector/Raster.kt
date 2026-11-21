@@ -442,11 +442,21 @@ private fun resolvePaint(paint: Paint, palette: Palette): ResolvedPaint? =
         is Paint.Linear -> ResolvedPaint.Linear(paint.x0, paint.y0, paint.x1, paint.y1, resolveStops(paint.stops, palette))
         is Paint.Radial -> ResolvedPaint.Radial(paint.cx, paint.cy, paint.r, resolveStops(paint.stops, palette))
         is Paint.Noise -> ResolvedPaint.Noise(
-            paint.scale, paint.seed, paint.octaves.coerceIn(1, 6), max(paint.period, 0), resolveStops(paint.stops, palette),
+            paint.scale,
+            paint.seed,
+            paint.octaves.coerceIn(1, 6),
+            max(paint.period, 0),
+            resolveStops(paint.stops, palette),
         )
     }
 
-private fun clamp01(v: Float) = if (v < 0f) 0f else if (v > 1f) 1f else v
+private fun clamp01(v: Float) = if (v < 0f) {
+    0f
+} else if (v > 1f) {
+    1f
+} else {
+    v
+}
 
 private fun colorFromStops(stops: List<ResolvedStop>, t: Float): Color {
     if (stops.isEmpty()) return Color()

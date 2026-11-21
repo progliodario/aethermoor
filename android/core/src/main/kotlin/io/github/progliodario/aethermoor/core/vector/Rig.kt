@@ -1,8 +1,5 @@
 package io.github.progliodario.aethermoor.core.vector
 
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonPrimitive
@@ -12,6 +9,9 @@ import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 // Animation rigs and clips. Spec: docs/spec/13-vector-art.md. Schemas: rig, clip.
 
@@ -135,12 +135,20 @@ fun evaluatePose(rig: Rig, clip: Clip, tick: Float, mirror: Boolean, side: Boole
         var py = 0f
         clip.tracks[part.id]?.let { track ->
             if (track.rot.isNotEmpty()) {
-                rot = interpolate(FloatArray(track.rot.size) { track.rot[it].tick },
-                    Array(track.rot.size) { floatArrayOf(track.rot[it].degrees) }, t, 1)[0]
+                rot = interpolate(
+                    FloatArray(track.rot.size) { track.rot[it].tick },
+                    Array(track.rot.size) { floatArrayOf(track.rot[it].degrees) },
+                    t,
+                    1,
+                )[0]
             }
             if (track.pos.isNotEmpty()) {
-                val v = interpolate(FloatArray(track.pos.size) { track.pos[it].tick },
-                    Array(track.pos.size) { floatArrayOf(track.pos[it].x, track.pos[it].y) }, t, 2)
+                val v = interpolate(
+                    FloatArray(track.pos.size) { track.pos[it].tick },
+                    Array(track.pos.size) { floatArrayOf(track.pos[it].x, track.pos[it].y) },
+                    t,
+                    2,
+                )
                 px = v[0]
                 py = v[1]
             }

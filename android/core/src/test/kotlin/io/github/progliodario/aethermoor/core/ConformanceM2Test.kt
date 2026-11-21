@@ -2,8 +2,8 @@ package io.github.progliodario.aethermoor.core
 
 import io.github.progliodario.aethermoor.core.audio.parseSfx
 import io.github.progliodario.aethermoor.core.audio.synthesize
-import io.github.progliodario.aethermoor.core.sim.CollisionWorld
 import io.github.progliodario.aethermoor.core.sim.Circle
+import io.github.progliodario.aethermoor.core.sim.CollisionWorld
 import io.github.progliodario.aethermoor.core.sim.Vec2
 import io.github.progliodario.aethermoor.core.sim.normalizeInput
 import io.github.progliodario.aethermoor.core.vector.evaluatePose
@@ -11,8 +11,6 @@ import io.github.progliodario.aethermoor.core.vector.parseClip
 import io.github.progliodario.aethermoor.core.vector.parseRecipe
 import io.github.progliodario.aethermoor.core.vector.parseRig
 import io.github.progliodario.aethermoor.core.vector.rasterize
-import java.io.File
-import kotlin.math.abs
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
@@ -26,6 +24,8 @@ import kotlinx.serialization.json.jsonPrimitive
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import java.io.File
+import kotlin.math.abs
 
 /** Conformance suites added in M2: rig_pose, movement, raster. */
 class ConformanceM2Test {

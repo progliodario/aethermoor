@@ -515,6 +515,7 @@ private:
     std::int64_t held_affix(const std::string& item_id, std::int64_t value) const;
     std::map<std::pair<int, int>, std::string> m_furniture_;  // spot (x100, y100) -> item (spec 06, "Furniture")
     bool engrave(const std::string& item_id, const ItemDef& rune);
+    bool temper(const std::string& item_id, const ItemDef& oil);  // spec 06, "Tempering"
     bool place_furniture(const std::string& item_id);
     void take_one(const std::string& item_id);
     std::string m_tag_;             // the tag worn (spec 11, "Tags")
