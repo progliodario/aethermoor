@@ -1709,6 +1709,7 @@ class WorldSim(
             if (lootRng.nextBounded(1000) < drop.weightPm) {
                 var quantity = drop.qtyMin
                 if (drop.qtyMax > drop.qtyMin) quantity += lootRng.nextBounded(drop.qtyMax - drop.qtyMin + 1)
+                if (drop.pick.isEmpty()) quantity += enemy.def.seasonBonus[seasonId()] ?: 0 // the season of the creature (spec 05, "Loot")
                 var item = drop.item
                 if (drop.pick.isNotEmpty()) { // one of a list (spec 05, "Loot"): the item, or one of `pick`
                     val index = lootRng.nextBounded((drop.pick.size + 1).toLong()).toInt()

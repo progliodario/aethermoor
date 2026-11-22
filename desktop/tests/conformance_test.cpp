@@ -682,6 +682,11 @@ aether::EnemyDef enemy_def_from_json(const Json& d) {
     def.element = d.value("element", "none");
     def.stagger_pct = d.value("stagger_pct", static_cast<std::int64_t>(40));
     def.sound = d.value("sound", "");
+    if (d.contains("season_bonus")) {  // spec 05, "Loot"
+        for (const auto& [season, extra] : d.at("season_bonus").items()) {
+            def.season_bonus[season] = extra.get<int>();
+        }
+    }
     if (d.contains("weaknesses_pm")) {
         for (const auto& [element, multiplier] : d.at("weaknesses_pm").items()) {
             def.weaknesses_pm[element] = multiplier.get<std::int64_t>();

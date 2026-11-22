@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/festival_ribbon",
+  "name": "$i18n:item.festival_ribbon.name",
+  "description": "$i18n:item.festival_ribbon.desc",
+  "kind": "accessory",
+  "rarity": "epic",
+  "price": 900,
+  "accessory": {
+    "atk": 4,
+    "max_hp": 40,
+    "crit_pm": 50
+  }
+}

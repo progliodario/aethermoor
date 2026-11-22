@@ -6,6 +6,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The seasons of the hunt** (spec 05, "Loot"): a creature may leave more in its season (`season_bonus`, the rule of the gathering, now for loot too). Boars leave one more hide and piece of meat in autumn, elks more antlers and meat in winter, dune foxes more pelts in winter.
+- **The eight feasts** (spec 07): win the games of all eight feasts and Lark the bard gives you the ribbon of the eight feasts, an accessory.
+
+### Fixed
+
+- `tools/make_hunting.py` and `tools/make_wildlife.py` found the end of a fauna list at its first `]`, which is now inside the visitors of the seasons: run again, they would have broken the world data. They now find the bracket that closes the list, and they keep the drops other tools add to their creatures (the common pieces with an affix) instead of writing over them.
+
 - **Four creatures of the seasons, with a loot of their own** (spec 09): the leaf slime of autumn and the rain slime of spring join the snow slime and the sun slime. Each leaves a material found nowhere else, the four brew the **tea of the four seasons** at a campfire (it heals, fortifies, wards and mends for an hour), and ten of each earn a title: Snowbound, Sunkissed, Leaf Dancer, Rain Walker.
 - **The Song of the Road** (spec 07): Lark the bard writes a song about the three travellers; find Brannoc and Odo wherever the day puts them, and bring their stories back to her.
 

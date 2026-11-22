@@ -1729,5 +1729,7 @@
   "quest.way_lark_road_song.brannoc": "Lark scrive una canzone sui viaggiatori delle strade. Trova Brannoc, il fabbro errante, e ascolta la sua storia.",
   "quest.way_lark_road_song.odo": "Brannoc ha raccontato la sua storia. Ora trova Odo, il capo della carovana, ovunque siano oggi i suoi carri.",
   "quest.way_lark_road_song.lark": "Hai le storie di Brannoc e di Odo. Portale a Lark, in qualunque avamposto canti oggi.",
+  "item.festival_ribbon.name": "Nastro delle otto feste",
+  "item.festival_ribbon.desc": "Otto colori, uno per ogni festa vinta. +4 di attacco, +40 di salute, +5% di colpo critico.",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

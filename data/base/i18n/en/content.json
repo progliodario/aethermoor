@@ -1729,5 +1729,7 @@
   "quest.way_lark_road_song.brannoc": "Lark is writing a song about the travellers of the roads. Find Brannoc the wandering smith and hear his story.",
   "quest.way_lark_road_song.odo": "Brannoc told his story. Now find Odo, the master of the caravan, wherever his wagons are today.",
   "quest.way_lark_road_song.lark": "You have the stories of Brannoc and Odo. Bring them to Lark, at whatever outpost she sings today.",
+  "item.festival_ribbon.name": "Ribbon of the eight feasts",
+  "item.festival_ribbon.desc": "Eight colours, one for every feast won. +4 attack, +40 health, +5% critical chance.",
   "enemy.slime_sun.name": "Sun slime"
 }

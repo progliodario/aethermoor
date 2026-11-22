@@ -28,6 +28,9 @@ GAME = {
 }
 FAUNA_WEIGHT = 2
 SOUND = {"wild_boar": "boar", "ridge_elk": "elk", "dune_fox": "fox"}  # their voices (tools/make_sfx.py)
+# the season of the game (spec 05, "Loot"): one more of every plain drop in it; the boars fatten in autumn, the elks and foxes grow their
+# winter coats
+SEASON_BONUS = {"wild_boar": {"autumn": 1}, "ridge_elk": {"winter": 1}, "dune_fox": {"winter": 1}}
 
 # item: (kind, price, effects [(effect, amount[, ticks])] or armor/weapon stats, rarity, name en, name it, description en, description it)
 ITEMS = {
@@ -95,23 +98,31 @@ def main() -> None:
     world_path = DATA / "worlds" / "overworld.json"
     world = world_path.read_text(encoding="utf-8")
     for name, (level, hp, atk, defense, speed, xp, palette, drops, fauna_drop, regions, name_en, name_it) in GAME.items():
-        write_json(DATA / "enemies" / f"{name}.json", {
+        path = DATA / "enemies" / f"{name}.json"
+        kept = [d for d in json.loads(path.read_text(encoding="utf-8"))["drops"] if "pick" in d] if path.exists() else []  # other tools' drops
+        write_json(path, {
             "$schema": "../../../schemas/enemy.schema.json", "id": f"base:enemy/{name}", "name": f"$i18n:enemy.{name}.name", "level": level,
             "stats": {"hp": hp, "atk": atk, "def": defense, "mdef": 2, "speed_x100": speed}, "element": "none", "sound": SOUND[name],
-            "weaknesses_pm": {"fire": 1500}, "xp": xp,
-            "drops": [{"item": f"base:item/{item}", "qty_min": lo, "qty_max": hi, "weight_pm": pm} for item, lo, hi, pm in drops],
+            "season_bonus": SEASON_BONUS[name], "weaknesses_pm": {"fire": 1500}, "xp": xp,
+            "drops": [{"item": f"base:item/{item}", "qty_min": lo, "qty_max": hi, "weight_pm": pm} for item, lo, hi, pm in drops] + kept,
             "radius_x100": 38, "behavior": "base:behavior/skittish", "art": f"base:art/creature/{name}"})
-        art = copy.deepcopy(template)
-        art["id"] = f"base:art/creature/{name}"
-        art["palette"] = palette
-        write_json(DATA / "art" / "creatures" / f"{name}.json", art)
+        art_path = DATA / "art" / "creatures" / f"{name}.json"
+        if not art_path.exists():  # the first file of the art: art_creatures.py draws it, from this palette
+            art = copy.deepcopy(template)
+            art["id"] = f"base:art/creature/{name}"
+            art["palette"] = palette
+            write_json(art_path, art)
         en[f"enemy.{name}.name"], it[f"enemy.{name}.name"] = name_en, name_it
         # the fauna of the regions: one more entry each, in the compact style of the world file
         entry = f'{{ "enemy": "base:enemy/{name}", "drop": "base:item/{fauna_drop}", "weight": {FAUNA_WEIGHT} }}'
         for region in regions:
             start = world.index(f'{{ "id": "{region}",')
             fauna = world.index('"fauna": [', start) + len('"fauna": [')
-            end = world.index("]", fauna)
+            end, depth = fauna, 1  # the bracket that closes the fauna (its entries may hold lists of their own: `seasons`)
+            while depth:
+                depth += {"[": 1, "]": -1}.get(world[end], 0)
+                end += 1
+            end -= 1
             if f"base:enemy/{name}" not in world[fauna:end]:
                 world = world[:end] + ", " + entry + world[end:]
     world_path.write_text(world, encoding="utf-8", newline="\n")

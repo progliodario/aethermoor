@@ -168,6 +168,7 @@ private fun loadEnemy(pack: Pack, id: String): EnemyDef {
         radiusX100 = enemy.getValue("radius_x100").jsonPrimitive.int,
         speedX100 = stats.getValue("speed_x100").jsonPrimitive.int,
         element = enemy["element"]?.jsonPrimitive?.content ?: "none",
+        seasonBonus = enemy["season_bonus"]?.jsonObject?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
         staggerPct = enemy["stagger_pct"]?.jsonPrimitive?.long ?: 40L,
         sound = enemy["sound"]?.jsonPrimitive?.content ?: "",
         weaknessesPm = enemy["weaknesses_pm"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),

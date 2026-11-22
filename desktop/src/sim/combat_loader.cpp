@@ -46,6 +46,11 @@ std::optional<EnemyDef> load_enemy_impl(const Pack& pack, const std::string& id,
         def.element = enemy->value("element", "none");
         def.stagger_pct = enemy->value("stagger_pct", static_cast<std::int64_t>(40));
         def.sound = enemy->value("sound", "");
+        if (enemy->contains("season_bonus")) {  // spec 05, "Loot": more of every plain drop in a season
+            for (const auto& [season, extra] : enemy->at("season_bonus").items()) {
+                def.season_bonus[season] = extra.get<int>();
+            }
+        }
         if (enemy->contains("weaknesses_pm")) {
             for (const auto& [element, multiplier] : enemy->at("weaknesses_pm").items()) {
                 def.weaknesses_pm[element] = multiplier.get<std::int64_t>();

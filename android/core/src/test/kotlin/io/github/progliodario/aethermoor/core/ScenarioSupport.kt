@@ -70,6 +70,7 @@ private fun enemyDef(d: JsonObject): EnemyDef {
         element = d["element"]?.jsonPrimitive?.content ?: "none",
         staggerPct = d["stagger_pct"]?.jsonPrimitive?.long ?: 40L,
         sound = d["sound"]?.jsonPrimitive?.content ?: "",
+        seasonBonus = d["season_bonus"]?.jsonObject?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
         weaknessesPm = d["weaknesses_pm"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
         drops = d.getValue("drops").jsonArray.map {
             val o = it.jsonObject

@@ -279,12 +279,12 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (120 missioni di storia) |
 | Creature | 79, di cui 27 guardiani e 8 Echi |
 | Missioni | 363 (24 storie dei paesani) |
-| Oggetti e ricette | 284 oggetti, 82 ricette (8 segrete) |
+| Oggetti e ricette | 285 oggetti, 82 ricette (8 segrete) |
 | Progressione | 49 titoli, 8 tag, 16 talenti, 26 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3896 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 573 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3900 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 575 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -409,6 +409,8 @@ Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due c
 
 Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
+Il 22 novembre, ottava PR: **le stagioni della caccia** (una creatura può lasciare di più nella sua stagione, `season_bonus`: cinghiali d'autunno, alci e volpi d'inverno), **le otto feste** (il nastro di Lark per chi vince i giochi di tutte le feste), due generatori che, rilanciati, avrebbero rotto i dati del mondo, sistemati.
+
 Il 22 novembre, settima PR: **quattro creature delle stagioni con un bottino proprio** (alle gelatine di neve e del sole si aggiungono quelle di foglie d'autunno e di pioggia di primavera; ognuna lascia un materiale che non si trova altrove, e insieme fanno il tè delle quattro stagioni), quattro titoli delle stagioni, **la canzone della strada** (la missione di Lark che passa per Brannoc e Odo).
 
 Il 22 novembre, sesta PR: **l'altro Eco** (una terza missione del sesto atto: l'Eco dell'altro Ospite della coppia, che non lo affrontò mai; otto missioni) e due **creature che vivono solo in una stagione** (la gelatina di neve d'inverno e la gelatina del sole d'estate, con la loro arte).
@@ -451,9 +453,9 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-4. **Altri pezzi di storia** (M9; sei atti per protagonista ci sono, il sesto lega i protagonisti a coppie e finisce con l'Eco dell'altro Ospite; la canzone della strada passa per i tre viaggiatori): una storia che passa per le feste delle otto regioni.
+4. **Altri pezzi di storia** (M9; sei atti per protagonista ci sono, il sesto lega i protagonisti a coppie e finisce con l'Eco dell'altro Ospite; la canzone della strada passa per i tre viaggiatori): un viaggio che passa per i santuari degli otto Echi.
 5. **Altri viaggiatori** (M6; Odo e la sua carovana ci sono): carri che si vedono camminare lungo le strade, altri mercanti con il loro giro.
-6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, stagioni degli orti, della raccolta e delle creature, i visitatori delle stagioni e quattro creature delle stagioni con un bottino e un tè propri ci sono): gli effetti delle stagioni sui pesci e sulla caccia.
+6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, stagioni degli orti, della raccolta e delle creature, i visitatori delle stagioni e quattro creature delle stagioni con un bottino e un tè propri e le stagioni della caccia ci sono): le stagioni anche per i negozi (merci di stagione).
 7. **Una casa più grande** (M6; i dieci mobili del cottage, in casa e in giardino, ci sono): stanze in più da comprare.
 8. **Più compagni scelti dal giocatore** (M7; il compagno di ognuno e la creatura domata di Haruka ci sono).
 9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base.

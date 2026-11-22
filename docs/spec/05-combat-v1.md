@@ -35,6 +35,10 @@ companions, mana for items and equipment.
   items) is **one of a list**: then `i = loot.next_bounded(1 + len(pick))` says which item it is (`item` for 0, else
   `pick[i - 1]`), and that item gets the quantity; then the roll of its affix, if it has `affix_roll` (spec 06,
   "Rolled affixes"). Conformance: the scenario `loot_pick`.
+- the **season of the creature**: an enemy may have `season_bonus`, an object from season id to a number; in that season (the season
+  of the day, spec 08; the `season` of a scenario) every drop found that is not one of a list gives that many more, right after its
+  quantity (no draw). The base pack: boars leave more hides and meat in autumn, elks more antlers and meat in winter, dune foxes more
+  pelts in winter (`tools/make_hunting.py`). Conformance: the scenarios `loot_in_season` and `loot_out_of_season`.
 
 ## Player state per tick (in this order)
 

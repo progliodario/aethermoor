@@ -75,10 +75,73 @@
           "next": "road_thanks"
         },
         {
+          "text": "$i18n:dlg.lark.feasts",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/feast_verdalis"
+              },
+              {
+                "quest_done": "base:quest/side/feast_whisperwood"
+              },
+              {
+                "quest_done": "base:quest/side/feast_ironspine"
+              },
+              {
+                "quest_done": "base:quest/side/feast_tidehaven"
+              },
+              {
+                "quest_done": "base:quest/side/feast_frostveil"
+              },
+              {
+                "quest_done": "base:quest/side/feast_sunscar"
+              },
+              {
+                "quest_done": "base:quest/side/feast_lumeria"
+              },
+              {
+                "quest_done": "base:quest/side/feast_ashen_wastes"
+              },
+              {
+                "not": {
+                  "flag": "lark_feasts_gift"
+                }
+              }
+            ]
+          },
+          "next": "feasts"
+        },
+        {
           "text": "$i18n:dlg.lark.bye",
           "next": "end"
         }
       ]
+    },
+    "feasts": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "lark_feasts_gift",
+          "value": true
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/festival_ribbon",
+          "qty": 1
+        },
+        {
+          "effect": "add_xp",
+          "amount": 2000
+        }
+      ],
+      "next": "feasts_say"
+    },
+    "feasts_say": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.feasts_song",
+      "next": "end"
     },
     "road_offer": {
       "type": "say",

@@ -12,6 +12,9 @@ She also has a quest, **the Song of the Road** (`base:quest/side/way_lark_road_s
 travellers needs the stories of the other two, so the Guest finds Brannoc, then Odo, wherever the day puts them, and comes back to her
 (three `talk` stages). She thanks the Guest once (the flag `lark_road_song_thanked`).
 
+And she sings of the feasts: whoever won the games of all eight feasts (`base:quest/side/feast_<region>`, `make_feasts.py`) gets from her,
+once, the ribbon of the eight feasts, an accessory (the flag `lark_feasts_gift`).
+
 It writes her dialogue `data/base/dialogues/npc/lark.json`, her texts (it and en) and her line in `npcs` of the world data (a free
 cobblestone of every outpost). It can be run any number of times. Then run `make_catalog.py` and `make_facts.py`.
 """
@@ -30,6 +33,7 @@ KEY = "wandering_bard_lark"
 ROUTE = [CYCLE[(k + 4) % len(CYCLE)] for k in range(len(CYCLE))]
 XP = 120
 ROAD = "base:quest/side/way_lark_road_song"
+FEASTS = [{"quest_done": f"base:quest/side/feast_{region}"} for region in CYCLE]  # the games of the eight feasts (make_feasts.py)
 # the Song of the Road: (stage, npc key, journal en, journal it)
 ROAD_STAGES = [
     ("brannoc", "wandering_smith_brannoc", "Lark is writing a song about the travellers of the roads. Find Brannoc the wandering smith and hear his story.",
@@ -39,6 +43,12 @@ ROAD_STAGES = [
     ("lark", "wandering_bard_lark", "You have the stories of Brannoc and Odo. Bring them to Lark, at whatever outpost she sings today.",
      "Hai le storie di Brannoc e di Odo. Portale a Lark, in qualunque avamposto canti oggi."),
 ]
+FEAST_WORDS = {
+    "en": ("I won the games of all eight feasts.",
+           "Pies in Verdalis, stone in Ironspine, the biggest catch of Tidehaven, the ember walk of the Wastes... all eight? Then this song is yours, and this ribbon: eight colours, one for every feast."),
+    "it": ("Ho vinto i giochi di tutte e otto le feste.",
+           "Torte a Verdalis, pietre a Ironspine, la preda più grande di Tidehaven, la camminata sulle braci delle Terre... tutte e otto? Allora questa canzone è tua, e questo nastro: otto colori, uno per ogni festa."),
+}
 ROAD_WORDS = {
     "en": {"name": "The Song of the Road", "ask": "Can I help with a song?", "status": "About the song of the road...", "report": "I have the stories.",
            "offer": "A song about the three of us who never stop: Brannoc, Odo and me. But I only know my own story. Find them, wherever the day puts them, and bring me theirs.",
@@ -94,7 +104,12 @@ def dialogue() -> dict:
             {"text": "$i18n:dlg.lark.road_ask", "when": {"not": {"any": [{"quest_active": ROAD}, {"quest_done": ROAD}]}}, "next": "road_offer"},
             {"text": "$i18n:dlg.lark.road_status", "when": {"quest_active": ROAD}, "next": "road_busy"},
             {"text": "$i18n:dlg.lark.road_report", "when": {"all": [{"quest_done": ROAD}, {"not": {"flag": "lark_road_song_thanked"}}]}, "next": "road_thanks"},
+            {"text": "$i18n:dlg.lark.feasts", "when": {"all": FEASTS + [{"not": {"flag": "lark_feasts_gift"}}]}, "next": "feasts"},
             {"text": "$i18n:dlg.lark.bye", "next": "end"}]},
+        "feasts": {"type": "effects", "effects": [{"effect": "set_flag", "flag": "lark_feasts_gift", "value": True},
+                                                  {"effect": "add_item", "item": "base:item/festival_ribbon", "qty": 1},
+                                                  {"effect": "add_xp", "amount": 2000}], "next": "feasts_say"},
+        "feasts_say": say(KEY, "dlg.lark.feasts_song", "end"),
         "road_offer": say(KEY, "dlg.lark.road_offer", "road_choice"),
         "road_choice": {"type": "choice", "choices": [
             {"text": "$i18n:dlg.wayfarer.accept", "effects": [{"effect": "start_quest", "quest": ROAD}], "next": "end"},
@@ -151,7 +166,8 @@ def main() -> None:
         content = {"quest.way_lark_road_song.name": r["name"]}
         content.update({f"quest.way_lark_road_song.{stage}": (en, it)[k] for stage, _key, en, it in ROAD_STAGES})
         set_texts("content.json", lang, content)
-        set_texts("core.json", lang, {"dlg.lark.road_ask": r["ask"], "dlg.lark.road_status": r["status"], "dlg.lark.road_report": r["report"],
+        set_texts("core.json", lang, {"dlg.lark.feasts": FEAST_WORDS[lang][0], "dlg.lark.feasts_song": FEAST_WORDS[lang][1],
+                                      "dlg.lark.road_ask": r["ask"], "dlg.lark.road_status": r["status"], "dlg.lark.road_report": r["report"],
                                       "dlg.lark.road_offer": r["offer"], "dlg.lark.road_busy": r["busy"], "dlg.lark.road_song": r["song"]})
     for k, lang in enumerate(("en", "it")):
         names = json.loads((DATA / "i18n" / lang / "content.json").read_text(encoding="utf-8"))

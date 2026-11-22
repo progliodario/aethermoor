@@ -63,10 +63,12 @@ def main() -> None:
     world_path = DATA / "worlds" / "overworld.json"
     world = world_path.read_text(encoding="utf-8", newline="")
     for name, c in CREATURES.items():
-        write_json(DATA / "enemies" / f"{name}.json", {
+        path = DATA / "enemies" / f"{name}.json"
+        kept = [d for d in json.loads(path.read_text(encoding="utf-8"))["drops"] if "pick" in d] if path.exists() else []  # other tools' drops
+        write_json(path, {
             "$schema": "../../../schemas/enemy.schema.json", "id": f"base:enemy/{name}", "name": f"$i18n:enemy.{name}.name", "level": c["level"],
             "stats": c["stats"], "element": c["element"], "sound": c["sound"], "weaknesses_pm": {c["weak"]: 1500}, "xp": c["xp"],
-            "drops": [{"item": f"base:item/{item}", "qty_min": lo, "qty_max": hi, "weight_pm": pm} for item, lo, hi, pm in c["drops"]],
+            "drops": [{"item": f"base:item/{item}", "qty_min": lo, "qty_max": hi, "weight_pm": pm} for item, lo, hi, pm in c["drops"]] + kept,
             "radius_x100": c["radius"], "behavior": f"base:behavior/{c['behavior']}", "art": f"base:art/creature/{name}"})
         art_path = DATA / "art" / "creatures" / f"{name}.json"
         if not art_path.exists():  # a first picture with the palette: art_creatures.py draws the real one
@@ -79,7 +81,11 @@ def main() -> None:
         for region in c["regions"]:
             start = world.index(f'{{ "id": "{region}",')
             fauna = world.index('"fauna": [', start) + len('"fauna": [')
-            end = world.index("]", fauna)
+            end, depth = fauna, 1  # the bracket that closes the fauna (its entries may hold lists of their own: `seasons`)
+            while depth:
+                depth += {"[": 1, "]": -1}.get(world[end], 0)
+                end += 1
+            end -= 1
             if f"base:enemy/{name}" not in world[fauna:end]:
                 world = world[:end] + ", " + entry + world[end:]
     world_path.write_text(world, encoding="utf-8", newline="")
