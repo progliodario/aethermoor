@@ -518,6 +518,11 @@
                 "maximum": 1000,
                 "description": "How much the season slows the creatures, in permille; 0 when absent (spec 08, \"Seasons and the creatures\")."
               },
+              "stock": {
+                "type": "array",
+                "description": "The goods every shop sells in the season, after its own and the wares for friends (spec 06, \"Goods of the season\").",
+                "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:[a-z][a-z0-9_]*(/[a-z0-9_]+)+$" }
+              },
               "creature_aggro_cut_pm": {
                 "type": "integer",
                 "minimum": 0,

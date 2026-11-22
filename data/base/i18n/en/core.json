@@ -1414,5 +1414,11 @@
   "dlg.lark.road_song": "'One hammers, one drives, one sings; and the Guest walks between them, and the roads are safe.' Listen. It is yours too. Take this: a song should leave something behind.",
   "dlg.lark.feasts": "I won the games of all eight feasts.",
   "dlg.lark.feasts_song": "Pies in Verdalis, stone in Ironspine, the biggest catch of Tidehaven, the ember walk of the Wastes... all eight? Then this song is yours, and this ribbon: eight colours, one for every feast.",
+  "dlg.maren.rest.ask": "About the other Echoes...",
+  "dlg.maren.rest.status": "About the rest of the Echoes...",
+  "dlg.maren.rest.report": "They rest, all eight.",
+  "dlg.maren.rest.offer": "You freed one Guest of another life from their Echo. There are eight, Guest: eight moments that brought eight people here, still waiting in their sanctums. Give them all rest. Lyra would like that.",
+  "dlg.maren.rest.busy": "Eight sanctums around the start. Some of the Echoes you know already. The others will know you.",
+  "dlg.maren.rest.thanks": "Eight sanctums, quiet. Lyra lit a candle for each of them, and one more, for you. Take this: it was left at the shrine for whoever finished the work.",
   "ui.temper_refused": "Temper at an anvil, holding a weapon or wearing an armor whose affix can roll."
 }

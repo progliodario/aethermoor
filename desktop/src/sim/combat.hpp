@@ -299,6 +299,7 @@ struct CombatSetup {
     int wind_haste_pm = 0;
     int fog_pm = 0;  // the fog (spec 08, "Fog"): how thick it is, and how much a full fog shortens the aggro distance
     int fog_aggro_cut_pm = 0;
+    std::vector<std::string> season_stock;  // the goods of the season of the setup (spec 06, "Goods of the season")
     int season_slow_pm =
         0;  // what the season of the setup does to the creatures (spec 08, "Seasons and the creatures")
     int season_aggro_cut_pm = 0;

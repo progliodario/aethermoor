@@ -2244,6 +2244,10 @@
                   120,
                   14
                 ],
+                "stock": [
+                  "base:item/flower_tea",
+                  "base:item/fern_salad"
+                ],
                 "weights": {
                   "clear": 450,
                   "cloudy": 250,
@@ -2260,6 +2264,10 @@
                   210,
                   90,
                   22
+                ],
+                "stock": [
+                  "base:item/windleaf_brew",
+                  "base:item/grilled_fish"
                 ],
                 "weights": {
                   "clear": 750,
@@ -2305,6 +2313,10 @@
                   40,
                   34
                 ],
+                "stock": [
+                  "base:item/hearty_stew",
+                  "base:item/berry_pancakes"
+                ],
                 "weights": {
                   "clear": 400,
                   "cloudy": 350,
@@ -2322,6 +2334,10 @@
                   215,
                   255,
                   46
+                ],
+                "stock": [
+                  "base:item/frost_tonic",
+                  "base:item/hunters_stew"
                 ],
                 "weights": {
                   "clear": 450,
@@ -14623,6 +14639,10 @@
                   120,
                   14
                 ],
+                "stock": [
+                  "base:item/flower_tea",
+                  "base:item/fern_salad"
+                ],
                 "weights": {
                   "clear": 450,
                   "cloudy": 250,
@@ -14639,6 +14659,10 @@
                   210,
                   90,
                   22
+                ],
+                "stock": [
+                  "base:item/windleaf_brew",
+                  "base:item/grilled_fish"
                 ],
                 "weights": {
                   "clear": 750,
@@ -14684,6 +14708,10 @@
                   40,
                   34
                 ],
+                "stock": [
+                  "base:item/hearty_stew",
+                  "base:item/berry_pancakes"
+                ],
                 "weights": {
                   "clear": 400,
                   "cloudy": 350,
@@ -14701,6 +14729,10 @@
                   215,
                   255,
                   46
+                ],
+                "stock": [
+                  "base:item/frost_tonic",
+                  "base:item/hunters_stew"
                 ],
                 "weights": {
                   "clear": 450,
@@ -27002,6 +27034,10 @@
                   120,
                   14
                 ],
+                "stock": [
+                  "base:item/flower_tea",
+                  "base:item/fern_salad"
+                ],
                 "weights": {
                   "clear": 450,
                   "cloudy": 250,
@@ -27018,6 +27054,10 @@
                   210,
                   90,
                   22
+                ],
+                "stock": [
+                  "base:item/windleaf_brew",
+                  "base:item/grilled_fish"
                 ],
                 "weights": {
                   "clear": 750,
@@ -27063,6 +27103,10 @@
                   40,
                   34
                 ],
+                "stock": [
+                  "base:item/hearty_stew",
+                  "base:item/berry_pancakes"
+                ],
                 "weights": {
                   "clear": 400,
                   "cloudy": 350,
@@ -27080,6 +27124,10 @@
                   215,
                   255,
                   46
+                ],
+                "stock": [
+                  "base:item/frost_tonic",
+                  "base:item/hunters_stew"
                 ],
                 "weights": {
                   "clear": 450,

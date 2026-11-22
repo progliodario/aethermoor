@@ -6,6 +6,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Goods of the season** (spec 06): every shop sells some goods only in their season, besides its own: flower tea and fern salad in spring, windleaf brew and grilled fish in summer, hearty stew and berry pancakes in autumn, frost tonic and hunter's stew in winter.
+- **The Rest of the Echoes** (spec 18): after facing the other Echo of the sixth act, Sister Maren asks you to give rest to all eight Echoes in their sanctums.
+
 - **The seasons of the hunt** (spec 05, "Loot"): a creature may leave more in its season (`season_bonus`, the rule of the gathering, now for loot too). Boars leave one more hide and piece of meat in autumn, elks more antlers and meat in winter, dune foxes more pelts in winter.
 - **The eight feasts** (spec 07): win the games of all eight feasts and Lark the bard gives you the ribbon of the eight feasts, an accessory.
 

@@ -225,6 +225,15 @@ the top tier, and the roll counts for both); every guardian and every Echo leave
 (`ui.affix_roll`, "affix 132%"). Conformance: the scenario `affixes_rolled` (its checkpoints carry `rolls`) and two save
 splits of it.
 
+## Goods of the season
+
+A season of the world (spec 08, "Seasons") may have `stock`, a list of items: on a day of that season the **shop of the place** (the
+effect `open_shop` without a `region`) sells them too, after its own stock and the wares for friends, each item once (an item the shop
+sells already is not added again). The goods of another region (`open_shop` with a `region`) have none. In the conformance scenarios
+the goods are `season_stock`, the stock of the season of the scenario: `season_goods`. The base world: flower tea and fern salad in
+spring, the windleaf brew and grilled fish in summer, hearty stew and berry pancakes in autumn, the frost tonic and the hunter's stew in
+winter.
+
 ## Shops
 
 A region sells goods: `regions[].shop` is `{price_pm, stock}` (spec 09); a settlement shop sells the stock of its region, so prices and goods differ across the world. Shops open from a dialogue with the effect

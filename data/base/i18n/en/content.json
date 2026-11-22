@@ -1731,5 +1731,7 @@
   "quest.way_lark_road_song.lark": "You have the stories of Brannoc and Odo. Bring them to Lark, at whatever outpost she sings today.",
   "item.festival_ribbon.name": "Ribbon of the eight feasts",
   "item.festival_ribbon.desc": "Eight colours, one for every feast won. +4 attack, +40 health, +5% critical chance.",
+  "quest.epilogue_rest_of_echoes.name": "The Rest of the Echoes",
+  "quest.epilogue_rest_of_echoes.task": "Give rest to the eight Echoes, each in its sanctum around the start.",
   "enemy.slime_sun.name": "Sun slime"
 }

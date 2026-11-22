@@ -1010,9 +1010,18 @@ class WorldSim(
         } else {
             combat.shop
         }
-        // wares for friends of the region (spec 07, "Renown")
+        // the goods of the season (spec 06, "Goods of the season"): of the day of the world, or of the setup
+        val goods = if (store != null) {
+            val time = store.params.time
+            val index = if (time.dayTicks > 0) seasonIndexOf(time, worldTicks / time.dayTicks + 1) else -1
+            if (index >= 0) time.seasons[index].stock else emptyList()
+        } else {
+            combat.seasonStock
+        }
+        // wares for friends of the region (spec 07, "Renown"), then the goods of the season not already sold
         shop = base?.let { b ->
-            ShopDef(b.pricePm, b.stock + b.renownStock.filter { renownHere() >= it.second }.map { it.first }, b.renownStepPm, b.renownMaxPm, b.marketSwingPm, b.renownStock, b.glutStepPm, b.glutFloorPm)
+            val stock = b.stock + b.renownStock.filter { renownHere() >= it.second }.map { it.first }
+            ShopDef(b.pricePm, stock + goods.filter { it !in stock }, b.renownStepPm, b.renownMaxPm, b.marketSwingPm, b.renownStock, b.glutStepPm, b.glutFloorPm)
         }
     }
 

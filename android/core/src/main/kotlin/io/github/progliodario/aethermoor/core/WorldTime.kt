@@ -23,6 +23,8 @@ class Season(
     /** How much the season slows the creatures and shortens their aggro distance (spec 08, "Seasons and the creatures"). */
     val creatureSlowPm: Int = 0,
     val creatureAggroCutPm: Int = 0,
+    /** The goods every shop sells in the season (spec 06, "Goods of the season"). */
+    val stock: List<String> = emptyList(),
 )
 
 class TimeParams(
@@ -170,6 +172,7 @@ fun parseTimeParams(time: JsonObject): TimeParams {
                 (s["light"] as? JsonArray)?.map { f -> Pair(f.jsonArray[0].jsonPrimitive.int, f.jsonArray[1].jsonPrimitive.int) } ?: emptyList(),
                 creatureSlowPm = s["creature_slow_pm"]?.jsonPrimitive?.int ?: 0,
                 creatureAggroCutPm = s["creature_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
+                stock = (s["stock"] as? JsonArray)?.map { v -> v.jsonPrimitive.content } ?: emptyList(),
             )
         } ?: emptyList(),
     )

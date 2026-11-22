@@ -1062,6 +1062,9 @@ Scenario scenario_from_json(const Json& in) {
     }
     setup.region = in.value("region", "");
     setup.season = in.value("season", "");
+    if (in.contains("season_stock")) {  // spec 06, "Goods of the season"
+        setup.season_stock = in.at("season_stock").get<std::vector<std::string>>();
+    }
     if (in.contains("far_shops")) {  // the shops of other regions (spec 06, "Goods from afar")
         for (const auto& [region, def] : in.at("far_shops").items()) {
             aether::ShopDef far;
