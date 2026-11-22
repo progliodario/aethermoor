@@ -21,6 +21,20 @@ NAME = ("Sister Maren, keeper of Lyra's shrine", "Suor Maren, custode del santua
 HELLO = ("Lyra's shrine is small, Guest, and so am I. But she talks to me sometimes, and lately she talks about you.",
          "Il santuario di Lyra è piccolo, Ospite, e io pure. Ma ogni tanto lei mi parla, e ultimamente parla di te.")
 BYE = ("Nothing for now, Sister.", "Niente per ora, sorella.")
+# The rest of the Echoes (spec 18): after the other Echo of the sixth act, Maren asks the Guest to give rest to all eight, in their sanctums
+REST = "epilogue_rest_of_echoes"
+REST_WORDS = {
+    "en": {"name": "The Rest of the Echoes", "task": "Give rest to the eight Echoes, each in its sanctum around the start.",
+           "ask": "About the other Echoes...", "status": "About the rest of the Echoes...", "report": "They rest, all eight.",
+           "offer": "You freed one Guest of another life from their Echo. There are eight, Guest: eight moments that brought eight people here, still waiting in their sanctums. Give them all rest. Lyra would like that.",
+           "busy": "Eight sanctums around the start. Some of the Echoes you know already. The others will know you.",
+           "thanks": "Eight sanctums, quiet. Lyra lit a candle for each of them, and one more, for you. Take this: it was left at the shrine for whoever finished the work."},
+    "it": {"name": "Il riposo degli Echi", "task": "Dai pace agli otto Echi, ognuno nel suo santuario intorno alla partenza.",
+           "ask": "A proposito degli altri Echi...", "status": "A proposito del riposo degli Echi...", "report": "Riposano, tutti e otto.",
+           "offer": "Hai liberato un Ospite di un'altra vita dal suo Eco. Sono otto, Ospite: otto momenti che hanno portato qui otto persone, che aspettano ancora nei loro santuari. Da' pace a tutti. A Lyra piacerebbe.",
+           "busy": "Otto santuari intorno alla partenza. Alcuni Echi li conosci già. Gli altri conosceranno te.",
+           "thanks": "Otto santuari, silenziosi. Lyra ha acceso una candela per ognuno, e una in più, per te. Prendi questo: è stato lasciato al santuario per chi avrebbe finito il lavoro."},
+}
 
 KILL, COLLECT = "kill", "collect"
 # protagonist: `ask` (the line of the menu), `done` (after the act), and three quests:
@@ -294,6 +308,33 @@ def main() -> None:
                 content[lang][f"quest.{short_id(name, n)}.name"] = title[i]
                 content[lang][f"quest.{short_id(name, n)}.task"] = task[i]
         nodes[f"{name}_done"] = say(f"{name}.done", "end")
+    # the rest of the Echoes: once the Guest has faced the other Echo of the sixth act
+    rest_q = f"base:quest/side/{REST}"
+    other_done = {"any": [{"quest_done": qid(name, 14)} for name in ACTS]}
+    untouched = {"not": {"any": [{"quest_active": rest_q}, {"quest_done": rest_q}]}}
+    choices += [{"text": "$i18n:dlg.maren.rest.ask", "when": {"all": [other_done, untouched]}, "next": "rest_offer"},
+                {"text": "$i18n:dlg.maren.rest.status", "when": {"quest_active": rest_q}, "next": "rest_busy"},
+                {"text": "$i18n:dlg.maren.rest.report", "when": {"all": [{"quest_done": rest_q}, {"not": {"flag": "rest_of_echoes_thanked"}}]},
+                 "next": "rest_thanks"}]
+    nodes["rest_offer"] = say("rest.offer", "rest_choice")
+    nodes["rest_choice"] = {"type": "choice", "choices": [
+        {"text": "$i18n:dlg.wayfarer.accept", "effects": [{"effect": "start_quest", "quest": rest_q}], "next": "end"},
+        {"text": "$i18n:dlg.wayfarer.later", "next": "end"}]}
+    nodes["rest_busy"] = say("rest.busy", "end")
+    nodes["rest_thanks"] = {"type": "effects", "effects": [{"effect": "set_flag", "flag": "rest_of_echoes_thanked", "value": True}],
+                            "next": "rest_thanks_say"}
+    nodes["rest_thanks_say"] = say("rest.thanks", "end")
+    rest = {"$schema": "../../../../schemas/quest.schema.json", "id": rest_q, "name": f"$i18n:quest.{REST}.name", "kind": "side",
+            "stages": [{"id": "rest", "journal": f"$i18n:quest.{REST}.task",
+                        "objectives": [{"type": "kill", "enemy": f"base:enemy/echo_{name}", "count": 1} for name in ACTS], "next": "end"}],
+            "rewards": [{"effect": "add_xp", "amount": 20000}, {"effect": "add_gold", "amount": 15000},
+                        {"effect": "add_item", "item": "base:item/rune_might", "qty": 1}, {"effect": "add_item", "item": "base:item/potion_large", "qty": 5}]}
+    (DATA / "quests" / "side" / f"{REST}.json").write_text(json.dumps(rest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    for lang in ("en", "it"):
+        w = REST_WORDS[lang]
+        content[lang][f"quest.{REST}.name"], content[lang][f"quest.{REST}.task"] = w["name"], w["task"]
+        for key in ("ask", "status", "report", "offer", "busy", "thanks"):
+            core[lang][f"dlg.maren.rest.{key}"] = w[key]
     choices.append({"text": "$i18n:dlg.maren.bye", "next": "end"})
     nodes["menu"] = {"type": "choice", "choices": choices}
     doc = {"$schema": "../../../../schemas/dialogue.schema.json", "id": MAREN["dialogue"], "start": "start", "nodes": nodes}

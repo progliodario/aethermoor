@@ -344,6 +344,9 @@ class CombatSetup(
     /** The fog of a world without a clock, and how much a full fog shortens the aggro distance (spec 08, "Fog"). */
     val fogPm: Int = 0,
     val fogAggroCutPm: Int = 0,
+    /** The goods of the season of a world without a clock (spec 06, "Goods of the season"). */
+    val seasonStock: List<String> = emptyList(),
+
     /** What the season of a world without a clock does to the creatures (spec 08, "Seasons and the creatures"). */
     val seasonSlowPm: Int = 0,
     val seasonAggroCutPm: Int = 0,

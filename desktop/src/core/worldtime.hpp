@@ -29,6 +29,7 @@ struct Season {
     std::vector<std::pair<int, int>> light;  // keyframes of its own; empty: the global ones
     int creature_slow_pm = 0;                // how much it slows the creatures (spec 08, "Seasons and the creatures")
     int creature_aggro_cut_pm = 0;           // and how much it shortens their aggro distance
+    std::vector<std::string> stock;  // the goods every shop sells in the season (spec 06, "Goods of the season")
 };
 
 struct TimeParams {

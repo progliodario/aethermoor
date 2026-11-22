@@ -1731,5 +1731,7 @@
   "quest.way_lark_road_song.lark": "Hai le storie di Brannoc e di Odo. Portale a Lark, in qualunque avamposto canti oggi.",
   "item.festival_ribbon.name": "Nastro delle otto feste",
   "item.festival_ribbon.desc": "Otto colori, uno per ogni festa vinta. +4 di attacco, +40 di salute, +5% di colpo critico.",
+  "quest.epilogue_rest_of_echoes.name": "Il riposo degli Echi",
+  "quest.epilogue_rest_of_echoes.task": "Dai pace agli otto Echi, ognuno nel suo santuario intorno alla partenza.",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

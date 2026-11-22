@@ -1414,5 +1414,11 @@
   "dlg.lark.road_song": "'Uno batte, uno guida, una canta; e l'Ospite cammina tra loro, e le strade sono sicure.' Ascolta. È anche tua. Prendi questo: una canzone deve lasciare qualcosa.",
   "dlg.lark.feasts": "Ho vinto i giochi di tutte e otto le feste.",
   "dlg.lark.feasts_song": "Torte a Verdalis, pietre a Ironspine, la preda più grande di Tidehaven, la camminata sulle braci delle Terre... tutte e otto? Allora questa canzone è tua, e questo nastro: otto colori, uno per ogni festa.",
+  "dlg.maren.rest.ask": "A proposito degli altri Echi...",
+  "dlg.maren.rest.status": "A proposito del riposo degli Echi...",
+  "dlg.maren.rest.report": "Riposano, tutti e otto.",
+  "dlg.maren.rest.offer": "Hai liberato un Ospite di un'altra vita dal suo Eco. Sono otto, Ospite: otto momenti che hanno portato qui otto persone, che aspettano ancora nei loro santuari. Da' pace a tutti. A Lyra piacerebbe.",
+  "dlg.maren.rest.busy": "Otto santuari intorno alla partenza. Alcuni Echi li conosci già. Gli altri conosceranno te.",
+  "dlg.maren.rest.thanks": "Otto santuari, silenziosi. Lyra ha acceso una candela per ognuno, e una in più, per te. Prendi questo: è stato lasciato al santuario per chi avrebbe finito il lavoro.",
   "ui.temper_refused": "Si tempra a un'incudine, con in mano un'arma o indosso un'armatura il cui affisso si può tirare."
 }

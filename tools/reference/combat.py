@@ -122,6 +122,7 @@ class CombatSim:
         self.sold_day = 0
         self.day_ticks = scenario.get("day_ticks", 0)  # the length of a day for the market (spec 06, "Market days"); 0: always day 1
         self.region = scenario.get("region", "")
+        self.season_stock = scenario.get("season_stock", [])  # the goods of the season of the scenario (spec 06, "Goods of the season")
         self.season = scenario.get("season", "")  # the season of a scenario (spec 06, "Seasons on the plots")  # the region of the scenario: the renown is counted by region (spec 07, "Renown")
         self.combat = nm.derive_stream(seed, "combat")
         self.loot = nm.derive_stream(seed, "loot")
@@ -1216,7 +1217,10 @@ class CombatSim:
         if self.shop_def is None:
             return False
         known = [w["item"] for w in self.shop_def.get("renown_stock", []) if self.renown_here() >= w["renown"]]  # spec 07, "Renown": wares for friends
-        self.shop = {**self.shop_def, "stock": list(self.shop_def["stock"]) + known}
+        # and the goods of the season (spec 06, "Goods of the season"): what every shop sells on a day of that season, not already sold
+        stock = list(self.shop_def["stock"]) + known
+        stock += [item for item in self.season_stock if item not in stock]
+        self.shop = {**self.shop_def, "stock": stock}
         return True
 
     def close_shop(self) -> None:

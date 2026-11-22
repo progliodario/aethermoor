@@ -81,7 +81,9 @@ Anyone can find and fight any Echo; only the protagonist's own closes the story.
 the world, and Maren shows each protagonist the trace of one of them, in pairs (Ren and Sakura, Daichi and Haruka, Marco and Yuki, Lena
 and Gideon find each other's letters, ledgers, maps and logbooks). The first quest is something to bring from the region of the other
 Guest, the second a trouble the other Guest left unfinished there, the third (`act6_<name>_3`) the Echo of the other Guest, which
-they never faced (spec 18, "Echoes": it waits in its sanctum; only the protagonist's own Echo closes the story). Maren says the closing words of "A Life Here" before the first.
+they never faced (spec 18, "Echoes": it waits in its sanctum; only the protagonist's own Echo closes the story). Once a Guest has
+faced that other Echo, Maren offers **the Rest of the Echoes** (`base:quest/side/epilogue_rest_of_echoes`): all eight Echoes, each in
+its sanctum, for a large reward (a rune of might and five large potions; the flag `rest_of_echoes_thanked` when she thanks). Maren says the closing words of "A Life Here" before the first.
 
 ## Personal stories
 

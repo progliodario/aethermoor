@@ -837,6 +837,15 @@ def build_scenarios() -> list[dict]:
                     [segment(40, attack=True)], season="autumn"), "inventory": {}, "items": {**ITEMS, **ROLLED_ITEMS}},
         {**scenario("loot_out_of_season", [enemy(3.6, 4.5, hp=6, **passive, drops=SEASON_DROPS, season_bonus={"autumn": 2, "winter": 1})],
                     [segment(40, attack=True)], season="spring"), "inventory": {}, "items": {**ITEMS, **ROLLED_ITEMS}},
+        # The goods of the season (spec 06): in the shop of the place the honey cake of the season is sold after the stock (the bread, already
+        # in the stock, is not sold twice); the goods of another region have none.
+        scenario("season_goods", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/honey_cake"}]),
+                  segment(1, do=[{"cmd": "close_shop"}, {"cmd": "open_shop", "region": "far", "markup_pct": 100},
+                                 {"cmd": "buy", "item": "base:item/honey_cake"}])],
+                 inventory={}, story=EMPTY_STORY, start_gold=500, season="winter", season_stock=["base:item/honey_cake", "base:item/bread"],
+                 shop={"price_pm": 1000, "stock": ["base:item/bread"]},
+                 far_shops={"far": {"price_pm": 1000, "stock": ["base:item/bread"]}}),
         # Tags (spec 11, "Tags"): a tag not earned is refused; after the first kill the brawler tag is worn and its attack counts on the
         # second slime; taken off, the attack is the plain one again; the same tag twice is refused.
         scenario("tags_worn", [enemy(3.6, 4.5, hp=6, **passive), enemy(3.6, 4.9, hp=400, **passive)],

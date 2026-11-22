@@ -8937,6 +8937,54 @@
       "text": "$i18n:dlg.maren.gideon.done",
       "next": "end"
     },
+    "rest_offer": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.rest.offer",
+      "next": "rest_choice"
+    },
+    "rest_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/epilogue_rest_of_echoes"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "rest_busy": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.rest.busy",
+      "next": "end"
+    },
+    "rest_thanks": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "rest_of_echoes_thanked",
+          "value": true
+        }
+      ],
+      "next": "rest_thanks_say"
+    },
+    "rest_thanks_say": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.rest.thanks",
+      "next": "end"
+    },
     "menu": {
       "type": "choice",
       "choices": [
@@ -9019,6 +9067,77 @@
             }
           },
           "next": "gideon_c0"
+        },
+        {
+          "text": "$i18n:dlg.maren.rest.ask",
+          "when": {
+            "all": [
+              {
+                "any": [
+                  {
+                    "quest_done": "base:quest/side/act6_ren_3"
+                  },
+                  {
+                    "quest_done": "base:quest/side/act6_sakura_3"
+                  },
+                  {
+                    "quest_done": "base:quest/side/act6_daichi_3"
+                  },
+                  {
+                    "quest_done": "base:quest/side/act6_haruka_3"
+                  },
+                  {
+                    "quest_done": "base:quest/side/act6_marco_3"
+                  },
+                  {
+                    "quest_done": "base:quest/side/act6_yuki_3"
+                  },
+                  {
+                    "quest_done": "base:quest/side/act6_lena_3"
+                  },
+                  {
+                    "quest_done": "base:quest/side/act6_gideon_3"
+                  }
+                ]
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/epilogue_rest_of_echoes"
+                    },
+                    {
+                      "quest_done": "base:quest/side/epilogue_rest_of_echoes"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "rest_offer"
+        },
+        {
+          "text": "$i18n:dlg.maren.rest.status",
+          "when": {
+            "quest_active": "base:quest/side/epilogue_rest_of_echoes"
+          },
+          "next": "rest_busy"
+        },
+        {
+          "text": "$i18n:dlg.maren.rest.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/epilogue_rest_of_echoes"
+              },
+              {
+                "not": {
+                  "flag": "rest_of_echoes_thanked"
+                }
+              }
+            ]
+          },
+          "next": "rest_thanks"
         },
         {
           "text": "$i18n:dlg.maren.bye",
