@@ -105,6 +105,8 @@ data class QuestDef(
     val args: Map<String, String> = emptyMap(),
     /** The faction it counts for (spec 07, "Factions"); empty: none. */
     val faction: String = "",
+    /** Once done it can be started anew (spec 07, "Quests"). */
+    val repeatable: Boolean = false,
 )
 
 /** The quest of a board offer (spec 07, "Guild"). */
@@ -303,7 +305,15 @@ private fun parseQuestObject(j: JsonObject): QuestDef {
     }
     require(stages.isNotEmpty()) { "a quest needs at least one stage" }
     val args = (j["args"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap()
-    return QuestDef(optStr(j, "id"), optStr(j, "name"), stages, parseEffects(j, "rewards"), args, optStr(j, "faction"))
+    return QuestDef(
+        optStr(j, "id"),
+        optStr(j, "name"),
+        stages,
+        parseEffects(j, "rewards"),
+        args,
+        optStr(j, "faction"),
+        repeatable = j["repeatable"]?.jsonPrimitive?.boolean ?: false,
+    )
 }
 
 private fun parseDialogueObject(j: JsonObject): DialogueDef {
@@ -442,8 +452,11 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
     }
 
     fun startQuest(questId: String) {
-        if (questId in quests) return
-        val def = questDef(questId) ?: return
+        val def = questDef(questId)
+        // a quest that exists is not started again, unless it is done and repeatable (spec 07, "Quests"): then it starts anew
+        val existing = quests[questId]
+        if (existing != null && !(existing.done && def?.repeatable == true)) return
+        if (def == null) return
         val stage = def.stages.first()
         quests[questId] = QuestProgress(stage.id, LongArray(stage.objectives.size))
         refresh(questId)

@@ -24,6 +24,10 @@
       "type": "string",
       "pattern": "^[a-z][a-z0-9_]*$"
     },
+    "repeatable": {
+      "type": "boolean",
+      "description": "once done, the quest can be started anew and pays again (spec 07, Quests)"
+    },
     "kind": {
       "enum": [
         "main",

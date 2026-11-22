@@ -1,0 +1,32 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_lark_hunt_autumn",
+  "name": "$i18n:quest.way_lark_hunt_autumn.name",
+  "kind": "side",
+  "faction": "wayfarers",
+  "repeatable": true,
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.way_lark_hunt_autumn.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_leaf",
+          "count": 6
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 600
+    },
+    {
+      "effect": "add_gold",
+      "amount": 400
+    }
+  ]
+}

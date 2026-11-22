@@ -6,6 +6,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Quests that can be done again** (spec 07, `repeatable`): once done, such a quest can be started anew and pays again.
+- **The hunts of the seasons** (spec 07): every season Lark the bard asks for six slimes of the season, again and again.
+
 - **Lyra's Lantern** (spec 18): a last act, the same for every Guest, after the Rest of the Echoes: three quests from Sister Maren (oil for the lantern, a safe road for its light against four great slimes, and the lantern carried home to Nana Brin), ending with Lyra's lantern, a legendary accessory.
 - **Feasts of the seasons** (spec 07): the innkeepers say how the feast is kept in the season of the day.
 

@@ -12,6 +12,10 @@ She also has a quest, **the Song of the Road** (`base:quest/side/way_lark_road_s
 travellers needs the stories of the other two, so the Guest finds Brannoc, then Odo, wherever the day puts them, and comes back to her
 (three `talk` stages). She thanks the Guest once (the flag `lark_road_song_thanked`).
 
+Every season she asks for a hunt of its creature, a quest that can be done again and again (`repeatable`, spec 07, "Quests"):
+`base:quest/side/way_lark_hunt_<season>`, six slimes of the season (snow, rain, sun, leaves), offered on a day of that season while it is
+not active, paid each time.
+
 And she sings of the feasts: whoever won the games of all eight feasts (`base:quest/side/feast_<region>`, `make_feasts.py`) gets from her,
 once, the ribbon of the eight feasts, an accessory (the flag `lark_feasts_gift`).
 
@@ -33,6 +37,29 @@ KEY = "wandering_bard_lark"
 ROUTE = [CYCLE[(k + 4) % len(CYCLE)] for k in range(len(CYCLE))]
 XP = 120
 ROAD = "base:quest/side/way_lark_road_song"
+# the hunts of the seasons: season -> (the slime, name en, name it, offer en, offer it, task en, task it)
+HUNTS = {
+    "spring": ("slime_rain", "The Hunt of the Rain", "La caccia della pioggia",
+               "The rain slimes are out, and the farmers want their fields back. Six of them, and I will put you in the spring verse again.",
+               "Le gelatine di pioggia sono fuori, e i contadini rivogliono i loro campi. Sei, e ti rimetto nella strofa di primavera.",
+               "Hunt six rain slimes, which come only in spring.", "Caccia sei gelatine di pioggia, che vengono solo in primavera."),
+    "summer": ("slime_sun", "The Hunt of the Sun", "La caccia del sole",
+               "Sun slimes, too many of them, and the wells are low. Six, Guest: the summer verse needs a hero.",
+               "Gelatine del sole, troppe, e i pozzi sono bassi. Sei, Ospite: la strofa d'estate ha bisogno di un eroe.",
+               "Hunt six sun slimes, which come only in summer.", "Caccia sei gelatine del sole, che vengono solo d'estate."),
+    "autumn": ("slime_leaf", "The Hunt of the Leaves", "La caccia delle foglie",
+               "The leaf slimes roll through the orchards and the apples roll after them. Six, and the autumn verse is yours.",
+               "Le gelatine di foglie rotolano tra i frutteti e le mele rotolano dietro. Sei, e la strofa d'autunno è tua.",
+               "Hunt six leaf slimes, which come only in autumn.", "Caccia sei gelatine di foglie, che vengono solo d'autunno."),
+    "winter": ("slime_snow", "The Hunt of the Snow", "La caccia della neve",
+               "Snow slimes on the roads, and the carts slide into the ditches. Six of them, Guest, and the winter verse sings of you.",
+               "Gelatine di neve sulle strade, e i carri scivolano nei fossi. Sei, Ospite, e la strofa d'inverno canta di te.",
+               "Hunt six snow slimes, which come only in winter.", "Caccia sei gelatine di neve, che vengono solo d'inverno."),
+}
+HUNT_WORDS = {"en": ("A hunt for the season?", "The hunt goes well.", "Six of them, wherever the season brings them.",
+                     "Another verse for the season. You are in this song more than I am."),
+              "it": ("Una caccia per la stagione?", "La caccia va bene.", "Sei, ovunque le porti la stagione.",
+                     "Un'altra strofa per la stagione. In questa canzone ci sei più tu di me.")}
 FEASTS = [{"quest_done": f"base:quest/side/feast_{region}"} for region in CYCLE]  # the games of the eight feasts (make_feasts.py)
 # the Song of the Road: (stage, npc key, journal en, journal it)
 ROAD_STAGES = [
@@ -105,7 +132,18 @@ def dialogue() -> dict:
             {"text": "$i18n:dlg.lark.road_status", "when": {"quest_active": ROAD}, "next": "road_busy"},
             {"text": "$i18n:dlg.lark.road_report", "when": {"all": [{"quest_done": ROAD}, {"not": {"flag": "lark_road_song_thanked"}}]}, "next": "road_thanks"},
             {"text": "$i18n:dlg.lark.feasts", "when": {"all": FEASTS + [{"not": {"flag": "lark_feasts_gift"}}]}, "next": "feasts"},
+        ] + [c for season in HUNTS for c in (
+            {"text": "$i18n:dlg.lark.hunt_ask", "when": {"all": [{"season": season}, {"not": {"quest_active": f"base:quest/side/way_lark_hunt_{season}"}}]},
+             "next": f"hunt_{season}_offer"},
+            {"text": "$i18n:dlg.lark.hunt_status", "when": {"quest_active": f"base:quest/side/way_lark_hunt_{season}"}, "next": "hunt_busy"})] + [
             {"text": "$i18n:dlg.lark.bye", "next": "end"}]},
+        "hunt_busy": say(KEY, "dlg.lark.hunt_busy", "end"),
+        **{k: v for season in HUNTS for k, v in (
+            (f"hunt_{season}_offer", say(KEY, f"dlg.lark.hunt_{season}", f"hunt_{season}_choice")),
+            (f"hunt_{season}_choice", {"type": "choice", "choices": [
+                {"text": "$i18n:dlg.wayfarer.accept", "effects": [{"effect": "start_quest", "quest": f"base:quest/side/way_lark_hunt_{season}"}],
+                 "next": "end"},
+                {"text": "$i18n:dlg.wayfarer.later", "next": "end"}]}))},
         "feasts": {"type": "effects", "effects": [{"effect": "set_flag", "flag": "lark_feasts_gift", "value": True},
                                                   {"effect": "add_item", "item": "base:item/festival_ribbon", "qty": 1},
                                                   {"effect": "add_xp", "amount": 2000}], "next": "feasts_say"},
@@ -159,6 +197,20 @@ def main() -> None:
                          "next": ROAD_STAGES[k + 1][0] if k + 1 < len(ROAD_STAGES) else "end"} for k, (stage, key, _en, _it) in enumerate(ROAD_STAGES)],
              "rewards": [{"effect": "add_xp", "amount": 1500}, {"effect": "add_gold", "amount": 800},
                          {"effect": "add_item", "item": "base:item/rune_gale", "qty": 1}, {"effect": "add_item", "item": "base:item/tempering_oil", "qty": 2}]}
+    for season, (slime, name_en, name_it, offer_en, offer_it, task_en, task_it) in HUNTS.items():
+        hunt = {"$schema": "../../../../schemas/quest.schema.json", "id": f"base:quest/side/way_lark_hunt_{season}",
+                "name": f"$i18n:quest.way_lark_hunt_{season}.name", "kind": "side", "faction": "wayfarers", "repeatable": True,
+                "stages": [{"id": "hunt", "journal": f"$i18n:quest.way_lark_hunt_{season}.task",
+                            "objectives": [{"type": "kill", "enemy": f"base:enemy/{slime}", "count": 6}], "next": "end"}],
+                "rewards": [{"effect": "add_xp", "amount": 600}, {"effect": "add_gold", "amount": 400}]}
+        path = DATA / "quests" / "side" / f"way_lark_hunt_{season}.json"
+        path.write_text(json.dumps(hunt, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+        for lang, name, offer, task in (("en", name_en, offer_en, task_en), ("it", name_it, offer_it, task_it)):
+            set_texts("content.json", lang, {f"quest.way_lark_hunt_{season}.name": name, f"quest.way_lark_hunt_{season}.task": task})
+            set_texts("core.json", lang, {f"dlg.lark.hunt_{season}": offer})
+    for lang in ("en", "it"):
+        ask, status, busy, _thanks = HUNT_WORDS[lang]
+        set_texts("core.json", lang, {"dlg.lark.hunt_ask": ask, "dlg.lark.hunt_status": status, "dlg.lark.hunt_busy": busy})
     road = DATA / "quests" / "side" / "way_lark_road_song.json"
     road.write_text(json.dumps(quest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     for k, lang in enumerate(("en", "it")):
