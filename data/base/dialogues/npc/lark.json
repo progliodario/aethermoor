@@ -1,0 +1,540 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/lark",
+  "start": "c_known",
+  "nodes": {
+    "c_known": {
+      "type": "condition",
+      "when": {
+        "flag": "lark_met"
+      },
+      "then": "menu",
+      "else": "hello"
+    },
+    "hello": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.hello",
+      "next": "met"
+    },
+    "met": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "lark_met",
+          "value": true
+        }
+      ],
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.lark.song",
+          "next": "song0"
+        },
+        {
+          "text": "$i18n:dlg.lark.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "song0": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "quest_done": "base:quest/side/tale_verdalis_3"
+          },
+          {
+            "not": {
+              "flag": "bard_verdalis"
+            }
+          }
+        ]
+      },
+      "then": "sing0",
+      "else": "song1"
+    },
+    "sing0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "bard_verdalis",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 120
+        }
+      ],
+      "next": "verse0"
+    },
+    "verse0": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.song_verdalis",
+      "next": "end"
+    },
+    "song1": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "quest_done": "base:quest/side/tale_whisperwood_3"
+          },
+          {
+            "not": {
+              "flag": "bard_whisperwood"
+            }
+          }
+        ]
+      },
+      "then": "sing1",
+      "else": "song2"
+    },
+    "sing1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "bard_whisperwood",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 120
+        }
+      ],
+      "next": "verse1"
+    },
+    "verse1": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.song_whisperwood",
+      "next": "end"
+    },
+    "song2": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "quest_done": "base:quest/side/tale_ironspine_3"
+          },
+          {
+            "not": {
+              "flag": "bard_ironspine"
+            }
+          }
+        ]
+      },
+      "then": "sing2",
+      "else": "song3"
+    },
+    "sing2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "bard_ironspine",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 120
+        }
+      ],
+      "next": "verse2"
+    },
+    "verse2": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.song_ironspine",
+      "next": "end"
+    },
+    "song3": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "quest_done": "base:quest/side/tale_sunscar_3"
+          },
+          {
+            "not": {
+              "flag": "bard_sunscar"
+            }
+          }
+        ]
+      },
+      "then": "sing3",
+      "else": "song4"
+    },
+    "sing3": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "bard_sunscar",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 120
+        }
+      ],
+      "next": "verse3"
+    },
+    "verse3": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.song_sunscar",
+      "next": "end"
+    },
+    "song4": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "quest_done": "base:quest/side/tale_frostveil_3"
+          },
+          {
+            "not": {
+              "flag": "bard_frostveil"
+            }
+          }
+        ]
+      },
+      "then": "sing4",
+      "else": "song5"
+    },
+    "sing4": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "bard_frostveil",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 120
+        }
+      ],
+      "next": "verse4"
+    },
+    "verse4": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.song_frostveil",
+      "next": "end"
+    },
+    "song5": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "quest_done": "base:quest/side/tale_tidehaven_3"
+          },
+          {
+            "not": {
+              "flag": "bard_tidehaven"
+            }
+          }
+        ]
+      },
+      "then": "sing5",
+      "else": "song6"
+    },
+    "sing5": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "bard_tidehaven",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 120
+        }
+      ],
+      "next": "verse5"
+    },
+    "verse5": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.song_tidehaven",
+      "next": "end"
+    },
+    "song6": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "quest_done": "base:quest/side/tale_ashen_wastes_3"
+          },
+          {
+            "not": {
+              "flag": "bard_ashen_wastes"
+            }
+          }
+        ]
+      },
+      "then": "sing6",
+      "else": "song7"
+    },
+    "sing6": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "bard_ashen_wastes",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 120
+        }
+      ],
+      "next": "verse6"
+    },
+    "verse6": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.song_ashen_wastes",
+      "next": "end"
+    },
+    "song7": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "quest_done": "base:quest/side/tale_lumeria_3"
+          },
+          {
+            "not": {
+              "flag": "bard_lumeria"
+            }
+          }
+        ]
+      },
+      "then": "sing7",
+      "else": "gift_check"
+    },
+    "sing7": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "bard_lumeria",
+          "value": true
+        },
+        {
+          "effect": "add_xp",
+          "amount": 120
+        }
+      ],
+      "next": "verse7"
+    },
+    "verse7": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.song_lumeria",
+      "next": "end"
+    },
+    "gift_check": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "flag": "bard_verdalis"
+          },
+          {
+            "flag": "bard_whisperwood"
+          },
+          {
+            "flag": "bard_ironspine"
+          },
+          {
+            "flag": "bard_sunscar"
+          },
+          {
+            "flag": "bard_frostveil"
+          },
+          {
+            "flag": "bard_tidehaven"
+          },
+          {
+            "flag": "bard_ashen_wastes"
+          },
+          {
+            "flag": "bard_lumeria"
+          },
+          {
+            "not": {
+              "flag": "bard_gift"
+            }
+          }
+        ]
+      },
+      "then": "gift",
+      "else": "none"
+    },
+    "gift": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "bard_gift",
+          "value": true
+        },
+        {
+          "effect": "add_item",
+          "item": "base:item/rune_dawn",
+          "qty": 1
+        }
+      ],
+      "next": "gift_say"
+    },
+    "gift_say": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.gift",
+      "next": "end"
+    },
+    "none": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.none",
+      "next": "d0"
+    },
+    "d0": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 0
+        }
+      },
+      "then": "s0",
+      "else": "d1"
+    },
+    "s0": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.next_sunscar",
+      "next": "end"
+    },
+    "d1": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 1
+        }
+      },
+      "then": "s1",
+      "else": "d2"
+    },
+    "s1": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.next_lumeria",
+      "next": "end"
+    },
+    "d2": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 2
+        }
+      },
+      "then": "s2",
+      "else": "d3"
+    },
+    "s2": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.next_ashen_wastes",
+      "next": "end"
+    },
+    "d3": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 3
+        }
+      },
+      "then": "s3",
+      "else": "d4"
+    },
+    "s3": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.next_verdalis",
+      "next": "end"
+    },
+    "d4": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 4
+        }
+      },
+      "then": "s4",
+      "else": "d5"
+    },
+    "s4": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.next_whisperwood",
+      "next": "end"
+    },
+    "d5": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 5
+        }
+      },
+      "then": "s5",
+      "else": "d6"
+    },
+    "s5": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.next_ironspine",
+      "next": "end"
+    },
+    "d6": {
+      "type": "condition",
+      "when": {
+        "day_mod": {
+          "every": 8,
+          "at": 6
+        }
+      },
+      "then": "s6",
+      "else": "s7"
+    },
+    "s6": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.next_tidehaven",
+      "next": "end"
+    },
+    "s7": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.next_frostveil",
+      "next": "end"
+    }
+  }
+}

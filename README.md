@@ -38,9 +38,9 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Missioni | 338 (24 storie dei paesani) |
 | Oggetti e ricette | 279 oggetti, 81 ricette (8 segrete) |
 | Progressione | 45 titoli, 8 tag, 16 talenti, 26 imprese |
-| Persone con nome | 47 nei dati del mondo, oltre ai paesani generati |
+| Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3718 chiavi, in italiano e inglese |
+| Testi | 3740 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 30 file di vettori di conformità, 573 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
@@ -238,7 +238,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine)):
 
-- **A breve:** ridurre la baseline di detekt; un cantastorie errante; i paesani che vanno davvero alla festa vicina.
+- **A breve:** ridurre la baseline di detekt; i viaggiatori che si vedono camminare; i paesani che vanno davvero alla festa vicina.
 - **A medio termine:** carri che si vedono viaggiare; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** pacchetti firmati, documentazione per chi fa mod, altre lingue.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1).
