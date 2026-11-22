@@ -1733,5 +1733,13 @@
   "item.festival_ribbon.desc": "Otto colori, uno per ogni festa vinta. +4 di attacco, +40 di salute, +5% di colpo critico.",
   "quest.epilogue_rest_of_echoes.name": "Il riposo degli Echi",
   "quest.epilogue_rest_of_echoes.task": "Dai pace agli otto Echi, ognuno nel suo santuario intorno alla partenza.",
+  "quest.epilogue_lyra_1.name": "Olio per una lanterna",
+  "quest.epilogue_lyra_1.task": "Porta polvere di stelle e fiori selvatici a Suor Maren: farà l'olio della lanterna di Lyra.",
+  "quest.epilogue_lyra_2.name": "Una strada sicura per la luce",
+  "quest.epilogue_lyra_2.task": "La lanterna viaggerà per il mondo. Rendi sicura la sua strada: il Re Gelatina, il Sovrano del Gelo, il Reggente della Marea e il Curatore Astrale.",
+  "quest.epilogue_lyra_3.name": "La lanterna di Lyra",
+  "quest.epilogue_lyra_3.task": "Porta a casa la lanterna di Lyra, a Fenwick, dove hai cominciato: Nonna Brin vorrà vederla.",
+  "item.lyras_lantern.name": "Lanterna di Lyra",
+  "item.lyras_lantern.desc": "Un po' della luce della Soglia, da portare con sé. +10 di attacco, +10 di magia, +120 di salute, +8% di colpo critico.",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

@@ -752,5 +752,9 @@
   "dlg.smith.salty.done": "Hammered and quenched, mate, like a hull before a storm! No affix, no coin.",
   "dlg.smith.grim.done": "It took the fire. If there was nothing to take it, keep your coin.",
   "dlg.smith.scholarly.done": "The tempering is complete; the variance favours you. Absent an affix, no fee is charged.",
+  "dlg.feast.season.spring": "This year it is a spring feast: flowers on every table, and the children have made crowns of them for everyone. Even for you.",
+  "dlg.feast.season.summer": "A summer feast lasts until dawn: the tables stay out under the stars and nobody goes home before the birds.",
+  "dlg.feast.season.autumn": "An autumn feast is the best kind: the harvest is in, the cellars are full, and everyone brings what they grew.",
+  "dlg.feast.season.winter": "In winter the feast moves indoors, all of us in one hall around the biggest fire of the year. Squeeze in.",
   "dlg.seasonal.scholarly.wait": "The solstice is in summer. Do return then; the instruments are not ready."
 }

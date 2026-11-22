@@ -83,7 +83,12 @@ and Gideon find each other's letters, ledgers, maps and logbooks). The first que
 Guest, the second a trouble the other Guest left unfinished there, the third (`act6_<name>_3`) the Echo of the other Guest, which
 they never faced (spec 18, "Echoes": it waits in its sanctum; only the protagonist's own Echo closes the story). Once a Guest has
 faced that other Echo, Maren offers **the Rest of the Echoes** (`base:quest/side/epilogue_rest_of_echoes`): all eight Echoes, each in
-its sanctum, for a large reward (a rune of might and five large potions; the flag `rest_of_echoes_thanked` when she thanks). Maren says the closing words of "A Life Here" before the first.
+its sanctum, for a large reward (a rune of might and five large potions; the flag `rest_of_echoes_thanked` when she thanks).
+
+Then the last act, the same for every Guest: **Lyra's Lantern** (`base:quest/side/epilogue_lyra_1` to `_3`, from Maren, one after the
+other): oil for the lantern (star dust and wildflowers), a safe road for its light (the Gel King, the Frost Sovereign, the Tide Regent and
+the Astral Curator) and the lantern carried home to Nana Brin in Fenwick (a `talk` stage). The last pays Lyra's lantern, a legendary
+accessory (+10 attack, +10 magic, +120 health, +8% critical chance). Written by `tools/make_stories.py`. Maren says the closing words of "A Life Here" before the first.
 
 ## Personal stories
 

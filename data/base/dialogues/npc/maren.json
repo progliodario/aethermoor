@@ -8985,6 +8985,150 @@
       "text": "$i18n:dlg.maren.rest.thanks",
       "next": "end"
     },
+    "epilogue_lyra_1_offer": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lantern.1.offer",
+      "next": "epilogue_lyra_1_choice"
+    },
+    "epilogue_lyra_1_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/epilogue_lyra_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "epilogue_lyra_1_busy": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lantern.1.busy",
+      "next": "end"
+    },
+    "epilogue_lyra_1_thanks": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "epilogue_lyra_1_thanked",
+          "value": true
+        }
+      ],
+      "next": "epilogue_lyra_1_thanks_say"
+    },
+    "epilogue_lyra_1_thanks_say": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lantern.1.thanks",
+      "next": "end"
+    },
+    "epilogue_lyra_2_offer": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lantern.2.offer",
+      "next": "epilogue_lyra_2_choice"
+    },
+    "epilogue_lyra_2_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/epilogue_lyra_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "epilogue_lyra_2_busy": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lantern.2.busy",
+      "next": "end"
+    },
+    "epilogue_lyra_2_thanks": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "epilogue_lyra_2_thanked",
+          "value": true
+        }
+      ],
+      "next": "epilogue_lyra_2_thanks_say"
+    },
+    "epilogue_lyra_2_thanks_say": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lantern.2.thanks",
+      "next": "end"
+    },
+    "epilogue_lyra_3_offer": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lantern.3.offer",
+      "next": "epilogue_lyra_3_choice"
+    },
+    "epilogue_lyra_3_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/epilogue_lyra_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "epilogue_lyra_3_busy": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lantern.3.busy",
+      "next": "end"
+    },
+    "epilogue_lyra_3_thanks": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "epilogue_lyra_3_thanked",
+          "value": true
+        }
+      ],
+      "next": "epilogue_lyra_3_thanks_say"
+    },
+    "epilogue_lyra_3_thanks_say": {
+      "type": "say",
+      "speaker": "shrine_keeper_maren",
+      "text": "$i18n:dlg.maren.lantern.3.thanks",
+      "next": "end"
+    },
     "menu": {
       "type": "choice",
       "choices": [
@@ -9138,6 +9282,144 @@
             ]
           },
           "next": "rest_thanks"
+        },
+        {
+          "text": "$i18n:dlg.maren.lantern.ask",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/epilogue_rest_of_echoes"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/epilogue_lyra_1"
+                    },
+                    {
+                      "quest_done": "base:quest/side/epilogue_lyra_1"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "epilogue_lyra_1_offer"
+        },
+        {
+          "text": "$i18n:dlg.maren.lantern.status",
+          "when": {
+            "quest_active": "base:quest/side/epilogue_lyra_1"
+          },
+          "next": "epilogue_lyra_1_busy"
+        },
+        {
+          "text": "$i18n:dlg.maren.rest.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/epilogue_lyra_1"
+              },
+              {
+                "not": {
+                  "flag": "epilogue_lyra_1_thanked"
+                }
+              }
+            ]
+          },
+          "next": "epilogue_lyra_1_thanks"
+        },
+        {
+          "text": "$i18n:dlg.maren.lantern.ask",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/epilogue_lyra_1"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/epilogue_lyra_2"
+                    },
+                    {
+                      "quest_done": "base:quest/side/epilogue_lyra_2"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "epilogue_lyra_2_offer"
+        },
+        {
+          "text": "$i18n:dlg.maren.lantern.status",
+          "when": {
+            "quest_active": "base:quest/side/epilogue_lyra_2"
+          },
+          "next": "epilogue_lyra_2_busy"
+        },
+        {
+          "text": "$i18n:dlg.maren.rest.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/epilogue_lyra_2"
+              },
+              {
+                "not": {
+                  "flag": "epilogue_lyra_2_thanked"
+                }
+              }
+            ]
+          },
+          "next": "epilogue_lyra_2_thanks"
+        },
+        {
+          "text": "$i18n:dlg.maren.lantern.ask",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/epilogue_lyra_2"
+              },
+              {
+                "not": {
+                  "any": [
+                    {
+                      "quest_active": "base:quest/side/epilogue_lyra_3"
+                    },
+                    {
+                      "quest_done": "base:quest/side/epilogue_lyra_3"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "next": "epilogue_lyra_3_offer"
+        },
+        {
+          "text": "$i18n:dlg.maren.lantern.status",
+          "when": {
+            "quest_active": "base:quest/side/epilogue_lyra_3"
+          },
+          "next": "epilogue_lyra_3_busy"
+        },
+        {
+          "text": "$i18n:dlg.maren.rest.report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/epilogue_lyra_3"
+              },
+              {
+                "not": {
+                  "flag": "epilogue_lyra_3_thanked"
+                }
+              }
+            ]
+          },
+          "next": "epilogue_lyra_3_thanks"
         },
         {
           "text": "$i18n:dlg.maren.bye",

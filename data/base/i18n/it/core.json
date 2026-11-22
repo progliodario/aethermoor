@@ -1420,5 +1420,16 @@
   "dlg.maren.rest.offer": "Hai liberato un Ospite di un'altra vita dal suo Eco. Sono otto, Ospite: otto momenti che hanno portato qui otto persone, che aspettano ancora nei loro santuari. Da' pace a tutti. A Lyra piacerebbe.",
   "dlg.maren.rest.busy": "Otto santuari intorno alla partenza. Alcuni Echi li conosci già. Gli altri conosceranno te.",
   "dlg.maren.rest.thanks": "Otto santuari, silenziosi. Lyra ha acceso una candela per ognuno, e una in più, per te. Prendi questo: è stato lasciato al santuario per chi avrebbe finito il lavoro.",
+  "dlg.maren.lantern.1.offer": "Gli Echi riposano, e Lyra vuole vedere con i suoi occhi, una volta, il mondo che ti ha dato. Non può lasciare la Soglia, ma una lanterna può portare la sua luce. Prima l'olio: polvere di stelle e fiori selvatici, otto di ciascuno.",
+  "dlg.maren.lantern.1.busy": "Otto pizzichi di polvere di stelle, otto mazzi di fiori selvatici.",
+  "dlg.maren.lantern.1.thanks": "L'olio brilla prima ancora di essere acceso. Lyra è impaziente, a quanto pare.",
+  "dlg.maren.lantern.2.offer": "Una lanterna con dentro una dea non dovrebbe incontrare il Re Gelatina per strada. Quattro delle grandi gelatine tengono ancora le loro sale. Mostra a Lyra un mondo dove non succede.",
+  "dlg.maren.lantern.2.busy": "Il Re Gelatina, il Sovrano del Gelo, il Reggente della Marea e il Curatore Astrale.",
+  "dlg.maren.lantern.2.thanks": "Quattro sale, silenziose. La strada è pronta.",
+  "dlg.maren.lantern.3.offer": "Dove dovrebbe guardare per prima una dea? Dove hai cominciato tu, Ospite. Porta la lanterna a Fenwick e mostrala a Nonna Brin. Poi è tua, e credo anche il mondo.",
+  "dlg.maren.lantern.3.busy": "Fenwick, e Nonna Brin accanto al suo focolare.",
+  "dlg.maren.lantern.3.thanks": "Nonna Brin ha alzato la lanterna verso la finestra e ha detto: 'Ecco com'eri fatta, cara.' Lyra ha riso. Ora la luce è tua. Tienila accesa.",
+  "dlg.maren.lantern.ask": "La lanterna di Lyra...",
+  "dlg.maren.lantern.status": "A proposito della lanterna...",
   "ui.temper_refused": "Si tempra a un'incudine, con in mano un'arma o indosso un'armatura il cui affisso si può tirare."
 }

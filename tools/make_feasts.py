@@ -24,6 +24,18 @@ from make_home import CYCLE
 from make_towns import DATA, set_texts
 
 MARKUP_PCT = 75
+SEASONS = ("spring", "summer", "autumn", "winter")
+# how a feast is kept in each season, the same words in every region (en, it)
+SEASON_WORDS = {
+    "spring": ("This year it is a spring feast: flowers on every table, and the children have made crowns of them for everyone. Even for you.",
+               "Quest'anno è una festa di primavera: fiori su ogni tavolo, e i bambini ne hanno fatto corone per tutti. Anche per te."),
+    "summer": ("A summer feast lasts until dawn: the tables stay out under the stars and nobody goes home before the birds.",
+               "Una festa d'estate dura fino all'alba: le tavole restano fuori sotto le stelle e nessuno torna a casa prima degli uccelli."),
+    "autumn": ("An autumn feast is the best kind: the harvest is in, the cellars are full, and everyone brings what they grew.",
+               "Una festa d'autunno è la migliore: il raccolto è dentro, le cantine sono piene, e ognuno porta quello che ha coltivato."),
+    "winter": ("In winter the feast moves indoors, all of us in one hall around the biggest fire of the year. Squeeze in.",
+               "D'inverno la festa si sposta al chiuso, tutti in una sala intorno al fuoco più grande dell'anno. Stringiti un po'."),
+}
 # region: (tone, the dish given the first time, how many)
 REGIONS = {
     "verdalis": ("warm", "grandmothers_pie", 2), "whisperwood": ("mystic", "moonlit_tea", 2), "ironspine": ("gruff", "forge_stew", 2),
@@ -170,7 +182,12 @@ def patch_innkeeper(region: str, tone: str, dish: str, qty: int) -> None:
     gift = f"feast_{region}_gift"
     key = f"dlg.feast.{tone}"
     nodes["feast"] = {"type": "effects", "effects": [{"effect": "heal_full"}], "next": "feast_say"}
-    nodes["feast_say"] = {"type": "say", "speaker": "npc", "text": f"$i18n:{key}.feast", "next": "feast_gift_check"}
+    nodes["feast_say"] = {"type": "say", "speaker": "npc", "text": f"$i18n:{key}.feast", "next": "feast_season_0"}
+    # the feast is not the same in every season (spec 07, "Feasts"): a word on how it is kept in the season of the day
+    for n, season in enumerate(SEASONS):
+        then = f"feast_season_{n + 1}" if n + 1 < len(SEASONS) else "feast_gift_check"
+        nodes[f"feast_season_{n}"] = {"type": "condition", "when": {"season": season}, "then": f"feast_in_{season}", "else": then}
+        nodes[f"feast_in_{season}"] = {"type": "say", "speaker": "npc", "text": f"$i18n:dlg.feast.season.{season}", "next": "feast_gift_check"}
     nodes["feast_gift_check"] = {"type": "condition", "when": {"flag": gift}, "then": "feast_market", "else": "feast_gift"}
     nodes["feast_gift"] = {"type": "effects", "effects": [{"effect": "set_flag", "flag": gift, "value": True},
                                                           {"effect": "add_item", "item": f"base:item/{dish}", "qty": qty}], "next": "feast_gift_say"}
@@ -280,6 +297,8 @@ def main() -> None:
             texts[lang].update({**VILLAGER_SHARED[lang], f"dlg.feast.{tone}.villager_happy": happy,
                                 f"dlg.feast.{tone}.villager_where": away.format(region=names[f"region.{neighbour}.name"])})
     ribbon = write_ribbon()
+    for i, lang in enumerate(("en", "it")):
+        texts[lang].update({f"dlg.feast.season.{season}": words[i] for season, words in SEASON_WORDS.items()})
     for lang in ("en", "it"):
         set_texts("roles.json", lang, texts[lang])
         set_texts("content.json", lang, {**content[lang], **ribbon[lang]})

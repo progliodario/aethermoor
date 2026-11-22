@@ -1,0 +1,15 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/lyras_lantern",
+  "name": "$i18n:item.lyras_lantern.name",
+  "description": "$i18n:item.lyras_lantern.desc",
+  "kind": "accessory",
+  "rarity": "legendary",
+  "price": 3000,
+  "accessory": {
+    "atk": 10,
+    "matk": 10,
+    "max_hp": 120,
+    "crit_pm": 80
+  }
+}

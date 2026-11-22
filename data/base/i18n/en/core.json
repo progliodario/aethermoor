@@ -1420,5 +1420,16 @@
   "dlg.maren.rest.offer": "You freed one Guest of another life from their Echo. There are eight, Guest: eight moments that brought eight people here, still waiting in their sanctums. Give them all rest. Lyra would like that.",
   "dlg.maren.rest.busy": "Eight sanctums around the start. Some of the Echoes you know already. The others will know you.",
   "dlg.maren.rest.thanks": "Eight sanctums, quiet. Lyra lit a candle for each of them, and one more, for you. Take this: it was left at the shrine for whoever finished the work.",
+  "dlg.maren.lantern.1.offer": "The Echoes rest, and Lyra wants to see the world she gave you with her own eyes, once. She cannot leave the Threshold, but a lantern can carry her light. Oil first: star dust and wildflowers, eight of each.",
+  "dlg.maren.lantern.1.busy": "Eight pinches of star dust, eight bunches of wildflowers.",
+  "dlg.maren.lantern.1.thanks": "The oil glows before it is even lit. Lyra is impatient, it seems.",
+  "dlg.maren.lantern.2.offer": "A lantern with a goddess inside should not meet the Gel King on the road. Four of the great slimes still hold their halls. Show Lyra a world where they do not.",
+  "dlg.maren.lantern.2.busy": "The Gel King, the Frost Sovereign, the Tide Regent and the Astral Curator.",
+  "dlg.maren.lantern.2.thanks": "Four halls, quiet. The road is ready.",
+  "dlg.maren.lantern.3.offer": "Where should a goddess look first? Where you began, Guest. Carry the lantern to Fenwick and show it to Nana Brin. Then it is yours, and so, I think, is the world.",
+  "dlg.maren.lantern.3.busy": "Fenwick, and Nana Brin by her hearth.",
+  "dlg.maren.lantern.3.thanks": "Nana Brin held the lantern up to the window and said: 'So that's what you looked like, dear.' Lyra laughed. The light is yours now. Keep it lit.",
+  "dlg.maren.lantern.ask": "Lyra's lantern...",
+  "dlg.maren.lantern.status": "About the lantern...",
   "ui.temper_refused": "Temper at an anvil, holding a weapon or wearing an armor whose affix can roll."
 }

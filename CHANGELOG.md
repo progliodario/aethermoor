@@ -6,6 +6,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Lyra's Lantern** (spec 18): a last act, the same for every Guest, after the Rest of the Echoes: three quests from Sister Maren (oil for the lantern, a safe road for its light against four great slimes, and the lantern carried home to Nana Brin), ending with Lyra's lantern, a legendary accessory.
+- **Feasts of the seasons** (spec 07): the innkeepers say how the feast is kept in the season of the day.
+
 - **Goods of the season** (spec 06): every shop sells some goods only in their season, besides its own: flower tea and fern salad in spring, windleaf brew and grilled fish in summer, hearty stew and berry pancakes in autumn, frost tonic and hunter's stew in winter.
 - **The Rest of the Echoes** (spec 18): after facing the other Echo of the sixth act, Sister Maren asks you to give rest to all eight Echoes in their sanctums.
 
