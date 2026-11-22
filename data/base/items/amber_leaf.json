@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/amber_leaf",
+  "name": "$i18n:item.amber_leaf.name",
+  "description": "$i18n:item.amber_leaf.desc",
+  "kind": "material",
+  "rarity": "uncommon",
+  "price": 30,
+  "stack_max": 99
+}

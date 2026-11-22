@@ -18,10 +18,10 @@
   "xp": 14,
   "drops": [
     {
-      "item": "base:item/amber_drop",
+      "item": "base:item/sun_drop",
       "qty_min": 1,
       "qty_max": 2,
-      "weight_pm": 700
+      "weight_pm": 800
     },
     {
       "item": "base:item/slime_gel",

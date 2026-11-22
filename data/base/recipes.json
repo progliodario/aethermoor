@@ -657,6 +657,37 @@
       "fine_pm": 150
     },
     {
+      "id": "four_seasons_tea",
+      "output": {
+        "item": "base:item/four_seasons_tea",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/snowflake",
+          "qty": 1
+        },
+        {
+          "item": "base:item/sun_drop",
+          "qty": 1
+        },
+        {
+          "item": "base:item/amber_leaf",
+          "qty": 1
+        },
+        {
+          "item": "base:item/rain_pearl",
+          "qty": 1
+        },
+        {
+          "item": "base:item/dry_branch",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/campfire",
+      "fine_pm": 150
+    },
+    {
       "id": "flower_tea",
       "output": {
         "item": "base:item/flower_tea",

@@ -7,7 +7,7 @@
     "hp": 36,
     "atk": 7,
     "def": 2,
-    "mdef": 3,
+    "mdef": 2,
     "speed_x100": 250
   },
   "element": "water",
@@ -18,10 +18,10 @@
   "xp": 12,
   "drops": [
     {
-      "item": "base:item/ice_crystal",
+      "item": "base:item/snowflake",
       "qty_min": 1,
       "qty_max": 2,
-      "weight_pm": 700
+      "weight_pm": 800
     },
     {
       "item": "base:item/slime_gel",

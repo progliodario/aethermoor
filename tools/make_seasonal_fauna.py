@@ -4,7 +4,7 @@
 A fauna entry may have `seasons`: a list of `{season, enemy, pm}`. On a day of that season, the spawners whose pick is that entry make the
 visitor instead, those whose `(hash64(seed, x, y, 13) >> 20) % 1000 < pm`; the others make the creature of the entry. The visitors are
 creatures that already live somewhere in the world (the slimes of the cold come down to Verdalis in winter, the bloom slimes open in the
-short summer of Frostveil...), or the two creatures that live only in a season (the snow slime of winter, the sun slime of summer),
+short summer of Frostveil...), or the four creatures that live only in a season (the slimes of snow, sun, leaves and rain: `make_season_creatures.py`),
 so that a quest that asks for the creature of the entry can always be done: at most 400 per mille swap.
 
 It changes `data/base/worlds/overworld.json` in place, entry by entry (the lines of the regions keep their form). It can be run any number
@@ -21,13 +21,13 @@ WORLD = DATA / "worlds" / "overworld.json"
 PM = 400
 # region: [(creature of the entry, season, visitor)]
 VISITORS = {
-    "verdalis": [("slime_green", "winter", "slime_blue"), ("wolf_tawny", "autumn", "wolf_grey"), ("slime_bloom", "winter", "slime_snow"),
+    "verdalis": [("slime_green", "winter", "slime_blue"), ("slime_green", "spring", "slime_rain"), ("wolf_tawny", "autumn", "wolf_grey"), ("slime_bloom", "winter", "slime_snow"),
                  ("slime_bloom", "summer", "slime_sun")],
-    "whisperwood": [("wolf_grey", "winter", "wolf_frost"), ("slime_green", "spring", "slime_bloom")],
-    "ironspine": [("slime_blue", "winter", "slime_ice"), ("wolf_grey", "winter", "wolf_frost")],
+    "whisperwood": [("wolf_grey", "winter", "wolf_frost"), ("slime_green", "spring", "slime_bloom"), ("slime_green", "autumn", "slime_leaf")],
+    "ironspine": [("slime_blue", "winter", "slime_ice"), ("wolf_grey", "winter", "wolf_frost"), ("slime_green", "autumn", "slime_leaf")],
     "sunscar": [("slime_green", "summer", "slime_sand"), ("dune_fox", "winter", "wolf_grey"), ("slime_sand", "summer", "slime_sun")],
     "frostveil": [("slime_green", "summer", "slime_bloom"), ("slime_blue", "spring", "slime_tide"), ("slime_blue", "winter", "slime_snow")],
-    "tidehaven": [("wild_boar", "summer", "shore_crab"), ("slime_green", "winter", "slime_blue")],
+    "tidehaven": [("wild_boar", "summer", "shore_crab"), ("slime_green", "winter", "slime_blue"), ("slime_green", "spring", "slime_rain")],
     "ashen_wastes": [("slime_green", "summer", "slime_ember"), ("dune_fox", "autumn", "wolf_ember")],
     "lumeria": [("slime_green", "spring", "slime_bloom"), ("wolf_grey", "winter", "wolf_storm"), ("slime_blue", "winter", "slime_snow"),
                 ("slime_blue", "summer", "slime_sun")],

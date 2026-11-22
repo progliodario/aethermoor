@@ -59,6 +59,11 @@ TITLES = {
     "runesmith": ("engraved", 3, None, "Runesmith", "Incisore di rune"),
     "homemaker": ("furnished", 6, None, "Homemaker", "Padrone di casa"),
     "temperer": ("tempered", 5, None, "Temperer", "Temprista"),  # spec 06, "Tempering"
+    # the creatures of one season (spec 09, "Seasonal visitors")
+    "snowbound": ("kills_of", 10, "slime_snow", "Snowbound", "Figlio della neve"),
+    "sunkissed": ("kills_of", 10, "slime_sun", "Sunkissed", "Baciato dal sole"),
+    "leaf_dancer": ("kills_of", 10, "slime_leaf", "Leaf Dancer", "Danzatore di foglie"),
+    "rain_walker": ("kills_of", 10, "slime_rain", "Rain Walker", "Viandante della pioggia"),
 }
 
 

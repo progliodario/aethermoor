@@ -1,0 +1,62 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/way_lark_road_song",
+  "name": "$i18n:quest.way_lark_road_song.name",
+  "kind": "side",
+  "faction": "wayfarers",
+  "stages": [
+    {
+      "id": "brannoc",
+      "journal": "$i18n:quest.way_lark_road_song.brannoc",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "wandering_smith_brannoc"
+        }
+      ],
+      "next": "odo"
+    },
+    {
+      "id": "odo",
+      "journal": "$i18n:quest.way_lark_road_song.odo",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "caravan_master_odo"
+        }
+      ],
+      "next": "lark"
+    },
+    {
+      "id": "lark",
+      "journal": "$i18n:quest.way_lark_road_song.lark",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "wandering_bard_lark"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1500
+    },
+    {
+      "effect": "add_gold",
+      "amount": 800
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/rune_gale",
+      "qty": 1
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/tempering_oil",
+      "qty": 2
+    }
+  ]
+}
