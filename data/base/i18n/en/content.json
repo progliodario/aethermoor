@@ -1733,5 +1733,13 @@
   "item.festival_ribbon.desc": "Eight colours, one for every feast won. +4 attack, +40 health, +5% critical chance.",
   "quest.epilogue_rest_of_echoes.name": "The Rest of the Echoes",
   "quest.epilogue_rest_of_echoes.task": "Give rest to the eight Echoes, each in its sanctum around the start.",
+  "quest.epilogue_lyra_1.name": "Oil for a Lantern",
+  "quest.epilogue_lyra_1.task": "Bring star dust and wildflowers to Sister Maren: she will make the oil of Lyra's lantern.",
+  "quest.epilogue_lyra_2.name": "A Safe Road for the Light",
+  "quest.epilogue_lyra_2.task": "The lantern will travel the world. Make its road safe: the Gel King, the Frost Sovereign, the Tide Regent and the Astral Curator.",
+  "quest.epilogue_lyra_3.name": "Lyra's Lantern",
+  "quest.epilogue_lyra_3.task": "Carry Lyra's lantern home, to Fenwick, where you started: Nana Brin will want to see it.",
+  "item.lyras_lantern.name": "Lyra's lantern",
+  "item.lyras_lantern.desc": "A little of the light of the Threshold, to carry. +10 attack, +10 magic, +120 health, +8% critical chance.",
   "enemy.slime_sun.name": "Sun slime"
 }

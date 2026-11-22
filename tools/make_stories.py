@@ -21,6 +21,43 @@ NAME = ("Sister Maren, keeper of Lyra's shrine", "Suor Maren, custode del santua
 HELLO = ("Lyra's shrine is small, Guest, and so am I. But she talks to me sometimes, and lately she talks about you.",
          "Il santuario di Lyra è piccolo, Ospite, e io pure. Ma ogni tanto lei mi parla, e ultimamente parla di te.")
 BYE = ("Nothing for now, Sister.", "Niente per ora, sorella.")
+# Lyra's Lantern (spec 18): the last act, the same for every Guest, after the rest of the Echoes: three quests, one after the other
+# (quest id, objectives, rewards, (name, task, offer, busy, thanks) in en and it)
+LANTERN = [
+    ("epilogue_lyra_1", [("collect", "star_dust", 8), ("collect", "wildflowers", 8)], {"xp": 12000, "gold": 8000, "items": {"potion_large": 3}},
+     {"en": ("Oil for a Lantern", "Bring star dust and wildflowers to Sister Maren: she will make the oil of Lyra's lantern.",
+             "The Echoes rest, and Lyra wants to see the world she gave you with her own eyes, once. She cannot leave the Threshold, but a lantern can carry her light. Oil first: star dust and wildflowers, eight of each.",
+             "Eight pinches of star dust, eight bunches of wildflowers.",
+             "The oil glows before it is even lit. Lyra is impatient, it seems."),
+      "it": ("Olio per una lanterna", "Porta polvere di stelle e fiori selvatici a Suor Maren: farà l'olio della lanterna di Lyra.",
+             "Gli Echi riposano, e Lyra vuole vedere con i suoi occhi, una volta, il mondo che ti ha dato. Non può lasciare la Soglia, ma una lanterna può portare la sua luce. Prima l'olio: polvere di stelle e fiori selvatici, otto di ciascuno.",
+             "Otto pizzichi di polvere di stelle, otto mazzi di fiori selvatici.",
+             "L'olio brilla prima ancora di essere acceso. Lyra è impaziente, a quanto pare.")}),
+    ("epilogue_lyra_2", [("kill", "gel_king", 1), ("kill", "frost_sovereign", 1), ("kill", "tide_regent", 1), ("kill", "astral_curator", 1)],
+     {"xp": 18000, "gold": 12000, "items": {"rune_might": 1}},
+     {"en": ("A Safe Road for the Light", "The lantern will travel the world. Make its road safe: the Gel King, the Frost Sovereign, the Tide Regent and the Astral Curator.",
+             "A lantern with a goddess inside should not meet the Gel King on the road. Four of the great slimes still hold their halls. Show Lyra a world where they do not.",
+             "The Gel King, the Frost Sovereign, the Tide Regent and the Astral Curator.",
+             "Four halls, quiet. The road is ready."),
+      "it": ("Una strada sicura per la luce", "La lanterna viaggerà per il mondo. Rendi sicura la sua strada: il Re Gelatina, il Sovrano del Gelo, il Reggente della Marea e il Curatore Astrale.",
+             "Una lanterna con dentro una dea non dovrebbe incontrare il Re Gelatina per strada. Quattro delle grandi gelatine tengono ancora le loro sale. Mostra a Lyra un mondo dove non succede.",
+             "Il Re Gelatina, il Sovrano del Gelo, il Reggente della Marea e il Curatore Astrale.",
+             "Quattro sale, silenziose. La strada è pronta.")}),
+    ("epilogue_lyra_3", [("talk", "fenwick_nana_brin", 1)], {"xp": 25000, "gold": 20000, "items": {"lyras_lantern": 1}},
+     {"en": ("Lyra's Lantern", "Carry Lyra's lantern home, to Fenwick, where you started: Nana Brin will want to see it.",
+             "Where should a goddess look first? Where you began, Guest. Carry the lantern to Fenwick and show it to Nana Brin. Then it is yours, and so, I think, is the world.",
+             "Fenwick, and Nana Brin by her hearth.",
+             "Nana Brin held the lantern up to the window and said: 'So that's what you looked like, dear.' Lyra laughed. The light is yours now. Keep it lit."),
+      "it": ("La lanterna di Lyra", "Porta a casa la lanterna di Lyra, a Fenwick, dove hai cominciato: Nonna Brin vorrà vederla.",
+             "Dove dovrebbe guardare per prima una dea? Dove hai cominciato tu, Ospite. Porta la lanterna a Fenwick e mostrala a Nonna Brin. Poi è tua, e credo anche il mondo.",
+             "Fenwick, e Nonna Brin accanto al suo focolare.",
+             "Nonna Brin ha alzato la lanterna verso la finestra e ha detto: 'Ecco com'eri fatta, cara.' Lyra ha riso. Ora la luce è tua. Tienila accesa.")}),
+]
+LANTERN_ITEM = ("lyras_lantern", 3000, {"atk": 10, "matk": 10, "max_hp": 120, "crit_pm": 80}, "Lyra's lantern", "Lanterna di Lyra",
+                "A little of the light of the Threshold, to carry. +10 attack, +10 magic, +120 health, +8% critical chance.",
+                "Un po' della luce della Soglia, da portare con sé. +10 di attacco, +10 di magia, +120 di salute, +8% di colpo critico.")
+LANTERN_ASK = {"en": ("Lyra's lantern...", "About the lantern..."), "it": ("La lanterna di Lyra...", "A proposito della lanterna...")}
+
 # The rest of the Echoes (spec 18): after the other Echo of the sixth act, Maren asks the Guest to give rest to all eight, in their sanctums
 REST = "epilogue_rest_of_echoes"
 REST_WORDS = {
@@ -335,6 +372,45 @@ def main() -> None:
         content[lang][f"quest.{REST}.name"], content[lang][f"quest.{REST}.task"] = w["name"], w["task"]
         for key in ("ask", "status", "report", "offer", "busy", "thanks"):
             core[lang][f"dlg.maren.rest.{key}"] = w[key]
+    # Lyra's Lantern: once the Echoes rest, three quests one after the other; each offered once the one before is done
+    before = {"quest_done": rest_q}
+    for n, (lid, objectives, rewards, words) in enumerate(LANTERN):
+        q = f"base:quest/side/{lid}"
+        fresh = {"not": {"any": [{"quest_active": q}, {"quest_done": q}]}}
+        thanked = f"{lid}_thanked"
+        choices += [{"text": "$i18n:dlg.maren.lantern.ask", "when": {"all": [before, fresh]}, "next": f"{lid}_offer"},
+                    {"text": "$i18n:dlg.maren.lantern.status", "when": {"quest_active": q}, "next": f"{lid}_busy"},
+                    {"text": "$i18n:dlg.maren.rest.report", "when": {"all": [{"quest_done": q}, {"not": {"flag": thanked}}]}, "next": f"{lid}_thanks"}]
+        nodes[f"{lid}_offer"] = say(f"lantern.{n + 1}.offer", f"{lid}_choice")
+        nodes[f"{lid}_choice"] = {"type": "choice", "choices": [
+            {"text": "$i18n:dlg.wayfarer.accept", "effects": [{"effect": "start_quest", "quest": q}], "next": "end"},
+            {"text": "$i18n:dlg.wayfarer.later", "next": "end"}]}
+        nodes[f"{lid}_busy"] = say(f"lantern.{n + 1}.busy", "end")
+        nodes[f"{lid}_thanks"] = {"type": "effects", "effects": [{"effect": "set_flag", "flag": thanked, "value": True}], "next": f"{lid}_thanks_say"}
+        nodes[f"{lid}_thanks_say"] = say(f"lantern.{n + 1}.thanks", "end")
+        objs = [{"type": "kill", "enemy": f"base:enemy/{t}", "count": c} if kind == "kill" else
+                {"type": "talk", "npc_key": t} if kind == "talk" else {"type": "collect", "item": f"base:item/{t}", "count": c}
+                for kind, t, c in objectives]
+        doc = {"$schema": "../../../../schemas/quest.schema.json", "id": q, "name": f"$i18n:quest.{lid}.name", "kind": "side",
+               "stages": [{"id": "task", "journal": f"$i18n:quest.{lid}.task", "objectives": objs, "next": "end"}],
+               "rewards": [{"effect": "add_xp", "amount": rewards["xp"]}, {"effect": "add_gold", "amount": rewards["gold"]}]
+               + [{"effect": "add_item", "item": f"base:item/{item}", "qty": qty} for item, qty in rewards["items"].items()]}
+        (DATA / "quests" / "side" / f"{lid}.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+        for lang in ("en", "it"):
+            name_, task, offer, busy, thanks = words[lang]
+            content[lang][f"quest.{lid}.name"], content[lang][f"quest.{lid}.task"] = name_, task
+            core[lang][f"dlg.maren.lantern.{n + 1}.offer"] = offer
+            core[lang][f"dlg.maren.lantern.{n + 1}.busy"] = busy
+            core[lang][f"dlg.maren.lantern.{n + 1}.thanks"] = thanks
+        before = {"quest_done": q}
+    item, price, bonus, name_en, name_it, desc_en, desc_it = LANTERN_ITEM
+    lantern = {"$schema": "../../../schemas/item.schema.json", "id": f"base:item/{item}", "name": f"$i18n:item.{item}.name",
+               "description": f"$i18n:item.{item}.desc", "kind": "accessory", "rarity": "legendary", "price": price, "accessory": bonus}
+    text = json.dumps(lantern, indent=2, ensure_ascii=False) + "\n"
+    (DATA / "items" / f"{item}.json").write_text(text, encoding="utf-8", newline="\n")
+    for i, lang in enumerate(("en", "it")):
+        content[lang][f"item.{item}.name"], content[lang][f"item.{item}.desc"] = (name_en, name_it)[i], (desc_en, desc_it)[i]
+        core[lang]["dlg.maren.lantern.ask"], core[lang]["dlg.maren.lantern.status"] = LANTERN_ASK[lang]
     choices.append({"text": "$i18n:dlg.maren.bye", "next": "end"})
     nodes["menu"] = {"type": "choice", "choices": choices}
     doc = {"$schema": "../../../../schemas/dialogue.schema.json", "id": MAREN["dialogue"], "start": "start", "nodes": nodes}

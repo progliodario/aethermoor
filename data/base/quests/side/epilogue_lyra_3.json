@@ -1,0 +1,34 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/epilogue_lyra_3",
+  "name": "$i18n:quest.epilogue_lyra_3.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.epilogue_lyra_3.task",
+      "objectives": [
+        {
+          "type": "talk",
+          "npc_key": "fenwick_nana_brin"
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 25000
+    },
+    {
+      "effect": "add_gold",
+      "amount": 20000
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/lyras_lantern",
+      "qty": 1
+    }
+  ]
+}

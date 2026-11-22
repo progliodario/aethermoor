@@ -752,5 +752,9 @@
   "dlg.smith.salty.done": "Battuto e temprato, amico, come uno scafo prima della tempesta! Niente affisso, niente monete.",
   "dlg.smith.grim.done": "Ha preso il fuoco. Se non c'era niente a prenderlo, tieni le tue monete.",
   "dlg.smith.scholarly.done": "La tempra è completa; la varianza ti è favorevole. In assenza di affisso, nessun compenso è dovuto.",
+  "dlg.feast.season.spring": "Quest'anno è una festa di primavera: fiori su ogni tavolo, e i bambini ne hanno fatto corone per tutti. Anche per te.",
+  "dlg.feast.season.summer": "Una festa d'estate dura fino all'alba: le tavole restano fuori sotto le stelle e nessuno torna a casa prima degli uccelli.",
+  "dlg.feast.season.autumn": "Una festa d'autunno è la migliore: il raccolto è dentro, le cantine sono piene, e ognuno porta quello che ha coltivato.",
+  "dlg.feast.season.winter": "D'inverno la festa si sposta al chiuso, tutti in una sala intorno al fuoco più grande dell'anno. Stringiti un po'.",
   "dlg.seasonal.scholarly.wait": "Il solstizio è in estate. Torna allora: gli strumenti non sono pronti."
 }

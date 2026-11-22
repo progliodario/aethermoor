@@ -234,7 +234,8 @@ two dishes of the region (the flag `feast_<region>_gift`; one ember brew in the 
 of the region at 75 percent (`open_shop` with the `region`, spec 06, "Goods from afar"). Each region has its own: the Harvest Feast
 of Verdalis, the lanterns of Whisperwood, the Forge Day of Ironspine, the Blessing of the Boats of Tidehaven, the Long Night of
 Frostveil, the Festival of Lanterns of Sunscar, the Night of the Comet of Lumeria and the Ember Wake of the Ashen Wastes
-(`tools/make_feasts.py`).
+(`tools/make_feasts.py`). After the words of the feast the innkeeper says how the feast is kept in the season of the day (the
+condition `season`: flowers in spring, tables under the stars in summer, the harvest in autumn, the great fire indoors in winter).
 
 On the feast day the innkeeper also offers the **games of the feast** (one more choice, after the feast): a contest of the region,
 `base:quest/side/feast_<region>` (for the Folk), offered while it is neither active nor done: the pie contest of Verdalis (berries and

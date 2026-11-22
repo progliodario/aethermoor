@@ -301,7 +301,7 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.feast.flowery.feast",
-      "next": "feast_gift_check"
+      "next": "feast_season_0"
     },
     "feast_gift_check": {
       "type": "condition",
@@ -380,6 +380,62 @@
       "speaker": "npc",
       "text": "$i18n:dlg.feast.flowery.games_busy",
       "next": "end"
+    },
+    "feast_season_0": {
+      "type": "condition",
+      "when": {
+        "season": "spring"
+      },
+      "then": "feast_in_spring",
+      "else": "feast_season_1"
+    },
+    "feast_in_spring": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.season.spring",
+      "next": "feast_gift_check"
+    },
+    "feast_season_1": {
+      "type": "condition",
+      "when": {
+        "season": "summer"
+      },
+      "then": "feast_in_summer",
+      "else": "feast_season_2"
+    },
+    "feast_in_summer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.season.summer",
+      "next": "feast_gift_check"
+    },
+    "feast_season_2": {
+      "type": "condition",
+      "when": {
+        "season": "autumn"
+      },
+      "then": "feast_in_autumn",
+      "else": "feast_season_3"
+    },
+    "feast_in_autumn": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.season.autumn",
+      "next": "feast_gift_check"
+    },
+    "feast_season_3": {
+      "type": "condition",
+      "when": {
+        "season": "winter"
+      },
+      "then": "feast_in_winter",
+      "else": "feast_gift_check"
+    },
+    "feast_in_winter": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.feast.season.winter",
+      "next": "feast_gift_check"
     }
   }
 }

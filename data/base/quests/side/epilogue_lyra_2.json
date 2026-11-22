@@ -1,0 +1,51 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/epilogue_lyra_2",
+  "name": "$i18n:quest.epilogue_lyra_2.name",
+  "kind": "side",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.epilogue_lyra_2.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/gel_king",
+          "count": 1
+        },
+        {
+          "type": "kill",
+          "enemy": "base:enemy/frost_sovereign",
+          "count": 1
+        },
+        {
+          "type": "kill",
+          "enemy": "base:enemy/tide_regent",
+          "count": 1
+        },
+        {
+          "type": "kill",
+          "enemy": "base:enemy/astral_curator",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "mossveil_cellar"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 18000
+    },
+    {
+      "effect": "add_gold",
+      "amount": 12000
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/rune_might",
+      "qty": 1
+    }
+  ]
+}
