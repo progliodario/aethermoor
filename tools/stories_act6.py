@@ -1,0 +1,140 @@
+"""The sixth act of the story of each protagonist, "Two Guests": two quests that `make_stories.py` adds after the fifth act.
+
+Lyra has brought other Guests before, in other lives of the world. Sister Maren keeps what they left at the shrine, and after "A Life Here"
+she shows each Guest the trace of one of them: Ren and Sakura, Daichi and Haruka, Marco and Yuki, Lena and Gideon find each other's
+letters. Each act follows the trace to the region of the other Guest: something to find there, then a trouble the other Guest left
+unfinished. Same shape as the acts."""
+from __future__ import annotations
+
+KILL, COLLECT = "kill", "collect"
+
+ACT6 = {
+    "ren": {
+        "done": ("Sakura's last line reads: 'If someone who counts things finds this, the stars are in order now. Count them for me.' You did. All of them. It took a night. You were not tired.",
+                 "L'ultima riga di Sakura dice: 'Se chi conta le cose trova questo, ora le stelle sono in ordine. Contale per me.' L'hai fatto. Tutte. Ci è voluta una notte. Non eri stanco."),
+        "quests": [
+            (("A Letter in Chalk", "Una lettera di gesso"), ("Another Guest, a teacher called Sakura, left notes in chalk in Lumeria. Bring four measures of star dust to make them readable.", "Un'altra Ospite, un'insegnante di nome Sakura, ha lasciato appunti di gesso a Lumeria. Porta quattro misure di polvere di stelle per renderli leggibili."),
+             [(COLLECT, "star_dust", 4)], {"xp": 5000, "gold": 4000, "items": {"starlight_elixir": 1}},
+             ("You are not the first, Ren. Lyra brought others, in other lives of this world. One of them was a teacher, Sakura. She left notes in chalk in Lumeria, faded now. Star dust will bring them back.", "Non sei il primo, Ren. Lyra ne ha portati altri, in altre vite di questo mondo. Una era un'insegnante, Sakura. Ha lasciato appunti di gesso a Lumeria, ormai sbiaditi. La polvere di stelle li farà tornare."),
+             ("Four measures of star dust, from the glow slimes of Lumeria.", "Quattro misure di polvere di stelle, dagli slime luminosi di Lumeria."),
+             ("The chalk glows: lists, sums, a ledger of the stars. She counted too, Ren. You smiled at her handwriting.", "Il gesso brilla: elenchi, somme, un registro delle stelle. Contava anche lei, Ren. Hai sorriso alla sua calligrafia.")),
+            (("What She Left Unfinished", "Ciò che lei lasciò a metà"), ("Sakura's notes end with a warning: the nebula slimes cloud the domes of Lumeria. Clear five of them.", "Gli appunti di Sakura finiscono con un avvertimento: gli slime nebulosa oscurano le cupole di Lumeria. Togline cinque."),
+             [(KILL, "slime_nebula", 5)], {"xp": 6000, "gold": 5000, "items": {"potion_large": 3}},
+             ("The last page of her notes is a warning, underlined three times: the nebula slimes will cover the domes again. She could not finish. You can.", "L'ultima pagina degli appunti è un avvertimento, sottolineato tre volte: gli slime nebulosa copriranno di nuovo le cupole. Lei non ha potuto finire. Tu puoi."),
+             ("Five nebula slimes, under the domes of Lumeria.", "Cinque slime nebulosa, sotto le cupole di Lumeria."),
+             ("The domes are clear. Somewhere, in some life, a teacher would have given you full marks.", "Le cupole sono pulite. Da qualche parte, in qualche vita, un'insegnante ti avrebbe dato il massimo dei voti.")),
+        ],
+    },
+    "sakura": {
+        "done": ("Ren's ledger closes with a note in the margin: 'Somebody else will balance this one day. I hope they enjoy it.' You did. It balanced to the copper. You wrote 'well done' under it, in red.",
+                 "Il registro di Ren si chiude con una nota a margine: 'Qualcun altro un giorno lo farà quadrare. Spero che si diverta.' Ti sei divertita. Quadrava fino all'ultimo rame. Hai scritto 'bravo' sotto, in rosso."),
+        "quests": [
+            (("An Old Ledger", "Un vecchio registro"), ("Another Guest, an accountant called Ren, left a ledger in a mine of Ironspine. The pages are stuck with rust: bring five iron ores to buy them free from the miners.", "Un altro Ospite, un contabile di nome Ren, ha lasciato un registro in una miniera di Ironspine. Le pagine sono incollate dalla ruggine: porta cinque minerali di ferro per riscattarle dai minatori."),
+             [(COLLECT, "iron_ore", 5)], {"xp": 5000, "gold": 4000, "items": {"potion_mana_medium": 3}},
+             ("You are not the first, Sakura. Another Guest came, in another life: Ren, who counted everything. His ledger is in Ironspine, and the miners keep it for scrap. Iron for iron.", "Non sei la prima, Sakura. Un altro Ospite è venuto, in un'altra vita: Ren, che contava tutto. Il suo registro è a Ironspine, e i minatori lo tengono come rottame. Ferro per ferro."),
+             ("Five iron ores, for the miners of Ironspine.", "Cinque minerali di ferro, per i minatori di Ironspine."),
+             ("A ledger in a neat hand, every coin of a whole region. And on the last page, a sum he never finished.", "Un registro in una calligrafia ordinata, ogni moneta di un'intera regione. E nell'ultima pagina, una somma mai finita.")),
+            (("The Sum He Never Finished", "La somma che non finì"), ("Ren's last entry is a debt: the golems that blocked the quarries. Defeat four stone golems to close his account.", "L'ultima voce di Ren è un debito: i golem che bloccavano le cave. Sconfiggi quattro golem di pietra per chiudere il suo conto."),
+             [(KILL, "stone_golem", 4)], {"xp": 6000, "gold": 5000, "items": {"golem_amulet": 1}},
+             ("The last line of the ledger: 'Owed to the quarry folk: safe passage. Not yet paid.' Four golems, and the account is closed.", "L'ultima riga del registro: 'Dovuto alla gente delle cave: passaggio sicuro. Non ancora pagato.' Quattro golem, e il conto è chiuso."),
+             ("Four stone golems, in Ironspine.", "Quattro golem di pietra, a Ironspine."),
+             ("Paid in full. You drew a line under it with a ruler, because some things deserve a ruler.", "Pagato per intero. Hai tirato una riga sotto con il righello, perché certe cose meritano un righello.")),
+        ],
+    },
+    "daichi": {
+        "done": ("Haruka's map has one more mark, in a different ink: yours. You added the safe road. Somewhere a driver would have nodded, and taken it.",
+                 "La mappa di Haruka ha un segno in più, con un altro inchiostro: il tuo. Hai aggiunto la strada sicura. Da qualche parte un autista avrebbe annuito, e l'avrebbe presa."),
+        "quests": [
+            (("A Driver's Map", "La mappa di un'autista"), ("Another Guest, a driver called Haruka, drew a map of the coast of Tidehaven. It is torn: bring four sea shells to the fishers who keep the pieces.", "Un'altra Ospite, un'autista di nome Haruka, disegnò una mappa della costa di Tidehaven. È strappata: porta quattro conchiglie ai pescatori che ne tengono i pezzi."),
+             [(COLLECT, "sea_shell", 4)], {"xp": 5000, "gold": 4000, "items": {"travel_ration": 6}},
+             ("You are not the first, Daichi. Another Guest came, in another life: Haruka, who drove the roads of her world. She mapped the coast of Tidehaven, and the fishers keep the pieces. They trade in shells.", "Non sei il primo, Daichi. Un'altra Ospite è venuta, in un'altra vita: Haruka, che guidava per le strade del suo mondo. Ha mappato la costa di Tidehaven, e i pescatori ne tengono i pezzi. Scambiano conchiglie."),
+             ("Four sea shells, from the driftwood of the beaches.", "Quattro conchiglie, dal legno di mare delle spiagge."),
+             ("A map of every cove, with the safe roads marked in green and the dangerous ones in red. One red road was never crossed out.", "Una mappa di ogni caletta, con le strade sicure segnate in verde e quelle pericolose in rosso. Una strada rossa non fu mai cancellata.")),
+            (("The Red Road", "La strada rossa"), ("Haruka's map marks a road of the coast in red: crabs. Clear six shore crabs to make it safe.", "La mappa di Haruka segna in rosso una strada della costa: granchi. Togli sei granchi della riva per renderla sicura."),
+             [(KILL, "shore_crab", 6)], {"xp": 6000, "gold": 5000, "items": {"captains_chowder": 2}},
+             ("The red road is the coast road, and the red is crabs. A firefighter knows a hazard when he sees one. Six crabs, and it can be green.", "La strada rossa è quella della costa, e il rosso sono i granchi. Un pompiere riconosce un pericolo quando lo vede. Sei granchi, e può diventare verde."),
+             ("Six shore crabs, along the coast of Tidehaven.", "Sei granchi della riva, lungo la costa di Tidehaven."),
+             ("The road is safe. You painted it green on the map yourself, carefully, inside the lines.", "La strada è sicura. L'hai colorata di verde sulla mappa tu stesso, con cura, dentro le righe.")),
+        ],
+    },
+    "haruka": {
+        "done": ("Daichi's logbook ends: 'No fire this season. Whoever comes next: keep the buckets full.' You filled one, by the shrine, and left it there. Just in case.",
+                 "Il diario di Daichi finisce così: 'Nessun incendio questa stagione. Chiunque venga dopo: tieni i secchi pieni.' Ne hai riempito uno, vicino al santuario, e l'hai lasciato lì. Non si sa mai."),
+        "quests": [
+            (("A Firefighter's Logbook", "Il diario di un pompiere"), ("Another Guest, a firefighter called Daichi, kept a logbook in the Ashen Wastes. It is sealed in a cinder box: bring three ember cores to open it.", "Un altro Ospite, un pompiere di nome Daichi, teneva un diario nelle Terre di Cenere. È sigillato in una scatola di brace: porta tre nuclei di brace per aprirla."),
+             [(COLLECT, "ember_core", 3)], {"xp": 5000, "gold": 4000, "items": {"frost_tonic": 2}},
+             ("You are not the first, Haruka. Another Guest came, in another life: Daichi, who ran into fires so others would not. He kept a logbook in the Ashen Wastes, in a box that only fire opens.", "Non sei la prima, Haruka. Un altro Ospite è venuto, in un'altra vita: Daichi, che correva negli incendi perché gli altri non dovessero farlo. Teneva un diario nelle Terre di Cenere, in una scatola che solo il fuoco apre."),
+             ("Three ember cores, from the ember slimes of the Wastes.", "Tre nuclei di brace, dagli slime di brace delle Terre."),
+             ("Every fire of a season, written down: where, when, how many saved. The last page lists one that was still burning.", "Ogni incendio di una stagione, annotato: dove, quando, quanti salvati. L'ultima pagina ne elenca uno ancora acceso.")),
+            (("The Last Fire", "L'ultimo incendio"), ("Daichi's last entry: ember slimes drifting toward a village. Put out six of them.", "L'ultima voce di Daichi: slime di brace che vanno verso un villaggio. Spegnine sei."),
+             [(KILL, "slime_ember", 6)], {"xp": 6000, "gold": 5000, "items": {"ember_brew": 1}},
+             ("The last fire in the logbook never got its line: 'out'. Six ember slimes, Haruka, and you can write it for him.", "L'ultimo incendio del diario non ha mai avuto la sua riga: 'spento'. Sei slime di brace, Haruka, e puoi scriverla tu per lui."),
+             ("Six ember slimes, in the Ashen Wastes.", "Sei slime di brace, nelle Terre di Cenere."),
+             ("You wrote 'out' in the logbook, in your best hand. Your friend sniffed the page and sneezed. Ash.", "Hai scritto 'spento' nel diario, con la tua calligrafia migliore. Il tuo amico ha annusato la pagina e ha starnutito. Cenere.")),
+        ],
+    },
+    "marco": {
+        "done": ("Yuki's last note says: 'I never learned to cook. If a cook reads this: feed somebody for me.' You fed the whole caravan of Sunscar. Twice.",
+                 "L'ultimo biglietto di Yuki dice: 'Non ho mai imparato a cucinare. Se un cuoco legge questo: sfama qualcuno per me.' Hai sfamato tutta la carovana di Sunscar. Due volte."),
+        "quests": [
+            (("A Collector's Notes", "Gli appunti di una collezionista"), ("Another Guest, a collector called Yuki, left notes in the dunes of Sunscar, sealed with amber. Bring three drops of amber to read them.", "Un'altra Ospite, una collezionista di nome Yuki, ha lasciato appunti tra le dune di Sunscar, sigillati con l'ambra. Porta tre gocce d'ambra per leggerli."),
+             [(COLLECT, "amber_drop", 3)], {"xp": 5000, "gold": 4000, "items": {"desert_nectar": 1}},
+             ("You are not the first, Marco. Another Guest came, in another life: Yuki, who kept everything, just in case. She left her notes in Sunscar, sealed in amber like flies.", "Non sei il primo, Marco. Un'altra Ospite è venuta, in un'altra vita: Yuki, che teneva tutto, per ogni evenienza. Ha lasciato i suoi appunti a Sunscar, sigillati nell'ambra come mosche."),
+             ("Three drops of amber, from the amber slimes of the dunes.", "Tre gocce d'ambra, dagli slime d'ambra delle dune."),
+             ("A list of everything she found, and next to each thing, who needed it. She gave almost everything away.", "Un elenco di tutto ciò che trovò, e accanto a ogni cosa, chi ne aveva bisogno. Diede via quasi tutto.")),
+            (("The Scorpions of the Caravan", "Gli scorpioni della carovana"), ("Yuki's notes end with the caravans of Sunscar, robbed by scorpions. Drive off five dune scorpions.", "Gli appunti di Yuki finiscono con le carovane di Sunscar, derubate dagli scorpioni. Scaccia cinque scorpioni delle dune."),
+             [(KILL, "dune_scorpion", 5)], {"xp": 6000, "gold": 5000, "items": {"sunfire_skewers": 3}},
+             ("The last thing on her list is not a thing: 'the caravans of the south, safe'. She did not get to cross it off. Five scorpions.", "L'ultima cosa del suo elenco non è una cosa: 'le carovane del sud, al sicuro'. Non fece in tempo a spuntarla. Cinque scorpioni."),
+             ("Five dune scorpions, in Sunscar.", "Cinque scorpioni delle dune, a Sunscar."),
+             ("Crossed off. The caravan master asked who Yuki was. You said: a friend you never met.", "Spuntato. Il capo della carovana ha chiesto chi fosse Yuki. Hai detto: un'amica che non hai mai conosciuto.")),
+        ],
+    },
+    "yuki": {
+        "done": ("Marco's recipe book has one empty page at the end, titled 'for whoever comes next'. You wrote your first recipe on it. It is mostly instructions on how not to burn things.",
+                 "Il ricettario di Marco ha una pagina vuota in fondo, intitolata 'per chi verrà dopo'. Ci hai scritto la tua prima ricetta. Sono soprattutto istruzioni su come non bruciare le cose."),
+        "quests": [
+            (("A Chef's Recipe Book", "Il ricettario di uno chef"), ("Another Guest, a chef called Marco, left a recipe book in a tavern of Whisperwood. The keeper wants six fern fronds for the soup before she gives it back.", "Un altro Ospite, uno chef di nome Marco, ha lasciato un ricettario in una taverna di Whisperwood. La locandiera vuole sei fronde di felce per la zuppa prima di restituirlo."),
+             [(COLLECT, "fern_frond", 6)], {"xp": 5000, "gold": 4000, "items": {"fern_salad": 4}},
+             ("You are not the first, Yuki. Another Guest came, in another life: Marco, who cooked as if every meal were the last. His recipe book is in a tavern of Whisperwood, and the keeper wants a soup for it.", "Non sei la prima, Yuki. Un altro Ospite è venuto, in un'altra vita: Marco, che cucinava come se ogni pasto fosse l'ultimo. Il suo ricettario è in una taverna di Whisperwood, e la locandiera vuole una zuppa in cambio."),
+             ("Six fern fronds, from the shade of the wood.", "Sei fronde di felce, dall'ombra del bosco."),
+             ("A book of recipes, every one signed and dated. The last one has no ending: 'and then add'... and nothing.", "Un libro di ricette, ognuna firmata e datata. L'ultima non ha fine: 'e poi aggiungi'... e niente.")),
+            (("The Missing Ingredient", "L'ingrediente mancante"), ("The keeper remembers: Marco went after the shade wolves for the last ingredient. Defeat six shade wolves.", "La locandiera ricorda: Marco andò dai lupi d'ombra per l'ultimo ingrediente. Sconfiggi sei lupi d'ombra."),
+             [(KILL, "wolf_shade", 6)], {"xp": 6000, "gold": 5000, "items": {"moonlit_tea": 2}},
+             ("The keeper says he left at night, after the shade wolves, for 'the last thing the soup needs'. He did not come back. Six shade wolves, Yuki. Keep whatever you find.", "La locandiera dice che partì di notte, dietro ai lupi d'ombra, per 'l'ultima cosa che serve alla zuppa'. Non tornò. Sei lupi d'ombra, Yuki. Tieni quello che trovi."),
+             ("Six shade wolves, in Whisperwood.", "Sei lupi d'ombra, a Whisperwood."),
+             ("In the den, a small pouch of moon mint. The missing ingredient. You kept a pinch. Of course you did.", "Nella tana, un sacchetto di menta lunare. L'ingrediente mancante. Ne hai tenuto un pizzico. Ovviamente.")),
+        ],
+    },
+    "lena": {
+        "done": ("Gideon's banner bears a crown and, sewn under it in a clumsy hand, the words 'a good king listens'. You mended the tear in it. Your stitches are better than his.",
+                 "Lo stendardo di Gideon porta una corona e, cucite sotto con mano maldestra, le parole 'un buon re ascolta'. Hai rammendato lo strappo. I tuoi punti sono migliori dei suoi."),
+        "quests": [
+            (("A King's Banner", "Lo stendardo di un re"), ("Another Guest, a king called Gideon, left his banner in the Verdalis hills, torn. Bring four pieces of spider silk to mend it.", "Un altro Ospite, un re di nome Gideon, ha lasciato il suo stendardo sulle colline di Verdalis, strappato. Porta quattro fili di seta di ragno per rammendarlo."),
+             [(COLLECT, "spider_silk", 4)], {"xp": 5000, "gold": 4000, "items": {"potion_large": 2}},
+             ("You are not the first, Lena. Another Guest came, in another life: Gideon, a demon king who wanted to be a good one. His banner hangs in the hills of Verdalis, torn by the wind. Silk will mend it.", "Non sei la prima, Lena. Un altro Ospite è venuto, in un'altra vita: Gideon, un re demone che voleva essere buono. Il suo stendardo è appeso sulle colline di Verdalis, strappato dal vento. La seta lo rammenderà."),
+             ("Four pieces of spider silk, from the cave spiders.", "Quattro fili di seta di ragno, dai ragni delle grotte."),
+             ("Mended. On the back, a list of names: the villagers he swore to protect.", "Rammendato. Sul retro, un elenco di nomi: i paesani che giurò di proteggere.")),
+            (("His Oath", "Il suo giuramento"), ("The names on the banner are of a village troubled by boars. Keep his oath: drive off six wild boars.", "I nomi sullo stendardo sono di un villaggio tormentato dai cinghiali. Mantieni il suo giuramento: scaccia sei cinghiali."),
+             [(KILL, "wild_boar", 6)], {"xp": 6000, "gold": 5000, "items": {"grandmothers_pie": 2}},
+             ("The names on the back are of a village of Verdalis. The boars still dig its fields. A healer keeps other people's oaths too, sometimes. Six boars.", "I nomi sul retro sono di un villaggio di Verdalis. I cinghiali scavano ancora i suoi campi. Una guaritrice mantiene anche i giuramenti degli altri, a volte. Sei cinghiali."),
+             ("Six wild boars, in the fields of Verdalis.", "Sei cinghiali, nei campi di Verdalis."),
+             ("The village is safe. You read the names aloud, one by one, at the shrine. Lyra listened.", "Il villaggio è al sicuro. Hai letto i nomi ad alta voce, uno per uno, al santuario. Lyra ha ascoltato.")),
+        ],
+    },
+    "gideon": {
+        "done": ("Lena's bag held one more thing: a note, 'for whoever has to be strong next'. Inside, a dried flower and the words 'rest is not weakness'. You put it in your crown. Literally. It fits.",
+                 "La borsa di Lena conteneva un'altra cosa: un biglietto, 'per chi dovrà essere forte dopo di me'. Dentro, un fiore secco e le parole 'riposare non è debolezza'. L'hai messo nella corona. Letteralmente. Ci sta."),
+        "quests": [
+            (("A Healer's Bag", "La borsa di una guaritrice"), ("Another Guest, a healer called Lena, left her bag in Frostveil, frozen into the ice. Bring five ice crystals to the hunters who can cut it free.", "Un'altra Ospite, una guaritrice di nome Lena, ha lasciato la sua borsa nel Velo di Gelo, imprigionata nel ghiaccio. Porta cinque cristalli di ghiaccio ai cacciatori che possono liberarla."),
+             [(COLLECT, "ice_crystal", 5)], {"xp": 5000, "gold": 4000, "items": {"frost_tonic": 2}},
+             ("You are not the first, Gideon. Another Guest came, in another life: Lena, who healed people until she forgot to heal herself. Her bag is frozen in the ice of Frostveil. The hunters will trade for crystals.", "Non sei il primo, Gideon. Un'altra Ospite è venuta, in un'altra vita: Lena, che curava la gente finché si dimenticò di curare se stessa. La sua borsa è congelata nel ghiaccio del Velo di Gelo. I cacciatori faranno a cambio con dei cristalli."),
+             ("Five ice crystals, from the ice of Frostveil.", "Cinque cristalli di ghiaccio, dal ghiaccio del Velo di Gelo."),
+             ("Bandages, herbs, a needle, and a list of the sick of a village of the north. Every name but one is ticked.", "Bende, erbe, un ago e un elenco dei malati di un villaggio del nord. Tutti i nomi tranne uno sono spuntati.")),
+            (("The Last Name", "L'ultimo nome"), ("The last name on Lena's list is a hunter cut off by frost wolves. Defeat six frost wolves to reach the hut.", "L'ultimo nome sull'elenco di Lena è un cacciatore isolato dai lupi del gelo. Sconfiggi sei lupi del gelo per raggiungere la capanna."),
+             [(KILL, "wolf_frost", 6)], {"xp": 6000, "gold": 5000, "items": {"hearth_broth": 2}},
+             ("One name is not ticked: a hunter whose hut the frost wolves surround. His grandchildren live there now. A king protects. Six frost wolves.", "Un nome non è spuntato: un cacciatore la cui capanna è circondata dai lupi del gelo. Ora ci vivono i suoi nipoti. Un re protegge. Sei lupi del gelo."),
+             ("Six frost wolves, in Frostveil.", "Sei lupi del gelo, nel Velo di Gelo."),
+             ("You ticked the last name. The grandchildren gave you a scarf. You wore it to the shrine and refused to take it off.", "Hai spuntato l'ultimo nome. I nipoti ti hanno regalato una sciarpa. L'hai indossata al santuario e ti sei rifiutato di toglierla.")),
+        ],
+    },
+}

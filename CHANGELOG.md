@@ -6,6 +6,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **A sixth act for every protagonist, "Two Guests"** (spec 18): Lyra brought other Guests before, in other lives of the world. Sister Maren shows each protagonist the trace of another one (Ren and Sakura, Daichi and Haruka, Marco and Yuki, Lena and Gideon find each other's letters), and two quests follow it to the other Guest's region: something to recover, then what they left unfinished. Sixteen quests.
+
 - **Lark, the wandering bard** (spec 07, "Travellers"): a third traveller of the outposts, who sings of what you did: a song (and some experience) for every region whose villagers' trouble you ended, and a dawn rune when you have heard all eight.
 
 - **Smiths** (spec 06, "Tempering"; spec 07, the effect `temper`): the shopkeeper of every village and town tempers the weapon you hold (or your armor) for 60 gold, paid only when there is an affix to temper.

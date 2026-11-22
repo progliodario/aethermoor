@@ -33,14 +33,14 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | What | How many (counted from the data by `tools/make_facts.py`) |
 |---|---|
 | World | 8 regions, 45 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
-| Protagonists | 8, each with a companion (8 companions) and a story of five acts (96 story quests) |
+| Protagonists | 8, each with a companion (8 companions) and a story of six acts (112 story quests) |
 | Creatures | 75, of which 27 guardians and 8 Echoes |
-| Quests | 338 (24 tales of the villagers) |
+| Quests | 354 (24 tales of the villagers) |
 | Items and recipes | 279 items, 81 recipes (8 secret) |
 | Progression | 45 titles, 8 tags, 16 talents, 26 deeds |
 | Named people | 48 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3740 keys, in Italian and English |
+| Texts | 3828 keys, in Italian and English |
 | Same rules on both clients | 30 files of conformance vectors, 573 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->
@@ -53,7 +53,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Graphics | anime art for everything, people seen from the front, the side and behind, the light of the hour, wind, water, shadows, the pack's font | — |
 | Combat | complete: elements, statuses, parry, stagger, guardians, abilities on command | touches, always toward easy fights |
 | World | huge, eight regions, towns, dungeons, weather that hides and slows, wind that pushes, fog and storms | performance measured on a phone |
-| Quests and stories | a story in five acts for every protagonist, tales of the villagers, guild, legends, bounties | Gideon's Dungeon mode |
+| Quests and stories | a story in six acts for every protagonist, tales of the villagers, guild, legends, bounties | Gideon's Dungeon mode |
 | Life | gathering, fishing, hunting, gardens, animals, shared chests, the Guest's cottage and its furniture, pedlars, secret recipes, food with effects | wagons seen travelling, a bigger house |
 | Companions | one per protagonist with commands, bond and care; Haruka tames a second one | more companions chosen by the player |
 | Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear, weapons and armors with rolled affixes (also on twenty-four common pieces) tempered at an anvil or by the smiths, pieces with two affixes, gifts of the deeds | affixes to choose |

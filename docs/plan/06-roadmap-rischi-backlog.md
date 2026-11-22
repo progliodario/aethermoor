@@ -276,14 +276,14 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Che cosa | Quanti (contati dai dati da `tools/make_facts.py`) |
 |---|---|
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
-| Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in cinque atti (96 missioni di storia) |
+| Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (112 missioni di storia) |
 | Creature | 75, di cui 27 guardiani e 8 Echi |
-| Missioni | 338 (24 storie dei paesani) |
+| Missioni | 354 (24 storie dei paesani) |
 | Oggetti e ricette | 279 oggetti, 81 ricette (8 segrete) |
 | Progressione | 45 titoli, 8 tag, 16 talenti, 26 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3740 chiavi, in italiano e inglese |
+| Testi | 3828 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 30 file di vettori di conformità, 573 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
@@ -303,7 +303,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti, Odo il capo carovana, Brannoc il fabbro errante e Lark la cantastorie che ogni giorno sono in un altro avamposto, stagioni che cambiano i raccolti, il giardino del cottage, un colono in ogni villaggio generato con il suo mestiere, la sua missione e la sua bottega, una festa per regione con i suoi giochi, i paesani che ne parlano | carri che si vedono viaggiare |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
 | M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi tirati a sorte quando si trovano, anche ventiquattro pezzi comuni, e ritemprati all'incudine o dai fabbri, dodici pezzi rari con due affissi, doni delle imprese a ogni partita nuova | affissi che si scelgono |
-| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo e quinto atto, epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
+| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo, quinto e sesto atto ("Due Ospiti", che lega i protagonisti a coppie), epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento | un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
 
@@ -409,6 +409,8 @@ Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due c
 
 Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
+Il 22 novembre, quinta PR: un **sesto atto per ogni protagonista, "Due Ospiti"**, le storie che legano due protagonisti: Suor Maren mostra a ognuno le tracce di un altro Ospite venuto in un'altra vita del mondo (Ren e Sakura, Daichi e Haruka, Marco e Yuki, Lena e Gideon), e due missioni nella sua regione chiudono ciò che aveva lasciato a metà (sedici missioni).
+
 Il 22 novembre, quarta PR: **Lark, la cantastorie errante**, il terzo viaggiatore degli avamposti, che canta le imprese dell'Ospite (una canzone per ogni regione di cui hai finito le storie dei paesani, e una runa dell'alba quando le hai sentite tutte).
 
 Il 22 novembre, terza PR: i **fabbri** (ogni bottegaio tempra per 60 monete, con l'effetto `temper` pagato solo se c'è un affisso da temprare) e **Brannoc, il fabbro errante**, il secondo viaggiatore, che gira gli avamposti al contrario di Odo e tempra per 40.
@@ -445,7 +447,7 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-4. **Altri pezzi di storia** (M9; cinque atti per protagonista ci sono): un sesto atto, o storie che legano due protagonisti.
+4. **Altri pezzi di storia** (M9; sei atti per protagonista ci sono, il sesto lega i protagonisti a coppie): un incontro con l'Eco dell'altro Ospite.
 5. **Altri viaggiatori** (M6; Odo e la sua carovana ci sono): carri che si vedono camminare lungo le strade, altri mercanti con il loro giro.
 6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, stagioni degli orti, della raccolta e delle creature, i visitatori delle stagioni ci sono): creature tutte nuove che vivono solo in una stagione.
 7. **Una casa più grande** (M6; i dieci mobili del cottage, in casa e in giardino, ci sono): stanze in più da comprare.
