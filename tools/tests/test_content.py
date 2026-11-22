@@ -43,6 +43,8 @@ def walk(node, found: dict[str, set[str]]) -> None:
 def spawnable_enemies() -> set[str]:
     world = json.loads((DATA / "worlds" / "overworld.json").read_text(encoding="utf-8"))
     found = {f["enemy"] for region in world["regions"] for f in region["fauna"]}
+    # the visitors of the seasons spawn too, on a day of their season (spec 09, "Seasonal visitors")
+    found |= {v["enemy"] for region in world["regions"] for f in region["fauna"] for v in f.get("seasons", [])}
     for path in (DATA / "stamps").glob("*.json"):
         stamp = json.loads(path.read_text(encoding="utf-8"))
         found |= {entry["spawner"] for entry in stamp["legend"].values() if "spawner" in entry}

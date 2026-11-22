@@ -1741,5 +1741,13 @@
   "quest.epilogue_lyra_3.task": "Porta a casa la lanterna di Lyra, a Fenwick, dove hai cominciato: Nonna Brin vorrà vederla.",
   "item.lyras_lantern.name": "Lanterna di Lyra",
   "item.lyras_lantern.desc": "Un po' della luce della Soglia, da portare con sé. +10 di attacco, +10 di magia, +120 di salute, +8% di colpo critico.",
+  "quest.way_lark_hunt_spring.name": "La caccia della pioggia",
+  "quest.way_lark_hunt_spring.task": "Caccia sei gelatine di pioggia, che vengono solo in primavera.",
+  "quest.way_lark_hunt_summer.name": "La caccia del sole",
+  "quest.way_lark_hunt_summer.task": "Caccia sei gelatine del sole, che vengono solo d'estate.",
+  "quest.way_lark_hunt_autumn.name": "La caccia delle foglie",
+  "quest.way_lark_hunt_autumn.task": "Caccia sei gelatine di foglie, che vengono solo d'autunno.",
+  "quest.way_lark_hunt_winter.name": "La caccia della neve",
+  "quest.way_lark_hunt_winter.task": "Caccia sei gelatine di neve, che vengono solo d'inverno.",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

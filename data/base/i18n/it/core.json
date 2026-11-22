@@ -1431,5 +1431,12 @@
   "dlg.maren.lantern.3.thanks": "Nonna Brin ha alzato la lanterna verso la finestra e ha detto: 'Ecco com'eri fatta, cara.' Lyra ha riso. Ora la luce è tua. Tienila accesa.",
   "dlg.maren.lantern.ask": "La lanterna di Lyra...",
   "dlg.maren.lantern.status": "A proposito della lanterna...",
+  "dlg.lark.hunt_spring": "Le gelatine di pioggia sono fuori, e i contadini rivogliono i loro campi. Sei, e ti rimetto nella strofa di primavera.",
+  "dlg.lark.hunt_summer": "Gelatine del sole, troppe, e i pozzi sono bassi. Sei, Ospite: la strofa d'estate ha bisogno di un eroe.",
+  "dlg.lark.hunt_autumn": "Le gelatine di foglie rotolano tra i frutteti e le mele rotolano dietro. Sei, e la strofa d'autunno è tua.",
+  "dlg.lark.hunt_winter": "Gelatine di neve sulle strade, e i carri scivolano nei fossi. Sei, Ospite, e la strofa d'inverno canta di te.",
+  "dlg.lark.hunt_ask": "Una caccia per la stagione?",
+  "dlg.lark.hunt_status": "La caccia va bene.",
+  "dlg.lark.hunt_busy": "Sei, ovunque le porti la stagione.",
   "ui.temper_refused": "Si tempra a un'incudine, con in mano un'arma o indosso un'armatura il cui affisso si può tirare."
 }

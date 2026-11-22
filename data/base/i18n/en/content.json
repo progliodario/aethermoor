@@ -1741,5 +1741,13 @@
   "quest.epilogue_lyra_3.task": "Carry Lyra's lantern home, to Fenwick, where you started: Nana Brin will want to see it.",
   "item.lyras_lantern.name": "Lyra's lantern",
   "item.lyras_lantern.desc": "A little of the light of the Threshold, to carry. +10 attack, +10 magic, +120 health, +8% critical chance.",
+  "quest.way_lark_hunt_spring.name": "The Hunt of the Rain",
+  "quest.way_lark_hunt_spring.task": "Hunt six rain slimes, which come only in spring.",
+  "quest.way_lark_hunt_summer.name": "The Hunt of the Sun",
+  "quest.way_lark_hunt_summer.task": "Hunt six sun slimes, which come only in summer.",
+  "quest.way_lark_hunt_autumn.name": "The Hunt of the Leaves",
+  "quest.way_lark_hunt_autumn.task": "Hunt six leaf slimes, which come only in autumn.",
+  "quest.way_lark_hunt_winter.name": "The Hunt of the Snow",
+  "quest.way_lark_hunt_winter.task": "Hunt six snow slimes, which come only in winter.",
   "enemy.slime_sun.name": "Sun slime"
 }

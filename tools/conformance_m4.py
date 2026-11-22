@@ -166,7 +166,24 @@ def build_scenarios() -> list[dict]:
                 {"text": "t.temper", "when": {"gold_at_least": 50}, "effects": [{"effect": "temper", "gold": 50}], "next": "end"},
                 {"text": "t.bye", "next": "end"}]}}}},
         "npcs": [{"key": "smith", "pos": [4.0, 4.5], "dialogue": "test:dialogue/smith"}]}
-    return [flow, decline, frozen, trader, barter, rest, resident, traveller, smith]
+    # Repeatable quests (spec 07, "Quests"): the hunt pays twice, because once done it can be started anew; a quest that is not repeatable,
+    # once done, is not started again (the second gel quest is refused: its reward is paid once).
+    repeat = scenario(
+        "repeatable_quest",
+        [enemy(3.6, 4.5, hp=5, id=SLIME_ID, **passive), enemy(2.2, 6.1, hp=5, id=SLIME_ID, **passive)],
+        [do({"cmd": "start_quest", "quest": "test:quest/hunt"}, {"cmd": "start_quest", "quest": "test:quest/once"}),
+         segment(30, attack=True),
+         do({"cmd": "start_quest", "quest": "test:quest/hunt"}, {"cmd": "start_quest", "quest": "test:quest/once"}),
+         segment(20, move=(0, 1)), segment(30, attack=True)],
+        inventory={"base:item/slime_gel": 1}, start_gold=0)
+    repeat["story"] = {"npcs": [], "dialogues": {}, "quests": {
+        "test:quest/hunt": {"id": "test:quest/hunt", "name": "t", "repeatable": True,
+                            "stages": [{"id": "s", "objectives": [{"type": "kill", "enemy": SLIME_ID, "count": 1}], "next": "end"}],
+                            "rewards": [{"effect": "add_gold", "amount": 10}]},
+        "test:quest/once": {"id": "test:quest/once", "name": "t",
+                            "stages": [{"id": "s", "objectives": [{"type": "collect", "item": "base:item/slime_gel", "count": 1}], "next": "end"}],
+                            "rewards": [{"effect": "add_gold", "amount": 100}]}}}
+    return [flow, decline, frozen, trader, barter, rest, resident, traveller, smith, repeat]
 
 
 def suite_story() -> list[dict]:
@@ -187,6 +204,7 @@ SAVE_SPLITS = {
     "trader_conditions_and_effects": (2, 5),  # inventory, flags and an open dialogue
     "affixes_worn": (2,),             # the affixes come back with the equipment (spec 06, "Affixes")
     "affixes_rolled": (2, 4),         # the rolls of the pieces found (spec 06, "Rolled affixes"), before and after a sale
+    "repeatable_quest": (2,),          # a repeatable quest done, then started anew after a load
     "temper_affix": (4,),             # the tempered roll is saved (spec 06, "Tempering")
     "tags_worn": (3, 5),              # the worn tag is saved (spec 11, "Tags")
     "traveller_moves": (3,),           # the traveller is where the day says after a load

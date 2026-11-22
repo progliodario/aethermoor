@@ -141,6 +141,7 @@ QuestDef parse_quest_json(const Json& j) {
     quest.id = j.value("id", "");
     quest.name = j.value("name", "");
     quest.faction = j.value("faction", "");
+    quest.repeatable = j.value("repeatable", false);
     for (const Json& s : j.at("stages")) {
         QuestStage stage;
         stage.id = s.at("id").get<std::string>();
@@ -449,10 +450,14 @@ const QuestStage& Story::current_stage(const std::string& quest_id) const {
 }
 
 void Story::start_quest(const std::string& quest_id) {
-    if (m_quests_.find(quest_id) != m_quests_.end()) {
+    const auto def = m_setup_.quests.find(quest_id);
+    const auto existing = m_quests_.find(quest_id);
+    // a quest that exists is not started again, unless it is done and repeatable (spec 07, "Quests"): then it starts
+    // anew
+    if (existing != m_quests_.end() &&
+        !(existing->second.done && def != m_setup_.quests.end() && def->second.repeatable)) {
         return;
     }
-    const auto def = m_setup_.quests.find(quest_id);
     if (def == m_setup_.quests.end()) {
         return;
     }

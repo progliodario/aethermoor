@@ -1431,5 +1431,12 @@
   "dlg.maren.lantern.3.thanks": "Nana Brin held the lantern up to the window and said: 'So that's what you looked like, dear.' Lyra laughed. The light is yours now. Keep it lit.",
   "dlg.maren.lantern.ask": "Lyra's lantern...",
   "dlg.maren.lantern.status": "About the lantern...",
+  "dlg.lark.hunt_spring": "The rain slimes are out, and the farmers want their fields back. Six of them, and I will put you in the spring verse again.",
+  "dlg.lark.hunt_summer": "Sun slimes, too many of them, and the wells are low. Six, Guest: the summer verse needs a hero.",
+  "dlg.lark.hunt_autumn": "The leaf slimes roll through the orchards and the apples roll after them. Six, and the autumn verse is yours.",
+  "dlg.lark.hunt_winter": "Snow slimes on the roads, and the carts slide into the ditches. Six of them, Guest, and the winter verse sings of you.",
+  "dlg.lark.hunt_ask": "A hunt for the season?",
+  "dlg.lark.hunt_status": "The hunt goes well.",
+  "dlg.lark.hunt_busy": "Six of them, wherever the season brings them.",
   "ui.temper_refused": "Temper at an anvil, holding a weapon or wearing an armor whose affix can roll."
 }

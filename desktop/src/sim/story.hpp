@@ -83,6 +83,7 @@ struct QuestDef {
     std::vector<Effect> rewards;
     std::map<std::string, std::string> args;  // arguments of the name and journal texts (spec 07)
     std::string faction;                      // the faction it counts for (spec 07, "Factions"); empty: none
+    bool repeatable = false;                  // once done it can be started anew (spec 07, "Quests")
 };
 
 struct Offer;

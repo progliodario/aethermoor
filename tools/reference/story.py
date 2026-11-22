@@ -116,7 +116,8 @@ class Story:
         return next(s for s in self.quest_defs[quest_id]["stages"] if s["id"] == q["stage"])
 
     def start_quest(self, quest_id: str) -> None:
-        if quest_id in self.quests:
+        # a quest that exists is not started again, unless it is done and `repeatable` (spec 07, "Quests"): then it starts anew
+        if quest_id in self.quests and not (self.quests[quest_id]["done"] and self.quest_defs.get(quest_id, {}).get("repeatable", False)):
             return
         stage = self.quest_defs[quest_id]["stages"][0]
         self.quests[quest_id] = {"stage": stage["id"], "progress": [0] * len(stage["objectives"]), "done": False}

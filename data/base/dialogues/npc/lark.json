@@ -112,7 +112,205 @@
           "next": "feasts"
         },
         {
+          "text": "$i18n:dlg.lark.hunt_ask",
+          "when": {
+            "all": [
+              {
+                "season": "spring"
+              },
+              {
+                "not": {
+                  "quest_active": "base:quest/side/way_lark_hunt_spring"
+                }
+              }
+            ]
+          },
+          "next": "hunt_spring_offer"
+        },
+        {
+          "text": "$i18n:dlg.lark.hunt_status",
+          "when": {
+            "quest_active": "base:quest/side/way_lark_hunt_spring"
+          },
+          "next": "hunt_busy"
+        },
+        {
+          "text": "$i18n:dlg.lark.hunt_ask",
+          "when": {
+            "all": [
+              {
+                "season": "summer"
+              },
+              {
+                "not": {
+                  "quest_active": "base:quest/side/way_lark_hunt_summer"
+                }
+              }
+            ]
+          },
+          "next": "hunt_summer_offer"
+        },
+        {
+          "text": "$i18n:dlg.lark.hunt_status",
+          "when": {
+            "quest_active": "base:quest/side/way_lark_hunt_summer"
+          },
+          "next": "hunt_busy"
+        },
+        {
+          "text": "$i18n:dlg.lark.hunt_ask",
+          "when": {
+            "all": [
+              {
+                "season": "autumn"
+              },
+              {
+                "not": {
+                  "quest_active": "base:quest/side/way_lark_hunt_autumn"
+                }
+              }
+            ]
+          },
+          "next": "hunt_autumn_offer"
+        },
+        {
+          "text": "$i18n:dlg.lark.hunt_status",
+          "when": {
+            "quest_active": "base:quest/side/way_lark_hunt_autumn"
+          },
+          "next": "hunt_busy"
+        },
+        {
+          "text": "$i18n:dlg.lark.hunt_ask",
+          "when": {
+            "all": [
+              {
+                "season": "winter"
+              },
+              {
+                "not": {
+                  "quest_active": "base:quest/side/way_lark_hunt_winter"
+                }
+              }
+            ]
+          },
+          "next": "hunt_winter_offer"
+        },
+        {
+          "text": "$i18n:dlg.lark.hunt_status",
+          "when": {
+            "quest_active": "base:quest/side/way_lark_hunt_winter"
+          },
+          "next": "hunt_busy"
+        },
+        {
           "text": "$i18n:dlg.lark.bye",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_busy": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.hunt_busy",
+      "next": "end"
+    },
+    "hunt_spring_offer": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.hunt_spring",
+      "next": "hunt_spring_choice"
+    },
+    "hunt_spring_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_lark_hunt_spring"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_summer_offer": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.hunt_summer",
+      "next": "hunt_summer_choice"
+    },
+    "hunt_summer_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_lark_hunt_summer"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_autumn_offer": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.hunt_autumn",
+      "next": "hunt_autumn_choice"
+    },
+    "hunt_autumn_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_lark_hunt_autumn"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "hunt_winter_offer": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.hunt_winter",
+      "next": "hunt_winter_choice"
+    },
+    "hunt_winter_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_lark_hunt_winter"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
           "next": "end"
         }
       ]
