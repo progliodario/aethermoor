@@ -70,6 +70,9 @@ sealed interface Effect {
     /** The health of the player becomes the maximum. */
     data object HealFull : Effect
 
+    /** The smith tempers a worn piece for [gold], paid only when it is done (spec 06, "Tempering"). */
+    data class Temper(val gold: Long) : Effect
+
     data class SetFlag(val flag: String, val value: Boolean) : Effect
 
     data class StartQuest(val quest: String) : Effect
@@ -204,6 +207,9 @@ interface StoryHost {
 
     fun healFull()
 
+    /** Tempers the affix of a worn piece (spec 06, "Tempering"); false, changing nothing, when no worn piece rolls. */
+    fun temperWorn(): Boolean = false
+
     /** The season of the day, empty without seasons. */
     fun seasonId(): String
 
@@ -263,6 +269,7 @@ private fun parseEffect(element: JsonElement): Effect {
         "add_item" -> Effect.AddItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
         "spend_gold" -> Effect.SpendGold(o.getValue("amount").jsonPrimitive.long)
         "heal_full" -> Effect.HealFull
+        "temper" -> Effect.Temper(o["gold"]?.jsonPrimitive?.long ?: 0L)
         "remove_item" -> Effect.RemoveItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
         "set_flag" -> Effect.SetFlag(o.str("flag"), o.getValue("value").jsonPrimitive.boolean)
         "start_quest" -> Effect.StartQuest(o.str("quest"))
@@ -411,6 +418,9 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             }
             is Effect.SpendGold -> gold = maxOf(0L, gold - effect.amount)
             is Effect.HealFull -> host.healFull()
+            is Effect.Temper -> {
+                if (gold >= effect.gold && host.temperWorn()) gold -= effect.gold // paid only when it is done
+            }
             is Effect.RemoveItem -> {
                 val held = host.inventory[effect.item] ?: 0L
                 val left = held - minOf(held, effect.qty)

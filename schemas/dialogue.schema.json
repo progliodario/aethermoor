@@ -333,6 +333,23 @@
               "const": "heal_full"
             }
           }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "description": "the smith tempers the affix of a worn piece for this gold, paid only when it is done (spec 06, Tempering)",
+          "properties": {
+            "effect": {
+              "const": "temper"
+            },
+            "gold": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
         }
       ]
     },

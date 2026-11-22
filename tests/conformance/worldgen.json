@@ -2313,6 +2313,47 @@
                   -383
                 ]
               ]
+            },
+            {
+              "key": "wandering_smith_brannoc",
+              "dialogue": "base:dialogue/npc/brannoc",
+              "variant": "brown",
+              "dx": 385,
+              "dy": 129,
+              "route": [
+                [
+                  385,
+                  129
+                ],
+                [
+                  6782,
+                  -385
+                ],
+                [
+                  -639,
+                  6273
+                ],
+                [
+                  5502,
+                  3967
+                ],
+                [
+                  -1151,
+                  -6527
+                ],
+                [
+                  -6274,
+                  4223
+                ],
+                [
+                  4222,
+                  -4737
+                ],
+                [
+                  -4226,
+                  -2689
+                ]
+              ]
             }
           ],
           "stamp_defs": {
@@ -7647,6 +7688,11 @@
             "caravan_master_odo",
             110464,
             42880
+          ],
+          [
+            "wandering_smith_brannoc",
+            110976,
+            43392
           ]
         ],
         "gid_histogram": {
@@ -9985,6 +10031,47 @@
                 [
                   6786,
                   -383
+                ]
+              ]
+            },
+            {
+              "key": "wandering_smith_brannoc",
+              "dialogue": "base:dialogue/npc/brannoc",
+              "variant": "brown",
+              "dx": 385,
+              "dy": 129,
+              "route": [
+                [
+                  385,
+                  129
+                ],
+                [
+                  6782,
+                  -385
+                ],
+                [
+                  -639,
+                  6273
+                ],
+                [
+                  5502,
+                  3967
+                ],
+                [
+                  -1151,
+                  -6527
+                ],
+                [
+                  -6274,
+                  4223
+                ],
+                [
+                  4222,
+                  -4737
+                ],
+                [
+                  -4226,
+                  -2689
                 ]
               ]
             }
@@ -15317,6 +15404,11 @@
             "caravan_master_odo",
             108416,
             41856
+          ],
+          [
+            "wandering_smith_brannoc",
+            108928,
+            42368
           ]
         ],
         "gid_histogram": {
@@ -17655,6 +17747,47 @@
                 [
                   6786,
                   -383
+                ]
+              ]
+            },
+            {
+              "key": "wandering_smith_brannoc",
+              "dialogue": "base:dialogue/npc/brannoc",
+              "variant": "brown",
+              "dx": 385,
+              "dy": 129,
+              "route": [
+                [
+                  385,
+                  129
+                ],
+                [
+                  6782,
+                  -385
+                ],
+                [
+                  -639,
+                  6273
+                ],
+                [
+                  5502,
+                  3967
+                ],
+                [
+                  -1151,
+                  -6527
+                ],
+                [
+                  -6274,
+                  4223
+                ],
+                [
+                  4222,
+                  -4737
+                ],
+                [
+                  -4226,
+                  -2689
                 ]
               ]
             }
@@ -22999,6 +23132,11 @@
             "caravan_master_odo",
             109440,
             44928
+          ],
+          [
+            "wandering_smith_brannoc",
+            109952,
+            45440
           ]
         ],
         "gid_histogram": {

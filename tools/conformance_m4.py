@@ -1,7 +1,7 @@
 """Conformance suite added in M4: story scenarios (quests, dialogue, conditions, effects). Same runner as `combat`."""
 from __future__ import annotations
 
-from conformance_m3 import enemy, scenario, segment
+from conformance_m3 import ROLLED_ITEMS, enemy, scenario, segment
 from reference import combat
 
 SLIME_ID = "base:enemy/slime_green"
@@ -150,7 +150,23 @@ def build_scenarios() -> list[dict]:
         "test:dialogue/merchant": {"id": "test:dialogue/merchant", "start": "s", "nodes": {
             "s": {"type": "say", "speaker": "merchant", "text": "t.goods", "next": "end"}}}},
         "npcs": [{"key": "merchant", "pos": [4.0, 4.5], "dialogue": "test:dialogue/merchant", "route": [[4.0, 4.5], [6.6, 4.5]]}]}
-    return [flow, decline, frozen, trader, barter, rest, resident, traveller]
+    # The smith (spec 07, "Effects": `temper`; spec 06, "Tempering"): with the iron sword worn nothing rolls, so nothing is paid; with the keen
+    # sword worn the roll is drawn and 50 gold are paid, twice; with 40 gold left the smith refuses (the choice is not shown).
+    smith = scenario(
+        "smith_tempers",
+        [], [do(interact), do(advance), do(choose(0)), do({"cmd": "equip", "item": "test:item/keen_sword"}, interact), do(advance), do(choose(0)),
+             do(interact), do(advance), do(choose(0)), do(interact), do(advance), do(choose(0))],
+        player={"start": [3.4, 4.5]}, inventory={"test:item/keen_sword": 1, "base:item/iron_sword": 1},
+        equipped={"weapon": "base:item/iron_sword"}, start_gold=140)
+    smith["items"] = {**smith["items"], **ROLLED_ITEMS}
+    smith["story"] = {"quests": {}, "dialogues": {
+        "test:dialogue/smith": {"id": "test:dialogue/smith", "start": "s", "nodes": {
+            "s": {"type": "say", "speaker": "smith", "text": "t.smith", "next": "menu"},
+            "menu": {"type": "choice", "choices": [
+                {"text": "t.temper", "when": {"gold_at_least": 50}, "effects": [{"effect": "temper", "gold": 50}], "next": "end"},
+                {"text": "t.bye", "next": "end"}]}}}},
+        "npcs": [{"key": "smith", "pos": [4.0, 4.5], "dialogue": "test:dialogue/smith"}]}
+    return [flow, decline, frozen, trader, barter, rest, resident, traveller, smith]
 
 
 def suite_story() -> list[dict]:

@@ -38,10 +38,10 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Missioni | 338 (24 storie dei paesani) |
 | Oggetti e ricette | 279 oggetti, 81 ricette (8 segrete) |
 | Progressione | 45 titoli, 8 tag, 16 talenti, 26 imprese |
-| Persone con nome | 46 nei dati del mondo, oltre ai paesani generati |
+| Persone con nome | 47 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3695 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 572 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 3718 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 30 file di vettori di conformità, 573 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
 
@@ -56,7 +56,7 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Missioni e storie | storie in cinque atti per ogni protagonista, storie dei paesani, gilda, leggende, taglie | la modalità Dungeon di Gideon |
 | Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite con i suoi mobili, venditori ambulanti, ricette segrete, cibi con effetti | carri che si vedono viaggiare, una casa più grande |
 | Compagni | uno per protagonista con comandi, legame e cura; Haruka doma un secondo compagno | più compagni scelti dal giocatore |
-| Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi, tag da indossare, armi e armature con affissi tirati a sorte (anche su ventiquattro pezzi comuni) e ritemprati all'incudine, pezzi con due affissi, doni delle imprese | il fabbro che tempra |
+| Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi, tag da indossare, armi e armature con affissi tirati a sorte (anche su ventiquattro pezzi comuni) e ritemprati all'incudine o dai fabbri, pezzi con due affissi, doni delle imprese | affissi che si scelgono |
 | Accessibilità | consigli, numeri dei danni e lampi disattivabili, testo grande, tasti configurabili | — |
 | Uscita | versioni di prova dalla CI | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
 
@@ -238,7 +238,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine (dettagli nella [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine)):
 
-- **A breve:** ridurre la baseline di detekt; il fabbro dei villaggi; i paesani che vanno davvero alla festa vicina.
+- **A breve:** ridurre la baseline di detekt; un cantastorie errante; i paesani che vanno davvero alla festa vicina.
 - **A medio termine:** carri che si vedono viaggiare; la modalità Dungeon di Gideon; prestazioni misurate su un telefono; un sintetizzatore migliore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** pacchetti firmati, documentazione per chi fa mod, altre lingue.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1).

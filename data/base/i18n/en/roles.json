@@ -743,5 +743,14 @@
   "dlg.feast.scholarly.villager_where": "Attendance here is low today: a significant share of the village is at the feast in Ashen Wastes.",
   "dlg.feast.grim.villager_happy": "The Ember Wake. Light something. Remember someone.",
   "dlg.feast.grim.villager_where": "Half of us went to the feast in Verdalis. The fires here can wait one night.",
+  "dlg.role.smith.ask": "Could you temper my gear? (60 gold)",
+  "dlg.smith.warm.done": "There, good as new, better even! If it had nothing to temper, love, you paid nothing.",
+  "dlg.smith.mystic.done": "The metal remembers the fire, and the fire remembers you. If there was nothing to wake, nothing is owed.",
+  "dlg.smith.gruff.done": "Done. If it had no affix, no charge.",
+  "dlg.smith.flowery.done": "Behold, polished like the moon on the dunes! And if it had nothing to temper, darling, it is free as the wind!",
+  "dlg.smith.stoic.done": "Done. Nothing to temper, nothing to pay.",
+  "dlg.smith.salty.done": "Hammered and quenched, mate, like a hull before a storm! No affix, no coin.",
+  "dlg.smith.grim.done": "It took the fire. If there was nothing to take it, keep your coin.",
+  "dlg.smith.scholarly.done": "The tempering is complete; the variance favours you. Absent an affix, no fee is charged.",
   "dlg.seasonal.scholarly.wait": "The solstice is in summer. Do return then; the instruments are not ready."
 }

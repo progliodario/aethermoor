@@ -908,16 +908,34 @@ const ItemDef* WorldSim::worn_rune() const {
     return def != m_setup_.items.end() && def->second.is_rune ? &def->second : nullptr;
 }
 
-bool WorldSim::temper(const std::string& item_id, const ItemDef& oil) {
-    // spec 06, "Tempering": the worn weapon when its affix rolls, else the worn armor; the station of the item in reach
-    std::string target;
-    for (const std::string* worn : {&m_equipped_weapon_, &m_equipped_armor_}) {
-        const auto piece = m_setup_.items.find(*worn);
-        if (target.empty() && !worn->empty() && piece != m_setup_.items.end() && piece->second.has_affix_roll) {
-            target = *worn;
+namespace {
+// The worn piece a tempering is for (spec 06, "Tempering"): the worn weapon when its affix rolls, else the worn armor;
+// empty: none.
+std::string temper_target(const std::map<std::string, ItemDef>& items, const std::string& weapon,
+                          const std::string& armor) {
+    for (const std::string* worn : {&weapon, &armor}) {
+        const auto piece = items.find(*worn);
+        if (!worn->empty() && piece != items.end() && piece->second.has_affix_roll) {
+            return *worn;
         }
     }
-    if (target.empty() || !near_station(oil.temper_station)) {
+    return {};
+}
+}  // namespace
+
+bool WorldSim::temper(const std::string& item_id, const ItemDef& oil) {
+    // spec 06, "Tempering": a worn piece that rolls, and the station of the item in reach
+    if (temper_target(m_setup_.items, m_equipped_weapon_, m_equipped_armor_).empty() ||
+        !near_station(oil.temper_station)) {
+        return false;
+    }
+    take_one(item_id);
+    return temper_worn();
+}
+
+bool WorldSim::temper_worn() {
+    const std::string target = temper_target(m_setup_.items, m_equipped_weapon_, m_equipped_armor_);
+    if (target.empty()) {
         return false;
     }
     const ItemDef& piece = m_setup_.items.at(target);
@@ -926,7 +944,6 @@ bool WorldSim::temper(const std::string& item_id, const ItemDef& oil) {
         pct += static_cast<std::int64_t>(
             m_loot_rng_.next_bounded(static_cast<std::uint32_t>(piece.roll_max_pct - piece.roll_min_pct + 1)));
     }
-    take_one(item_id);
     std::int64_t& held = m_rolls_[target];
     held = std::max(held, pct);  // the better of the two is kept
     ++m_counters_["tempered"];

@@ -97,6 +97,9 @@ Effect parse_effect(const Json& j) {
         e.n = j.at("amount").get<std::int64_t>();
     } else if (kind == "heal_full") {
         e.kind = Effect::Kind::HealFull;
+    } else if (kind == "temper") {
+        e.kind = Effect::Kind::Temper;
+        e.n = j.value("gold", static_cast<std::int64_t>(0));
     } else if (kind == "remove_item") {
         e.kind = Effect::Kind::RemoveItem;
         e.a = j.at("item").get<std::string>();
@@ -394,6 +397,11 @@ void Story::apply(const Effect& effect) {
             break;
         case Effect::Kind::HealFull:
             m_host_.heal_full();
+            break;
+        case Effect::Kind::Temper:  // paid only when a worn piece was tempered (spec 06, "Tempering")
+            if (m_gold_ >= effect.n && m_host_.temper_worn()) {
+                m_gold_ -= effect.n;
+            }
             break;
         case Effect::Kind::RemoveItem: {
             auto& inventory = m_host_.host_inventory();
