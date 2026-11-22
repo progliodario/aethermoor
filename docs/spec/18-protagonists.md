@@ -76,7 +76,11 @@ Sakura: the Nebula Heart (Lumeria); Daichi: the Magma Heart (Ashen Wastes); Haru
 Each protagonist has an **Echo** (`base:enemy/echo_<name>`): the moment that brought them to Aethermoor, grown into a creature (Ren's overtime, Sakura's unfinished equation, Daichi's third floor, Haruka's rain on the road,
 Marco's sealed pot, Yuki's last frame, Lena's final report, Gideon's throne). It is a guardian of level 24 with the art of a guardian recoloured pale and violet, and it waits in a **sanctum**, a landmark of the ring of
 eight around the start (about 750 tiles from it). The epilogue "The Echo Itself" (`base:quest/side/act4_<name>_1`) is the last quest Sister Maren gives, after the third act; it asks to defeat the protagonist's own Echo.
-Anyone can find and fight any Echo; only the protagonist's own closes the story. `tools/make_echoes.py` writes the Echoes and the landmarks, `tools/make_stamps.py` the sanctums, `tools/stories_act4.py` the epilogue. After it, `tools/stories_act5.py` adds a fifth act, "A Life Here": two quests from Sister Maren for each protagonist, the first steps of the life they choose in the new world (spec 07).
+Anyone can find and fight any Echo; only the protagonist's own closes the story. `tools/make_echoes.py` writes the Echoes and the landmarks, `tools/make_stamps.py` the sanctums, `tools/stories_act4.py` the epilogue. After it, `tools/stories_act5.py` adds a fifth act, "A Life Here": two quests from Sister Maren for each protagonist, the first steps of the life they choose in the new world (spec 07). Then
+`tools/stories_act6.py` adds a sixth act, "Two Guests" (`act6_<name>_1` and `_2`): Lyra has brought other Guests before, in other lives of
+the world, and Maren shows each protagonist the trace of one of them, in pairs (Ren and Sakura, Daichi and Haruka, Marco and Yuki, Lena
+and Gideon find each other's letters, ledgers, maps and logbooks). The first quest is something to bring from the region of the other
+Guest, the second a trouble the other Guest left unfinished there. Maren says the closing words of "A Life Here" before the first.
 
 ## Personal stories
 

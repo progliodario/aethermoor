@@ -33,14 +33,14 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Che cosa | Quanti (contati dai dati da `tools/make_facts.py`) |
 |---|---|
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
-| Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in cinque atti (96 missioni di storia) |
+| Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (112 missioni di storia) |
 | Creature | 75, di cui 27 guardiani e 8 Echi |
-| Missioni | 338 (24 storie dei paesani) |
+| Missioni | 354 (24 storie dei paesani) |
 | Oggetti e ricette | 279 oggetti, 81 ricette (8 segrete) |
 | Progressione | 45 titoli, 8 tag, 16 talenti, 26 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3740 chiavi, in italiano e inglese |
+| Testi | 3828 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 30 file di vettori di conformità, 573 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
@@ -53,7 +53,7 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Grafica | arte da anime per tutto, persone viste di fronte, di lato e di spalle, luce dell'ora, vento, acqua, ombre, font del pack | — |
 | Combattimento | completo: elementi, stati, parata, stagger, guardiani, abilità a comando | ritocchi, sempre verso scontri facili |
 | Mondo | enorme, otto regioni, città, sotterranei, meteo che nasconde e rallenta, vento che spinge, nebbia e temporali | prestazioni misurate su un telefono |
-| Missioni e storie | storie in cinque atti per ogni protagonista, storie dei paesani, gilda, leggende, taglie | la modalità Dungeon di Gideon |
+| Missioni e storie | storie in sei atti per ogni protagonista, storie dei paesani, gilda, leggende, taglie | la modalità Dungeon di Gideon |
 | Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite con i suoi mobili, venditori ambulanti, ricette segrete, cibi con effetti | carri che si vedono viaggiare, una casa più grande |
 | Compagni | uno per protagonista con comandi, legame e cura; Haruka doma un secondo compagno | più compagni scelti dal giocatore |
 | Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi, tag da indossare, armi e armature con affissi tirati a sorte (anche su ventiquattro pezzi comuni) e ritemprati all'incudine o dai fabbri, pezzi con due affissi, doni delle imprese | affissi che si scelgono |
@@ -102,7 +102,7 @@ Il catalogo completo, generato dai dati, è in [`docs/design/catalog.md`](docs/d
 
 ## I protagonisti
 
-Ognuno ha un prologo con Lyra, un dono, due abilità d'attacco, due missioni personali e una storia in cinque atti data da Suor Maren ad Aldermere: "Il primo eco" a Verdalis, il secondo e il terzo in altre regioni, l'epilogo contro il proprio **Eco** (il momento che lo ha portato qui, diventato una creatura, in uno degli otto santuari intorno alla partenza) e "Una vita qui", i primi passi della vita nuova.
+Ognuno ha un prologo con Lyra, un dono, due abilità d'attacco, due missioni personali e una storia in cinque atti data da Suor Maren ad Aldermere: "Il primo eco" a Verdalis, il secondo e il terzo in altre regioni, l'epilogo contro il proprio **Eco** (il momento che lo ha portato qui, diventato una creatura, in uno degli otto santuari intorno alla partenza) "Una vita qui", i primi passi della vita nuova, e "Due Ospiti", le tracce di un altro protagonista venuto in un'altra vita del mondo.
 
 | Protagonista | Chi era | Dono | Tono | Compagno |
 |---|---|---|---|---|
