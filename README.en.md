@@ -38,9 +38,9 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Quests | 338 (24 tales of the villagers) |
 | Items and recipes | 279 items, 81 recipes (8 secret) |
 | Progression | 45 titles, 8 tags, 16 talents, 26 deeds |
-| Named people | 47 in the world data, besides the generated villagers |
+| Named people | 48 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3718 keys, in Italian and English |
+| Texts | 3740 keys, in Italian and English |
 | Same rules on both clients | 30 files of conformance vectors, 573 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->
@@ -238,7 +238,7 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 The next things, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine), in Italian):
 
-- **Soon:** shrink the detekt baseline; a wandering storyteller; villagers who really walk to the next feast.
+- **Soon:** shrink the detekt baseline; travellers seen walking the roads; villagers who really walk to the next feast.
 - **Medium term:** wagons seen travelling; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** signed packages, documentation for modders, more languages.
 - **The owner decides:** when to publish the first release (Alpha 0.1).

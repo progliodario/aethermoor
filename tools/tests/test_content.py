@@ -301,3 +301,11 @@ def test_seasonal_visitors_common_affixes_and_feasts():
         assert len(feast) == 1, path.stem
         days.add(feast[0]["when"]["day_mod"]["at"])
     assert len(days) == 8
+
+
+def test_every_person_of_the_world_has_a_dialogue_of_its_own():
+    """Two people of the world never share a dialogue file (a generator that names a new person like an old one would write over it)."""
+    world = json.loads((DATA / "worlds" / "overworld.json").read_text(encoding="utf-8"))
+    dialogues = [n["dialogue"] for n in world["npcs"]]
+    twins = sorted({d for d in dialogues if dialogues.count(d) > 1})
+    assert not twins, twins

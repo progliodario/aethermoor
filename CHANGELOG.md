@@ -6,6 +6,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Lark, the wandering bard** (spec 07, "Travellers"): a third traveller of the outposts, who sings of what you did: a song (and some experience) for every region whose villagers' trouble you ended, and a dawn rune when you have heard all eight.
+
 - **Smiths** (spec 06, "Tempering"; spec 07, the effect `temper`): the shopkeeper of every village and town tempers the weapon you hold (or your armor) for 60 gold, paid only when there is an affix to temper.
 - **Brannoc, the wandering smith** (spec 07, "Travellers"): a second traveller, who goes round the eight outposts the other way from Odo and tempers for 40 gold.
 
