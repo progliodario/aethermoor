@@ -2012,6 +2012,12 @@ void WorldSim::on_kill(Enemy& enemy) {
                 quantity += static_cast<std::int64_t>(
                     m_loot_rng_.next_bounded(static_cast<std::uint32_t>(drop.qty_max - drop.qty_min + 1)));
             }
+            if (drop.pick.empty()) {  // the season of the creature (spec 05, "Loot"): more of every plain drop in it
+                const auto extra = enemy.def.season_bonus.find(season_id());
+                if (extra != enemy.def.season_bonus.end()) {
+                    quantity += extra->second;
+                }
+            }
             std::string item = drop.item;
             if (!drop.pick.empty()) {  // one of a list (spec 05, "Loot"): the item, or one of `pick`
                 const std::uint32_t index = m_loot_rng_.next_bounded(static_cast<std::uint32_t>(drop.pick.size() + 1));

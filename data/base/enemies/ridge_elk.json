@@ -12,6 +12,9 @@
   },
   "element": "none",
   "sound": "elk",
+  "season_bonus": {
+    "winter": 1
+  },
   "weaknesses_pm": {
     "fire": 1500
   },

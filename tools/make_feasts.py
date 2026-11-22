@@ -236,6 +236,20 @@ def patch_villager(region: str, tone: str) -> None:
     write_json(path, doc, raw)
 
 
+# the ribbon Lark the bard gives to whoever won the games of all eight feasts (`make_bard.py`): an accessory (spec 06, "Equipment")
+RIBBON = ("festival_ribbon", 900, {"atk": 4, "max_hp": 40, "crit_pm": 50}, "Ribbon of the eight feasts", "Nastro delle otto feste",
+          "Eight colours, one for every feast won. +4 attack, +40 health, +5% critical chance.",
+          "Otto colori, uno per ogni festa vinta. +4 di attacco, +40 di salute, +5% di colpo critico.")
+
+
+def write_ribbon() -> dict[str, dict[str, str]]:
+    name, price, bonus, name_en, name_it, desc_en, desc_it = RIBBON
+    doc = {"$schema": "../../../schemas/item.schema.json", "id": f"base:item/{name}", "name": f"$i18n:item.{name}.name",
+           "description": f"$i18n:item.{name}.desc", "kind": "accessory", "rarity": "epic", "price": price, "accessory": bonus}
+    (DATA / "items" / f"{name}.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    return {"en": {f"item.{name}.name": name_en, f"item.{name}.desc": desc_en}, "it": {f"item.{name}.name": name_it, f"item.{name}.desc": desc_it}}
+
+
 def main() -> None:
     texts = {lang: dict(SHARED[lang]) for lang in ("en", "it")}
     content: dict[str, dict[str, str]] = {"en": {}, "it": {}}
@@ -265,9 +279,10 @@ def main() -> None:
             happy, away = VILLAGER_WORDS[lang][tone]
             texts[lang].update({**VILLAGER_SHARED[lang], f"dlg.feast.{tone}.villager_happy": happy,
                                 f"dlg.feast.{tone}.villager_where": away.format(region=names[f"region.{neighbour}.name"])})
+    ribbon = write_ribbon()
     for lang in ("en", "it"):
         set_texts("roles.json", lang, texts[lang])
-        set_texts("content.json", lang, content[lang])
+        set_texts("content.json", lang, {**content[lang], **ribbon[lang]})
     print(f"wrote the feasts of {len(REGIONS)} regions")
 
 

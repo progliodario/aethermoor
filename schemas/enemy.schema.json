@@ -82,6 +82,11 @@
     "sound": {
       "enum": ["slime", "matron", "king", "wolf", "alpha", "knight", "bat", "spider", "scorpion", "crab", "owl", "myconid", "golem", "wisp", "boar", "elk", "fox"]
     },
+    "season_bonus": {
+      "type": "object",
+      "description": "more of every plain drop in a season (spec 05, Loot): season id -> how many more",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
     "weaknesses_pm": {
       "type": "object",
       "propertyNames": {

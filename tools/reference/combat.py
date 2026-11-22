@@ -708,6 +708,8 @@ class CombatSim:
                 qty = drop["qty_min"]
                 if drop["qty_max"] > drop["qty_min"]:
                     qty += self.loot.next_bounded(drop["qty_max"] - drop["qty_min"] + 1)
+                if not drop.get("pick"):  # the season of the creature (spec 05, "Loot"): more of every plain drop in it
+                    qty += enemy.d.get("season_bonus", {}).get(self.season_id(), 0)
                 item = drop["item"]
                 if drop.get("pick"):  # one of a list (spec 05, "Loot"): the item, or one of `pick`
                     index = self.loot.next_bounded(1 + len(drop["pick"]))

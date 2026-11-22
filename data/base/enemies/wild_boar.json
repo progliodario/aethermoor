@@ -12,6 +12,9 @@
   },
   "element": "none",
   "sound": "boar",
+  "season_bonus": {
+    "autumn": 1
+  },
   "weaknesses_pm": {
     "fire": 1500
   },

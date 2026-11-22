@@ -86,6 +86,8 @@ data class EnemyDef(
     val weaknessesPm: Map<String, Long> = emptyMap(),
     /** The family of voices of the creature (spec 14). */
     val sound: String = "",
+    /** More of every plain drop in a season (spec 05, "Loot"): season -> how many more. */
+    val seasonBonus: Map<String, Int> = emptyMap(),
 )
 
 data class EnemySpawn(val def: EnemyDef, val x: Float, val y: Float)

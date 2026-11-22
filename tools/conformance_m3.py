@@ -81,6 +81,8 @@ ROLLED_DROPS = [{"item": "test:item/keen_sword", "qty_min": 1, "qty_max": 1, "we
                 {"item": "test:item/warm_coat", "qty_min": 1, "qty_max": 1, "weight_pm": 1000}]
 PICK_DROPS = [{"item": "test:item/keen_sword", "pick": ["test:item/warm_coat", "base:item/slime_gel"], "qty_min": 1, "qty_max": 2,
                "weight_pm": 1000}]
+SEASON_DROPS = [{"item": "base:item/slime_gel", "qty_min": 1, "qty_max": 2, "weight_pm": 1000},
+                {"item": "test:item/keen_sword", "pick": ["test:item/warm_coat"], "qty_min": 1, "qty_max": 1, "weight_pm": 1000}]
 COMPANION = {"atk_base": 12, "atk_per_level": 1, "range_x100": 300, "cooldown_ticks": 60, "speed_x100": 320, "follow_x100": 220}
 RECIPES = [
     {"id": "tonic", "output": {"item": "base:item/tonic", "qty": 2},
@@ -828,6 +830,13 @@ def build_scenarios() -> list[dict]:
                     titles=TITLES, gather_props=[{"art": "base:art/prop/anvil", "x": 8.0, "y": 4.5, "radius": 0.3}]),
          "items": {**ITEMS, **ROLLED_ITEMS, "test:item/oil": {"kind": "temper", "price": 160, "stack_max": 9,
                                                              "temper": {"station": "base:art/prop/anvil"}}}},
+        # The season of a creature (spec 05, "Loot"): a boar killed in autumn leaves two more of every plain drop; the drop one of a list
+        # gets nothing more; in spring (no bonus of its own) the boar leaves what it always leaves.
+        {**scenario("loot_in_season", [enemy(3.6, 4.4, hp=6, **passive, drops=SEASON_DROPS, season_bonus={"autumn": 2, "winter": 1}),
+                                       enemy(3.6, 4.6, hp=6, **passive, drops=SEASON_DROPS, season_bonus={"autumn": 2, "winter": 1})],
+                    [segment(40, attack=True)], season="autumn"), "inventory": {}, "items": {**ITEMS, **ROLLED_ITEMS}},
+        {**scenario("loot_out_of_season", [enemy(3.6, 4.5, hp=6, **passive, drops=SEASON_DROPS, season_bonus={"autumn": 2, "winter": 1})],
+                    [segment(40, attack=True)], season="spring"), "inventory": {}, "items": {**ITEMS, **ROLLED_ITEMS}},
         # Tags (spec 11, "Tags"): a tag not earned is refused; after the first kill the brawler tag is worn and its attack counts on the
         # second slime; taken off, the attack is the plain one again; the same tag twice is refused.
         scenario("tags_worn", [enemy(3.6, 4.5, hp=6, **passive), enemy(3.6, 4.9, hp=400, **passive)],

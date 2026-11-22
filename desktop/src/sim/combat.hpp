@@ -95,6 +95,7 @@ struct EnemyDef {
     std::map<std::string, std::int64_t> weaknesses_pm;  // element -> multiplier in permille
     std::vector<DropDef> drops;
     BehaviorDef behavior;
+    std::map<std::string, int> season_bonus;  // more of every plain drop in a season (spec 05, "Loot")
 };
 
 struct EnemySpawn {
