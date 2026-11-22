@@ -211,13 +211,15 @@ Conformance suite `fauna`: the region and the enemy of spawners near the center 
 a spawner whose pick is that entry makes the visitor instead when `(hash64(seed, x, y, 13) >> 20) mod 1000 < pm` (the first visitor of
 the list that matches); the stamps' spawners never change. The creature of a spawner is decided when its chunk enters the window (and
 when a saved game is loaded, with the day of the save): a creature already in the world stays what it is when the season turns. The
-visitors are creatures that live elsewhere in the world, and at most 400 per mille of an entry swap, so a quest that asks for the
+visitors are creatures that live elsewhere in the world, or the two creatures that live only in a season (the snow slime of winter
+and the sun slime of summer, which no fauna entry makes), and at most 400 per mille of an entry swap, so a quest that asks for the
 creature of the entry can always be done. The base world has sixteen (`tools/make_seasonal_fauna.py`): in winter the blue slimes come
 down to Verdalis and Tidehaven, frost wolves to Whisperwood and Ironspine, ice slimes to Ironspine, grey wolves to the dunes of
 Sunscar and storm wolves to Lumeria; in spring bloom slimes open in Whisperwood and Lumeria and tide slimes reach Frostveil; in summer
 sand slimes cross to Sunscar's villages, bloom slimes flower in the short summer of Frostveil, crabs walk the beaches of Tidehaven and
 ember slimes wake in the Ashen Wastes; in autumn grey wolves follow the herds into Verdalis and ember wolves hunt the foxes of the
-Wastes. The suite `fauna` has, for every spawner, its enemy on a day of every season.
+Wastes. Snow slimes come with the winter to Verdalis, Frostveil and Lumeria, sun slimes with the summer to Verdalis, Sunscar and
+Lumeria. The suite `fauna` has, for every spawner, its enemy on a day of every season.
 
 ## Spawn and NPCs
 

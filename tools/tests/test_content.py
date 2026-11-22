@@ -281,11 +281,13 @@ def test_seasonal_visitors_common_affixes_and_feasts():
     world = json.loads((DATA / "worlds" / "overworld.json").read_text(encoding="utf-8"))
     seasons = {s["id"] for s in world["time"]["seasons"]}
     fauna = {e["enemy"] for region in world["regions"] for e in region["fauna"]}
+    enemies = {f"base:enemy/{p.stem}" for p in (DATA / "enemies").glob("*.json")}
     visitors = 0
     for region in world["regions"]:
         for entry in region["fauna"]:
             for visitor in entry.get("seasons", []):
-                assert visitor["season"] in seasons and visitor["enemy"] in fauna and visitor["pm"] <= 400, (region["id"], visitor)
+                assert visitor["season"] in seasons and visitor["enemy"] in enemies and visitor["pm"] <= 400, (region["id"], visitor)
+                assert visitor["enemy"] != entry["enemy"] and entry["enemy"] in fauna, (region["id"], visitor)
                 visitors += 1
     assert visitors >= 8
     items = load_all("items")

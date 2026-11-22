@@ -6,6 +6,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The other Echo** (spec 18): the sixth act ends with a third quest: the Echo of the other Guest of the pair, who never faced it, waiting in its sanctum (eight quests).
+- **Creatures of one season** (spec 09): the snow slime, which comes only in winter (to Verdalis, Frostveil and Lumeria), and the sun slime, only in summer (to Verdalis, Sunscar and Lumeria); both have new art, and are in the bestiary once met.
+
 - **A sixth act for every protagonist, "Two Guests"** (spec 18): Lyra brought other Guests before, in other lives of the world. Sister Maren shows each protagonist the trace of another one (Ren and Sakura, Daichi and Haruka, Marco and Yuki, Lena and Gideon find each other's letters), and two quests follow it to the other Guest's region: something to recover, then what they left unfinished. Sixteen quests.
 
 - **Lark, the wandering bard** (spec 07, "Travellers"): a third traveller of the outposts, who sings of what you did: a song (and some experience) for every region whose villagers' trouble you ended, and a dawn rune when you have heard all eight.
