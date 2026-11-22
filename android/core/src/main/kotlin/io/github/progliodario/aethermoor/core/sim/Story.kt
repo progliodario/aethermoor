@@ -306,7 +306,12 @@ private fun parseQuestObject(j: JsonObject): QuestDef {
     require(stages.isNotEmpty()) { "a quest needs at least one stage" }
     val args = (j["args"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap()
     return QuestDef(
-        optStr(j, "id"), optStr(j, "name"), stages, parseEffects(j, "rewards"), args, optStr(j, "faction"),
+        optStr(j, "id"),
+        optStr(j, "name"),
+        stages,
+        parseEffects(j, "rewards"),
+        args,
+        optStr(j, "faction"),
         repeatable = j["repeatable"]?.jsonPrimitive?.boolean ?: false,
     )
 }
