@@ -2,8 +2,8 @@
 
 Lyra has brought other Guests before, in other lives of the world. Sister Maren keeps what they left at the shrine, and after "A Life Here"
 she shows each Guest the trace of one of them: Ren and Sakura, Daichi and Haruka, Marco and Yuki, Lena and Gideon find each other's
-letters. Each act follows the trace to the region of the other Guest: something to find there, then a trouble the other Guest left
-unfinished. Same shape as the acts."""
+letters. Each act follows the trace to the region of the other Guest: something to find there, a trouble the other Guest left
+unfinished, and last the Echo of the other Guest, which they never faced. Same shape as the acts."""
 from __future__ import annotations
 
 KILL, COLLECT = "kill", "collect"
@@ -23,6 +23,11 @@ ACT6 = {
              ("The last page of her notes is a warning, underlined three times: the nebula slimes will cover the domes again. She could not finish. You can.", "L'ultima pagina degli appunti è un avvertimento, sottolineato tre volte: gli slime nebulosa copriranno di nuovo le cupole. Lei non ha potuto finire. Tu puoi."),
              ("Five nebula slimes, under the domes of Lumeria.", "Cinque slime nebulosa, sotto le cupole di Lumeria."),
              ("The domes are clear. Somewhere, in some life, a teacher would have given you full marks.", "Le cupole sono pulite. Da qualche parte, in qualche vita, un'insegnante ti avrebbe dato il massimo dei voti.")),
+            (("The Other Echo", "L'altro Eco"), ("Sakura never faced The Unfinished Equation, the Echo of the moment that brought them here. It still waits in its sanctum: free Sakura of it.", "Sakura non affrontò mai L'Equazione Incompiuta, l'Eco del momento che l'ha portato qui. Aspetta ancora nel suo santuario: liberane Sakura."),
+             [(KILL, "echo_sakura", 1)], {"xp": 8000, "gold": 6000, "items": {"potion_large": 3}},
+             ("One thing more, and it is the heaviest. Sakura never faced their Echo, The Unfinished Equation: their life here ended before they could. It waits in its sanctum still. You have beaten your own. Beat this one for Sakura.", "Ancora una cosa, ed è la più pesante. Sakura non affrontò mai il suo Eco, L'Equazione Incompiuta: la sua vita qui finì prima che potesse farlo. Aspetta ancora nel suo santuario. Hai battuto il tuo. Batti questo per Sakura."),
+             ("The Unfinished Equation, in the sanctum of Sakura's Echo.", "L'Equazione Incompiuta, nel santuario dell'Eco di Sakura."),
+             ("It is gone. For a moment, in the quiet of the sanctum, you thought you heard someone say thank you. Then only the wind.", "Non c'è più. Per un attimo, nella quiete del santuario, ti è sembrato di sentire qualcuno dire grazie. Poi solo il vento.")),
         ],
     },
     "sakura": {
@@ -39,6 +44,11 @@ ACT6 = {
              ("The last line of the ledger: 'Owed to the quarry folk: safe passage. Not yet paid.' Four golems, and the account is closed.", "L'ultima riga del registro: 'Dovuto alla gente delle cave: passaggio sicuro. Non ancora pagato.' Quattro golem, e il conto è chiuso."),
              ("Four stone golems, in Ironspine.", "Quattro golem di pietra, a Ironspine."),
              ("Paid in full. You drew a line under it with a ruler, because some things deserve a ruler.", "Pagato per intero. Hai tirato una riga sotto con il righello, perché certe cose meritano un righello.")),
+            (("The Other Echo", "L'altro Eco"), ("Ren never faced The Overtime, the Echo of the moment that brought them here. It still waits in its sanctum: free Ren of it.", "Ren non affrontò mai Lo Straordinario, l'Eco del momento che l'ha portato qui. Aspetta ancora nel suo santuario: liberane Ren."),
+             [(KILL, "echo_ren", 1)], {"xp": 8000, "gold": 6000, "items": {"potion_large": 3}},
+             ("One thing more, and it is the heaviest. Ren never faced their Echo, The Overtime: their life here ended before they could. It waits in its sanctum still. You have beaten your own. Beat this one for Ren.", "Ancora una cosa, ed è la più pesante. Ren non affrontò mai il suo Eco, Lo Straordinario: la sua vita qui finì prima che potesse farlo. Aspetta ancora nel suo santuario. Hai battuto il tuo. Batti questo per Ren."),
+             ("The Overtime, in the sanctum of Ren's Echo.", "Lo Straordinario, nel santuario dell'Eco di Ren."),
+             ("It is gone. For a moment, in the quiet of the sanctum, you thought you heard someone say thank you. Then only the wind.", "Non c'è più. Per un attimo, nella quiete del santuario, ti è sembrato di sentire qualcuno dire grazie. Poi solo il vento.")),
         ],
     },
     "daichi": {
@@ -55,6 +65,11 @@ ACT6 = {
              ("The red road is the coast road, and the red is crabs. A firefighter knows a hazard when he sees one. Six crabs, and it can be green.", "La strada rossa è quella della costa, e il rosso sono i granchi. Un pompiere riconosce un pericolo quando lo vede. Sei granchi, e può diventare verde."),
              ("Six shore crabs, along the coast of Tidehaven.", "Sei granchi della riva, lungo la costa di Tidehaven."),
              ("The road is safe. You painted it green on the map yourself, carefully, inside the lines.", "La strada è sicura. L'hai colorata di verde sulla mappa tu stesso, con cura, dentro le righe.")),
+            (("The Other Echo", "L'altro Eco"), ("Haruka never faced The Rain on the Road, the Echo of the moment that brought them here. It still waits in its sanctum: free Haruka of it.", "Haruka non affrontò mai La Pioggia sulla Strada, l'Eco del momento che l'ha portato qui. Aspetta ancora nel suo santuario: liberane Haruka."),
+             [(KILL, "echo_haruka", 1)], {"xp": 8000, "gold": 6000, "items": {"potion_large": 3}},
+             ("One thing more, and it is the heaviest. Haruka never faced their Echo, The Rain on the Road: their life here ended before they could. It waits in its sanctum still. You have beaten your own. Beat this one for Haruka.", "Ancora una cosa, ed è la più pesante. Haruka non affrontò mai il suo Eco, La Pioggia sulla Strada: la sua vita qui finì prima che potesse farlo. Aspetta ancora nel suo santuario. Hai battuto il tuo. Batti questo per Haruka."),
+             ("The Rain on the Road, in the sanctum of Haruka's Echo.", "La Pioggia sulla Strada, nel santuario dell'Eco di Haruka."),
+             ("It is gone. For a moment, in the quiet of the sanctum, you thought you heard someone say thank you. Then only the wind.", "Non c'è più. Per un attimo, nella quiete del santuario, ti è sembrato di sentire qualcuno dire grazie. Poi solo il vento.")),
         ],
     },
     "haruka": {
@@ -71,6 +86,11 @@ ACT6 = {
              ("The last fire in the logbook never got its line: 'out'. Six ember slimes, Haruka, and you can write it for him.", "L'ultimo incendio del diario non ha mai avuto la sua riga: 'spento'. Sei slime di brace, Haruka, e puoi scriverla tu per lui."),
              ("Six ember slimes, in the Ashen Wastes.", "Sei slime di brace, nelle Terre di Cenere."),
              ("You wrote 'out' in the logbook, in your best hand. Your friend sniffed the page and sneezed. Ash.", "Hai scritto 'spento' nel diario, con la tua calligrafia migliore. Il tuo amico ha annusato la pagina e ha starnutito. Cenere.")),
+            (("The Other Echo", "L'altro Eco"), ("Daichi never faced The Third Floor, the Echo of the moment that brought them here. It still waits in its sanctum: free Daichi of it.", "Daichi non affrontò mai Il Terzo Piano, l'Eco del momento che l'ha portato qui. Aspetta ancora nel suo santuario: liberane Daichi."),
+             [(KILL, "echo_daichi", 1)], {"xp": 8000, "gold": 6000, "items": {"potion_large": 3}},
+             ("One thing more, and it is the heaviest. Daichi never faced their Echo, The Third Floor: their life here ended before they could. It waits in its sanctum still. You have beaten your own. Beat this one for Daichi.", "Ancora una cosa, ed è la più pesante. Daichi non affrontò mai il suo Eco, Il Terzo Piano: la sua vita qui finì prima che potesse farlo. Aspetta ancora nel suo santuario. Hai battuto il tuo. Batti questo per Daichi."),
+             ("The Third Floor, in the sanctum of Daichi's Echo.", "Il Terzo Piano, nel santuario dell'Eco di Daichi."),
+             ("It is gone. For a moment, in the quiet of the sanctum, you thought you heard someone say thank you. Then only the wind.", "Non c'è più. Per un attimo, nella quiete del santuario, ti è sembrato di sentire qualcuno dire grazie. Poi solo il vento.")),
         ],
     },
     "marco": {
@@ -87,6 +107,11 @@ ACT6 = {
              ("The last thing on her list is not a thing: 'the caravans of the south, safe'. She did not get to cross it off. Five scorpions.", "L'ultima cosa del suo elenco non è una cosa: 'le carovane del sud, al sicuro'. Non fece in tempo a spuntarla. Cinque scorpioni."),
              ("Five dune scorpions, in Sunscar.", "Cinque scorpioni delle dune, a Sunscar."),
              ("Crossed off. The caravan master asked who Yuki was. You said: a friend you never met.", "Spuntato. Il capo della carovana ha chiesto chi fosse Yuki. Hai detto: un'amica che non hai mai conosciuto.")),
+            (("The Other Echo", "L'altro Eco"), ("Yuki never faced The Last Frame, the Echo of the moment that brought them here. It still waits in its sanctum: free Yuki of it.", "Yuki non affrontò mai L'Ultima Cornice, l'Eco del momento che l'ha portato qui. Aspetta ancora nel suo santuario: liberane Yuki."),
+             [(KILL, "echo_yuki", 1)], {"xp": 8000, "gold": 6000, "items": {"potion_large": 3}},
+             ("One thing more, and it is the heaviest. Yuki never faced their Echo, The Last Frame: their life here ended before they could. It waits in its sanctum still. You have beaten your own. Beat this one for Yuki.", "Ancora una cosa, ed è la più pesante. Yuki non affrontò mai il suo Eco, L'Ultima Cornice: la sua vita qui finì prima che potesse farlo. Aspetta ancora nel suo santuario. Hai battuto il tuo. Batti questo per Yuki."),
+             ("The Last Frame, in the sanctum of Yuki's Echo.", "L'Ultima Cornice, nel santuario dell'Eco di Yuki."),
+             ("It is gone. For a moment, in the quiet of the sanctum, you thought you heard someone say thank you. Then only the wind.", "Non c'è più. Per un attimo, nella quiete del santuario, ti è sembrato di sentire qualcuno dire grazie. Poi solo il vento.")),
         ],
     },
     "yuki": {
@@ -103,6 +128,11 @@ ACT6 = {
              ("The keeper says he left at night, after the shade wolves, for 'the last thing the soup needs'. He did not come back. Six shade wolves, Yuki. Keep whatever you find.", "La locandiera dice che partì di notte, dietro ai lupi d'ombra, per 'l'ultima cosa che serve alla zuppa'. Non tornò. Sei lupi d'ombra, Yuki. Tieni quello che trovi."),
              ("Six shade wolves, in Whisperwood.", "Sei lupi d'ombra, a Whisperwood."),
              ("In the den, a small pouch of moon mint. The missing ingredient. You kept a pinch. Of course you did.", "Nella tana, un sacchetto di menta lunare. L'ingrediente mancante. Ne hai tenuto un pizzico. Ovviamente.")),
+            (("The Other Echo", "L'altro Eco"), ("Marco never faced The Sealed Pot, the Echo of the moment that brought them here. It still waits in its sanctum: free Marco of it.", "Marco non affrontò mai La Pentola Sigillata, l'Eco del momento che l'ha portato qui. Aspetta ancora nel suo santuario: liberane Marco."),
+             [(KILL, "echo_marco", 1)], {"xp": 8000, "gold": 6000, "items": {"potion_large": 3}},
+             ("One thing more, and it is the heaviest. Marco never faced their Echo, The Sealed Pot: their life here ended before they could. It waits in its sanctum still. You have beaten your own. Beat this one for Marco.", "Ancora una cosa, ed è la più pesante. Marco non affrontò mai il suo Eco, La Pentola Sigillata: la sua vita qui finì prima che potesse farlo. Aspetta ancora nel suo santuario. Hai battuto il tuo. Batti questo per Marco."),
+             ("The Sealed Pot, in the sanctum of Marco's Echo.", "La Pentola Sigillata, nel santuario dell'Eco di Marco."),
+             ("It is gone. For a moment, in the quiet of the sanctum, you thought you heard someone say thank you. Then only the wind.", "Non c'è più. Per un attimo, nella quiete del santuario, ti è sembrato di sentire qualcuno dire grazie. Poi solo il vento.")),
         ],
     },
     "lena": {
@@ -119,6 +149,11 @@ ACT6 = {
              ("The names on the back are of a village of Verdalis. The boars still dig its fields. A healer keeps other people's oaths too, sometimes. Six boars.", "I nomi sul retro sono di un villaggio di Verdalis. I cinghiali scavano ancora i suoi campi. Una guaritrice mantiene anche i giuramenti degli altri, a volte. Sei cinghiali."),
              ("Six wild boars, in the fields of Verdalis.", "Sei cinghiali, nei campi di Verdalis."),
              ("The village is safe. You read the names aloud, one by one, at the shrine. Lyra listened.", "Il villaggio è al sicuro. Hai letto i nomi ad alta voce, uno per uno, al santuario. Lyra ha ascoltato.")),
+            (("The Other Echo", "L'altro Eco"), ("Gideon never faced The Throne That Was, the Echo of the moment that brought them here. It still waits in its sanctum: free Gideon of it.", "Gideon non affrontò mai Il Trono che Fu, l'Eco del momento che l'ha portato qui. Aspetta ancora nel suo santuario: liberane Gideon."),
+             [(KILL, "echo_gideon", 1)], {"xp": 8000, "gold": 6000, "items": {"potion_large": 3}},
+             ("One thing more, and it is the heaviest. Gideon never faced their Echo, The Throne That Was: their life here ended before they could. It waits in its sanctum still. You have beaten your own. Beat this one for Gideon.", "Ancora una cosa, ed è la più pesante. Gideon non affrontò mai il suo Eco, Il Trono che Fu: la sua vita qui finì prima che potesse farlo. Aspetta ancora nel suo santuario. Hai battuto il tuo. Batti questo per Gideon."),
+             ("The Throne That Was, in the sanctum of Gideon's Echo.", "Il Trono che Fu, nel santuario dell'Eco di Gideon."),
+             ("It is gone. For a moment, in the quiet of the sanctum, you thought you heard someone say thank you. Then only the wind.", "Non c'è più. Per un attimo, nella quiete del santuario, ti è sembrato di sentire qualcuno dire grazie. Poi solo il vento.")),
         ],
     },
     "gideon": {
@@ -135,6 +170,11 @@ ACT6 = {
              ("One name is not ticked: a hunter whose hut the frost wolves surround. His grandchildren live there now. A king protects. Six frost wolves.", "Un nome non è spuntato: un cacciatore la cui capanna è circondata dai lupi del gelo. Ora ci vivono i suoi nipoti. Un re protegge. Sei lupi del gelo."),
              ("Six frost wolves, in Frostveil.", "Sei lupi del gelo, nel Velo di Gelo."),
              ("You ticked the last name. The grandchildren gave you a scarf. You wore it to the shrine and refused to take it off.", "Hai spuntato l'ultimo nome. I nipoti ti hanno regalato una sciarpa. L'hai indossata al santuario e ti sei rifiutato di toglierla.")),
+            (("The Other Echo", "L'altro Eco"), ("Lena never faced The Final Report, the Echo of the moment that brought them here. It still waits in its sanctum: free Lena of it.", "Lena non affrontò mai Il Referto Finale, l'Eco del momento che l'ha portato qui. Aspetta ancora nel suo santuario: liberane Lena."),
+             [(KILL, "echo_lena", 1)], {"xp": 8000, "gold": 6000, "items": {"potion_large": 3}},
+             ("One thing more, and it is the heaviest. Lena never faced their Echo, The Final Report: their life here ended before they could. It waits in its sanctum still. You have beaten your own. Beat this one for Lena.", "Ancora una cosa, ed è la più pesante. Lena non affrontò mai il suo Eco, Il Referto Finale: la sua vita qui finì prima che potesse farlo. Aspetta ancora nel suo santuario. Hai battuto il tuo. Batti questo per Lena."),
+             ("The Final Report, in the sanctum of Lena's Echo.", "Il Referto Finale, nel santuario dell'Eco di Lena."),
+             ("It is gone. For a moment, in the quiet of the sanctum, you thought you heard someone say thank you. Then only the wind.", "Non c'è più. Per un attimo, nella quiete del santuario, ti è sembrato di sentire qualcuno dire grazie. Poi solo il vento.")),
         ],
     },
 }

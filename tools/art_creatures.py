@@ -86,6 +86,27 @@ def _ice(r):
         star(r, x, y, 1.1, "#FFFFFF", 0.8)
 
 
+def _snow(r):
+    # a cap of fresh snow on the crown, and flakes falling round it (the snow slime lives only in winter, spec 09)
+    r.path("M 6.4 13 Q 8 6.6 18 6 Q 28 6.6 29.6 13 Q 27 11.6 25 13.4 Q 22.6 11.4 20 13.6 Q 17 11.2 14.6 13.4 Q 11.4 11.6 9.4 13.6 Q 7.8 12.2 6.4 13 Z",
+           linear(18, 5, 18, 14, (0, "#FFFFFF"), (1, "#D6ECF8")), stroke="#7AA6C4", width=0.35, clip=True)
+    for x, y, k in ((8, 2, 1.0), (28, 0.6, 0.9), (21.6, -1.6, 0.8), (13, -0.6, 0.7), (31, 9, 0.6)):
+        star(r, x, y, k, "#FFFFFF", 0.9)
+
+
+def _sun(r):
+    # a small sun above the crown, with its rays (the sun slime lives only in summer, spec 09)
+    r.glow(18, 1.4, 8, "#FFE070", 0.6)
+    for k in range(8):
+        a = k * math.pi / 4
+        x0, y0 = 18 + math.cos(a) * 3.4, 1.4 + math.sin(a) * 3.4
+        x1, y1 = 18 + math.cos(a) * 5.4, 1.4 + math.sin(a) * 5.4
+        r.path(f"M {x0:.2f} {y0:.2f} L {x1:.2f} {y1:.2f}", None, stroke="#FFB020", width=0.8, alpha=0.9)
+    r.ellipse(18, 1.4, 2.8, 2.8, radial(17.2, 0.6, 3.4, (0, "#FFFBD0"), (1, "#FFA820")), stroke="#9A5A08", width=0.3)
+    for x, y in ((9, 19), (27, 18), (20, 23)):
+        r.glow(x, y, 2.2, "#FFF0A0", 0.45)
+
+
 def _cracks(r, color="#FFB030"):
     for d in ("M 9 12 L 12 16 L 10.5 20 L 13 23", "M 22 8.4 L 21 12.6 L 24.6 15 L 23.6 19", "M 27 14 L 29 18 L 27.6 22"):
         r.path(d, None, stroke=color, width=1.8, alpha=0.5, blend="add", blur=0.7, clip=True)
@@ -204,7 +225,8 @@ def _bloom(r):
 
 
 FEATURES = {"bloom": _bloom, "green": _sprout, "blue": _drop, "ember": _flames, "ice": _ice, "magma": _cracks, "char": _char, "glow": _lure, "moss": _moss, "mint": _mint,
-            "coral": _coral, "pearl": _pearl, "nebula": _nebula, "rust": _rust, "sand": _sand, "slate": _slate, "tide": _tide, "amber": _amber, "colossus": _colossus}
+            "coral": _coral, "pearl": _pearl, "nebula": _nebula, "rust": _rust, "sand": _sand, "slate": _slate, "tide": _tide, "amber": _amber, "colossus": _colossus,
+            "snow": _snow, "sun": _sun}
 ROYAL = {"amber_queen": "amber", "char_tyrant": "char", "coral_matron": "coral", "ice_warden": "ice", "magma_heart": "magma", "mint_matron": "mint",
          "moss_elder": "moss", "nebula_heart": "nebula", "pearl_empress": "pearl", "rust_baron": "rust", "cinder_colossus": "colossus"}
 GIANT = {"gel_king": "blue", "astral_curator": "nebula", "frost_sovereign": "ice", "tide_regent": "tide"}

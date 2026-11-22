@@ -14,10 +14,12 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 | Wild boar | 2 | 1 | 0.7 s / 1% |
 | Dune fox | 3 | 1 | 0.7 s / 2% |
 | Blue slime | 3 | 1 | 0.7 s / 2% |
+| Snow slime | 3 | 1 | 0.7 s / 1% |
 | Tawny wolf | 3 | 1 | 0.7 s / 3% |
 | Myconid | 4 | 1 | 0.7 s / 2% |
 | Ridge elk | 4 | 1 | 0.7 s / 2% |
 | Sand slime | 4 | 1 | 0.7 s / 2% |
+| Sun slime | 4 | 1 | 0.7 s / 1% |
 | Grey wolf | 4 | 1 | 0.7 s / 2% |
 | Mint Matron | 5 | 1 | 1.5 s / 4% |
 | Shore crab | 5 | 1 | 1.1 s / 2% |

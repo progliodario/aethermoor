@@ -80,7 +80,8 @@ Anyone can find and fight any Echo; only the protagonist's own closes the story.
 `tools/stories_act6.py` adds a sixth act, "Two Guests" (`act6_<name>_1` and `_2`): Lyra has brought other Guests before, in other lives of
 the world, and Maren shows each protagonist the trace of one of them, in pairs (Ren and Sakura, Daichi and Haruka, Marco and Yuki, Lena
 and Gideon find each other's letters, ledgers, maps and logbooks). The first quest is something to bring from the region of the other
-Guest, the second a trouble the other Guest left unfinished there. Maren says the closing words of "A Life Here" before the first.
+Guest, the second a trouble the other Guest left unfinished there, the third (`act6_<name>_3`) the Echo of the other Guest, which
+they never faced (spec 18, "Echoes": it waits in its sanctum; only the protagonist's own Echo closes the story). Maren says the closing words of "A Life Here" before the first.
 
 ## Personal stories
 
