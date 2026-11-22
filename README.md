@@ -34,13 +34,13 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 |---|---|
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (120 missioni di storia) |
-| Creature | 77, di cui 27 guardiani e 8 Echi |
-| Missioni | 362 (24 storie dei paesani) |
-| Oggetti e ricette | 279 oggetti, 81 ricette (8 segrete) |
-| Progressione | 45 titoli, 8 tag, 16 talenti, 26 imprese |
+| Creature | 79, di cui 27 guardiani e 8 Echi |
+| Missioni | 363 (24 storie dei paesani) |
+| Oggetti e ricette | 284 oggetti, 82 ricette (8 segrete) |
+| Progressione | 49 titoli, 8 tag, 16 talenti, 26 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3870 chiavi, in italiano e inglese |
+| Testi | 3896 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 30 file di vettori di conformità, 573 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->

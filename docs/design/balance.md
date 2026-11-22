@@ -14,6 +14,8 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 | Wild boar | 2 | 1 | 0.7 s / 1% |
 | Dune fox | 3 | 1 | 0.7 s / 2% |
 | Blue slime | 3 | 1 | 0.7 s / 2% |
+| Leaf slime | 3 | 1 | 0.7 s / 1% |
+| Rain slime | 3 | 1 | 0.7 s / 1% |
 | Snow slime | 3 | 1 | 0.7 s / 1% |
 | Tawny wolf | 3 | 1 | 0.7 s / 3% |
 | Myconid | 4 | 1 | 0.7 s / 2% |

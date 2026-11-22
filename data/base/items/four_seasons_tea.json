@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/four_seasons_tea",
+  "name": "$i18n:item.four_seasons_tea.name",
+  "description": "$i18n:item.four_seasons_tea.desc",
+  "kind": "food",
+  "rarity": "rare",
+  "price": 240,
+  "stack_max": 99,
+  "use": {
+    "effects": [
+      {
+        "effect": "heal",
+        "amount": 120
+      },
+      {
+        "effect": "fortify",
+        "amount": 40,
+        "ticks": 3600
+      },
+      {
+        "effect": "ward",
+        "amount": 40,
+        "ticks": 3600
+      },
+      {
+        "effect": "regen",
+        "amount": 4,
+        "ticks": 3600
+      }
+    ]
+  }
+}

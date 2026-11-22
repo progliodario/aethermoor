@@ -1,0 +1,51 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/slime_leaf",
+  "name": "$i18n:enemy.slime_leaf.name",
+  "level": 3,
+  "stats": {
+    "hp": 38,
+    "atk": 7,
+    "def": 2,
+    "mdef": 2,
+    "speed_x100": 250
+  },
+  "element": "earth",
+  "sound": "slime",
+  "weaknesses_pm": {
+    "fire": 2000
+  },
+  "xp": 13,
+  "drops": [
+    {
+      "item": "base:item/amber_leaf",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 800
+    },
+    {
+      "item": "base:item/slime_gel",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 500
+    },
+    {
+      "item": "base:item/iron_sword_vigor",
+      "pick": [
+        "base:item/iron_sword_might",
+        "base:item/iron_sword_keenness",
+        "base:item/iron_sword_leech",
+        "base:item/leather_vest_vigor",
+        "base:item/leather_vest_might",
+        "base:item/leather_vest_keenness",
+        "base:item/leather_vest_leech"
+      ],
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 30
+    }
+  ],
+  "radius_x100": 35,
+  "behavior": "base:behavior/melee_chaser_basic",
+  "art": "base:art/creature/slime_leaf"
+}

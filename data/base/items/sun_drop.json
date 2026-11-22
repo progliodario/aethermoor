@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/sun_drop",
+  "name": "$i18n:item.sun_drop.name",
+  "description": "$i18n:item.sun_drop.desc",
+  "kind": "material",
+  "rarity": "uncommon",
+  "price": 30,
+  "stack_max": 99
+}

@@ -107,6 +107,24 @@ def _sun(r):
         r.glow(x, y, 2.2, "#FFF0A0", 0.45)
 
 
+def _leaf(r):
+    # two red leaves on the crown, a third falling (the leaf slime lives only in autumn, spec 09)
+    for x, y, a, c in ((14.6, 4.6, -0.5, "#E8502A"), (21.2, 4.2, 0.6, "#F2A030")):
+        r.path(f"M {x} {y + 2.6} Q {x - 3.4 + a * 2} {y} {x + a} {y - 3.4} Q {x + 3.4 + a * 2} {y} {x} {y + 2.6} Z",
+               linear(x - 3, y - 3, x + 3, y + 3, (0, "#FFD070"), (1, c)), stroke="#6A2A0A", width=0.3)
+        r.path(f"M {x} {y + 2.4} L {x + a} {y - 2.6}", None, stroke="#6A2A0A", width=0.25, alpha=0.7)
+    r.path("M 29 -1 Q 27.4 -2.6 29.4 -4 Q 31.6 -2.6 29 -1 Z", "#D8642A", stroke="#6A2A0A", width=0.25)
+
+
+def _rain(r):
+    # a small rain cloud over the crown, and its drops (the rain slime lives only in spring, spec 09)
+    for x, y, rx in ((15, -0.4, 3.4), (19.6, -1.6, 3.8), (23.4, 0, 2.8)):
+        r.ellipse(x, y, rx, rx * 0.72, "#F2FAFF", stroke="#6A8EA4", width=0.3)
+    r.ellipse(19.2, 0.8, 7.6, 1.6, "#D6E8F2", alpha=0.9)
+    for x, y in ((14, 4.2), (19, 5.4), (24, 4)):
+        r.path(f"M {x} {y - 1.4} Q {x + 0.9} {y} {x} {y + 0.6} Q {x - 0.9} {y} {x} {y - 1.4} Z", "#7ACCEA", stroke="#2A6A8A", width=0.2)
+
+
 def _cracks(r, color="#FFB030"):
     for d in ("M 9 12 L 12 16 L 10.5 20 L 13 23", "M 22 8.4 L 21 12.6 L 24.6 15 L 23.6 19", "M 27 14 L 29 18 L 27.6 22"):
         r.path(d, None, stroke=color, width=1.8, alpha=0.5, blend="add", blur=0.7, clip=True)
@@ -226,7 +244,7 @@ def _bloom(r):
 
 FEATURES = {"bloom": _bloom, "green": _sprout, "blue": _drop, "ember": _flames, "ice": _ice, "magma": _cracks, "char": _char, "glow": _lure, "moss": _moss, "mint": _mint,
             "coral": _coral, "pearl": _pearl, "nebula": _nebula, "rust": _rust, "sand": _sand, "slate": _slate, "tide": _tide, "amber": _amber, "colossus": _colossus,
-            "snow": _snow, "sun": _sun}
+            "snow": _snow, "sun": _sun, "leaf": _leaf, "rain": _rain}
 ROYAL = {"amber_queen": "amber", "char_tyrant": "char", "coral_matron": "coral", "ice_warden": "ice", "magma_heart": "magma", "mint_matron": "mint",
          "moss_elder": "moss", "nebula_heart": "nebula", "pearl_empress": "pearl", "rust_baron": "rust", "cinder_colossus": "colossus"}
 GIANT = {"gel_king": "blue", "astral_curator": "nebula", "frost_sovereign": "ice", "tide_regent": "tide"}

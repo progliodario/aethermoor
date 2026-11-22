@@ -63,6 +63,11 @@
                       "season": "winter",
                       "enemy": "base:enemy/slime_blue",
                       "pm": 400
+                    },
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_rain",
+                      "pm": 400
                     }
                   ]
                 },
@@ -190,6 +195,11 @@
                     {
                       "season": "spring",
                       "enemy": "base:enemy/slime_bloom",
+                      "pm": 400
+                    },
+                    {
+                      "season": "autumn",
+                      "enemy": "base:enemy/slime_leaf",
                       "pm": 400
                     }
                   ]
@@ -379,7 +389,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "autumn",
+                      "enemy": "base:enemy/slime_leaf",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/ridge_elk",
@@ -795,6 +812,11 @@
                     {
                       "season": "winter",
                       "enemy": "base:enemy/slime_blue",
+                      "pm": 400
+                    },
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_rain",
                       "pm": 400
                     }
                   ]
@@ -7865,6 +7887,11 @@
                       "season": "winter",
                       "enemy": "base:enemy/slime_blue",
                       "pm": 400
+                    },
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_rain",
+                      "pm": 400
                     }
                   ]
                 },
@@ -7992,6 +8019,11 @@
                     {
                       "season": "spring",
                       "enemy": "base:enemy/slime_bloom",
+                      "pm": 400
+                    },
+                    {
+                      "season": "autumn",
+                      "enemy": "base:enemy/slime_leaf",
                       "pm": 400
                     }
                   ]
@@ -8181,7 +8213,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "autumn",
+                      "enemy": "base:enemy/slime_leaf",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/ridge_elk",
@@ -8597,6 +8636,11 @@
                     {
                       "season": "winter",
                       "enemy": "base:enemy/slime_blue",
+                      "pm": 400
+                    },
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_rain",
                       "pm": 400
                     }
                   ]
@@ -15663,6 +15707,11 @@
                       "season": "winter",
                       "enemy": "base:enemy/slime_blue",
                       "pm": 400
+                    },
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_rain",
+                      "pm": 400
                     }
                   ]
                 },
@@ -15790,6 +15839,11 @@
                     {
                       "season": "spring",
                       "enemy": "base:enemy/slime_bloom",
+                      "pm": 400
+                    },
+                    {
+                      "season": "autumn",
+                      "enemy": "base:enemy/slime_leaf",
                       "pm": 400
                     }
                   ]
@@ -15979,7 +16033,14 @@
                 {
                   "enemy": "base:enemy/slime_green",
                   "drop": "base:item/slime_gel",
-                  "weight": 2
+                  "weight": 2,
+                  "seasons": [
+                    {
+                      "season": "autumn",
+                      "enemy": "base:enemy/slime_leaf",
+                      "pm": 400
+                    }
+                  ]
                 },
                 {
                   "enemy": "base:enemy/ridge_elk",
@@ -16395,6 +16456,11 @@
                     {
                       "season": "winter",
                       "enemy": "base:enemy/slime_blue",
+                      "pm": 400
+                    },
+                    {
+                      "season": "spring",
+                      "enemy": "base:enemy/slime_rain",
                       "pm": 400
                     }
                   ]

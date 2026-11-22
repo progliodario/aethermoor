@@ -345,6 +345,38 @@
       "kind": "tempered",
       "count": 5,
       "atk_pct": 3
+    },
+    {
+      "id": "snowbound",
+      "name": "$i18n:title.snowbound",
+      "kind": "kills_of",
+      "count": 10,
+      "atk_pct": 3,
+      "enemy": "base:enemy/slime_snow"
+    },
+    {
+      "id": "sunkissed",
+      "name": "$i18n:title.sunkissed",
+      "kind": "kills_of",
+      "count": 10,
+      "atk_pct": 3,
+      "enemy": "base:enemy/slime_sun"
+    },
+    {
+      "id": "leaf_dancer",
+      "name": "$i18n:title.leaf_dancer",
+      "kind": "kills_of",
+      "count": 10,
+      "atk_pct": 3,
+      "enemy": "base:enemy/slime_leaf"
+    },
+    {
+      "id": "rain_walker",
+      "name": "$i18n:title.rain_walker",
+      "kind": "kills_of",
+      "count": 10,
+      "atk_pct": 3,
+      "enemy": "base:enemy/slime_rain"
     }
   ]
 }

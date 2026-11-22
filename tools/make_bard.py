@@ -8,6 +8,10 @@ the villagers"): asked for a song, she sings the first one the Guest has not hea
 from it (experience). When all eight are heard she gives the Guest a dawn rune, once (the flag `bard_gift`). Without a new song she tells
 where she goes tomorrow.
 
+She also has a quest, **the Song of the Road** (`base:quest/side/way_lark_road_song`, for the Ring of Wayfarers): a song about the three
+travellers needs the stories of the other two, so the Guest finds Brannoc, then Odo, wherever the day puts them, and comes back to her
+(three `talk` stages). She thanks the Guest once (the flag `lark_road_song_thanked`).
+
 It writes her dialogue `data/base/dialogues/npc/lark.json`, her texts (it and en) and her line in `npcs` of the world data (a free
 cobblestone of every outpost). It can be run any number of times. Then run `make_catalog.py` and `make_facts.py`.
 """
@@ -25,6 +29,26 @@ WORLD = DATA / "worlds" / "overworld.json"
 KEY = "wandering_bard_lark"
 ROUTE = [CYCLE[(k + 4) % len(CYCLE)] for k in range(len(CYCLE))]
 XP = 120
+ROAD = "base:quest/side/way_lark_road_song"
+# the Song of the Road: (stage, npc key, journal en, journal it)
+ROAD_STAGES = [
+    ("brannoc", "wandering_smith_brannoc", "Lark is writing a song about the travellers of the roads. Find Brannoc the wandering smith and hear his story.",
+     "Lark scrive una canzone sui viaggiatori delle strade. Trova Brannoc, il fabbro errante, e ascolta la sua storia."),
+    ("odo", "caravan_master_odo", "Brannoc told his story. Now find Odo, the master of the caravan, wherever his wagons are today.",
+     "Brannoc ha raccontato la sua storia. Ora trova Odo, il capo della carovana, ovunque siano oggi i suoi carri."),
+    ("lark", "wandering_bard_lark", "You have the stories of Brannoc and Odo. Bring them to Lark, at whatever outpost she sings today.",
+     "Hai le storie di Brannoc e di Odo. Portale a Lark, in qualunque avamposto canti oggi."),
+]
+ROAD_WORDS = {
+    "en": {"name": "The Song of the Road", "ask": "Can I help with a song?", "status": "About the song of the road...", "report": "I have the stories.",
+           "offer": "A song about the three of us who never stop: Brannoc, Odo and me. But I only know my own story. Find them, wherever the day puts them, and bring me theirs.",
+           "busy": "Brannoc goes one way, Odo the other. Ask at the outposts; somebody always saw a cart.",
+           "song": "'One hammers, one drives, one sings; and the Guest walks between them, and the roads are safe.' Listen. It is yours too. Take this: a song should leave something behind."},
+    "it": {"name": "La canzone della strada", "ask": "Posso aiutarti con una canzone?", "status": "A proposito della canzone della strada...", "report": "Ho le storie.",
+           "offer": "Una canzone su noi tre che non ci fermiamo mai: Brannoc, Odo e io. Ma conosco solo la mia storia. Trovali, ovunque li porti il giorno, e portami le loro.",
+           "busy": "Brannoc va da una parte, Odo dall'altra. Chiedi agli avamposti; qualcuno ha sempre visto un carro.",
+           "song": "'Uno batte, uno guida, una canta; e l'Ospite cammina tra loro, e le strade sono sicure.' Ascolta. È anche tua. Prendi questo: una canzone deve lasciare qualcosa."},
+}
 WORDS = {
     "en": {"speaker": "Lark, the wandering bard",
            "hello": "Lark, singer of roads. Every outpost has a story, and lately every story has you in it. Sit; a song costs nothing but an ear.",
@@ -65,7 +89,19 @@ def dialogue() -> dict:
         "c_known": {"type": "condition", "when": {"flag": "lark_met"}, "then": "menu", "else": "hello"},
         "hello": say(KEY, "dlg.lark.hello", "met"),
         "met": {"type": "effects", "effects": [{"effect": "set_flag", "flag": "lark_met", "value": True}], "next": "menu"},
-        "menu": {"type": "choice", "choices": [{"text": "$i18n:dlg.lark.song", "next": "song0"}, {"text": "$i18n:dlg.lark.bye", "next": "end"}]},
+        "menu": {"type": "choice", "choices": [
+            {"text": "$i18n:dlg.lark.song", "next": "song0"},
+            {"text": "$i18n:dlg.lark.road_ask", "when": {"not": {"any": [{"quest_active": ROAD}, {"quest_done": ROAD}]}}, "next": "road_offer"},
+            {"text": "$i18n:dlg.lark.road_status", "when": {"quest_active": ROAD}, "next": "road_busy"},
+            {"text": "$i18n:dlg.lark.road_report", "when": {"all": [{"quest_done": ROAD}, {"not": {"flag": "lark_road_song_thanked"}}]}, "next": "road_thanks"},
+            {"text": "$i18n:dlg.lark.bye", "next": "end"}]},
+        "road_offer": say(KEY, "dlg.lark.road_offer", "road_choice"),
+        "road_choice": {"type": "choice", "choices": [
+            {"text": "$i18n:dlg.wayfarer.accept", "effects": [{"effect": "start_quest", "quest": ROAD}], "next": "end"},
+            {"text": "$i18n:dlg.wayfarer.later", "next": "menu"}]},
+        "road_busy": say(KEY, "dlg.lark.road_busy", "end"),
+        "road_thanks": {"type": "effects", "effects": [{"effect": "set_flag", "flag": "lark_road_song_thanked", "value": True}], "next": "road_song"},
+        "road_song": say(KEY, "dlg.lark.road_song", "end"),
     }
     regions = list(SONGS)
     for n, region in enumerate(regions):  # the first song the Guest has earned and not heard yet
@@ -102,6 +138,21 @@ def main() -> None:
         route.append(stop)
     text = json.dumps(dialogue(), indent=2, ensure_ascii=False) + "\n"
     (DATA / "dialogues" / "npc" / "lark.json").write_text(text, encoding="utf-8", newline="\n")
+    quest = {"$schema": "../../../../schemas/quest.schema.json", "id": ROAD, "name": "$i18n:quest.way_lark_road_song.name", "kind": "side",
+             "faction": "wayfarers",
+             "stages": [{"id": stage, "journal": f"$i18n:quest.way_lark_road_song.{stage}", "objectives": [{"type": "talk", "npc_key": key}],
+                         "next": ROAD_STAGES[k + 1][0] if k + 1 < len(ROAD_STAGES) else "end"} for k, (stage, key, _en, _it) in enumerate(ROAD_STAGES)],
+             "rewards": [{"effect": "add_xp", "amount": 1500}, {"effect": "add_gold", "amount": 800},
+                         {"effect": "add_item", "item": "base:item/rune_gale", "qty": 1}, {"effect": "add_item", "item": "base:item/tempering_oil", "qty": 2}]}
+    road = DATA / "quests" / "side" / "way_lark_road_song.json"
+    road.write_text(json.dumps(quest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+    for k, lang in enumerate(("en", "it")):
+        r = ROAD_WORDS[lang]
+        content = {"quest.way_lark_road_song.name": r["name"]}
+        content.update({f"quest.way_lark_road_song.{stage}": (en, it)[k] for stage, _key, en, it in ROAD_STAGES})
+        set_texts("content.json", lang, content)
+        set_texts("core.json", lang, {"dlg.lark.road_ask": r["ask"], "dlg.lark.road_status": r["status"], "dlg.lark.road_report": r["report"],
+                                      "dlg.lark.road_offer": r["offer"], "dlg.lark.road_busy": r["busy"], "dlg.lark.road_song": r["song"]})
     for k, lang in enumerate(("en", "it")):
         names = json.loads((DATA / "i18n" / lang / "content.json").read_text(encoding="utf-8"))
         w = WORDS[lang]

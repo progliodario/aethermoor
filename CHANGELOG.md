@@ -6,6 +6,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Four creatures of the seasons, with a loot of their own** (spec 09): the leaf slime of autumn and the rain slime of spring join the snow slime and the sun slime. Each leaves a material found nowhere else, the four brew the **tea of the four seasons** at a campfire (it heals, fortifies, wards and mends for an hour), and ten of each earn a title: Snowbound, Sunkissed, Leaf Dancer, Rain Walker.
+- **The Song of the Road** (spec 07): Lark the bard writes a song about the three travellers; find Brannoc and Odo wherever the day puts them, and bring their stories back to her.
+
 - **The other Echo** (spec 18): the sixth act ends with a third quest: the Echo of the other Guest of the pair, who never faced it, waiting in its sanctum (eight quests).
 - **Creatures of one season** (spec 09): the snow slime, which comes only in winter (to Verdalis, Frostveil and Lumeria), and the sun slime, only in summer (to Verdalis, Sunscar and Lumeria); both have new art, and are in the bestiary once met.
 

@@ -36,10 +36,97 @@
           "next": "song0"
         },
         {
+          "text": "$i18n:dlg.lark.road_ask",
+          "when": {
+            "not": {
+              "any": [
+                {
+                  "quest_active": "base:quest/side/way_lark_road_song"
+                },
+                {
+                  "quest_done": "base:quest/side/way_lark_road_song"
+                }
+              ]
+            }
+          },
+          "next": "road_offer"
+        },
+        {
+          "text": "$i18n:dlg.lark.road_status",
+          "when": {
+            "quest_active": "base:quest/side/way_lark_road_song"
+          },
+          "next": "road_busy"
+        },
+        {
+          "text": "$i18n:dlg.lark.road_report",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/way_lark_road_song"
+              },
+              {
+                "not": {
+                  "flag": "lark_road_song_thanked"
+                }
+              }
+            ]
+          },
+          "next": "road_thanks"
+        },
+        {
           "text": "$i18n:dlg.lark.bye",
           "next": "end"
         }
       ]
+    },
+    "road_offer": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.road_offer",
+      "next": "road_choice"
+    },
+    "road_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/way_lark_road_song"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "road_busy": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.road_busy",
+      "next": "end"
+    },
+    "road_thanks": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "lark_road_song_thanked",
+          "value": true
+        }
+      ],
+      "next": "road_song"
+    },
+    "road_song": {
+      "type": "say",
+      "speaker": "wandering_bard_lark",
+      "text": "$i18n:dlg.lark.road_song",
+      "next": "end"
     },
     "song0": {
       "type": "condition",
