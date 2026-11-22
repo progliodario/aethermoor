@@ -1131,18 +1131,28 @@ class CombatSim:
         self.hp = min(self.hp, self.derived["max_hp"])
         return True
 
+    def _temper_target(self) -> str:
+        """The worn piece a tempering is for (spec 06, "Tempering"): the worn weapon when it has `affix_roll`, else the worn armor; ""."""
+        return next((self.equipped[slot] for slot in ("weapon", "armor")
+                     if self.equipped[slot] and "affix_roll" in self.items.get(self.equipped[slot], {})), "")
+
     def _temper(self, item_id: str, temper: dict) -> bool:
-        """Tempers the affix of a worn piece (spec 06, "Tempering"): the worn weapon when it has `affix_roll`, else the worn armor. It needs
-        the station of the item in reach. The roll is drawn again from the loot stream and the better of the two is kept."""
-        target = next((self.equipped[slot] for slot in ("weapon", "armor")
-                       if self.equipped[slot] and "affix_roll" in self.items.get(self.equipped[slot], {})), "")
-        if not target or not self.near_station(temper.get("station", "")):
+        """Tempers the affix of a worn piece with an item of the bag (spec 06, "Tempering"); it needs the station of the item in reach."""
+        if not self._temper_target() or not self.near_station(temper.get("station", "")):
+            return False
+        self._take_one(item_id)
+        return self.temper_worn()
+
+    def temper_worn(self) -> bool:
+        """Draws the roll of the piece a tempering is for again from the loot stream and keeps the better (spec 06, "Tempering"); the
+        effect `temper` of a smith (spec 07) and the tempering items share it. False, changing nothing, when no worn piece rolls."""
+        target = self._temper_target()
+        if not target:
             return False
         roll = self.items[target]["affix_roll"]
         pct = roll["min_pct"]
         if roll["max_pct"] > roll["min_pct"]:
             pct += self.loot.next_bounded(roll["max_pct"] - roll["min_pct"] + 1)
-        self._take_one(item_id)
         self.rolls[target] = max(self.rolls.get(target, 0), pct)
         self.counters["tempered"] = self.counters.get("tempered", 0) + 1
         self.derived = self._derive()

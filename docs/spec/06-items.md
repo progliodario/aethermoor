@@ -90,7 +90,8 @@ one item leaves the bag, the counter `tempered` grows by one (spec 11) and the d
 (bought in a shop) gets its first roll this way.
 
 The base pack has the **tempering oil** (`tools/make_furnishings.py`), made at an anvil from two lumps of iron ore, a pine resin and two
-slime gels, and sold in Ironspine. Conformance: the scenario `temper_affix` and a save split of it.
+slime gels, and sold in Ironspine. The smiths temper too, for gold, with the dialogue effect `temper` (spec 07): the shopkeepers of
+the villages for 60 gold and Brannoc, the wandering smith, for 40. Conformance: the scenario `temper_affix` and a save split of it.
 
 ## Furniture
 

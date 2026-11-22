@@ -471,6 +471,7 @@ private:
     void open_shop_of(const std::string& region, std::int64_t markup_pct) override;
     void open_board() override;
     void heal_full() override { m_player_.hp = m_derived_.max_hp; }
+    bool temper_worn() override;  // spec 06, "Tempering": the effect `temper` of a smith and the tempering items
     std::string season_id() const override;
     int tod_pm() const override { return m_store_ ? time_of_day_pm() : 0; }
     void quest_done(const std::string& faction) override;

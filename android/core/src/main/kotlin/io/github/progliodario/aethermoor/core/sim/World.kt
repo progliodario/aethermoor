@@ -1252,12 +1252,19 @@ class WorldSim(
     /** Engraves a rune on the worn weapon: a weapon worn, the station of the rune in reach, and a weapon that does not bear it already. */
     /** Tempers the affix of a worn piece (spec 06, "Tempering"): the worn weapon when its affix rolls, else the worn armor. */
     private fun temper(itemId: String, station: String): Boolean {
-        val target = listOf(equippedWeapon, equippedArmor).firstOrNull { it.isNotEmpty() && combat.items[it]?.affixRoll != null } ?: return false
-        if (!nearStation(station)) return false
+        if (temperTarget() == null || !nearStation(station)) return false
+        takeOne(itemId)
+        return temperWorn()
+    }
+
+    /** The worn piece a tempering is for: the worn weapon when its affix rolls, else the worn armor (spec 06, "Tempering"). */
+    private fun temperTarget(): String? = listOf(equippedWeapon, equippedArmor).firstOrNull { it.isNotEmpty() && combat.items[it]?.affixRoll != null }
+
+    override fun temperWorn(): Boolean {
+        val target = temperTarget() ?: return false
         val roll = requireNotNull(combat.items[target]?.affixRoll)
         var pct = roll.first.toLong()
         if (roll.second > roll.first) pct += lootRng.nextBounded((roll.second - roll.first + 1).toLong())
-        takeOne(itemId)
         rolls[target] = maxOf(rollOf(target), pct) // the better of the two is kept
         count("tempered")
         recomputeDerived()

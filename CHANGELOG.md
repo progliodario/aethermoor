@@ -4,6 +4,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Added
+
+- **Smiths** (spec 06, "Tempering"; spec 07, the effect `temper`): the shopkeeper of every village and town tempers the weapon you hold (or your armor) for 60 gold, paid only when there is an affix to temper.
+- **Brannoc, the wandering smith** (spec 07, "Travellers"): a second traveller, who goes round the eight outposts the other way from Odo and tempers for 40 gold.
+
 ### Changed
 
 - **The checks of GitHub take a fraction of the time.** The desktop builds rebuilt SDL3 and every dependency on every run: the cache of vcpkg had a key that never changed, so a cache of 3 November whose binaries no longer matched the compilers of the runners was restored (vcpkg used none of it) and never replaced. Every run now saves the binaries it built and the next restores the newest; the tools vcpkg downloads are kept too, and the Linux build reuses the objects of unchanged files (ccache). The check of the smoke-test frames reads the PNGs with byte slices instead of pixel by pixel (from three minutes to nine seconds on this machine, with the same fingerprints).

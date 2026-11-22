@@ -12,6 +12,8 @@ style:
   ForbiddenComment:
     active: false
 complexity:
+  CyclomaticComplexMethod:
+    ignoreSimpleWhenEntries: true   # a `when` that maps the names of the data to their kinds (effects, conditions) is a table, not logic
   LongMethod:
     active: false          # the draw functions of the game are long on purpose: one panel each
   LongParameterList:

@@ -743,5 +743,14 @@
   "dlg.feast.scholarly.villager_where": "Oggi qui la presenza è bassa: una quota significativa del villaggio è alla festa in Terre di Cenere.",
   "dlg.feast.grim.villager_happy": "La Veglia delle Braci. Accendi qualcosa. Ricorda qualcuno.",
   "dlg.feast.grim.villager_where": "Metà di noi è andata alla festa in Verdalis. I fuochi qui possono aspettare una notte.",
+  "dlg.role.smith.ask": "Potresti temprare la mia attrezzatura? (60 monete)",
+  "dlg.smith.warm.done": "Ecco, come nuovo, anzi meglio! Se non c'era niente da temprare, caro, non hai pagato niente.",
+  "dlg.smith.mystic.done": "Il metallo ricorda il fuoco, e il fuoco ricorda te. Se non c'era niente da svegliare, niente è dovuto.",
+  "dlg.smith.gruff.done": "Fatto. Se non aveva affisso, niente da pagare.",
+  "dlg.smith.flowery.done": "Ammira, lucido come la luna sulle dune! E se non c'era niente da temprare, tesoro, è gratis come il vento!",
+  "dlg.smith.stoic.done": "Fatto. Niente da temprare, niente da pagare.",
+  "dlg.smith.salty.done": "Battuto e temprato, amico, come uno scafo prima della tempesta! Niente affisso, niente monete.",
+  "dlg.smith.grim.done": "Ha preso il fuoco. Se non c'era niente a prenderlo, tieni le tue monete.",
+  "dlg.smith.scholarly.done": "La tempra è completa; la varianza ti è favorevole. In assenza di affisso, nessun compenso è dovuto.",
   "dlg.seasonal.scholarly.wait": "Il solstizio è in estate. Torna allora: gli strumenti non sono pronti."
 }

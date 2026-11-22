@@ -86,6 +86,10 @@ class Story:
             self.gold = max(0, self.gold - effect["amount"])
         elif kind == "heal_full":
             self.host.heal_full()
+        elif kind == "temper":  # the smith tempers a worn piece for gold (spec 06, "Tempering"; spec 07): paid only when it is done
+            cost = effect.get("gold", 0)
+            if self.gold >= cost and getattr(self.host, "temper_worn", lambda: False)():
+                self.gold -= cost
         elif kind == "remove_item":
             held = self.host.inventory.get(effect["item"], 0)
             left = held - min(held, effect["qty"])
