@@ -13,8 +13,12 @@ import io.github.progliodario.aethermoor.core.sim.saveFromJson
 import io.github.progliodario.aethermoor.core.sim.savePeek
 import io.github.progliodario.aethermoor.core.sim.saveToJson
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.doubleOrNull
+import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -206,6 +210,75 @@ class CombatTest {
                     )
                 }
             }
+        }
+    }
+
+    /**
+     * The frozen saves of every version (tests/saves/, spec 12, "Fixtures of the save"): each document is loaded as it is, with its
+     * own version, and finishes the scenario of its case; the save of the streamed world is parsed, written again and keeps all of it.
+     */
+    @Test
+    fun saveFixturesSuite() {
+        val cases = suite("save_fixtures").getValue("cases").jsonArray
+        assertFalse(cases.isEmpty())
+        for (case in cases) {
+            val c = case.jsonObject
+            val label = c.getValue("name").jsonPrimitive.content
+            val input = c.getValue("input").jsonObject
+            if (input.getValue("op").jsonPrimitive.content == "save_roundtrip") {
+                checkRoundTrip(input.getValue("save").jsonObject, label)
+            } else {
+                checkFrozenResume(input, c.getValue("expect").jsonObject, label)
+            }
+        }
+    }
+
+    private fun checkFrozenResume(input: JsonObject, expect: JsonObject, label: String) {
+        val tol = expect.getValue("tol").num()
+        val split = input.getValue("split").jsonPrimitive.content.toInt()
+        val script = input.getValue("script").jsonArray
+        val resumed = newSim(scenarioFromJson(input))
+        resumed.restore(saveFromJson(input.getValue("save").toString()).getOrThrow()).getOrThrow()
+        for (i in split until script.size) {
+            runSegment(resumed, script[i].jsonObject)
+            assertCheckpoint(resumed, expect.getValue("checkpoints").jsonArray[i - split].jsonObject, tol, "$label checkpoint $i")
+        }
+    }
+
+    private fun checkRoundTrip(frozen: JsonObject, label: String) {
+        val state = saveFromJson(frozen.toString()).getOrThrow()
+        val meta = SaveMeta(
+            frozen.getValue("game_version").jsonPrimitive.content,
+            frozen.getValue("data_format_version").jsonPrimitive.int,
+            frozen.getValue("protagonist").jsonPrimitive.content,
+            frozen.getValue("seed").jsonPrimitive.content.removePrefix("0x").toULong(16),
+            frozen.getValue("map").jsonPrimitive.content,
+        )
+        assertKept(frozen, Json.parseToJsonElement(saveToJson(state, meta)), "$label save")
+    }
+
+    /** Every key of an object kept, every item of an array, the same strings and flags, numbers within a thousandth. */
+    private fun assertKept(frozen: JsonElement, written: JsonElement, path: String) {
+        when (frozen) {
+            is JsonObject -> {
+                val obj = written as? JsonObject ?: error("$path is not an object")
+                for ((key, value) in frozen) assertKept(value, obj[key] ?: error("$path.$key is lost"), "$path.$key")
+            }
+            is JsonArray -> {
+                val array = written as? JsonArray ?: error("$path is not an array")
+                assertEquals(frozen.size, array.size, "$path size")
+                frozen.forEachIndexed { i, value -> assertKept(value, array[i], "$path[$i]") }
+            }
+            is JsonPrimitive -> assertSameValue(frozen, written as? JsonPrimitive ?: error("$path is not a value"), path)
+        }
+    }
+
+    private fun assertSameValue(frozen: JsonPrimitive, written: JsonPrimitive, path: String) {
+        val number = frozen.doubleOrNull
+        if (!frozen.isString && number != null) {
+            assertEquals(number, written.doubleOrNull ?: error("$path is not a number"), 1e-3, path)
+        } else {
+            assertEquals(frozen, written, path)
         }
     }
 }

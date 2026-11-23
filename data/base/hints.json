@@ -109,6 +109,12 @@
       "when": "tag",
       "text": "$i18n:hint.tag",
       "text_touch": "$i18n:hint.tag.touch"
+    },
+    {
+      "id": "rain_prices",
+      "when": "rain",
+      "text": "$i18n:hint.rain_prices",
+      "text_touch": "$i18n:hint.rain_prices"
     }
   ]
 }

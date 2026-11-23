@@ -780,6 +780,17 @@ Scenario scenario_from_json(const Json& in) {
         setup.lightning_ticks = in.at("weather").value("lightning_ticks", 0);
         setup.lightning_pct = in.at("weather").value("lightning_pct", 0);
         setup.lightning_range_x100 = in.at("weather").value("lightning_range_x100", 0);
+        if (in.at("weather").contains("weather_goods")) {  // spec 06, "Weather and prices"
+            const Json& goods = in.at("weather").at("weather_goods");
+            setup.weather_goods.kinds = goods.value("kinds", std::vector<std::string>{});
+            setup.weather_goods.items = goods.value("items", std::vector<std::string>{});
+            setup.weather_goods.rise_pm = goods.value("rise_pm", 0);
+            if (goods.contains("region_rise_pm")) {
+                for (const auto& [region, rise] : goods.at("region_rise_pm").items()) {
+                    setup.weather_goods.region_rise_pm[region] = rise.get<int>();
+                }
+            }
+        }
     }
     if (in.contains("gift")) {
         const Json& gift = in.at("gift");
@@ -1390,6 +1401,67 @@ void run_save_suite() {
     }
 }
 
+// A value of the frozen save, written again by this client (spec 12, "Fixtures of the save"): every key of an object is
+// kept, every item of an array, the same strings and flags, numbers within a thousandth (positions are 32-bit floats).
+void require_kept(const Json& frozen, const Json& written, const std::string& path) {
+    INFO("field " << path);
+    if (frozen.is_object()) {
+        REQUIRE(written.is_object());
+        for (const auto& [key, value] : frozen.items()) {
+            REQUIRE(written.contains(key));
+            require_kept(value, written.at(key), path + "." + key);
+        }
+    } else if (frozen.is_array()) {
+        REQUIRE(written.is_array());
+        REQUIRE(written.size() == frozen.size());
+        for (std::size_t i = 0; i < frozen.size(); ++i) {
+            require_kept(frozen[i], written[i], path + "[" + std::to_string(i) + "]");
+        }
+    } else if (frozen.is_number()) {
+        REQUIRE(written.is_number());
+        REQUIRE(std::abs(frozen.get<double>() - written.get<double>()) < 1e-3);
+    } else {
+        REQUIRE(frozen == written);
+    }
+}
+
+// The frozen saves of every version (tests/saves/, spec 12, "Fixtures of the save"): the client loads each document as
+// it is, with its own version, and finishes the scenario of its case; the save of the streamed world is parsed and
+// written again, and must keep every field and value.
+void run_save_fixtures_suite() {
+    const Json doc = load_suite("save_fixtures");
+    REQUIRE(!doc.at("cases").empty());
+    for (const Json& c : doc.at("cases")) {
+        INFO("case " << c.at("name").get<std::string>());
+        const Json& in = c.at("input");
+        const Json& frozen = in.at("save");
+        std::string error;
+        const auto state = aether::save_from_json(frozen.dump(), error);
+        INFO(error);
+        REQUIRE(state.has_value());
+        if (in.at("op").get<std::string>() == "save_roundtrip") {
+            aether::SaveMeta meta;
+            meta.game_version = frozen.at("game_version").get<std::string>();
+            meta.data_format_version = frozen.at("data_format_version").get<int>();
+            meta.protagonist = frozen.at("protagonist").get<std::string>();
+            meta.seed = std::stoull(frozen.at("seed").get<std::string>(), nullptr, 16);
+            meta.map = frozen.at("map").get<std::string>();
+            require_kept(frozen, Json::parse(aether::save_to_json(*state, meta)), "save");
+            continue;
+        }
+        const auto split = in.at("split").get<std::size_t>();
+        const float tol = c.at("expect").at("tol").get<float>();
+        Scenario sc = scenario_from_json(in);
+        aether::WorldSim resumed(sc.map, sc.tileset, 0.0F, sc.setup);
+        REQUIRE(resumed.restore(*state, error));
+        for (std::size_t i = split; i < in.at("script").size(); ++i) {
+            run_segment(resumed, in.at("script")[i]);
+            INFO("checkpoint " << i);
+            check_checkpoint(resumed, c.at("expect").at("checkpoints").at(i - split), tol);
+        }
+    }
+}
+
 }  // namespace
 
 TEST_CASE("conformance: combat", "[conformance]") { run_combat_suite("combat"); }
@@ -1397,6 +1469,8 @@ TEST_CASE("conformance: combat", "[conformance]") { run_combat_suite("combat"); 
 TEST_CASE("conformance: story", "[conformance]") { run_combat_suite("story"); }
 
 TEST_CASE("conformance: save and resume", "[conformance]") { run_save_suite(); }
+
+TEST_CASE("conformance: save fixtures", "[conformance]") { run_save_fixtures_suite(); }
 
 TEST_CASE("conformance: routines", "[conformance]") {
     const Json doc = load_suite("routines");

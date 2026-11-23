@@ -325,6 +325,11 @@ public:
         const;  // the region where the player stands; of a world without regions, the one of the setup
     // What the market of the day does to the prices of the open shop, in permille (spec 06, "Market days").
     std::int64_t market_pm() const;
+    // What the weather adds now to the prices of the goods of the countryside in the open shop, in permille (spec 06,
+    // "Weather and prices"); 0 with no shop open, in dry weather or in a world without those goods.
+    std::int64_t weather_rise_pm() const;
+    // 1000 + weather_rise_pm() for an item of those goods, 1000 for any other.
+    std::int64_t weather_price_pm(const std::string& item_id) const;
     std::int64_t renown_discount_pm() const;
     // Price of buying / selling an item in the open shop.
     std::int64_t buy_price(const std::string& item_id) const;

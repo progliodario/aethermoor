@@ -27,6 +27,28 @@ class Season(
     val stock: List<String> = emptyList(),
 )
 
+/**
+ * The goods of the countryside, dearer while it rains (spec 06, "Weather and prices"): the [kinds] of item and the [items] it raises,
+ * by [risePm] at full rain, or by the rise of the region in [regionRisePm] (the regions where the rain is snow).
+ */
+class WeatherGoods(
+    val kinds: List<String> = emptyList(),
+    val items: List<String> = emptyList(),
+    val risePm: Int = 0,
+    val regionRisePm: Map<String, Int> = emptyMap(),
+)
+
+/** Reads a `weather_goods` object (spec 06, "Weather and prices"); null: none. */
+fun parseWeatherGoods(goods: JsonObject?): WeatherGoods {
+    if (goods == null) return WeatherGoods()
+    return WeatherGoods(
+        kinds = (goods["kinds"] as? JsonArray)?.map { it.jsonPrimitive.content } ?: emptyList(),
+        items = (goods["items"] as? JsonArray)?.map { it.jsonPrimitive.content } ?: emptyList(),
+        risePm = goods["rise_pm"]?.jsonPrimitive?.int ?: 0,
+        regionRisePm = (goods["region_rise_pm"] as? JsonObject)?.mapValues { (_, v) -> v.jsonPrimitive.int } ?: emptyMap(),
+    )
+}
+
 class TimeParams(
     val dayTicks: Int,
     val startTick: Long,
@@ -51,6 +73,8 @@ class TimeParams(
     val lightningRangeX100: Int = 0,
     /** How much full darkness shortens the aggro distance, in permille (spec 08, "The night hides you"). */
     val nightAggroCutPm: Int = 0,
+    /** What the rain makes dearer in the shops (spec 06, "Weather and prices"). */
+    val goods: WeatherGoods = WeatherGoods(),
 )
 
 class TimeSample(
@@ -151,6 +175,7 @@ fun parseTimeParams(time: JsonObject): TimeParams {
         lightningPct = weather["lightning_pct"]?.jsonPrimitive?.int ?: 0,
         lightningRangeX100 = weather["lightning_range_x100"]?.jsonPrimitive?.int ?: 0,
         nightAggroCutPm = time["night_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
+        goods = parseWeatherGoods(weather["weather_goods"] as? JsonObject),
         kinds = weather.getValue("kinds").jsonArray.map {
             val k = it.jsonObject
             WeatherKind(

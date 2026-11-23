@@ -24,7 +24,7 @@
 | Fuzz/robustezza | JSON malformati, salvataggi corrotti, pack con riferimenti rotti | `tests/fuzz` | notturno |
 | Performance | Tempi di generazione chunk, frame time in scenari scriptati, memoria | `tests/scenarios/perf_*` | notturno |
 | Strumentati Android | Avvio, rotazione, pausa/ripresa, perdita contesto GL, import/export salvataggi | Android emulator (GitHub Actions, API 30 e 34) | notturno + release |
-| Manuali | Checklist di rilascio su 1 PC Windows, 1 Linux, 2 telefoni | `docs/dev/release-checklist.md` (da scrivere: B1.6 del programma) | prima di ogni release |
+| Manuali | Checklist di rilascio su 1 PC Windows, 1 Linux, 2 telefoni | [`docs/dev/release-checklist.md`](../dev/release-checklist.md) | prima di ogni release |
 
 **Regola di copertura:** logica di `core/sim/worldgen`: ≥ 85% di righe; funzioni pure matematiche: 100% dei rami. Nessun obbligo percentuale per `gfx/audio/ui` (si usano golden e scenari).
 

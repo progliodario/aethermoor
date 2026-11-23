@@ -88,19 +88,18 @@ private fun formatImpl(message: String, lang: String, args: Map<String, Any>, po
     val n = message.length
     while (i < n) {
         val ch = message[i]
-        if (ch == '{') {
-            if (i + 1 < n && message[i + 1] == '{') {
-                out.append('{')
-                i += 2
-                continue
-            }
+        if (ch == '{' && i + 1 < n && message[i + 1] == '{') {
+            out.append('{')
+            i += 2
+        } else if (ch == '{') {
             val end = matchingBrace(message, i)
-            if (end < 0) {
+            if (end < 0) { // an argument never closed: the rest is written as it is
                 out.append(message, i, n)
-                break
+                i = n
+            } else {
+                out.append(formatArgument(message.substring(i + 1, end), lang, args))
+                i = end + 1
             }
-            out.append(formatArgument(message.substring(i + 1, end), lang, args))
-            i = end + 1
         } else if (ch == '}' && i + 1 < n && message[i + 1] == '}') {
             out.append('}')
             i += 2

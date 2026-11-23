@@ -96,7 +96,7 @@ private fun parseJson(path: String, source: PackSource, errors: MutableList<Stri
     return try {
         Json.parseToJsonElement(text)
     } catch (e: IllegalArgumentException) {
-        errors.add("$path: invalid JSON")
+        errors.add("$path: invalid JSON (${e.message})")
         null
     }
 }
@@ -140,15 +140,11 @@ fun loadPack(source: PackSource, errors: MutableList<String>): Pack? {
             val json = parseJson(file, source, errors) as? JsonObject ?: continue
             for ((key, value) in json) {
                 if (key == "\$schema") continue
-                val primitive = value as? JsonPrimitive
-                if (primitive == null || !primitive.isString) {
-                    errors.add("$file: value of '$key' is not a string")
-                    continue
-                }
-                if (table.containsKey(key)) {
-                    errors.add("$file: duplicate key '$key'")
-                } else {
-                    table[key] = primitive.content
+                val text = (value as? JsonPrimitive)?.takeIf { it.isString }?.content
+                when {
+                    text == null -> errors.add("$file: value of '$key' is not a string")
+                    table.containsKey(key) -> errors.add("$file: duplicate key '$key'")
+                    else -> table[key] = text
                 }
             }
         }
@@ -156,8 +152,8 @@ fun loadPack(source: PackSource, errors: MutableList<String>): Pack? {
 
     val intTables = HashMap<String, IntTable>()
     for (file in source.listJson("tables")) {
-        val json = parseJson(file, source, errors) as? JsonObject ?: continue
-        if (json.string("kind") != "int_list") continue
+        val json = parseJson(file, source, errors) as? JsonObject
+        if (json == null || json.string("kind") != "int_list") continue
         val values = (json["values"] as? JsonArray)?.mapNotNull { (it as? JsonPrimitive)?.longOrNull } ?: emptyList()
         val start = (json["start_level"] as? JsonPrimitive)?.longOrNull ?: 0L
         intTables[json.string("id")] = IntTable(start, values)
@@ -165,9 +161,9 @@ fun loadPack(source: PackSource, errors: MutableList<String>): Pack? {
 
     val documents = HashMap<String, String>()
     for (file in source.listJson("")) {
-        if (file == "pack.json" || file.startsWith("i18n/")) continue
-        val json = parseJson(file, source, errors) as? JsonObject ?: continue
-        val id = (json["id"] as? JsonPrimitive)?.takeIf { it.isString }?.content ?: continue
+        // the manifest and the texts are no documents; the others are, by their id
+        val json = if (file == "pack.json" || file.startsWith("i18n/")) null else parseJson(file, source, errors) as? JsonObject
+        val id = (json?.get("id") as? JsonPrimitive)?.takeIf { it.isString }?.content ?: continue
         if (documents.putIfAbsent(id, file) != null) errors.add("$file: duplicate id '$id'")
     }
 

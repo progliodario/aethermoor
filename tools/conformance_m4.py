@@ -229,3 +229,30 @@ def suite_save() -> list[dict]:
                           "input": {"op": "save_resume", "split": split, "save": save, **sc},
                           "expect": {"checkpoints": checkpoints, "tol": 0.02}})
     return cases
+
+
+def suite_save_fixtures() -> list[dict]:
+    """The frozen saves of every version (tests/saves/, spec 12, "Fixtures of the save"): each case resumes the scenario of its name
+    from the frozen document, as the reference reads it today (migrated when it is older); the `game` save of a fixture is parsed and
+    written again by the clients, which must keep all of it."""
+    import json
+    from pathlib import Path
+
+    from conformance_m3 import build_scenarios as combat_scenarios
+
+    by_name = {sc["name"]: sc for sc in combat_scenarios() + build_scenarios()}
+    folder = Path(__file__).resolve().parent.parent / "tests" / "saves"
+    cases = []
+    for path in sorted(folder.glob("v*.json"), key=lambda f: int(f.stem[1:])):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        version = doc["save_version"]
+        for fixture in doc["cases"]:
+            sc = {k: v for k, v in by_name[fixture["scenario"]].items() if k != "name"}
+            checkpoints = combat.run_from_save(sc, fixture["save"], fixture["split"])
+            cases.append({"name": f"v{version}_{fixture['scenario']}_at_{fixture['split']}",
+                          "input": {"op": "save_resume", "version": version, "split": fixture["split"], "save": fixture["save"], **sc},
+                          "expect": {"checkpoints": checkpoints, "tol": 0.02}})
+        if "game" in doc:
+            cases.append({"name": f"v{version}_game", "input": {"op": "save_roundtrip", "version": version, "save": doc["game"]},
+                          "expect": {"keeps": "every field and value of the save"}})
+    return cases

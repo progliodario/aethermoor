@@ -1,7 +1,8 @@
 # 12. Save format
 
 Status: **v1 (M4b; M5b additions; the slots of the title screen)**. Reference: `CombatSim.save_state` / `load_state` in `tools/reference/combat.py`.
-Schema: `schemas/save.schema.json`. Conformance suite: `save` (resume scenarios).
+Schema: `schemas/save.schema.json`. Conformance suites: `save` (resume scenarios) and `save_fixtures` (the frozen saves of every
+version, "Fixtures of the save").
 
 ## Files
 
@@ -102,8 +103,28 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 - **Writing is atomic**: write `<slot>.json.tmp`, then rename over `<slot>.json`.
 - **Resume equivalence** (tested): running part of a scenario, saving, loading into a fresh world and finishing gives the same
   checkpoints as running it without interruption, on both clients, also when loading a save written by the Python reference.
-- Every incompatible format change bumps `save_version` and adds a migration `migrate_N_to_N+1` with a fixture in `tests/conformance`. Optional
-  fields that older readers can ignore (`map`, `cleared_spawners`, `spawner`) do not.
+- Every incompatible format change bumps `save_version` and adds a migration `migrate_N_to_N+1` (in the reference `MIGRATIONS[N]` of
+  `tools/reference/combat.py`, and the same step in both clients), with a frozen copy of the new version (below). Optional fields that
+  older readers can ignore (`map`, `cleared_spawners`, `spawner`) do not bump it, but the copy of the current version must hold them.
+
+## Fixtures of the save
+
+The saves the players already have must keep loading: every version of the document has a **frozen copy** in `tests/saves/v<N>.json`,
+written once by `tools/make_save_fixtures.py` and never changed after (the tool only appends cases). A file holds `save_version`,
+`cases` and, for version 1, `game`:
+
+- a **case** is `{scenario, split, save}`: the save document (with its `save_version`) that the reference wrote before segment `split` of
+  the conformance scenario of that name, one for every entry of `SAVE_SPLITS` (`tools/conformance_m4.py`);
+- `game` is a save of the streamed world with every field the clients write, also those the reference does not (`explored`, `stones`,
+  `cleared_spawners`, `companion`, `friend`, `plots`, the open dialogue with its `args`).
+
+`tools/gen_conformance.py` turns them into the suite `save_fixtures`. For a case, the reference migrates the frozen document to the
+current version (`migrate_save`), loads it into the scenario and records the checkpoints of the rest of the script; each client loads the
+frozen text as it is through its own reader (which must migrate it) and must reach the same checkpoints. For `game`, each client parses
+the document, writes it again with its own writer and must keep every field and every value (numbers within a thousandth). The checks
+of `tools/tests` fail when a version from 1 to the current one has no file, and when the reference writes a field of the save that no
+case of the current copy holds: a new field needs its scenario in `SAVE_SPLITS` and `make_save_fixtures.py` run again, so that the
+next version is forced to load it.
 
 ## Profile
 
@@ -125,4 +146,4 @@ Reference: `tools/reference/profile.py`; conformance: the suite `profile`. The p
 
 ## Not yet in v1
 
-CRC of the file, other changes of the streamed world (arrive with the world systems), thumbnails, `.aethersave` export.
+CRC of the file, other changes of the streamed world (arrive with the world systems), thumbnails.

@@ -471,6 +471,21 @@
               "minimum": 0,
               "maximum": 1000,
               "description": "How much a full wind speeds the player on foot, in permille (spec 08, \"Wind\")."
+            },
+            "weather_goods": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The goods of the countryside, dearer while it rains (spec 06, \"Weather and prices\").",
+              "properties": {
+                "kinds": { "type": "array", "items": { "type": "string" }, "description": "The kinds of item it raises." },
+                "items": { "type": "array", "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:item/[a-z0-9_]+$" }, "description": "And the items it names." },
+                "rise_pm": { "type": "integer", "minimum": 0, "maximum": 1000, "description": "How much full rain raises their prices, in permille." },
+                "region_rise_pm": {
+                  "type": "object",
+                  "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 1000 },
+                  "description": "The rise of the regions where the rain is snow, by region id, in place of rise_pm."
+                }
+              }
             }
           }
         },

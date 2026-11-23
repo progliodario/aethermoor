@@ -515,6 +515,26 @@ class WorldSim(
         return 1000L - swing + (h % (2L * swing + 1L).toULong()).toLong()
     }
 
+    /**
+     * What the weather adds now to the prices of the goods of the countryside in the open shop, in permille (spec 06, "Weather and
+     * prices"); 0 with no shop open, in dry weather or in a world without those goods.
+     */
+    fun weatherRisePm(): Long {
+        val store = chunks
+        val goods = store?.params?.time?.goods ?: combat.weatherGoods
+        if (shop == null || (goods.kinds.isEmpty() && goods.items.isEmpty())) return 0L
+        val rain = if (store != null) sampleTime(store.seed, store.params.time, worldTicks).rainPm else combat.rainPm
+        val rise = goods.regionRisePm[regionId()] ?: goods.risePm // the rise of a region where the rain is snow
+        return rain.toLong() * rise / 1000
+    }
+
+    /** 1000 plus [weatherRisePm] for an item of the goods of the countryside, 1000 for any other (spec 06, "Weather and prices"). */
+    fun weatherPricePm(itemId: String): Long {
+        val goods = chunks?.params?.time?.goods ?: combat.weatherGoods
+        val item = combat.items[itemId] ?: return 1000L
+        return if (item.kind in goods.kinds || itemId in goods.items) 1000L + weatherRisePm() else 1000L
+    }
+
     /** The talent that gives the active ability of [kind] (burst or mend) once it has a rank, or null (spec 11, "Active abilities"). */
     fun abilityTalent(kind: String): TalentDef? = combat.talents.firstOrNull { it.stat == kind && it.hasActive && (talents[it.id] ?: 0) > 0 }
 
@@ -1047,14 +1067,16 @@ class WorldSim(
         val open = shop ?: return 0L
         if (item.price <= 0) return 0L
         val today = maxOf(1L, maxOf(1L, item.price * open.pricePm / 1000) * marketPm() / 1000) // the market of the day (spec 06)
-        return maxOf(1L, today * (1000 - renownDiscountPm()) / 1000) // the renown (spec 07)
+        val weather = maxOf(1L, today * weatherPricePm(itemId) / 1000) // and the weather (spec 06)
+        return maxOf(1L, weather * (1000 - renownDiscountPm()) / 1000) // the renown (spec 07)
     }
 
     /** What the shop pays for an item, 0 when it cannot be sold. */
     fun sellPrice(itemId: String): Long {
         val item = combat.items[itemId] ?: return 0L
         if (item.price <= 0) return 0L
-        val price = maxOf(1L, item.price / 2 * marketPm() / 1000) // the market of the day (spec 06)
+        val today = maxOf(1L, item.price / 2 * marketPm() / 1000) // the market of the day (spec 06)
+        val price = maxOf(1L, today * weatherPricePm(itemId) / 1000) // and the weather (spec 06)
         val open = shop ?: return price
         if (open.glutStepPm <= 0) return price
         val count = if (soldDay != dayNow()) 0L else soldToday[itemId] ?: 0L // the glut (spec 06, "Glut"): less for every one sold today

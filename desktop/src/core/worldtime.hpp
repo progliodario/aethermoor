@@ -32,6 +32,14 @@ struct Season {
     std::vector<std::string> stock;  // the goods every shop sells in the season (spec 06, "Goods of the season")
 };
 
+// The goods of the countryside, dearer while it rains (spec 06, "Weather and prices").
+struct WeatherGoods {
+    std::vector<std::string> kinds;             // the kinds of item it raises (food)
+    std::vector<std::string> items;             // and the items it names (wood, herbs)
+    int rise_pm = 0;                            // how much full rain raises their prices
+    std::map<std::string, int> region_rise_pm;  // the rise of the regions where the rain is snow
+};
+
 struct TimeParams {
     int day_ticks = 72000;
     std::int64_t start_tick = 0;
@@ -48,6 +56,7 @@ struct TimeParams {
     int lightning_range_x100 = 0;  // and how far from the player
     std::vector<WeatherKind> kinds;
     std::vector<Season> seasons;  // empty: no seasons
+    WeatherGoods goods;           // what the rain makes dearer in the shops (spec 06, "Weather and prices")
 };
 
 struct TimeSample {

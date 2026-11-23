@@ -444,6 +444,32 @@ std::int64_t WorldSim::market_pm() const {
     return 1000 - swing + static_cast<std::int64_t>(h % static_cast<std::uint64_t>(2 * swing + 1));
 }
 
+std::int64_t WorldSim::weather_rise_pm() const {
+    const WeatherGoods& goods = m_store_ ? m_store_->params().time.goods : m_setup_.weather_goods;
+    if (!m_shop_ || (goods.kinds.empty() && goods.items.empty())) {
+        return 0;
+    }
+    int rain = m_setup_.rain_pm;  // the rain of the moment (spec 08, "Weather")
+    if (m_store_) {
+        rain = sample_time(m_store_->seed(), m_store_->params().time, m_world_ticks_).rain_pm;
+    }
+    const auto snow = goods.region_rise_pm.find(region_id());  // the rise of a region where the rain is snow
+    const std::int64_t rise = snow != goods.region_rise_pm.end() ? snow->second : goods.rise_pm;
+    return static_cast<std::int64_t>(rain) * rise / 1000;
+}
+
+std::int64_t WorldSim::weather_price_pm(const std::string& item_id) const {
+    const WeatherGoods& goods = m_store_ ? m_store_->params().time.goods : m_setup_.weather_goods;
+    const auto item = m_setup_.items.find(item_id);
+    if (item == m_setup_.items.end()) {
+        return 1000;
+    }
+    const bool countryside =
+        std::find(goods.kinds.begin(), goods.kinds.end(), item->second.kind) != goods.kinds.end() ||
+        std::find(goods.items.begin(), goods.items.end(), item_id) != goods.items.end();
+    return countryside ? 1000 + weather_rise_pm() : 1000;
+}
+
 const TalentDef* WorldSim::ability_talent(const std::string& kind) const {
     for (const TalentDef& talent : m_setup_.talents) {
         if (talent.stat != kind || !talent.has_active) {
@@ -752,6 +778,7 @@ std::int64_t WorldSim::buy_price(const std::string& item_id) const {
     }
     std::int64_t price = std::max<std::int64_t>(1, item->second.price * m_shop_->price_pm / 1000);
     price = std::max<std::int64_t>(1, price * market_pm() / 1000);                   // the market of the day (spec 06)
+    price = std::max<std::int64_t>(1, price * weather_price_pm(item_id) / 1000);     // and the weather (spec 06)
     return std::max<std::int64_t>(1, price * (1000 - renown_discount_pm()) / 1000);  // the renown (spec 07)
 }
 
@@ -760,8 +787,9 @@ std::int64_t WorldSim::sell_price(const std::string& item_id) const {
     if (item == m_setup_.items.end() || item->second.price <= 0) {
         return 0;
     }
-    const std::int64_t price =
-        std::max<std::int64_t>(1, item->second.price / 2 * market_pm() / 1000);  // the market of the day (spec 06)
+    std::int64_t price =
+        std::max<std::int64_t>(1, item->second.price / 2 * market_pm() / 1000);   // the market of the day (spec 06)
+    price = std::max<std::int64_t>(1, price * weather_price_pm(item_id) / 1000);  // and the weather (spec 06)
     if (!m_shop_ || m_shop_->glut_step_pm <= 0) {
         return price;
     }

@@ -1,6 +1,6 @@
 # Specifications
 
-Normative rules shared by the desktop and Android clients. **Status:** 00 to 14 and 16 to 18 are written (all but 16 and 18 have conformance suites; the protagonists are covered by the `stats` and `combat` suites and by a content test); 15 (the layout of the interface) is still to come. The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
+Normative rules shared by the desktop and Android clients. **Status:** 00 to 18 are written (all but 15, 16 and 18 have conformance suites; the protagonists are covered by the `stats` and `combat` suites and by a content test; 15 and 16 are presentation and input). The planned content is described in `docs/plan/02-dati-specifiche-e-formati.md`.
 
 | # | Document | Milestone |
 |---|---|---|
@@ -19,7 +19,7 @@ Normative rules shared by the desktop and Android clients. **Status:** 00 to 14 
 | [12](12-save-format.md) | save format v1, the save slots, export and import, the shared profile | M4b / M5, done |
 | [13](13-vector-art.md) | vector art recipes, rasterizer, rigs | M2, done |
 | [14](14-audio.md) | audio: synthesized sounds, events, ambience, music and their directors (in the base pack music and regional ambience are off) | M3 / M10, effects done |
-| 15 | UI layout (planned: item B1.2 of the [operating program](../plan/07-programma-operativo.md)) | M4 |
+| [15](15-ui-layout.md) | UI layout: units, the "System window" theme, where every panel is, the known differences of the two clients | M4, done |
 | [16](16-input.md) | input: keyboard, mouse, gamepad, touch, panels, settings | M2, done |
 | [17](17-localization.md) | localization | M1, done |
 | [18](18-protagonists.md) | protagonists: data, gift rules, choosing one for a new game, the prologue, the base roster of eight | M3 / M9, done |

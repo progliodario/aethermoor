@@ -2340,6 +2340,30 @@
               "lightning_ticks": 438,
               "lightning_pct": 40,
               "lightning_range_x100": 900,
+              "weather_goods": {
+                "kinds": [
+                  "food"
+                ],
+                "items": [
+                  "base:item/wood_log",
+                  "base:item/dry_branch",
+                  "base:item/driftwood",
+                  "base:item/pine_resin",
+                  "base:item/healing_herb",
+                  "base:item/mint_leaf",
+                  "base:item/fern_frond",
+                  "base:item/wildflowers",
+                  "base:item/moss_clump",
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores"
+                ],
+                "rise_pm": 100,
+                "region_rise_pm": {
+                  "frostveil": 200
+                }
+              },
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -11491,6 +11515,30 @@
               "lightning_ticks": 438,
               "lightning_pct": 40,
               "lightning_range_x100": 900,
+              "weather_goods": {
+                "kinds": [
+                  "food"
+                ],
+                "items": [
+                  "base:item/wood_log",
+                  "base:item/dry_branch",
+                  "base:item/driftwood",
+                  "base:item/pine_resin",
+                  "base:item/healing_herb",
+                  "base:item/mint_leaf",
+                  "base:item/fern_frond",
+                  "base:item/wildflowers",
+                  "base:item/moss_clump",
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores"
+                ],
+                "rise_pm": 100,
+                "region_rise_pm": {
+                  "frostveil": 200
+                }
+              },
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [
@@ -19307,6 +19355,30 @@
               "lightning_ticks": 438,
               "lightning_pct": 40,
               "lightning_range_x100": 900,
+              "weather_goods": {
+                "kinds": [
+                  "food"
+                ],
+                "items": [
+                  "base:item/wood_log",
+                  "base:item/dry_branch",
+                  "base:item/driftwood",
+                  "base:item/pine_resin",
+                  "base:item/healing_herb",
+                  "base:item/mint_leaf",
+                  "base:item/fern_frond",
+                  "base:item/wildflowers",
+                  "base:item/moss_clump",
+                  "base:item/herb_seeds",
+                  "base:item/berry_seeds",
+                  "base:item/mint_seeds",
+                  "base:item/mushroom_spores"
+                ],
+                "rise_pm": 100,
+                "region_rise_pm": {
+                  "frostveil": 200
+                }
+              },
               "period_ticks": 18000,
               "fade_ticks": 600,
               "kinds": [

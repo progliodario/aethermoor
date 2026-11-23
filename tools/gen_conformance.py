@@ -233,6 +233,7 @@ SUITES = {
     "combat": conformance_m3.suite_combat,
     "story": conformance_m4.suite_story,
     "save": conformance_m4.suite_save,
+    "save_fixtures": conformance_m4.suite_save_fixtures,
     "worldgen": conformance_m5.suite_worldgen,
     "worldgen_chunks": conformance_m5.suite_worldgen_chunks,
     "chunk_window": conformance_m5.suite_chunk_window,
@@ -246,7 +247,7 @@ SUITES = {
 
 
 # The suites that take the longest, started first so the pool finishes sooner.
-SLOW_SUITES = {"worldgen_chunks", "chunk_window", "worldgen", "settlements", "fauna", "combat", "story", "save", "worldmap"}
+SLOW_SUITES = {"worldgen_chunks", "chunk_window", "worldgen", "settlements", "fauna", "combat", "story", "save", "save_fixtures", "worldmap"}
 
 
 def build_suite(name: str) -> tuple[str, str, int]:

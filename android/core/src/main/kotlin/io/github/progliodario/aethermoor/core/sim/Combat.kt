@@ -1,6 +1,7 @@
 package io.github.progliodario.aethermoor.core.sim
 
 import io.github.progliodario.aethermoor.core.Primary
+import io.github.progliodario.aethermoor.core.WeatherGoods
 
 // Combat data structures. Spec: docs/spec/05-combat-v1.md. Reference: tools/reference/combat.py.
 
@@ -346,6 +347,8 @@ class CombatSetup(
     val fogAggroCutPm: Int = 0,
     /** The goods of the season of a world without a clock (spec 06, "Goods of the season"). */
     val seasonStock: List<String> = emptyList(),
+    /** What the rain of a world without a clock makes dearer (spec 06, "Weather and prices"). */
+    val weatherGoods: WeatherGoods = WeatherGoods(),
 
     /** What the season of a world without a clock does to the creatures (spec 08, "Seasons and the creatures"). */
     val seasonSlowPm: Int = 0,
