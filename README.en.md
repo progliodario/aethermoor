@@ -236,12 +236,12 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 ## What is missing
 
-The next things, in order (details in the [roadmap](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine), in Italian):
+The next things, in order. The full program, with the batches, the files and the acceptance of each item, is in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md) (in Italian); the short list of the roadmap is in [section 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
-- **Soon:** shrink the detekt baseline; travellers seen walking the roads; villagers who really walk to the next feast.
-- **Medium term:** wagons seen travelling; Gideon's Dungeon mode; performance measured on a phone; a better synthesizer for music and ambience (only if the owner wants it).
-- **Toward 1.0:** signed packages, documentation for modders, more languages.
-- **The owner decides:** when to publish the first release (Alpha 0.1).
+- **Soon:** a detekt baseline down to zero; the weather that changes prices; travellers who walk the roads; villagers who walk to the feast of the nearby town; timed challenges.
+- **Middle term:** rooms for the cottage; affixes the player chooses; companions the player chooses; Gideon's Dungeon mode; streaming on a worker thread and measures on Android; a week of play as a test; a synthesizer for music and ambience (only if the owner wants it).
+- **Toward 1.0:** more stories for the protagonists (releases 0.6 to 0.9); quality settings, a crash log and a review of the translations; controls and layout on Android; signed packages; documentation for modders.
+- **The owner decides:** when to publish the first release (Alpha 0.1), the repository settings, the signing keys and the other decisions listed in the program.
 
 ## Contributing and license
 

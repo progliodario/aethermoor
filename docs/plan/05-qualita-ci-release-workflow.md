@@ -4,11 +4,11 @@
 >
 > | Area | Esiste | Non ancora |
 > |---|---|---|
-> | Test | validazione dati (`tools/validate_data.py`), test del riferimento e dei contenuti (`pytest`, `ruff`), 23 file di vettori di conformità eseguiti da entrambi i client, test di scenari di combattimento e di storia, smoke test del client desktop con fotogrammi | golden visivi (`tests/golden`), scenari headless a parte (`tests/scenarios`), fuzz, performance, test strumentati Android, regola di copertura |
+> | Test | validazione dati (`tools/validate_data.py`), test del riferimento e dei contenuti (`pytest`, `ruff`), 30 file di vettori di conformità eseguiti da entrambi i client, test di scenari di combattimento e di storia, smoke test del client desktop con fotogrammi | golden visivi (`tests/golden`), scenari headless a parte (`tests/scenarios`), fuzz, performance, test strumentati Android, regola di copertura |
 > | Qualità del codice | `pre-commit` (file grandi, fine riga, ruff, gitleaks, validazione dati), `clang-format` (`desktop/.clang-format`, anche in `tools/ship.py`), `-Werror` nel C++, `ruff`, Dependabot mensile (le salite di Kotlin, libGDX e AGP si fanno a mano) | `clang-tidy`, sanitizzatori, `ktlint`, `detekt`, Android Lint, CodeQL |
-> | CI | `ci-data` (ruff, validazione, pytest, vettori aggiornati), `ci-desktop` (Windows MSVC e Linux GCC: configure, build, ctest, pacchetto giocabile, fotogrammi, cache di vcpkg), `ci-android` (`:core:test`, `assembleDebug`, APK come artifact), `labeler`, `release` (solo una bozza di Release) | `nightly`, `codeql`, `docs`, il job `parity-check`, clang e sanitizzatori su Linux |
-> | GitHub | modelli di issue (5) e di PR, label, CODEOWNERS, Dependabot | branch protection e revisione obbligatoria (decisione del proprietario), Discussions (disattivate), sito di documentazione. La wiki del repository è attiva, il piano la voleva spenta |
-> | Release | nessun tag e nessuna release pubblicata; la CI produce lo zip Windows e il tar.gz Linux di prova | installer, AppImage, APK firmato, `SHA256SUMS`, SBOM, firma del codice |
+> | CI | `ci-data` (ruff, validazione, pytest, vettori aggiornati), `ci-desktop` (Windows MSVC e Linux GCC: configure, build, ctest, pacchetto giocabile, fotogrammi, cache di vcpkg), `ci-android` (`:core:test`, `assembleDebug`, APK come artifact), `labeler`, `release` (solo una bozza di Release) | `nightly`, `codeql`, `docs`, il job `parity-check` (la matrice è la voce B1.4 del programma), clang e sanitizzatori su Linux (il notturno è C4.2) |
+> | GitHub | modelli di issue (5) e di PR, label, CODEOWNERS, Dependabot | branch protection e revisione obbligatoria (decisione del proprietario), Discussions (disattivate), sito di documentazione (E4.2 del programma). La wiki del repository è attiva, il piano la voleva spenta (decisione G1) |
+> | Release | nessun tag e nessuna release pubblicata; la CI produce lo zip Windows e il tar.gz Linux di prova | installer, AppImage, APK firmato, `SHA256SUMS`, SBOM, firma del codice (E3.1 ed E3.2 del programma) |
 > | Come si lavora | `CLAUDE.md`, i comandi in `.claude/commands/` (`/validate`, `/spec-change`, `/parity-check`), `tools/ship.py` per commit, PR e merge in un colpo | gli altri comandi (`/add-enemy`, ... `/release`) |
 
 ## 1. Strategia di test
@@ -24,7 +24,7 @@
 | Fuzz/robustezza | JSON malformati, salvataggi corrotti, pack con riferimenti rotti | `tests/fuzz` | notturno |
 | Performance | Tempi di generazione chunk, frame time in scenari scriptati, memoria | `tests/scenarios/perf_*` | notturno |
 | Strumentati Android | Avvio, rotazione, pausa/ripresa, perdita contesto GL, import/export salvataggi | Android emulator (GitHub Actions, API 30 e 34) | notturno + release |
-| Manuali | Checklist di rilascio su 1 PC Windows, 1 Linux, 2 telefoni | `docs/dev/release-checklist.md` | prima di ogni release |
+| Manuali | Checklist di rilascio su 1 PC Windows, 1 Linux, 2 telefoni | `docs/dev/release-checklist.md` (da scrivere: B1.6 del programma) | prima di ogni release |
 
 **Regola di copertura:** logica di `core/sim/worldgen`: ≥ 85% di righe; funzioni pure matematiche: 100% dei rami. Nessun obbligo percentuale per `gfx/audio/ui` (si usano golden e scenari).
 

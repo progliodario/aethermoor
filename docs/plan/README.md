@@ -1,6 +1,6 @@
 # Piano di progetto: Aethermoor (titolo provvisorio)
 
-> Stato: **piano approvato e in esecuzione.** Scritto il 2026-11-01 come bozza v0.1; questo file e gli altri della cartella sono il piano originale, mantenuto come riferimento. Dove l'esecuzione ha preso un'altra strada lo dice una nota ("Stato") in testa a ogni documento e la tabella D1-D15 qui sotto. Per sapere **dove siamo oggi** vedi [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md), sezione 8, `CHANGELOG.md` e `docs/design/catalog.md`. Le specifiche che valgono sono quelle in `docs/spec/`.
+> Stato: **piano approvato e in esecuzione.** Scritto il 2026-11-01 come bozza v0.1; questo file e gli altri della cartella sono il piano originale, mantenuto come riferimento. Dove l'esecuzione ha preso un'altra strada lo dice una nota ("Stato") in testa a ogni documento e la tabella D1-D15 qui sotto. Per sapere **dove siamo oggi** vedi [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md), sezione 8, `CHANGELOG.md` e `docs/design/catalog.md`; per **cosa si fa dopo**, batch per batch, vedi [07-programma-operativo.md](07-programma-operativo.md). Le specifiche che valgono sono quelle in `docs/spec/`.
 
 ## 1. Sintesi
 
@@ -34,6 +34,7 @@ Il repo è un monorepo pubblico, con licenza GPL-3.0 e release automatiche trami
 | [04-grafica-audio-ui-input.md](04-grafica-audio-ui-input.md) | Pipeline vettoriale, animazione, luci, audio sintetizzato, UI dichiarativa, input adattivo |
 | [05-qualita-ci-release-workflow.md](05-qualita-ci-release-workflow.md) | Test, CI/CD, release, GitHub, `CLAUDE.md`, come lavoreremo insieme |
 | [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md) | Milestone M0-M12 con criteri di accettazione, rischi, backlog iniziale, valvole di portata |
+| [07-programma-operativo.md](07-programma-operativo.md) | Programma operativo: a breve, medio e lungo termine, batch per batch, con file, criteri, dipendenze, porte di rilascio e decisioni del proprietario |
 
 ## 3. Decisioni già prese (le tue risposte)
 
@@ -78,12 +79,14 @@ Il repo è un monorepo pubblico, con licenza GPL-3.0 e release automatiche trami
 ## 5. Domande aperte residue
 
 1. **Nome definitivo** del gioco (proposte sotto).
-2. **Owner GitHub** e nome repo, per l'application ID Android (`io.github.progliodario.aethermoor`).
+2. ~~Owner GitHub e nome repo~~: risolto. Il repository è `progliodario/aethermoor`; l'identificativo Android è `io.github.progliodario.aethermoor`.
 3. Conferma della **licenza contenuti** CC BY-SA 4.0 (D13).
 4. **Rating** di riferimento: propongo PEGI 12 / Teen come tetto, tutti i personaggi adulti, nessun contenuto esplicito.
 5. Distribuzione: **Google Play**, itch.io, GitHub Releases, Flathub? Propongo GitHub Releases + itch.io all'inizio e Play Store più avanti.
 6. Firma del codice Windows (SignPath gratuito per open source) e firma Android: chi custodisce la keystore?
 7. Ti va bene il tetto di **valvole di portata** per l'1.0 (vedi documento 06)?
+
+Le decisioni aperte, con la raccomandazione del programma, sono nella sezione 8 di [07-programma-operativo.md](07-programma-operativo.md).
 
 ## 6. Proposte di nome
 
@@ -97,4 +100,4 @@ Il nome vive in **un solo file** (`data/base/pack.json` e `project.json`) e va c
 
 ## 7. Prossimo passo
 
-Fatto al 13 novembre 2026: M0, M1 e M3 completi; M2, M4, M5 e M9 quasi completi (mancano le persone viste di lato, la release Alpha 0.1, le prestazioni misurate su telefono, altre storie per regione); M6, M7, M8 e M10 avviati con una base giocabile (raccolta, pesca, caccia, ricette, compagni con cura, talenti, titoli, reincarnazione, effetti sonori). Lo stato aggiornato, i prossimi passi in ordine e ciò che resta al proprietario (governance e pubblicazione) sono in [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md), sezione 8.
+Al 23 novembre 2026: M0, M1 e M3 completi; M4 (dialoghi, missioni, salvataggi) quasi completa, con la sola release Alpha 0.1 che attende il proprietario; M2, M5 e M9 quasi complete (restano le misure su telefono, il thread di streaming e le storie per protagonista); M6, M7, M8 e M10 avviate, con una base giocabile per le voci principali. Lo stato aggiornato è in [06-roadmap-rischi-backlog.md](06-roadmap-rischi-backlog.md), sezione 8. Il programma dei prossimi batch, con file, criteri e decisioni del proprietario, è in [07-programma-operativo.md](07-programma-operativo.md).

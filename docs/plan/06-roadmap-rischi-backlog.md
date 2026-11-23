@@ -187,7 +187,7 @@ Rimangono fissi: i quattro vincoli (spec-first, data-driven, due client, parità
 
 | # | Rischio | Prob. | Impatto | Mitigazione |
 |---|---|---|---|---|
-| R1 | Due motori separati divergono nel tempo | Alta | Alto | Spec scritta, riferimento Python, conformità, feature gating, `parity-check` in CI, moduli corrispondenti. **Oggi:** spec, riferimento e 23 suite di vettori eseguite dai due client in CI; feature gating e `parity-check` esistono ma non sono usati (ADR 0009) |
+| R1 | Due motori separati divergono nel tempo | Alta | Alto | Spec scritta, riferimento Python, conformità, feature gating, `parity-check` in CI, moduli corrispondenti. **Oggi:** spec, riferimento e 30 file di vettori eseguiti dai due client in CI (la matrice che lo verifica è la voce B1.4 del [programma](07-programma-operativo.md)); feature gating e `parity-check` esistono ma non sono usati (ADR 0009) |
 | R2 | Portata eccessiva (8 protagonisti, mondo aperto, molti sistemi) | Alta | Alto | Fetta verticale prima (M3-M4), template di contenuto, valvole di portata, release incrementali |
 | R3 | Differenze di rasterizzazione ThorVG/Skia rovinano la coerenza visiva | Media | Medio | **Ridotto:** ADR 0012 ha scelto un rasterizzatore unico, scritto due volte e verificato con le stesse sonde (suite `raster`). Resta il rischio delle prestazioni su mobile (R4), non misurato |
 | R4 | Prestazioni scarse su mobile (rasterizzazione, GC) | Media | Alto | Bake in background e cache, atlanti, pool di oggetti, niente allocazioni nel tick, profiling da M2 |
@@ -258,7 +258,7 @@ Rimangono fissi: i quattro vincoli (spec-first, data-driven, due client, parità
 34. `test(gfx)`: golden con tolleranza per ricette campione
 35. `feat(android)`: orientamento e ciclo di vita, perdita contesto GL
 
-Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di accettazione e label.
+Dopo l'approvazione, ogni voce diventa un issue con descrizione, criteri di accettazione e label: è successo il 23 novembre 2026, con il [programma operativo](07-programma-operativo.md) (la sezione 9 dice il numero di ogni issue).
 
 ## 8. Stato e prossimi passi
 
@@ -400,12 +400,12 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 L'ordine tiene conto di quanto ogni pezzo cambia l'esperienza di chi gioca, di quanto è indipendente dagli altri e del rischio (si compila e si prova solo in CI). Ogni voce segue il flusso del progetto: spec, riferimento, vettori, desktop, Android, dati e testi nelle due lingue. Si fanno **molte voci insieme in ogni PR** (8.5).
 
 Che cosa è entrato, PR per PR, lo dice il [`CHANGELOG.md`](../../CHANGELOG.md) (sezione `[Unreleased]`, in inglese) e la storia di `main`
-su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è fatta, si toglie da qui e si aggiunge all'area giusta di 8.3.
+su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è fatta, si toglie da qui e si aggiunge all'area giusta di 8.3. Ogni voce ha il suo dettaglio (file, criteri, rischi, batch) nel [programma operativo](07-programma-operativo.md) e la sua issue su GitHub.
 
 **A breve (le prossime PR)**
 
 1. **Ridurre la baseline di detekt** (M10; ktlint e detekt in CI ci sono, le segnalazioni vecchie restano in
-   `android/config/detekt-baseline.xml`, quasi tutte funzioni lunghe): spezzare a poco a poco le funzioni più complesse.
+   `android/config/detekt-baseline.xml`, 72 su 104 di complessità, 19 di annidamento, 9 di uscite dai cicli, 2 eccezioni ingoiate, 2 voci inutilizzate): spezzare a poco a poco le funzioni più complesse.
 2. **Il tempo che cambia i prezzi** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, le stagioni di orti, raccolta, creature,
    caccia, merci e feste ci sono): merci più care quando fuori piove o nevica.
 3. **Sfide a tempo per chi ha finito tutto** (M9; le taglie permanenti, le cacce delle stagioni e le botteghe dei coloni si ripetono già).

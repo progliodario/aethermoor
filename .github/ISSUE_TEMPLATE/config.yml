@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Questions and ideas
-    url: https://github.com/progliodario/aethermoor/discussions
-    about: Use Discussions for questions, ideas and modding help.
+  - name: Modding help and documentation
+    url: https://github.com/progliodario/aethermoor/blob/main/docs/modding/README.md
+    about: How to make a mod (new creatures, quests, items) and where the documentation is.
+  - name: Contributing
+    url: https://github.com/progliodario/aethermoor/blob/main/CONTRIBUTING.md
+    about: The rules of the project and how a change is made.
