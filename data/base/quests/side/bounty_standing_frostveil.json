@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/bounty_standing_frostveil",
+  "name": "$i18n:quest.bounty_standing_frostveil.name",
+  "kind": "side",
+  "faction": "guild",
+  "repeatable": true,
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.bounty_standing_frostveil.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/ice_warden",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 2500
+    },
+    {
+      "effect": "add_gold",
+      "amount": 2000
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 50
+    }
+  ]
+}

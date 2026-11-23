@@ -61,12 +61,12 @@ The conformance harnesses that run the vectors are `desktop/tests/conformance_te
 | World | 8 regions, 45 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
 | Protagonists | 8, each with a companion (8 companions) and a story of six acts (120 story quests) |
 | Creatures | 79, of which 27 guardians and 8 Echoes |
-| Quests | 371 (24 tales of the villagers) |
+| Quests | 379 (24 tales of the villagers) |
 | Items and recipes | 286 items, 82 recipes (8 secret) |
 | Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 48 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3953 keys, in Italian and English |
+| Texts | 3988 keys, in Italian and English |
 | Same rules on both clients | 30 files of conformance vectors, 578 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->` (READMEs, this file, the roadmap) | `tools/make_facts.py` |

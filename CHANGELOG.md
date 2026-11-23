@@ -6,6 +6,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Standing bounties** (spec 07): the guild clerks of every region keep a bounty on one of its great creatures that never closes: take it, defeat the creature, get paid, take it again when it comes back.
+- The journal says "(can be done again)" after a quest that can be repeated (spec 16).
+
 - **The carts carry the goods of the season** (spec 06): the pedlars, Corvin and Odo sell the goods of the season too, besides the goods of their region of the day.
 - **The workshops always need more** (spec 07): the quest of every settler's workshop can be done again, paid every time.
 - **Three new deeds** (spec 11): All Four Seasons (the four slimes of the seasons), A Year in the Wild (their four titles) and Hammer and Fire (the Temperer and the Runesmith), each with a gift for every new game.

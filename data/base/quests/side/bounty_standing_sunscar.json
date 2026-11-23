@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/bounty_standing_sunscar",
+  "name": "$i18n:quest.bounty_standing_sunscar.name",
+  "kind": "side",
+  "faction": "guild",
+  "repeatable": true,
+  "stages": [
+    {
+      "id": "hunt",
+      "journal": "$i18n:quest.bounty_standing_sunscar.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/sand_sentinel",
+          "count": 1
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 2000
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1600
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 40
+    }
+  ]
+}

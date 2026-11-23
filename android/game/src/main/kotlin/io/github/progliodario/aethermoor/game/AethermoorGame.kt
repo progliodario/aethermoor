@@ -2582,7 +2582,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 if (progress.done) continue
                 val def = story.questDef(questId) ?: continue
                 val stage = def.stages.firstOrNull { it.id == progress.stage } ?: continue
-                entries.add(Pair(dialogueText(data.pack, def.name, def.args), 1))
+                // a quest that can be done again says so (spec 07, "Quests")
+                val again = if (def.repeatable) "  " + data.pack.text(language, "\$i18n:ui.quest_repeatable") else ""
+                entries.add(Pair(dialogueText(data.pack, def.name, def.args) + again, 1))
                 entries.add(Pair(dialogueText(data.pack, stage.journal, def.args), 2))
                 for ((i, objective) in stage.objectives.withIndex()) {
                     if (objective.kind != ObjectiveKind.TALK) entries.add(Pair("${progress.progress[i]}/${objective.count}", 2))

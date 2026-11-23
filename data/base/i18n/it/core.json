@@ -1438,5 +1438,6 @@
   "dlg.lark.hunt_ask": "Una caccia per la stagione?",
   "dlg.lark.hunt_status": "La caccia va bene.",
   "dlg.lark.hunt_busy": "Sei, ovunque le porti la stagione.",
-  "ui.temper_refused": "Si tempra a un'incudine, con in mano un'arma o indosso un'armatura il cui affisso si può tirare."
+  "ui.temper_refused": "Si tempra a un'incudine, con in mano un'arma o indosso un'armatura il cui affisso si può tirare.",
+  "ui.quest_repeatable": "(si può rifare)"
 }
