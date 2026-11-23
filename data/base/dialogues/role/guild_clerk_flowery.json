@@ -36,6 +36,22 @@
           "next": "board"
         },
         {
+          "text": "$i18n:dlg.role.standing.ask",
+          "when": {
+            "not": {
+              "quest_active": "base:quest/side/bounty_standing_sunscar"
+            }
+          },
+          "next": "standing_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.standing.status",
+          "when": {
+            "quest_active": "base:quest/side/bounty_standing_sunscar"
+          },
+          "next": "standing_busy"
+        },
+        {
           "text": "$i18n:dlg.role.comm.hub",
           "next": "comm_hub"
         },
@@ -408,6 +424,37 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.faction_gift.guild.flowery",
+      "next": "end"
+    },
+    "standing_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.standing.sunscar.offer",
+      "next": "standing_choice"
+    },
+    "standing_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_standing_sunscar"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "standing_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.standing.sunscar.busy",
       "next": "end"
     }
   }

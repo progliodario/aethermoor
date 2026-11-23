@@ -174,6 +174,15 @@ result and `set_flag`. The parts are drops of the region's own creatures, so the
 
 Villagers and shopkeepers also answer "How is the road around here?" with a text of the region's tone (`dlg.tone.<tone>.road`).
 
+## Standing bounties
+
+The clerk of the guild in every town of a region keeps a **standing bounty** on a great creature of the region (`tools/make_standing_bounties.py`):
+`base:quest/side/bounty_standing_<region>`, `repeatable` (section "Quests"), on the Gel King (Verdalis), the Moonshade Alpha
+(Whisperwood), the Forge Tyrant (Ironspine), the Sand Sentinel (Sunscar), the Ice Warden (Frostveil), the Coral Matron (Tidehaven), the
+Magma Heart (the Ashen Wastes) and the Storm Sovereign (Lumeria). Guardians come back like every creature (spec 08, "Respawn"), so the
+bounty can be taken again and again: offered while it is not active, it pays experience, gold and guild points that grow with the danger
+of the region, for the Guild.
+
 ## Inns, commissions and gossip
 
 - **Inns.** Every innkeeper rents a bed and sells food to take along. The bed choice is visible when `gold_at_least` the price (8 to 18 gold by tone); it runs `spend_gold` and `heal_full` and the innkeeper says the player slept.

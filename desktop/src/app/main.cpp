@@ -3224,7 +3224,10 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
             if (stage == nullptr) {
                 continue;
             }
-            lines.push_back({dialogue_text(assets.pack, ui.lang, def.name, def.args), 1});
+            lines.push_back(
+                {dialogue_text(assets.pack, ui.lang, def.name, def.args) +
+                     (def.repeatable ? "  " + assets.pack.text(ui.lang, "$i18n:ui.quest_repeatable") : std::string()),
+                 1});  // a quest that can be done again says so (spec 07, "Quests")
             for (const std::string& wrapped :
                  wrap_text(dialogue_text(assets.pack, ui.lang, stage->journal, def.args), columns)) {
                 lines.push_back({"  " + wrapped, 2});

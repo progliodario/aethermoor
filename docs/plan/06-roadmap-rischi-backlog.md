@@ -278,12 +278,12 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (120 missioni di storia) |
 | Creature | 79, di cui 27 guardiani e 8 Echi |
-| Missioni | 371 (24 storie dei paesani) |
+| Missioni | 379 (24 storie dei paesani) |
 | Oggetti e ricette | 286 oggetti, 82 ricette (8 segrete) |
 | Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3953 chiavi, in italiano e inglese |
+| Testi | 3988 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 30 file di vettori di conformità, 578 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
@@ -409,6 +409,8 @@ Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due c
 
 Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
 
+Il 23 novembre, seconda PR: le **taglie permanenti** della gilda (una per regione, ripetibile, sui grandi guardiani) e il diario che segna le missioni ripetibili.
+
 Il 23 novembre: le **merci di stagione anche sui carri** (venditori ambulanti, Corvin, Odo), i **compiti ripetibili delle botteghe** dei coloni, **tre imprese nuove** (le quattro stagioni, un anno nella natura, martello e fuoco).
 
 Il 22 novembre, undicesima PR: le **missioni ripetibili** (`repeatable`: finita, una missione così si ricomincia e paga di nuovo) e **le cacce delle stagioni** di Lark (una per stagione, sempre di nuovo).
@@ -461,7 +463,7 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-4. **Altri pezzi di storia** (M9; sei atti per protagonista ci sono, il sesto lega i protagonisti a coppie e finisce con l'Eco dell'altro Ospite; la canzone della strada passa per i tre viaggiatori): dopo la lanterna di Lyra, le taglie della gilda ripetibili (le cacce delle stagioni e le botteghe dei coloni si ripetono già).
+4. **Altri pezzi di storia** (M9; sei atti per protagonista ci sono, il sesto lega i protagonisti a coppie e finisce con l'Eco dell'altro Ospite; la canzone della strada passa per i tre viaggiatori): dopo la lanterna di Lyra, sfide a tempo per chi ha finito tutto (le taglie permanenti, le cacce delle stagioni e le botteghe si ripetono già).
 5. **Altri viaggiatori** (M6; Odo e la sua carovana ci sono): carri che si vedono camminare lungo le strade, altri mercanti con il loro giro.
 6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, stagioni degli orti, della raccolta e delle creature, i visitatori delle stagioni e quattro creature delle stagioni con un bottino e un tè propri , le stagioni della caccia e le merci di stagione , le feste delle stagioni e le merci di stagione sui carri ci sono): il tempo che cambia i prezzi (merci più care quando fuori piove).
 7. **Una casa più grande** (M6; i dieci mobili del cottage, in casa e in giardino, ci sono): stanze in più da comprare.

@@ -102,6 +102,10 @@ Four options are kept in the settings file as booleans: `hints` (the hints of th
 
 The credits are `data/base/credits.json` (ID `base:credits/all`, schema `credits`): a list of sections, each a `heading` and its `lines`; a heading or a line that starts with `$i18n:` is a text key, any other line is shown as it is (the names of the libraries). They open from the title screen: `C` on desktop (again, or `Esc`, closes them), a `Credits` button at the top right on Android (a tap or Back closes them). Presentation only.
 
+## The journal and the repeatable quests
+
+The journal writes "(can be done again)" after the name of an active quest that is `repeatable` (spec 07, "Quests"; `ui.quest_repeatable`).
+
 ## Checks of the frames
 
 The desktop CI runs three smoke tests (the demo map, the world at the start, a settlement) that write PNG frames: the title, the chooser
