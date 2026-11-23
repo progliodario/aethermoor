@@ -6,6 +6,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Side stories of Ren and Haruka** (spec 18, "Side stories"): two new people in Aldermere tell a story of three quests to one Guest
+  only, and ask at the end for a choice that changes what the Guest takes home. Ren meets Bertram Quill, keeper of the guild's ledgers
+  ("Overtime": silk for the ledgers, an audit of wolves, the hollow armors that keep sending reports; the archivist's quill or the
+  wayfarer's band); Haruka meets Mirela of the guild's stables ("A Home for the Lost": a coughing elk, a frightened herd, a lost calf;
+  the folk charm or the owl charm).
+
 - **The villagers go to the feasts** (spec 07, "Feasts"; spec 09, "Settlement people"): on the feast day of the neighbours the villagers
   of the hamlets and villages of a region are away (the elder, the shopkeeper, the innkeeper and the settler stay home), and on its own
   feast day every town of a region has three guests of the feast on its plaza, who tell where they came from (eight new voices, one

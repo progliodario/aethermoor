@@ -1779,5 +1779,17 @@
   "quest.bounty_trial_autumn.task": "The trial of the guild: defeat Moonshade Alpha and Forge Tyrant within three days. If the days run out, the clerk gives it again.",
   "quest.bounty_trial_winter.name": "Trial of Winter: Ice Warden and Storm Sovereign",
   "quest.bounty_trial_winter.task": "The trial of the guild: defeat Ice Warden and Storm Sovereign within three days. If the days run out, the clerk gives it again.",
+  "quest.side_ren_1.name": "Overtime: The Ledgers",
+  "quest.side_ren_1.task": "Bring six spider silks to Bertram Quill in Aldermere: the guild's ledgers fell apart and need binding again.",
+  "quest.side_ren_2.name": "Overtime: An Audit of Wolves",
+  "quest.side_ren_2.task": "The farmers filed three hundred complaints about the grey wolves. Bertram's idea of closing them: eight fewer wolves.",
+  "quest.side_ren_3.name": "Overtime: The Annual Report",
+  "quest.side_ren_3.task": "Empty suits of armor keep doing their rounds in the old halls and send the guild their reports. Stop three of them.",
+  "quest.side_haruka_1.name": "A Patient with a Cough",
+  "quest.side_haruka_1.task": "Mirela's old elk has a cough. Bring five healing herbs and three mint leaves for a warm compress.",
+  "quest.side_haruka_2.name": "The Frightened Herd",
+  "quest.side_haruka_2.task": "Tawny wolves circle the pastures of the stables at night, and the herd does not sleep. Send six of them away.",
+  "quest.side_haruka_3.name": "A Home for the Lost",
+  "quest.side_haruka_3.task": "A young ridge elk lost its herd and wanders hurt in the hills. The bloom slimes follow it. Calm four of them and bring two slime gels for a salve.",
   "enemy.slime_sun.name": "Sun slime"
 }
