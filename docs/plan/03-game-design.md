@@ -2,7 +2,7 @@
 
 > Tutto ciò che riguarda mondo, nomi e personaggi è una **proposta modificabile**: mi hai dato i temi, non i dettagli. I nomi sono provvisori e vivono nei file i18n e nei dati.
 >
-> **Stato (novembre 2026).** Nel gioco c'è un solo protagonista, Ren (senza dono), in un mondo di otto regioni con i nomi e i temi della tabella delle regioni qui sotto (ognuna ha anche un tono di parlata: caldo, mistico, burbero, fiorito, stoico, salato, cupo, erudito), la gilda con ranghi F-S, negozi, locande, Pietre della Soglia e le stagioni. Gli altri sette protagonisti, i doni, i compagni, i legami, la reincarnazione, i titoli e i tag, la base e l'agricoltura non ci sono ancora. Le scelte di tono, storia e bilanciamento sono del proprietario. Il catalogo di ciò che esiste è `docs/design/catalog.md`.
+> **Stato (novembre 2026).** Nel gioco ci sono otto protagonisti, ognuno con il suo dono, un compagno e una storia in sei atti (spec 18), in un mondo di otto regioni con i nomi e i temi della tabella qui sotto (ognuna ha anche un tono di parlata: caldo, mistico, burbero, fiorito, stoico, salato, cupo, erudito). Ci sono la gilda con ranghi F-S, negozi, locande, Pietre della Soglia, stagioni, meteo, compagni, legami, reincarnazione, titoli, tag, imprese, la base del cottage e l'agricoltura. Le scelte di tono, storia e bilanciamento sono del proprietario. Il catalogo di ciò che esiste è `docs/design/catalog.md`; lo stato per milestone è nella [roadmap](06-roadmap-rischi-backlog.md#8-stato-e-prossimi-passi).
 
 ## 1. Pitch e pilastri
 

@@ -32,4 +32,4 @@ Vector art uses an in-house software rasterizer (ADR 0012). ThorVG, SDL3_ttf and
 
 ## Fonts and art
 
-The game ships no font file and no image: the art is JSON recipes drawn by the game (content: CC BY-SA 4.0, see `LICENSE-CONTENT.md`), and the text uses the fonts built into the libraries (the debug font of SDL on desktop, the default bitmap font of libGDX on Android).
+The game ships no image file: the art is JSON recipes drawn by the game. The font of the interface is `data/base/fonts/aether.json`, written by the project's own tool (`tools/make_font.py`) as strokes, not a font of another author. Art and font are content under CC BY-SA 4.0 (see `LICENSE-CONTENT.md`). The debug font of SDL is only a fallback on desktop; Android builds a libGDX bitmap font from the pack font.

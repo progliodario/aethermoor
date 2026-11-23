@@ -42,7 +42,7 @@ src/sim/      tile maps, movement, combat, the story engine, the streamed world 
 tests/        Catch2: version, conformance vectors, pack, simulation, combat and story scenarios
 ```
 
-Four static libraries, all headless (no SDL, no graphics, audio or input code, rule 10 of `CLAUDE.md`): `aether_core`, `aether_data`, `aether_vector` and `aether_sim`; only the `aethermoor` executable links SDL3. Vector art uses the in-house rasterizer (ADR 0012), not ThorVG. The text is drawn with the debug font of SDL, which has the ASCII characters only: `debug_text()` in `main.cpp` draws the accented letters of the Italian texts as a letter with a small accent.
+Four static libraries, all headless (no SDL, no graphics, audio or input code, rule 10 of `CLAUDE.md`): `aether_core`, `aether_data`, `aether_vector` and `aether_sim`; only the `aethermoor` executable links SDL3. Vector art uses the in-house rasterizer (ADR 0012), not ThorVG. All the text is drawn with the font of the pack (`data/base/fonts/aether.json`, spec 13, "Font"). `debug_text()` in `main.cpp` keeps the debug font of SDL, which has the ASCII characters only, as a fallback; there the accented letters of the Italian texts are drawn as the letter with a small accent.
 
 ## Tests
 

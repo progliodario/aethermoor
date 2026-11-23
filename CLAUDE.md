@@ -184,7 +184,7 @@ The numbers (counted from the data by `tools/make_facts.py`):
 
 - **What the game holds:** every creature, item, quest and site is in [`docs/design/catalog.md`](docs/design/catalog.md); the systems,
   area by area, in section 8.3 of the roadmap; the rules in `docs/spec/`. Which generator writes which content: [`tools/README.md`](tools/README.md).
-- **What comes next:** section 8.4 of the roadmap, "A breve" first.
+- **What comes next:** section 8.4 of the roadmap, "A breve" first; the program of the batches, with the files and the acceptance of every item, is in [`docs/plan/07-programma-operativo.md`](docs/plan/07-programma-operativo.md), and every item is a GitHub issue in a milestone.
 - **Difficulty:** `enemy_hp_pct` 100 and `enemy_atk_pct` 70 (easy on purpose, see "How to work").
 - **Sound:** effects are on; music and regional ambience are off.
 - **Parity:** feature gating exists (ADR 0009) but is not used: `supported_features` is empty in `project.json` and in both clients; parity is

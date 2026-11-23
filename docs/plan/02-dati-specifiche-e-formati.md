@@ -2,7 +2,7 @@
 
 > Questo documento è il nucleo di `docs/spec/`. I numeri sono **valori iniziali di bilanciamento**: stanno in `data/base/tables/` e si possono cambiare senza toccare il codice.
 >
-> **Stato (novembre 2026).** Le specifiche normative sono in `docs/spec/` (00-09, 12, 13, 16, 17 scritte; 10, 11, 14 e 15 devono ancora nascere) e prevalgono su questo piano, dove i due divergono: per esempio il giorno dura 20 minuti (spec 08, non 24), il mondo è a chunk di 32 x 32 con regioni, stamp e siti (spec 09), il salvataggio ha tre partite (spec 12) e le condizioni e gli effetti dei dialoghi sono quelli della spec 07. Ciò che qui è descritto e non è ancora in spec (compagni, riincarnazione, titoli, tag, costruzione della base) è ancora un piano.
+> **Stato (novembre 2026).** Le specifiche normative sono in `docs/spec/` (00-14, 16, 17 e 18 scritte; manca la 15, dell'interfaccia, prevista dalla voce B1.2 del [programma](07-programma-operativo.md)) e prevalgono su questo piano, dove i due divergono: per esempio il giorno dura 20 minuti (spec 08, non 24), il mondo è a chunk di 32 x 32 con regioni, stamp e siti (spec 09), il salvataggio ha tre partite (spec 12) e le condizioni e gli effetti dei dialoghi sono quelli della spec 07. Compagni, riincarnazione, titoli, tag e costruzione della base sono ora nelle specifiche 06, 10, 11 e 18; ciò che qui resta solo piano è nel [programma](07-programma-operativo.md).
 
 ## 1. Pack, ID e manifest
 

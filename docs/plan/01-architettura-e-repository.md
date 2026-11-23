@@ -1,6 +1,6 @@
 # 01. Architettura e repository
 
-> **Stato (novembre 2026).** Il principio di fondo è rispettato (spec-first, dati, due client, nucleo senza grafica). Differenze dall'originale: il vettoriale non usa ThorVG né `android.graphics` ma un rasterizzatore proprio (ADR 0012); non si usano SDL3_ttf né miniz (il testo desktop è il font di debug di SDL, vedi `desktop/README.md`); i moduli reali sono `aether_core`, `aether_data`, `aether_vector`, `aether_sim` (desktop) e `core`, `game`, `app` (Android), non l'albero di questo documento; ECS, Tracy e `tools/licenses.py` non esistono. Le dipendenze vere sono in `THIRD_PARTY_NOTICES.md`.
+> **Stato (novembre 2026).** Il principio di fondo è rispettato (spec-first, dati, due client, nucleo senza grafica). Differenze dall'originale: il vettoriale non usa ThorVG né `android.graphics` ma un rasterizzatore proprio (ADR 0012); non si usano SDL3_ttf né miniz (tutto il testo usa il font del pacchetto, spec 13; il font di debug di SDL è solo un ripiego, vedi `desktop/README.md`); i moduli reali sono `aether_core`, `aether_data`, `aether_vector`, `aether_sim` (desktop) e `core`, `game`, `app` (Android), non l'albero di questo documento; ECS e Tracy non esistono; `tools/licenses.py` è previsto dalla voce B1.3 del [programma](07-programma-operativo.md). Le dipendenze vere sono in `THIRD_PARTY_NOTICES.md`.
 
 ## 1. Principi architetturali
 

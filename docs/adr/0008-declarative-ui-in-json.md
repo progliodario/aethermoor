@@ -1,6 +1,6 @@
 # ADR 0008: Declarative UI in JSON
 
-- Status: accepted
+- Status: accepted. Not built yet: the screens are written in the code of each client. The decision to defer the declarative UI is planned as ADR 0014 (item B1.2 of the [operating program](../plan/07-programma-operativo.md)).
 - Date: 2026-11-01
 
 ## Context

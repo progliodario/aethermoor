@@ -1,7 +1,8 @@
 name: release
 
-# Skeleton (M0). Artifact builds (Windows zip/installer, Linux AppImage/tar.gz, signed APK/AAB)
-# are added in the milestones that produce a playable game.
+# Drafts a GitHub release for a tag v*: it checks the data and creates the draft, without files yet.
+# The CI already builds the test packages (Windows zip, Linux tar.gz, Android APK). Attaching them here,
+# with checksums and signing, is item E3.1 of docs/plan/07-programma-operativo.md.
 
 on:
   push:

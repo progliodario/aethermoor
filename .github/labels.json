@@ -24,5 +24,11 @@
   {"name": "needs-spec", "color": "d876e3", "description": "Needs a spec first"},
   {"name": "blocked", "color": "000000", "description": "Blocked by something else"},
   {"name": "good first issue", "color": "7057ff", "description": "Good for newcomers"},
-  {"name": "help wanted", "color": "008672", "description": "Extra attention is needed"}
+  {"name": "help wanted", "color": "008672", "description": "Extra attention is needed"},
+  {"name": "owner-decision", "color": "0e4c92", "description": "Needs a decision of the project owner"},
+  {"name": "accessibility", "color": "f143ab", "description": "Barrier affecting people with disabilities"},
+  {"name": "dependencies", "color": "0366d6", "description": "Pull requests that update a dependency file"},
+  {"name": "github_actions", "color": "000000", "description": "Pull requests that update GitHub Actions code"},
+  {"name": "python", "color": "2b67c6", "description": "Pull requests that update python code"},
+  {"name": "java", "color": "ffa221", "description": "Pull requests that update java code"}
 ]
