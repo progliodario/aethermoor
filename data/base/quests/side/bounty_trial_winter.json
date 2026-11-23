@@ -1,0 +1,48 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/bounty_trial_winter",
+  "name": "$i18n:quest.bounty_trial_winter.name",
+  "kind": "side",
+  "faction": "guild",
+  "repeatable": true,
+  "time_limit_days": 3,
+  "stages": [
+    {
+      "id": "trial",
+      "journal": "$i18n:quest.bounty_trial_winter.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/ice_warden",
+          "count": 1
+        },
+        {
+          "type": "kill",
+          "enemy": "base:enemy/storm_sovereign",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "frostveil_pit"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 6000
+    },
+    {
+      "effect": "add_gold",
+      "amount": 5000
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 60
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/knight_plate_vigor_might",
+      "qty": 1
+    }
+  ]
+}

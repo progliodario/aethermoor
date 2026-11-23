@@ -775,5 +775,15 @@
   "dlg.standing.ashen_wastes.busy": "The bounty is still open: Magma Heart is out there. The guild pays when it falls.",
   "dlg.standing.lumeria.offer": "The guild keeps a standing bounty: Storm Sovereign. It always comes back, and somebody always has to send it away again. Paid every time.",
   "dlg.standing.lumeria.busy": "The bounty is still open: Storm Sovereign is out there. The guild pays when it falls.",
+  "dlg.role.trial.ask": "Is there a trial for this season?",
+  "dlg.role.trial.status": "About the trial of the season...",
+  "dlg.trial.spring.offer": "For the strongest only: the trial of the spring. Gel King and Coral Matron, both of them, within three days. The guild pays well, and there is a piece in the vault that waits for whoever does it.",
+  "dlg.trial.spring.busy": "The trial is running: Gel King and Coral Matron, and the days are counted. The stones will take you there faster than any horse.",
+  "dlg.trial.summer.offer": "For the strongest only: the trial of the summer. Sand Sentinel and Magma Heart, both of them, within three days. The guild pays well, and there is a piece in the vault that waits for whoever does it.",
+  "dlg.trial.summer.busy": "The trial is running: Sand Sentinel and Magma Heart, and the days are counted. The stones will take you there faster than any horse.",
+  "dlg.trial.autumn.offer": "For the strongest only: the trial of the autumn. Moonshade Alpha and Forge Tyrant, both of them, within three days. The guild pays well, and there is a piece in the vault that waits for whoever does it.",
+  "dlg.trial.autumn.busy": "The trial is running: Moonshade Alpha and Forge Tyrant, and the days are counted. The stones will take you there faster than any horse.",
+  "dlg.trial.winter.offer": "For the strongest only: the trial of the winter. Ice Warden and Storm Sovereign, both of them, within three days. The guild pays well, and there is a piece in the vault that waits for whoever does it.",
+  "dlg.trial.winter.busy": "The trial is running: Ice Warden and Storm Sovereign, and the days are counted. The stones will take you there faster than any horse.",
   "dlg.seasonal.scholarly.wait": "The solstice is in summer. Do return then; the instruments are not ready."
 }

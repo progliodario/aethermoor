@@ -167,6 +167,11 @@ Batch unico con le voci B1.1-B1.6, più il lavoro di G1 che serve a sbloccare le
 #### B4 Sfide a tempo (8.4, voce 3)
 
 ##### B4.1 Sfide a tempo
+
+> **Fatta (23 novembre 2026, secondo batch).** Due scelte diverse dal progetto: una missione scaduta non si consegna più (non conta e non
+> paga) invece di dare solo il premio senza il di più, così il "di più" è tutto il premio (il pezzo raro); e il giorno di inizio è un campo
+> facoltativo del progresso (`day`), che i lettori vecchi ignorano: per la spec 12 un campo facoltativo non cambia la versione, quindi il
+> salvataggio resta alla versione 1 e la sua copia congelata ha due casi in più (`timed_quests`). Le quattro prove sono di `make_trials.py`.
 - **Cosa:** una missione può avere un limite di tempo in giorni di mondo (`time_limit_days`; un giorno dura 20 minuti, `docs/spec/08`). Consegnata in tempo dà un premio in più; scaduta, si può ricominciare. Quattro sfide, una per stagione, pagate con un pezzo raro. Il diario mostra i giorni che restano.
 - **Perché:** chi ha finito tutto non ha una ragione per tornare in fretta. Le taglie, le cacce delle stagioni e le botteghe si ripetono già, ma senza fretta.
 - **Come:** un campo nuovo nello schema della missione (`schemas/quest.schema.json`); la regola in `docs/spec/07`; il conteggio nel riferimento (`tools/reference/story.py`); il timer nel salvataggio (versione 2, con la copia di B1.5).

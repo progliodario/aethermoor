@@ -11979,6 +11979,1341 @@
       }
     },
     {
+      "name": "v1_timed_quests_at_7",
+      "input": {
+        "op": "save_resume",
+        "version": 1,
+        "split": 7,
+        "save": {
+          "save_version": 1,
+          "player": {
+            "x": 2.2,
+            "y": 4.5,
+            "facing": [
+              1.0,
+              0.0
+            ],
+            "facing_left": false,
+            "moving": false,
+            "clip_tick": 111,
+            "hp": 142,
+            "level": 1,
+            "xp": 0,
+            "deaths": 0,
+            "kills": 0,
+            "iframes": 0,
+            "cooldown": 0,
+            "phase": "none",
+            "phase_tick": 0,
+            "hit_set": [
+              false,
+              false,
+              false
+            ]
+          },
+          "rng": {
+            "combat": {
+              "state": "0xe7c42fc2c24cb470",
+              "inc": "0x9417f2f99ce2f643"
+            },
+            "loot": {
+              "state": "0xceb2d59802171b7d",
+              "inc": "0x9bd9d15ae1ab096f"
+            }
+          },
+          "enemies": [
+            {
+              "x": 3.6,
+              "y": 4.5,
+              "hp": 5,
+              "state": "idle",
+              "state_tick": 0
+            },
+            {
+              "x": 2.2,
+              "y": 6.1,
+              "hp": 5,
+              "state": "idle",
+              "state_tick": 0
+            },
+            {
+              "x": 2.5,
+              "y": 6.2,
+              "hp": 5,
+              "state": "idle",
+              "state_tick": 0
+            }
+          ],
+          "inventory": {},
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
+          "story": {
+            "flags": {},
+            "gold": 0,
+            "guild_points": 0,
+            "quests": {
+              "test:quest/late": {
+                "stage": "s",
+                "progress": [
+                  0
+                ],
+                "done": false,
+                "day": 1
+              },
+              "test:quest/trial": {
+                "stage": "s",
+                "progress": [
+                  0
+                ],
+                "done": false,
+                "day": 2
+              }
+            },
+            "dialogue": null
+          },
+          "world_ticks": 111
+        },
+        "start_gold": 0,
+        "day_ticks": 100,
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.6,
+              4.5
+            ],
+            "def": {
+              "hp": 5,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/slime_green"
+            }
+          },
+          {
+            "pos": [
+              2.2,
+              6.1
+            ],
+            "def": {
+              "hp": 5,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/wolf_grey"
+            }
+          },
+          {
+            "pos": [
+              2.5,
+              6.2
+            ],
+            "def": {
+              "hp": 5,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/slime_green"
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "start_quest",
+                "quest": "test:quest/late"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 110,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "start_quest",
+                "quest": "test:quest/trial"
+              }
+            ]
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "start_quest",
+                "quest": "test:quest/late"
+              }
+            ]
+          },
+          {
+            "ticks": 20,
+            "move": [
+              0,
+              1
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          }
+        ],
+        "story": {
+          "npcs": [
+            {
+              "key": "clerk",
+              "pos": [
+                1.4,
+                4.5
+              ],
+              "dialogue": "test:dialogue/clerk"
+            }
+          ],
+          "dialogues": {
+            "test:dialogue/clerk": {
+              "id": "test:dialogue/clerk",
+              "start": "s",
+              "nodes": {
+                "s": {
+                  "type": "condition",
+                  "when": {
+                    "quest_active": "test:quest/late"
+                  },
+                  "then": "busy",
+                  "else": "free"
+                },
+                "busy": {
+                  "type": "say",
+                  "speaker": "clerk",
+                  "text": "t.busy",
+                  "next": "end"
+                },
+                "free": {
+                  "type": "say",
+                  "speaker": "clerk",
+                  "text": "t.free",
+                  "next": "end"
+                }
+              }
+            }
+          },
+          "quests": {
+            "test:quest/late": {
+              "id": "test:quest/late",
+              "name": "t",
+              "time_limit_days": 1,
+              "stages": [
+                {
+                  "id": "s",
+                  "objectives": [
+                    {
+                      "type": "kill",
+                      "enemy": "base:enemy/slime_green",
+                      "count": 1
+                    }
+                  ],
+                  "next": "end"
+                }
+              ],
+              "rewards": [
+                {
+                  "effect": "add_gold",
+                  "amount": 500
+                }
+              ]
+            },
+            "test:quest/trial": {
+              "id": "test:quest/trial",
+              "name": "t",
+              "time_limit_days": 2,
+              "stages": [
+                {
+                  "id": "s",
+                  "objectives": [
+                    {
+                      "type": "kill",
+                      "enemy": "base:enemy/wolf_grey",
+                      "count": 1
+                    }
+                  ],
+                  "next": "end"
+                }
+              ],
+              "rewards": [
+                {
+                  "effect": "add_gold",
+                  "amount": 50
+                }
+              ]
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 6,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 2.2,
+                "y": 6.1
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 2.5,
+                "y": 6.2
+              }
+            ],
+            "kills": 1,
+            "inventory": {
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {
+                "test:quest/late": {
+                  "stage": "s",
+                  "done": false,
+                  "progress": [
+                    0
+                  ]
+                },
+                "test:quest/trial": {
+                  "stage": "s",
+                  "done": false,
+                  "progress": [
+                    0
+                  ]
+                }
+              },
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 6,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 2.2,
+                "y": 6.1
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 2.5,
+                "y": 6.2
+              }
+            ],
+            "kills": 1,
+            "inventory": {
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {
+                "test:quest/late": {
+                  "stage": "s",
+                  "done": false,
+                  "progress": [
+                    0
+                  ]
+                },
+                "test:quest/trial": {
+                  "stage": "s",
+                  "done": false,
+                  "progress": [
+                    0
+                  ]
+                }
+              },
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 6,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 5.379666666666662
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 2.2,
+                "y": 6.1
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 2.5,
+                "y": 6.2
+              }
+            ],
+            "kills": 1,
+            "inventory": {
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {
+                "test:quest/late": {
+                  "stage": "s",
+                  "done": false,
+                  "progress": [
+                    0
+                  ]
+                },
+                "test:quest/trial": {
+                  "stage": "s",
+                  "done": false,
+                  "progress": [
+                    0
+                  ]
+                }
+              },
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 18,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 5.379666666666662
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.5
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 2.2,
+                "y": 6.1
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 2.5,
+                "y": 6.2
+              }
+            ],
+            "kills": 3,
+            "inventory": {
+              "base:item/slime_gel": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 550,
+              "guild_points": 0,
+              "quests": {
+                "test:quest/late": {
+                  "stage": "s",
+                  "done": true,
+                  "progress": [
+                    1
+                  ]
+                },
+                "test:quest/trial": {
+                  "stage": "s",
+                  "done": true,
+                  "progress": [
+                    1
+                  ]
+                }
+              },
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "v1_timed_quests_at_9",
+      "input": {
+        "op": "save_resume",
+        "version": 1,
+        "split": 9,
+        "save": {
+          "save_version": 1,
+          "player": {
+            "x": 2.2,
+            "y": 4.5,
+            "facing": [
+              1.0,
+              0.0
+            ],
+            "facing_left": false,
+            "moving": false,
+            "clip_tick": 141,
+            "hp": 142,
+            "level": 1,
+            "xp": 6,
+            "deaths": 0,
+            "kills": 1,
+            "iframes": 0,
+            "cooldown": 19,
+            "phase": "active",
+            "phase_tick": 0,
+            "hit_set": [
+              false,
+              false,
+              false
+            ]
+          },
+          "rng": {
+            "combat": {
+              "state": "0xc922eea8ea4266fa",
+              "inc": "0x9417f2f99ce2f643"
+            },
+            "loot": {
+              "state": "0xa26d4806347340b7",
+              "inc": "0x9bd9d15ae1ab096f"
+            }
+          },
+          "enemies": [
+            {
+              "x": 3.6,
+              "y": 4.5,
+              "hp": 0,
+              "state": "dead",
+              "state_tick": 0
+            },
+            {
+              "x": 2.2,
+              "y": 6.1,
+              "hp": 5,
+              "state": "idle",
+              "state_tick": 0
+            },
+            {
+              "x": 2.5,
+              "y": 6.2,
+              "hp": 5,
+              "state": "idle",
+              "state_tick": 0
+            }
+          ],
+          "inventory": {
+            "base:item/slime_gel": 1
+          },
+          "equipped": {
+            "weapon": "",
+            "armor": ""
+          },
+          "bestiary": {
+            "base:enemy/slime_green": 1
+          },
+          "story": {
+            "flags": {},
+            "gold": 0,
+            "guild_points": 0,
+            "quests": {
+              "test:quest/late": {
+                "stage": "s",
+                "progress": [
+                  0
+                ],
+                "done": false,
+                "day": 2
+              },
+              "test:quest/trial": {
+                "stage": "s",
+                "progress": [
+                  0
+                ],
+                "done": false,
+                "day": 2
+              }
+            },
+            "dialogue": null
+          },
+          "world_ticks": 141
+        },
+        "start_gold": 0,
+        "day_ticks": 100,
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.6,
+              4.5
+            ],
+            "def": {
+              "hp": 5,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/slime_green"
+            }
+          },
+          {
+            "pos": [
+              2.2,
+              6.1
+            ],
+            "def": {
+              "hp": 5,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/wolf_grey"
+            }
+          },
+          {
+            "pos": [
+              2.5,
+              6.2
+            ],
+            "def": {
+              "hp": 5,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "base:enemy/slime_green"
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "start_quest",
+                "quest": "test:quest/late"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 110,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "advance"
+              }
+            ]
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "start_quest",
+                "quest": "test:quest/trial"
+              }
+            ]
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 0,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "start_quest",
+                "quest": "test:quest/late"
+              }
+            ]
+          },
+          {
+            "ticks": 20,
+            "move": [
+              0,
+              1
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          }
+        ],
+        "story": {
+          "npcs": [
+            {
+              "key": "clerk",
+              "pos": [
+                1.4,
+                4.5
+              ],
+              "dialogue": "test:dialogue/clerk"
+            }
+          ],
+          "dialogues": {
+            "test:dialogue/clerk": {
+              "id": "test:dialogue/clerk",
+              "start": "s",
+              "nodes": {
+                "s": {
+                  "type": "condition",
+                  "when": {
+                    "quest_active": "test:quest/late"
+                  },
+                  "then": "busy",
+                  "else": "free"
+                },
+                "busy": {
+                  "type": "say",
+                  "speaker": "clerk",
+                  "text": "t.busy",
+                  "next": "end"
+                },
+                "free": {
+                  "type": "say",
+                  "speaker": "clerk",
+                  "text": "t.free",
+                  "next": "end"
+                }
+              }
+            }
+          },
+          "quests": {
+            "test:quest/late": {
+              "id": "test:quest/late",
+              "name": "t",
+              "time_limit_days": 1,
+              "stages": [
+                {
+                  "id": "s",
+                  "objectives": [
+                    {
+                      "type": "kill",
+                      "enemy": "base:enemy/slime_green",
+                      "count": 1
+                    }
+                  ],
+                  "next": "end"
+                }
+              ],
+              "rewards": [
+                {
+                  "effect": "add_gold",
+                  "amount": 500
+                }
+              ]
+            },
+            "test:quest/trial": {
+              "id": "test:quest/trial",
+              "name": "t",
+              "time_limit_days": 2,
+              "stages": [
+                {
+                  "id": "s",
+                  "objectives": [
+                    {
+                      "type": "kill",
+                      "enemy": "base:enemy/wolf_grey",
+                      "count": 1
+                    }
+                  ],
+                  "next": "end"
+                }
+              ],
+              "rewards": [
+                {
+                  "effect": "add_gold",
+                  "amount": 50
+                }
+              ]
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 6,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 5.379666666666662
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.5
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 2.2,
+                "y": 6.1
+              },
+              {
+                "hp": 5,
+                "state": "idle",
+                "x": 2.5,
+                "y": 6.2
+              }
+            ],
+            "kills": 1,
+            "inventory": {
+              "base:item/slime_gel": 1
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {
+                "test:quest/late": {
+                  "stage": "s",
+                  "done": false,
+                  "progress": [
+                    0
+                  ]
+                },
+                "test:quest/trial": {
+                  "stage": "s",
+                  "done": false,
+                  "progress": [
+                    0
+                  ]
+                }
+              },
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 18,
+              "deaths": 0,
+              "x": 2.2,
+              "y": 5.379666666666662
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6,
+                "y": 4.5
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 2.2,
+                "y": 6.1
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 2.5,
+                "y": 6.2
+              }
+            ],
+            "kills": 3,
+            "inventory": {
+              "base:item/slime_gel": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "story": {
+              "flags": {},
+              "gold": 550,
+              "guild_points": 0,
+              "quests": {
+                "test:quest/late": {
+                  "stage": "s",
+                  "done": true,
+                  "progress": [
+                    1
+                  ]
+                },
+                "test:quest/trial": {
+                  "stage": "s",
+                  "done": true,
+                  "progress": [
+                    1
+                  ]
+                }
+              },
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
       "name": "v1_game",
       "input": {
         "op": "save_roundtrip",

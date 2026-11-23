@@ -230,6 +230,9 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
             progress.push_back(count);
         }
         quests[id] = {{"stage", q.stage}, {"progress", progress}, {"done", q.done}};
+        if (q.day > 0) {  // the day a timed quest was started (spec 07, "Timed quests")
+            quests[id]["day"] = q.day;
+        }
     }
     story["quests"] = quests;
     if (s.story.dialogue_active) {
@@ -389,6 +392,7 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
                 QuestProgress progress;
                 progress.stage = q.at("stage").get<std::string>();
                 progress.done = q.at("done").get<bool>();
+                progress.day = q.value("day", static_cast<std::int64_t>(0));
                 for (const Json& count : q.at("progress")) {
                     progress.progress.push_back(count.get<std::int64_t>());
                 }

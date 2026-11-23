@@ -35,13 +35,13 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (120 missioni di storia) |
 | Creature | 79, di cui 27 guardiani e 8 Echi |
-| Missioni | 379 (24 storie dei paesani) |
+| Missioni | 383 (24 storie dei paesani) |
 | Oggetti e ricette | 286 oggetti, 82 ricette (8 segrete) |
 | Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3991 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 604 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 4011 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 31 file di vettori di conformità, 609 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
 
@@ -238,7 +238,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine. Il programma completo, con i batch, i file e i criteri di ogni voce, è in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md); la lista breve della roadmap è nella [sezione 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
-- **A breve:** la baseline di detekt a zero; le sfide a tempo; i viaggiatori che camminano sulle strade; i paesani che vanno alla festa della città vicina.
+- **A breve:** la baseline di detekt a zero; i viaggiatori che camminano sulle strade; i paesani che vanno alla festa della città vicina.
 - **A medio termine:** stanze del cottage; affissi scelti dal giocatore; compagni scelti dal giocatore; la modalità Dungeon di Gideon; thread di streaming e misure su Android; una settimana di gioco come prova; un sintetizzatore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** altre storie per i protagonisti (release 0.6-0.9); qualità grafica, log dei crash e revisione delle traduzioni; comandi e layout su Android; pacchetti firmati; documentazione per chi fa mod.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1), le impostazioni del repository, le chiavi di firma e le altre decisioni elencate nel programma.

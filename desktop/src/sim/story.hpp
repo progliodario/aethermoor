@@ -84,6 +84,7 @@ struct QuestDef {
     std::map<std::string, std::string> args;  // arguments of the name and journal texts (spec 07)
     std::string faction;                      // the faction it counts for (spec 07, "Factions"); empty: none
     bool repeatable = false;                  // once done it can be started anew (spec 07, "Quests")
+    std::int64_t time_limit_days = 0;  // the days it has, the first included (spec 07, "Timed quests"); 0: no limit
 };
 
 struct Offer;
@@ -161,6 +162,7 @@ struct QuestProgress {
     std::string stage;
     std::vector<std::int64_t> progress;
     bool done = false;
+    std::int64_t day = 0;  // the day a timed quest was started (spec 07, "Timed quests"); 0: not a timed quest
 };
 
 // The part of the story that changes while playing (saves).
@@ -225,6 +227,10 @@ public:
     void apply(const Effect& effect);
 
     void start_quest(const std::string& quest_id);
+    // A timed quest whose days are over (spec 07, "Timed quests"): not active, counts nothing, can be started again.
+    bool quest_over(const std::string& quest_id) const;
+    // The days a timed quest still has, today included; 0 for a quest without a limit, done or over.
+    std::int64_t days_left(const std::string& quest_id) const;
     void on_kill(std::string_view enemy_id);
     void on_talk(std::string_view npc_key);
     // Updates the quests that collect items after the bag changed outside the story (spec 06, "Chests").

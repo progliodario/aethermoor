@@ -304,6 +304,11 @@
               },
               "done": {
                 "type": "boolean"
+              },
+              "day": {
+                "description": "The day a timed quest was started (spec 07, \"Timed quests\")",
+                "type": "integer",
+                "minimum": 1
               }
             }
           }

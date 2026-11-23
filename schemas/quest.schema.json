@@ -28,6 +28,11 @@
       "type": "boolean",
       "description": "once done, the quest can be started anew and pays again (spec 07, Quests)"
     },
+    "time_limit_days": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "the days of the world the quest has, the day it starts included; then it is over and can be started again (spec 07, Timed quests)"
+    },
     "kind": {
       "enum": [
         "main",

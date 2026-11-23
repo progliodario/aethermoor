@@ -35,13 +35,13 @@ class Story:
             return all(self.holds(x) for x in value)
         if key == "any":
             return any(self.holds(x) for x in value)
-        if key == "quest_active":
-            return value in self.quests and not self.quests[value]["done"]
+        if key == "quest_active":  # an expired timed quest is not active any more (spec 07, "Timed quests")
+            return value in self.quests and not self.quests[value]["done"] and not self.expired(value)
         if key == "quest_done":
             return value in self.quests and self.quests[value]["done"]
         if key == "quest_stage":
             q = self.quests.get(value["quest"])
-            return q is not None and not q["done"] and q["stage"] == value["stage"]
+            return q is not None and not q["done"] and not self.expired(value["quest"]) and q["stage"] == value["stage"]
         if key == "has_item":
             return self.host.inventory.get(value["item"], 0) >= value["qty"]
         if key == "level_at_least":
@@ -115,12 +115,31 @@ class Story:
         q = self.quests[quest_id]
         return next(s for s in self.quest_defs[quest_id]["stages"] if s["id"] == q["stage"])
 
+    def expired(self, quest_id: str) -> bool:
+        """A timed quest whose days are over (spec 07, "Timed quests"): `time_limit_days` of its definition, counted from the day it was
+        started (`day`); it is not done, it does not count anything more and it can be started again."""
+        q = self.quests.get(quest_id)
+        limit = self.quest_defs.get(quest_id, {}).get("time_limit_days", 0)
+        return q is not None and not q["done"] and limit > 0 and q.get("day", 0) > 0 and self.host.day() >= q["day"] + limit
+
+    def days_left(self, quest_id: str) -> int:
+        """The days a timed quest still has, today included; 0 for a quest without a limit or an expired one."""
+        q = self.quests.get(quest_id)
+        limit = self.quest_defs.get(quest_id, {}).get("time_limit_days", 0)
+        if q is None or q["done"] or limit <= 0 or q.get("day", 0) <= 0:
+            return 0
+        return max(0, q["day"] + limit - self.host.day())
+
     def start_quest(self, quest_id: str) -> None:
-        # a quest that exists is not started again, unless it is done and `repeatable` (spec 07, "Quests"): then it starts anew
-        if quest_id in self.quests and not (self.quests[quest_id]["done"] and self.quest_defs.get(quest_id, {}).get("repeatable", False)):
+        # a quest that exists is not started again, unless it is done and `repeatable` (spec 07, "Quests"), or a timed quest whose days
+        # are over (spec 07, "Timed quests"): then it starts anew
+        if quest_id in self.quests and not (self.quests[quest_id]["done"] and self.quest_defs.get(quest_id, {}).get("repeatable", False)) \
+                and not self.expired(quest_id):
             return
         stage = self.quest_defs[quest_id]["stages"][0]
         self.quests[quest_id] = {"stage": stage["id"], "progress": [0] * len(stage["objectives"]), "done": False}
+        if self.quest_defs[quest_id].get("time_limit_days", 0) > 0:  # the day it starts: the days are counted from it
+            self.quests[quest_id]["day"] = self.host.day()
         self._refresh(quest_id)
 
     def _refresh_all(self) -> None:
@@ -131,7 +150,7 @@ class Story:
         """Updates collect objectives, then advances stages while the current one is complete."""
         while True:
             q = self.quests[quest_id]
-            if q["done"]:
+            if q["done"] or self.expired(quest_id):
                 return
             stage = self._stage(quest_id)
             for i, objective in enumerate(stage["objectives"]):
@@ -154,7 +173,7 @@ class Story:
     def on_kill(self, enemy_id: str) -> None:
         for quest_id in sorted(self.quests):
             q = self.quests[quest_id]
-            if q["done"]:
+            if q["done"] or self.expired(quest_id):
                 continue
             for i, o in enumerate(self._stage(quest_id)["objectives"]):
                 if o["type"] == "kill" and o["enemy"] == enemy_id:
@@ -164,7 +183,7 @@ class Story:
     def on_talk(self, npc_key: str) -> None:
         for quest_id in sorted(self.quests):
             q = self.quests[quest_id]
-            if q["done"]:
+            if q["done"] or self.expired(quest_id):
                 continue
             for i, o in enumerate(self._stage(quest_id)["objectives"]):
                 if o["type"] == "talk" and o["npc_key"] == npc_key:
@@ -268,7 +287,7 @@ class Story:
             "flags": {k: self.flags[k] for k in sorted(self.flags)},
             "gold": self.gold,
             "guild_points": self.guild_points,
-            "quests": {k: {"stage": v["stage"], "progress": list(v["progress"]), "done": v["done"]}
+            "quests": {k: {"stage": v["stage"], "progress": list(v["progress"]), "done": v["done"], **({"day": v["day"]} if v.get("day") else {})}
                        for k, v in sorted(self.quests.items())},
             "dialogue": None if self.dialogue is None else {"id": self.dialogue[0], "node": self.dialogue[1]},
         }
@@ -277,7 +296,7 @@ class Story:
         self.flags = dict(state["flags"])
         self.gold = state["gold"]
         self.guild_points = state.get("guild_points", 0)
-        self.quests = {k: {"stage": v["stage"], "progress": list(v["progress"]), "done": v["done"]}
+        self.quests = {k: {"stage": v["stage"], "progress": list(v["progress"]), "done": v["done"], **({"day": v["day"]} if v.get("day") else {})}
                        for k, v in state["quests"].items()}
         d = state["dialogue"]
         self.dialogue = None if d is None else (d["id"], d["node"])

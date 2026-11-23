@@ -58,6 +58,21 @@ A quest has ordered **stages**; each stage lists **objectives** and the `next` s
 - When every objective of the current stage is satisfied the quest moves to `next` (progress reset, `collect` refreshed) and
   this repeats while the new stage is already satisfied. Reaching `end` marks the quest **done** and applies its `rewards` effects.
 
+### Timed quests
+
+A quest may have `time_limit_days` (an integer of at least 1; absent: no limit). Starting it records the **day** of the world (spec 08,
+`world_ticks / day_ticks + 1`; 1 on a map without a clock) on its progress. The quest is **over** when it is not done and
+`day >= started_day + time_limit_days`: the day it starts and the `time_limit_days - 1` days after it are its time. Nothing happens on
+the day it ends; while it is over:
+
+- it is not active: `quest_active` and `quest_stage` are false for it (`quest_done` stays false);
+- kills and talks do not count for it, its `collect` objectives are not refreshed, it cannot be done and it pays nothing;
+- `start_quest` starts it again, as if it were new (first stage, progress 0, the day of today), repeatable or not.
+
+`days_left = started_day + time_limit_days - day` (at least 0) is what the journal shows. The day is saved in the progress of the quest
+(`day`, spec 12), only for a quest with a limit. Conformance: the scenario `timed_quests` of the suite `story` and two save splits of it.
+In the base pack the four **trials of the seasons** of the guild clerks are timed (see "Trials of the seasons").
+
 ## Dialogue
 
 A dialogue is a graph of named nodes with a `start` node and the special target `end`.
@@ -174,6 +189,14 @@ result and `set_flag`. The parts are drops of the region's own creatures, so the
 
 Villagers and shopkeepers also answer "How is the road around here?" with a text of the region's tone (`dlg.tone.<tone>.road`).
 
+## Trials of the seasons
+
+For the Guest who has done everything: in every season the guild clerk of every town (one more choice of the role dialogue
+`guild_clerk_<tone>`, after the standing bounty, from level 25) offers the **trial of the season**, `base:quest/side/trial_<season>`: defeat
+two great creatures of two far regions within three days (`time_limit_days` 3; the Threshold Stones make it a race, not a chore). It is
+`repeatable` and for the Guild; done in time it pays experience, gold, guild points and a rare piece with two affixes (spec 06), one for
+each season. A trial that is over can be taken again at once. `tools/make_trials.py` writes them.
+
 ## Standing bounties
 
 The clerk of the guild in every town of a region keeps a **standing bounty** on a great creature of the region (`tools/make_standing_bounties.py`):
@@ -277,7 +300,8 @@ Fenwick and Aldermere have people with names (`tools/make_towns.py`), and two mo
 ## Journal
 
 The journal lists every quest of the story state: first those in progress (name, the journal text of the current stage with the quest arguments, and the
-`current/total` of each kill/collect objective), then the finished ones (name only). It reads only the story state, so it needs no data of its own and a
+`current/total` of each kill/collect objective; for a timed quest, the days it has left, `ui.quest_days_left`, today included), then the finished ones
+(name only). A timed quest that is over is listed among the finished ones with `ui.quest_over` after its name, until it is started again. It reads only the story state, so it needs no data of its own and a
 generated quest (see "Guild") appears like any other. With no quest it shows the text `ui.journal_empty`. Opening the journal pauses the game.
 
 ## Presentation (not in the contract)

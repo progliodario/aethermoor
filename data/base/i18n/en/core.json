@@ -1442,5 +1442,7 @@
   "dlg.lark.hunt_status": "The hunt goes well.",
   "dlg.lark.hunt_busy": "Six of them, wherever the season brings them.",
   "ui.temper_refused": "Temper at an anvil, holding a weapon or wearing an armor whose affix can roll.",
+  "ui.quest_days_left": "Days left: {days}",
+  "ui.quest_over": "(time is up: it can be taken again)",
   "ui.quest_repeatable": "(can be done again)"
 }

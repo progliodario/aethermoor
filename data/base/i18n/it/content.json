@@ -1771,5 +1771,13 @@
   "quest.bounty_standing_ashen_wastes.task": "Taglia permanente della gilda a Terre di Cenere: Cuore di magma. Sconfiggilo; tornerà, e potrai farlo anche tu.",
   "quest.bounty_standing_lumeria.name": "Taglia permanente: Sovrano della tempesta",
   "quest.bounty_standing_lumeria.task": "Taglia permanente della gilda a Lumeria: Sovrano della tempesta. Sconfiggilo; tornerà, e potrai farlo anche tu.",
+  "quest.bounty_trial_spring.name": "Prova della primavera: Re Gelatina e Matrona di corallo",
+  "quest.bounty_trial_spring.task": "La prova della gilda: sconfiggi Re Gelatina e Matrona di corallo entro tre giorni. Se i giorni finiscono, l'impiegato la ridà.",
+  "quest.bounty_trial_summer.name": "Prova dell'estate: Sentinella di sabbia e Cuore di magma",
+  "quest.bounty_trial_summer.task": "La prova della gilda: sconfiggi Sentinella di sabbia e Cuore di magma entro tre giorni. Se i giorni finiscono, l'impiegato la ridà.",
+  "quest.bounty_trial_autumn.name": "Prova dell'autunno: Alfa dell'ombra lunare e Tiranno della forgia",
+  "quest.bounty_trial_autumn.task": "La prova della gilda: sconfiggi Alfa dell'ombra lunare e Tiranno della forgia entro tre giorni. Se i giorni finiscono, l'impiegato la ridà.",
+  "quest.bounty_trial_winter.name": "Prova dell'inverno: Custode del ghiaccio e Sovrano della tempesta",
+  "quest.bounty_trial_winter.task": "La prova della gilda: sconfiggi Custode del ghiaccio e Sovrano della tempesta entro tre giorni. Se i giorni finiscono, l'impiegato la ridà.",
   "enemy.slime_sun.name": "Gelatina del sole"
 }
