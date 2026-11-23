@@ -283,6 +283,12 @@ any day, and the innkeeper asks how it goes; it pays experience and gold that gr
 The **villagers** talk of the feasts too (two more choices of their menu, first): on the feast day of their region they wish the Guest
 a happy feast; on the feast day of the next region of the cycle (the neighbours) they tell that half the village has gone there.
 
+**The people move for the feasts** (`settlements.feast` of the world data, spec 09, "Settlement people"): on the feast day of the
+neighbours the people of the role `villager` of the hamlets and villages of a region are away (they went to the feast; the elder, the
+shopkeeper, the innkeeper and the settler stay), and on its own feast day every town of a region has three **guests of the feast** on
+its plaza (the role `feast_guest`, three slots of every town stamp), who are there only that day and say where they came from
+(`feast_guest_<tone>`). `tools/make_feasts.py` writes it with the rest of the feasts.
+
 ## People of the towns
 
 Fenwick and Aldermere have people with names (`tools/make_towns.py`), and two more written by `tools/make_home.py`:

@@ -37,6 +37,13 @@ def run(args: list[str], check: bool = True, capture: bool = False, cwd: Path = 
                           stdout=subprocess.PIPE if capture else None, stderr=subprocess.STDOUT if capture else None)
 
 
+def gh(args: list[str], check: bool = False) -> str:
+    """The standard output of a `gh` command, alone: gh writes hints to stderr (for instance about `gh event listen` when a pull request
+    is read again and again), and mixed with the output they broke the JSON of the checks, so the script waited until its timeout."""
+    result = subprocess.run(["gh", *args], cwd=ROOT, check=check, text=True, encoding="utf-8", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    return result.stdout
+
+
 def python_tool(*args: str) -> list[str]:
     venv = ROOT / ".venv" / ("Scripts" if os.name == "nt" else "bin") / ("python.exe" if os.name == "nt" else "python")
     return [str(venv if venv.exists() else sys.executable), *args]
@@ -102,7 +109,7 @@ def wait_for_checks(pr: str) -> tuple[bool, str]:
     deadline = time.time() + 45 * 60
     time.sleep(20)  # the checks need a moment to be registered
     while time.time() < deadline:
-        out = run(["gh", "pr", "checks", pr, "--json", "name,bucket"], check=False, capture=True).stdout
+        out = gh(["pr", "checks", pr, "--json", "name,bucket"])
         try:
             rows = json.loads(out)
         except json.JSONDecodeError:
@@ -130,9 +137,9 @@ KEEP_CACHES = 2
 
 def prune_caches() -> None:
     """Deletes the vcpkg caches older than the newest KEEP_CACHES of every platform, so the 10 GB of the repository hold the useful ones."""
-    out = run(["gh", "cache", "list", "--limit", "500", "--key", "vcpkg", "--json", "id,key,createdAt"], check=False, capture=True)
+    out = gh(["cache", "list", "--limit", "500", "--key", "vcpkg", "--json", "id,key,createdAt"])
     try:
-        rows = json.loads(out.stdout)
+        rows = json.loads(out)
     except json.JSONDecodeError:
         return
     groups: dict[str, list[dict]] = {}
@@ -146,7 +153,7 @@ def prune_caches() -> None:
 
 
 def refresh_play(pr: str, play: Path) -> None:
-    out = run(["gh", "pr", "checks", pr, "--json", "name,link"], capture=True).stdout
+    out = gh(["pr", "checks", pr, "--json", "name,link"], check=True)
     link = next(r["link"] for r in json.loads(out) if r["name"] == "windows-msvc")
     run_id = re.search(r"/runs/(\d+)", link).group(1)
     with tempfile.TemporaryDirectory() as tmp:
@@ -190,12 +197,13 @@ def main() -> int:
     run(["git", "push", "--quiet", "-u", "origin", branch])
     print("3. pull request")
     # only an open pull request counts: a branch name that was used before may have a merged one
-    existing = run(["gh", "pr", "list", "--head", branch, "--state", "open", "--json", "url", "-q", ".[0].url"], check=False, capture=True)
-    if existing.returncode == 0 and existing.stdout.strip().startswith("http"):
-        url = existing.stdout.strip()
+    existing = gh(["pr", "list", "--head", branch, "--state", "open", "--json", "url", "-q", ".[0].url"]).strip()
+    if existing.startswith("http"):
+        url = existing
     else:
         body = Path(args.body_file).read_text(encoding="utf-8") if args.body_file else ""
-        url = run(["gh", "pr", "create", "--title", args.title, "--body", body], capture=True).stdout.strip().splitlines()[-1]
+        created = gh(["pr", "create", "--title", args.title, "--body", body], check=True)
+        url = next(line.strip() for line in reversed(created.splitlines()) if line.strip().startswith("http"))
     print(f"  {url}")
     ok, summary = wait_for_checks(url)
     print(f"  {summary}")
@@ -207,7 +215,7 @@ def main() -> int:
     print("4. merge")
     # `--delete-branch` also deletes the local branch, which fails when the working tree holds unrelated changes: check the pull request, not the exit code
     merged = run(["gh", "pr", "merge", url, "--squash", "--delete-branch"], check=False)
-    state = run(["gh", "pr", "view", url, "--json", "state", "--jq", ".state"], capture=True).stdout.strip()
+    state = gh(["pr", "view", url, "--json", "state", "--jq", ".state"]).strip()
     if state != "MERGED":
         print(f"the merge failed (exit code {merged.returncode}, state {state})")
         return 1

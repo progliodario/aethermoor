@@ -283,7 +283,7 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4011 chiavi, in italiano e inglese |
+| Testi | 4019 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 31 file di vettori di conformità, 609 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
@@ -342,6 +342,9 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Giorni di mercato** (dal 14 novembre): i prezzi di ogni regione oscillano con il giorno, per comprare e per vendere (dal 6% di Ironspine al 20% di Sunscar).
 - **Coloni e feste** (dal 18 al 22 novembre): un colono in ogni villaggio generato quando la regione ti conosce, con un mestiere, una bottega e
   un compito che si può rifare; una festa per regione con pasto gratis, mercato al 75% e una gara (otto missioni), i paesani che ne parlano.
+- **I paesani vanno alle feste** (dal 23 novembre, B3.2, spec 07 "Feasts" e spec 09 "Settlement people"): nel giorno di festa dei vicini i
+  paesani dei borghi e dei villaggi di una regione non sono a casa (anziano, bottegaio, locandiere e colono restano); nel giorno di festa
+  della regione ogni sua città ha tre ospiti in piazza, che raccontano da dove vengono. La condizione di presenza di ogni persona è nei vettori.
 - **Viaggiatori** (dal 18 al 22 novembre): Odo il capo carovana, Brannoc il fabbro errante (al contrario di Odo) e Lark la cantastorie, ogni
   giorno in un altro avamposto; le canzoni di Lark, la canzone della strada e le cacce delle stagioni.
 - **Missioni ripetibili** (dal 22 novembre, `repeatable`): le cacce delle stagioni, le botteghe dei coloni e le taglie permanenti della gilda
@@ -402,7 +405,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Fondamenta B1** (dal 23 novembre): le copie congelate dei salvataggi di ogni versione (`tests/saves/`, suite `save_fixtures`, spec 12),
   che il riferimento e i due client devono caricare; la matrice di parità generata (`docs/design/parity.md`) e il controllo delle licenze
   (`tools/licenses.py`), tutti e due in `ci-data`; la spec 15 (il tema "Finestra di sistema" e dove sta ogni pannello) e l'ADR 0014 (le
-  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96.
+  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita).
 - Catalogo dei contenuti e rapporto di bilanciamento generati dai dati; anteprime dell'arte in PNG senza avviare il gioco.
 
 ### 8.4 Che cosa resta da fare, in ordine
@@ -415,11 +418,10 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 **A breve (le prossime PR)**
 
 1. **Ridurre la baseline di detekt** (M10; ktlint e detekt in CI ci sono, le segnalazioni vecchie restano in
-   `android/config/detekt-baseline.xml`: 96, di cui 71 di complessità, 19 di annidamento e 6 di uscite dai cicli): spezzare a poco a poco le funzioni più complesse.
+   `android/config/detekt-baseline.xml`: 90, di cui 71 di complessità, 18 di annidamento e uno di uscite dai cicli, tutto in
+   `AethermoorGame.kt`): spezzare a poco a poco le funzioni più complesse.
 2. **Viaggiatori che si vedono** (M6; Odo, Brannoc e Lark girano gli avamposti, ogni giorno in un altro): camminano lungo le strade invece di
    comparire alla tappa; altri mercanti con il loro giro.
-3. **Più vita nei villaggi** (M6; residenti, coloni, feste, giochi e paesani alle feste ci sono): i paesani che si spostano davvero verso la
-   festa vicina.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 

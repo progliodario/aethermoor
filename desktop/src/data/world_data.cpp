@@ -298,6 +298,17 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
                 p.role_when[role] = condition.dump();
             }
         }
+        if (settlements.contains("feast")) {  // the people who move for the feasts (spec 07, "Feasts")
+            const Json& feast = settlements.at("feast");
+            p.feast.guest_role = feast.at("guest_role").get<std::string>();
+            p.feast.away_roles = feast.at("away_roles").get<std::vector<std::string>>();
+            p.feast.away_kinds = feast.at("away_kinds").get<std::vector<std::string>>();
+            for (const auto& [region, days] : feast.at("regions").items()) {
+                p.feast.regions[region] = {days.at("feast").at("every").get<int>(),
+                                           days.at("feast").at("at").get<int>(), days.at("away").at("every").get<int>(),
+                                           days.at("away").at("at").get<int>()};
+            }
+        }
         for (const Json& variant : settlements.at("variants")) {
             p.variants.push_back(variant.get<std::string>());
         }

@@ -183,7 +183,7 @@ The numbers (counted from the data by `tools/make_facts.py`):
 | Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 48 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 4011 keys, in Italian and English |
+| Texts | 4019 keys, in Italian and English |
 | Same rules on both clients | 31 files of conformance vectors, 609 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->

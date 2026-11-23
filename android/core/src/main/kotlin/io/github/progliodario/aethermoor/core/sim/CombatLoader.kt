@@ -12,6 +12,36 @@ import kotlinx.serialization.json.long
 
 // Builds the combat setup of a protagonist on a map from the content pack (spec 05, "Data used").
 
+/** A skill with a hitbox (spec 05): its timing, its cooldown, its damage and its hitbox. */
+private fun skillOf(s: JsonObject): SkillDef {
+    val hitbox = s.getValue("hitbox").jsonObject
+    val timing = s.getValue("timing").jsonObject
+    val damage = s.getValue("damage").jsonObject
+    return SkillDef(
+        startup = timing.getValue("startup").jsonPrimitive.int,
+        active = timing.getValue("active").jsonPrimitive.int,
+        recovery = timing.getValue("recovery").jsonPrimitive.int,
+        cooldown = s.getValue("cooldown_ticks").jsonPrimitive.int,
+        powerPct = damage.getValue("power_pct").jsonPrimitive.long,
+        radiusX100 = hitbox.getValue("radius_x100").jsonPrimitive.int,
+        angleDeg = hitbox.getValue("angle_deg").jsonPrimitive.int,
+        magical = damage.getValue("kind").jsonPrimitive.content == "magical",
+        element = damage["element"]?.jsonPrimitive?.content ?: "none",
+    )
+}
+
+/** The dodge roll (spec 05, "Dodge roll"): a skill with a `movement` block. */
+private fun dodgeOf(s: JsonObject): DodgeDef {
+    val movement = s.getValue("movement").jsonObject
+    return DodgeDef(
+        enabled = true,
+        ticks = s.getValue("timing").jsonObject.getValue("active").jsonPrimitive.int,
+        speedMultX100 = movement.getValue("speed_mult_x100").jsonPrimitive.int,
+        iframes = movement.getValue("iframes").jsonPrimitive.int,
+        cooldown = s.getValue("cooldown_ticks").jsonPrimitive.int,
+    )
+}
+
 private fun document(pack: Pack, id: String): JsonObject {
     val text = requireNotNull(pack.readDocument(id)) { "missing document $id" }
     return Json.parseToJsonElement(text).jsonObject
@@ -212,76 +242,21 @@ fun loadCombatSetup(
     runCatching {
         val protagonist = parseProtagonist(requireNotNull(pack.readDocument(protagonistId)) { "missing $protagonistId" }).getOrThrow()
 
-        var weaponAtk = 0L
-        var weaponMatk = 0L
-        var startWeapon = ""
-        for (itemId in protagonist.startingItems) {
-            val item = document(pack, itemId)
-            if (item.getValue("kind").jsonPrimitive.content == "weapon") {
-                val weapon = item.getValue("weapon").jsonObject
-                weaponAtk = weapon.getValue("atk").jsonPrimitive.long
-                weaponMatk = weapon.getValue("matk").jsonPrimitive.long
-                startWeapon = itemId
-                break
-            }
-        }
+        // the weapon in hand: the first starting item that is a weapon
+        val startWeapon = protagonist.startingItems.firstOrNull { document(pack, it).getValue("kind").jsonPrimitive.content == "weapon" } ?: ""
+        val weapon = if (startWeapon.isEmpty()) null else document(pack, startWeapon).getValue("weapon").jsonObject
+        val weaponAtk = weapon?.getValue("atk")?.jsonPrimitive?.long ?: 0L
+        val weaponMatk = weapon?.getValue("matk")?.jsonPrimitive?.long ?: 0L
 
-        var skill: SkillDef? = null
-        for (skillId in protagonist.startingSkills) {
-            val s = document(pack, skillId)
-            val hitbox = s["hitbox"]?.jsonObject ?: continue
-            val timing = s.getValue("timing").jsonObject
-            skill = SkillDef(
-                startup = timing.getValue("startup").jsonPrimitive.int,
-                active = timing.getValue("active").jsonPrimitive.int,
-                recovery = timing.getValue("recovery").jsonPrimitive.int,
-                cooldown = s.getValue("cooldown_ticks").jsonPrimitive.int,
-                powerPct = s.getValue("damage").jsonObject.getValue("power_pct").jsonPrimitive.long,
-                radiusX100 = hitbox.getValue("radius_x100").jsonPrimitive.int,
-                angleDeg = hitbox.getValue("angle_deg").jsonPrimitive.int,
-                magical = s.getValue("damage").jsonObject.getValue("kind").jsonPrimitive.content == "magical",
-                element = s.getValue("damage").jsonObject["element"]?.jsonPrimitive?.content ?: "none",
-            )
-            break
-        }
-        requireNotNull(skill) { "the protagonist has no skill with a hitbox" }
-        var strike = StrikeDef()
-        var hitboxSkills = 0
-        for (skillId in protagonist.startingSkills) { // the power strike: the second skill with a hitbox
-            val s = document(pack, skillId)
-            val hitbox = s["hitbox"]?.jsonObject ?: continue
-            if (++hitboxSkills != 2) continue
-            val timing = s.getValue("timing").jsonObject
-            strike = StrikeDef(
-                enabled = true,
-                mp = s.getValue("cost").jsonObject.getValue("mp").jsonPrimitive.long,
-                skill = SkillDef(
-                    startup = timing.getValue("startup").jsonPrimitive.int,
-                    active = timing.getValue("active").jsonPrimitive.int,
-                    recovery = timing.getValue("recovery").jsonPrimitive.int,
-                    cooldown = s.getValue("cooldown_ticks").jsonPrimitive.int,
-                    powerPct = s.getValue("damage").jsonObject.getValue("power_pct").jsonPrimitive.long,
-                    radiusX100 = hitbox.getValue("radius_x100").jsonPrimitive.int,
-                    angleDeg = hitbox.getValue("angle_deg").jsonPrimitive.int,
-                    magical = s.getValue("damage").jsonObject.getValue("kind").jsonPrimitive.content == "magical",
-                    element = s.getValue("damage").jsonObject["element"]?.jsonPrimitive?.content ?: "none",
-                ),
-            )
-            break
-        }
-        var dodge = DodgeDef()
-        for (skillId in protagonist.startingSkills) { // the dodge roll: a skill with a `movement` block
-            val s = document(pack, skillId)
-            val movement = s["movement"]?.jsonObject ?: continue
-            dodge = DodgeDef(
-                enabled = true,
-                ticks = s.getValue("timing").jsonObject.getValue("active").jsonPrimitive.int,
-                speedMultX100 = movement.getValue("speed_mult_x100").jsonPrimitive.int,
-                iframes = movement.getValue("iframes").jsonPrimitive.int,
-                cooldown = s.getValue("cooldown_ticks").jsonPrimitive.int,
-            )
-            break
-        }
+        val skills = protagonist.startingSkills.map { document(pack, it) }
+        val withHitbox = skills.filter { it["hitbox"] != null }
+        // the attack: the first skill with a hitbox; the power strike: the second one
+        val skill = skillOf(requireNotNull(withHitbox.firstOrNull()) { "the protagonist has no skill with a hitbox" })
+        val strike = withHitbox.getOrNull(1)?.let {
+            StrikeDef(enabled = true, mp = it.getValue("cost").jsonObject.getValue("mp").jsonPrimitive.long, skill = skillOf(it))
+        } ?: StrikeDef()
+        // the dodge roll: the first skill with a `movement` block
+        val dodge = skills.firstOrNull { it["movement"] != null }?.let { dodgeOf(it) } ?: DodgeDef()
 
         val enemies = HashMap<String, EnemyDef>()
         val spawns = map.spawners.map { spawn ->

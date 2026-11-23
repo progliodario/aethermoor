@@ -40,7 +40,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 48 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 4011 keys, in Italian and English |
+| Texts | 4019 keys, in Italian and English |
 | Same rules on both clients | 31 files of conformance vectors, 609 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->
@@ -238,7 +238,7 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 The next things, in order. The full program, with the batches, the files and the acceptance of each item, is in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md) (in Italian); the short list of the roadmap is in [section 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
-- **Soon:** a detekt baseline down to zero; travellers who walk the roads; villagers who walk to the feast of the nearby town.
+- **Soon:** a detekt baseline down to zero; travellers who walk the roads.
 - **Middle term:** rooms for the cottage; affixes the player chooses; companions the player chooses; Gideon's Dungeon mode; streaming on a worker thread and measures on Android; a week of play as a test; a synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** more stories for the protagonists (releases 0.6 to 0.9); quality settings, a crash log and a review of the translations; controls and layout on Android; signed packages; documentation for modders.
 - **The owner decides:** when to publish the first release (Alpha 0.1), the repository settings, the signing keys and the other decisions listed in the program.

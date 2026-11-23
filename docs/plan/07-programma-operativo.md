@@ -24,7 +24,7 @@
 | Strumenti | 73 test passati | `pytest -q tools/tests` |
 | Documenti generati | `make_facts --check` e `gen_conformance --check` OK (30 file di vettori); catalogo, bilanciamento (0 valori anomali) e traduzioni (0 testi da guardare) rigenerati senza differenze | eseguiti in locale |
 | Codice | circa 21 mila righe C++ (desktop, test inclusi) e circa 16 mila righe Kotlin (Android). Non compilato qui: il compilatore è la CI | `wc -l` |
-| Debito Kotlin | baseline di detekt: 104 voci (96 dopo il primo batch) | `android/config/detekt-baseline.xml` |
+| Debito Kotlin | baseline di detekt: 104 voci (96 dopo il primo batch, 90 dopo il terzo) | `android/config/detekt-baseline.xml` |
 | GitHub (decisioni del proprietario, non toccate) | protezione del ramo `main` assente; alert di vulnerabilità e aggiornamenti di sicurezza di Dependabot disattivati; wiki attiva; Discussions disattivate; merge commit e rebase consentiti oltre allo squash; cancellazione automatica dei rami disattivata (la fa `ship.py`); secret scanning e push protection attivi | `gh api repos/progliodario/aethermoor` |
 | Label | cinque label presenti su GitHub mancavano in `.github/labels.json` | confronto con `gh label list` |
 
@@ -157,6 +157,11 @@ Batch unico con le voci B1.1-B1.6, più il lavoro di G1 che serve a sbloccare le
 - **Taglia:** L. **Dipende da:** B1.4. Issue: [progliodario/aethermoor#231](https://github.com/progliodario/aethermoor/issues/231).
 
 ##### B3.2 Paesani alla festa
+
+> **Fatta (23 novembre 2026, terzo batch).** Come progettato, con due scelte: le persone non camminano, la condizione di presenza è calcolata
+> quando sono generate (`when`, spec 09), e i vettori `worldgen_chunks` la controllano per ogni persona invece di uno scenario a parte; e i
+> paesani partono per la festa dei vicini (come già dicevano i loro dialoghi), mentre ogni città della regione in festa ha tre ospiti in
+> piazza (tre posti nuovi dei timbri delle città, carattere `2`).
 - **Cosa:** il giorno di festa di una regione, i paesani dei villaggi vicini vanno alla locanda della città per la giornata. Sono residenti con una condizione (giorno di festa e regione) e non sono solidi.
 - **Perché:** oggi il paesano augura buona festa e dice che "metà del villaggio è andata alla festa", ma non ci va nessuno (voce 5 di 8.4).
 - **Come:** si riusa il meccanismo dei residenti (`when` e `role_when` nei dati di mondo). Nessuno stato nuovo nel salvataggio. Il vicinato si definisce nel generatore degli insediamenti.

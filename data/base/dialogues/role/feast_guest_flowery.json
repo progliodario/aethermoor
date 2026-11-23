@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/role/feast_guest_flowery",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.role.feast_guest.flowery.hello",
+      "next": "end"
+    }
+  }
+}

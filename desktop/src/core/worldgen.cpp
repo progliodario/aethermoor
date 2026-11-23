@@ -505,7 +505,33 @@ GenPerson person_at(std::uint64_t seed, const WorldParams& p, const Settlement& 
         person.plaza_x256 = spot.first * 256 + 128;
         person.plaza_y256 = spot.second * 256 + 160;
     }
+    person.when = person_when(p, role, region.id, s.kind);
     return person;
+}
+
+std::string person_when(const WorldParams& p, const std::string& role, const std::string& region_id,
+                        const std::string& kind) {
+    std::vector<std::string> conditions;
+    if (const auto own = p.role_when.find(role); own != p.role_when.end()) {  // a role of residents (spec 07)
+        conditions.push_back(own->second);
+    }
+    const auto day_mod = [](int every, int at) {
+        return "{\"day_mod\":{\"every\":" + std::to_string(every) + ",\"at\":" + std::to_string(at) + "}}";
+    };
+    if (const auto days = p.feast.regions.find(region_id); days != p.feast.regions.end()) {  // the feasts (spec 07)
+        const auto& away = p.feast.away_roles;
+        const auto& kinds = p.feast.away_kinds;
+        if (role == p.feast.guest_role) {
+            conditions.push_back(day_mod(days->second.feast_every, days->second.feast_at));
+        } else if (std::find(away.begin(), away.end(), role) != away.end() &&
+                   std::find(kinds.begin(), kinds.end(), kind) != kinds.end()) {
+            conditions.push_back("{\"not\":" + day_mod(days->second.away_every, days->second.away_at) + "}");
+        }
+    }
+    if (conditions.empty()) {
+        return "";
+    }
+    return conditions.size() == 1 ? conditions.front() : "{\"all\":[" + conditions[0] + "," + conditions[1] + "]}";
 }
 
 std::optional<Placement> person_placement(const WorldParams& p, const GenPerson& person, int tod_pm) {

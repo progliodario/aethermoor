@@ -1049,6 +1049,38 @@
           "additionalProperties": {
             "type": "object"
           }
+        },
+        "feast": {
+          "description": "The people who move for the feasts (spec 07, \"Feasts\"; spec 09, \"Settlement people\").",
+          "type": "object",
+          "required": ["guest_role", "away_roles", "away_kinds", "regions"],
+          "additionalProperties": false,
+          "properties": {
+            "guest_role": { "type": "string", "description": "The role of the guests of the feast: there only on the feast day of their region." },
+            "away_roles": { "type": "array", "items": { "type": "string" }, "description": "The roles that go to the feast of the neighbours." },
+            "away_kinds": { "type": "array", "items": { "type": "string" }, "description": "The kinds of settlement they leave." },
+            "regions": {
+              "type": "object",
+              "description": "By region id: the feast day of the region and the day its people are away, as `day_mod` conditions.",
+              "additionalProperties": {
+                "type": "object",
+                "required": ["feast", "away"],
+                "additionalProperties": false,
+                "properties": {
+                  "feast": { "$ref": "#/properties/settlements/properties/feast/$defs/day" },
+                  "away": { "$ref": "#/properties/settlements/properties/feast/$defs/day" }
+                }
+              }
+            }
+          },
+          "$defs": {
+            "day": {
+              "type": "object",
+              "required": ["every", "at"],
+              "additionalProperties": false,
+              "properties": { "every": { "type": "integer", "minimum": 1 }, "at": { "type": "integer", "minimum": 0 } }
+            }
+          }
         }
       }
     },

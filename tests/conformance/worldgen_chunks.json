@@ -1746,6 +1746,98 @@
                 "renown_at_least": 8
               }
             },
+            "feast": {
+              "guest_role": "feast_guest",
+              "away_roles": [
+                "villager"
+              ],
+              "away_kinds": [
+                "hamlet",
+                "village"
+              ],
+              "regions": {
+                "verdalis": {
+                  "feast": {
+                    "every": 8,
+                    "at": 0
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 1
+                  }
+                },
+                "whisperwood": {
+                  "feast": {
+                    "every": 8,
+                    "at": 1
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 2
+                  }
+                },
+                "ironspine": {
+                  "feast": {
+                    "every": 8,
+                    "at": 2
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 3
+                  }
+                },
+                "tidehaven": {
+                  "feast": {
+                    "every": 8,
+                    "at": 3
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 4
+                  }
+                },
+                "frostveil": {
+                  "feast": {
+                    "every": 8,
+                    "at": 4
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 5
+                  }
+                },
+                "sunscar": {
+                  "feast": {
+                    "every": 8,
+                    "at": 5
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 6
+                  }
+                },
+                "lumeria": {
+                  "feast": {
+                    "every": 8,
+                    "at": 6
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 7
+                  }
+                },
+                "ashen_wastes": {
+                  "feast": {
+                    "every": 8,
+                    "at": 7
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 0
+                  }
+                }
+              }
+            },
             "variants": [
               "",
               "red",
@@ -3642,9 +3734,9 @@
                 "..#.........lcccccl.........#..",
                 "..#.:':':...ccccccT...:':':.#..",
                 "..#.:_V_:...ccccccc...:_V_:.#..",
-                "===='___:===cccwccc==='___:====",
+                "===='___:===c2cwc2c==='___:====",
                 "..#.::;::...cccEccc...::;::.#..",
-                "..#....../..ccccccc..?......#..",
+                "..#....../..cccc2cc..?......#..",
                 "..#.........lcccccl.........#..",
                 "..#.:':':':':..=...:':'::...#..",
                 "..#.:b\\_____:..=...:_V__:...#..",
@@ -3667,6 +3759,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/anvil",
                   "radius_x100": 35
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -3787,9 +3883,9 @@
                 "..:':'::.....cccccccTc.....:':'::..",
                 "..'_V__:.....ccccccccc.....'_V__:..",
                 "..::;:::.....c)ccccc)c.....::;:::..",
-                "=============ccccwcccc=============",
+                "=============cc2cwc2cc=============",
                 ".............ccccEcccc.............",
-                ".............ccccccccc.............",
+                ".............ccccc2ccc.............",
                 ".............c)ccccc)c.............",
                 ".............lcccccccl.............",
                 "...:':':':'::....=.....:':':'::....",
@@ -3810,6 +3906,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/stall",
                   "radius_x100": 45
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -3929,9 +4029,9 @@
                 "..:_______:....lcccccl....:_______:..",
                 "..::::;::::....cccccTc....::::;::::..",
                 "...............ccccccc...............",
-                "===============c)cwc)c===============",
+                "===============c)2w2)c===============",
                 "...............cccEccc...............",
-                "...............ccccccc...............",
+                "...............cccc2cc...............",
                 "...:':':':.....lcccccl.....:':':':...",
                 "...:__V__:........=........:__V__:...",
                 "...'_____:........=........'_____:...",
@@ -3947,6 +4047,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/stall",
                   "radius_x100": 45
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -9624,6 +9728,98 @@
                 "renown_at_least": 8
               }
             },
+            "feast": {
+              "guest_role": "feast_guest",
+              "away_roles": [
+                "villager"
+              ],
+              "away_kinds": [
+                "hamlet",
+                "village"
+              ],
+              "regions": {
+                "verdalis": {
+                  "feast": {
+                    "every": 8,
+                    "at": 0
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 1
+                  }
+                },
+                "whisperwood": {
+                  "feast": {
+                    "every": 8,
+                    "at": 1
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 2
+                  }
+                },
+                "ironspine": {
+                  "feast": {
+                    "every": 8,
+                    "at": 2
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 3
+                  }
+                },
+                "tidehaven": {
+                  "feast": {
+                    "every": 8,
+                    "at": 3
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 4
+                  }
+                },
+                "frostveil": {
+                  "feast": {
+                    "every": 8,
+                    "at": 4
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 5
+                  }
+                },
+                "sunscar": {
+                  "feast": {
+                    "every": 8,
+                    "at": 5
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 6
+                  }
+                },
+                "lumeria": {
+                  "feast": {
+                    "every": 8,
+                    "at": 6
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 7
+                  }
+                },
+                "ashen_wastes": {
+                  "feast": {
+                    "every": 8,
+                    "at": 7
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 0
+                  }
+                }
+              }
+            },
             "variants": [
               "",
               "red",
@@ -11520,9 +11716,9 @@
                 "..#.........lcccccl.........#..",
                 "..#.:':':...ccccccT...:':':.#..",
                 "..#.:_V_:...ccccccc...:_V_:.#..",
-                "===='___:===cccwccc==='___:====",
+                "===='___:===c2cwc2c==='___:====",
                 "..#.::;::...cccEccc...::;::.#..",
-                "..#....../..ccccccc..?......#..",
+                "..#....../..cccc2cc..?......#..",
                 "..#.........lcccccl.........#..",
                 "..#.:':':':':..=...:':'::...#..",
                 "..#.:b\\_____:..=...:_V__:...#..",
@@ -11545,6 +11741,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/anvil",
                   "radius_x100": 35
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -11665,9 +11865,9 @@
                 "..:':'::.....cccccccTc.....:':'::..",
                 "..'_V__:.....ccccccccc.....'_V__:..",
                 "..::;:::.....c)ccccc)c.....::;:::..",
-                "=============ccccwcccc=============",
+                "=============cc2cwc2cc=============",
                 ".............ccccEcccc.............",
-                ".............ccccccccc.............",
+                ".............ccccc2ccc.............",
                 ".............c)ccccc)c.............",
                 ".............lcccccccl.............",
                 "...:':':':'::....=.....:':':'::....",
@@ -11688,6 +11888,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/stall",
                   "radius_x100": 45
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -11807,9 +12011,9 @@
                 "..:_______:....lcccccl....:_______:..",
                 "..::::;::::....cccccTc....::::;::::..",
                 "...............ccccccc...............",
-                "===============c)cwc)c===============",
+                "===============c)2w2)c===============",
                 "...............cccEccc...............",
-                "...............ccccccc...............",
+                "...............cccc2cc...............",
                 "...:':':':.....lcccccl.....:':':':...",
                 "...:__V__:........=........:__V__:...",
                 "...'_____:........=........'_____:...",
@@ -11825,6 +12029,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/stall",
                   "radius_x100": 45
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -17262,6 +17470,98 @@
                 "renown_at_least": 8
               }
             },
+            "feast": {
+              "guest_role": "feast_guest",
+              "away_roles": [
+                "villager"
+              ],
+              "away_kinds": [
+                "hamlet",
+                "village"
+              ],
+              "regions": {
+                "verdalis": {
+                  "feast": {
+                    "every": 8,
+                    "at": 0
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 1
+                  }
+                },
+                "whisperwood": {
+                  "feast": {
+                    "every": 8,
+                    "at": 1
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 2
+                  }
+                },
+                "ironspine": {
+                  "feast": {
+                    "every": 8,
+                    "at": 2
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 3
+                  }
+                },
+                "tidehaven": {
+                  "feast": {
+                    "every": 8,
+                    "at": 3
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 4
+                  }
+                },
+                "frostveil": {
+                  "feast": {
+                    "every": 8,
+                    "at": 4
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 5
+                  }
+                },
+                "sunscar": {
+                  "feast": {
+                    "every": 8,
+                    "at": 5
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 6
+                  }
+                },
+                "lumeria": {
+                  "feast": {
+                    "every": 8,
+                    "at": 6
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 7
+                  }
+                },
+                "ashen_wastes": {
+                  "feast": {
+                    "every": 8,
+                    "at": 7
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 0
+                  }
+                }
+              }
+            },
             "variants": [
               "",
               "red",
@@ -19158,9 +19458,9 @@
                 "..#.........lcccccl.........#..",
                 "..#.:':':...ccccccT...:':':.#..",
                 "..#.:_V_:...ccccccc...:_V_:.#..",
-                "===='___:===cccwccc==='___:====",
+                "===='___:===c2cwc2c==='___:====",
                 "..#.::;::...cccEccc...::;::.#..",
-                "..#....../..ccccccc..?......#..",
+                "..#....../..cccc2cc..?......#..",
                 "..#.........lcccccl.........#..",
                 "..#.:':':':':..=...:':'::...#..",
                 "..#.:b\\_____:..=...:_V__:...#..",
@@ -19183,6 +19483,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/anvil",
                   "radius_x100": 35
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -19303,9 +19607,9 @@
                 "..:':'::.....cccccccTc.....:':'::..",
                 "..'_V__:.....ccccccccc.....'_V__:..",
                 "..::;:::.....c)ccccc)c.....::;:::..",
-                "=============ccccwcccc=============",
+                "=============cc2cwc2cc=============",
                 ".............ccccEcccc.............",
-                ".............ccccccccc.............",
+                ".............ccccc2ccc.............",
                 ".............c)ccccc)c.............",
                 ".............lcccccccl.............",
                 "...:':':':'::....=.....:':':'::....",
@@ -19326,6 +19630,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/stall",
                   "radius_x100": 45
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -19445,9 +19753,9 @@
                 "..:_______:....lcccccl....:_______:..",
                 "..::::;::::....cccccTc....::::;::::..",
                 "...............ccccccc...............",
-                "===============c)cwc)c===============",
+                "===============c)2w2)c===============",
                 "...............cccEccc...............",
-                "...............ccccccc...............",
+                "...............cccc2cc...............",
                 "...:':':':.....lcccccl.....:':':':...",
                 "...:__V__:........=........:__V__:...",
                 "...'_____:........=........'_____:...",
@@ -19463,6 +19771,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/stall",
                   "radius_x100": 45
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -22917,7 +23229,15 @@
                 "$i18n:region.ironspine.name",
                 "quirk.lanterns",
                 3248256,
-                10912
+                10912,
+                {
+                  "not": {
+                    "day_mod": {
+                      "every": 8,
+                      "at": 3
+                    }
+                  }
+                }
               ]
             ],
             "gid_histogram": {
@@ -23019,7 +23339,15 @@
                 "$i18n:region.ironspine.name",
                 "quirk.lanterns",
                 3248256,
-                10912
+                10912,
+                {
+                  "not": {
+                    "day_mod": {
+                      "every": 8,
+                      "at": 3
+                    }
+                  }
+                }
               ]
             ],
             "gid_histogram": {
@@ -23121,7 +23449,8 @@
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
                 617088,
-                218528
+                218528,
+                null
               ],
               [
                 "settle:9:3:1",
@@ -23136,7 +23465,8 @@
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
                 617344,
-                218528
+                218528,
+                null
               ],
               [
                 "settle:9:3:2",
@@ -23151,52 +23481,119 @@
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
                 617856,
-                218528
+                218528,
+                null
               ],
               [
                 "settle:9:3:3",
+                "feast_guest",
+                617344,
+                219040,
+                "Pipdric",
+                "cream",
+                "mystic",
+                "base:dialogue/role/feast_guest_mystic",
+                "Wyninbrook",
+                "$i18n:region.whisperwood.name",
+                "quirk.riddles",
+                617088,
+                219552,
+                {
+                  "day_mod": {
+                    "every": 8,
+                    "at": 1
+                  }
+                }
+              ],
+              [
+                "settle:9:3:4",
+                "feast_guest",
+                617856,
+                219040,
+                "Oriwen",
+                "teal",
+                "mystic",
+                "base:dialogue/role/feast_guest_mystic",
+                "Wyninbrook",
+                "$i18n:region.whisperwood.name",
+                "quirk.riddles",
+                618112,
+                219552,
+                {
+                  "day_mod": {
+                    "every": 8,
+                    "at": 1
+                  }
+                }
+              ],
+              [
+                "settle:9:3:5",
                 "elder",
                 617600,
                 219296,
-                "Pipdric",
-                "cream",
+                "Niarin",
+                "ochre",
                 "mystic",
                 "base:dialogue/role/elder_mystic",
                 "Wyninbrook",
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
-                617088,
-                219552
+                617600,
+                219552,
+                null
               ],
               [
-                "settle:9:3:4",
+                "settle:9:3:6",
+                "feast_guest",
+                617856,
+                219552,
+                "Rodgar",
+                "brown",
+                "mystic",
+                "base:dialogue/role/feast_guest_mystic",
+                "Wyninbrook",
+                "$i18n:region.whisperwood.name",
+                "quirk.riddles",
+                617088,
+                218528,
+                {
+                  "day_mod": {
+                    "every": 8,
+                    "at": 1
+                  }
+                }
+              ],
+              [
+                "settle:9:3:7",
                 "villager",
                 614528,
                 220064,
-                "Oriwen",
-                "teal",
+                "Yanmund",
+                "red",
                 "mystic",
                 "base:dialogue/role/villager_mystic",
                 "Wyninbrook",
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
-                618112,
-                219552
+                617344,
+                218528,
+                null
               ],
               [
-                "settle:9:3:5",
+                "settle:9:3:8",
                 "villager",
                 620672,
                 220064,
-                "Niarin",
-                "ochre",
+                "Darzo",
+                "",
                 "mystic",
                 "base:dialogue/role/villager_mystic",
                 "Wyninbrook",
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
-                617600,
-                219552
+                617856,
+                218528,
+                null
               ]
             ],
             "gid_histogram": {
@@ -23298,7 +23695,8 @@
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
                 617088,
-                218528
+                218528,
+                null
               ],
               [
                 "settle:9:3:1",
@@ -23313,7 +23711,8 @@
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
                 617344,
-                218528
+                218528,
+                null
               ],
               [
                 "settle:9:3:2",
@@ -23328,52 +23727,119 @@
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
                 617856,
-                218528
+                218528,
+                null
               ],
               [
                 "settle:9:3:3",
+                "feast_guest",
+                617344,
+                219040,
+                "Pipdric",
+                "cream",
+                "mystic",
+                "base:dialogue/role/feast_guest_mystic",
+                "Wyninbrook",
+                "$i18n:region.whisperwood.name",
+                "quirk.riddles",
+                617088,
+                219552,
+                {
+                  "day_mod": {
+                    "every": 8,
+                    "at": 1
+                  }
+                }
+              ],
+              [
+                "settle:9:3:4",
+                "feast_guest",
+                617856,
+                219040,
+                "Oriwen",
+                "teal",
+                "mystic",
+                "base:dialogue/role/feast_guest_mystic",
+                "Wyninbrook",
+                "$i18n:region.whisperwood.name",
+                "quirk.riddles",
+                618112,
+                219552,
+                {
+                  "day_mod": {
+                    "every": 8,
+                    "at": 1
+                  }
+                }
+              ],
+              [
+                "settle:9:3:5",
                 "elder",
                 617600,
                 219296,
-                "Pipdric",
-                "cream",
+                "Niarin",
+                "ochre",
                 "mystic",
                 "base:dialogue/role/elder_mystic",
                 "Wyninbrook",
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
-                617088,
-                219552
+                617600,
+                219552,
+                null
               ],
               [
-                "settle:9:3:4",
+                "settle:9:3:6",
+                "feast_guest",
+                617856,
+                219552,
+                "Rodgar",
+                "brown",
+                "mystic",
+                "base:dialogue/role/feast_guest_mystic",
+                "Wyninbrook",
+                "$i18n:region.whisperwood.name",
+                "quirk.riddles",
+                617088,
+                218528,
+                {
+                  "day_mod": {
+                    "every": 8,
+                    "at": 1
+                  }
+                }
+              ],
+              [
+                "settle:9:3:7",
                 "villager",
                 614528,
                 220064,
-                "Oriwen",
-                "teal",
+                "Yanmund",
+                "red",
                 "mystic",
                 "base:dialogue/role/villager_mystic",
                 "Wyninbrook",
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
-                618112,
-                219552
+                617344,
+                218528,
+                null
               ],
               [
-                "settle:9:3:5",
+                "settle:9:3:8",
                 "villager",
                 620672,
                 220064,
-                "Niarin",
-                "ochre",
+                "Darzo",
+                "",
                 "mystic",
                 "base:dialogue/role/villager_mystic",
                 "Wyninbrook",
                 "$i18n:region.whisperwood.name",
                 "quirk.riddles",
-                617600,
-                219552
+                617856,
+                218528,
+                null
               ]
             ],
             "gid_histogram": {
@@ -23639,7 +24105,15 @@
                 "$i18n:region.ironspine.name",
                 "quirk.riddles",
                 3822720,
-                447904
+                447904,
+                {
+                  "not": {
+                    "day_mod": {
+                      "every": 8,
+                      "at": 3
+                    }
+                  }
+                }
               ],
               [
                 "settle:58:6:1",
@@ -23654,7 +24128,8 @@
                 "$i18n:region.ironspine.name",
                 "quirk.riddles",
                 3823232,
-                447904
+                447904,
+                null
               ],
               [
                 "settle:58:6:2",
@@ -23669,7 +24144,8 @@
                 "$i18n:region.ironspine.name",
                 "quirk.riddles",
                 3822720,
-                448160
+                448160,
+                null
               ],
               [
                 "settle:58:6:3",
@@ -23684,7 +24160,15 @@
                 "$i18n:region.ironspine.name",
                 "quirk.riddles",
                 3823232,
-                448160
+                448160,
+                {
+                  "not": {
+                    "day_mod": {
+                      "every": 8,
+                      "at": 3
+                    }
+                  }
+                }
               ],
               [
                 "settle:58:6:4",
@@ -23699,7 +24183,15 @@
                 "$i18n:region.ironspine.name",
                 "quirk.riddles",
                 3822720,
-                447904
+                447904,
+                {
+                  "not": {
+                    "day_mod": {
+                      "every": 8,
+                      "at": 3
+                    }
+                  }
+                }
               ],
               [
                 "settle:58:6:5",
@@ -23714,7 +24206,10 @@
                 "$i18n:region.ironspine.name",
                 "quirk.riddles",
                 3823232,
-                447904
+                447904,
+                {
+                  "renown_at_least": 8
+                }
               ]
             ],
             "gid_histogram": {
@@ -25557,6 +26052,98 @@
                 "renown_at_least": 8
               }
             },
+            "feast": {
+              "guest_role": "feast_guest",
+              "away_roles": [
+                "villager"
+              ],
+              "away_kinds": [
+                "hamlet",
+                "village"
+              ],
+              "regions": {
+                "verdalis": {
+                  "feast": {
+                    "every": 8,
+                    "at": 0
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 1
+                  }
+                },
+                "whisperwood": {
+                  "feast": {
+                    "every": 8,
+                    "at": 1
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 2
+                  }
+                },
+                "ironspine": {
+                  "feast": {
+                    "every": 8,
+                    "at": 2
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 3
+                  }
+                },
+                "tidehaven": {
+                  "feast": {
+                    "every": 8,
+                    "at": 3
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 4
+                  }
+                },
+                "frostveil": {
+                  "feast": {
+                    "every": 8,
+                    "at": 4
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 5
+                  }
+                },
+                "sunscar": {
+                  "feast": {
+                    "every": 8,
+                    "at": 5
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 6
+                  }
+                },
+                "lumeria": {
+                  "feast": {
+                    "every": 8,
+                    "at": 6
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 7
+                  }
+                },
+                "ashen_wastes": {
+                  "feast": {
+                    "every": 8,
+                    "at": 7
+                  },
+                  "away": {
+                    "every": 8,
+                    "at": 0
+                  }
+                }
+              }
+            },
             "variants": [
               "",
               "red",
@@ -27453,9 +28040,9 @@
                 "..#.........lcccccl.........#..",
                 "..#.:':':...ccccccT...:':':.#..",
                 "..#.:_V_:...ccccccc...:_V_:.#..",
-                "===='___:===cccwccc==='___:====",
+                "===='___:===c2cwc2c==='___:====",
                 "..#.::;::...cccEccc...::;::.#..",
-                "..#....../..ccccccc..?......#..",
+                "..#....../..cccc2cc..?......#..",
                 "..#.........lcccccl.........#..",
                 "..#.:':':':':..=...:':'::...#..",
                 "..#.:b\\_____:..=...:_V__:...#..",
@@ -27478,6 +28065,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/anvil",
                   "radius_x100": 35
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -27598,9 +28189,9 @@
                 "..:':'::.....cccccccTc.....:':'::..",
                 "..'_V__:.....ccccccccc.....'_V__:..",
                 "..::;:::.....c)ccccc)c.....::;:::..",
-                "=============ccccwcccc=============",
+                "=============cc2cwc2cc=============",
                 ".............ccccEcccc.............",
-                ".............ccccccccc.............",
+                ".............ccccc2ccc.............",
                 ".............c)ccccc)c.............",
                 ".............lcccccccl.............",
                 "...:':':':'::....=.....:':':'::....",
@@ -27621,6 +28212,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/stall",
                   "radius_x100": 45
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -27740,9 +28335,9 @@
                 "..:_______:....lcccccl....:_______:..",
                 "..::::;::::....cccccTc....::::;::::..",
                 "...............ccccccc...............",
-                "===============c)cwc)c===============",
+                "===============c)2w2)c===============",
                 "...............cccEccc...............",
-                "...............ccccccc...............",
+                "...............cccc2cc...............",
                 "...:':':':.....lcccccl.....:':':':...",
                 "...:__V__:........=........:__V__:...",
                 "...'_____:........=........'_____:...",
@@ -27758,6 +28353,10 @@
                   "tile": 14,
                   "prop": "base:art/prop/stall",
                   "radius_x100": 45
+                },
+                "2": {
+                  "tile": 14,
+                  "npc": "feast_guest"
                 },
                 ":": {
                   "tile": 35
@@ -31212,7 +31811,15 @@
                 "$i18n:region.ironspine.name",
                 "quirk.lanterns",
                 3250048,
-                46240
+                46240,
+                {
+                  "not": {
+                    "day_mod": {
+                      "every": 8,
+                      "at": 3
+                    }
+                  }
+                }
               ]
             ],
             "gid_histogram": {
@@ -31316,7 +31923,15 @@
                 "$i18n:region.ironspine.name",
                 "quirk.lanterns",
                 3250048,
-                46240
+                46240,
+                {
+                  "not": {
+                    "day_mod": {
+                      "every": 8,
+                      "at": 3
+                    }
+                  }
+                }
               ]
             ],
             "gid_histogram": {
@@ -31420,7 +32035,15 @@
                 "$i18n:region.ironspine.name",
                 "quirk.bakers",
                 3561856,
-                35232
+                35232,
+                {
+                  "not": {
+                    "day_mod": {
+                      "every": 8,
+                      "at": 3
+                    }
+                  }
+                }
               ],
               [
                 "settle:54:0:2",
@@ -31435,7 +32058,8 @@
                 "$i18n:region.ironspine.name",
                 "quirk.bakers",
                 3561856,
-                35744
+                35744,
+                null
               ],
               [
                 "settle:54:0:3",
@@ -31450,7 +32074,15 @@
                 "$i18n:region.ironspine.name",
                 "quirk.bakers",
                 3562368,
-                35744
+                35744,
+                {
+                  "not": {
+                    "day_mod": {
+                      "every": 8,
+                      "at": 3
+                    }
+                  }
+                }
               ]
             ],
             "gid_histogram": {
@@ -31554,7 +32186,8 @@
                 "$i18n:region.ironspine.name",
                 "quirk.bakers",
                 3562368,
-                35232
+                35232,
+                null
               ],
               [
                 "settle:54:0:4",
@@ -31569,7 +32202,15 @@
                 "$i18n:region.ironspine.name",
                 "quirk.bakers",
                 3561856,
-                35232
+                35232,
+                {
+                  "not": {
+                    "day_mod": {
+                      "every": 8,
+                      "at": 3
+                    }
+                  }
+                }
               ],
               [
                 "settle:54:0:5",
@@ -31584,7 +32225,10 @@
                 "$i18n:region.ironspine.name",
                 "quirk.bakers",
                 3562368,
-                35232
+                35232,
+                {
+                  "renown_at_least": 8
+                }
               ]
             ],
             "gid_histogram": {
@@ -31855,7 +32499,8 @@
                 "$i18n:region.whisperwood.name",
                 "quirk.cats",
                 145024,
-                1061792
+                1061792,
+                null
               ],
               [
                 "settle:2:16:2",
@@ -31870,52 +32515,119 @@
                 "$i18n:region.whisperwood.name",
                 "quirk.cats",
                 145792,
-                1061792
+                1061792,
+                null
               ],
               [
                 "settle:2:16:4",
+                "feast_guest",
+                145024,
+                1062304,
+                "Kaina",
+                "brown",
+                "mystic",
+                "base:dialogue/role/feast_guest_mystic",
+                "Silewick",
+                "$i18n:region.whisperwood.name",
+                "quirk.cats",
+                146048,
+                1062816,
+                {
+                  "day_mod": {
+                    "every": 8,
+                    "at": 1
+                  }
+                }
+              ],
+              [
+                "settle:2:16:5",
+                "feast_guest",
+                146048,
+                1062304,
+                "Salgar",
+                "ochre",
+                "mystic",
+                "base:dialogue/role/feast_guest_mystic",
+                "Silewick",
+                "$i18n:region.whisperwood.name",
+                "quirk.cats",
+                145536,
+                1062816,
+                {
+                  "day_mod": {
+                    "every": 8,
+                    "at": 1
+                  }
+                }
+              ],
+              [
+                "settle:2:16:6",
                 "elder",
                 145536,
                 1062560,
-                "Kaina",
-                "brown",
+                "Marthor",
+                "green",
                 "mystic",
                 "base:dialogue/role/elder_mystic",
                 "Silewick",
                 "$i18n:region.whisperwood.name",
                 "quirk.cats",
-                146048,
-                1062816
+                145024,
+                1061792,
+                null
               ],
               [
-                "settle:2:16:5",
+                "settle:2:16:7",
+                "feast_guest",
+                145792,
+                1062816,
+                "Gorbert",
+                "cream",
+                "mystic",
+                "base:dialogue/role/feast_guest_mystic",
+                "Silewick",
+                "$i18n:region.whisperwood.name",
+                "quirk.cats",
+                145280,
+                1061792,
+                {
+                  "day_mod": {
+                    "every": 8,
+                    "at": 1
+                  }
+                }
+              ],
+              [
+                "settle:2:16:8",
                 "villager",
                 147072,
                 1063584,
-                "Salgar",
-                "ochre",
+                "Marina",
+                "green",
                 "mystic",
                 "base:dialogue/role/villager_mystic",
                 "Silewick",
                 "$i18n:region.whisperwood.name",
                 "quirk.cats",
-                145536,
-                1062816
+                145792,
+                1061792,
+                null
               ],
               [
-                "settle:2:16:6",
+                "settle:2:16:9",
                 "innkeeper",
                 144256,
                 1063840,
-                "Marthor",
-                "green",
+                "Ulfgar",
+                "brown",
                 "mystic",
                 "base:dialogue/role/innkeeper_mystic",
                 "Silewick",
                 "$i18n:region.whisperwood.name",
                 "quirk.cats",
                 145024,
-                1061792
+                1062816,
+                null
               ]
             ],
             "gid_histogram": {

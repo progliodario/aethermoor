@@ -109,9 +109,8 @@ private fun parsePath(d: String, scale: Float): List<Subpath> {
         curY = y
     }
 
-    while (true) {
-        skip()
-        if (i >= n) break
+    skip()
+    while (i < n) {
         if (isLetter(d[i])) {
             cmd = d[i]
             i++
@@ -125,73 +124,74 @@ private fun parsePath(d: String, scale: Float): List<Subpath> {
                 curX = startX
                 curY = startY
             }
-            continue
-        }
-        when (cmd) {
-            'M' -> {
-                val a = number() ?: return out
-                val b = number() ?: return out
-                if (have) out.add(current)
-                current = Subpath()
-                current.pts.add(Pt(a * scale, b * scale))
-                have = true
-                curX = a
-                startX = a
-                curY = b
-                startY = b
-                cmd = 'L'
-            }
-            'L' -> {
-                val a = number() ?: return out
-                val b = number() ?: return out
-                ensureStarted()
-                addPoint(a, b)
-            }
-            'H' -> {
-                val a = number() ?: return out
-                ensureStarted()
-                addPoint(a, curY)
-            }
-            'V' -> {
-                val a = number() ?: return out
-                ensureStarted()
-                addPoint(curX, a)
-            }
-            'Q' -> {
-                val a = number() ?: return out
-                val b = number() ?: return out
-                val c = number() ?: return out
-                val dd = number() ?: return out
-                ensureStarted()
-                val x0 = curX
-                val y0 = curY
-                for (s in 1..12) {
-                    val t = s.toFloat() / 12f
-                    val u = 1f - t
-                    addPoint(u * u * x0 + 2f * u * t * a + t * t * c, u * u * y0 + 2f * u * t * b + t * t * dd)
+        } else {
+            when (cmd) {
+                'M' -> {
+                    val a = number() ?: return out
+                    val b = number() ?: return out
+                    if (have) out.add(current)
+                    current = Subpath()
+                    current.pts.add(Pt(a * scale, b * scale))
+                    have = true
+                    curX = a
+                    startX = a
+                    curY = b
+                    startY = b
+                    cmd = 'L'
                 }
-            }
-            'C' -> {
-                val a = number() ?: return out
-                val b = number() ?: return out
-                val c = number() ?: return out
-                val dd = number() ?: return out
-                val e = number() ?: return out
-                val f = number() ?: return out
-                ensureStarted()
-                val x0 = curX
-                val y0 = curY
-                for (s in 1..16) {
-                    val t = s.toFloat() / 16f
-                    val u = 1f - t
-                    addPoint(
-                        u * u * u * x0 + 3f * u * u * t * a + 3f * u * t * t * c + t * t * t * e,
-                        u * u * u * y0 + 3f * u * u * t * b + 3f * u * t * t * dd + t * t * t * f,
-                    )
+                'L' -> {
+                    val a = number() ?: return out
+                    val b = number() ?: return out
+                    ensureStarted()
+                    addPoint(a, b)
                 }
+                'H' -> {
+                    val a = number() ?: return out
+                    ensureStarted()
+                    addPoint(a, curY)
+                }
+                'V' -> {
+                    val a = number() ?: return out
+                    ensureStarted()
+                    addPoint(curX, a)
+                }
+                'Q' -> {
+                    val a = number() ?: return out
+                    val b = number() ?: return out
+                    val c = number() ?: return out
+                    val dd = number() ?: return out
+                    ensureStarted()
+                    val x0 = curX
+                    val y0 = curY
+                    for (s in 1..12) {
+                        val t = s.toFloat() / 12f
+                        val u = 1f - t
+                        addPoint(u * u * x0 + 2f * u * t * a + t * t * c, u * u * y0 + 2f * u * t * b + t * t * dd)
+                    }
+                }
+                'C' -> {
+                    val a = number() ?: return out
+                    val b = number() ?: return out
+                    val c = number() ?: return out
+                    val dd = number() ?: return out
+                    val e = number() ?: return out
+                    val f = number() ?: return out
+                    ensureStarted()
+                    val x0 = curX
+                    val y0 = curY
+                    for (s in 1..16) {
+                        val t = s.toFloat() / 16f
+                        val u = 1f - t
+                        addPoint(
+                            u * u * u * x0 + 3f * u * u * t * a + 3f * u * t * t * c + t * t * t * e,
+                            u * u * u * y0 + 3f * u * u * t * b + 3f * u * t * t * dd + t * t * t * f,
+                        )
+                    }
+                }
+                else -> return out
             }
-            else -> return out
         }
+        skip()
     }
     if (have) out.add(current)
     return out
@@ -558,29 +558,33 @@ private fun composite(acc: FloatArray, mask: Mask, paint: ResolvedPaint, layer: 
             val c = cov[index]
             if (c <= 0f) continue
             val color = paintAt(paint, (x.toFloat() + 0.5f) / scale, py)
-            var a = (c * layer.alpha) * color.a
-            val o = index * 4
-            if (layer.blend == Blend.MULTIPLY) { // darkens what is there, never adds coverage
-                acc[o] *= 1f - a + a * color.r
-                acc[o + 1] *= 1f - a + a * color.g
-                acc[o + 2] *= 1f - a + a * color.b
-                continue
-            }
-            val dstAlpha = acc[o + 3]
-            if (layer.clip) a *= dstAlpha
-            if (layer.blend == Blend.ADD) {
-                acc[o] += color.r * a
-                acc[o + 1] += color.g * a
-                acc[o + 2] += color.b * a
-            } else {
-                val inv = 1f - a
-                acc[o] = color.r * a + acc[o] * inv
-                acc[o + 1] = color.g * a + acc[o + 1] * inv
-                acc[o + 2] = color.b * a + acc[o + 2] * inv
-            }
-            if (!layer.clip) acc[o + 3] = a + dstAlpha * (1f - a)
+            blendPixel(acc, index * 4, color, (c * layer.alpha) * color.a, layer)
         }
     }
+}
+
+/** One pixel of a layer over what is drawn (spec 13): multiply darkens it, add brightens it, the others are drawn over it. */
+private fun blendPixel(acc: FloatArray, o: Int, color: Color, alpha: Float, layer: Layer) {
+    var a = alpha
+    if (layer.blend == Blend.MULTIPLY) { // darkens what is there, never adds coverage
+        acc[o] *= 1f - a + a * color.r
+        acc[o + 1] *= 1f - a + a * color.g
+        acc[o + 2] *= 1f - a + a * color.b
+        return
+    }
+    val dstAlpha = acc[o + 3]
+    if (layer.clip) a *= dstAlpha
+    if (layer.blend == Blend.ADD) {
+        acc[o] += color.r * a
+        acc[o + 1] += color.g * a
+        acc[o + 2] += color.b * a
+    } else {
+        val inv = 1f - a
+        acc[o] = color.r * a + acc[o] * inv
+        acc[o + 1] = color.g * a + acc[o + 1] * inv
+        acc[o + 2] = color.b * a + acc[o + 2] * inv
+    }
+    if (!layer.clip) acc[o + 3] = a + dstAlpha * (1f - a)
 }
 
 private fun toByte(v: Float): Int = max(0f, min(255f, floor(v * 255f + 0.5f))).toInt()

@@ -12,9 +12,15 @@ the region. A contest started can be finished on any day; the innkeeper asks how
 The villagers talk about the feasts too: on the feast day of their region they wish the Guest a happy feast, and on the feast day of
 the next region of the cycle (the neighbours, `CYCLE[(i + 1) % 8]`) they tell that half the village has gone there.
 
+And the people move (spec 07, "Feasts"; spec 09, "Settlement people"): the world data gets `settlements.feast`, the feast day of
+every region and the day its villagers are away. On that day of the neighbours the `villager` people of the hamlets and villages of a
+region are not at home; on its own feast day every town of the region has three guests of the feast on its plaza (the role
+`feast_guest`, the character `2` of the town stamps, `make_stamps.py`), with a dialogue of their own (`feast_guest_<tone>`).
+
 It changes the role dialogues `data/base/dialogues/role/innkeeper_<tone>.json` in place (the nodes written here are written again, and the
 choices keep their place, so it can be run any number of times), writes the quests of the games and their texts (`roles.json` and
-`content.json`, it and en). Then run `make_catalog.py` and `make_facts.py`.
+`content.json`, it and en), the dialogues of the guests and `settlements.feast` of the world data (parsed and written again: it can be run
+any number of times). Then run `gen_conformance.py`, `make_catalog.py` and `make_facts.py`.
 """
 from __future__ import annotations
 
@@ -259,6 +265,57 @@ RIBBON = ("festival_ribbon", 900, {"atk": 4, "max_hp": 40, "crit_pm": 50}, "Ribb
           "Otto colori, uno per ogni festa vinta. +4 di attacco, +40 di salute, +5% di colpo critico.")
 
 
+# the guests of the feast: what they say, by tone (en, it); {place} is the town
+GUEST_WORDS = {
+    "warm": ("We walked down from the farms at dawn for the feast of {place}! Half my village is here, and the other half is cooking.",
+             "Siamo scesi dalle fattorie all'alba per la festa di {place}! Mezzo villaggio è qui, e l'altra metà sta cucinando."),
+    "mystic": ("The lanterns called us out of the woods: when {place} keeps its feast, even the hermits come.",
+               "Le lanterne ci hanno chiamati fuori dal bosco: quando {place} fa festa, vengono anche gli eremiti."),
+    "gruff": ("Came down from the mine for the feast. One day a year {place} buys the drinks. Can't miss that.",
+              "Sceso dalla miniera per la festa. Un giorno all'anno {place} offre da bere. Non si può mancare."),
+    "salty": ("We sailed round the cape for the feast of {place}! The tide can wait a day, and so can the fish.",
+              "Abbiamo doppiato il capo per la festa di {place}! La marea può aspettare un giorno, e anche i pesci."),
+    "stoic": ("A long walk through the snow for one day of feast in {place}. Worth every step.",
+              "Una lunga camminata nella neve per un giorno di festa a {place}. Ne vale ogni passo."),
+    "flowery": ("Oh, the feast of {place}! We crossed the dunes under the moon to be here, and the sand sang all the way.",
+                "Oh, la festa di {place}! Abbiamo attraversato le dune sotto la luna per esserci, e la sabbia ha cantato per tutta la strada."),
+    "scholarly": ("I left my books for one day: the feast of {place} is the only lecture nobody falls asleep in.",
+                  "Ho lasciato i libri per un giorno: la festa di {place} è l'unica lezione in cui non si addormenta nessuno."),
+    "grim": ("Even out here we keep the feast. We came from the burnt farms to {place}: for one day, nothing burns.",
+             "Anche qui si fa festa. Siamo venuti dalle fattorie bruciate fino a {place}: per un giorno, non brucia niente."),
+}
+GUEST_ROLE = "feast_guest"
+AWAY_ROLES = ["villager"]
+AWAY_KINDS = ["hamlet", "village"]
+
+
+def write_feast_people() -> dict[str, dict[str, str]]:
+    """`settlements.feast` of the world data and the dialogues of the guests; returns their texts."""
+    day = {region: {"every": len(CYCLE), "at": CYCLE.index(region)} for region in CYCLE}
+    feast = {"guest_role": GUEST_ROLE, "away_roles": AWAY_ROLES, "away_kinds": AWAY_KINDS,
+             "regions": {region: {"feast": day[region], "away": day[CYCLE[(CYCLE.index(region) + 1) % len(CYCLE)]]} for region in CYCLE}}
+    path = DATA / "worlds" / "overworld.json"
+    raw = path.read_text(encoding="utf-8", newline="")
+    doc = json.loads(raw)
+    line = "    " + json.dumps({"feast": feast}, ensure_ascii=False)[1:-1] + ","
+    lines = raw.split("\n")
+    lines = [ln for ln in lines if not ln.lstrip().startswith('"feast": {"guest_role"')]  # written again
+    at = next(i for i, ln in enumerate(lines) if ln.lstrip().startswith('"role_when"'))
+    lines.insert(at + 1, line)
+    text = "\n".join(lines)
+    assert json.loads(text)["settlements"]["feast"] == feast and json.loads(text).keys() == doc.keys()
+    path.write_text(text, encoding="utf-8", newline="")
+    texts: dict[str, dict[str, str]] = {"en": {}, "it": {}}
+    for tone, _dish, _qty in REGIONS.values():
+        dialogue = {"$schema": "../../../../schemas/dialogue.schema.json", "id": f"base:dialogue/role/{GUEST_ROLE}_{tone}", "start": "start",
+                    "nodes": {"start": {"type": "say", "speaker": "npc", "text": f"$i18n:dlg.role.{GUEST_ROLE}.{tone}.hello", "next": "end"}}}
+        out = DATA / "dialogues" / "role" / f"{GUEST_ROLE}_{tone}.json"
+        out.write_text(json.dumps(dialogue, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
+        for i, lang in enumerate(("en", "it")):
+            texts[lang][f"dlg.role.{GUEST_ROLE}.{tone}.hello"] = GUEST_WORDS[tone][i]
+    return texts
+
+
 def write_ribbon() -> dict[str, dict[str, str]]:
     name, price, bonus, name_en, name_it, desc_en, desc_it = RIBBON
     doc = {"$schema": "../../../schemas/item.schema.json", "id": f"base:item/{name}", "name": f"$i18n:item.{name}.name",
@@ -297,6 +354,9 @@ def main() -> None:
             texts[lang].update({**VILLAGER_SHARED[lang], f"dlg.feast.{tone}.villager_happy": happy,
                                 f"dlg.feast.{tone}.villager_where": away.format(region=names[f"region.{neighbour}.name"])})
     ribbon = write_ribbon()
+    guests = write_feast_people()
+    for lang in ("en", "it"):
+        texts[lang].update(guests[lang])
     for i, lang in enumerate(("en", "it")):
         texts[lang].update({f"dlg.feast.season.{season}": words[i] for season, words in SEASON_WORDS.items()})
     for lang in ("en", "it"):

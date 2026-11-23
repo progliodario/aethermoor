@@ -785,5 +785,13 @@
   "dlg.trial.autumn.busy": "La prova è in corso: Alfa dell'ombra lunare e Tiranno della forgia, e i giorni si contano. Le pietre ti ci portano prima di qualsiasi cavallo.",
   "dlg.trial.winter.offer": "Solo per i più forti: la prova dell'inverno. Custode del ghiaccio e Sovrano della tempesta, tutti e due, entro tre giorni. La gilda paga bene, e nella cassaforte c'è un pezzo che aspetta chi ci riesce.",
   "dlg.trial.winter.busy": "La prova è in corso: Custode del ghiaccio e Sovrano della tempesta, e i giorni si contano. Le pietre ti ci portano prima di qualsiasi cavallo.",
+  "dlg.role.feast_guest.warm.hello": "Siamo scesi dalle fattorie all'alba per la festa di {place}! Mezzo villaggio è qui, e l'altra metà sta cucinando.",
+  "dlg.role.feast_guest.mystic.hello": "Le lanterne ci hanno chiamati fuori dal bosco: quando {place} fa festa, vengono anche gli eremiti.",
+  "dlg.role.feast_guest.gruff.hello": "Sceso dalla miniera per la festa. Un giorno all'anno {place} offre da bere. Non si può mancare.",
+  "dlg.role.feast_guest.salty.hello": "Abbiamo doppiato il capo per la festa di {place}! La marea può aspettare un giorno, e anche i pesci.",
+  "dlg.role.feast_guest.stoic.hello": "Una lunga camminata nella neve per un giorno di festa a {place}. Ne vale ogni passo.",
+  "dlg.role.feast_guest.flowery.hello": "Oh, la festa di {place}! Abbiamo attraversato le dune sotto la luna per esserci, e la sabbia ha cantato per tutta la strada.",
+  "dlg.role.feast_guest.scholarly.hello": "Ho lasciato i libri per un giorno: la festa di {place} è l'unica lezione in cui non si addormenta nessuno.",
+  "dlg.role.feast_guest.grim.hello": "Anche qui si fa festa. Siamo venuti dalle fattorie bruciate fino a {place}: per un giorno, non brucia niente.",
   "dlg.seasonal.scholarly.wait": "Il solstizio è in estate. Torna allora: gli strumenti non sono pronti."
 }

@@ -379,8 +379,7 @@ class WorldSim(
         for (enemy in enemies) {
             if (enemy.state == EnemyState.DEAD || enemy.hp * 100 > enemy.def.hp * gift.tameHpPct) continue
             val dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y)
-            if (dist > gift.tameRangeX100.toFloat() / 100f + enemy.radius) continue
-            if (best == null || dist < bestDist) {
+            if (dist <= gift.tameRangeX100.toFloat() / 100f + enemy.radius && (best == null || dist < bestDist)) {
                 best = enemy
                 bestDist = dist
             }
@@ -424,8 +423,7 @@ class WorldSim(
         for (enemy in enemies) {
             if (enemy.state == EnemyState.DEAD) continue
             val d = distance(enemy.position.x, enemy.position.y, f.position.x, f.position.y)
-            if (d > FRIEND_RANGE + enemy.radius) continue
-            if (target == null || d < best) {
+            if (d <= FRIEND_RANGE + enemy.radius && (target == null || d < best)) {
                 target = enemy
                 best = d
             }
@@ -559,8 +557,7 @@ class WorldSim(
         }
         val reach = talent.activeRadiusX100.toFloat() / 100f
         for (enemy in enemies) { // burst: every creature around, in order, with no roll
-            if (enemy.state == EnemyState.DEAD) continue
-            if (distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y) > reach + enemy.radius) continue
+            if (enemy.state == EnemyState.DEAD || distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y) > reach + enemy.radius) continue
             val amount = damage(
                 DamageInput(
                     atk = maxOf(derived.atk, derived.matk) * power / 100,
@@ -816,7 +813,8 @@ class WorldSim(
                     placement.y256 / 256f,
                     person.name,
                     mapOf("npc" to person.name, "place" to person.place, "region" to person.region, "quirk" to "\$i18n:${person.quirk}"),
-                    whenCond = store.params.roleWhen[person.role]?.let { parseConditionText(it) }, // a role of residents (spec 07)
+                    // a resident (spec 07, "Residents"; spec 09, "Settlement people")
+                    whenCond = person.whenJson.takeIf { it.isNotEmpty() }?.let { parseConditionText(it) },
                 ),
             )
         }
@@ -1233,14 +1231,13 @@ class WorldSim(
         var target: Enemy? = null
         var best = 0f
         for (enemy in enemies) {
-            if (enemy.state == EnemyState.DEAD) continue
             val d = sqrt((enemy.position.x - pos.x) * (enemy.position.x - pos.x) + (enemy.position.y - pos.y) * (enemy.position.y - pos.y))
-            if (d > c.rangeX100.toFloat() / 100f + enemy.radius) continue
-            if (enemy.marked) { // the creature the player hit last, when it is in reach, before any other
+            val inReach = enemy.state != EnemyState.DEAD && d <= c.rangeX100.toFloat() / 100f + enemy.radius
+            if (inReach && enemy.marked) { // the creature the player hit last, when it is in reach, before any other
                 target = enemy
                 break
             }
-            if (target == null || d < best) {
+            if (inReach && (target == null || d < best)) {
                 target = enemy
                 best = d
             }
@@ -1632,15 +1629,11 @@ class WorldSim(
         val whirl = if (p.usingStrike) talentPower("whirl") else 0L // spec 11, "Abilities": the power strike hits all around, and farther
         val reachX100 = s.radiusX100 * (100 + whirl) / 100
         for ((index, enemy) in enemies.withIndex()) {
-            if (enemy.state == EnemyState.DEAD || hitSet[index]) continue
             val dx = enemy.position.x - p.position.x
             val dy = enemy.position.y - p.position.y
             val dist = sqrt(dx * dx + dy * dy)
-            if (dist > reachX100.toFloat() / 100f + enemy.radius) continue
-            if (dist > 0f && whirl == 0L) {
-                val dot = (dx * p.facing.x + dy * p.facing.y) / dist
-                if (dot < cosHalf) continue
-            }
+            val behind = dist > 0f && whirl == 0L && (dx * p.facing.x + dy * p.facing.y) / dist < cosHalf // the swing is in front
+            if (enemy.state == EnemyState.DEAD || hitSet[index] || dist > reachX100.toFloat() / 100f + enemy.radius || behind) continue
             hitSet[index] = true
             for (other in enemies) other.marked = other === enemy // the companion's next target (spec 10, "Teamwork")
             val variance = 950L + combatRng.nextBounded(101)
@@ -2089,8 +2082,8 @@ class WorldSim(
             val enemiesOut = ArrayList<SaveEnemy>()
             val hitsOut = ArrayList<Boolean>()
             for ((i, e) in s.enemies.withIndex()) {
-                val spawner = e.spawner ?: continue
-                if (spawner !in inWindow || !found.add(spawner)) continue
+                val spawner = e.spawner
+                if (spawner == null || spawner !in inWindow || !found.add(spawner)) continue
                 enemiesOut.add(if (spawner in clearedSet && e.state != EnemyState.DEAD) SaveEnemy(e.x, e.y, 0L, EnemyState.DEAD, e.stateTick, e.spawner) else e)
                 hitsOut.add(s.hitSet[i])
             }
