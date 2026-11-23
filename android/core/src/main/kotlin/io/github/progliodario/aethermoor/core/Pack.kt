@@ -106,6 +106,19 @@ private fun JsonObject.string(key: String): String = (this[key] as? JsonPrimitiv
 private fun JsonObject.stringList(key: String): List<String> =
     (this[key] as? JsonArray)?.mapNotNull { (it as? JsonPrimitive)?.takeIf { p -> p.isString }?.content } ?: emptyList()
 
+/** The texts of one file of a language into [table]: a value that is not a string and a key written twice are errors. */
+private fun addTexts(table: MutableMap<String, String>, json: JsonObject, file: String, errors: MutableList<String>) {
+    for ((key, value) in json) {
+        if (key == "\$schema") continue
+        val text = (value as? JsonPrimitive)?.takeIf { it.isString }?.content
+        when {
+            text == null -> errors.add("$file: value of '$key' is not a string")
+            table.containsKey(key) -> errors.add("$file: duplicate key '$key'")
+            else -> table[key] = text
+        }
+    }
+}
+
 /**
  * Loads the pack found at the root of [source]. Problems are appended to [errors]; on a fatal problem
  * (missing or invalid manifest, unsupported format) the result is null. Never throws for bad data.
@@ -138,15 +151,7 @@ fun loadPack(source: PackSource, errors: MutableList<String>): Pack? {
         val table = strings.getOrPut(lang) { HashMap() }
         for (file in source.listJson("i18n/$lang")) {
             val json = parseJson(file, source, errors) as? JsonObject ?: continue
-            for ((key, value) in json) {
-                if (key == "\$schema") continue
-                val text = (value as? JsonPrimitive)?.takeIf { it.isString }?.content
-                when {
-                    text == null -> errors.add("$file: value of '$key' is not a string")
-                    table.containsKey(key) -> errors.add("$file: duplicate key '$key'")
-                    else -> table[key] = text
-                }
-            }
+            addTexts(table, json, file, errors)
         }
     }
 

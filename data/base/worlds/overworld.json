@@ -104,6 +104,7 @@
     "per_mille": 130,
     "dialogue": "base:dialogue/role/{role}_{tone}",
     "role_when": { "settler": { "renown_at_least": 8 } },
+    "feast": {"guest_role": "feast_guest", "away_roles": ["villager"], "away_kinds": ["hamlet", "village"], "regions": {"verdalis": {"feast": {"every": 8, "at": 0}, "away": {"every": 8, "at": 1}}, "whisperwood": {"feast": {"every": 8, "at": 1}, "away": {"every": 8, "at": 2}}, "ironspine": {"feast": {"every": 8, "at": 2}, "away": {"every": 8, "at": 3}}, "tidehaven": {"feast": {"every": 8, "at": 3}, "away": {"every": 8, "at": 4}}, "frostveil": {"feast": {"every": 8, "at": 4}, "away": {"every": 8, "at": 5}}, "sunscar": {"feast": {"every": 8, "at": 5}, "away": {"every": 8, "at": 6}}, "lumeria": {"feast": {"every": 8, "at": 6}, "away": {"every": 8, "at": 7}}, "ashen_wastes": {"feast": {"every": 8, "at": 7}, "away": {"every": 8, "at": 0}}}},
     "variants": ["", "red", "green", "ochre", "purple", "teal", "cream", "brown"],
     "quirks": ["quirk.cheese", "quirk.bells", "quirk.bad_luck", "quirk.bakers", "quirk.singing", "quirk.lanterns", "quirk.mushrooms", "quirk.kites", "quirk.honey", "quirk.riddles", "quirk.cats", "quirk.bridges"],
     "people": {"start": ["An", "Bri", "Cor", "Dar", "El", "Fia", "Gor", "Hel", "Ing", "Jor", "Kai", "Lis", "Mar", "Nia", "Ori", "Pip", "Quin", "Rod", "Sal", "Tam", "Ulf", "Vera", "Wil", "Yan", "Zed"], "end": ["a", "bert", "dric", "ela", "gar", "ina", "ik", "la", "mund", "na", "o", "rin", "sa", "thor", "us", "wen", "ya", "zo"]},

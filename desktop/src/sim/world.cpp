@@ -208,11 +208,11 @@ void WorldSim::add_chunk_people(int cx, int cy) {
                     {"place", person.place},
                     {"region", person.region},
                     {"quirk", "$i18n:" + person.quirk}};
-        // a role of residents (spec 07, "Residents"): there only while its condition holds, never solid
-        const auto when = m_store_->params().role_when.find(person.role);
-        if (when != m_store_->params().role_when.end()) {
+        // a resident (spec 07, "Residents"; spec 09, "Settlement people"): there only while its condition holds, never
+        // solid
+        if (!person.when.empty()) {
             std::string error;
-            npc.when = parse_condition_text(when->second, error);
+            npc.when = parse_condition_text(person.when, error);
         }
         m_npcs_.push_back(std::move(npc));
     }

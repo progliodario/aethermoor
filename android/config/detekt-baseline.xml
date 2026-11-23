@@ -74,11 +74,6 @@
     <ID>CyclomaticComplexMethod:WorldGenTest.kt$WorldGenTest$@Test fun theOverworldIsStreamedFromTheContentPackAndIsPlayable()</ID>
     <ID>CyclomaticComplexMethod:WorldTime.kt$fun parseTimeParams(time: JsonObject): TimeParams</ID>
     <ID>LoopWithTooManyJumpStatements:AethermoorGame.kt$AethermoorGame$for</ID>
-    <ID>LoopWithTooManyJumpStatements:CombatLoader.kt$for</ID>
-    <ID>LoopWithTooManyJumpStatements:Raster.kt$for</ID>
-    <ID>LoopWithTooManyJumpStatements:Raster.kt$while</ID>
-    <ID>LoopWithTooManyJumpStatements:World.kt$WorldSim$for</ID>
-    <ID>LoopWithTooManyJumpStatements:WorldGen.kt$for</ID>
     <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun draw(world: WorldSim, data: Assets, tilePx: Int)</ID>
     <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun drawStory(world: WorldSim, data: Assets)</ID>
     <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun drawWorldMap(world: WorldSim, data: Assets)</ID>
@@ -89,7 +84,6 @@
     <ID>NestedBlockDepth:Movement.kt$CollisionWorld$fun resolve(start: Vec2, radius: Float = PLAYER_RADIUS): Vec2</ID>
     <ID>NestedBlockDepth:Music.kt$fun renderMusic(piece: MusicPiece): Map&lt;String, ShortArray&gt;</ID>
     <ID>NestedBlockDepth:Music.kt$private fun voice(patch: MusicPatch, freq: Double, length: Int, total: Int, stateSeed: Int): DoubleArray</ID>
-    <ID>NestedBlockDepth:Pack.kt$fun loadPack(source: PackSource, errors: MutableList&lt;String&gt;): Pack?</ID>
     <ID>NestedBlockDepth:Raster.kt$private fun coverage(polys: List&lt;List&lt;Pt&gt;&gt;, mask: Mask)</ID>
     <ID>NestedBlockDepth:Raster.kt$private fun parsePath(d: String, scale: Float): List&lt;Subpath&gt;</ID>
     <ID>NestedBlockDepth:Synth.kt$fun synthesize(recipe: SfxRecipe): ShortArray</ID>

@@ -35,6 +35,41 @@ class FaunaVisitor(val season: String, val enemy: String, val pm: Int)
 /** An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops, and its visitors of the seasons. */
 class FaunaEntry(val enemy: String, val drop: String, val weight: Int, val seasons: List<FaunaVisitor> = emptyList())
 
+/** The day_mod of the feast of a region and of the day its villagers are away at the feast of the neighbours (spec 07, "Feasts"). */
+class FeastDays(val feastEvery: Int, val feastAt: Int, val awayEvery: Int, val awayAt: Int)
+
+/**
+ * The people who move for the feasts (spec 07, "Feasts"; spec 09, "Settlement people"): the guests are there only on the feast day of
+ * their region; the [awayRoles] of the [awayKinds] of settlement are away on the day of the feast of the neighbours.
+ */
+class FeastPeople(
+    val guestRole: String = "",
+    val awayRoles: List<String> = emptyList(),
+    val awayKinds: List<String> = emptyList(),
+    val regions: Map<String, FeastDays> = emptyMap(),
+)
+
+/** Reads `settlements.feast` (spec 07, "Feasts"); null: nobody moves. */
+fun parseFeastPeople(feast: JsonObject?): FeastPeople {
+    if (feast == null) return FeastPeople()
+    return FeastPeople(
+        guestRole = feast.getValue("guest_role").jsonPrimitive.content,
+        awayRoles = feast.getValue("away_roles").jsonArray.map { it.jsonPrimitive.content },
+        awayKinds = feast.getValue("away_kinds").jsonArray.map { it.jsonPrimitive.content },
+        regions = feast.getValue("regions").jsonObject.mapValues { (_, value) ->
+            val days = value.jsonObject
+            val on = days.getValue("feast").jsonObject
+            val away = days.getValue("away").jsonObject
+            FeastDays(
+                on.getValue("every").jsonPrimitive.int,
+                on.getValue("at").jsonPrimitive.int,
+                away.getValue("every").jsonPrimitive.int,
+                away.getValue("at").jsonPrimitive.int,
+            )
+        },
+    )
+}
+
 class Region(
     val id: String,
     /** An $i18n: key. */
@@ -126,6 +161,8 @@ class GenPerson(
     /** Gathering spot (spec 08), -1 when the stamp has none. */
     val plazaX256: Int = -1,
     val plazaY256: Int = -1,
+    /** The JSON of the condition of its presence (spec 09, "Settlement people"); empty: always there. */
+    val whenJson: String = "",
 )
 
 /** A rank of the guild (spec 07, "Guild"). */
@@ -241,6 +278,8 @@ class WorldParams(
     val settlementDialogue: String,
     /** A role of residents -> the JSON of its condition (spec 07, "Residents"). */
     val roleWhen: Map<String, String> = emptyMap(),
+    /** The people who move for the feasts (spec 07, "Feasts"); no regions: nobody moves. */
+    val feast: FeastPeople = FeastPeople(),
     val variants: List<String>,
     val quirks: List<String>,
     val peopleStart: List<String>,
@@ -544,7 +583,29 @@ fun personAt(seed: ULong, p: WorldParams, s: Settlement, x: Int, y: Int): GenPer
         quirk = p.quirks[(hash64(seed, s.sx.toLong(), s.sy.toLong(), 44) % p.quirks.size.toULong()).toInt()],
         plazaX256 = if (s.spots.isEmpty()) -1 else s.spots[index % s.spots.size].first * 256 + 128,
         plazaY256 = if (s.spots.isEmpty()) -1 else s.spots[index % s.spots.size].second * 256 + 160,
+        whenJson = personWhen(p, role, region.id, s.kind),
     )
+}
+
+/**
+ * The JSON of the condition of the presence of a person of [role] in a settlement of [kind] of the region (spec 09, "Settlement people"):
+ * its role's (`role_when`), then the feasts'; empty when it is always there.
+ */
+fun personWhen(p: WorldParams, role: String, regionId: String, kind: String): String {
+    val conditions = ArrayList<String>()
+    p.roleWhen[role]?.let { conditions.add(it) } // a role of residents (spec 07)
+    fun dayMod(every: Int, at: Int) = "{\"day_mod\":{\"every\":$every,\"at\":$at}}"
+    val days = p.feast.regions[regionId] // the feasts (spec 07)
+    if (days != null && role == p.feast.guestRole) {
+        conditions.add(dayMod(days.feastEvery, days.feastAt))
+    } else if (days != null && role in p.feast.awayRoles && kind in p.feast.awayKinds) {
+        conditions.add("{\"not\":" + dayMod(days.awayEvery, days.awayAt) + "}")
+    }
+    return when (conditions.size) {
+        0 -> ""
+        1 -> conditions[0]
+        else -> "{\"all\":[" + conditions[0] + "," + conditions[1] + "]}"
+    }
 }
 
 /** Where a person is at a time of day (spec 08, "Routines"): [state] is work or plaza. */
@@ -619,9 +680,8 @@ fun settlementContaining(seed: ULong, p: WorldParams, x: Int, y: Int): Settlemen
         for (dx in -1..1) {
             val sx = (x shr 8) + dx
             val sy = (y shr 8) + dy
-            if (sx < 0 || sy < 0) continue
-            val s = settlementSite(seed, p, sx, sy) ?: continue
-            if (x >= s.x && x < s.x + s.w && y >= s.y && y < s.y + s.h) return s
+            val s = if (sx < 0 || sy < 0) null else settlementSite(seed, p, sx, sy)
+            if (s != null && x >= s.x && x < s.x + s.w && y >= s.y && y < s.y + s.h) return s
         }
     }
     return null
@@ -1044,6 +1104,7 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             namesEnd = names("end", j),
             settlementDialogue = j.getValue("settlements").jsonObject.getValue("dialogue").jsonPrimitive.content,
             roleWhen = j.getValue("settlements").jsonObject["role_when"]?.jsonObject?.mapValues { it.value.toString() } ?: emptyMap(),
+            feast = parseFeastPeople(j.getValue("settlements").jsonObject["feast"] as? JsonObject),
             variants = j.getValue("settlements").jsonObject.getValue("variants").jsonArray.map { it.jsonPrimitive.content },
             quirks = j.getValue("settlements").jsonObject.getValue("quirks").jsonArray.map { it.jsonPrimitive.content },
             peopleStart = j.getValue("settlements").jsonObject.getValue("people").jsonObject.getValue("start").jsonArray.map { it.jsonPrimitive.content },

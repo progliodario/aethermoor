@@ -178,9 +178,28 @@ def person_at(seed: int, params: dict, site: dict, x: int, y: int) -> dict:
         "quirk": cfg["quirks"][hash64(seed, site["sx"], site["sy"], 44) % len(cfg["quirks"])],
         "plaza_x256": plaza[0] * 256 + 128 if plaza else -1,
         "plaza_y256": plaza[1] * 256 + 160 if plaza else -1,
-        # a role of residents (spec 07, "Residents"): the condition that brings them
-        **({"when": cfg["role_when"][role]} if role in cfg.get("role_when", {}) else {}),
+        # a resident (spec 07, "Residents"; spec 09, "Settlement people"): the condition of its presence
+        **({"when": when} if (when := person_when(cfg, role, region["id"], site["kind"])) is not None else {}),
     }
+
+
+def person_when(cfg: dict, role: str, region_id: str, kind: str) -> dict | None:
+    """The condition of the presence of a settlement person (spec 09, "Settlement people"): the one of its role (`role_when`), then the
+    one of the feasts (`feast`, spec 07): a guest is there on the feast day of the region, a villager of a hamlet or a village is away on
+    the day its region goes to the feast of the neighbours. None: always there; two: both."""
+    conditions = []
+    if role in cfg.get("role_when", {}):
+        conditions.append(cfg["role_when"][role])
+    feast = cfg.get("feast")
+    days = feast["regions"].get(region_id) if feast else None
+    if days is not None:
+        if role == feast["guest_role"]:
+            conditions.append({"day_mod": days["feast"]})
+        elif role in feast["away_roles"] and kind in feast["away_kinds"]:
+            conditions.append({"not": {"day_mod": days["away"]}})
+    if not conditions:
+        return None
+    return conditions[0] if len(conditions) == 1 else {"all": conditions}
 
 
 def settlements_in(seed: int, params: dict, sx0: int, sy0: int, sx1: int, sy1: int) -> list[dict]:

@@ -1855,6 +1855,13 @@ TEST_CASE("conformance: worldgen chunks", "[conformance]") {
                 REQUIRE(got.quirk == e.at(10).get<std::string>());
                 REQUIRE(got.plaza_x256 == e.at(11).get<int>());
                 REQUIRE(got.plaza_y256 == e.at(12).get<int>());
+                // the condition of its presence (spec 09, "Settlement people"), compared as JSON
+                if (e.size() > 13 && !e.at(13).is_null()) {
+                    REQUIRE(!got.when.empty());
+                    REQUIRE(Json::parse(got.when) == e.at(13));
+                } else {
+                    REQUIRE(got.when.empty());
+                }
             }
             std::map<int, std::int64_t> histogram;
             for (const int gid : chunk.tiles) {

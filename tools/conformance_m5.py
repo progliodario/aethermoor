@@ -62,7 +62,7 @@ def suite_worldgen_chunks() -> list[dict]:
                 "spawner_count": len(chunk["spawners"]),
                 "spawner_digest": h64(digest_pairs(chunk["spawners"])),
                 "people": [[p["key"], p["role"], p["x256"], p["y256"], p["name"], p["variant"], p["tone"], p["dialogue"], p["place"],
-                            p["region"], p["quirk"], p["plaza_x256"], p["plaza_y256"]] for p in chunk["people"]],
+                            p["region"], p["quirk"], p["plaza_x256"], p["plaza_y256"], p.get("when")] for p in chunk["people"]],
                 "gid_histogram": {str(g): chunk["tiles"].count(g) for g in sorted(set(chunk["tiles"]))},
             })
         cases.append({

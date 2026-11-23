@@ -13,6 +13,7 @@ import io.github.progliodario.aethermoor.core.sim.questFromOffer
 import io.github.progliodario.aethermoor.core.sim.saveFromJson
 import io.github.progliodario.aethermoor.core.sim.saveToJson
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -126,6 +127,8 @@ class WorldGenTest {
                     assertEquals(e[10].jsonPrimitive.content, got.quirk, "$who quirk")
                     assertEquals(e[11].jsonPrimitive.int, got.plazaX256, "$who plaza x")
                     assertEquals(e[12].jsonPrimitive.int, got.plazaY256, "$who plaza y")
+                    // the condition of its presence (spec 09, "Settlement people"), compared as JSON
+                    assertEquals(e.getOrNull(13)?.takeIf { it !is JsonNull }, got.whenJson.takeIf { it.isNotEmpty() }?.let { Json.parseToJsonElement(it) }, "$who when")
                 }
                 val histogram = chunk.tiles.groupBy { it }.mapValues { it.value.size.toLong() }
                 val wantHistogram = want.getValue("gid_histogram").jsonObject

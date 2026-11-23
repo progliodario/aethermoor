@@ -785,5 +785,13 @@
   "dlg.trial.autumn.busy": "The trial is running: Moonshade Alpha and Forge Tyrant, and the days are counted. The stones will take you there faster than any horse.",
   "dlg.trial.winter.offer": "For the strongest only: the trial of the winter. Ice Warden and Storm Sovereign, both of them, within three days. The guild pays well, and there is a piece in the vault that waits for whoever does it.",
   "dlg.trial.winter.busy": "The trial is running: Ice Warden and Storm Sovereign, and the days are counted. The stones will take you there faster than any horse.",
+  "dlg.role.feast_guest.warm.hello": "We walked down from the farms at dawn for the feast of {place}! Half my village is here, and the other half is cooking.",
+  "dlg.role.feast_guest.mystic.hello": "The lanterns called us out of the woods: when {place} keeps its feast, even the hermits come.",
+  "dlg.role.feast_guest.gruff.hello": "Came down from the mine for the feast. One day a year {place} buys the drinks. Can't miss that.",
+  "dlg.role.feast_guest.salty.hello": "We sailed round the cape for the feast of {place}! The tide can wait a day, and so can the fish.",
+  "dlg.role.feast_guest.stoic.hello": "A long walk through the snow for one day of feast in {place}. Worth every step.",
+  "dlg.role.feast_guest.flowery.hello": "Oh, the feast of {place}! We crossed the dunes under the moon to be here, and the sand sang all the way.",
+  "dlg.role.feast_guest.scholarly.hello": "I left my books for one day: the feast of {place} is the only lecture nobody falls asleep in.",
+  "dlg.role.feast_guest.grim.hello": "Even out here we keep the feast. We came from the burnt farms to {place}: for one day, nothing burns.",
   "dlg.seasonal.scholarly.wait": "The solstice is in summer. Do return then; the instruments are not ready."
 }

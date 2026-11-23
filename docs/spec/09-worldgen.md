@@ -143,6 +143,20 @@ The NPC of slot `i` of the settlement of site cell `(sx, sy)`, standing on tile 
 | `region` | the `name` text key of the region of the settlement |
 | `plaza` | `x256`, `y256` of its gathering spot (spec 08, Routines), or -1 when the stamp has no spots |
 | `quirk` | `settlements.quirks[hash64(seed, sx, sy, 44) % count]`, a text key: what the place is known for, the same for the whole settlement |
+| `when` | the condition of its presence (spec 07, "Residents"), or none: see below |
+
+**When a person is there.** The conditions that apply to the person, in this order, are:
+
+1. `settlements.role_when[role]`, when the data has one for its role (the settlers);
+2. with `settlements.feast` (spec 07, "Feasts") and an entry `feast.regions[region id]` for the region of the settlement:
+   - a person of the role `feast.guest_role` (the guests of the feast) is there on the feast day of the region:
+     `{"day_mod": regions[id].feast}`;
+   - a person of one of the `feast.away_roles` in a settlement of one of the `feast.away_kinds` is away on the day its region goes to
+     the feast of the neighbours: `{"not": {"day_mod": regions[id].away}}`.
+
+None of them: the person has no `when` and is always there (with its routine). One: that condition. Two: `{"all": [first, second]}`.
+A person with a `when` is a resident: there only while it holds, never solid (spec 07). The vectors of `worldgen_chunks` give it as the
+fourteenth field of every person (null when there is none); the clients compare it as JSON.
 
 The region gives the **tone** of the voice of its people (warm, mystic, gruff, flowery, stoic, salty, grim, scholarly); the quirk and the name make each place different.
 The dialogue texts use `{npc}`, `{place}`, `{region}` and `{quirk}` (spec 07, "Dialogue arguments").

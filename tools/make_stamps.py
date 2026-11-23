@@ -108,6 +108,8 @@ for _who, _entry in __import__("make_echoes").ECHOES.items():
 FURNITURE_SPOT = {"tile": 13, "prop": "base:art/prop/furniture_spot", "radius_x100": 20}  # a place for a piece of furniture (spec 06)
 HOME_LEGEND = {"1": FURNITURE_SPOT, "2": {"prop": "base:art/prop/furniture_spot", "radius_x100": 20}}  # in the house, and on the grass
 VILLAGE_LEGEND = {"1": {"tile": 14, "npc": "settler"}}  # a settler, who comes once the region knows the Guest (spec 07, "Residents")
+# a guest of the feast, on the cobblestones of the plaza, there only on the feast day of the region (spec 07, "Feasts"; spec 09)
+TOWN_LEGEND = {"2": {"tile": 14, "npc": "feast_guest"}}
 
 
 class Canvas:
@@ -249,7 +251,9 @@ def town() -> dict:
     c.house(22, 10, 5, 4, {(2, 1): "V"}, door=2)
     for x, y in ((0, 0), (30, 0), (0, 24), (30, 24), (6, 0), (24, 24)):
         c.put(x, y, "t")
-    return stamp("base:stamp/town", c, (15, 12), [(13, 10), (14, 10), (16, 10), (13, 14), (17, 14), (15, 14)])
+    for x, y in ((13, 12), (17, 12), (16, 14)):  # the guests of the feast
+        c.put(x, y, "2")
+    return stamp("base:stamp/town", c, (15, 12), [(13, 10), (14, 10), (16, 10), (13, 14), (17, 14), (15, 14)], local=TOWN_LEGEND)
 
 
 def hamlet_b() -> dict:
@@ -340,7 +344,9 @@ def town_b() -> dict:
     c.house(27, 10, 6, 3, {(2, 1): "V"}, door=2)
     for x, y in ((0, 0), (34, 0), (0, 26), (34, 26), (15, 1), (19, 25)):
         c.put(x, y, "t")
-    return stamp("base:stamp/town_b", c, (17, 13), [(15, 11), (16, 11), (18, 11), (15, 15), (19, 15), (17, 15)])
+    for x, y in ((15, 13), (19, 13), (18, 15)):  # the guests of the feast
+        c.put(x, y, "2")
+    return stamp("base:stamp/town_b", c, (17, 13), [(15, 11), (16, 11), (18, 11), (15, 15), (19, 15), (17, 15)], local=TOWN_LEGEND)
 
 
 def hamlet_home() -> dict:
@@ -419,7 +425,9 @@ def town_c() -> dict:
         c.put(x, y, ")")
     for x, y in ((0, 0), (36, 0), (0, 24), (36, 24), (13, 11), (23, 11)):
         c.put(x, y, "t")
-    return stamp("base:stamp/town_c", c, (18, 16), [(16, 14), (17, 14), (19, 14), (16, 18), (20, 18), (18, 18)])
+    for x, y in ((17, 16), (19, 16), (19, 18)):  # the guests of the feast
+        c.put(x, y, "2")
+    return stamp("base:stamp/town_c", c, (18, 16), [(16, 14), (17, 14), (19, 14), (16, 18), (20, 18), (18, 18)], local=TOWN_LEGEND)
 
 
 def barrow() -> dict:

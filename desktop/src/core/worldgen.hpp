@@ -129,6 +129,22 @@ struct Stamp {
     std::vector<std::pair<int, int>> spots;  // gathering tiles relative to the stamp (spec 08, Routines)
 };
 
+// The people who move for the feasts (spec 07, "Feasts"; spec 09, "Settlement people"): the day_mod of the feast of a
+// region and of the day its villagers are away at the feast of the neighbours.
+struct FeastDays {
+    int feast_every = 0;
+    int feast_at = 0;
+    int away_every = 0;
+    int away_at = 0;
+};
+
+struct FeastPeople {
+    std::string guest_role;                    // there only on the feast day of the region
+    std::vector<std::string> away_roles;       // away on the day of the feast of the neighbours...
+    std::vector<std::string> away_kinds;       // ...in these kinds of settlement
+    std::map<std::string, FeastDays> regions;  // by region id
+};
+
 struct WorldParams {
     std::string id;
     int width = 0;
@@ -213,6 +229,7 @@ struct WorldParams {
     std::vector<std::string> names_end;
     std::string settlement_dialogue;               // dialogue id of a settlement NPC with {role} and {tone}
     std::map<std::string, std::string> role_when;  // a role of residents -> the JSON of its condition (spec 07)
+    FeastPeople feast;  // the people who move for the feasts (spec 07, "Feasts"); no regions: nobody moves
     std::vector<std::string> variants;
     std::vector<std::string> quirks;
     std::vector<std::string> people_start;
@@ -252,6 +269,7 @@ struct GenPerson {
     std::string quirk;    // a text key
     int plaza_x256 = -1;  // gathering spot (spec 08), -1 when the stamp has none
     int plaza_y256 = -1;
+    std::string when;  // the JSON of the condition of its presence (spec 09, "Settlement people"); empty: always there
 };
 
 struct GeneratedWorld {
@@ -307,6 +325,10 @@ struct Settlement {
 
 // The NPC standing on the slot tile (x, y) of the settlement.
 GenPerson person_at(std::uint64_t seed, const WorldParams& params, const Settlement& settlement, int x, int y);
+// The JSON of the condition of the presence of a person of `role` in a settlement of `kind` of the region (spec 09,
+// "Settlement people"): its role's (`role_when`), then the feasts'; empty when it is always there.
+std::string person_when(const WorldParams& params, const std::string& role, const std::string& region_id,
+                        const std::string& kind);
 
 // Where a person is at a time of day (spec 08, "Routines"): state work or plaza, nothing while away.
 struct Placement {

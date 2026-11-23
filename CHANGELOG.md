@@ -6,6 +6,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The villagers go to the feasts** (spec 07, "Feasts"; spec 09, "Settlement people"): on the feast day of the neighbours the villagers
+  of the hamlets and villages of a region are away (the elder, the shopkeeper, the innkeeper and the settler stay home), and on its own
+  feast day every town of a region has three guests of the feast on its plaza, who tell where they came from (eight new voices, one
+  per region). The condition of the presence of every settlement person is now part of the generated person (`when`) and of the
+  conformance vectors.
+
 - **Timed quests** (spec 07, "Timed quests", `time_limit_days`): a quest can have days of the world to be done in, the day it starts
   included. Past them it is over: it counts nothing, pays nothing and can be taken again at once. The journal says how many days are
   left, and lists a quest that is over among the finished ones ("time is up: it can be taken again"); its day is saved.
@@ -266,6 +272,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
+- The Kotlin of the core is tidier again (detekt baseline from 96 to 90 findings): the loops that find the creature to tame, to strike
+  for the companion and the tamed friend, to hit with the burst and the swing, and the enemies of a loaded save have one way out each;
+  the starting weapon and skills of the protagonist are read without loops; the rasterizer blends a pixel in a function of its own and
+  reads a path in a loop that ends with the text; the pack reads the texts of a file in a function of its own. Nothing of the game changes
+  (the conformance vectors check it).
+
 - The Kotlin is a little tidier (detekt baseline from 104 to 96 findings): a failed read of a game, of the profile or of the language
   is written to the log instead of being swallowed, an invalid JSON file of the pack says why, three loops of the pack, the font and
   the texts have one way out each, and the input of the chooser of the protagonists is split in two simpler functions.
@@ -369,6 +381,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 - `docs/guides/add-content.md`: how to add an item, a creature, a quest and its dialogue, a place, a region and a language, with the checks to run.
 
 ### Fixed
+
+- `tools/ship.py` waited for its timeout when `gh` printed a hint on stderr (newer `gh` versions do, when a pull request is read again and
+  again): the hint was mixed with the JSON of the checks and with the address of the new pull request. The output of `gh` is now read
+  apart from its messages.
 
 - `tools/make_hunting.py` and `tools/make_wildlife.py` found the end of a fauna list at its first `]`, which is now inside the visitors of the seasons: run again, they would have broken the world data. They now find the bracket that closes the list, and they keep the drops other tools add to their creatures (the common pieces with an affix) instead of writing over them.
 

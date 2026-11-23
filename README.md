@@ -40,7 +40,7 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4011 chiavi, in italiano e inglese |
+| Testi | 4019 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 31 file di vettori di conformità, 609 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
@@ -238,7 +238,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine. Il programma completo, con i batch, i file e i criteri di ogni voce, è in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md); la lista breve della roadmap è nella [sezione 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
-- **A breve:** la baseline di detekt a zero; i viaggiatori che camminano sulle strade; i paesani che vanno alla festa della città vicina.
+- **A breve:** la baseline di detekt a zero; i viaggiatori che camminano sulle strade.
 - **A medio termine:** stanze del cottage; affissi scelti dal giocatore; compagni scelti dal giocatore; la modalità Dungeon di Gideon; thread di streaming e misure su Android; una settimana di gioco come prova; un sintetizzatore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** altre storie per i protagonisti (release 0.6-0.9); qualità grafica, log dei crash e revisione delle traduzioni; comandi e layout su Android; pacchetti firmati; documentazione per chi fa mod.
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1), le impostazioni del repository, le chiavi di firma e le altre decisioni elencate nel programma.
