@@ -82,7 +82,7 @@ All of them are Python scripts in `tools/`; use the virtual environment of the "
 | `python tools/make_catalog.py` | writes `docs/design/catalog.md` (regions, creatures, items, quests, sites) |
 | `python tools/make_facts.py` (`--check`) | writes the numbers of the game, counted from the data, into the facts blocks of the READMEs, `CLAUDE.md` and the roadmap |
 | `python tools/balance_report.py` | writes `docs/design/balance.md`, a rough model of every fight |
-| `python tools/ship.py "<title>" --body-file <file> [--play <folder>]` | checks, commits, pushes, opens the pull request, waits for CI, merges, and refreshes a play folder |
+| `python tools/ship.py "<title>" --body-file <file> [--play <folder>]` | checks, commits, pushes, opens the pull request, waits for CI, merges, deletes the branch and the old CI caches, and refreshes the play folder (`../aethermoor-play` by default) |
 | `clang-format -i <file>` (from the virtual environment) | formats C++ with `desktop/.clang-format` (120 columns); `ship.py` does it for the C++ files it commits |
 | `python -m pytest tools/tests` and `python -m ruff check tools` | the tests of the reference and of the data, and the linter |
 

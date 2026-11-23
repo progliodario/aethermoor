@@ -87,7 +87,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 
 | Script | What it does |
 |---|---|
-| `ship.py` | checks, signed-off commit, push, pull request, waits for CI, squash merge and refresh of a play folder (see its header for the flags) |
+| `ship.py` | checks, signed-off commit, push, pull request, waits for CI, squash merge, deletion of the branch and of the old CI caches, refresh of the play folder (`../aethermoor-play` when it exists; see its header for the flags) |
 | `sync_labels.py` | creates or updates the labels of `.github/labels.json` |
 
 ## Running a generator again

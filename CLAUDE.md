@@ -35,6 +35,32 @@ Full plan: `docs/plan/README.md` (Italian). Decisions: `docs/adr/`. Index of all
 - Before a multi-file change, state the plan and the list of files.
 - Tests of both clients count what the data holds (stamps, static people, tiles of the tileset, the gids of the start tile): grep `desktop/tests/` and `android/core/src/test/` and update them in the same change as the data, or CI fails.
 
+## A session, from start to end
+
+1. **Start clean.** `git checkout main && git pull`; `git status` is clean and `gh pr list` shows no open pull request (if one is open, finish
+   it first: read its checks, fix, ship). Read the notes of [`docs/plan/06-roadmap-rischi-backlog.md`](docs/plan/06-roadmap-rischi-backlog.md),
+   section 8.4: the first items of "A breve" are the next work.
+2. **One branch for the whole batch** (`feat/...`, `content/...`, `chore/...`). Do several items of 8.4, each the whole way (spec, reference,
+   vectors, both clients, data, texts in `it` and `en`, client tests that count the data).
+3. **Before shipping:** run the generators the change needs (see "Generated files"), then `make_catalog.py` and `make_facts.py`; add the change
+   to `CHANGELOG.md` (section `[Unreleased]`), take the items done out of 8.4 "A breve" and add them to 8.3, in Italian.
+4. **Ship:** `python tools/ship.py "<title>" --body-file <body> --trailer "Co-Authored-By: ..."`. It runs the checks, opens the pull request,
+   waits for CI, squash merges, deletes the branch (local and remote), prunes the old CI caches and copies the Windows build into the
+   play folder (`../aethermoor-play`, when it exists). If CI fails, fix on the same branch and run it again (`--skip-checks` when only CI failed).
+5. **Tell the owner** what changed in the game, what was checked (CI, tests) and what was not (nothing is seen on screen from here).
+
+## Pitfalls already met
+
+- A new field of the save needs a split in `SAVE_SPLITS` of `tools/conformance_m4.py` and must be restored before anything that reads it
+  (the world ticks come back before the creatures of the stream, which depend on the season).
+- A new kind of dialogue file must not reuse an id: the dialogue of a person is `npc/<id>.json`, and a new person named like an old one
+  overwrites it (`test_every_person_of_the_world_has_a_dialogue_of_its_own`).
+- Generators that patch JSON must parse it (`json.loads`), never cut it at the first `]`: lists nest (`seasons` of a fauna entry, `pick` of a drop).
+- C++ aggregates (`DropDef`, `QuestDef`...) need every field in brace initializers: GCC fails on `missing-field-initializers`.
+- detekt fails on a function grown too complex (`CyclomaticComplexMethod`): take a branch out into a function of its own. ktlint wants the
+  arguments of a call one per line once they do not fit on one.
+- The client tests count drops, people, stamps and tiles: a new drop or person changes `desktop/tests/` and `android/core/src/test/`.
+
 ## Where to change what
 
 | To change... | Spec | Reference (Python) | Desktop (C++) | Android (Kotlin) |
@@ -55,21 +81,7 @@ The conformance harnesses that run the vectors are `desktop/tests/conformance_te
 |---|---|
 | `tests/conformance/*.json` | `tools/gen_conformance.py` (from `tools/reference/` and `tools/conformance_*.py`) |
 | `docs/design/catalog.md`, `balance.md`, `translations.md` | `tools/make_catalog.py`, `balance_report.py`, `check_translations.py` |
-| the blocks between `<!-- facts:begin -->
-| What | How many (counted from the data by `tools/make_facts.py`) |
-|---|---|
-| World | 8 regions, 45 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
-| Protagonists | 8, each with a companion (8 companions) and a story of six acts (120 story quests) |
-| Creatures | 79, of which 27 guardians and 8 Echoes |
-| Quests | 379 (24 tales of the villagers) |
-| Items and recipes | 286 items, 82 recipes (8 secret) |
-| Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
-| Named people | 48 in the world data, besides the generated villagers |
-| Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3988 keys, in Italian and English |
-| Same rules on both clients | 30 files of conformance vectors, 578 cases, run by the C++ and the Kotlin tests |
-| Documents | 18 specs, 13 ADRs |
-<!-- facts:end -->` (READMEs, this file, the roadmap) | `tools/make_facts.py` |
+| the facts blocks (between the comments `facts:begin` and `facts:end`: READMEs, this file, the roadmap) | `tools/make_facts.py` |
 | `data/base/art/**`, `fonts/aether.json`, `audio/sfx/`, `stamps/` | the art tools, `make_font.py`, `make_sfx.py`, `make_stamps.py` |
 | `recipes.json`, `titles.json`, `tags.json`, `talents.json`, `deeds.json`, `gathering.json`, `companions/`, prologues, stories, towns, tales, pedlars | the `make_*.py` of `tools/README.md` |
 | `data/base/tables/xp_table.json`, `maps/demo.tmj` | `gen_tables.py`, `make_demo_map.py` |
@@ -93,8 +105,8 @@ python tools/check_translations.py       # docs/design/translations.md: texts le
 python tools/make_art.py tiles props     # also art_chars.py (people), art_creatures.py then make_echoes.py, make_font.py
 python tools/art_preview.py --scene --out sheet.html   # PNG pictures drawn by the reference rasterizer; --figures, or a pattern
 
-# Ship a change in one go: checks, signed-off commit, push, PR, wait for CI, squash merge, refresh the play build
-python tools/ship.py "feat: title" --body-file body.md --trailer "Co-Authored-By: ..." --play <play folder>
+# Ship a change in one go: checks, signed-off commit, push, PR, wait for CI, squash merge, tidy branch and CI caches, refresh the play build
+python tools/ship.py "feat: title" --body-file body.md --trailer "Co-Authored-By: ..."   # --play DIR, default ../aethermoor-play
 #   --skip-checks after a fix to a CI-only failure (the local checks already passed)
 
 # Desktop (needs CMake >= 3.28, Ninja, vcpkg; see docs/dev/setup.md)
@@ -155,15 +167,26 @@ cd android && gradle :core:test :app:assembleDebug
 The numbers (counted from the data by `tools/make_facts.py`):
 
 <!-- facts:begin -->
+| What | How many (counted from the data by `tools/make_facts.py`) |
+|---|---|
+| World | 8 regions, 45 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
+| Protagonists | 8, each with a companion (8 companions) and a story of six acts (120 story quests) |
+| Creatures | 79, of which 27 guardians and 8 Echoes |
+| Quests | 379 (24 tales of the villagers) |
+| Items and recipes | 286 items, 82 recipes (8 secret) |
+| Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
+| Named people | 48 in the world data, besides the generated villagers |
+| Sound | 174 synthesized sound effects (music and ambience are off) |
+| Texts | 3988 keys, in Italian and English |
+| Same rules on both clients | 30 files of conformance vectors, 578 cases, run by the C++ and the Kotlin tests |
+| Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->
 
-- **World:** a streamed 16384 x 16384 world with eight regions, generated settlements and hand-made sites: dungeons and lairs with guardians, eight outposts, eight sanctums of the Echoes (`tools/make_echoes.py`), Fenwick (the home village), the Guest's cottage east of it (Old Tam; Nana Brin gives it, flag `cottage_given`) and Aldermere (the guild town). Fenwick, Aldermere and every outpost have named people with quests (`tools/make_towns.py`, `tools/towns_outposts.py`; Nana Brin, Old Tam, Corvin the pedlar and the eight pedlars of the outposts, who sell the goods of a region a day with the condition `day_mod`, are written by `tools/make_home.py`; the eight residents of the outposts, people with `when` who come with the renown of the region and are never solid, by `tools/make_residents.py`, and a settler in every generated village (the role `settler` of `settlements.role_when`, the character `1` of the village stamps), with a trade, a quest and a workshop, by `tools/make_settlers.py`: spec 07, "Residents"; a feast day for every region at its innkeepers, with its games (eight quests), `tools/make_feasts.py`: spec 07, "Feasts"; Odo, the master of the caravan, a person with a `route` who stands at another outpost every day, by `tools/make_caravan.py`, and Brannoc the wandering smith the other way round, by `tools/make_wandering_smith.py`, and Lark the bard who sings of the tales finished, by `tools/make_bard.py`: spec 07, "Travellers"; the shopkeepers temper for gold, `tools/make_smiths.py`, the effect `temper`). Seasons, weather (rain and night hide the player from creatures, rain and snow slow them, the wind of the weather speeds the player, `wind_pm` and `wind_haste_pm`; fog hides the player more, `fog_pm` and `fog_aggro_cut_pm`, and the lightning of storms strikes the creatures that chase the player, `lightning_ticks`; the seasons slow the creatures or hide the player, `creature_slow_pm` and `creature_aggro_cut_pm` of a season: spec 08; seasonal visitors in the fauna, `seasons` of a fauna entry, `tools/make_seasonal_fauna.py`, among them four slimes that live only in a season, with their own loot and a tea, `tools/make_season_creatures.py`: spec 09; snow in Frostveil), Threshold Stones; the map reveals 5 x 5 cells around the player.
-- **People and content:** eight protagonists (Ren, Sakura, Daichi, Haruka, Marco, Yuki, Lena, Gideon: spec 18), each with a prologue, a companion, two personal quests, a story in three acts, an epilogue against their own Echo and a fifth act, "A Life Here", and a sixth, "Two Guests", that ties the protagonists in pairs (`tools/make_stories.py`, `stories_act2.py` to `stories_act6.py`). Tales of the villagers, three per region (`tools/make_region_tales.py`). The content in tables: `docs/design/catalog.md`.
-- **Combat:** attack, power strike, dodge, parry, elements, status effects on creatures and on the player, stagger, a guardian bar at the top of the screen. The world difficulty is `enemy_hp_pct` 100 and `enemy_atk_pct` 70: easy on purpose.
-- **Progression:** levels, a tree of talents, four of them abilities (whirl, kill_heal, kill_mana, riposte) and two used on command (burst and mend, `use_ability`: `tools/make_talents.py`), titles with effects (attack, gathering, crafting, fine work, parry, experience; one of renown for each region; `tools/make_titles.py`), a bestiary, a status window, a shared `profile.json` with echoes (titles, past lives, deeds), the heirloom of gold and weapon (reincarnation from the title screen at level 10), deeds read from the profile (`data/base/deeds.json`, `tools/make_deeds.py`, spec 11; listed from the title screen with `A`), whose gifts (`reward`) every new game finds in its bag, runes engraved on the worn weapon at an anvil (`runes` in the save, spec 06, `tools/make_furnishings.py`), tags worn one at a time (`data/base/tags.json`, `tools/make_tags.py`, `tag` in the save, `Y` on desktop: spec 11, "Tags").
-- **Life:** guild, shops whose prices move with the day (`market_swing_pm`, spec 06), keep wares for friends (`renown_stock`), sell the goods of another region (`open_shop` with a `region`; `tools/make_friend_quests.py` also writes the quest every elder keeps for a friend) and fall with the renown of the region (a counter `renown:<region>` for every quest finished there, and `faction:<id>` for the faction of the quest, spec 07, `tools/set_factions.py`; the condition `faction_at_least`, and the gifts of `tools/make_faction_gifts.py`; `tools/make_renown_talk.py` writes its talk into the role dialogues), inns, gathering, fishing in the reeds of the beaches, farming (garden plots in every village, seeds in every shop, `plots` in the save, a seed sown in the rain grows sooner and the season changes how fast, `season_grow_pm`: spec 06), chests (one in every village and town and in the cottage, all holding the same things, `chest` in the save, the stamp legend `\`: spec 06), animals (a hen coop and a goat pen, gathering nodes), a glut that lowers what shops pay for what you sell too often, hunting (`tools/make_hunting.py`, `tools/make_wildlife.py`), meals that fortify, brews that ward, dishes that regenerate and a brew of haste, an accessory slot, affixes on weapons and armors (`affix`, sixteen regional pieces dropped by the guardians, `tools/make_affixes.py`; a piece found has its affix rolled, `affix_roll`, `rolls` in the save; twenty-four common pieces with an affix and twelve with two, `tools/make_common_affixes.py`, dropped "one of a list", `pick`; the tempering oil rolls the affix of a worn piece again at an anvil, `temper`: spec 05, 06), a cleansing draught, crafting (secret dishes taught by the shopkeepers, `requires_flag`, `tools/make_secret_recipes.py`), two stations (a campfire for dishes, an anvil for fine gear, runes and furniture), the furniture of the cottage (six spots in the house and four in the garden, the characters `1` and `2` of the cottage stamp, `data/base/home.json`; every kind of piece placed adds like a title, `furniture` in the save: spec 06, `tools/make_furnishings.py`) and quality (a recipe can come out fine, spec 06), companions (stay/follow, come back, bond with its moments, care; Haruka's taming and tamed friend, `friend` in the save, spec 10; Yuki's pocket `pocket_keep_pm` and Gideon's `companion_atk_pct`, spec 18).
-- **Graphics:** anime art (ADR 0013, spec 13 v2): every recipe is written by a tool (`art_tiles.py`, `art_props.py`, `art_chars.py` with `art_looks.py` and `art_looks_side.py`, `art_creatures.py`) and uses blur, clip, multiply/add and noise fills; people are 4.6 heads tall and seen from the front, from the side and from behind, the ground is painted macro tiles (4 x 4 tiles) that fade into each other (`blend` in the tileset), beasts turn to face the player. The night multiplies the world by a blue and the lights add to it, the wind moves the plants (`sway`), motes drift (spec 08, "The colour of the hour"), water moves and the protagonist swings the arm when striking (spec 13, "Water", "The blow"), props and creatures cast long shadows at dawn and dusk. Textures are baked a few milliseconds a frame after the first frames (spec 13, "Baking in instalments"). A tile is 64 pixels times the density.
-- **Interface:** credits and deeds from the title screen, translations checked by `tools/check_translations.py` (a test fails on a text left in the other language), options of accessibility (hints, damage numbers, flashes, large text: `settings.json`, spec 16), hints for the first minutes (`data/base/hints.json`, spec 16, remembered by the story flags `hint_<id>`), three save slots with export and import, Italian and English, configurable keys on the desktop (`keys.json`, the `F4` panel). Both clients draw their text with the font of the pack (`data/base/fonts/aether.json`, `tools/make_font.py`; on Android `PackFont.kt` bakes it into a libGDX font). Panels and bars are drawn by `draw_panel`/`draw_bar` and `drawPanel`/`drawBar`.
-- **Sound:** effects are on; music and regional ambience are off (see "How to work").
-- **Parity:** feature gating exists (ADR 0009) but is not used: `supported_features` is empty in `project.json` and in both clients, and parity is kept by the shared specs and vectors. Configurable keys are desktop only (Android uses touch).
-- The status of the roadmap and what comes next: `docs/plan/06-roadmap-rischi-backlog.md`, section 8.
+- **What the game holds:** every creature, item, quest and site is in [`docs/design/catalog.md`](docs/design/catalog.md); the systems,
+  area by area, in section 8.3 of the roadmap; the rules in `docs/spec/`. Which generator writes which content: [`tools/README.md`](tools/README.md).
+- **What comes next:** section 8.4 of the roadmap, "A breve" first.
+- **Difficulty:** `enemy_hp_pct` 100 and `enemy_atk_pct` 70 (easy on purpose, see "How to work").
+- **Sound:** effects are on; music and regional ambience are off.
+- **Parity:** feature gating exists (ADR 0009) but is not used: `supported_features` is empty in `project.json` and in both clients; parity is
+  kept by the shared specs and vectors. Configurable keys are desktop only (Android uses touch).
+- **Kotlin style debt:** detekt keeps the findings of the old code in `android/config/detekt-baseline.xml`; shrink it, never grow it.

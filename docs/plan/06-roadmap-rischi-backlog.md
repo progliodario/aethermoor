@@ -262,7 +262,7 @@ Dopo l'approvazione, ogni voce diventerà un issue con descrizione, criteri di a
 
 ## 8. Stato e prossimi passi
 
-Aggiornato al 21 novembre 2026.
+Aggiornato al 23 novembre 2026.
 
 Questa sezione è la fotografia di **dove si è arrivati** e di **che cosa resta da fare**. Le sezioni 1-7 sono il piano di partenza e non vengono riscritte; qui si dice, voce per voce, che cosa è diventato realtà.
 
@@ -297,10 +297,10 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M0 Fondazioni | fatto | repository, licenze, CI su Windows, Linux e Android, ADR, schemi, `CLAUDE.md`, `tools/ship.py` | nulla |
 | M1 Specifiche core e conformità | fatto | numerica intera, RNG, hash, rumore, formule, i18n, loader dei pack, riferimento Python, vettori in CI (`gen_conformance.py --check`) | nulla |
 | M2 Motore e arte | quasi | rasterizzatore proprio nei due client (ADR 0012) con sfumature, ritagli, fusioni e rumore (ADR 0013, spec 13 v2); arte da anime per persone, terreni, oggetti e creature; persone viste di fronte, di lato e di spalle; luce dell'ora, vento, acqua che si muove, ombre lunghe, font del pack sui due client, texture cotte a rate, fotogrammi controllati in CI | prova della perdita del contesto GL su Android |
-| M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, 75 creature con comportamenti, XP e livelli | nulla di aperto: nessuno scontro del modello dura più di tre secondi al proprio livello (`docs/design/balance.md`); si ricontrolla a ogni creatura nuova |
+| M3 Combattimento | fatto | attacco, colpo potente, schivata, parata, sei elementi, stati alterati su creature e giocatore, stagger, barra del guardiano, Analizza di Ren, creature con comportamenti, XP e livelli | nulla di aperto: nessuno scontro del modello dura più di tre secondi al proprio livello (`docs/design/balance.md`); si ricontrolla a ogni creatura nuova |
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario) |
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve, nebbia e notte che nascondono il giocatore, vento che lo spinge, temporali, stagioni che rallentano le creature o le rendono meno attente, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale |
-| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, 63 ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti, Odo il capo carovana, Brannoc il fabbro errante e Lark la cantastorie che ogni giorno sono in un altro avamposto, stagioni che cambiano i raccolti, il giardino del cottage, un colono in ogni villaggio generato con il suo mestiere, la sua missione e la sua bottega, una festa per regione con i suoi giochi, i paesani che ne parlano | carri che si vedono viaggiare |
+| M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti, Odo il capo carovana, Brannoc il fabbro errante e Lark la cantastorie che ogni giorno sono in un altro avamposto, stagioni che cambiano i raccolti, il giardino del cottage, un colono in ogni villaggio generato con il suo mestiere, la sua missione e la sua bottega, una festa per regione con i suoi giochi, i paesani che ne parlano | carri che si vedono viaggiare |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
 | M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi tirati a sorte quando si trovano, anche ventiquattro pezzi comuni, e ritemprati all'incudine o dai fabbri, dodici pezzi rari con due affissi, doni delle imprese a ogni partita nuova | affissi che si scelgono |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo, quinto e sesto atto ("Due Ospiti", che lega i protagonisti a coppie), epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | altre storie per protagonista; la modalità Dungeon di Gideon |
@@ -320,6 +320,9 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Nebbia e temporali** (dal 18 novembre, seconda PR): due tempi nuovi; la nebbia accorcia fino al 40% la distanza da cui le creature ti notano (un velo pallido e banchi di foschia), il temporale è pioggia e vento insieme, con i lampi (che si spengono con l'opzione dei lampi). L'orologio dice che tempo fa.
 - **Vento** (dal 18 novembre): ogni tempo ha il suo vento (brezza col sereno, forte sotto le nuvole, a raffiche con la pioggia); il vento alle spalle fa camminare il giocatore fino al 15% più veloce e muove di più le piante.
 - Pietre della Soglia per curarsi e viaggiare; mappa con zoom, meta del giocatore e meta di ogni missione.
+- **Stagioni** (dal 18 al 23 novembre): cambiano la crescita degli orti, i raccolti, la caccia (`season_bonus`) e le creature (l'inverno le
+  rallenta, l'estate e l'autunno le rendono meno attente); sedici visitatori di altre regioni arrivano in una stagione e quattro gelatine
+  vivono solo nella loro, con un bottino e un tè propri; ogni bottega e ogni carro vende alcune merci solo nella loro stagione.
 
 **Combattimento** (spec 04, 05)
 
@@ -334,6 +337,14 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - Ogni missione segna sulla mappa dove andare: un luogo, una persona, la tana delle creature giuste o la pianta più vicina.
 - **Fama** (dal 14 novembre): ogni missione finita in una regione vale un punto di fama lì; i negozi della regione scontano l'1,5% per punto fino al 25%, anziani e bottegai salutano un amico da tre missioni, i locandieri danno un letto gratis da cinque; otto titoli "Amico di ...". Ogni regione tiene due pezzi rari per chi ha cinque e dieci missioni lì.
 - **Giorni di mercato** (dal 14 novembre): i prezzi di ogni regione oscillano con il giorno, per comprare e per vendere (dal 6% di Ironspine al 20% di Sunscar).
+- **Coloni e feste** (dal 18 al 22 novembre): un colono in ogni villaggio generato quando la regione ti conosce, con un mestiere, una bottega e
+  un compito che si può rifare; una festa per regione con pasto gratis, mercato al 75% e una gara (otto missioni), i paesani che ne parlano.
+- **Viaggiatori** (dal 18 al 22 novembre): Odo il capo carovana, Brannoc il fabbro errante (al contrario di Odo) e Lark la cantastorie, ogni
+  giorno in un altro avamposto; le canzoni di Lark, la canzone della strada e le cacce delle stagioni.
+- **Missioni ripetibili** (dal 22 novembre, `repeatable`): le cacce delle stagioni, le botteghe dei coloni e le taglie permanenti della gilda
+  (una per regione, su un grande guardiano); il diario le segna "(si può rifare)".
+- **Storia** (dal 22 novembre): il sesto atto "Due Ospiti" lega i protagonisti a coppie, poi l'altro Eco, il riposo degli Echi e la lanterna di
+  Lyra, l'ultimo atto comune a tutti.
 
 **Vita** (spec 06)
 
@@ -357,6 +368,8 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - Livelli, albero dei talenti, di cui quattro abilità (dal 14 novembre: Turbine, Fame di battaglia, Flusso, Risposta) e due a comando con il loro tasto (Onda d'urto, Rimarginare), titoli con effetti (attacco, raccolta, creazione, opere pregiate, parata, esperienza; dal 18 novembre l'Incisore di rune e il Padrone di casa) e il progresso verso quelli mancanti, bestiario con debolezze e bottino.
 - **Fulmini e doni delle imprese** (dal 18 novembre, quarta PR): nei temporali, ogni sette secondi circa, un fulmine colpisce la creatura più vicina che ti insegue (il 40% della sua salute); ogni impresa fatta lascia un dono (pozioni, rune, accessori) nello zaino di ogni partita nuova.
 - **Affissi** (dal 18 novembre, terza PR): armi e armature con un affisso, bonus fissi come quelli di un accessorio (salute, attacco, difesa, critico, risucchio); sedici pezzi, un'arma e un'armatura per regione, che i guardiani della regione lasciano una volta su cinque.
+- **Affissi tirati a sorte e tempra** (dal 21 e 22 novembre): un pezzo trovato ha l'affisso dal 100 al 160%; ventiquattro pezzi comuni con un
+  affisso e dodici rari con due; l'olio di tempra all'incudine, o un fabbro a pagamento, ritira l'affisso e tiene il tiro migliore.
 - **Tag** (dal 18 novembre, seconda PR): otto tratti guadagnati da come giochi (Berserker, Sentinella, Cercatore, Artefice, Epicureo, Coltivatore, Naturalista, Campione del popolo); se ne indossa uno alla volta (`Y`, o il pulsante Tag del diario) e solo quello dà il suo effetto, più forte di quello di un titolo.
 - Profilo comune a tutte le partite: echi (vita in più per ogni titolo e vita passata), reincarnazione dal livello 10 con eredità di metà dell'oro e dell'arma impugnata, imprese (dal 17 novembre) lette dal profilo e elencate dalla schermata del titolo.
 
@@ -377,7 +390,8 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 
 **Qualità e strumenti**
 
-- CI su Windows (MSVC), Linux (GCC) e Android (test JVM e APK), con controllo dei dati e dei vettori; la CI non resta più bloccata ore se i server di Ubuntu non rispondono (mirror alternativi e copia dei pacchetti).
+- CI su Windows (MSVC), Linux (GCC) e Android (test JVM e APK), con controllo dei dati e dei vettori, dei fotogrammi del test di fumo e dello
+  stile del Kotlin (ktlint, detekt); dal 22 novembre una PR si controlla in pochi minuti (cache di vcpkg e ccache); la CI non resta più bloccata ore se i server di Ubuntu non rispondono (mirror alternativi e copia dei pacchetti).
 - `tools/ship.py` spedisce una modifica in un comando (controlli, commit firmato, PR, attesa della CI, merge, build di prova aggiornata).
 - Catalogo dei contenuti e rapporto di bilanciamento generati dai dati; anteprime dell'arte in PNG senza avviare il gioco.
 
@@ -385,89 +399,26 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 
 L'ordine tiene conto di quanto ogni pezzo cambia l'esperienza di chi gioca, di quanto è indipendente dagli altri e del rischio (si compila e si prova solo in CI). Ogni voce segue il flusso del progetto: spec, riferimento, vettori, desktop, Android, dati e testi nelle due lingue. Si fanno **molte voci insieme in ogni PR** (8.5).
 
-**Fatto il 14 novembre 2026** (erano le voci 1-6 di questo elenco): qualità degli oggetti creati, comando di richiamo del compagno, quattro abilità nell'albero dei talenti, fama con le regioni, persone viste di lato (PR #186), ribilanciamento dei quindici scontri più lunghi.
-
-Nella seconda PR dello stesso giorno: abilità con un tasto proprio (Onda d'urto, Rimarginare), giorni di mercato, merci riservate a chi è conosciuto, i doni dei compagni di Haruka e Gideon.
-
-Nella terza PR dello stesso giorno: Haruka doma le creature ferite, un compito da amico dall'anziano di ogni regione (otto missioni), le merci di un'altra regione in ogni bottega, la probabilità di opera pregiata nel pannello di creazione.
-
-Il 17 novembre: consigli per i primi minuti, il ricettario con un piatto segreto per regione, la tasca di Yuki.
-
-Il 17 novembre, seconda PR: la creatura domata da Haruka resta con lei come secondo compagno (salvato nella partita), tre titoli nuovi, i momenti del legame dei compagni.
-
-Il 17 novembre, terza PR: quattro fazioni con i loro titoli, il compagno domato obbedisce ai comandi, opzioni di accessibilità.
-
-Il 17 novembre, quarta PR: i doni delle fazioni (sigillo della Gilda, amuleto della Gente) e la condizione `faction_at_least`, i crediti, il controllo delle traduzioni. La "seconda vita per sotterraneo" del piano non si fa: i doni di Daichi e Lena (sopravvivere a un colpo mortale) ne coprono già l'idea.
-
-Il 17 novembre, quinta PR: gli orti dei villaggi (semi, crescita, raccolto, salvati nella partita), i doni dell'Anello (Mira) e dei Cronisti (Selwyn).
-
-Il 17 novembre, decima PR: il repository riordinato per chiunque lo legga, lo usi o lo cambi, persone o AI (README riscritti, `AGENTS.md`, una mappa dei file in `CLAUDE.md`, i numeri del gioco contati dai dati da `tools/make_facts.py`, test che tengono veri i documenti, generatori che si possono rilanciare senza cambiare nulla).
-
-Il 17 novembre, nona PR: il cottage dell'Ospite a est di Fenwick (baule, falò, incudine, orti, pollaio, recinto, Pietra della Soglia) con il vecchio Tam, che Nonna Brin regala dopo i suoi tre favori; un quinto atto per ogni protagonista, "Una vita qui" (sedici missioni); cinque titoli e tre imprese nuovi.
-
-Il 17 novembre, ottava PR: testo grande (un'opzione di accessibilità, sui due client), la pioggia e la neve rallentano le creature, otto venditori ambulanti agli avamposti, le imprese diventano echi (+1% di salute ciascuna), una terza storia dei paesani per regione (otto missioni).
-
-Il 17 novembre, settima PR: un baule in ogni villaggio e città, che tiene le stesse cose dappertutto (salvato nella partita); Nonna Brin a Fenwick (riposo gratis e tre favori); Corvin, il venditore ambulante di Aldermere, che porta le merci di una regione al giorno (condizione `day_mod`); 25 imprese di tutte le partite lette dal profilo; la pioggia fa crescere prima gli orti; Odile non sta più su un orto.
-
-Il 23 novembre, seconda PR: le **taglie permanenti** della gilda (una per regione, ripetibile, sui grandi guardiani) e il diario che segna le missioni ripetibili.
-
-Il 23 novembre: le **merci di stagione anche sui carri** (venditori ambulanti, Corvin, Odo), i **compiti ripetibili delle botteghe** dei coloni, **tre imprese nuove** (le quattro stagioni, un anno nella natura, martello e fuoco).
-
-Il 22 novembre, undicesima PR: le **missioni ripetibili** (`repeatable`: finita, una missione così si ricomincia e paga di nuovo) e **le cacce delle stagioni** di Lark (una per stagione, sempre di nuovo).
-
-Il 22 novembre, decima PR: **la lanterna di Lyra**, l'ultimo atto comune a tutti gli Ospiti dopo il riposo degli Echi (tre missioni e un accessorio leggendario), e **feste che cambiano con la stagione**.
-
-Il 22 novembre, nona PR: le **merci di stagione** (ogni bottega vende alcune cose solo nella loro stagione, `stock` di una stagione), **il riposo degli Echi** (dopo l'altro Eco, Suor Maren chiede di dare pace a tutti e otto gli Echi nei loro santuari).
-
-Il 22 novembre, ottava PR: **le stagioni della caccia** (una creatura può lasciare di più nella sua stagione, `season_bonus`: cinghiali d'autunno, alci e volpi d'inverno), **le otto feste** (il nastro di Lark per chi vince i giochi di tutte le feste), due generatori che, rilanciati, avrebbero rotto i dati del mondo, sistemati.
-
-Il 22 novembre, settima PR: **quattro creature delle stagioni con un bottino proprio** (alle gelatine di neve e del sole si aggiungono quelle di foglie d'autunno e di pioggia di primavera; ognuna lascia un materiale che non si trova altrove, e insieme fanno il tè delle quattro stagioni), quattro titoli delle stagioni, **la canzone della strada** (la missione di Lark che passa per Brannoc e Odo).
-
-Il 22 novembre, sesta PR: **l'altro Eco** (una terza missione del sesto atto: l'Eco dell'altro Ospite della coppia, che non lo affrontò mai; otto missioni) e due **creature che vivono solo in una stagione** (la gelatina di neve d'inverno e la gelatina del sole d'estate, con la loro arte).
-
-Il 22 novembre, quinta PR: un **sesto atto per ogni protagonista, "Due Ospiti"**, le storie che legano due protagonisti: Suor Maren mostra a ognuno le tracce di un altro Ospite venuto in un'altra vita del mondo (Ren e Sakura, Daichi e Haruka, Marco e Yuki, Lena e Gideon), e due missioni nella sua regione chiudono ciò che aveva lasciato a metà (sedici missioni).
-
-Il 22 novembre, quarta PR: **Lark, la cantastorie errante**, il terzo viaggiatore degli avamposti, che canta le imprese dell'Ospite (una canzone per ogni regione di cui hai finito le storie dei paesani, e una runa dell'alba quando le hai sentite tutte).
-
-Il 22 novembre, terza PR: i **fabbri** (ogni bottegaio tempra per 60 monete, con l'effetto `temper` pagato solo se c'è un affisso da temprare) e **Brannoc, il fabbro errante**, il secondo viaggiatore, che gira gli avamposti al contrario di Odo e tempra per 40.
-
-Il 22 novembre, seconda PR: la **CI molto più veloce** (la cache di vcpkg non si aggiornava mai e SDL3 si ricompilava a ogni giro; ora ogni giro salva i binari, il Linux riusa gli oggetti con ccache e il controllo dei fotogrammi legge i PNG a fette di byte), i **pezzi con due affissi** (dodici, lasciati da guardiani ed Echi), i **paesani alle feste** (auguri il giorno della festa della regione, e il racconto di chi è andato alla festa dei vicini), quattro segnalazioni di detekt in meno.
-
-Il 22 novembre: la **tempra degli affissi** (l'olio di tempra, all'incudine, ritira l'affisso dell'arma o dell'armatura e tiene il tiro migliore; un titolo nuovo, il Temprista), i **giochi delle feste** (una gara per regione nel giorno di festa, otto missioni), **ktlint e detekt in CI** (il Kotlin formattato una volta da ktlint; detekt con le segnalazioni del codice vecchio in una baseline).
-
-Il 21 novembre, seconda PR: ventiquattro **pezzi comuni con un affisso** (spade, giubbe, cotte e armature di vigore, forza, acume e sanguisuga) lasciati dalle creature della fauna, un bottino che può essere **uno da una lista** (`pick`); i **visitatori delle stagioni** (sedici creature di altre regioni che arrivano in una stagione); le **feste dei villaggi** (un giorno di festa per regione: pasto gratis, un piatto della regione e il mercato della festa al 75%).
-
-Il 21 novembre: gli **affissi tirati a sorte** (un pezzo con affisso trovato su una creatura ha l'affisso dal 100 al 160%, e si tiene il tiro migliore; salvati nella partita), le **stagioni per le creature** (l'inverno le rallenta, l'estate e l'autunno le rendono meno attente; un consiglio nuovo), i **coloni con un mestiere** (otto mestieri, una missione per regione e una bottega con le merci della regione al 90%); il validatore rifiuta le chiavi scritte due volte (un testo dei talenti lo era).
-
-Il 18 novembre, settima PR: i **coloni** dei villaggi generati: in ogni villaggio arriva una persona nuova quando hai finito otto missioni nella regione (il ruolo `settler`, la condizione `role_when` dei dati del mondo), con la sua voce regionale e qualcosa di caldo da offrire.
-
-Il 18 novembre, sesta PR: i **controlli automatici della grafica** (`tools/check_frames.py`: i fotogrammi del test di fumo confrontati in CI con le loro impronte in `tests/frames/`), le **stagioni della raccolta** (ogni pianta dà di più nella sua stagione), le tre **commissioni di Odo** per la carovana.
-
-Il 18 novembre, quinta PR: **Odo, il capo carovana**, il primo mercante che viaggia davvero (ogni giorno in un altro avamposto, con le merci della tappa dopo; le persone con un percorso, `route`), le **stagioni** che cambiano la crescita degli orti (più svelti in primavera, più lenti d'inverno), il **giardino del cottage** con quattro posti e quattro pezzi nuovi (panchina, spaventapasseri, bersaglio, lanterna di pietra).
-
-Il 18 novembre, quarta PR: i **fulmini** dei temporali colpiscono le creature che ti inseguono (con il tuono), i **doni delle imprese** (ogni impresa fatta lascia un dono nello zaino di ogni partita nuova), i pezzi con affissi anche nei negozi per gli amici della regione, un consiglio per il temporale.
-
-Il 18 novembre, terza PR: gli **affissi** su armi e armature (un blocco `affix`, sedici pezzi regionali lasciati dai guardiani).
-
-Il 18 novembre, seconda PR: la **nebbia** e i **temporali** (due tempi nuovi; la nebbia nasconde il giocatore, il temporale lampeggia), il nome del tempo sull'orologio, i **tag** da indossare (otto), due consigli nuovi.
-
-Il 18 novembre: le **rune** incise sulle armi all'incudine (sette, una per elemento e una di forza), i **mobili del cottage** (sei, da posare sui tappeti del cottage, che aiutano come titoli; Tam li spiega), il **vento** del meteo che spinge il giocatore e muove le piante, due titoli (Incisore di rune, Padrone di casa), un'impresa (Focolare e lama), due consigli nuovi; otto **residenti** che si trasferiscono negli avamposti quando la regione ti conosce (sei missioni) e ti regalano una runa (la condizione `when` delle persone); i numeri scritti a mano che erano rimasti indietro in questa sezione sono tolti o corretti.
-
-Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte, tre piatti), sedici storie dei paesani (due per regione), i negozi che pagano meno se vendi troppo, un consiglio per gli orti, il titolo Pollice verde; il rapporto di bilanciamento segnala solo gli scontri troppo duri o lenti (nessuno).
+Che cosa è entrato, PR per PR, lo dice il [`CHANGELOG.md`](../../CHANGELOG.md) (sezione `[Unreleased]`, in inglese) e la storia di `main`
+su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è fatta, si toglie da qui e si aggiunge all'area giusta di 8.3.
 
 **A breve (le prossime PR)**
 
-1. **Ridurre la baseline di detekt** (M10; ktlint e detekt in CI ci sono, 104 segnalazioni vecchie restano, quasi tutte funzioni lunghe): spezzare a poco a poco le funzioni più complesse.
-2. **Carri che si vedono** (M6; Odo, Brannoc e Lark girano gli avamposti): i viaggiatori che camminano lungo le strade invece di comparire alla tappa.
-3. **Più vita nei villaggi** (M6; residenti, coloni, feste, giochi e paesani alle feste ci sono): i paesani che si spostano davvero verso la festa vicina.
+1. **Ridurre la baseline di detekt** (M10; ktlint e detekt in CI ci sono, le segnalazioni vecchie restano in
+   `android/config/detekt-baseline.xml`, quasi tutte funzioni lunghe): spezzare a poco a poco le funzioni più complesse.
+2. **Il tempo che cambia i prezzi** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, le stagioni di orti, raccolta, creature,
+   caccia, merci e feste ci sono): merci più care quando fuori piove o nevica.
+3. **Sfide a tempo per chi ha finito tutto** (M9; le taglie permanenti, le cacce delle stagioni e le botteghe dei coloni si ripetono già).
+4. **Viaggiatori che si vedono** (M6; Odo, Brannoc e Lark girano gli avamposti, ogni giorno in un altro): camminano lungo le strade invece di
+   comparire alla tappa; altri mercanti con il loro giro.
+5. **Più vita nei villaggi** (M6; residenti, coloni, feste, giochi e paesani alle feste ci sono): i paesani che si spostano davvero verso la
+   festa vicina.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-4. **Altri pezzi di storia** (M9; sei atti per protagonista ci sono, il sesto lega i protagonisti a coppie e finisce con l'Eco dell'altro Ospite; la canzone della strada passa per i tre viaggiatori): dopo la lanterna di Lyra, sfide a tempo per chi ha finito tutto (le taglie permanenti, le cacce delle stagioni e le botteghe si ripetono già).
-5. **Altri viaggiatori** (M6; Odo e la sua carovana ci sono): carri che si vedono camminare lungo le strade, altri mercanti con il loro giro.
-6. **Altri effetti del meteo** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, stagioni degli orti, della raccolta e delle creature, i visitatori delle stagioni e quattro creature delle stagioni con un bottino e un tè propri , le stagioni della caccia e le merci di stagione , le feste delle stagioni e le merci di stagione sui carri ci sono): il tempo che cambia i prezzi (merci più care quando fuori piove).
-7. **Una casa più grande** (M6; i dieci mobili del cottage, in casa e in giardino, ci sono): stanze in più da comprare.
-8. **Più compagni scelti dal giocatore** (M7; il compagno di ognuno e la creatura domata di Haruka ci sono).
+6. **Una casa più grande** (M6; i dieci mobili del cottage, in casa e in giardino, ci sono): stanze in più da comprare.
+7. **Più compagni scelti dal giocatore** (M7; il compagno di ognuno e la creatura domata di Haruka ci sono).
+8. **Affissi che si scelgono** (M8; affissi tirati a sorte e ritemprati ci sono).
 9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base.
 10. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
 11. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).
@@ -484,6 +435,8 @@ Il 17 novembre, sesta PR: pollai e recinti delle capre nei villaggi (uova, latte
 1. **PR grandi**: a ogni richiesta del proprietario si portano avanti molte voci della roadmap insieme, in un ramo e una PR sola, unita con la CI verde (il proprietario non vuole PR piccole).
 2. Ogni PR aggiorna nella stessa modifica le specifiche, il changelog, i README, il catalogo e questa sezione.
 3. Ogni PR unita produce una build di prova (artefatto della CI), che viene copiata nella cartella di gioco del proprietario.
+4. I passi di una sessione di lavoro, dall'inizio alla fine, e gli errori già incontrati sono in [`CLAUDE.md`](../../CLAUDE.md) ("A session, from
+   start to end", "Pitfalls already met").
 
 ### 8.6 Chi decide che cosa
 

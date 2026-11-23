@@ -7,9 +7,10 @@ Steps (each one stops the script when it fails):
   1. local checks, in parallel: data validation, ruff, the tool tests and the conformance vectors (`--skip-checks` omits them)
   2. `git add -A`, a signed-off commit (DCO) on the current branch, `git push -u`
   3. `gh pr create` (title and body as given), then wait for every check of the pull request
-  4. squash merge and delete the branch when all checks pass (`--no-merge` stops before), back on an updated `main`
-  5. with `--play DIR`: download the Windows build of the pull request and copy it over the play folder (a running game keeps its files: the data is
-     still replaced, a note says the program was busy)
+  4. squash merge when all checks pass (`--no-merge` stops before), back on an updated `main`; the branch is deleted here and on GitHub, and
+     the CI caches that newer runs replaced are deleted (every run saves its own vcpkg cache, see the workflows)
+  5. download the Windows build of the pull request and copy it over the play folder: `--play DIR`, or `../aethermoor-play` when it exists
+     (a running game keeps its files: the data is still replaced, a note says the program was busy)
 
 The commit trailer comes from `--trailer` (repeatable) or the `SHIP_TRAILERS` environment variable (lines separated by `|`).
 """
@@ -114,6 +115,36 @@ def wait_for_checks(pr: str) -> tuple[bool, str]:
     return False, "timed out"
 
 
+def tidy_branch(branch: str) -> None:
+    """Deletes the merged branch wherever it is left (`gh pr merge --delete-branch` skips both when the working tree is busy)."""
+    if run(["git", "ls-remote", "--exit-code", "--heads", "origin", branch], check=False, capture=True).returncode == 0:
+        run(["git", "push", "--quiet", "origin", "--delete", branch], check=False)
+    if current_branch() != branch:
+        run(["git", "branch", "-D", "--quiet", branch], check=False, capture=True)
+    run(["git", "fetch", "--quiet", "--prune"], check=False)
+
+
+# vcpkg caches: every CI run saves one per platform (the key ends with the run id); only the newest ones are restored
+KEEP_CACHES = 2
+
+
+def prune_caches() -> None:
+    """Deletes the vcpkg caches older than the newest KEEP_CACHES of every platform, so the 10 GB of the repository hold the useful ones."""
+    out = run(["gh", "cache", "list", "--limit", "500", "--key", "vcpkg", "--json", "id,key,createdAt"], check=False, capture=True)
+    try:
+        rows = json.loads(out.stdout)
+    except json.JSONDecodeError:
+        return
+    groups: dict[str, list[dict]] = {}
+    for row in rows:
+        groups.setdefault(row["key"].rsplit("-", 1)[0], []).append(row)
+    stale = [row for group in groups.values() for row in sorted(group, key=lambda r: r["createdAt"], reverse=True)[KEEP_CACHES:]]
+    for row in stale:
+        run(["gh", "cache", "delete", str(row["id"])], check=False, capture=True)
+    if stale:
+        print(f"  deleted {len(stale)} old CI cache(s)")
+
+
 def refresh_play(pr: str, play: Path) -> None:
     out = run(["gh", "pr", "checks", pr, "--json", "name,link"], capture=True).stdout
     link = next(r["link"] for r in json.loads(out) if r["name"] == "windows-msvc")
@@ -141,7 +172,7 @@ def main() -> int:
     parser.add_argument("title", help="commit title and pull request title (Conventional Commits)")
     parser.add_argument("--body-file", help="file with the pull request description")
     parser.add_argument("--trailer", action="append", default=[], help="a line for the end of the commit message (repeatable)")
-    parser.add_argument("--play", help="the play folder to refresh after the merge")
+    parser.add_argument("--play", help="the play folder to refresh after the merge (default: ../aethermoor-play when it exists)")
     parser.add_argument("--no-merge", action="store_true", help="stop once the checks have passed")
     parser.add_argument("--skip-checks", action="store_true", help="skip the local checks")
     args = parser.parse_args()
@@ -184,10 +215,13 @@ def main() -> int:
         run(["git", "pull", "--quiet"], check=False)
     else:
         print("  merged; the working tree has other changes, so the branch stays checked out")
+    tidy_branch(branch)
+    prune_caches()
     print(f"  main is at {run(['git', 'log', '--oneline', '-1'], capture=True).stdout.strip()}")
-    if args.play:
+    play = Path(args.play) if args.play else ROOT.parent / "aethermoor-play"
+    if args.play or play.is_dir():
         print("5. play build")
-        refresh_play(url, Path(args.play))
+        refresh_play(url, play)
     return 0
 
 
