@@ -1,0 +1,31 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/side_daichi_3",
+  "name": "$i18n:quest.side_daichi_3.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.side_daichi_3.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/wolf_ember",
+          "count": 4
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 2400
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1800
+    }
+  ]
+}

@@ -294,10 +294,16 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **Dipende da:** B1.4 e C5.1. Taglia: XL (per protagonista). Issue: [progliodario/aethermoor#243](https://github.com/progliodario/aethermoor/issues/243).
 
 #### D2 Ondata 9b
+
+> **Fatta (23 novembre 2026, quinto batch).** Con lo stesso generatore e lo stesso test di D1: Daichi ("The Bucket Brigade", la capitana
+> Wren Hale) e Sakura ("The Unfinished Proof", l'astronoma Ottilie Brask), tutte e due ad Aldermere.
 - **Cosa:** lo stesso modello per Daichi (Ironspine) e Sakura (Lumeria).
 - **Dipende da:** D1. Taglia: XL (per protagonista). Issue: [progliodario/aethermoor#244](https://github.com/progliodario/aethermoor/issues/244).
 
 #### D3 Ondata 9c
+
+> **Fatta (23 novembre 2026, quinto batch, con D2).** Marco ("Salt of the Earth", la cuoca Bruna Calder) e Yuki ("The Honest Thief",
+> la custode Ilse Marrow), ad Aldermere, con lo stesso generatore e lo stesso test.
 - **Cosa:** lo stesso modello per Marco (Tidehaven) e Yuki (Sunscar).
 - **Dipende da:** D2. Taglia: XL (per protagonista). Issue: [progliodario/aethermoor#245](https://github.com/progliodario/aethermoor/issues/245).
 

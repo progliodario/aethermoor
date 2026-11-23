@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/side_sakura_3",
+  "name": "$i18n:quest.side_sakura_3.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.side_sakura_3.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/slime_nebula",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/nebula_ash",
+          "count": 2
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 2400
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1800
+    }
+  ]
+}

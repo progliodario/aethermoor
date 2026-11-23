@@ -1,0 +1,31 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/side_sakura_1",
+  "name": "$i18n:quest.side_sakura_1.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.side_sakura_1.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/star_dust",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 600
+    },
+    {
+      "effect": "add_gold",
+      "amount": 400
+    }
+  ]
+}

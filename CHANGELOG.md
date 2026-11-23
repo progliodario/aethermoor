@@ -6,6 +6,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Side stories of Daichi, Sakura, Marco and Yuki** (spec 18, "Side stories"): Daichi meets Captain Wren Hale, fire warden of
+  Aldermere ("The Bucket Brigade": ice for the cistern, ember slimes on the wind, cinder wolves in the hills; the rescue axe or the
+  ember ring); Sakura meets Ottilie Brask, astronomer of the guild ("The Unfinished Proof": star dust to calibrate, wisps in the data,
+  the nebula slimes as the last term; the brooch of the observatory or the focus staff); Marco meets Bruna Calder, cook of the guild's
+  hall ("Salt of the Earth": soap at last, a pressure pot that does not explode, a dinner for forty; the chef's cleaver or the caravan
+  mantle); Yuki meets Ilse Marrow, keeper of the vault ("The Honest Thief": the owls that steal spoons, a painting in the dark, a
+  forgotten painting under the vault; the guild's signet or the shadow dagger).
+
 - **Side stories of Ren and Haruka** (spec 18, "Side stories"): two new people in Aldermere tell a story of three quests to one Guest
   only, and ask at the end for a choice that changes what the Guest takes home. Ren meets Bertram Quill, keeper of the guild's ledgers
   ("Overtime": silk for the ledgers, an audit of wolves, the hollow armors that keep sending reports; the archivist's quill or the

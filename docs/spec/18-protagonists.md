@@ -107,7 +107,7 @@ question and the player chooses the **ending** among two answers: each sets the 
 `_b`) and gives its own thing (an accessory); then the person has a last line, and the ending is never given again. The story of a
 protagonist does not change the main plot.
 
-The base pack (wave 9a of the plan) has two, both in Aldermere:
+The base pack (waves 9a, 9b and 9c of the plan) has six, all in Aldermere:
 
 - **Ren, "Overtime"**: Bertram Quill, keeper of the guild's ledgers, drowning in paperwork, recognizes a fellow office worker: six spider
   silks to bind the ledgers, eight grey wolves to close three hundred complaints, three hollow armors ("middle management") that keep
@@ -115,8 +115,21 @@ The base pack (wave 9a of the plan) has two, both in Aldermere:
 - **Haruka, "A Home for the Lost"**: Mirela, keeper of the guild's stables, whose elk lets only Haruka come close: herbs and mint for the
   elk's cough, six tawny wolves sent away from the herd, four bloom slimes calmed and gel for a lost calf. Ending: the calf stays with
   the herd (the folk charm) or goes back to the hills (the owl charm).
+- **Daichi, "The Bucket Brigade"**: Captain Wren Hale, fire warden of Aldermere, knows the smell of someone who goes in after the fire:
+  six ice crystals for the cistern, six ember slimes before they reach a barn, four cinder wolves that run burning through the hills.
+  Ending: lead the brigade (the rescue axe) or teach them and move on (the ember ring).
+- **Sakura, "The Unfinished Proof"**: Ottilie Brask, astronomer of the guild, whose stars move wrong: star dust to calibrate, six wisps
+  chased away from the telescope (noise in the data), four nebula slimes measured and two nebula ashes, the last term. Ending: the
+  proof under Ottilie's name (the brooch of the observatory) or under Sakura's, a thesis to defend (the focus staff).
+- **Marco, "Salt of the Earth"**: Bruna Calder, cook of the guild's hall, whose stew has never met salt: five crab shells for the lime
+  of the first soap, three stone golems and two of their cores for the valve of a pressure pot that does not explode, eight river fish
+  and four of game meat for a dinner for forty. Ending: head cook of the guild (the chef's cleaver) or the road, to teach every inn
+  (the caravan mantle).
+- **Yuki, "The Honest Thief"**: Ilse Marrow, keeper of the guild's vault in a town where nobody locks a door: the night owls that steal
+  the silver spoons, the shade wolves that carried the guild's only painting into Whisperwood, the bats of the cave under the vault,
+  where a forgotten painting waits. Ending: hang it in the vault for everyone (the guild's signet) or keep it (the shadow dagger).
 
-`tools/tests/test_side_stories.py` plays both from the first word to either ending with the story of the reference.
+`tools/tests/test_side_stories.py` plays every one from the first word to either ending with the story of the reference.
 
 ## Texts
 
