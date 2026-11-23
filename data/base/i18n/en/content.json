@@ -1749,5 +1749,11 @@
   "quest.way_lark_hunt_autumn.task": "Hunt six leaf slimes, which come only in autumn.",
   "quest.way_lark_hunt_winter.name": "The Hunt of the Snow",
   "quest.way_lark_hunt_winter.task": "Hunt six snow slimes, which come only in winter.",
+  "deed.four_seasons.name": "All Four Seasons",
+  "deed.four_seasons.text": "Defeat Snow slime, Sun slime, Leaf slime and Rain slime: a whole year of the world. Every new game: Tea of the four seasons x2.",
+  "deed.year_in_the_wild.name": "A Year in the Wild",
+  "deed.year_in_the_wild.text": "Earn the titles Snowbound, Sunkissed, Leaf Dancer and Rain Walker. Every new game: Snowflake x3.",
+  "deed.hammer_and_fire.name": "Hammer and Fire",
+  "deed.hammer_and_fire.text": "Earn the titles Temperer and Runesmith. Every new game: Tempering oil x3.",
   "enemy.slime_sun.name": "Sun slime"
 }

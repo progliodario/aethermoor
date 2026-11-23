@@ -56920,7 +56920,7 @@
             ],
             "kills": 0,
             "inventory": {
-              "base:item/honey_cake": 1
+              "base:item/honey_cake": 2
             },
             "equipped": {
               "weapon": "",
@@ -56928,7 +56928,7 @@
             },
             "story": {
               "flags": {},
-              "gold": 480,
+              "gold": 460,
               "guild_points": 0,
               "quests": {},
               "dialogue": null

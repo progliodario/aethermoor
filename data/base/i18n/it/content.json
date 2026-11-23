@@ -1749,5 +1749,11 @@
   "quest.way_lark_hunt_autumn.task": "Caccia sei gelatine di foglie, che vengono solo d'autunno.",
   "quest.way_lark_hunt_winter.name": "La caccia della neve",
   "quest.way_lark_hunt_winter.task": "Caccia sei gelatine di neve, che vengono solo d'inverno.",
+  "deed.four_seasons.name": "Tutte e quattro le stagioni",
+  "deed.four_seasons.text": "Sconfiggi Gelatina di neve, Gelatina del sole, Gelatina di foglie e Gelatina di pioggia: un anno intero del mondo. In ogni partita nuova: Tè delle quattro stagioni x2.",
+  "deed.year_in_the_wild.name": "Un anno nella natura",
+  "deed.year_in_the_wild.text": "Ottieni i titoli Figlio della neve, Baciato dal sole, Danzatore di foglie e Viandante della pioggia. In ogni partita nuova: Fiocco di neve x3.",
+  "deed.hammer_and_fire.name": "Martello e fuoco",
+  "deed.hammer_and_fire.text": "Ottieni i titoli Temprista e Incisore di rune. In ogni partita nuova: Olio di tempra x3.",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

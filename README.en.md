@@ -37,10 +37,10 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Creatures | 79, of which 27 guardians and 8 Echoes |
 | Quests | 371 (24 tales of the villagers) |
 | Items and recipes | 286 items, 82 recipes (8 secret) |
-| Progression | 49 titles, 8 tags, 16 talents, 26 deeds |
+| Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 48 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3946 keys, in Italian and English |
+| Texts | 3953 keys, in Italian and English |
 | Same rules on both clients | 30 files of conformance vectors, 578 cases, run by the C++ and the Kotlin tests |
 | Documents | 18 specs, 13 ADRs |
 <!-- facts:end -->

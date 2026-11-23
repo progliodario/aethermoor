@@ -471,7 +471,12 @@ private:
     void open_shop_of(const std::string& region, std::int64_t markup_pct) override;
     void open_board() override;
     void heal_full() override { m_player_.hp = m_derived_.max_hp; }
-    bool temper_worn() override;  // spec 06, "Tempering": the effect `temper` of a smith and the tempering items
+    bool temper_worn() override;
+    // The goods of the season (spec 06, "Goods of the season"): of the day, or of the setup; added to a shop opened,
+    // each once.
+    const std::vector<std::string>* season_goods() const;
+    void add_season_goods(
+        ShopDef& shop) const;  // spec 06, "Tempering": the effect `temper` of a smith and the tempering items
     std::string season_id() const override;
     int tod_pm() const override { return m_store_ ? time_of_day_pm() : 0; }
     void quest_done(const std::string& faction) override;

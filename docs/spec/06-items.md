@@ -229,7 +229,8 @@ splits of it.
 
 A season of the world (spec 08, "Seasons") may have `stock`, a list of items: on a day of that season the **shop of the place** (the
 effect `open_shop` without a `region`) sells them too, after its own stock and the wares for friends, each item once (an item the shop
-sells already is not added again). The goods of another region (`open_shop` with a `region`) have none. In the conformance scenarios
+sells already is not added again). The goods of another region (`open_shop` with a `region`: the pedlars, Corvin, Odo) have them too,
+the same way: the carts carry what the season brings. In the conformance scenarios
 the goods are `season_stock`, the stock of the season of the scenario: `season_goods`. The base world: flower tea and fern salad in
 spring, the windleaf brew and grilled fish in summer, hearty stew and berry pancakes in autumn, the frost tonic and the hunter's stew in
 winter.

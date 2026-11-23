@@ -9,6 +9,8 @@ Every settler also has a **trade** (the baker of Verdalis, the tea-brewer of Whi
 it, `base:quest/side/settle_<region>`: two things of the region to gather so that its workshop can open, paid with experience, gold and
 what the trade makes. Once the quest is done the settler thanks the Guest once (the flag `settle_<region>_thanked`) and then opens its
 workshop: the goods of the region at a friend's price (`open_shop` with the `region` and `markup_pct` 90, spec 06, "Goods from afar").
+The quest is `repeatable` (spec 07, "Quests"): a workshop always needs more, and once thanked the settler asks for the same things again,
+paid each time.
 
 It writes the role dialogues `data/base/dialogues/role/settler_<tone>.json`, the quests and their texts (`roles.json` and `content.json`,
 it and en). It can be run any number of times. The stamps and the world data are written by `make_stamps.py` and by hand. Then run
@@ -189,9 +191,9 @@ TRADE_WORDS = {
     },
 }
 SHARED = {
-    "en": {"dlg.role.settler.why": "Why did you come here?", "dlg.role.settler.soup": "Something warm?", "dlg.role.settler.bye": "Welcome to the village.",
+    "en": {"dlg.role.settler.again": "Does the workshop need more?", "dlg.role.settler.why": "Why did you come here?", "dlg.role.settler.soup": "Something warm?", "dlg.role.settler.bye": "Welcome to the village.",
            "dlg.role.settler.trade": "What do you do here?", "dlg.role.settler.accept": "I'll bring them.", "dlg.role.settler.later": "Not now."},
-    "it": {"dlg.role.settler.why": "Perché sei venuto qui?", "dlg.role.settler.soup": "Qualcosa di caldo?", "dlg.role.settler.bye": "Benvenuto al villaggio.",
+    "it": {"dlg.role.settler.again": "Alla bottega serve altro?", "dlg.role.settler.why": "Perché sei venuto qui?", "dlg.role.settler.soup": "Qualcosa di caldo?", "dlg.role.settler.bye": "Benvenuto al villaggio.",
            "dlg.role.settler.trade": "Che cosa fai qui?", "dlg.role.settler.accept": "Te li porto io.", "dlg.role.settler.later": "Non ora."},
 }
 
@@ -203,7 +205,7 @@ def quest_id(region: str) -> str:
 def quest(tone: str) -> dict:
     region, danger, needs, (gift, qty) = TRADES[tone]
     return {"$schema": "../../../../schemas/quest.schema.json", "id": quest_id(region), "name": f"$i18n:quest.settle_{region}.name",
-            "kind": "side", "faction": "folk",
+            "kind": "side", "faction": "folk", "repeatable": True,
             "stages": [{"id": "gather", "journal": f"$i18n:quest.settle_{region}.task",
                         "objectives": [{"type": "collect", "item": f"base:item/{item}", "count": count} for item, count in needs], "next": "end"}],
             "rewards": [{"effect": "add_xp", "amount": 100 + 40 * danger}, {"effect": "add_gold", "amount": 120 + 60 * danger},
@@ -219,6 +221,7 @@ def dialogue(tone: str) -> dict:
         "start": {"type": "say", "speaker": "npc", "text": f"$i18n:{key}.hello", "next": "menu"},
         "menu": {"type": "choice", "choices": [
             {"text": "$i18n:dlg.role.settler.trade", "next": "trade"},
+            {"text": "$i18n:dlg.role.settler.again", "when": {"all": [{"quest_done": q}, {"flag": thanked}]}, "next": "offer"},
             {"text": "$i18n:dlg.role.settler.why", "next": "why"},
             {"text": "$i18n:dlg.role.settler.soup", "next": "rest"},
             {"text": "$i18n:dlg.role.settler.bye", "next": "end"}]},

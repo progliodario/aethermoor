@@ -609,6 +609,29 @@ bool WorldSim::travel_to(int index) {
     return true;
 }
 
+// The goods of the season of the day, or of the setup (spec 06, "Goods of the season"); nullptr: none.
+const std::vector<std::string>* WorldSim::season_goods() const {
+    if (!m_store_) {
+        return &m_setup_.season_stock;
+    }
+    const TimeParams& time = m_store_->params().time;
+    const int index = time.day_ticks > 0 ? season_index_of(time, m_world_ticks_ / time.day_ticks + 1) : -1;
+    return index >= 0 ? &time.seasons[static_cast<std::size_t>(index)].stock : nullptr;
+}
+
+void WorldSim::add_season_goods(ShopDef& shop) const {
+    const std::vector<std::string>* goods = season_goods();
+    if (goods == nullptr) {
+        return;
+    }
+    const std::vector<std::string> before = shop.stock;  // what the shop sells already
+    for (const std::string& item : *goods) {
+        if (std::find(before.begin(), before.end(), item) == before.end()) {
+            shop.stock.push_back(item);
+        }
+    }
+}
+
 void WorldSim::open_shop() {
     std::optional<ShopDef> shop;
     if (m_store_) {
@@ -629,21 +652,7 @@ void WorldSim::open_shop() {
             shop->stock.push_back(item);
         }
     }
-    const std::vector<std::string>* goods =
-        &m_setup_.season_stock;  // the goods of the season (spec 06, "Goods of the season")
-    if (m_store_) {
-        const TimeParams& time = m_store_->params().time;
-        const int index = time.day_ticks > 0 ? season_index_of(time, m_world_ticks_ / time.day_ticks + 1) : -1;
-        goods = index >= 0 ? &time.seasons[static_cast<std::size_t>(index)].stock : nullptr;
-    }
-    if (goods != nullptr) {
-        const std::vector<std::string> before = shop->stock;  // what the shop sells already
-        for (const std::string& item : *goods) {
-            if (std::find(before.begin(), before.end(), item) == before.end()) {
-                shop->stock.push_back(item);
-            }
-        }
-    }
+    add_season_goods(*shop);  // the goods of the season (spec 06, "Goods of the season")
     m_shop_ = std::move(shop);
 }
 
@@ -666,6 +675,7 @@ void WorldSim::open_shop_of(const std::string& region_name, std::int64_t markup_
         return;
     }
     far->price_pm = static_cast<int>(far->price_pm * markup_pct / 100);
+    add_season_goods(*far);  // the carts carry the goods of the season too (spec 06, "Goods of the season")
     m_shop_ = std::move(far);
 }
 

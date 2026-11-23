@@ -325,6 +325,52 @@
       }
     },
     {
+      "id": "four_seasons",
+      "kind": "defeated",
+      "enemies": [
+        "base:enemy/slime_snow",
+        "base:enemy/slime_sun",
+        "base:enemy/slime_leaf",
+        "base:enemy/slime_rain"
+      ],
+      "name": "$i18n:deed.four_seasons.name",
+      "text": "$i18n:deed.four_seasons.text",
+      "reward": {
+        "item": "base:item/four_seasons_tea",
+        "qty": 2
+      }
+    },
+    {
+      "id": "year_in_the_wild",
+      "kind": "earned",
+      "titles": [
+        "snowbound",
+        "sunkissed",
+        "leaf_dancer",
+        "rain_walker"
+      ],
+      "name": "$i18n:deed.year_in_the_wild.name",
+      "text": "$i18n:deed.year_in_the_wild.text",
+      "reward": {
+        "item": "base:item/snowflake",
+        "qty": 3
+      }
+    },
+    {
+      "id": "hammer_and_fire",
+      "kind": "earned",
+      "titles": [
+        "temperer",
+        "runesmith"
+      ],
+      "name": "$i18n:deed.hammer_and_fire.name",
+      "text": "$i18n:deed.hammer_and_fire.text",
+      "reward": {
+        "item": "base:item/tempering_oil",
+        "qty": 3
+      }
+    },
+    {
       "id": "second_life",
       "kind": "lives",
       "count": 1,

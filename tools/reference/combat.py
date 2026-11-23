@@ -1212,7 +1212,9 @@ class CombatSim:
         its prices (spec 06, "Goods from afar"); an unknown region is the shop of the place."""
         if region and region in self.far_shops:
             far = self.far_shops[region]  # no wares for friends there: the renown is of the place where the player stands
-            self.shop = {**far, "price_pm": far["price_pm"] * markup_pct // 100, "stock": list(far["stock"])}
+            stock = list(far["stock"])  # but the goods of the season, the carts carry them too (spec 06, "Goods of the season")
+            stock += [item for item in self.season_stock if item not in stock]
+            self.shop = {**far, "price_pm": far["price_pm"] * markup_pct // 100, "stock": stock}
             return True
         if self.shop_def is None:
             return False

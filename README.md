@@ -37,10 +37,10 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Creature | 79, di cui 27 guardiani e 8 Echi |
 | Missioni | 371 (24 storie dei paesani) |
 | Oggetti e ricette | 286 oggetti, 82 ricette (8 segrete) |
-| Progressione | 49 titoli, 8 tag, 16 talenti, 26 imprese |
+| Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3946 chiavi, in italiano e inglese |
+| Testi | 3953 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 30 file di vettori di conformità, 578 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 18 specifiche, 13 ADR |
 <!-- facts:end -->
