@@ -2585,6 +2585,20 @@
                   4223
                 ]
               ]
+            },
+            {
+              "key": "aldermere_ledger_keeper_bertram",
+              "dialogue": "base:dialogue/npc/bertram",
+              "variant": "brown",
+              "dx": 381,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_stablekeeper_mirela",
+              "dialogue": "base:dialogue/npc/mirela",
+              "variant": "green",
+              "dx": 387,
+              "dy": -127
             }
           ],
           "stamp_defs": {
@@ -7941,6 +7955,16 @@
             "wandering_bard_lark",
             -281984,
             -1661056
+          ],
+          [
+            "aldermere_ledger_keeper_bertram",
+            109952,
+            -22144
+          ],
+          [
+            "aldermere_stablekeeper_mirela",
+            111488,
+            -22144
           ]
         ],
         "gid_histogram": {
@@ -10553,6 +10577,20 @@
                   4223
                 ]
               ]
+            },
+            {
+              "key": "aldermere_ledger_keeper_bertram",
+              "dialogue": "base:dialogue/npc/bertram",
+              "variant": "brown",
+              "dx": 381,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_stablekeeper_mirela",
+              "dialogue": "base:dialogue/npc/mirela",
+              "variant": "green",
+              "dx": 387,
+              "dy": -127
             }
           ],
           "stamp_defs": {
@@ -15905,6 +15943,16 @@
             "wandering_bard_lark",
             -284032,
             -1662080
+          ],
+          [
+            "aldermere_ledger_keeper_bertram",
+            107904,
+            -23168
+          ],
+          [
+            "aldermere_stablekeeper_mirela",
+            109440,
+            -23168
           ]
         ],
         "gid_histogram": {
@@ -18517,6 +18565,20 @@
                   4223
                 ]
               ]
+            },
+            {
+              "key": "aldermere_ledger_keeper_bertram",
+              "dialogue": "base:dialogue/npc/bertram",
+              "variant": "brown",
+              "dx": 381,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_stablekeeper_mirela",
+              "dialogue": "base:dialogue/npc/mirela",
+              "variant": "green",
+              "dx": 387,
+              "dy": -127
             }
           ],
           "stamp_defs": {
@@ -23881,6 +23943,16 @@
             "wandering_bard_lark",
             -283008,
             -1659008
+          ],
+          [
+            "aldermere_ledger_keeper_bertram",
+            108928,
+            -20096
+          ],
+          [
+            "aldermere_stablekeeper_mirela",
+            110464,
+            -20096
           ]
         ],
         "gid_histogram": {

@@ -1,0 +1,31 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/side_ren_3",
+  "name": "$i18n:quest.side_ren_3.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.side_ren_3.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/hollow_armor",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1600
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1200
+    }
+  ]
+}

@@ -97,6 +97,27 @@ Every protagonist starts with a **keepsake** (`base:item/keepsake_<name>`, kind 
 (`base:quest/side/personal_<name>_1` and `_2`, offered in order, with Pip saying what he needs, what is still to do, and a farewell when it is done): the first pays 90 XP, 120 gold and two small potions, the second 170 XP, 240 gold and a **unique rare weapon**
 (the Ledger blade, the Focus staff, the Rescue axe, the Herbalist cane). The objectives use only what lives around the home village (green and mint slimes, tawny wolves, myconids and their gel, leaves, furs and spore caps). No new rule is involved: it is data and texts.
 
+## Side stories
+
+Besides the acts, a protagonist may have a **side story** (`tools/make_side_stories.py`): a person of the world (a named NPC, spec 07)
+who talks to everyone but tells the story only to whoever carries the keepsake of that protagonist (the condition `has_item`). The first
+time, a greeting (the flag `side_<name>_met`); then three quests, `base:quest/side/side_<name>_1` to `_3` (for the Folk), offered one
+after the other, each with its offer, a reminder while it is open and thanks once it is done. After the third the person asks a
+question and the player chooses the **ending** among two answers: each sets the flags `side_<name>_ended` and `side_<name>_chose_a` (or
+`_b`) and gives its own thing (an accessory); then the person has a last line, and the ending is never given again. The story of a
+protagonist does not change the main plot.
+
+The base pack (wave 9a of the plan) has two, both in Aldermere:
+
+- **Ren, "Overtime"**: Bertram Quill, keeper of the guild's ledgers, drowning in paperwork, recognizes a fellow office worker: six spider
+  silks to bind the ledgers, eight grey wolves to close three hundred complaints, three hollow armors ("middle management") that keep
+  sending reports. Ending: the desk of the head archivist (the archivist's quill) or the road (the wayfarer's band).
+- **Haruka, "A Home for the Lost"**: Mirela, keeper of the guild's stables, whose elk lets only Haruka come close: herbs and mint for the
+  elk's cough, six tawny wolves sent away from the herd, four bloom slimes calmed and gel for a lost calf. Ending: the calf stays with
+  the herd (the folk charm) or goes back to the hills (the owl charm).
+
+`tools/tests/test_side_stories.py` plays both from the first word to either ending with the story of the reference.
+
 ## Texts
 
 For a protagonist with the ID `base:protagonist/<name>`: `protagonist.<name>.name`, `.tagline`, `.gift` and `.story` in **both** languages (`content.json`). The story is a short paragraph about who they were and how they arrived (the Threshold of Lyra drops every guest in Verdalis, where the home village is).

@@ -1779,5 +1779,17 @@
   "quest.bounty_trial_autumn.task": "La prova della gilda: sconfiggi Alfa dell'ombra lunare e Tiranno della forgia entro tre giorni. Se i giorni finiscono, l'impiegato la ridà.",
   "quest.bounty_trial_winter.name": "Prova dell'inverno: Custode del ghiaccio e Sovrano della tempesta",
   "quest.bounty_trial_winter.task": "La prova della gilda: sconfiggi Custode del ghiaccio e Sovrano della tempesta entro tre giorni. Se i giorni finiscono, l'impiegato la ridà.",
+  "quest.side_ren_1.name": "Straordinari: i registri",
+  "quest.side_ren_1.task": "Porta sei sete di ragno a Bertram Quill ad Aldermere: i registri della gilda si sono sfasciati e vanno rilegati.",
+  "quest.side_ren_2.name": "Straordinari: una verifica dei lupi",
+  "quest.side_ren_2.task": "I contadini hanno presentato trecento reclami sui lupi grigi. L'idea di Bertram per chiuderli: otto lupi in meno.",
+  "quest.side_ren_3.name": "Straordinari: la relazione annuale",
+  "quest.side_ren_3.task": "Armature vuote continuano a fare il giro delle vecchie sale e mandano alla gilda le loro relazioni. Fermane tre.",
+  "quest.side_haruka_1.name": "Un paziente con la tosse",
+  "quest.side_haruka_1.task": "Il vecchio alce di Mirela ha la tosse. Porta cinque erbe medicinali e tre foglie di menta per un impacco caldo.",
+  "quest.side_haruka_2.name": "La mandria spaventata",
+  "quest.side_haruka_2.task": "I lupi fulvi girano attorno ai pascoli delle stalle la notte, e la mandria non dorme. Allontanane sei.",
+  "quest.side_haruka_3.name": "Una casa per chi si è perso",
+  "quest.side_haruka_3.task": "Un giovane alce delle creste ha perso la mandria e vaga ferito per le colline. Gli slime fioriti lo seguono. Calmane quattro e porta due gel di slime per un unguento.",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

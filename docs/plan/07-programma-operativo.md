@@ -280,6 +280,13 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 7. Test di regressione: i test che contano i contenuti (desktop e Android) si aggiornano nello stesso batch.
 
 #### D1 Ondata 9a
+
+> **Fatta (23 novembre 2026, quarto batch).** Le due storie laterali sono di `tools/make_side_stories.py` (spec 18, "Side stories"), con
+> due persone nuove ad Aldermere; un test (`tools/tests/test_side_stories.py`) le gioca dall'inizio a ciascuno dei due finali con il
+> riferimento, al posto di uno scenario dei vettori (le storie usano solo condizioni ed effetti già coperti dai vettori `story`). Il
+> controllo di Verdalis: tre sotterranei (Grunmoor Barrow, Mossveil Cellar e Mint Hollow, come li chiama il catalogo), più dei due chiesti; le
+> sue creature vanno dal livello 1 al 4 e non al 12, perché i livelli salgono con il pericolo delle altre regioni (spec 09): la cosa
+> resta così, i combattimenti devono restare facili.
 - **Cosa:** per Ren e Haruka, una storia laterale ciascuno (tre missioni, un finale a scelta). Per Ren va controllato che Verdalis sia completa (livelli da 1 a 12, due sotterranei) confrontando il catalogo.
 - **Perché:** M9 chiede altre storie per protagonista; la prima ondata è la più vicina a un'esperienza completa.
 - **File:** `data/base/quests/`, `data/base/dialogues/`, `data/base/i18n/`, `docs/spec/18-protagonists.md`, `tools/make_stories.py` (o un generatore nuovo), `desktop/tests/`, `android/core/src/test/`.
