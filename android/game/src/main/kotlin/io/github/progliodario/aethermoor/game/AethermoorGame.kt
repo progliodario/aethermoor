@@ -4185,24 +4185,30 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val input = Gdx.input
         if (input.isKeyJustPressed(Input.Keys.BACK) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             chooserSlot = 0
-            return
+        } else if (!chooserKeys(input) && input.justTouched()) {
+            tapChooser(input.x.toFloat(), input.y.toFloat())
         }
+    }
+
+    /** The keys of the chooser: up and down move the cursor, Enter, E or Space confirm; false when none of them was pressed. */
+    private fun chooserKeys(input: Input): Boolean {
         val count = chooserIds.size
-        if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
-            chooserCursor = (chooserCursor + count - 1) % count
-        } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
-            chooserCursor = (chooserCursor + 1) % count
-        } else if (input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.SPACE)) {
+        when {
+            input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W) -> chooserCursor = (chooserCursor + count - 1) % count
+            input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S) -> chooserCursor = (chooserCursor + 1) % count
+            input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.SPACE) -> confirmProtagonist()
+            else -> return false
+        }
+        return true
+    }
+
+    /** A tap on the chooser: on the name under the cursor it confirms it, on another name it moves the cursor there. */
+    private fun tapChooser(x: Float, y: Float) {
+        val row = chooserRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+        if (row == chooserCursor) {
             confirmProtagonist()
-        } else if (input.justTouched()) {
-            val x = input.x.toFloat()
-            val y = input.y.toFloat()
-            val row = chooserRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
-            if (row == chooserCursor) {
-                confirmProtagonist()
-            } else if (row >= 0) {
-                chooserCursor = row
-            }
+        } else if (row >= 0) {
+            chooserCursor = row
         }
     }
 

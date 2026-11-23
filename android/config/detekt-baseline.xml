@@ -16,7 +16,6 @@
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawTitle(data: Assets, slots: List&lt;SlotSummary&gt;)</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawWorldMap(world: WorldSim, data: Assets)</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleBoardInput(world: WorldSim)</ID>
-    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleChooserInput(data: Assets)</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleMapInput(world: WorldSim)</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleShopInput(world: WorldSim)</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleStoryInput(world: WorldSim)</ID>

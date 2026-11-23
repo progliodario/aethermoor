@@ -24,7 +24,7 @@
 | Strumenti | 73 test passati | `pytest -q tools/tests` |
 | Documenti generati | `make_facts --check` e `gen_conformance --check` OK (30 file di vettori); catalogo, bilanciamento (0 valori anomali) e traduzioni (0 testi da guardare) rigenerati senza differenze | eseguiti in locale |
 | Codice | circa 21 mila righe C++ (desktop, test inclusi) e circa 16 mila righe Kotlin (Android). Non compilato qui: il compilatore è la CI | `wc -l` |
-| Debito Kotlin | baseline di detekt: 104 voci (97 dopo il primo batch) | `android/config/detekt-baseline.xml` |
+| Debito Kotlin | baseline di detekt: 104 voci (96 dopo il primo batch) | `android/config/detekt-baseline.xml` |
 | GitHub (decisioni del proprietario, non toccate) | protezione del ramo `main` assente; alert di vulnerabilità e aggiornamenti di sicurezza di Dependabot disattivati; wiki attiva; Discussions disattivate; merge commit e rebase consentiti oltre allo squash; cancellazione automatica dei rami disattivata (la fa `ship.py`); secret scanning e push protection attivi | `gh api repos/progliodario/aethermoor` |
 | Label | cinque label presenti su GitHub mancavano in `.github/labels.json` | confronto con `gh label list` |
 
@@ -80,7 +80,7 @@ Ogni periodo ha una milestone su GitHub (sezione 9). L'ordine dentro un periodo 
 Batch unico con le voci B1.1-B1.6, più il lavoro di G1 che serve a sbloccare le decisioni. Il detekt (B1.1) è una voce lunga che continua nei batch successivi.
 
 > **Stato (23 novembre 2026, primo batch del programma, con B2.1).** Fatte B1.2, B1.3, B1.4, B1.5 e B1.6, con i loro criteri di
-> accettazione; B1.1 è avviata (baseline da 104 a 97: le due eccezioni ingoiate, le due voci inutilizzate e tre cicli con troppe
+> accettazione; B1.1 è avviata (baseline da 104 a 96: le due eccezioni ingoiate, le due voci inutilizzate, una funzione complessa e tre cicli con troppe
 > uscite) e continua nei batch successivi. Differenze dal progetto: la copia dei salvataggi di B1.5 contiene anche un salvataggio del
 > mondo generato con tutti i campi che solo i client scrivono, letto e riscritto dai due client; le licenze di B1.3 contano anche gli
 > strumenti scaricati dalla CI (ktlint, detekt).

@@ -257,9 +257,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
-- The Kotlin is a little tidier (detekt baseline from 104 to 97 findings): a failed read of a game, of the profile or of the language
-  is written to the log instead of being swallowed, an invalid JSON file of the pack says why, and three loops of the pack, the font
-  and the texts have one way out each.
+- The Kotlin is a little tidier (detekt baseline from 104 to 96 findings): a failed read of a game, of the profile or of the language
+  is written to the log instead of being swallowed, an invalid JSON file of the pack says why, three loops of the pack, the font and
+  the texts have one way out each, and the input of the chooser of the protagonists is split in two simpler functions.
 
 - **The checks of GitHub take a fraction of the time.** The desktop builds rebuilt SDL3 and every dependency on every run: the cache of vcpkg had a key that never changed, so a cache of 3 November whose binaries no longer matched the compilers of the runners was restored (vcpkg used none of it) and never replaced. Every run now saves the binaries it built and the next restores the newest; the tools vcpkg downloads are kept too, and the Linux build reuses the objects of unchanged files (ccache). The check of the smoke-test frames reads the PNGs with byte slices instead of pixel by pixel (from three minutes to nine seconds on this machine, with the same fingerprints).
 
