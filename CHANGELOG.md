@@ -6,6 +6,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The carts carry the goods of the season** (spec 06): the pedlars, Corvin and Odo sell the goods of the season too, besides the goods of their region of the day.
+- **The workshops always need more** (spec 07): the quest of every settler's workshop can be done again, paid every time.
+- **Three new deeds** (spec 11): All Four Seasons (the four slimes of the seasons), A Year in the Wild (their four titles) and Hammer and Fire (the Temperer and the Runesmith), each with a gift for every new game.
+
 - **Quests that can be done again** (spec 07, `repeatable`): once done, such a quest can be started anew and pays again.
 - **The hunts of the seasons** (spec 07): every season Lark the bard asks for six slimes of the season, again and again.
 

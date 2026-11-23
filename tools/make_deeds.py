@@ -61,6 +61,13 @@ DEEDS = [
      {"en": ("Fed and Followed", "Earn the titles {}."), "it": ("Sazio e seguito", "Ottieni i titoli {}.")}),
     ("hearth_and_blade", "earned", ["homemaker", "runesmith"],
      {"en": ("Hearth and Blade", "Earn the titles {}."), "it": ("Focolare e lama", "Ottieni i titoli {}.")}),
+    # the creatures of the seasons and the titles of the smith (spec 09, "Seasonal visitors"; spec 06, "Tempering")
+    ("four_seasons", "defeated", ["slime_snow", "slime_sun", "slime_leaf", "slime_rain"],
+     {"en": ("All Four Seasons", "Defeat {}: a whole year of the world."), "it": ("Tutte e quattro le stagioni", "Sconfiggi {}: un anno intero del mondo.")}),
+    ("year_in_the_wild", "earned", ["snowbound", "sunkissed", "leaf_dancer", "rain_walker"],
+     {"en": ("A Year in the Wild", "Earn the titles {}."), "it": ("Un anno nella natura", "Ottieni i titoli {}.")}),
+    ("hammer_and_fire", "earned", ["temperer", "runesmith"],
+     {"en": ("Hammer and Fire", "Earn the titles {}."), "it": ("Martello e fuoco", "Ottieni i titoli {}.")}),
     ("second_life", "lives", 1, {"en": ("Again, From the Threshold", "Reincarnate a game."), "it": ("Di nuovo, dalla Soglia", "Reincarna una partita.")}),
     ("many_lives", "lives", 5, {"en": ("Many Lives", "Reincarnate five games."), "it": ("Molte vite", "Reincarna cinque partite.")}),
 ]
@@ -92,6 +99,9 @@ GIFTS = {
     "life_of_the_land": ("herb_seeds", 5),
     "beast_friend": ("roast_meat", 5),
     "hearth_and_blade": ("rune_stone", 1),
+    "four_seasons": ("four_seasons_tea", 2),
+    "year_in_the_wild": ("snowflake", 3),
+    "hammer_and_fire": ("tempering_oil", 3),
     "second_life": ("potion_medium", 2),
     "many_lives": ("rune_tide", 1),
 }

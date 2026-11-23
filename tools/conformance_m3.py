@@ -838,7 +838,7 @@ def build_scenarios() -> list[dict]:
         {**scenario("loot_out_of_season", [enemy(3.6, 4.5, hp=6, **passive, drops=SEASON_DROPS, season_bonus={"autumn": 2, "winter": 1})],
                     [segment(40, attack=True)], season="spring"), "inventory": {}, "items": {**ITEMS, **ROLLED_ITEMS}},
         # The goods of the season (spec 06): in the shop of the place the honey cake of the season is sold after the stock (the bread, already
-        # in the stock, is not sold twice); the goods of another region have none.
+        # in the stock, is not sold twice); the goods of another region (a traveller's cart) have them too.
         scenario("season_goods", [enemy(12.0, 7.5, **passive)],
                  [segment(1, do=[{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/honey_cake"}]),
                   segment(1, do=[{"cmd": "close_shop"}, {"cmd": "open_shop", "region": "far", "markup_pct": 100},

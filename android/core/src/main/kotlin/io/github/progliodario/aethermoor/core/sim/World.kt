@@ -471,7 +471,9 @@ class WorldSim(
             openShop() // an unknown region is the shop of the place
             return
         }
-        shop = ShopDef((far.pricePm * markupPct / 100).toInt(), far.stock, far.renownStepPm, far.renownMaxPm, far.marketSwingPm, emptyList(), far.glutStepPm, far.glutFloorPm)
+        // the carts carry the goods of the season too (spec 06, "Goods of the season")
+        val stock = far.stock + seasonGoods().filter { it !in far.stock }
+        shop = ShopDef((far.pricePm * markupPct / 100).toInt(), stock, far.renownStepPm, far.renownMaxPm, far.marketSwingPm, emptyList(), far.glutStepPm, far.glutFloorPm)
     }
 
     /** Whether a recipe can be made: one without `requires_flag` always, the others once the story has that flag (spec 06, "Recipe book"). */
@@ -1002,6 +1004,14 @@ class WorldSim(
         return true
     }
 
+    /** The goods of the season (spec 06, "Goods of the season"): of the day of the world, or of the setup. */
+    private fun seasonGoods(): List<String> {
+        val store = chunks ?: return combat.seasonStock
+        val time = store.params.time
+        val index = if (time.dayTicks > 0) seasonIndexOf(time, worldTicks / time.dayTicks + 1) else -1
+        return if (index >= 0) time.seasons[index].stock else emptyList()
+    }
+
     override fun openShop() {
         val store = chunks
         val base = if (store != null) {
@@ -1010,14 +1020,7 @@ class WorldSim(
         } else {
             combat.shop
         }
-        // the goods of the season (spec 06, "Goods of the season"): of the day of the world, or of the setup
-        val goods = if (store != null) {
-            val time = store.params.time
-            val index = if (time.dayTicks > 0) seasonIndexOf(time, worldTicks / time.dayTicks + 1) else -1
-            if (index >= 0) time.seasons[index].stock else emptyList()
-        } else {
-            combat.seasonStock
-        }
+        val goods = seasonGoods()
         // wares for friends of the region (spec 07, "Renown"), then the goods of the season not already sold
         shop = base?.let { b ->
             val stock = b.stock + b.renownStock.filter { renownHere() >= it.second }.map { it.first }

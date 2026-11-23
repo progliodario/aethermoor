@@ -17,6 +17,20 @@
           "next": "trade"
         },
         {
+          "text": "$i18n:dlg.role.settler.again",
+          "when": {
+            "all": [
+              {
+                "quest_done": "base:quest/side/settle_ashen_wastes"
+              },
+              {
+                "flag": "settle_ashen_wastes_thanked"
+              }
+            ]
+          },
+          "next": "offer"
+        },
+        {
           "text": "$i18n:dlg.role.settler.why",
           "next": "why"
         },
