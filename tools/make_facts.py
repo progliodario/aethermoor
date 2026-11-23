@@ -17,6 +17,7 @@ is not what the data says (the tests run it).
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -130,7 +131,11 @@ def main() -> int:
     for rel, lang in DOCUMENTS.items():
         path = ROOT / rel
         text = path.read_text(encoding="utf-8")
-        start, end = text.find(BEGIN), text.find(END)
+        # a marker counts only on a line of its own: a document may name the markers in its text (CLAUDE.md does)
+        begin = re.search(rf"^{re.escape(BEGIN)}$", text, re.M)
+        start = begin.start() if begin else -1
+        close = re.search(rf"^{re.escape(END)}$", text[start:], re.M) if begin else None
+        end = start + close.start() if close else -1
         if start < 0 or end < start:
             stale.append(f"{rel}: no facts block")
             continue
