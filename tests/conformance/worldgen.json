@@ -2599,6 +2599,34 @@
               "variant": "green",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "aldermere_fire_warden_hale",
+              "dialogue": "base:dialogue/npc/hale",
+              "variant": "red",
+              "dx": 381,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_astronomer_ottilie",
+              "dialogue": "base:dialogue/npc/ottilie",
+              "variant": "purple",
+              "dx": 383,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_cook_bruna",
+              "dialogue": "base:dialogue/npc/bruna",
+              "variant": "ochre",
+              "dx": 385,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_vault_keeper_ilse",
+              "dialogue": "base:dialogue/npc/ilse",
+              "variant": "teal",
+              "dx": 387,
+              "dy": -129
             }
           ],
           "stamp_defs": {
@@ -7965,6 +7993,26 @@
             "aldermere_stablekeeper_mirela",
             111488,
             -22144
+          ],
+          [
+            "aldermere_fire_warden_hale",
+            109952,
+            -22656
+          ],
+          [
+            "aldermere_astronomer_ottilie",
+            110464,
+            -22656
+          ],
+          [
+            "aldermere_cook_bruna",
+            110976,
+            -22656
+          ],
+          [
+            "aldermere_vault_keeper_ilse",
+            111488,
+            -22656
           ]
         ],
         "gid_histogram": {
@@ -10591,6 +10639,34 @@
               "variant": "green",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "aldermere_fire_warden_hale",
+              "dialogue": "base:dialogue/npc/hale",
+              "variant": "red",
+              "dx": 381,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_astronomer_ottilie",
+              "dialogue": "base:dialogue/npc/ottilie",
+              "variant": "purple",
+              "dx": 383,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_cook_bruna",
+              "dialogue": "base:dialogue/npc/bruna",
+              "variant": "ochre",
+              "dx": 385,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_vault_keeper_ilse",
+              "dialogue": "base:dialogue/npc/ilse",
+              "variant": "teal",
+              "dx": 387,
+              "dy": -129
             }
           ],
           "stamp_defs": {
@@ -15953,6 +16029,26 @@
             "aldermere_stablekeeper_mirela",
             109440,
             -23168
+          ],
+          [
+            "aldermere_fire_warden_hale",
+            107904,
+            -23680
+          ],
+          [
+            "aldermere_astronomer_ottilie",
+            108416,
+            -23680
+          ],
+          [
+            "aldermere_cook_bruna",
+            108928,
+            -23680
+          ],
+          [
+            "aldermere_vault_keeper_ilse",
+            109440,
+            -23680
           ]
         ],
         "gid_histogram": {
@@ -18579,6 +18675,34 @@
               "variant": "green",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "aldermere_fire_warden_hale",
+              "dialogue": "base:dialogue/npc/hale",
+              "variant": "red",
+              "dx": 381,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_astronomer_ottilie",
+              "dialogue": "base:dialogue/npc/ottilie",
+              "variant": "purple",
+              "dx": 383,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_cook_bruna",
+              "dialogue": "base:dialogue/npc/bruna",
+              "variant": "ochre",
+              "dx": 385,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_vault_keeper_ilse",
+              "dialogue": "base:dialogue/npc/ilse",
+              "variant": "teal",
+              "dx": 387,
+              "dy": -129
             }
           ],
           "stamp_defs": {
@@ -23953,6 +24077,26 @@
             "aldermere_stablekeeper_mirela",
             110464,
             -20096
+          ],
+          [
+            "aldermere_fire_warden_hale",
+            108928,
+            -20608
+          ],
+          [
+            "aldermere_astronomer_ottilie",
+            109440,
+            -20608
+          ],
+          [
+            "aldermere_cook_bruna",
+            109952,
+            -20608
+          ],
+          [
+            "aldermere_vault_keeper_ilse",
+            110464,
+            -20608
           ]
         ],
         "gid_histogram": {

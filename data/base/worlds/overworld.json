@@ -259,6 +259,10 @@
     { "key": "wandering_smith_brannoc", "dialogue": "base:dialogue/npc/brannoc", "variant": "brown", "dx": 385, "dy": 129, "route": [[385, 129], [6782, -385], [-639, 6273], [5502, 3967], [-1151, -6527], [-6274, 4223], [4222, -4737], [-4226, -2689]] },
     { "key": "wandering_bard_lark", "dialogue": "base:dialogue/npc/lark", "variant": "purple", "dx": -1150, "dy": -6529, "route": [[-1150, -6529], [5506, 3967], [-638, 6271], [6782, -383], [386, 127], [-4226, -2687], [4222, -4735], [-6270, 4223]] },
     { "key": "aldermere_ledger_keeper_bertram", "dialogue": "base:dialogue/npc/bertram", "variant": "brown", "dx": 381, "dy": -127 },
-    { "key": "aldermere_stablekeeper_mirela", "dialogue": "base:dialogue/npc/mirela", "variant": "green", "dx": 387, "dy": -127 }
+    { "key": "aldermere_stablekeeper_mirela", "dialogue": "base:dialogue/npc/mirela", "variant": "green", "dx": 387, "dy": -127 },
+    { "key": "aldermere_fire_warden_hale", "dialogue": "base:dialogue/npc/hale", "variant": "red", "dx": 381, "dy": -129 },
+    { "key": "aldermere_astronomer_ottilie", "dialogue": "base:dialogue/npc/ottilie", "variant": "purple", "dx": 383, "dy": -129 },
+    { "key": "aldermere_cook_bruna", "dialogue": "base:dialogue/npc/bruna", "variant": "ochre", "dx": 385, "dy": -129 },
+    { "key": "aldermere_vault_keeper_ilse", "dialogue": "base:dialogue/npc/ilse", "variant": "teal", "dx": 387, "dy": -129 }
   ]
 }

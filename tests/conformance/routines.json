@@ -3026,6 +3026,34 @@
               "variant": "green",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "aldermere_fire_warden_hale",
+              "dialogue": "base:dialogue/npc/hale",
+              "variant": "red",
+              "dx": 381,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_astronomer_ottilie",
+              "dialogue": "base:dialogue/npc/ottilie",
+              "variant": "purple",
+              "dx": 383,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_cook_bruna",
+              "dialogue": "base:dialogue/npc/bruna",
+              "variant": "ochre",
+              "dx": 385,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_vault_keeper_ilse",
+              "dialogue": "base:dialogue/npc/ilse",
+              "variant": "teal",
+              "dx": 387,
+              "dy": -129
             }
           ],
           "stamp_defs": {
@@ -12276,6 +12304,34 @@
               "variant": "green",
               "dx": 387,
               "dy": -127
+            },
+            {
+              "key": "aldermere_fire_warden_hale",
+              "dialogue": "base:dialogue/npc/hale",
+              "variant": "red",
+              "dx": 381,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_astronomer_ottilie",
+              "dialogue": "base:dialogue/npc/ottilie",
+              "variant": "purple",
+              "dx": 383,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_cook_bruna",
+              "dialogue": "base:dialogue/npc/bruna",
+              "variant": "ochre",
+              "dx": 385,
+              "dy": -129
+            },
+            {
+              "key": "aldermere_vault_keeper_ilse",
+              "dialogue": "base:dialogue/npc/ilse",
+              "variant": "teal",
+              "dx": 387,
+              "dy": -129
             }
           ],
           "stamp_defs": {

@@ -1,0 +1,344 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/ilse",
+  "start": "start",
+  "nodes": {
+    "start": {
+      "type": "condition",
+      "when": {
+        "has_item": {
+          "item": "base:item/keepsake_yuki",
+          "qty": 1
+        }
+      },
+      "then": "met",
+      "else": "stranger"
+    },
+    "stranger": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.stranger",
+      "next": "end"
+    },
+    "met": {
+      "type": "condition",
+      "when": {
+        "flag": "side_yuki_met"
+      },
+      "then": "c0",
+      "else": "hello"
+    },
+    "hello": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.hello",
+      "next": "hello_flag"
+    },
+    "hello_flag": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "side_yuki_met",
+          "value": true
+        }
+      ],
+      "next": "c0"
+    },
+    "c0": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/side_yuki_1"
+      },
+      "then": "t0",
+      "else": "a0"
+    },
+    "t0": {
+      "type": "condition",
+      "when": {
+        "flag": "side_yuki_1_thanked"
+      },
+      "then": "c1",
+      "else": "thanks0"
+    },
+    "thanks0": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.side_yuki_1.thanks",
+      "next": "flag0"
+    },
+    "flag0": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "side_yuki_1_thanked",
+          "value": true
+        }
+      ],
+      "next": "c1"
+    },
+    "a0": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/side_yuki_1"
+      },
+      "then": "busy0",
+      "else": "offer0"
+    },
+    "busy0": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.side_yuki_1.busy",
+      "next": "end"
+    },
+    "offer0": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.side_yuki_1.offer",
+      "next": "choice0"
+    },
+    "choice0": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/side_yuki_1"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c1": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/side_yuki_2"
+      },
+      "then": "t1",
+      "else": "a1"
+    },
+    "t1": {
+      "type": "condition",
+      "when": {
+        "flag": "side_yuki_2_thanked"
+      },
+      "then": "c2",
+      "else": "thanks1"
+    },
+    "thanks1": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.side_yuki_2.thanks",
+      "next": "flag1"
+    },
+    "flag1": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "side_yuki_2_thanked",
+          "value": true
+        }
+      ],
+      "next": "c2"
+    },
+    "a1": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/side_yuki_2"
+      },
+      "then": "busy1",
+      "else": "offer1"
+    },
+    "busy1": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.side_yuki_2.busy",
+      "next": "end"
+    },
+    "offer1": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.side_yuki_2.offer",
+      "next": "choice1"
+    },
+    "choice1": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/side_yuki_2"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "c2": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/side_yuki_3"
+      },
+      "then": "t2",
+      "else": "a2"
+    },
+    "t2": {
+      "type": "condition",
+      "when": {
+        "flag": "side_yuki_3_thanked"
+      },
+      "then": "ending_check",
+      "else": "thanks2"
+    },
+    "thanks2": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.side_yuki_3.thanks",
+      "next": "flag2"
+    },
+    "flag2": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "set_flag",
+          "flag": "side_yuki_3_thanked",
+          "value": true
+        }
+      ],
+      "next": "ending_check"
+    },
+    "a2": {
+      "type": "condition",
+      "when": {
+        "quest_active": "base:quest/side/side_yuki_3"
+      },
+      "then": "busy2",
+      "else": "offer2"
+    },
+    "busy2": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.side_yuki_3.busy",
+      "next": "end"
+    },
+    "offer2": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.side_yuki_3.offer",
+      "next": "choice2"
+    },
+    "choice2": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/side_yuki_3"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "end"
+        }
+      ]
+    },
+    "ending_check": {
+      "type": "condition",
+      "when": {
+        "flag": "side_yuki_ended"
+      },
+      "then": "after",
+      "else": "ending"
+    },
+    "ending": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.ending",
+      "next": "ending_choice"
+    },
+    "reply_a": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.reply_a",
+      "next": "end"
+    },
+    "reply_b": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.reply_b",
+      "next": "end"
+    },
+    "ending_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.side.ilse.choice_a",
+          "next": "reply_a",
+          "effects": [
+            {
+              "effect": "set_flag",
+              "flag": "side_yuki_ended",
+              "value": true
+            },
+            {
+              "effect": "set_flag",
+              "flag": "side_yuki_chose_a",
+              "value": true
+            },
+            {
+              "effect": "add_item",
+              "item": "base:item/guild_signet",
+              "qty": 1
+            }
+          ]
+        },
+        {
+          "text": "$i18n:dlg.side.ilse.choice_b",
+          "next": "reply_b",
+          "effects": [
+            {
+              "effect": "set_flag",
+              "flag": "side_yuki_ended",
+              "value": true
+            },
+            {
+              "effect": "set_flag",
+              "flag": "side_yuki_chose_b",
+              "value": true
+            },
+            {
+              "effect": "add_item",
+              "item": "base:item/shadow_dagger",
+              "qty": 1
+            }
+          ]
+        }
+      ]
+    },
+    "after": {
+      "type": "say",
+      "speaker": "aldermere_vault_keeper_ilse",
+      "text": "$i18n:dlg.side.ilse.after",
+      "next": "end"
+    }
+  }
+}

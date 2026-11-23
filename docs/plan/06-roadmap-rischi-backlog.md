@@ -278,12 +278,12 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (120 missioni di storia) |
 | Creature | 79, di cui 27 guardiani e 8 Echi |
-| Missioni | 389 (24 storie dei paesani) |
+| Missioni | 401 (24 storie dei paesani) |
 | Oggetti e ricette | 286 oggetti, 82 ricette (8 segrete) |
 | Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
-| Persone con nome | 50 nei dati del mondo, oltre ai paesani generati |
+| Persone con nome | 54 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4067 chiavi, in italiano e inglese |
+| Testi | 4163 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 31 file di vettori di conformità, 609 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
@@ -303,7 +303,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti, Odo il capo carovana, Brannoc il fabbro errante e Lark la cantastorie che ogni giorno sono in un altro avamposto, stagioni che cambiano i raccolti, il giardino del cottage, un colono in ogni villaggio generato con il suo mestiere, la sua missione e la sua bottega, una festa per regione con i suoi giochi, i paesani che ne parlano | carri che si vedono viaggiare |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
 | M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi tirati a sorte quando si trovano, anche ventiquattro pezzi comuni, e ritemprati all'incudine o dai fabbri, dodici pezzi rari con due affissi, doni delle imprese a ogni partita nuova | affissi che si scelgono |
-| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo, quinto e sesto atto ("Due Ospiti", che lega i protagonisti a coppie), epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | le storie laterali degli altri sei protagonisti (Ren e Haruka ce l'hanno); la modalità Dungeon di Gideon |
+| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo, quinto e sesto atto ("Due Ospiti", che lega i protagonisti a coppie), epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | le storie laterali di Lena e Gideon (gli altri sei ce l'hanno); la modalità Dungeon di Gideon |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento | un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | da fare | — | pacchetti firmati, pagina di download, documentazione per chi fa mod (decisioni del proprietario) |
 
@@ -352,9 +352,10 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Missioni a tempo e prove delle stagioni** (dal 23 novembre, B4.1, spec 07 "Timed quests"): una missione può avere dei giorni
   (`time_limit_days`); passati, non conta più nulla e si riprende subito. Dal livello 25 gli impiegati della gilda offrono in ogni stagione
   una prova: due grandi creature di due regioni lontane in tre giorni, pagata con un pezzo raro a due affissi. Il diario dice i giorni rimasti.
-- **Storie laterali** (dal 23 novembre, D1, spec 18 "Side stories"): Ren e Haruka hanno una storia di tre missioni ciascuno, raccontata
-  ad Aldermere da Bertram Quill (i registri della gilda) e da Mirela (le stalle) solo a chi porta il loro ricordo, con un finale scelto
-  in dialogo che cambia l'oggetto ricevuto.
+- **Storie laterali** (dal 23 novembre, D1, D2 e D3, spec 18 "Side stories"): Ren, Haruka, Daichi, Sakura, Marco e Yuki hanno una storia
+  di tre missioni ciascuno, raccontata ad Aldermere da Bertram Quill (i registri della gilda), Mirela (le stalle), la capitana Wren Hale
+  (i pompieri volontari), Ottilie Brask (l'osservatorio), Bruna Calder (la mensa) e Ilse Marrow (la cassaforte) solo a chi porta il loro
+  ricordo, con un finale scelto in dialogo che cambia l'oggetto ricevuto.
 - **Storia** (dal 22 novembre): il sesto atto "Due Ospiti" lega i protagonisti a coppie, poi l'altro Eco, il riposo degli Echi e la lanterna di
   Lyra, l'ultimo atto comune a tutti.
 
