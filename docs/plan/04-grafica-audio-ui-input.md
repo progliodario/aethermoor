@@ -135,6 +135,11 @@ Colori saturi ma morbidi, forme arrotondate, contorni scuri colorati (non neri),
 
 ## 3. UI dichiarativa (D5, spec 15)
 
+> **Stato (23 novembre 2026).** Questa sezione è il piano di partenza. La UI dichiarativa è **rinviata dopo l'1.0**
+> ([ADR 0014](../adr/0014-screens-in-code-until-1-0.md)): le schermate sono scritte nel codice dei due client e seguono la
+> [spec 15](../spec/15-ui-layout.md), che descrive il tema "Finestra di sistema" com'è davvero (vetro viola notte con un filo ciano, oro
+> o azzurro, staffe agli angoli), dove sta ogni pannello e le differenze note tra desktop e Android.
+
 ### Tema "Finestra di sistema"
 
 - Pannelli blu profondi semitrasparenti (`#0B1F3A` a 80%), bordo ciano chiaro (`#6FE3FF`), angoli tagliati, griglia sottile, testo bianco-azzurro, accenti oro per titoli e raro, rosso per PV, azzurro per PM, verde per XP.

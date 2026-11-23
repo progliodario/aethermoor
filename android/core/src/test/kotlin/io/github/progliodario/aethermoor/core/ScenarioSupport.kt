@@ -123,6 +123,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         nightAggroCutPm = input["weather"]?.jsonObject?.get("night_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
         season = input["season"]?.jsonPrimitive?.content ?: "",
         seasonStock = input["season_stock"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
+        weatherGoods = parseWeatherGoods(input["weather"]?.jsonObject?.get("weather_goods")?.jsonObject),
         windPm = input["weather"]?.jsonObject?.get("wind_pm")?.jsonPrimitive?.int ?: 0,
         windHastePm = input["weather"]?.jsonObject?.get("wind_haste_pm")?.jsonPrimitive?.int ?: 0,
         fogPm = input["weather"]?.jsonObject?.get("fog_pm")?.jsonPrimitive?.int ?: 0,

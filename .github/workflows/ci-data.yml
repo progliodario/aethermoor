@@ -10,7 +10,14 @@ on:
       - "tools/**"
       - "tests/**"
       - "project.json"
-      - ".github/workflows/ci-data.yml"
+      - "desktop/tests/**"
+      - "desktop/vcpkg.json"
+      - "android/core/src/test/**"
+      - "android/**/*.kts"
+      - "android/gradle/**"
+      - "THIRD_PARTY_NOTICES.md"
+      - "docs/design/parity.md"
+      - ".github/workflows/**"
 
 permissions:
   contents: read
@@ -38,3 +45,9 @@ jobs:
         run: pytest -q tools/tests
       - name: The committed conformance vectors are the ones the reference generates
         run: python tools/gen_conformance.py --check
+      - name: A frozen save for every version of the save (spec 12, "Fixtures of the save")
+        run: python tools/make_save_fixtures.py --check
+      - name: Both clients run every suite of vectors (docs/design/parity.md)
+        run: python tools/make_parity.py --check
+      - name: Every dependency has an allowed license (THIRD_PARTY_NOTICES.md)
+        run: python tools/licenses.py --check

@@ -52,7 +52,11 @@ Full plan: `docs/plan/README.md` (Italian). Decisions: `docs/adr/`. Index of all
 ## Pitfalls already met
 
 - A new field of the save needs a split in `SAVE_SPLITS` of `tools/conformance_m4.py` and must be restored before anything that reads it
-  (the world ticks come back before the creatures of the stream, which depend on the season).
+  (the world ticks come back before the creatures of the stream, which depend on the season); then `tools/make_save_fixtures.py` appends
+  its case to the frozen copy `tests/saves/v<N>.json`. A change that old saves cannot read bumps `SAVE_VERSION` (reference) and
+  `kSaveVersion`/`SAVE_VERSION` (clients) with a migration in all three, and writes the copy of the new version (spec 12).
+- A new dependency needs its row in `tools/licenses.json` (`ci-data` fails without it); a new suite of vectors needs a test in both
+  clients (`tools/make_parity.py --check`).
 - A new kind of dialogue file must not reuse an id: the dialogue of a person is `npc/<id>.json`, and a new person named like an old one
   overwrites it (`test_every_person_of_the_world_has_a_dialogue_of_its_own`).
 - Generators that patch JSON must parse it (`json.loads`), never cut it at the first `]`: lists nest (`seasons` of a fauna entry, `pick` of a drop).
@@ -86,6 +90,8 @@ The conformance harnesses that run the vectors are `desktop/tests/conformance_te
 | `recipes.json`, `titles.json`, `tags.json`, `talents.json`, `deeds.json`, `gathering.json`, `companions/`, prologues, stories, towns, tales, pedlars | the `make_*.py` of `tools/README.md` |
 | `data/base/tables/xp_table.json`, `maps/demo.tmj` | `gen_tables.py`, `make_demo_map.py` |
 | `tests/frames/*.json` (the references of the smoke-test frames) | `tools/check_frames.py --write` from the frames of a CI run |
+| `docs/design/parity.md`, `THIRD_PARTY_NOTICES.md` | `tools/make_parity.py`, `tools/licenses.py` (from `tools/licenses.json`, which is edited by hand) |
+| `tests/saves/v*.json` (the frozen saves of every version: **never** changed, only appended to) | `tools/make_save_fixtures.py` |
 
 Many generators also change the role dialogues (`data/base/dialogues/role/`) in place; `tools/make_role_dialogues.py` wrote their first version and must **never** run again (it would write over everything added since). Every other generator was checked to change nothing when run again (see `tools/README.md`, "Running a generator again").
 
@@ -177,9 +183,9 @@ The numbers (counted from the data by `tools/make_facts.py`):
 | Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 48 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 3988 keys, in Italian and English |
-| Same rules on both clients | 30 files of conformance vectors, 578 cases, run by the C++ and the Kotlin tests |
-| Documents | 18 specs, 13 ADRs |
+| Texts | 3991 keys, in Italian and English |
+| Same rules on both clients | 31 files of conformance vectors, 604 cases, run by the C++ and the Kotlin tests |
+| Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->
 
 - **What the game holds:** every creature, item, quest and site is in [`docs/design/catalog.md`](docs/design/catalog.md); the systems,

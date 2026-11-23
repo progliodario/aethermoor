@@ -283,9 +283,9 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3988 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 30 file di vettori di conformità, 578 casi, eseguiti dai test C++ e Kotlin |
-| Documenti | 18 specifiche, 13 ADR |
+| Testi | 3991 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 31 file di vettori di conformità, 604 casi, eseguiti dai test C++ e Kotlin |
+| Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
 
 ### 8.2 Stato delle milestone
@@ -320,6 +320,9 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Nebbia e temporali** (dal 18 novembre, seconda PR): due tempi nuovi; la nebbia accorcia fino al 40% la distanza da cui le creature ti notano (un velo pallido e banchi di foschia), il temporale è pioggia e vento insieme, con i lampi (che si spengono con l'opzione dei lampi). L'orologio dice che tempo fa.
 - **Vento** (dal 18 novembre): ogni tempo ha il suo vento (brezza col sereno, forte sotto le nuvole, a raffiche con la pioggia); il vento alle spalle fa camminare il giocatore fino al 15% più veloce e muove di più le piante.
 - Pietre della Soglia per curarsi e viaggiare; mappa con zoom, meta del giocatore e meta di ogni missione.
+- **Il tempo cambia i prezzi** (dal 23 novembre, B2.1, spec 06 "Weather and prices"): con la pioggia le merci di campagna (cibo, legna,
+  resina, erbe, fiori, muschio e i semi degli orti) costano il 10% in più e i bottegai le pagano il 10% in più; nella neve di Frostveil
+  il 20%. Il negozio scrive "Pioggia +10%" o "Neve +20%" e colora d'azzurro quei prezzi; un consiglio lo dice la prima volta che piove.
 - **Stagioni** (dal 18 al 23 novembre): cambiano la crescita degli orti, i raccolti, la caccia (`season_bonus`) e le creature (l'inverno le
   rallenta, l'estate e l'autunno le rendono meno attente); sedici visitatori di altre regioni arrivano in una stagione e quattro gelatine
   vivono solo nella loro, con un bottino e un tè propri; ogni bottega e ogni carro vende alcune merci solo nella loro stagione.
@@ -393,6 +396,10 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - CI su Windows (MSVC), Linux (GCC) e Android (test JVM e APK), con controllo dei dati e dei vettori, dei fotogrammi del test di fumo e dello
   stile del Kotlin (ktlint, detekt); dal 22 novembre una PR si controlla in pochi minuti (cache di vcpkg e ccache); la CI non resta più bloccata ore se i server di Ubuntu non rispondono (mirror alternativi e copia dei pacchetti).
 - `tools/ship.py` spedisce una modifica in un comando (controlli, commit firmato, PR, attesa della CI, merge, build di prova aggiornata).
+- **Fondamenta B1** (dal 23 novembre): le copie congelate dei salvataggi di ogni versione (`tests/saves/`, suite `save_fixtures`, spec 12),
+  che il riferimento e i due client devono caricare; la matrice di parità generata (`docs/design/parity.md`) e il controllo delle licenze
+  (`tools/licenses.py`), tutti e due in `ci-data`; la spec 15 (il tema "Finestra di sistema" e dove sta ogni pannello) e l'ADR 0014 (le
+  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 97.
 - Catalogo dei contenuti e rapporto di bilanciamento generati dai dati; anteprime dell'arte in PNG senza avviare il gioco.
 
 ### 8.4 Che cosa resta da fare, in ordine
@@ -405,13 +412,11 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 **A breve (le prossime PR)**
 
 1. **Ridurre la baseline di detekt** (M10; ktlint e detekt in CI ci sono, le segnalazioni vecchie restano in
-   `android/config/detekt-baseline.xml`, 72 su 104 di complessità, 19 di annidamento, 9 di uscite dai cicli, 2 eccezioni ingoiate, 2 voci inutilizzate): spezzare a poco a poco le funzioni più complesse.
-2. **Il tempo che cambia i prezzi** (M5; pioggia, neve, nebbia, notte, vento, temporali, fulmini, le stagioni di orti, raccolta, creature,
-   caccia, merci e feste ci sono): merci più care quando fuori piove o nevica.
-3. **Sfide a tempo per chi ha finito tutto** (M9; le taglie permanenti, le cacce delle stagioni e le botteghe dei coloni si ripetono già).
-4. **Viaggiatori che si vedono** (M6; Odo, Brannoc e Lark girano gli avamposti, ogni giorno in un altro): camminano lungo le strade invece di
+   `android/config/detekt-baseline.xml`: 97, di cui 72 di complessità, 19 di annidamento e 6 di uscite dai cicli): spezzare a poco a poco le funzioni più complesse.
+2. **Sfide a tempo per chi ha finito tutto** (M9; le taglie permanenti, le cacce delle stagioni e le botteghe dei coloni si ripetono già).
+3. **Viaggiatori che si vedono** (M6; Odo, Brannoc e Lark girano gli avamposti, ogni giorno in un altro): camminano lungo le strade invece di
    comparire alla tappa; altri mercanti con il loro giro.
-5. **Più vita nei villaggi** (M6; residenti, coloni, feste, giochi e paesani alle feste ci sono): i paesani che si spostano davvero verso la
+4. **Più vita nei villaggi** (M6; residenti, coloni, feste, giochi e paesani alle feste ci sono): i paesani che si spostano davvero verso la
    festa vicina.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**

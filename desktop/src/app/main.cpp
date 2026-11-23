@@ -2981,6 +2981,13 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
         title += "   " + assets.pack.text(ui.lang, swing > 0 ? "$i18n:ui.shop_dear" : "$i18n:ui.shop_cheap",
                                           {{"pct", (swing > 0 ? swing : -swing) / 10}});
     }
+    if (!chest &&
+        sim.weather_rise_pm() >= 10) {  // the rain raises the goods of the countryside (spec 06, "Weather and prices")
+        const aether::ChunkStore* store = sim.chunks();
+        const bool snow = store != nullptr && store->params().time.goods.region_rise_pm.count(sim.region_id()) > 0;
+        title += "   " + assets.pack.text(ui.lang, snow ? "$i18n:ui.shop_snow" : "$i18n:ui.shop_rain",
+                                          {{"pct", sim.weather_rise_pm() / 10}});
+    }
     debug_text(renderer, (x + 16.0F) / kScale, (y + 12.0F) / kScale, title.c_str());
     const std::string gold =
         assets.pack.text(ui.lang, "$i18n:ui.gold", {{"gold", static_cast<std::int64_t>(sim.story().gold())}});
@@ -3003,7 +3010,11 @@ void draw_shop(SDL_Renderer* renderer, const Assets& assets, const aether::World
         SDL_SetRenderDrawColor(renderer, 235, 245, 255, 255);
         debug_text(renderer, (x + 16.0F) / kScale, ty / kScale,
                    ((static_cast<int>(i) == cursor ? ">" : " ") + name).c_str());
-        SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+        if (!chest && sim.weather_price_pm(entries[i].first) > 1000) {  // a price the weather raised is blue
+            SDL_SetRenderDrawColor(renderer, 140, 200, 255, 255);
+        } else {
+            SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+        }
         debug_text(renderer, (x + w - 16.0F) / kScale - text_columns(price) * 8.0F, ty / kScale, price.c_str());
         ty += row;
     }
@@ -3585,6 +3596,11 @@ bool hint_holds(const aether::WorldSim& sim, const std::string& when) {
     }
     if (when == "tag") {  // a tag earned and none worn (spec 11, "Tags")
         return !sim.earned_tags().empty() && sim.worn_tag().empty();
+    }
+    if (when == "rain") {  // it rains, and the rain raises the prices (spec 06, "Weather and prices")
+        const auto time = sim.time();
+        const aether::ChunkStore* store = sim.chunks();
+        return time && store != nullptr && time->rain_pm >= 600 && store->params().time.goods.rise_pm > 0;
     }
     return false;
 }

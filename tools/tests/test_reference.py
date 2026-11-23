@@ -119,6 +119,26 @@ def test_saves_in_the_vectors_match_the_schema():
     for case in doc["cases"]:
         errors = list(validator.iter_errors({"save_version": 1, **case["input"]["save"]}))
         assert not errors, (case["name"], errors[:1])
+    for path in sorted((root / "tests" / "saves").glob("v*.json")):  # the frozen saves of every version (spec 12)
+        frozen = json.loads(path.read_text(encoding="utf-8"))
+        for save in [c["save"] for c in frozen["cases"]] + ([frozen["game"]] if "game" in frozen else []):
+            errors = list(validator.iter_errors(save))
+            assert not errors, (path.name, errors[:1])
+
+
+def test_every_save_version_has_its_frozen_copy():
+    """Spec 12, "Fixtures of the save": a file for every version, and every field the reference writes is in a case of the last one."""
+    import make_save_fixtures
+
+    assert make_save_fixtures.problems() == []
+
+
+def test_a_newer_save_is_refused_and_an_older_one_is_migrated():
+    from reference import combat
+
+    with pytest.raises(ValueError):
+        combat.migrate_save({"save_version": combat.SAVE_VERSION + 1})
+    assert combat.migrate_save({"save_version": 1, "player": {}})["save_version"] == combat.SAVE_VERSION
 
 
 def test_world_chunks_are_the_restriction_of_the_world():

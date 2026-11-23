@@ -39,8 +39,8 @@ fun loadFont(pack: Pack): FontDef? {
     val cellW = number(cell, "w", 8f)
     val glyphs = HashMap<Int, FontGlyph>()
     for ((key, value) in table) {
-        val glyph = value as? JsonObject ?: continue
-        if (key.isEmpty()) continue
+        val glyph = value as? JsonObject
+        if (glyph == null || key.isEmpty()) continue
         val path = (glyph["d"] as? JsonPrimitive)?.takeIf { it.isString }?.content ?: ""
         glyphs[key.codePointAt(0)] = FontGlyph(number(glyph, "w", cellW), path)
     }

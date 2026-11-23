@@ -60,6 +60,8 @@ ITEMS = {
     "base:item/bat_charm": {"kind": "accessory", "price": 200, "accessory": {"drain_pm": 300}},
 }
 BREAD = ITEMS
+# The goods of the countryside of the scenarios (spec 06, "Weather and prices"): food and the gel, 10% at full rain, 20% in the snow of `frost`.
+WEATHER_GOODS = {"kinds": ["food"], "items": ["base:item/slime_gel"], "rise_pm": 100, "region_rise_pm": {"frost": 200}}
 # Runes (spec 06, "Runes") and furniture (spec 06, "Furniture") of the scenarios.
 RUNE_ITEMS = {
     "test:item/rune_fire": {"kind": "rune", "price": 120, "rune": {"element": "fire", "atk": 4, "station": "base:art/prop/anvil"}},
@@ -566,6 +568,25 @@ def build_scenarios() -> list[dict]:
                                                                {"cmd": "sell", "item": "base:item/slime_gel"}]), segment(29))],
                  inventory={"base:item/slime_gel": 4}, start_gold=1000, region="vale", day_ticks=30, story=EMPTY_STORY,
                  shop={"price_pm": 1000, "stock": ["base:item/potion_mana_small"], "market_swing_pm": 200}),
+        # Weather and prices (spec 06): in full rain the goods of the countryside (food, and the gel named in the list) cost 10% more and are paid
+        # 10% more; the mana potion is not one of them. A honey cake costs 22 instead of 20 and is sold for 11; a windleaf brew 99 and 49.
+        scenario("rain_prices", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/honey_cake"}, {"cmd": "buy", "item": "base:item/potion_mana_small"},
+                                 {"cmd": "buy", "item": "base:item/windleaf_brew"}]),
+                  segment(1, do=[{"cmd": "sell", "item": "base:item/honey_cake"}, {"cmd": "sell", "item": "base:item/windleaf_brew"},
+                                 {"cmd": "sell", "item": "base:item/slime_gel"}])],
+                 inventory={"base:item/slime_gel": 4}, start_gold=1000, region="vale", story=EMPTY_STORY,
+                 weather={"rain_pm": 1000, "weather_goods": WEATHER_GOODS},
+                 shop={"price_pm": 1000, "stock": ["base:item/honey_cake", "base:item/potion_mana_small", "base:item/windleaf_brew"]}),
+        # The snow of a region of `region_rise_pm` raises them by its own rise, 20%: the cake 24 and 12, the brew 108 and 54; and a light rain
+        # (450 permille) by 45 permille: the cake 20, the brew 94 and 47.
+        *[scenario(name, [enemy(12.0, 7.5, **passive)],
+                   [segment(1, do=[{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/honey_cake"}, {"cmd": "buy", "item": "base:item/windleaf_brew"}]),
+                    segment(1, do=[{"cmd": "sell", "item": "base:item/honey_cake"}, {"cmd": "sell", "item": "base:item/windleaf_brew"}])],
+                   inventory={}, start_gold=1000, region=region, story=EMPTY_STORY,
+                   weather={"rain_pm": rain, "weather_goods": WEATHER_GOODS},
+                   shop={"price_pm": 1000, "stock": ["base:item/honey_cake", "base:item/windleaf_brew"], "market_swing_pm": 0})
+          for name, region, rain in (("snow_prices", "frost", 1000), ("rain_prices_light", "vale", 450))],
         # Wares for friends (spec 07, "Renown"): the chain mail is on the shelves only for somebody with two quests in the region, from the next time
         # the shop opens.
         scenario("renown_wares", [enemy(12.0, 7.5, **passive)],

@@ -419,6 +419,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 val file = slotFile(slot)
                 if (file.exists()) savePeek(file.readString("UTF-8")).getOrNull() else null
             } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+                Gdx.app.error(TAG, "Cannot read game $slot: ${e.message}")
                 null
             }
             if (peek == null) SlotSummary(false, 1, 0L) else SlotSummary(true, peek.level, peek.gold, peek.weapon)
@@ -531,6 +532,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val file = profileFile()
             parseProfile(if (file.exists()) file.readString("UTF-8") else null)
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot read the profile: ${e.message}")
             Profile()
         }
 
@@ -624,6 +626,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 else -> null
             }
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot read the language: ${e.message}")
             null
         }
 
@@ -783,7 +786,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             sound.setAmbience(emptyMap())
             sound.frame()
             if (chooserSlot > 0) {
-                handleChooserInput(data)
+                handleChooserInput()
                 if (chooserSlot > 0) drawChooser(data)
                 return
             }
@@ -2458,7 +2461,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val renown = if (!chest && world.renownDiscountPm() > 0) data.pack.text(language, "\$i18n:ui.shop_renown", mapOf("pct" to world.renownDiscountPm() / 10)) + "   " else ""
         val swing = world.marketPm() - 1000L // the market of the day (spec 06, "Market days")
         val market = if (!chest && swing != 0L) data.pack.text(language, if (swing > 0L) "\$i18n:ui.shop_dear" else "\$i18n:ui.shop_cheap", mapOf("pct" to kotlin.math.abs(swing) / 10)) + "   " else ""
-        val gold = if (chest) data.pack.text(language, "\$i18n:ui.chest") else market + renown + data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to world.story.gold))
+        val gold = if (chest) data.pack.text(language, "\$i18n:ui.chest") else market + renown + weatherNote(world, data) + data.pack.text(language, "\$i18n:ui.gold", mapOf("gold" to world.story.gold))
         layout.setText(font, gold)
         font.draw(batch, gold, panelX + panelW - layout.width - 14f * density, tabY + (tabH - font.lineHeight) / 2f)
         if (entries.isEmpty()) {
@@ -2471,12 +2474,21 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             val name = data.pack.text(language, "\$i18n:$key.name", mapOf("count" to 1L))
             font.color = if (i == cursor) Color.WHITE else Color(0.92f, 0.96f, 1f, 1f)
             font.draw(batch, (if (i == cursor) "> " else "  ") + name, panelX + 14f * density, firstRowY + (i - first) * rowH)
-            font.color = Color(1f, 0.84f, 0.47f, 1f)
+            // a price the weather raised is blue (spec 06, "Weather and prices")
+            font.color = if (!chest && world.weatherPricePm(entry.first) > 1000L) Color(0.55f, 0.78f, 1f, 1f) else Color(1f, 0.84f, 0.47f, 1f)
             val price = (if (chest) "x" else "") + entry.second.toString()
             layout.setText(font, price)
             font.draw(batch, price, panelX + panelW - layout.width - 14f * density, firstRowY + (i - first) * rowH)
         }
         batch.end()
+    }
+
+    /** "Rain +10%" or "Snow +20%" while the weather raises the goods of the countryside in the open shop (spec 06, "Weather and prices"). */
+    private fun weatherNote(world: WorldSim, data: Assets): String {
+        val rise = world.weatherRisePm()
+        if (rise < 10L) return ""
+        val snow = world.chunks?.params?.time?.goods?.regionRisePm?.containsKey(world.regionId()) == true
+        return data.pack.text(language, if (snow) "\$i18n:ui.shop_snow" else "\$i18n:ui.shop_rain", mapOf("pct" to rise / 10)) + "   "
     }
 
     /** The list of Threshold Stones (spec 09): the places whose stone was woken, with the region of each. */
@@ -3179,6 +3191,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         "storm" -> world.time()?.let { it.rainPm >= 900 && it.windPm >= 900 } ?: false // its lightning strikes (spec 08, "Lightning")
         "season" -> world.seasonSlowPm < 1000 || world.seasonAggroPm < 1000 // the season changes the creatures (spec 08)
         "tag" -> world.earnedTags().isNotEmpty() && world.wornTag.isEmpty() // a tag earned and none worn (spec 11, "Tags")
+        // it rains, and the rain raises the prices (spec 06, "Weather and prices")
+        "rain" -> (world.time()?.rainPm ?: 0) >= 600 && (world.chunks?.params?.time?.goods?.risePm ?: 0) > 0
         else -> false
     }
 
@@ -4167,7 +4181,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     /** The screen where a protagonist is chosen: a tap on a name selects it, a tap on the selected one (or Enter) confirms, Back returns to the games. */
-    private fun handleChooserInput(data: Assets) {
+    private fun handleChooserInput() {
         val input = Gdx.input
         if (input.isKeyJustPressed(Input.Keys.BACK) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             chooserSlot = 0

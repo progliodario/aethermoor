@@ -6,11 +6,33 @@ their own structures from them and must reach the same checkpoints.
 from __future__ import annotations
 
 import math
+from collections.abc import Callable
 
 from . import movement as mv
 from . import numerics as nm
 from . import rules
 from .story import NPC_RADIUS, Story
+
+# The version of the save document this reference writes and reads (spec 12, "Rules"), and the migrations that bring an older one to
+# it: MIGRATIONS[n] turns a document of version n into one of version n + 1. Every version has its frozen copy in tests/saves/ (spec 12,
+# "Fixtures of the save"), which the reference and both clients must load.
+SAVE_VERSION = 1
+MIGRATIONS: dict[int, Callable[[dict], dict]] = {}
+
+
+def migrate_save(doc: dict) -> dict:
+    """A save document of any version brought to SAVE_VERSION, one migration after the other (spec 12, "Rules"). A document newer than
+    this reference is refused with ValueError, like the clients refuse it."""
+    version = doc.get("save_version", 1)
+    if not isinstance(version, int) or version < 1 or version > SAVE_VERSION:
+        raise ValueError(f"save_version {version!r} is not one this reference reads (1 to {SAVE_VERSION})")
+    out = dict(doc)
+    while version < SAVE_VERSION:
+        out = MIGRATIONS[version](out)
+        version += 1
+        out["save_version"] = version
+    return out
+
 
 NONE, STARTUP, ACTIVE, RECOVERY = "none", "startup", "active", "recovery"
 IDLE, CHASE, ATTACK, RETURN, DEAD = "idle", "chase", "attack", "return", "dead"
@@ -1260,10 +1282,25 @@ class CombatSim:
         h = nm.hash64(nm.fnv1a64(("market:" + self.region).encode()) ^ self.seed, day)
         return 1000 - swing + h % (2 * swing + 1)
 
+    def weather_price_pm(self, item_id: str) -> int:
+        """What the weather does to the price of an item in the open shop, in permille (spec 06, "Weather and prices"): the goods of the
+        countryside (`weather_goods`: of a kind or named) cost more and are paid more while it rains, by `rise_pm` at full rain, or by the
+        rise of the region in `region_rise_pm` (where the rain is snow). 1000: no change, also with no shop open."""
+        goods = self.weather.get("weather_goods")
+        if self.shop is None or not goods:
+            return 1000
+        item = self.items.get(item_id, {})
+        if item.get("kind") not in goods.get("kinds", []) and item_id not in goods.get("items", []):
+            return 1000
+        rise = goods.get("region_rise_pm", {}).get(self.region, goods.get("rise_pm", 0))
+        return 1000 + self.weather.get("rain_pm", 0) * rise // 1000
+
     def buy_price(self, item_id: str) -> int:
-        """The price of an item in the open shop: the price of the region, the market of the day, less the renown (spec 06, spec 07 "Renown")."""
+        """The price of an item in the open shop: the price of the region, the market of the day, the weather, less the renown (spec 06,
+        spec 07 "Renown")."""
         price = max(1, self.items[item_id]["price"] * self.shop["price_pm"] // 1000)
         price = max(1, price * self.market_pm() // 1000)
+        price = max(1, price * self.weather_price_pm(item_id) // 1000)
         return max(1, price * (1000 - self.renown_discount_pm()) // 1000)
 
     def day(self) -> int:
@@ -1271,11 +1308,12 @@ class CombatSim:
         return self.world_ticks // self.day_ticks + 1 if self.day_ticks > 0 else 1
 
     def sell_price(self, item_id: str) -> int:
-        """What the open shop pays for one item (spec 06, "Shops", "Market days", "Glut"): half the price, moved by the market of the day,
-        and less for every one of the same item sold the same day; at least 1."""
+        """What the open shop pays for one item (spec 06, "Shops", "Market days", "Weather and prices", "Glut"): half the price, moved by the
+        market of the day and the weather, and less for every one of the same item sold the same day; at least 1."""
         if self.sold_day != self.day():  # a new day: the glut is forgotten
             self.sold_day, self.sold_today = self.day(), {}
         price = max(1, self.items[item_id]["price"] // 2 * self.market_pm() // 1000)
+        price = max(1, price * self.weather_price_pm(item_id) // 1000)  # the weather (spec 06, "Weather and prices")
         step, floor = (self.shop or {}).get("glut_step_pm", 0), (self.shop or {}).get("glut_floor_pm", 1000)
         return max(1, price * max(floor, 1000 - step * self.sold_today.get(item_id, 0)) // 1000)
 
@@ -1470,6 +1508,17 @@ def run_scenario(scenario: dict) -> list[dict]:
         run_segment(sim, segment)
         out.append(sim.snapshot())
     return out
+
+
+def run_from_save(scenario: dict, save: dict, split: int) -> list[dict]:
+    """The checkpoints of the segments from `split` on, run by a fresh simulation that loads `save` first (any version: it is migrated)."""
+    sim = CombatSim(scenario)
+    sim.load_state(migrate_save(save))
+    checkpoints = []
+    for segment in scenario["script"][split:]:
+        run_segment(sim, segment)
+        checkpoints.append(sim.snapshot())
+    return checkpoints
 
 
 def run_with_save(scenario: dict, split: int) -> tuple[dict, list[dict]]:

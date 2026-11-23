@@ -24,7 +24,7 @@
 | Strumenti | 73 test passati | `pytest -q tools/tests` |
 | Documenti generati | `make_facts --check` e `gen_conformance --check` OK (30 file di vettori); catalogo, bilanciamento (0 valori anomali) e traduzioni (0 testi da guardare) rigenerati senza differenze | eseguiti in locale |
 | Codice | circa 21 mila righe C++ (desktop, test inclusi) e circa 16 mila righe Kotlin (Android). Non compilato qui: il compilatore è la CI | `wc -l` |
-| Debito Kotlin | baseline di detekt: 104 voci | `android/config/detekt-baseline.xml` |
+| Debito Kotlin | baseline di detekt: 104 voci (97 dopo il primo batch) | `android/config/detekt-baseline.xml` |
 | GitHub (decisioni del proprietario, non toccate) | protezione del ramo `main` assente; alert di vulnerabilità e aggiornamenti di sicurezza di Dependabot disattivati; wiki attiva; Discussions disattivate; merge commit e rebase consentiti oltre allo squash; cancellazione automatica dei rami disattivata (la fa `ship.py`); secret scanning e push protection attivi | `gh api repos/progliodario/aethermoor` |
 | Label | cinque label presenti su GitHub mancavano in `.github/labels.json` | confronto con `gh label list` |
 
@@ -79,6 +79,12 @@ Ogni periodo ha una milestone su GitHub (sezione 9). L'ordine dentro un periodo 
 
 Batch unico con le voci B1.1-B1.6, più il lavoro di G1 che serve a sbloccare le decisioni. Il detekt (B1.1) è una voce lunga che continua nei batch successivi.
 
+> **Stato (23 novembre 2026, primo batch del programma, con B2.1).** Fatte B1.2, B1.3, B1.4, B1.5 e B1.6, con i loro criteri di
+> accettazione; B1.1 è avviata (baseline da 104 a 97: le due eccezioni ingoiate, le due voci inutilizzate e tre cicli con troppe
+> uscite) e continua nei batch successivi. Differenze dal progetto: la copia dei salvataggi di B1.5 contiene anche un salvataggio del
+> mondo generato con tutti i campi che solo i client scrivono, letto e riscritto dai due client; le licenze di B1.3 contano anche gli
+> strumenti scaricati dalla CI (ktlint, detekt).
+
 ##### B1.1 Detekt
 - **Cosa:** portare la baseline da 104 voci a zero (`android/config/detekt-baseline.xml`): 72 `CyclomaticComplexMethod`, 19 `NestedBlockDepth`, 9 `LoopWithTooManyJumpStatements`, 2 `SwallowedException`, 1 `UnusedPrivateProperty`, 1 `UnusedParameter`.
 - **Perché:** la baseline è debito che cresce con ogni funzione nuova, e le eccezioni ingoiate nascondono errori veri.
@@ -128,6 +134,9 @@ Batch unico con le voci B1.1-B1.6, più il lavoro di G1 che serve a sbloccare le
 #### B2 Il tempo che cambia i prezzi (8.4, voce 2)
 
 ##### B2.1 Il tempo che cambia i prezzi
+
+> **Fatta (23 novembre 2026).** Come progettato, con due scelte: anche il prezzo di vendita sale (il bottegaio paga di più ciò che la
+> pioggia rende raro), e la neve è una regione con il suo rincaro (`region_rise_pm`, Frostveil). Le merci sono `time.weather.weather_goods`.
 - **Cosa:** con la pioggia le merci di campagna (cibo, legna, erbe) costano il 10% in più nei negozi; con la neve il 20%. Il valore viene da una tabella nei dati e il prezzo non scende mai sotto quello base. Un suggerimento lo dice la prima volta che piove.
 - **Perché:** il tempo c'è (pioggia, neve, nebbia, notte, vento, temporali, stagioni), ma non cambia l'economia. È la voce 2 di 8.4 e la più piccola che collega due sistemi già fatti.
 - **Come:** la regola va in `docs/spec/06-items.md` (prezzi) e `docs/spec/08-world-time.md` (tempo). Il calcolo è nel riferimento (`tools/reference/combat.py`). Gli scenari nuovi (`combat_rain_prices`, `combat_snow_prices`) vanno in `tools/conformance_m3.py`, dove stanno gli scenari dei negozi (`combat_market_days`, `combat_renown_prices`).

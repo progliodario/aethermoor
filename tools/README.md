@@ -10,6 +10,9 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | a rule (spec, `reference/`) or the data a scenario reads | `python tools/gen_conformance.py` (then the vectors are committed with the change) |
 | the table of a generator (recipes, titles, people, quests...) | that generator (see "Generators of content"), then `make_catalog.py` |
 | anything that changes a number of the game (quests, creatures, items...) | `python tools/make_facts.py` (the numbers in the READMEs, `CLAUDE.md` and the roadmap) |
+| the save document (a field, a version) | `python tools/make_save_fixtures.py` (appends the new cases to the frozen copy of the current version), then `gen_conformance.py` |
+| a dependency (vcpkg, Gradle, pip, a tool the CI downloads) | its row in `tools/licenses.json`, then `python tools/licenses.py` (writes `THIRD_PARTY_NOTICES.md`) |
+| a conformance test of a client, or a new suite of vectors | `python tools/make_parity.py` (writes `docs/design/parity.md`) |
 | anything, before shipping | `python -m pytest -q tools/tests` (the reference, the content, the documents) |
 
 `tools/ship.py` runs the checks (validation, ruff, pytest, the vectors) before it commits.
@@ -23,7 +26,10 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 | `gen_tables.py` (`--check`) | writes `data/base/tables/xp_table.json` from the formulas of spec 04 |
 | `check_frames.py` (`--write`) | the automatic checks of the graphics (spec 16, "Checks of the frames"): the smoke-test frames of the desktop CI against their references `tests/frames/` (not blank, not black, near the fingerprint); `--write` writes the references from a CI run's frames |
 | `make_facts.py` (`--check`) | writes the numbers of the game, counted from the data, into the blocks between `<!-- facts:begin -->` and `<!-- facts:end -->` of the READMEs, `CLAUDE.md` and the roadmap |
-| `tests/` | `pytest`: the reference against known answers (`test_reference.py`), the data and the protagonists (`test_content.py`), the validator (`test_validate_data.py`), the documents (`test_docs.py`: links, every tool listed here, the facts blocks) |
+| `make_save_fixtures.py` (`--check`) | the frozen copies of the save of every version (spec 12, "Fixtures of the save"), `tests/saves/v<N>.json`: writes the copy of the current version when it is missing and appends to it the cases of `SAVE_SPLITS` it does not hold; never changes a case already written. `--check` fails when a version has no copy, or when the reference writes a field of the save that no case of the current copy holds |
+| `make_parity.py` (`--check`) | writes `docs/design/parity.md`, the matrix of the suites of `tests/conformance/` and the test of each client that runs them (read from the sources of the tests); `--check` (in `ci-data`) fails when a client runs no test for a suite |
+| `licenses.py` (`--check`) | the licenses of the dependencies (ADR 0010, risk R10): every dependency named by `desktop/vcpkg.json`, the Gradle files, `tools/requirements.txt` and the tools the workflows download needs a row of `tools/licenses.json` with a license allowed for its scope (EPL-2.0 only in the tests); writes `THIRD_PARTY_NOTICES.md` from the table. `--check` is in `ci-data` |
+| `tests/` | `pytest`: the reference against known answers (`test_reference.py`), the data and the protagonists (`test_content.py`), the validator (`test_validate_data.py`), the documents (`test_docs.py`: links, every tool listed here, the facts blocks), the checks of the repository (`test_checks.py`: licenses, parity) |
 
 ## The reference of the rules
 

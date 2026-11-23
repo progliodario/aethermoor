@@ -1,0 +1,1682 @@
+{
+ "save_version": 1,
+ "note": "Frozen: written once by tools/make_save_fixtures.py. Never change or remove a case; new cases are appended.",
+ "cases": [
+  {
+   "scenario": "clerk_quest",
+   "split": 3,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 3.4,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": true,
+     "clip_tick": 19,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false,
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 4.9,
+      "y": 4.5,
+      "hp": 5,
+      "state": "idle",
+      "state_tick": 0
+     },
+     {
+      "x": 4.9,
+      "y": 4.8,
+      "hp": 5,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": {
+      "id": "test:dialogue/clerk",
+      "node": "offer_choice"
+     }
+    },
+    "world_ticks": 20
+   }
+  },
+  {
+   "scenario": "clerk_quest",
+   "split": 5,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 3.4,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": true,
+     "clip_tick": 19,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false,
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 4.9,
+      "y": 4.5,
+      "hp": 5,
+      "state": "idle",
+      "state_tick": 0
+     },
+     {
+      "x": 4.9,
+      "y": 4.8,
+      "hp": 5,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {
+      "test:quest/slimes": {
+       "stage": "kill",
+       "progress": [
+        0
+       ],
+       "done": false
+      }
+     },
+     "dialogue": null
+    },
+    "world_ticks": 20
+   }
+  },
+  {
+   "scenario": "chase_hurts_then_dies",
+   "split": 1,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 150,
+     "hp": 137,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 28,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0x1e364a8017123df3",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.3916666666666413,
+      "y": 4.5,
+      "hp": 28,
+      "state": "attack",
+      "state_tick": 35
+     }
+    ],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": null,
+    "world_ticks": 150
+   }
+  },
+  {
+   "scenario": "player_death",
+   "split": 1,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 100,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 1,
+     "kills": 0,
+     "iframes": 90,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0x1e364a8017123df3",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.3666666666666503,
+      "y": 4.5,
+      "hp": 28,
+      "state": "attack",
+      "state_tick": 18
+     }
+    ],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": null,
+    "world_ticks": 100
+   }
+  },
+  {
+   "scenario": "leash_and_return",
+   "split": 2,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 12.349999999999957,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": true,
+     "clip_tick": 149,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 10,
+     "hit_set": [
+      true
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xc922eea8ea4266fa",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.916666666666667,
+      "y": 4.5,
+      "hp": 28,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": null,
+    "world_ticks": 170
+   }
+  },
+  {
+   "scenario": "trader_conditions_and_effects",
+   "split": 2,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 3.4,
+     "y": 5.6,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 0,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": []
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": {
+      "id": "test:dialogue/trader",
+      "node": "menu"
+     }
+    },
+    "world_ticks": 0
+   }
+  },
+  {
+   "scenario": "trader_conditions_and_effects",
+   "split": 5,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 3.4,
+     "y": 5.6,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 0,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": []
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [],
+    "inventory": {
+     "base:item/slime_gel": 2
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": {
+     "flags": {
+      "visited": true
+     },
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": {
+      "id": "test:dialogue/trader",
+      "node": "greet"
+     }
+    },
+    "world_ticks": 0
+   }
+  },
+  {
+   "scenario": "affixes_worn",
+   "split": 2,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 61,
+     "hp": 178,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 13,
+     "phase": "recovery",
+     "phase_tick": 2,
+     "hit_set": [
+      true
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0x9ddf68f4cee66fbe",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.6,
+      "y": 4.5,
+      "hp": 306,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/bat_charm": 1,
+     "base:item/iron_sword": 1,
+     "test:item/keen_sword": 1,
+     "test:item/warm_coat": 1
+    },
+    "equipped": {
+     "weapon": "test:item/keen_sword",
+     "armor": "test:item/warm_coat",
+     "accessory": "base:item/bat_charm"
+    },
+    "story": null,
+    "world_ticks": 61
+   }
+  },
+  {
+   "scenario": "affixes_rolled",
+   "split": 2,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 41,
+     "hp": 132,
+     "level": 1,
+     "xp": 12,
+     "deaths": 0,
+     "kills": 2,
+     "iframes": 32,
+     "cooldown": 8,
+     "phase": "recovery",
+     "phase_tick": 7,
+     "hit_set": [
+      false,
+      false,
+      true
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0x8f742c25c5d187db",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0x7bd4e60fb872d95b",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.6,
+      "y": 4.4,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.6,
+      "y": 4.6,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.366666666666668,
+      "y": 4.5,
+      "hp": 865,
+      "state": "attack",
+      "state_tick": 31
+     }
+    ],
+    "inventory": {
+     "base:item/iron_sword": 1,
+     "test:item/keen_sword": 2,
+     "test:item/warm_coat": 2
+    },
+    "equipped": {
+     "weapon": "test:item/keen_sword",
+     "armor": ""
+    },
+    "rolls": {
+     "test:item/keen_sword": 151
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 41
+   }
+  },
+  {
+   "scenario": "affixes_rolled",
+   "split": 4,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 192,
+     "hp": 128,
+     "level": 1,
+     "xp": 12,
+     "deaths": 0,
+     "kills": 2,
+     "iframes": 28,
+     "cooldown": 1,
+     "phase": "none",
+     "phase_tick": 10,
+     "hit_set": [
+      false,
+      false,
+      true
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0x357414114b69a708",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0x7bd4e60fb872d95b",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.6,
+      "y": 4.4,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.6,
+      "y": 4.6,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.366666666666668,
+      "y": 4.5,
+      "hp": 650,
+      "state": "attack",
+      "state_tick": 35
+     }
+    ],
+    "inventory": {
+     "base:item/iron_sword": 1,
+     "test:item/keen_sword": 1,
+     "test:item/warm_coat": 2
+    },
+    "equipped": {
+     "weapon": "test:item/keen_sword",
+     "armor": ""
+    },
+    "rolls": {
+     "test:item/keen_sword": 151
+    },
+    "story": {
+     "flags": {},
+     "gold": 450,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 192
+   }
+  },
+  {
+   "scenario": "repeatable_quest",
+   "split": 2,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 30,
+     "hp": 142,
+     "level": 1,
+     "xp": 6,
+     "deaths": 0,
+     "kills": 1,
+     "iframes": 0,
+     "cooldown": 19,
+     "phase": "active",
+     "phase_tick": 0,
+     "hit_set": [
+      false,
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xc922eea8ea4266fa",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xa26d4806347340b7",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.6,
+      "y": 4.5,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 2.2,
+      "y": 6.1,
+      "hp": 5,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/slime_gel": 2
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "bestiary": {
+     "base:enemy/slime_green": 1
+    },
+    "counters": {
+     "renown:": 2
+    },
+    "story": {
+     "flags": {},
+     "gold": 110,
+     "guild_points": 0,
+     "quests": {
+      "test:quest/hunt": {
+       "stage": "s",
+       "progress": [
+        1
+       ],
+       "done": true
+      },
+      "test:quest/once": {
+       "stage": "s",
+       "progress": [
+        1
+       ],
+       "done": true
+      }
+     },
+     "dialogue": null
+    },
+    "world_ticks": 30
+   }
+  },
+  {
+   "scenario": "temper_affix",
+   "split": 4,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 7.4,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 0,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 12.0,
+      "y": 7.5,
+      "hp": 28,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/iron_sword": 1,
+     "test:item/keen_sword": 1,
+     "test:item/oil": 6,
+     "test:item/warm_coat": 1
+    },
+    "equipped": {
+     "weapon": "base:item/iron_sword",
+     "armor": ""
+    },
+    "story": null,
+    "world_ticks": 93
+   }
+  },
+  {
+   "scenario": "tags_worn",
+   "split": 3,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 42,
+     "hp": 142,
+     "level": 1,
+     "xp": 6,
+     "deaths": 0,
+     "kills": 1,
+     "iframes": 0,
+     "cooldown": 8,
+     "phase": "recovery",
+     "phase_tick": 7,
+     "hit_set": [
+      false,
+      true
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0x9ddf68f4cee66fbe",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xa26d4806347340b7",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.6,
+      "y": 4.5,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.6,
+      "y": 4.9,
+      "hp": 365,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/slime_gel": 1
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "tag": "brawler",
+    "story": null,
+    "world_ticks": 42
+   }
+  },
+  {
+   "scenario": "tags_worn",
+   "split": 5,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 103,
+     "hp": 142,
+     "level": 1,
+     "xp": 6,
+     "deaths": 0,
+     "kills": 1,
+     "iframes": 0,
+     "cooldown": 19,
+     "phase": "active",
+     "phase_tick": 0,
+     "hit_set": [
+      false,
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0x15bd67886b947cc2",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xa26d4806347340b7",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.6,
+      "y": 4.5,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.6,
+      "y": 4.9,
+      "hp": 300,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/slime_gel": 1
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": null,
+    "world_ticks": 103
+   }
+  },
+  {
+   "scenario": "traveller_moves",
+   "split": 3,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 3.4,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 60,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": []
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 60
+   }
+  },
+  {
+   "scenario": "resident_arrives",
+   "split": 3,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      -1.0,
+      0.0
+     ],
+     "facing_left": true,
+     "moving": true,
+     "clip_tick": 79,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": []
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 80
+   }
+  },
+  {
+   "scenario": "resident_arrives",
+   "split": 5,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      -1.0,
+      0.0
+     ],
+     "facing_left": true,
+     "moving": true,
+     "clip_tick": 79,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": []
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": {
+     "flags": {
+      "settled": true
+     },
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 80
+   }
+  },
+  {
+   "scenario": "chest_storage",
+   "split": 3,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 4.2933333333333294,
+     "y": 5.4,
+     "facing": [
+      -1.0,
+      0.0
+     ],
+     "facing_left": true,
+     "moving": false,
+     "clip_tick": 0,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 20.0,
+      "y": 7.5,
+      "hp": 28,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/iron_sword": 1
+    },
+    "equipped": {
+     "weapon": "base:item/iron_sword",
+     "armor": ""
+    },
+    "chest": {
+     "base:item/bread": 3,
+     "base:item/iron_sword": 1,
+     "base:item/slime_gel": 2
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 42
+   }
+  },
+  {
+   "scenario": "chest_storage",
+   "split": 5,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 16.4,
+     "y": 5.4,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": true,
+     "clip_tick": 239,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 20.0,
+      "y": 7.5,
+      "hp": 28,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/iron_sword": 1
+    },
+    "equipped": {
+     "weapon": "base:item/iron_sword",
+     "armor": ""
+    },
+    "chest": {
+     "base:item/bread": 3,
+     "base:item/iron_sword": 1,
+     "base:item/slime_gel": 2
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {
+      "test:quest/gel": {
+       "stage": "have",
+       "progress": [
+        0
+       ],
+       "done": false
+      }
+     },
+     "dialogue": null
+    },
+    "world_ticks": 283
+   }
+  },
+  {
+   "scenario": "runes_engrave",
+   "split": 2,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 4.6,
+     "y": 5.4,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 2,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 6.0,
+      "y": 5.4,
+      "hp": 400,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/iron_sword": 1,
+     "base:item/practice_sword": 1,
+     "test:item/rune_fire": 1,
+     "test:item/rune_stone": 1,
+     "test:item/rune_wind": 1
+    },
+    "equipped": {
+     "weapon": "base:item/iron_sword",
+     "armor": ""
+    },
+    "counters": {
+     "engraved": 2
+    },
+    "runes": {
+     "base:item/iron_sword": "test:item/rune_fire"
+    },
+    "story": null,
+    "world_ticks": 2
+   }
+  },
+  {
+   "scenario": "runes_engrave",
+   "split": 4,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 4.6,
+     "y": 5.4,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 4,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 6.0,
+      "y": 5.4,
+      "hp": 400,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/iron_sword": 1,
+     "base:item/practice_sword": 1,
+     "test:item/rune_fire": 1,
+     "test:item/rune_stone": 1
+    },
+    "equipped": {
+     "weapon": "base:item/iron_sword",
+     "armor": ""
+    },
+    "counters": {
+     "engraved": 3
+    },
+    "runes": {
+     "base:item/iron_sword": "test:item/rune_fire",
+     "base:item/practice_sword": "test:item/rune_wind"
+    },
+    "story": null,
+    "world_ticks": 4
+   }
+  },
+  {
+   "scenario": "furniture_home",
+   "split": 3,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 5.624000000000002,
+     "y": 5.0,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 0,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 9.8,
+      "y": 5.0,
+      "hp": 30,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "test:item/rack": 1,
+     "test:item/shelf": 1
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "counters": {
+     "furnished": 3
+    },
+    "furniture": [
+     [
+      300,
+      400,
+      "test:item/rack"
+     ],
+     [
+      560,
+      400,
+      "test:item/bed"
+     ]
+    ],
+    "story": null,
+    "world_ticks": 26
+   }
+  }
+ ],
+ "game": {
+  "save_version": 1,
+  "game_version": "0.0.1",
+  "data_format_version": 1,
+  "protagonist": "base:protagonist/haruka",
+  "seed": "0x000000005eed1234",
+  "map": "world",
+  "player": {
+   "x": 8192.5,
+   "y": 8200.25,
+   "facing": [
+    0.0,
+    1.0
+   ],
+   "facing_left": true,
+   "moving": false,
+   "clip_tick": 12,
+   "hp": 310,
+   "level": 14,
+   "xp": 1250,
+   "deaths": 2,
+   "kills": 187,
+   "iframes": 0,
+   "cooldown": 0,
+   "phase": "none",
+   "phase_tick": 0,
+   "hit_set": [
+    false,
+    false
+   ]
+  },
+  "rng": {
+   "combat": {
+    "state": "0x1d2c3b4a59687766",
+    "inc": "0x00000000000000c5"
+   },
+   "loot": {
+    "state": "0x0a0b0c0d0e0f1011",
+    "inc": "0x0000000000000a37"
+   }
+  },
+  "enemies": [
+   {
+    "x": 8200.5,
+    "y": 8190.5,
+    "hp": 64,
+    "state": "idle",
+    "state_tick": 0,
+    "spawner": [
+     8200,
+     8190
+    ]
+   },
+   {
+    "x": 8180.75,
+    "y": 8210.5,
+    "hp": 0,
+    "state": "dead",
+    "state_tick": 30,
+    "spawner": [
+     8181,
+     8210
+    ]
+   }
+  ],
+  "cleared_spawners": [
+   [
+    8181,
+    8210,
+    1440120
+   ],
+   [
+    8150,
+    8233,
+    1300000
+   ]
+  ],
+  "world_ticks": 1441000,
+  "equipped": {
+   "weapon": "base:item/iron_sword",
+   "armor": "base:item/leather_vest",
+   "accessory": "base:item/fang_necklace"
+  },
+  "chest": {
+   "base:item/bread": 6,
+   "base:item/wood_log": 12
+  },
+  "plots": [
+   [
+    819050,
+    820030,
+    "base:item/herb_seeds",
+    1445000
+   ],
+   [
+    819150,
+    820030,
+    "base:item/berry_seeds",
+    1446000
+   ]
+  ],
+  "rolls": {
+   "base:item/iron_sword_keenness": 135
+  },
+  "runes": {
+   "base:item/iron_sword": "base:item/rune_ember"
+  },
+  "tag": "berserker",
+  "furniture": [
+   [
+    819300,
+    819800,
+    "base:item/quilt_bed"
+   ],
+   [
+    819500,
+    819800,
+    "base:item/weapon_rack"
+   ]
+  ],
+  "talents": {
+   "vigor": 2,
+   "whirl": 1
+  },
+  "counters": {
+   "crafted": 9,
+   "gathered": 140,
+   "parried": 21,
+   "renown:verdalis": 7
+  },
+  "bestiary": {
+   "base:enemy/slime_green": 61,
+   "base:enemy/wolf_tawny": 12
+  },
+  "friend": {
+   "enemy": "base:enemy/wolf_tawny",
+   "x": 8193.5,
+   "y": 8201.0,
+   "cooldown": 20,
+   "stay": true
+  },
+  "companion": {
+   "x": 8191.5,
+   "y": 8199.5,
+   "cooldown": 15,
+   "stay": true,
+   "bond": 23
+  },
+  "explored": [
+   [
+    255,
+    256
+   ],
+   [
+    256,
+    256
+   ],
+   [
+    256,
+    257
+   ]
+  ],
+  "stones": [
+   [
+    8190,
+    8205
+   ],
+   [
+    9000,
+    7100
+   ]
+  ],
+  "inventory": {
+   "base:item/bread": 3,
+   "base:item/iron_sword": 1,
+   "base:item/iron_sword_keenness": 1,
+   "base:item/leather_vest": 1,
+   "base:item/fang_necklace": 1,
+   "base:item/potion_small": 5
+  },
+  "story": {
+   "flags": {
+    "met_mira": true,
+    "hint_move": true
+   },
+   "gold": 1830,
+   "guild_points": 44,
+   "quests": {
+    "base:quest/guild/slime_extermination": {
+     "stage": "kill",
+     "progress": [
+      2
+     ],
+     "done": false
+    },
+    "base:quest/fenwick/first_steps": {
+     "stage": "end",
+     "progress": [],
+     "done": true
+    }
+   },
+   "dialogue": {
+    "id": "base:dialogue/npc/mira",
+    "node": "offer_choice",
+    "args": {
+     "name": "Mira"
+    }
+   }
+  }
+ }
+}

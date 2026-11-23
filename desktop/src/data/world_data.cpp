@@ -149,6 +149,17 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
         p.time.lightning_pct = weather.value("lightning_pct", 0);
         p.time.lightning_range_x100 = weather.value("lightning_range_x100", 0);
         p.time.night_aggro_cut_pm = time.value("night_aggro_cut_pm", 0);
+        if (weather.contains("weather_goods")) {  // spec 06, "Weather and prices"
+            const Json& goods = weather.at("weather_goods");
+            p.time.goods.kinds = goods.value("kinds", std::vector<std::string>{});
+            p.time.goods.items = goods.value("items", std::vector<std::string>{});
+            p.time.goods.rise_pm = goods.value("rise_pm", 0);
+            if (goods.contains("region_rise_pm")) {
+                for (const auto& [region, rise] : goods.at("region_rise_pm").items()) {
+                    p.time.goods.region_rise_pm[region] = rise.get<int>();
+                }
+            }
+        }
         for (const Json& kind : weather.at("kinds")) {
             p.time.kinds.push_back({kind.at("id").get<std::string>(), kind.at("weight").get<int>(),
                                     kind.at("rain_pm").get<int>(), kind.at("dim_pm").get<int>(),

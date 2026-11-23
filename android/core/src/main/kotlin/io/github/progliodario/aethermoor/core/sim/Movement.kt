@@ -15,6 +15,9 @@ data class Vec2(val x: Float = 0f, val y: Float = 0f)
 
 data class Circle(val x: Float, val y: Float, val radius: Float)
 
+/** How many times [CollisionWorld.resolve] pushes a body out of what it overlaps, at most (spec 02, "Collisions"). */
+private const val RESOLVE_PASSES = 4
+
 /** Dead zone, then clamp to the unit circle. */
 fun normalizeInput(x: Float, y: Float): Vec2 {
     val length = sqrt(x * x + y * y)
@@ -60,8 +63,11 @@ class CollisionWorld(
         var x = start.x
         var y = start.y
         val r = radius
-        for (iteration in 0 until 4) {
-            var moved = false
+        var moved = true
+        var pass = 0
+        while (moved && pass < RESOLVE_PASSES) { // until nothing pushes, at most RESOLVE_PASSES times
+            moved = false
+            pass++
             val ty0 = floor(y - r).toInt()
             val ty1 = floor(y + r).toInt()
             val tx0 = floor(x - r).toInt()
@@ -120,7 +126,6 @@ class CollisionWorld(
             for (prop in props) pushOut(prop.x, prop.y, prop.radius)
             for (prop in dynamicProps) pushOut(prop.x, prop.y, prop.radius)
             chunks?.forEachPropNear(x, y) { pushOut(it.x, it.y, it.radius) }
-            if (!moved) break
         }
         return Vec2(x, y)
     }

@@ -76,9 +76,6 @@
     <ID>CyclomaticComplexMethod:WorldTime.kt$fun parseTimeParams(time: JsonObject): TimeParams</ID>
     <ID>LoopWithTooManyJumpStatements:AethermoorGame.kt$AethermoorGame$for</ID>
     <ID>LoopWithTooManyJumpStatements:CombatLoader.kt$for</ID>
-    <ID>LoopWithTooManyJumpStatements:Font.kt$for</ID>
-    <ID>LoopWithTooManyJumpStatements:MessageFormat.kt$while</ID>
-    <ID>LoopWithTooManyJumpStatements:Pack.kt$for</ID>
     <ID>LoopWithTooManyJumpStatements:Raster.kt$for</ID>
     <ID>LoopWithTooManyJumpStatements:Raster.kt$while</ID>
     <ID>LoopWithTooManyJumpStatements:World.kt$WorldSim$for</ID>
@@ -102,9 +99,5 @@
     <ID>NestedBlockDepth:WorldGenTest.kt$WorldGenTest$@Test fun chunkWindowSuite()</ID>
     <ID>NestedBlockDepth:WorldGenTest.kt$WorldGenTest$@Test fun guildSuite()</ID>
     <ID>NestedBlockDepth:WorldGenTest.kt$WorldGenTest$@Test fun theOverworldIsStreamedFromTheContentPackAndIsPlayable()</ID>
-    <ID>SwallowedException:AethermoorGame.kt$AethermoorGame$e: com.badlogic.gdx.utils.GdxRuntimeException</ID>
-    <ID>SwallowedException:Pack.kt$e: IllegalArgumentException</ID>
-    <ID>UnusedParameter:AethermoorGame.kt$AethermoorGame$data: Assets</ID>
-    <ID>UnusedPrivateProperty:Movement.kt$CollisionWorld$iteration</ID>
   </CurrentIssues>
 </SmellBaseline>

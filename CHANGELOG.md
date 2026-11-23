@@ -6,6 +6,18 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The weather moves the prices** (spec 06, "Weather and prices"): while it rains, the goods of the countryside (food, wood, resin,
+  herbs, flowers, moss and the seeds of the gardens) cost 10% more in the shops, and the shopkeepers pay 10% more for them; in the snow
+  of Frostveil 20%. The shop says "Rain +10%" or "Snow +20%" and shows those prices in blue; a hint tells about it the first time it rains.
+- **Frozen saves of every version** (spec 12, "Fixtures of the save"): `tests/saves/v1.json` keeps the saves of version 1 as they are
+  (twenty-two saves of the scenarios and one of the streamed world with every field); the reference and both clients must load them, a
+  new field of the save needs its case, and a new version its own copy (`tools/make_save_fixtures.py`, suite `save_fixtures`).
+- **The parity matrix** (`docs/design/parity.md`, `tools/make_parity.py`): for every suite of vectors, the test of each client that runs
+  it; `ci-data` fails when a client runs no test for a suite.
+- **The licenses are checked in CI** (`tools/licenses.py`, `tools/licenses.json`): every dependency of vcpkg, Gradle, pip and of the
+  tools the workflows download needs a row with an allowed license (EPL-2.0 only in the tests); `THIRD_PARTY_NOTICES.md` is written
+  from the table.
+
 - **Standing bounties** (spec 07): the guild clerks of every region keep a bounty on one of its great creatures that never closes: take it, defeat the creature, get paid, take it again when it comes back.
 - The journal says "(can be done again)" after a quest that can be repeated (spec 16).
 
@@ -245,6 +257,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
+- The Kotlin is a little tidier (detekt baseline from 104 to 97 findings): a failed read of a game, of the profile or of the language
+  is written to the log instead of being swallowed, an invalid JSON file of the pack says why, and three loops of the pack, the font
+  and the texts have one way out each.
+
 - **The checks of GitHub take a fraction of the time.** The desktop builds rebuilt SDL3 and every dependency on every run: the cache of vcpkg had a key that never changed, so a cache of 3 November whose binaries no longer matched the compilers of the runners was restored (vcpkg used none of it) and never replaced. Every run now saves the binaries it built and the next restores the newest; the tools vcpkg downloads are kept too, and the Linux build reuses the objects of unchanged files (ccache). The check of the smoke-test frames reads the PNGs with byte slices instead of pixel by pixel (from three minutes to nine seconds on this machine, with the same fingerprints).
 
 - Every generator writes LF line endings (on Windows they wrote CRLF, and every run showed hundreds of files as changed). Every generator was run again on a clean tree and changes nothing; the tools that change the role dialogues in place keep their choices where they are in the menus (they moved each other's before), and `make_towns.py` runs `make_faction_gifts.py` itself. `tools/README.md` has a table "I changed... run" and says which scripts must not run again (`make_role_dialogues.py`, and `compose.py` without the owner's yes).
@@ -384,6 +400,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 - Dungeons, lairs, nests and outposts no longer end up under a lake or inside a mountain range for some world seeds: around every landmark (spec 09, "Clearings") water and mountains become plains for 24 tiles beyond its footprint.
 
 ### Documentation
+
+- **Spec 15, the layout of the interface**: the units, the "System window" theme (the panel, the accents, the bars), where every
+  panel is and the known differences of the two clients. **ADR 0014**: the screens stay in the code of each client until 1.0 (the
+  declarative UI of ADR 0008 is deferred).
+- **The release checklist** (`docs/dev/release-checklist.md`): what must be true before a release is proposed to the owner.
+- The save schema accepts the arguments of an open dialogue (`story.dialogue.args`), which both clients already wrote.
+- Spec 08 no longer says that the weather is only presentation; spec 12 no longer lists the export as missing.
 
 - **An operating program for the next work** (`docs/plan/07-programma-operativo.md`, in Italian): the short, medium and long term, batch by batch, with the files, the acceptance criteria, the dependencies, the release gates and the decisions the owner must take, for every item of the roadmap. Each item is a GitHub issue in one of five milestones.
 - **The documents match the repository**: the status notes of the plan (the specs, the fonts, the number of vector files, the release checklist) and the "What is missing" sections of the READMEs are corrected; the issue form no longer links to the Discussions, which are off; five labels missing from `.github/labels.json` are added, and `owner-decision` marks the decisions of the owner.

@@ -2,7 +2,7 @@
 
 > Questo documento è il nucleo di `docs/spec/`. I numeri sono **valori iniziali di bilanciamento**: stanno in `data/base/tables/` e si possono cambiare senza toccare il codice.
 >
-> **Stato (novembre 2026).** Le specifiche normative sono in `docs/spec/` (00-14, 16, 17 e 18 scritte; manca la 15, dell'interfaccia, prevista dalla voce B1.2 del [programma](07-programma-operativo.md)) e prevalgono su questo piano, dove i due divergono: per esempio il giorno dura 20 minuti (spec 08, non 24), il mondo è a chunk di 32 x 32 con regioni, stamp e siti (spec 09), il salvataggio ha tre partite (spec 12) e le condizioni e gli effetti dei dialoghi sono quelli della spec 07. Compagni, riincarnazione, titoli, tag e costruzione della base sono ora nelle specifiche 06, 10, 11 e 18; ciò che qui resta solo piano è nel [programma](07-programma-operativo.md).
+> **Stato (novembre 2026).** Le specifiche normative sono in `docs/spec/` (dalla 00 alla 18, tutte scritte; la 15, dell'interfaccia, descrive i due client come sono, e l'[ADR 0014](../adr/0014-screens-in-code-until-1-0.md) rinvia la UI dichiarativa dopo l'1.0) e prevalgono su questo piano, dove i due divergono: per esempio il giorno dura 20 minuti (spec 08, non 24), il mondo è a chunk di 32 x 32 con regioni, stamp e siti (spec 09), il salvataggio ha tre partite (spec 12) e le condizioni e gli effetti dei dialoghi sono quelli della spec 07. Compagni, riincarnazione, titoli, tag e costruzione della base sono ora nelle specifiche 06, 10, 11 e 18; ciò che qui resta solo piano è nel [programma](07-programma-operativo.md).
 
 ## 1. Pack, ID e manifest
 

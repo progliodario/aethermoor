@@ -2,8 +2,10 @@
 
 Status: **v1.2 (M5c day, night and weather, then seasons and the routines of the people)**. Reference: `tools/reference/worldtime.py` and `ChunkWindow` in `tools/reference/worldgen.py`.
 Conformance suites: `worldtime` and `chunk_window`. Parameters: the `time` object and `spawners.respawn_ticks` of
-`data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer (spec 01). Seasons and routines are described below; the effect of
-the weather on gameplay comes later and weather is presentation only.
+`data/base/worlds/overworld.json` (`schemas/world.schema.json`). All math is integer (spec 01). Seasons and routines are described below. The weather
+changes the game: the rain, the night and the fog hide the player, the rain slows the creatures, the wind speeds the player, the
+storm brings lightning (sections below), the rain grows the gardens (spec 06, "Rain on the plots") and raises the prices of the goods
+of the countryside (spec 06, "Weather and prices", `time.weather.weather_goods`).
 
 ## World time
 
