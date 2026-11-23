@@ -842,7 +842,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         sinceAutosave += Gdx.graphics.deltaTime
         if (!hasGoal && world.chunks != null) { // every quest stage sets the goal of the map once, when the player has none (spec 07, "Places")
             for ((questId, progress) in world.story.quests) {
-                if (progress.done || !guided.add("$questId/${progress.stage}")) continue
+                if (progress.done || world.story.questOver(questId) || !guided.add("$questId/${progress.stage}")) continue
                 val stage = currentStage(world, questId, progress.stage) ?: continue
                 val place = questPlace(world, stage) ?: continue
                 setGoal(world, place.x / MAP_CELL, place.y / MAP_CELL)
@@ -2323,7 +2323,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             y += 4f * density
         }
         for ((questId, progress) in story.quests) {
-            if (progress.done) continue
+            if (progress.done || story.questOver(questId)) continue // a timed quest that is over is not tracked (spec 07)
             val def = story.questDef(questId) ?: continue
             val stage: QuestStage = def.stages.firstOrNull { it.id == progress.stage } ?: continue
             font.color = Color(0.435f, 0.89f, 1f, 1f)
@@ -2588,15 +2588,18 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         if (story.quests.isEmpty()) {
             entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_empty"), 2))
         }
-        if (story.quests.values.any { !it.done }) {
+        // a timed quest that is over is with the finished ones (spec 07, "Journal")
+        if (story.quests.any { (id, q) -> !q.done && !story.questOver(id) }) {
             entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_active"), 0))
             for ((questId, progress) in story.quests) {
-                if (progress.done) continue
+                if (progress.done || story.questOver(questId)) continue
                 val def = story.questDef(questId) ?: continue
                 val stage = def.stages.firstOrNull { it.id == progress.stage } ?: continue
                 // a quest that can be done again says so (spec 07, "Quests")
                 val again = if (def.repeatable) "  " + data.pack.text(language, "\$i18n:ui.quest_repeatable") else ""
                 entries.add(Pair(dialogueText(data.pack, def.name, def.args) + again, 1))
+                val days = story.daysLeft(questId) // spec 07, "Timed quests"
+                if (days > 0L) entries.add(Pair(data.pack.text(language, "\$i18n:ui.quest_days_left", mapOf("days" to days)), 2))
                 entries.add(Pair(dialogueText(data.pack, stage.journal, def.args), 2))
                 for ((i, objective) in stage.objectives.withIndex()) {
                     if (objective.kind != ObjectiveKind.TALK) entries.add(Pair("${progress.progress[i]}/${objective.count}", 2))
@@ -2607,12 +2610,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 }
             }
         }
-        if (story.quests.values.any { it.done }) {
+        if (story.quests.any { (id, q) -> q.done || story.questOver(id) }) {
             entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_done"), 0))
             for ((questId, progress) in story.quests) {
-                if (!progress.done) continue
+                val over = story.questOver(questId)
+                if (!progress.done && !over) continue
                 val def = story.questDef(questId) ?: continue
-                entries.add(Pair(dialogueText(data.pack, def.name, def.args), 3))
+                val suffix = if (over) "  " + data.pack.text(language, "\$i18n:ui.quest_over") else ""
+                entries.add(Pair(dialogueText(data.pack, def.name, def.args) + suffix, 3))
             }
         }
         // The companion (spec 10): its name, what it is doing, its bond and what the bond adds to its attack.
@@ -3676,7 +3681,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun mapNextQuest(world: WorldSim) {
         val pack = assets?.pack ?: return
         val places = world.story.quests.mapNotNull { (questId, progress) ->
-            if (progress.done) null else currentStage(world, questId, progress.stage)?.let { questPlace(world, it) }
+            if (progress.done || world.story.questOver(questId)) null else currentStage(world, questId, progress.stage)?.let { questPlace(world, it) }
         }
         if (places.isEmpty()) {
             showNotice(pack.text(language, "\$i18n:ui.no_quest_place"))
@@ -3879,7 +3884,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             shapes.color = if (off) Color(1f, 0.59f, 0.16f, 1f) else Color(1f, 0.2f, 0.2f, 1f)
             shapes.rect(dx - ps / 2f, dy - ps / 2f, ps, ps)
             for ((questId, progress) in world.story.quests) { // where the quests in progress go: orange squares
-                if (progress.done) continue
+                if (progress.done || world.story.questOver(questId)) continue
                 val stage = currentStage(world, questId, progress.stage) ?: continue
                 val place = questPlace(world, stage) ?: continue
                 val qx = v.toX(place.x / MAP_CELL).coerceIn(v.x + margin, v.x + v.side - margin)

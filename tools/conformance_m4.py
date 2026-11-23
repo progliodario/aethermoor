@@ -5,6 +5,7 @@ from conformance_m3 import ROLLED_ITEMS, enemy, scenario, segment
 from reference import combat
 
 SLIME_ID = "base:enemy/slime_green"
+WOLF_ID = "base:enemy/wolf_grey"
 
 SLIME_QUEST = {
     "id": "test:quest/slimes",
@@ -183,7 +184,31 @@ def build_scenarios() -> list[dict]:
         "test:quest/once": {"id": "test:quest/once", "name": "t",
                             "stages": [{"id": "s", "objectives": [{"type": "collect", "item": "base:item/slime_gel", "count": 1}], "next": "end"}],
                             "rewards": [{"effect": "add_gold", "amount": 100}]}}}
-    return [flow, decline, frozen, trader, barter, rest, resident, traveller, smith, repeat]
+    # Timed quests (spec 07, "Timed quests"): a day is 100 ticks. The late quest (one day) is active on day 1, as the clerk says, and over on
+    # day 2: the clerk says so, and the slime killed then does not count for it. Started again on day 2 it counts again; the trial (two days,
+    # started on day 2) is done in time on day 2 with the wolf, and the second slime finishes the late quest.
+    timed = scenario(
+        "timed_quests",
+        [enemy(3.6, 4.5, hp=5, id=SLIME_ID, **passive), enemy(2.2, 6.1, hp=5, id=WOLF_ID, **passive),
+         enemy(2.5, 6.2, hp=5, id=SLIME_ID, **passive)],
+        [do({"cmd": "start_quest", "quest": "test:quest/late"}), do(interact, ticks=1), do(advance), segment(110),
+         do(interact), do(advance), do({"cmd": "start_quest", "quest": "test:quest/trial"}),
+         segment(30, attack=True), do({"cmd": "start_quest", "quest": "test:quest/late"}),
+         segment(20, move=(0, 1)), segment(30, attack=True)],
+        start_gold=0, day_ticks=100)
+    timed["story"] = {"npcs": [{"key": "clerk", "pos": [1.4, 4.5], "dialogue": "test:dialogue/clerk"}], "dialogues": {
+        "test:dialogue/clerk": {"id": "test:dialogue/clerk", "start": "s", "nodes": {
+            "s": {"type": "condition", "when": {"quest_active": "test:quest/late"}, "then": "busy", "else": "free"},
+            "busy": {"type": "say", "speaker": "clerk", "text": "t.busy", "next": "end"},
+            "free": {"type": "say", "speaker": "clerk", "text": "t.free", "next": "end"}}}},
+        "quests": {
+            "test:quest/late": {"id": "test:quest/late", "name": "t", "time_limit_days": 1,
+                                "stages": [{"id": "s", "objectives": [{"type": "kill", "enemy": SLIME_ID, "count": 1}], "next": "end"}],
+                                "rewards": [{"effect": "add_gold", "amount": 500}]},
+            "test:quest/trial": {"id": "test:quest/trial", "name": "t", "time_limit_days": 2,
+                                 "stages": [{"id": "s", "objectives": [{"type": "kill", "enemy": WOLF_ID, "count": 1}], "next": "end"}],
+                                 "rewards": [{"effect": "add_gold", "amount": 50}]}}}
+    return [flow, decline, frozen, trader, barter, rest, resident, traveller, smith, repeat, timed]
 
 
 def suite_story() -> list[dict]:
@@ -212,6 +237,7 @@ SAVE_SPLITS = {
     "chest_storage": (3, 5),          # things in the chest (spec 06, "Chests"); a loaded game has it closed
     "runes_engrave": (2, 4),          # runes on two weapons (spec 06, "Runes"); the worn one still adds to the attack
     "furniture_home": (3,),           # furniture on two spots (spec 06, "Furniture"); what it adds counts after a load
+    "timed_quests": (7, 9),           # the day a timed quest started is saved (spec 07, "Timed quests"): one over, one in time; then restarted
 }
 
 

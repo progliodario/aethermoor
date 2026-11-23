@@ -775,5 +775,15 @@
   "dlg.standing.ashen_wastes.busy": "La taglia è ancora aperta: Cuore di magma è là fuori. La gilda paga quando cade.",
   "dlg.standing.lumeria.offer": "La gilda tiene una taglia permanente: Sovrano della tempesta. Torna sempre, e qualcuno deve sempre rimandarlo via. Pagata ogni volta.",
   "dlg.standing.lumeria.busy": "La taglia è ancora aperta: Sovrano della tempesta è là fuori. La gilda paga quando cade.",
+  "dlg.role.trial.ask": "C'è una prova per questa stagione?",
+  "dlg.role.trial.status": "A proposito della prova della stagione...",
+  "dlg.trial.spring.offer": "Solo per i più forti: la prova della primavera. Re Gelatina e Matrona di corallo, tutti e due, entro tre giorni. La gilda paga bene, e nella cassaforte c'è un pezzo che aspetta chi ci riesce.",
+  "dlg.trial.spring.busy": "La prova è in corso: Re Gelatina e Matrona di corallo, e i giorni si contano. Le pietre ti ci portano prima di qualsiasi cavallo.",
+  "dlg.trial.summer.offer": "Solo per i più forti: la prova dell'estate. Sentinella di sabbia e Cuore di magma, tutti e due, entro tre giorni. La gilda paga bene, e nella cassaforte c'è un pezzo che aspetta chi ci riesce.",
+  "dlg.trial.summer.busy": "La prova è in corso: Sentinella di sabbia e Cuore di magma, e i giorni si contano. Le pietre ti ci portano prima di qualsiasi cavallo.",
+  "dlg.trial.autumn.offer": "Solo per i più forti: la prova dell'autunno. Alfa dell'ombra lunare e Tiranno della forgia, tutti e due, entro tre giorni. La gilda paga bene, e nella cassaforte c'è un pezzo che aspetta chi ci riesce.",
+  "dlg.trial.autumn.busy": "La prova è in corso: Alfa dell'ombra lunare e Tiranno della forgia, e i giorni si contano. Le pietre ti ci portano prima di qualsiasi cavallo.",
+  "dlg.trial.winter.offer": "Solo per i più forti: la prova dell'inverno. Custode del ghiaccio e Sovrano della tempesta, tutti e due, entro tre giorni. La gilda paga bene, e nella cassaforte c'è un pezzo che aspetta chi ci riesce.",
+  "dlg.trial.winter.busy": "La prova è in corso: Custode del ghiaccio e Sovrano della tempesta, e i giorni si contano. Le pietre ti ci portano prima di qualsiasi cavallo.",
   "dlg.seasonal.scholarly.wait": "Il solstizio è in estate. Torna allora: gli strumenti non sono pronti."
 }

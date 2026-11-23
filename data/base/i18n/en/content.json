@@ -1771,5 +1771,13 @@
   "quest.bounty_standing_ashen_wastes.task": "Standing bounty of the guild in Ashen Wastes: Magma Heart. Defeat it; it will come back, and so can you.",
   "quest.bounty_standing_lumeria.name": "Standing Bounty: Storm Sovereign",
   "quest.bounty_standing_lumeria.task": "Standing bounty of the guild in Lumeria: Storm Sovereign. Defeat it; it will come back, and so can you.",
+  "quest.bounty_trial_spring.name": "Trial of Spring: Gel King and Coral Matron",
+  "quest.bounty_trial_spring.task": "The trial of the guild: defeat Gel King and Coral Matron within three days. If the days run out, the clerk gives it again.",
+  "quest.bounty_trial_summer.name": "Trial of Summer: Sand Sentinel and Magma Heart",
+  "quest.bounty_trial_summer.task": "The trial of the guild: defeat Sand Sentinel and Magma Heart within three days. If the days run out, the clerk gives it again.",
+  "quest.bounty_trial_autumn.name": "Trial of Autumn: Moonshade Alpha and Forge Tyrant",
+  "quest.bounty_trial_autumn.task": "The trial of the guild: defeat Moonshade Alpha and Forge Tyrant within three days. If the days run out, the clerk gives it again.",
+  "quest.bounty_trial_winter.name": "Trial of Winter: Ice Warden and Storm Sovereign",
+  "quest.bounty_trial_winter.task": "The trial of the guild: defeat Ice Warden and Storm Sovereign within three days. If the days run out, the clerk gives it again.",
   "enemy.slime_sun.name": "Sun slime"
 }

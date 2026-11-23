@@ -142,6 +142,7 @@ QuestDef parse_quest_json(const Json& j) {
     quest.name = j.value("name", "");
     quest.faction = j.value("faction", "");
     quest.repeatable = j.value("repeatable", false);
+    quest.time_limit_days = j.value("time_limit_days", static_cast<std::int64_t>(0));  // spec 07, "Timed quests"
     for (const Json& s : j.at("stages")) {
         QuestStage stage;
         stage.id = s.at("id").get<std::string>();
@@ -344,9 +345,9 @@ bool Story::holds(const Condition& c) const {
             return std::all_of(c.children.begin(), c.children.end(), [this](const Condition& x) { return holds(x); });
         case Condition::Kind::Any:
             return std::any_of(c.children.begin(), c.children.end(), [this](const Condition& x) { return holds(x); });
-        case Condition::Kind::QuestActive: {
+        case Condition::Kind::QuestActive: {  // a timed quest that is over is not active (spec 07, "Timed quests")
             const auto found = m_quests_.find(c.a);
-            return found != m_quests_.end() && !found->second.done;
+            return found != m_quests_.end() && !found->second.done && !quest_over(c.a);
         }
         case Condition::Kind::QuestDone: {
             const auto found = m_quests_.find(c.a);
@@ -354,7 +355,7 @@ bool Story::holds(const Condition& c) const {
         }
         case Condition::Kind::QuestStage: {
             const auto found = m_quests_.find(c.a);
-            return found != m_quests_.end() && !found->second.done && found->second.stage == c.b;
+            return found != m_quests_.end() && !found->second.done && !quest_over(c.a) && found->second.stage == c.b;
         }
         case Condition::Kind::HasItem: {
             const auto& inventory = m_host_.host_inventory();
@@ -449,13 +450,33 @@ const QuestStage& Story::current_stage(const std::string& quest_id) const {
     return def.stages.front();
 }
 
+bool Story::quest_over(const std::string& quest_id) const {
+    const auto q = m_quests_.find(quest_id);
+    const auto def = m_setup_.quests.find(quest_id);
+    if (q == m_quests_.end() || def == m_setup_.quests.end() || q->second.done || def->second.time_limit_days <= 0 ||
+        q->second.day <= 0) {
+        return false;
+    }
+    return m_host_.day() >= q->second.day + def->second.time_limit_days;
+}
+
+std::int64_t Story::days_left(const std::string& quest_id) const {
+    const auto q = m_quests_.find(quest_id);
+    const auto def = m_setup_.quests.find(quest_id);
+    if (q == m_quests_.end() || def == m_setup_.quests.end() || q->second.done || def->second.time_limit_days <= 0 ||
+        q->second.day <= 0) {
+        return 0;
+    }
+    return std::max<std::int64_t>(0, q->second.day + def->second.time_limit_days - m_host_.day());
+}
+
 void Story::start_quest(const std::string& quest_id) {
     const auto def = m_setup_.quests.find(quest_id);
     const auto existing = m_quests_.find(quest_id);
-    // a quest that exists is not started again, unless it is done and repeatable (spec 07, "Quests"): then it starts
-    // anew
+    // a quest that exists is not started again, unless it is done and repeatable (spec 07, "Quests"), or a timed
+    // quest that is over (spec 07, "Timed quests"): then it starts anew
     if (existing != m_quests_.end() &&
-        !(existing->second.done && def != m_setup_.quests.end() && def->second.repeatable)) {
+        !(existing->second.done && def != m_setup_.quests.end() && def->second.repeatable) && !quest_over(quest_id)) {
         return;
     }
     if (def == m_setup_.quests.end()) {
@@ -465,6 +486,9 @@ void Story::start_quest(const std::string& quest_id) {
     QuestProgress progress;
     progress.stage = stage.id;
     progress.progress.assign(stage.objectives.size(), 0);
+    if (def->second.time_limit_days > 0) {  // the days are counted from the day it starts
+        progress.day = m_host_.day();
+    }
     m_quests_[quest_id] = std::move(progress);
     refresh(quest_id);
 }
@@ -482,7 +506,7 @@ void Story::refresh_all() {
 void Story::refresh(const std::string& quest_id) {
     for (;;) {
         QuestProgress& q = m_quests_.at(quest_id);
-        if (q.done) {
+        if (q.done || quest_over(quest_id)) {
             return;
         }
         const QuestStage& stage = current_stage(quest_id);
@@ -523,7 +547,7 @@ void Story::refresh(const std::string& quest_id) {
 
 void Story::on_kill(std::string_view enemy_id) {
     for (auto& [quest_id, q] : m_quests_) {
-        if (q.done) {
+        if (q.done || quest_over(quest_id)) {
             continue;
         }
         const QuestStage& stage = current_stage(quest_id);
@@ -539,7 +563,7 @@ void Story::on_kill(std::string_view enemy_id) {
 
 void Story::on_talk(std::string_view npc_key) {
     for (auto& [quest_id, q] : m_quests_) {
-        if (q.done) {
+        if (q.done || quest_over(quest_id)) {
             continue;
         }
         const QuestStage& stage = current_stage(quest_id);

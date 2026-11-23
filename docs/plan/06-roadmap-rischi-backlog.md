@@ -278,13 +278,13 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (120 missioni di storia) |
 | Creature | 79, di cui 27 guardiani e 8 Echi |
-| Missioni | 379 (24 storie dei paesani) |
+| Missioni | 383 (24 storie dei paesani) |
 | Oggetti e ricette | 286 oggetti, 82 ricette (8 segrete) |
 | Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 48 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 3991 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 604 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 4011 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 31 file di vettori di conformità, 609 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
 
@@ -346,6 +346,9 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
   giorno in un altro avamposto; le canzoni di Lark, la canzone della strada e le cacce delle stagioni.
 - **Missioni ripetibili** (dal 22 novembre, `repeatable`): le cacce delle stagioni, le botteghe dei coloni e le taglie permanenti della gilda
   (una per regione, su un grande guardiano); il diario le segna "(si può rifare)".
+- **Missioni a tempo e prove delle stagioni** (dal 23 novembre, B4.1, spec 07 "Timed quests"): una missione può avere dei giorni
+  (`time_limit_days`); passati, non conta più nulla e si riprende subito. Dal livello 25 gli impiegati della gilda offrono in ogni stagione
+  una prova: due grandi creature di due regioni lontane in tre giorni, pagata con un pezzo raro a due affissi. Il diario dice i giorni rimasti.
 - **Storia** (dal 22 novembre): il sesto atto "Due Ospiti" lega i protagonisti a coppie, poi l'altro Eco, il riposo degli Echi e la lanterna di
   Lyra, l'ultimo atto comune a tutti.
 
@@ -413,10 +416,9 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 
 1. **Ridurre la baseline di detekt** (M10; ktlint e detekt in CI ci sono, le segnalazioni vecchie restano in
    `android/config/detekt-baseline.xml`: 96, di cui 71 di complessità, 19 di annidamento e 6 di uscite dai cicli): spezzare a poco a poco le funzioni più complesse.
-2. **Sfide a tempo per chi ha finito tutto** (M9; le taglie permanenti, le cacce delle stagioni e le botteghe dei coloni si ripetono già).
-3. **Viaggiatori che si vedono** (M6; Odo, Brannoc e Lark girano gli avamposti, ogni giorno in un altro): camminano lungo le strade invece di
+2. **Viaggiatori che si vedono** (M6; Odo, Brannoc e Lark girano gli avamposti, ogni giorno in un altro): camminano lungo le strade invece di
    comparire alla tappa; altri mercanti con il loro giro.
-4. **Più vita nei villaggi** (M6; residenti, coloni, feste, giochi e paesani alle feste ci sono): i paesani che si spostano davvero verso la
+3. **Più vita nei villaggi** (M6; residenti, coloni, feste, giochi e paesani alle feste ci sono): i paesani che si spostano davvero verso la
    festa vicina.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**

@@ -1,0 +1,48 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/bounty_trial_autumn",
+  "name": "$i18n:quest.bounty_trial_autumn.name",
+  "kind": "side",
+  "faction": "guild",
+  "repeatable": true,
+  "time_limit_days": 3,
+  "stages": [
+    {
+      "id": "trial",
+      "journal": "$i18n:quest.bounty_trial_autumn.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "base:enemy/moonshade_alpha",
+          "count": 1
+        },
+        {
+          "type": "kill",
+          "enemy": "base:enemy/forge_tyrant",
+          "count": 1
+        }
+      ],
+      "next": "end",
+      "place": "whisperwood_hollow"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 6000
+    },
+    {
+      "effect": "add_gold",
+      "amount": 5000
+    },
+    {
+      "effect": "add_guild_points",
+      "amount": 60
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/claymore_keenness_leech",
+      "qty": 1
+    }
+  ]
+}

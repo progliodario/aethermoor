@@ -1668,8 +1668,9 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
     fill_rect(renderer, dx - ps / 2.0F, dy - ps / 2.0F, ps, ps, 255, off ? 150 : 50, off ? 40 : 50, 255);
 
     for (const auto& [quest_id, progress] : sim.story().quests()) {  // where the quests in progress go: orange squares
-        const aether::QuestStage* stage =
-            progress.done ? nullptr : current_stage(sim.story(), quest_id, progress.stage);
+        const aether::QuestStage* stage = progress.done || sim.story().quest_over(quest_id)
+                                              ? nullptr
+                                              : current_stage(sim.story(), quest_id, progress.stage);
         const std::optional<QuestPlace> place =
             stage == nullptr ? std::optional<QuestPlace>{} : quest_place(sim, *stage);
         if (!place) {
@@ -2681,8 +2682,9 @@ void map_next_place(const aether::WorldSim& sim, Ui& ui) {
 void map_next_quest(const aether::WorldSim& sim, const Assets& assets, Ui& ui) {
     std::vector<QuestPlace> places;
     for (const auto& [quest_id, progress] : sim.story().quests()) {
-        const aether::QuestStage* stage =
-            progress.done ? nullptr : current_stage(sim.story(), quest_id, progress.stage);
+        const aether::QuestStage* stage = progress.done || sim.story().quest_over(quest_id)
+                                              ? nullptr
+                                              : current_stage(sim.story(), quest_id, progress.stage);
         if (stage != nullptr) {
             if (auto place = quest_place(sim, *stage)) {
                 places.push_back(*place);
@@ -2898,7 +2900,7 @@ void draw_quest_tracker(SDL_Renderer* renderer, const Assets& assets, const aeth
         y += 4.0F;
     }
     for (const auto& [quest_id, progress] : story.quests()) {
-        if (progress.done) {
+        if (progress.done || story.quest_over(quest_id)) {  // a timed quest that is over is not tracked (spec 07)
             continue;
         }
         const aether::QuestDef& def = story.setup().quests.at(quest_id);
@@ -3213,8 +3215,8 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
     const auto& quests = sim.story().quests();
     bool any_active = false;
     bool any_done = false;
-    for (const auto& entry : quests) {
-        (entry.second.done ? any_done : any_active) = true;
+    for (const auto& entry : quests) {  // a timed quest that is over is with the finished ones (spec 07, "Journal")
+        (entry.second.done || sim.story().quest_over(entry.first) ? any_done : any_active) = true;
     }
     if (!any_active && !any_done) {
         lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_empty"), 2});
@@ -3222,7 +3224,7 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
     if (any_active) {
         lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_active"), 0});
         for (const auto& [quest_id, progress] : quests) {
-            if (progress.done) {
+            if (progress.done || sim.story().quest_over(quest_id)) {
                 continue;
             }
             const aether::QuestDef& def = sim.story().setup().quests.at(quest_id);
@@ -3239,6 +3241,9 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
                 {dialogue_text(assets.pack, ui.lang, def.name, def.args) +
                      (def.repeatable ? "  " + assets.pack.text(ui.lang, "$i18n:ui.quest_repeatable") : std::string()),
                  1});  // a quest that can be done again says so (spec 07, "Quests")
+            if (const std::int64_t days = sim.story().days_left(quest_id); days > 0) {  // spec 07, "Timed quests"
+                lines.push_back({"  " + assets.pack.text(ui.lang, "$i18n:ui.quest_days_left", {{"days", days}}), 2});
+            }
             for (const std::string& wrapped :
                  wrap_text(dialogue_text(assets.pack, ui.lang, stage->journal, def.args), columns)) {
                 lines.push_back({"  " + wrapped, 2});
@@ -3261,9 +3266,12 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
     if (any_done) {
         lines.push_back({assets.pack.text(ui.lang, "$i18n:ui.journal_done"), 0});
         for (const auto& [quest_id, progress] : quests) {
-            if (progress.done) {
+            const bool over = sim.story().quest_over(quest_id);
+            if (progress.done || over) {
                 const aether::QuestDef& def = sim.story().setup().quests.at(quest_id);
-                lines.push_back({dialogue_text(assets.pack, ui.lang, def.name, def.args), 3});
+                lines.push_back({dialogue_text(assets.pack, ui.lang, def.name, def.args) +
+                                     (over ? "  " + assets.pack.text(ui.lang, "$i18n:ui.quest_over") : std::string()),
+                                 3});
             }
         }
     }

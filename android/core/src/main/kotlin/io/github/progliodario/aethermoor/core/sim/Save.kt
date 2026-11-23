@@ -285,6 +285,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
                                     put("stage", q.stage)
                                     put("progress", JsonArray(q.progress.map { JsonPrimitive(it) }))
                                     put("done", q.done)
+                                    if (q.day > 0L) put("day", q.day) // a timed quest (spec 07, "Timed quests")
                                 },
                             )
                         }
@@ -334,6 +335,7 @@ fun saveFromJson(text: String): Result<SaveState> =
                             q.getValue("stage").jsonPrimitive.content,
                             LongArray(q.getValue("progress").jsonArray.size) { q.getValue("progress").jsonArray[it].jsonPrimitive.long },
                             q.getValue("done").jsonPrimitive.boolean,
+                            q["day"]?.jsonPrimitive?.long ?: 0L,
                         )
                     },
                     dialogueActive = dialogue !is JsonNull,

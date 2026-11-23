@@ -52,6 +52,110 @@
           "next": "standing_busy"
         },
         {
+          "text": "$i18n:dlg.role.trial.ask",
+          "when": {
+            "all": [
+              {
+                "season": "spring"
+              },
+              {
+                "level_at_least": 25
+              },
+              {
+                "not": {
+                  "quest_active": "base:quest/side/bounty_trial_spring"
+                }
+              }
+            ]
+          },
+          "next": "trial_spring_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.trial.status",
+          "when": {
+            "quest_active": "base:quest/side/bounty_trial_spring"
+          },
+          "next": "trial_spring_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.trial.ask",
+          "when": {
+            "all": [
+              {
+                "season": "summer"
+              },
+              {
+                "level_at_least": 25
+              },
+              {
+                "not": {
+                  "quest_active": "base:quest/side/bounty_trial_summer"
+                }
+              }
+            ]
+          },
+          "next": "trial_summer_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.trial.status",
+          "when": {
+            "quest_active": "base:quest/side/bounty_trial_summer"
+          },
+          "next": "trial_summer_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.trial.ask",
+          "when": {
+            "all": [
+              {
+                "season": "autumn"
+              },
+              {
+                "level_at_least": 25
+              },
+              {
+                "not": {
+                  "quest_active": "base:quest/side/bounty_trial_autumn"
+                }
+              }
+            ]
+          },
+          "next": "trial_autumn_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.trial.status",
+          "when": {
+            "quest_active": "base:quest/side/bounty_trial_autumn"
+          },
+          "next": "trial_autumn_busy"
+        },
+        {
+          "text": "$i18n:dlg.role.trial.ask",
+          "when": {
+            "all": [
+              {
+                "season": "winter"
+              },
+              {
+                "level_at_least": 25
+              },
+              {
+                "not": {
+                  "quest_active": "base:quest/side/bounty_trial_winter"
+                }
+              }
+            ]
+          },
+          "next": "trial_winter_offer"
+        },
+        {
+          "text": "$i18n:dlg.role.trial.status",
+          "when": {
+            "quest_active": "base:quest/side/bounty_trial_winter"
+          },
+          "next": "trial_winter_busy"
+        },
+        {
           "text": "$i18n:dlg.role.comm.hub",
           "next": "comm_hub"
         },
@@ -455,6 +559,130 @@
       "type": "say",
       "speaker": "npc",
       "text": "$i18n:dlg.standing.ashen_wastes.busy",
+      "next": "end"
+    },
+    "trial_spring_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.trial.spring.offer",
+      "next": "trial_spring_choice"
+    },
+    "trial_spring_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_trial_spring"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "trial_spring_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.trial.spring.busy",
+      "next": "end"
+    },
+    "trial_summer_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.trial.summer.offer",
+      "next": "trial_summer_choice"
+    },
+    "trial_summer_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_trial_summer"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "trial_summer_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.trial.summer.busy",
+      "next": "end"
+    },
+    "trial_autumn_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.trial.autumn.offer",
+      "next": "trial_autumn_choice"
+    },
+    "trial_autumn_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_trial_autumn"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "trial_autumn_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.trial.autumn.busy",
+      "next": "end"
+    },
+    "trial_winter_offer": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.trial.winter.offer",
+      "next": "trial_winter_choice"
+    },
+    "trial_winter_choice": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.wayfarer.accept",
+          "effects": [
+            {
+              "effect": "start_quest",
+              "quest": "base:quest/side/bounty_trial_winter"
+            }
+          ],
+          "next": "end"
+        },
+        {
+          "text": "$i18n:dlg.wayfarer.later",
+          "next": "menu"
+        }
+      ]
+    },
+    "trial_winter_busy": {
+      "type": "say",
+      "speaker": "npc",
+      "text": "$i18n:dlg.trial.winter.busy",
       "next": "end"
     }
   }

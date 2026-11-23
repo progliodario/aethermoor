@@ -6,6 +6,15 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Timed quests** (spec 07, "Timed quests", `time_limit_days`): a quest can have days of the world to be done in, the day it starts
+  included. Past them it is over: it counts nothing, pays nothing and can be taken again at once. The journal says how many days are
+  left, and lists a quest that is over among the finished ones ("time is up: it can be taken again"); its day is saved.
+- **The trials of the seasons** (spec 07): from level 25, in every season the guild clerks offer a trial, two great creatures of two
+  far regions within three days (spring: the Gel King and the Coral Matron; summer: the Sand Sentinel and the Magma Heart; autumn:
+  the Moonshade Alpha and the Forge Tyrant; winter: the Ice Warden and the Storm Sovereign). Done in time it pays 6000 experience,
+  5000 gold, 60 guild points and a rare piece with two affixes; it can be done again every season.
+- The standing bounties now mark the lair of their creature on the map, like the other quests on a guardian.
+
 - **The weather moves the prices** (spec 06, "Weather and prices"): while it rains, the goods of the countryside (food, wood, resin,
   herbs, flowers, moss and the seeds of the gardens) cost 10% more in the shops, and the shopkeepers pay 10% more for them; in the snow
   of Frostveil 20%. The shop says "Rain +10%" or "Snow +20%" and shows those prices in blue; a hint tells about it the first time it rains.

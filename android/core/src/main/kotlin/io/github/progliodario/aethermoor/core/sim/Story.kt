@@ -107,6 +107,8 @@ data class QuestDef(
     val faction: String = "",
     /** Once done it can be started anew (spec 07, "Quests"). */
     val repeatable: Boolean = false,
+    /** The days it has, the first included (spec 07, "Timed quests"); 0: no limit. */
+    val timeLimitDays: Long = 0L,
 )
 
 /** The quest of a board offer (spec 07, "Guild"). */
@@ -177,7 +179,8 @@ data class DialogueView(
     val args: Map<String, String> = emptyMap(),
 )
 
-class QuestProgress(var stage: String, var progress: LongArray, var done: Boolean = false)
+/** [day]: the day a timed quest was started (spec 07, "Timed quests"); 0 for a quest without a limit. */
+class QuestProgress(var stage: String, var progress: LongArray, var done: Boolean = false, var day: Long = 0L)
 
 /** The part of the story that changes while playing (saves). */
 class StoryState(
@@ -313,6 +316,7 @@ private fun parseQuestObject(j: JsonObject): QuestDef {
         args,
         optStr(j, "faction"),
         repeatable = j["repeatable"]?.jsonPrimitive?.boolean ?: false,
+        timeLimitDays = j["time_limit_days"]?.jsonPrimitive?.long ?: 0L,
     )
 }
 
@@ -402,9 +406,9 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             is Condition.Negation -> !holds(c.inner)
             is Condition.AllOf -> c.items.all { holds(it) }
             is Condition.AnyOf -> c.items.any { holds(it) }
-            is Condition.QuestActive -> quests[c.quest]?.let { !it.done } ?: false
+            is Condition.QuestActive -> quests[c.quest]?.let { !it.done && !questOver(c.quest) } ?: false
             is Condition.QuestDone -> quests[c.quest]?.done ?: false
-            is Condition.QuestStage -> quests[c.quest]?.let { !it.done && it.stage == c.stage } ?: false
+            is Condition.QuestStage -> quests[c.quest]?.let { !it.done && !questOver(c.quest) && it.stage == c.stage } ?: false
             is Condition.HasItem -> (host.inventory[c.item] ?: 0L) >= c.qty
             is Condition.LevelAtLeast -> host.level >= c.level
             is Condition.GoldAtLeast -> gold >= c.gold
@@ -451,14 +455,30 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
         return def.stages.firstOrNull { it.id == stage } ?: def.stages.first()
     }
 
+    /** A timed quest whose days are over (spec 07, "Timed quests"): not active, it counts nothing and can be started again. */
+    fun questOver(questId: String): Boolean {
+        val q = quests[questId] ?: return false
+        val limit = questDef(questId)?.timeLimitDays ?: 0L
+        return !q.done && limit > 0L && q.day > 0L && host.day() >= q.day + limit
+    }
+
+    /** The days a timed quest still has, today included; 0 for a quest without a limit, done or over. */
+    fun daysLeft(questId: String): Long {
+        val q = quests[questId] ?: return 0L
+        val limit = questDef(questId)?.timeLimitDays ?: 0L
+        return if (q.done || limit <= 0L || q.day <= 0L) 0L else maxOf(0L, q.day + limit - host.day())
+    }
+
     fun startQuest(questId: String) {
         val def = questDef(questId)
-        // a quest that exists is not started again, unless it is done and repeatable (spec 07, "Quests"): then it starts anew
+        // a quest that exists is not started again, unless it is done and repeatable (spec 07, "Quests"), or a timed quest that is
+        // over (spec 07, "Timed quests"): then it starts anew
         val existing = quests[questId]
-        if (existing != null && !(existing.done && def?.repeatable == true)) return
+        if (existing != null && !(existing.done && def?.repeatable == true) && !questOver(questId)) return
         if (def == null) return
         val stage = def.stages.first()
-        quests[questId] = QuestProgress(stage.id, LongArray(stage.objectives.size))
+        // the days of a timed quest are counted from the day it starts
+        quests[questId] = QuestProgress(stage.id, LongArray(stage.objectives.size), day = if (def.timeLimitDays > 0L) host.day() else 0L)
         refresh(questId)
     }
 
@@ -469,7 +489,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
     private fun refresh(questId: String) {
         while (true) {
             val q = quests.getValue(questId)
-            if (q.done) return
+            if (q.done || questOver(questId)) return
             val stage = currentStage(questId)
             for ((i, o) in stage.objectives.withIndex()) {
                 if (o.kind == ObjectiveKind.COLLECT) q.progress[i] = min(o.count, host.inventory[o.target] ?: 0L)
@@ -491,7 +511,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
 
     fun onKill(enemyId: String) {
         for ((questId, q) in quests) {
-            if (q.done) continue
+            if (q.done || questOver(questId)) continue
             for ((i, o) in currentStage(questId).objectives.withIndex()) {
                 if (o.kind == ObjectiveKind.KILL && o.target == enemyId) q.progress[i] = min(o.count, q.progress[i] + 1)
             }
@@ -504,7 +524,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
 
     fun onTalk(npcKey: String) {
         for ((questId, q) in quests) {
-            if (q.done) continue
+            if (q.done || questOver(questId)) continue
             for ((i, o) in currentStage(questId).objectives.withIndex()) {
                 if (o.kind == ObjectiveKind.TALK && o.target == npcKey) q.progress[i] = 1
             }
@@ -631,7 +651,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
         StoryState(
             HashMap(flags),
             gold,
-            quests.mapValues { QuestProgress(it.value.stage, it.value.progress.copyOf(), it.value.done) },
+            quests.mapValues { QuestProgress(it.value.stage, it.value.progress.copyOf(), it.value.done, it.value.day) },
             dialogueActive,
             dialogueId,
             nodeName,
@@ -653,7 +673,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
         gold = state.gold
         guildPoints = state.guildPoints
         quests.clear()
-        for ((id, q) in state.quests) quests[id] = QuestProgress(q.stage, q.progress.copyOf(), q.done)
+        for ((id, q) in state.quests) quests[id] = QuestProgress(q.stage, q.progress.copyOf(), q.done, q.day)
         dialogueActive = state.dialogueActive
         dialogueId = state.dialogueId
         nodeName = state.node

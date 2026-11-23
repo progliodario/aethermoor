@@ -83,6 +83,8 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 - `friend` (spec 10, "The tamed friend") is `{"enemy", "x", "y", "cooldown"}`: the ID of the creature, where it is and how many ticks until it hits again, with `stay` when it was told to stay; absent when there is none.
 - `companion` (a protagonist with a companion, spec 10) is `{"x", "y", "cooldown"}`: where the companion is and how many ticks until it hits again, with `stay` (true when it was told to stay) and `bond` (its kills) when they are not false and 0; absent in older saves (it is put next to the player).
 - `stones` (streamed world) is the list of the tiles `[x, y]` of the Threshold Stones that were used, in the order they were woken (spec 09); absent in old saves.
+- `story.quests.<id>.day` is the day a timed quest was started (spec 07, "Timed quests"); written only for a quest with `time_limit_days`,
+  absent in older saves.
 - `story.guild_points` is the guild points of the player (spec 07); absent in old saves (0). Quests whose id starts with `board:` are generated quests: only their progress is saved.
 - `equipped` is `{weapon, armor}`, and `accessory` when one is worn: the item ids worn (spec 06); absent in old saves (the starting weapon, no armor). A save without `accessory` has the slot empty.
 - `world_ticks` is the world clock (spec 08); a save without it starts at the world's `time.start_tick`.
