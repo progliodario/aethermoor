@@ -310,34 +310,6 @@ struct DefenseDef {
     std::string reward_counter;
 };
 
-// Gideon's Dungeon (spec 18): a trap of the defense, armed by a story flag.
-struct DefenseTrap {
-    std::string kind;  // "spikes" or "tar"
-    float x = 0.0F;
-    float y = 0.0F;
-    int radius_x100 = 50;
-    std::string flag;
-};
-
-// Gideon's Dungeon (spec 18): the core, the gate and the waves of the defense (positions from the centre of the world
-// in a streamed world, as they are in a scenario), its traps and its reward.
-struct DefenseDef {
-    float core_x = 0.0F;
-    float core_y = 0.0F;
-    float gate_x = 0.0F;
-    float gate_y = 0.0F;
-    int core_radius_x100 = 120;
-    int wave_ticks = 3600;
-    std::vector<std::vector<std::string>> waves;
-    std::map<std::string, EnemyDef> enemies;
-    std::vector<DefenseTrap> traps;
-    int spikes_pct = 20;
-    int tar_ticks = 180;
-    std::int64_t reward_gold = 0;
-    std::vector<std::pair<std::string, std::int64_t>> reward_items;
-    std::string reward_counter;
-};
-
 struct CombatSetup {
     bool enabled = false;
     std::vector<TalentDef> talents;  // the talents that can be learned, in the order of the data
