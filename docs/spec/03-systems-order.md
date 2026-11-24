@@ -33,11 +33,24 @@ The planned phases are below; the column says what the game does with each one t
 | 10 | Spawn/despawn, chunk streaming | the window of 5 x 5 chunks is updated at the start of the tick, before anything else (spec 09) |
 | 11 | Animation | advance the clip time; `idle` or `walk` from the movement; mirror from the last horizontal direction |
 | 12 | Camera | follows the player, clamped to the map (for a streamed world, the whole world) |
-| 13 | Presentation | render, HUD, panels, audio (not specified; audio does not exist yet) |
+| 13 | Presentation | render, HUD, panels, sound effects (spec 14; music and ambience are off) |
 
-In the code the tick runs: world time and chunk streaming (9, 10), the explored cells (spec 09), the dialogue freeze (1), the cooldown and invulnerability
-counters, movement (3), animation (11), the start and the advance of the swing (4, 5, 6, 7), then the enemies one after the other (2, 6). The camera and the
-presentation (12, 13) belong to the client and run once per frame after the ticks.
+In the code (`CombatSim.tick` of the reference, `WorldSim::tick` and `WorldSim.tick` of the clients) a tick runs, in this order:
+
+1. chunk streaming and the explored cells (10, spec 09); the clock of the world (9); the travellers (spec 07, "Travellers walk"); the
+   quests that collect, the bag counted again (spec 07, "Quests");
+2. the dialogue freeze (1): nothing more happens while a dialogue is open;
+3. the counters of the player: invulnerability, cooldowns, roll and parry, the death save, the abilities; mana; the status effects on
+   the player (spec 05);
+4. the parry, the roll or the movement of the player (3), the start of an attack (4), and the animation (11);
+5. the attack in progress: hit detection, damage, kills, loot and experience (5, 6, 7);
+6. the companion, then the tamed friend (spec 10);
+7. every enemy in the order of the list: its statuses and its behavior (2, 6), the march of the creatures of a defense (spec 18);
+8. the defense of Gideon's Dungeon (spec 18): its traps, its core, its waves;
+9. the lightning of a storm (spec 08, "Lightning");
+10. the status effects of the player that wear off, and the regeneration of a dish (spec 06).
+
+The camera and the presentation (12, 13) belong to the client and run once per frame after the ticks.
 
 Animation rule (M2): the player uses `walk` while the normalized input is non-zero, else `idle`. The clip time of the
 new clip restarts when the clip changes. The character is mirrored when the last non-zero horizontal input was negative.

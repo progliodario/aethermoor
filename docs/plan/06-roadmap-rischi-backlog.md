@@ -450,19 +450,26 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 
 **A breve (le prossime PR)**
 
-1. **Ridurre la baseline di detekt** (M10; ktlint e detekt in CI ci sono, le segnalazioni vecchie restano in
-   `android/config/detekt-baseline.xml`: 82, di cui 63 di complessità, 18 di annidamento e uno di uscite dai cicli, tutto in
-   `AethermoorGame.kt`): spezzare a poco a poco le funzioni più complesse.
-
-**A medio termine (verso Alpha 0.2 e Beta 0.5)**
-
-10. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
-11. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).
+1. **Ridurre la baseline di detekt** (B1.1, issue #224; ktlint e detekt in CI ci sono): le segnalazioni del codice vecchio restano in
+   `android/config/detekt-baseline.xml`, 82 (63 di complessità, 18 di annidamento, una di uscite dai cicli): 24 in `AethermoorGame.kt`,
+   16 in `World.kt`, le altre in 22 file. Si spezzano a poco a poco le funzioni più complesse, qualche voce in ogni batch.
+2. **Lo streaming su un thread** (C4.1, #239): i chunk davanti al giocatore generati su un thread di lavoro, consegnati in un punto
+   fisso del tick, senza rompere il determinismo.
+3. **Le misure su Android** (C4.2, #240): test di prestazione nei test JVM, un test notturno sull'emulatore, la prova della perdita del
+   contesto grafico; le misure su un telefono le fa il proprietario (rischi R4, R6).
 
 **Verso la 1.0**
 
-12. Pacchetti firmati e pagina di download (M11; la documentazione per chi fa mod c'è).
-13. Dopo l'1.0: nuovi protagonisti, nuove regioni, nuove lingue, strumenti per i mod (M12+).
+4. **Il controller su Android** (E2.2, #251) e **la rimappatura con l'editor del layout touch** (E2.1, #250).
+5. **La modalità qualità** (E1.1, #247): bassa, normale, alta, con un budget di memoria; dopo le misure di C4.2.
+6. **La pipeline di rilascio** (E3.1, #252): pacchetti, SHA256SUMS, una release in bozza con gli artefatti; senza pubblicare.
+
+**Decide il proprietario** (programma, sezione 8; issue #234)
+
+7. La prima release (Alpha 0.1), le impostazioni del repository, la firma del codice (E3.2, #253), la pagina di download (E4.2, #255).
+8. **Un sintetizzatore con rumore filtrato** (C6.1, #242), per poter riaccendere musica e ambiente: solo con il sì del proprietario.
+
+**Dopo l'1.0** (F1, #256): nuovi protagonisti, nuove regioni, nuove lingue, il caricamento dei mod nel gioco, strumenti per i mod (M12+).
 
 **Non previsto:** una modalità difficile obbligatoria o un bilanciamento "più duro": gli scontri devono restare facili.
 

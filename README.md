@@ -226,6 +226,9 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 | Che cosa cerchi | Dove |
 |---|---|
 | Indice di tutta la documentazione | [`docs/index.md`](docs/index.md) |
+| **Come continuare il lavoro** (persona o IA): che cosa leggere, dove siamo, come si porta una modifica nei due client, come si spedisce, che cosa fare se la CI fallisce | [`docs/guides/continue-the-work.md`](docs/guides/continue-the-work.md) (inglese) |
+| La mappa del codice: livelli, cartelle, file dei due client, riferimento, vettori, CI | [`docs/dev/architecture.md`](docs/dev/architecture.md) (inglese) |
+| Lo stato di ogni voce del programma (fatta, aperta, del proprietario) | [sezione 0 del programma operativo](docs/plan/07-programma-operativo.md#0-stato-delle-voci) |
 | Il piano, la roadmap e lo stato delle milestone | [`docs/plan/`](docs/plan/README.md) (italiano) |
 | Le regole di gioco, una per documento | [`docs/spec/`](docs/spec/README.md) |
 | Tutti i contenuti in tabelle | [`docs/design/catalog.md`](docs/design/catalog.md) |
@@ -239,9 +242,9 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine. Il programma completo, con i batch, i file e i criteri di ogni voce, è in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md); la lista breve della roadmap è nella [sezione 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
-- **A breve:** la baseline di detekt a zero.
-- **A medio termine:** thread di streaming e misure su Android; un sintetizzatore per musica e ambiente (solo se il proprietario lo vuole).
-- **Verso la 1.0:** qualità grafica; comandi e layout su Android; pacchetti firmati; il caricamento dei mod nel gioco (la guida e il controllo dei mod ci sono già).
+- **A breve:** la baseline di detekt a zero (un po' a ogni batch); lo streaming dei chunk su un thread; le misure delle prestazioni su Android.
+- **Verso la 1.0:** il controller e l'editor del layout touch su Android; la modalità qualità; la pipeline di rilascio (pacchetti, senza pubblicare).
+- **Dopo la 1.0:** nuovi protagonisti, regioni e lingue; il caricamento dei mod nel gioco (la guida e il controllo dei mod ci sono già).
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1), le impostazioni del repository, le chiavi di firma e le altre decisioni elencate nel programma.
 
 ## Contribuire e licenza

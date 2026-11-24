@@ -2,7 +2,49 @@
 
 > **Stato:** scritto il 23 novembre 2026, dopo una verifica completa di repository, documenti, CI e impostazioni di GitHub (sezione 2). È il programma da seguire. La [roadmap](06-roadmap-rischi-backlog.md) (sezione 8) dice **dove siamo**; questo documento dice **che cosa si fa**, in quale ordine, con quali file, con quali criteri di accettazione, e quali decisioni servono al proprietario.
 >
-> Ogni voce ha una issue su GitHub, nella milestone del suo periodo (sezione 9). Quando un batch è fatto, questo documento, la roadmap e le issue si aggiornano nella stessa PR (sezione 11).
+> Ogni voce ha una issue su GitHub, nella milestone del suo periodo (sezione 9). Quando un batch è fatto, questo documento, la roadmap e le issue si aggiornano nella stessa PR (sezione 11). **Dove siamo adesso: la [sezione 0](#0-stato-delle-voci).** Le sezioni 2 e 3 descrivono lo stato di partenza del 23 novembre e restano come storia.
+
+## 0. Stato delle voci
+
+Aggiornato al 24 novembre 2026, dopo la PR #269. Una voce fatta ha la nota "Fatto" sotto la sua descrizione, con ciò che differisce dal
+progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa una voce (sezione 11).
+
+| Voce | Che cosa | Stato | PR | Issue |
+|---|---|---|---|---|
+| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 82 | #258, #265, #268 | #224 aperta |
+| B1.2 | Spec 15 e ADR 0014 | fatta | #258 | #225 |
+| B1.3 | Licenze in CI | fatta | #258 | #226 |
+| B1.4 | Matrice di parità | fatta | #258 | #227 |
+| B1.5 | Copie dei salvataggi e migrazioni | fatta | #258 | #228 |
+| B1.6 | Lista di rilascio | fatta | #258 | #229 |
+| B2.1 | Il tempo che cambia i prezzi | fatta | #258 | #230 |
+| B3.1 | Viaggiatori che camminano | fatta | #264 | #231 |
+| B3.2 | Paesani alla festa | fatta | #260 | #232 |
+| B4.1 | Missioni a tempo e prove delle stagioni | fatta | #259 | #233 |
+| G1 | Decisioni del proprietario (sezione 8) | **aperta**: aspetta il proprietario | | #234 aperta |
+| C1.1 | Stanze del cottage | fatta | #266 | #235 |
+| C1.2 | Affissi scelti | fatta | #265 | #236 |
+| C2.1 | Compagni scelti (il gruppo) | fatta | #267 | #237 |
+| C3.1 | Dungeon di Gideon, forma ridotta | fatta | #268 (spec), #269 | #238 |
+| C4.1 | Streaming con thread | **aperta** | | #239 aperta |
+| C4.2 | Misure su Android | **aperta** | | #240 aperta |
+| C5.1 | Una settimana di gioco | fatta | #264 | #241 |
+| C6.1 | Sintetizzatore | **bloccata**: solo con il sì del proprietario | | #242 aperta |
+| D1-D4 | Storie laterali degli otto protagonisti | fatte | #261, #262, #263 | #243-#246 |
+| E1.1 | Modalità qualità | **aperta** (dopo C4.2) | | #247 aperta |
+| E1.2 | Log dei crash | fatta | #265 | #248 |
+| E1.3 | Traduzioni e accessibilità | fatta | #268 | #249 |
+| E2.1 | Rimappatura su Android | **aperta** | | #250 aperta |
+| E2.2 | Controller su Android | **aperta** | | #251 aperta |
+| E3.1 | Pipeline di rilascio | **aperta** | | #252 aperta |
+| E3.2 | Firma del codice | **bloccata**: decisione e chiavi del proprietario | | #253 aperta |
+| E4.1 | Documentazione per i mod | fatta | #263 | #254 |
+| E4.2 | Pagina di download | **aperta**: decisione del proprietario | | #255 aperta |
+| F1 | Dopo la 1.0 | **aperta** (lungo termine) | | #256 aperta |
+
+**Le prossime voci, nell'ordine consigliato:** B1.1 a ogni batch (un po' alla volta); C4.1 e poi C4.2 (le prestazioni, che servono a
+E1.1); E2.2 e E2.1 (i comandi su Android); E3.1 (la pipeline di rilascio, senza pubblicare). Le voci bloccate o del proprietario
+aspettano la sua risposta e non fermano le altre.
 
 ## 1. Come leggere questo programma
 
@@ -553,6 +595,7 @@ Sono le sole cose che il programma non può decidere da solo. Per ciascuna, la r
 | 16 | Musica e ambiente | restano spenti; il sintetizzatore (C6.1) solo con il sì |
 | 17 | Validazione online (M12+) | uno strumento web separato, fuori dal gioco, oppure niente |
 | 18 | Valvole di portata (roadmap, sezione 4) | accettarle nell'ordine indicato, se servono alla data di una release |
+| 19 | Forma del Dungeon di Gideon (C3.1) | **decisa il 24 novembre 2026: la forma ridotta**, fatta nella PR #269 |
 
 Tutte le decisioni sono raccolte in [progliodario/aethermoor#234](https://github.com/progliodario/aethermoor/issues/234).
 
@@ -564,7 +607,7 @@ Tutte le decisioni sono raccolte in [progliodario/aethermoor#234](https://github
 |---|---|---|
 | A breve (B1-B4) | B1.1-B1.6, B2.1, B3.1, B3.2, B4.1, G1 | [progliodario/aethermoor#224](https://github.com/progliodario/aethermoor/issues/224)-[progliodario/aethermoor#234](https://github.com/progliodario/aethermoor/issues/234) |
 | A medio (C1-C6): Alpha 0.2 e Beta 0.5 | C1.1-C1.2, C2.1, C3.1, C4.1, C4.2, C5.1, C6.1 | [progliodario/aethermoor#235](https://github.com/progliodario/aethermoor/issues/235)-[progliodario/aethermoor#242](https://github.com/progliodario/aethermoor/issues/242) |
-| Contenuti (D1-D4): 0.6-0.9 | D1-D4 | [progliodario/aethermoor#243](https://github.com/progliodario/aethermoor/issues/243)-[progliodario/aethermoor#246](https://github.com/progliodario/aethermoor/issues/246) |
+| Contenuti (D1-D4): 0.6-0.9 (chiusa il 24 novembre 2026: tutte le voci fatte) | D1-D4 | [progliodario/aethermoor#243](https://github.com/progliodario/aethermoor/issues/243)-[progliodario/aethermoor#246](https://github.com/progliodario/aethermoor/issues/246) |
 | Verso la 1.0 (E1-E4) | E1.1-E1.3, E2.1-E2.2, E3.1-E3.2, E4.1-E4.2 | [progliodario/aethermoor#247](https://github.com/progliodario/aethermoor/issues/247)-[progliodario/aethermoor#255](https://github.com/progliodario/aethermoor/issues/255) |
 | Dopo la 1.0 (F) | F1 | [progliodario/aethermoor#256](https://github.com/progliodario/aethermoor/issues/256) |
 
@@ -588,7 +631,7 @@ Tutte le decisioni sono raccolte in [progliodario/aethermoor#234](https://github
 
 ## 11. Come si aggiorna questo documento
 
-- **A ogni batch:** le voci fatte si tolgono da qui e da [06, sezione 8.4](06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine) e si aggiungono alla sezione giusta di [06, sezione 8.3](06-roadmap-rischi-backlog.md#83-che-cosa-è-stato-fatto-per-area); le issue si chiudono con `Closes`; si rigenerano i fatti (`tools/make_facts.py`); il CHANGELOG si aggiorna.
+- **A ogni batch:** ogni voce fatta resta qui con una nota **"Fatto"** sotto la sua descrizione (la data, e ciò che differisce dal progetto) e cambia stato nella [sezione 0](#0-stato-delle-voci) (con il numero della PR); si toglie da [06, sezione 8.4](06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine) e si aggiunge alla sezione giusta di [06, sezione 8.3](06-roadmap-rischi-backlog.md#83-che-cosa-è-stato-fatto-per-area); le issue si chiudono con `Closes`; si rigenerano i fatti (`tools/make_facts.py`); il CHANGELOG si aggiorna.
 - **Quando arriva una decisione del proprietario:** si aggiorna la sezione 8 e la issue [progliodario/aethermoor#234](https://github.com/progliodario/aethermoor/issues/234).
 - **Ogni tre batch:** si rilegge la sezione 7 (ciò che manca) e si corregge.
 - **Quando un'ipotesi di questo documento si rivela falsa** (un file che non c'è, un numero che non torna): si corregge qui e nel documento che la contiene, nella stessa PR.

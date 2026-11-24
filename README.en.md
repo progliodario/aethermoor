@@ -226,6 +226,9 @@ The project is developed by the owner together with Claude, an AI assistant that
 | Looking for | Where |
 |---|---|
 | Index of all the documentation | [`docs/index.md`](docs/index.md) |
+| **How to continue the work** (a person or an AI): what to read, where things stand, how a change goes through both clients, how to ship, what to do when CI fails | [`docs/guides/continue-the-work.md`](docs/guides/continue-the-work.md) |
+| The map of the code: layers, folders, the files of both clients, the reference, the vectors, the CI | [`docs/dev/architecture.md`](docs/dev/architecture.md) |
+| The state of every item of the program (done, open, the owner's) | [section 0 of the operating program](docs/plan/07-programma-operativo.md#0-stato-delle-voci) (Italian) |
 | The plan, the roadmap and the state of the milestones | [`docs/plan/`](docs/plan/README.md) (Italian) |
 | The rules of the game, one per document | [`docs/spec/`](docs/spec/README.md) |
 | All the content in tables | [`docs/design/catalog.md`](docs/design/catalog.md) |
@@ -239,9 +242,9 @@ The project is developed by the owner together with Claude, an AI assistant that
 
 The next things, in order. The full program, with the batches, the files and the acceptance of each item, is in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md) (in Italian); the short list of the roadmap is in [section 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
-- **Soon:** a detekt baseline down to zero.
-- **Middle term:** streaming on a worker thread and measures on Android; a synthesizer for music and ambience (only if the owner wants it).
-- **Toward 1.0:** quality settings; controls and layout on Android; signed packages; loading mods in the game (the guide and the check of a mod are there).
+- **Soon:** a detekt baseline down to zero (a little in every batch); chunk streaming on a worker thread; measures of the performance on Android.
+- **Toward 1.0:** a controller and an editor of the touch layout on Android; quality settings; the release pipeline (packages, without publishing).
+- **After 1.0:** new protagonists, regions and languages; loading mods in the game (the guide and the check of a mod are there).
 - **The owner decides:** when to publish the first release (Alpha 0.1), the repository settings, the signing keys and the other decisions listed in the program.
 
 ## Contributing and license
