@@ -90,7 +90,7 @@ The conformance harnesses that run the vectors are `desktop/tests/conformance_te
 | `recipes.json`, `titles.json`, `tags.json`, `talents.json`, `deeds.json`, `gathering.json`, `companions/`, prologues, stories, towns, tales, pedlars | the `make_*.py` of `tools/README.md` |
 | `data/base/tables/xp_table.json`, `maps/demo.tmj` | `gen_tables.py`, `make_demo_map.py` |
 | `tests/frames/*.json` (the references of the smoke-test frames) | `tools/check_frames.py --write` from the frames of a CI run |
-| `docs/design/parity.md`, `THIRD_PARTY_NOTICES.md` | `tools/make_parity.py`, `tools/licenses.py` (from `tools/licenses.json`, which is edited by hand) |
+| `docs/design/parity.md`, `suites.md`, `THIRD_PARTY_NOTICES.md` | `tools/make_parity.py`, `make_suites_map.py`, `tools/licenses.py` (from `tools/licenses.json`, which is edited by hand) |
 | `tests/saves/v*.json` (the frozen saves of every version: **never** changed, only appended to) | `tools/make_save_fixtures.py` |
 
 Many generators also change the role dialogues (`data/base/dialogues/role/`) in place; `tools/make_role_dialogues.py` wrote their first version and must **never** run again (it would write over everything added since). Every other generator was checked to change nothing when run again (see `tools/README.md`, "Running a generator again").
@@ -184,7 +184,7 @@ The numbers (counted from the data by `tools/make_facts.py`):
 | Named people | 56 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
 | Texts | 4211 keys, in Italian and English |
-| Same rules on both clients | 31 files of conformance vectors, 609 cases, run by the C++ and the Kotlin tests |
+| Same rules on both clients | 31 files of conformance vectors, 619 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->
 

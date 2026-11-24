@@ -1,5 +1,6 @@
 package io.github.progliodario.aethermoor.core.sim
 
+import io.github.progliodario.aethermoor.core.TravellerWalk
 import io.github.progliodario.aethermoor.core.vector.f
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
@@ -38,6 +39,8 @@ data class NpcPoint(
     val whenJson: String = "",
     /** A traveller (spec 07, "Travellers"): its stops in tiles. */
     val route: List<Pair<Float, Float>> = emptyList(),
+    /** And how it walks between them (spec 07, "Travellers walk"). */
+    val walk: TravellerWalk = TravellerWalk(),
 )
 
 class TileMap(

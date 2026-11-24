@@ -2948,7 +2948,12 @@
                   6786,
                   -383
                 ]
-              ]
+              ],
+              "walk": {
+                "arrive_pm": 250,
+                "depart_pm": 750,
+                "speed_x256": 16
+              }
             },
             {
               "key": "wandering_smith_brannoc",
@@ -2989,7 +2994,12 @@
                   -4226,
                   -2689
                 ]
-              ]
+              ],
+              "walk": {
+                "arrive_pm": 250,
+                "depart_pm": 750,
+                "speed_x256": 16
+              }
             },
             {
               "key": "wandering_bard_lark",
@@ -3030,7 +3040,12 @@
                   -6270,
                   4223
                 ]
-              ]
+              ],
+              "walk": {
+                "arrive_pm": 250,
+                "depart_pm": 750,
+                "speed_x256": 16
+              }
             },
             {
               "key": "aldermere_ledger_keeper_bertram",
@@ -10556,7 +10571,12 @@
                   6786,
                   -383
                 ]
-              ]
+              ],
+              "walk": {
+                "arrive_pm": 250,
+                "depart_pm": 750,
+                "speed_x256": 16
+              }
             },
             {
               "key": "wandering_smith_brannoc",
@@ -10597,7 +10617,12 @@
                   -4226,
                   -2689
                 ]
-              ]
+              ],
+              "walk": {
+                "arrive_pm": 250,
+                "depart_pm": 750,
+                "speed_x256": 16
+              }
             },
             {
               "key": "wandering_bard_lark",
@@ -10638,7 +10663,12 @@
                   -6270,
                   4223
                 ]
-              ]
+              ],
+              "walk": {
+                "arrive_pm": 250,
+                "depart_pm": 750,
+                "speed_x256": 16
+              }
             },
             {
               "key": "aldermere_ledger_keeper_bertram",

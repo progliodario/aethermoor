@@ -1662,6 +1662,287 @@
     },
     "world_ticks": 141
    }
+  },
+  {
+   "scenario": "traveller_walks",
+   "split": 4,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 13.7,
+     "y": 5.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 650,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": []
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 650
+   }
+  },
+  {
+   "scenario": "traveller_walks",
+   "split": 8,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 13.7,
+     "y": 5.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 1250,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": []
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 1250
+   }
+  },
+  {
+   "scenario": "week_of_play",
+   "split": 4,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 300,
+     "hp": 142,
+     "level": 1,
+     "xp": 6,
+     "deaths": 0,
+     "kills": 1,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 10,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xc922eea8ea4266fa",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xa26d4806347340b7",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.5,
+      "y": 4.5,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/bread": 1,
+     "base:item/healing_herb": 2,
+     "base:item/potion_mana_small": 1
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "bestiary": {
+     "base:enemy/slime_green": 1
+    },
+    "counters": {
+     "sown": 1
+    },
+    "plots": [
+     [
+      280,
+      540,
+      "base:item/healing_herb",
+      240
+     ]
+    ],
+    "story": {
+     "flags": {},
+     "gold": 57,
+     "guild_points": 0,
+     "quests": {
+      "test:quest/harvest": {
+       "stage": "s",
+       "progress": [
+        0
+       ],
+       "done": false,
+       "day": 1
+      }
+     },
+     "dialogue": null
+    },
+    "world_ticks": 300
+   }
+  },
+  {
+   "scenario": "week_of_play",
+   "split": 12,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 1300,
+     "hp": 142,
+     "level": 1,
+     "xp": 6,
+     "deaths": 0,
+     "kills": 1,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 10,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xc922eea8ea4266fa",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xa26d4806347340b7",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.5,
+      "y": 4.5,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/bread": 1,
+     "base:item/healing_herb": 1,
+     "base:item/potion_mana_small": 1,
+     "base:item/tonic": 2,
+     "base:item/wild_berries": 1
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "bestiary": {
+     "base:enemy/slime_green": 1
+    },
+    "counters": {
+     "crafted": 1,
+     "harvested": 1,
+     "renown:vale": 1,
+     "sown": 1
+    },
+    "story": {
+     "flags": {
+      "feasted": true
+     },
+     "gold": 142,
+     "guild_points": 0,
+     "quests": {
+      "test:quest/harvest": {
+       "stage": "s",
+       "progress": [
+        3
+       ],
+       "done": true,
+       "day": 1
+      }
+     },
+     "dialogue": null
+    },
+    "world_ticks": 1300
+   }
   }
  ],
  "game": {

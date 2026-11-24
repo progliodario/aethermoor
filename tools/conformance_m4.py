@@ -208,7 +208,19 @@ def build_scenarios() -> list[dict]:
             "test:quest/trial": {"id": "test:quest/trial", "name": "t", "time_limit_days": 2,
                                  "stages": [{"id": "s", "objectives": [{"type": "kill", "enemy": WOLF_ID, "count": 1}], "next": "end"}],
                                  "rewards": [{"effect": "add_gold", "amount": 50}]}}}
-    return [flow, decline, frozen, trader, barter, rest, resident, traveller, smith, repeat, timed]
+    # Travellers walk (spec 07): a day of 1000 ticks; the traveller arrives by tick 250, stays until 750, then walks toward the next stop at
+    # 1/16 of a tile per tick, never past the middle of the leg (five tiles of ten); at midnight it is at the middle, on its way in.
+    walker = scenario(
+        "traveller_walks",
+        [], [segment(1), segment(199), segment(50), segment(400), segment(150), segment(100), segment(100), segment(250),
+             segment(150), do(interact), do(advance), segment(500)],
+        player={"start": [14.0, 5.5]}, day_ticks=1000)
+    walker["story"] = {"quests": {}, "dialogues": {
+        "test:dialogue/merchant": {"id": "test:dialogue/merchant", "start": "s", "nodes": {
+            "s": {"type": "say", "speaker": "merchant", "text": "t.goods", "next": "end"}}}},
+        "npcs": [{"key": "merchant", "pos": [4.0, 4.5], "dialogue": "test:dialogue/merchant", "route": [[4.0, 4.5], [14.0, 4.5]],
+                  "walk": {"arrive_pm": 250, "depart_pm": 750, "speed_x256": 16}}]}
+    return [flow, decline, frozen, trader, barter, rest, resident, traveller, smith, repeat, timed, walker]
 
 
 def suite_story() -> list[dict]:
@@ -237,12 +249,14 @@ SAVE_SPLITS = {
     "chest_storage": (3, 5),          # things in the chest (spec 06, "Chests"); a loaded game has it closed
     "runes_engrave": (2, 4),          # runes on two weapons (spec 06, "Runes"); the worn one still adds to the attack
     "furniture_home": (3,),           # furniture on two spots (spec 06, "Furniture"); what it adds counts after a load
-    "timed_quests": (7, 9),           # the day a timed quest started is saved (spec 07, "Timed quests"): one over, one in time; then restarted
+    "timed_quests": (7, 9),
+    "traveller_walks": (4, 8),
+    "week_of_play": (4, 12),          # the week: on the morning of the harvest, and on the fifth day with the traveller at its stop        # a traveller on its way out, then in: where it is comes from the time, not from the save           # the day a timed quest started is saved (spec 07, "Timed quests"): one over, one in time; then restarted
 }
 
 
 def suite_save() -> list[dict]:
-    from conformance_m3 import build_scenarios as combat_scenarios
+    from conformance_m3 import all_scenarios as combat_scenarios
 
     by_name = {sc["name"]: sc for sc in combat_scenarios() + build_scenarios()}
     cases = []
@@ -264,7 +278,7 @@ def suite_save_fixtures() -> list[dict]:
     import json
     from pathlib import Path
 
-    from conformance_m3 import build_scenarios as combat_scenarios
+    from conformance_m3 import all_scenarios as combat_scenarios
 
     by_name = {sc["name"]: sc for sc in combat_scenarios() + build_scenarios()}
     folder = Path(__file__).resolve().parent.parent / "tests" / "saves"

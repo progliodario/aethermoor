@@ -288,8 +288,9 @@ class CombatSim:
 
     def tick(self, raw_x: float, raw_y: float, attack: bool, dodge: bool = False, strike: bool = False, parry: bool = False) -> None:
         self.world_ticks += 1
-        if self.story is not None:  # the travellers stand where their route puts them today (spec 07, "Travellers")
-            self.story.move_travellers(self.day())
+        if self.story is not None:  # the travellers are where their route puts them now (spec 07, "Travellers")
+            self.story.move_travellers(self.day(), self.world_ticks % self.day_ticks if self.day_ticks > 0 else 0, self.day_ticks)
+            self.story._refresh_all()  # and what the bag holds now counts for the quests that collect (spec 07, "Quests")
         if self.story is not None and self.story.dialogue_active:
             raw_x, raw_y, attack, dodge, strike, parry = 0.0, 0.0, False, False, False, False
         if self.iframes > 0:
@@ -1361,6 +1362,8 @@ class CombatSim:
             **({"runes": dict(sorted(self.runes.items()))} if self.runes else {}),
             **({"rolls": dict(sorted(self.rolls.items()))} if self.rolls else {}),
             **({"furniture": [[k[0], k[1], item] for k, item in sorted(self.furniture.items())]} if self.furniture else {}),
+            # the sown plots (spec 06, "Farming"; spec 12): what grows there, and the tick it is ripe
+            **({"plots": [[k[0], k[1], seed, ripe] for k, (seed, ripe) in sorted(self.plots.items())]} if self.plots else {}),
             **({"tag": self.tag} if self.tag else {}),
             "story": self.story.save_state() if self.story is not None else None,
             "world_ticks": self.world_ticks,  # the clock (spec 08, spec 12): the day of the market, of the travellers, of the plots
@@ -1396,13 +1399,14 @@ class CombatSim:
         self.runes = dict(save.get("runes", {}))
         self.rolls = dict(save.get("rolls", {}))
         self.furniture = {(f[0], f[1]): f[2] for f in save.get("furniture", [])}
+        self.plots = {(f[0], f[1]): (f[2], f[3]) for f in save.get("plots", [])}
         self.tag = save.get("tag", "")
         self.derived = self._derive()
         self.world_ticks = save.get("world_ticks", 0)
         if self.story is not None and save["story"] is not None:
             self.story.load_state(save["story"])
-        if self.story is not None:  # the travellers are where the loaded day puts them, at once (spec 07, "Travellers")
-            self.story.move_travellers(self.day())
+        if self.story is not None:  # the travellers are where the loaded time puts them, at once (spec 07, "Travellers")
+            self.story.move_travellers(self.day(), self.world_ticks % self.day_ticks if self.day_ticks > 0 else 0, self.day_ticks)
 
     # ------------------------------------------------------------------------------ checkpoint
 

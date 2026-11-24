@@ -8,6 +8,8 @@
 #include <string_view>
 #include <vector>
 
+#include "core/travel.hpp"
+
 namespace aether {
 
 struct TileDef {
@@ -43,6 +45,7 @@ struct NpcPoint {
     float y = 0.0F;
     std::string when;  // a resident (spec 07, "Residents"): the JSON of its condition; empty: always there
     std::vector<std::pair<float, float>> route;  // a traveller (spec 07, "Travellers"): its stops in tiles
+    TravellerWalk walk;                          // and how it walks between them (spec 07, "Travellers walk")
 };
 
 struct TileMap {

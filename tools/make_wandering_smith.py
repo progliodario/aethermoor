@@ -14,7 +14,7 @@ from __future__ import annotations
 import json
 import re
 
-from make_caravan import OUTPOST
+from make_caravan import OUTPOST, WALK
 from make_home import CYCLE, say
 from make_residents import free_tile
 from make_towns import DATA, set_texts
@@ -78,7 +78,7 @@ def main() -> None:
         set_texts("core.json", lang, texts)
     stops = ", ".join(f"[{x}, {y}]" for x, y in route)
     line = (f'{{ "key": "{KEY}", "dialogue": "base:dialogue/npc/brannoc", "variant": "brown", "dx": {route[0][0]}, "dy": {route[0][1]}, '
-            f'"route": [{stops}] }}')
+            f'"route": [{stops}], "walk": {json.dumps(WALK)} }}')
     raw = WORLD.read_text(encoding="utf-8", newline="")
     if f'"key": "{KEY}"' in raw:
         raw = re.sub(r'\{ "key": "' + KEY + r'"[^\n]*\}', line, raw)

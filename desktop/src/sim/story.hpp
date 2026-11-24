@@ -8,6 +8,8 @@
 #include <map>
 #include <optional>
 #include <string>
+
+#include "core/travel.hpp"
 #include <string_view>
 #include <vector>
 
@@ -133,6 +135,7 @@ struct NpcDef {
     // A traveller (spec 07, "Travellers"): where it stands on each day of its cycle, in tiles; empty: it stays. Never
     // solid.
     std::vector<std::pair<float, float>> route;
+    TravellerWalk walk;  // how it walks between its stops (spec 07, "Travellers walk"); a speed of 0: it does not
 };
 
 struct StorySetup {
@@ -211,16 +214,14 @@ public:
     bool holds(const Condition& condition) const;
     // Whether an NPC is there now: always, or while the condition of a resident holds (spec 07, "Residents").
     bool npc_present(const NpcDef& npc) const { return !npc.when || holds(*npc.when); }
-    // Puts every traveller where its route says for that day: stop (day - 1) % its length (spec 07, "Travellers").
-    void move_travellers(std::int64_t day) {
+    // Puts every traveller where its route says for that day and tick of the day (spec 07, "Travellers", "Travellers
+    // walk"); a day of 0 ticks (no clock): at its stop.
+    void move_travellers(std::int64_t day, std::int64_t tick = 0, std::int64_t day_ticks = 0) {
         for (NpcDef& npc : m_setup_.npcs) {
             if (!npc.route.empty()) {
-                const auto& stop =
-                    npc.route[static_cast<std::size_t>(((day - 1) % static_cast<std::int64_t>(npc.route.size()) +
-                                                        static_cast<std::int64_t>(npc.route.size())) %
-                                                       static_cast<std::int64_t>(npc.route.size()))];
-                npc.x = stop.first;
-                npc.y = stop.second;
+                const auto [x, y] = traveller_position(npc.route, npc.walk, day, tick, day_ticks);
+                npc.x = x;
+                npc.y = y;
             }
         }
     }

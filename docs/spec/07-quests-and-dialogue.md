@@ -54,7 +54,9 @@ A quest has ordered **stages**; each stage lists **objectives** and the `next` s
   first stage, not done, and pays its rewards (and counts for the renown and its faction) again when it is done again. Conformance: the
   scenario `repeatable_quest` of the suite `story` and a save split of it.
 - Events: killing an enemy increments the `kill` objectives of the current stage that name its ID (capped at `count`);
-  talking to an NPC (`interact`) satisfies `talk` objectives naming its key; any event also refreshes `collect` objectives.
+  talking to an NPC (`interact`) satisfies `talk` objectives naming its key; any event also refreshes `collect` objectives. So does the
+  start of every tick, after the clock advances and the travellers move: a quest that collects is done as soon as the bag holds what it
+  asks, however the things came (gathered, harvested, crafted, bought, taken from a chest), not at the next kill or talk.
 - When every objective of the current stage is satisfied the quest moves to `next` (progress reset, `collect` refreshed) and
   this repeats while the new stage is already satisfied. Reaching `end` marks the quest **done** and applies its `rewards` effects.
 
@@ -96,9 +98,28 @@ A dialogue is a graph of named nodes with a `start` node and the special target 
 - `interact`: when a dialogue is open it behaves as `advance`. Otherwise the nearest NPC within 1.5 tiles (first in list order on ties) is talked to:
   first the `talk` event is processed, then its dialogue starts.
 - **Travellers**: an NPC may have `route`, a list of positions (tiles; `[dx, dy]` from the centre of the world in the world data). On day `d`
-  (spec 08; 1 without a clock) it stands at stop `(d - 1) % len(route)`: at the start of every tick, after the clock advances, the
-  travellers are put where the day says (before a tick, where their data puts them; after a game is loaded, at once where the loaded day says). A traveller is **never solid**. Conformance: the
+  (spec 08; 1 without a clock) its stop is `s = (d - 1) % len(route)`: at the start of every tick, after the clock advances, the
+  travellers are put where the day and the hour say (before a tick, where their data puts them; after a game is loaded, at once where the loaded time says). A traveller is **never solid**. Conformance: the
   scenario `traveller_moves` of the suite `story` (a day of 60 ticks) and a save split of it.
+- **Travellers walk** (`walk {arrive_pm, depart_pm, speed_x256}` of the NPC; absent or a speed of 0: it stands at its stop all day).
+  The day has `day_ticks` ticks (spec 08) and the tick of the day is `t = world_ticks % day_ticks`; `arrive = day_ticks * arrive_pm / 1000`,
+  `depart = day_ticks * depart_pm / 1000`. From `arrive` to `depart` the traveller stands at its stop. Before `arrive` it is still on its
+  way in, coming from the stop of the day before, `walked = speed_x256 * (arrive - t)` from its stop; from `depart` on it is on its way out
+  toward the stop of the day after, `walked = speed_x256 * (t - depart)`. In 1/256 of a tile, with `h` the stop of the day and `o` the
+  other stop (each `floor(stop * 256 + 0.5)`), `d = o - h` and `length = isqrt(d.x² + d.y²)` (the integer square root, rounded down):
+
+  ```
+  w = min(walked, length / 2)
+  position = h + d * w / length          (each axis; the division is rounded toward zero)
+  ```
+
+  So it walks at `speed_x256` / 256 of a tile per tick on the first and the last part of a leg, never past the middle of it; at midnight
+  it leaves the far middle of one leg for the far middle of the next, where nobody sees it. The world has no road between the stops
+  that is the same in every world (the roads come from the seed, spec 09), so the way is straight; the traveller is not solid, so no
+  ground stops it. In the base world Odo, Brannoc and Lark arrive by six in the morning, stay at their outpost until six in the
+  evening and walk at 1/16 of a tile per tick (`walk {250, 750, 16}`). Conformance: the scenario `traveller_walks` of the suite
+  `story` (a day of 1000 ticks) and a save split of it; the story checkpoint lists `travellers`, the position of every NPC with a
+  route.
 - **Residents**: an NPC may have `when`, a condition of the closed catalog above. It is there only while the condition holds: otherwise it is not drawn and cannot be talked to (`interact` and the `talk` event skip it). A resident is **never solid**, there or not, so that its coming and going never moves the player or a creature. In the scenarios the NPCs of `story.npcs` may have `when`; in the world data, the entries of `npcs` (spec 09). Conformance: the scenario `resident_arrives` of the suite `story` and a save split of it.
 
 ## Guild

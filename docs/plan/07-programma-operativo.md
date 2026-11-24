@@ -155,6 +155,11 @@ Batch unico con le voci B1.1-B1.6, più il lavoro di G1 che serve a sbloccare le
 - **Accettazione:** lo scenario passa in C++ e Kotlin; la posizione a un orario dato è identica nei tre (riferimento, C++, Kotlin); il proprietario vede i viaggiatori sulla strada.
 - **Rischi:** la ricerca dei percorsi deve essere deterministica e il risultato va scritto nei dati, altrimenti il gioco paga il costo a ogni avvio.
 - **Taglia:** L. **Dipende da:** B1.4. Issue: [progliodario/aethermoor#231](https://github.com/progliodario/aethermoor/issues/231).
+- **Fatto (24 novembre 2026).** Differenza dal progetto: il viaggiatore cammina in linea retta, non sulle caselle di strada. Le strade del
+  mondo dipendono dal seme (sono rumore, spec 09), quindi un percorso scritto nei dati varrebbe per un solo mondo; e la tappa è un
+  avamposto fatto a mano, raggiunto da strade diverse a ogni seme. Il viaggiatore resta alla tappa da un quarto a tre quarti del giorno
+  (`walk` nei dati, scritto da `tools/make_caravan.py`), cammina al passo vicino alle tappe e cambia tappa a mezzanotte, a metà strada,
+  dove nessuno lo vede. Scenario `traveller_walks` nei tre; il proprietario deve ancora vederlo sullo schermo.
 
 ##### B3.2 Paesani alla festa
 
@@ -255,6 +260,11 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **File:** `tools/conformance_m5.py`, `tools/reference/`, `desktop/tests/conformance_test.cpp`, `android/core/src/test/`, `tools/make_suites_map.py` (nuovo).
 - **Accettazione:** lo scenario `week_of_play` passa nelle tre implementazioni; `docs/design/suites.md` è generato e controllato in CI.
 - **Dipende da:** B2.1 e B3.1. Taglia: M. Issue: [progliodario/aethermoor#241](https://github.com/progliodario/aethermoor/issues/241).
+- **Fatto (24 novembre 2026).** Lo scenario `week_of_play` è nel modulo dei combattimenti (`tools/conformance_m3.py`, che ha già
+  coltivare, cucinare e negozi), non in un `conformance_m5.py` nuovo: il suo caso è nella suite `combat`, eseguita dai due client, e
+  due suoi salvataggi sono nelle copie congelate. Le invarianti sono un test del riferimento (`test_a_week_of_play_keeps_its_invariants`).
+  Scrivendolo è venuto fuori un difetto: le missioni che chiedono oggetti si contavano solo a un'uccisione, a una parola o a una cassa;
+  ora la borsa si conta a ogni tick (spec 07), nei tre.
 
 #### C6 Musica e ambiente (bloccata)
 

@@ -336,6 +336,8 @@ public:
     std::int64_t sell_price(const std::string& item_id) const;
     // The day of the world (spec 08): world ticks / day ticks + 1, and 1 without a clock.
     std::int64_t day_now() const;
+    std::int64_t day_ticks_now() const;  // the length of a day (spec 08), 0 without a clock
+    std::int64_t tick_of_day() const;    // world_ticks % day_ticks, 0 without a clock
     // Uses one item of the inventory (spec 06). Returns false, changing nothing, when it is refused.
     bool use_item(const std::string& item_id);
     // Gathering (spec 06, "Gathering"): the items found at the nearest prop in reach that can be gathered from, which

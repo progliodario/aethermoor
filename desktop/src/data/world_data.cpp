@@ -393,11 +393,17 @@ std::optional<WorldParams> parse_world_params(std::string_view json_text, std::s
                               n.at("dx").get<int>(),
                               n.at("dy").get<int>(),
                               n.contains("when") ? n.at("when").dump() : std::string(),
+                              {},
                               {}});
             if (n.contains("route")) {  // a traveller (spec 07, "Travellers")
                 for (const Json& stop : n.at("route")) {
                     p.npcs.back().route.emplace_back(stop.at(0).get<int>(), stop.at(1).get<int>());
                 }
+            }
+            if (n.contains("walk")) {  // and how it walks between its stops (spec 07, "Travellers walk")
+                const Json& walk = n.at("walk");
+                p.npcs.back().walk = {walk.at("arrive_pm").get<int>(), walk.at("depart_pm").get<int>(),
+                                      walk.at("speed_x256").get<std::int64_t>()};
             }
         }
         return p;

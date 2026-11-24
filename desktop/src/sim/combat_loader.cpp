@@ -268,6 +268,7 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         def.x = npc.x;
         def.y = npc.y;
         def.route = npc.route;    // a traveller (spec 07, "Travellers")
+        def.walk = npc.walk;      // and how it walks (spec 07, "Travellers walk")
         if (!npc.when.empty()) {  // a resident (spec 07, "Residents")
             def.when = parse_condition_text(npc.when, error);
             if (!def.when) {

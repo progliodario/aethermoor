@@ -1313,6 +1313,20 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         for (const auto& [flag, value] : ws.at("flags").items()) {
             REQUIRE(story.flags().at(flag) == value.get<bool>());
         }
+        if (ws.contains("travellers")) {  // where the travellers are (spec 07, "Travellers walk")
+            std::size_t index = 0;
+            for (const aether::NpcDef& npc : story.setup().npcs) {
+                if (npc.route.empty()) {
+                    continue;
+                }
+                INFO("traveller " << npc.key);
+                REQUIRE(index < ws.at("travellers").size());
+                REQUIRE(std::abs(npc.x - ws.at("travellers")[index][0].get<float>()) < 1e-4F);
+                REQUIRE(std::abs(npc.y - ws.at("travellers")[index][1].get<float>()) < 1e-4F);
+                ++index;
+            }
+            REQUIRE(index == ws.at("travellers").size());
+        }
         REQUIRE(story.quests().size() == ws.at("quests").size());
         for (const auto& [quest_id, wq] : ws.at("quests").items()) {
             const aether::QuestProgress& q = story.quests().at(quest_id);
