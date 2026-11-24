@@ -26,3 +26,58 @@ def test_placeholders_ignore_text_inside_plural_branches():
 
 def test_placeholders_plain_text_has_none():
     assert validate_data.placeholders("No placeholders here") == set()
+
+
+# ------------------------------------------------------------------------------- a pack of its own (a mod)
+
+def _copy_example(tmp_path):
+    import shutil
+
+    target = tmp_path / "mod"
+    shutil.copytree(TOOLS.parent / "examples" / "mod-example", target)
+    return target
+
+
+def test_the_example_mod_is_valid():
+    assert validate_data.main([str(TOOLS.parent / "examples" / "mod-example")]) == 0
+
+
+def test_a_mod_outside_the_repository_is_valid(tmp_path):
+    assert validate_data.main([str(_copy_example(tmp_path))]) == 0
+
+
+def test_a_mod_that_names_a_missing_thing_fails(tmp_path, capsys):
+    import json
+
+    mod = _copy_example(tmp_path)
+    path = mod / "quests" / "side" / "honey_hunt.json"
+    quest = json.loads(path.read_text(encoding="utf-8"))
+    quest["stages"][0]["objectives"][0]["enemy"] = "example:enemy/slime_nowhere"
+    path.write_text(json.dumps(quest), encoding="utf-8", newline="\n")
+    assert validate_data.main([str(mod)]) == 1
+    assert "example:enemy/slime_nowhere" in capsys.readouterr().out
+
+
+def test_a_mod_that_defines_a_thing_of_the_base_again_fails(tmp_path, capsys):
+    import json
+
+    mod = _copy_example(tmp_path)
+    path = mod / "enemies" / "slime_honey.json"
+    enemy = json.loads(path.read_text(encoding="utf-8"))
+    enemy["id"] = "base:enemy/slime_green"
+    path.write_text(json.dumps(enemy), encoding="utf-8", newline="\n")
+    assert validate_data.main([str(mod)]) == 1
+    out = capsys.readouterr().out
+    assert "already defined by a pack it depends on" in out and "not in namespace 'example'" in out
+
+
+def test_a_mod_without_a_text_fails(tmp_path, capsys):
+    import json
+
+    mod = _copy_example(tmp_path)
+    path = mod / "i18n" / "it" / "content.json"
+    texts = json.loads(path.read_text(encoding="utf-8"))
+    del texts["quest.honey_hunt.task"]
+    path.write_text(json.dumps(texts), encoding="utf-8", newline="\n")
+    assert validate_data.main([str(mod)]) == 1
+    assert "quest.honey_hunt.task" in capsys.readouterr().out

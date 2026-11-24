@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "example:quest/side/honey_hunt",
+  "name": "$i18n:quest.honey_hunt.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.honey_hunt.task",
+      "objectives": [
+        {
+          "type": "kill",
+          "enemy": "example:enemy/slime_honey",
+          "count": 5
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 120
+    },
+    {
+      "effect": "add_gold",
+      "amount": 90
+    },
+    {
+      "effect": "add_item",
+      "item": "base:item/honey_cake",
+      "qty": 2
+    }
+  ]
+}

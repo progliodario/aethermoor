@@ -107,7 +107,7 @@ question and the player chooses the **ending** among two answers: each sets the 
 `_b`) and gives its own thing (an accessory); then the person has a last line, and the ending is never given again. The story of a
 protagonist does not change the main plot.
 
-The base pack (waves 9a, 9b and 9c of the plan) has six, all in Aldermere:
+The base pack (waves 9a to 9d of the plan) has one for every protagonist, all in Aldermere:
 
 - **Ren, "Overtime"**: Bertram Quill, keeper of the guild's ledgers, drowning in paperwork, recognizes a fellow office worker: six spider
   silks to bind the ledgers, eight grey wolves to close three hundred complaints, three hollow armors ("middle management") that keep
@@ -128,6 +128,13 @@ The base pack (waves 9a, 9b and 9c of the plan) has six, all in Aldermere:
 - **Yuki, "The Honest Thief"**: Ilse Marrow, keeper of the guild's vault in a town where nobody locks a door: the night owls that steal
   the silver spoons, the shade wolves that carried the guild's only painting into Whisperwood, the bats of the cave under the vault,
   where a forgotten painting waits. Ending: hang it in the vault for everyone (the guild's signet) or keep it (the shadow dagger).
+- **Lena, "The Last Diagnosis"**: Doctor Aurel Finch, physician of the guild, puzzled by frost wolves found frozen: five of them and
+  three pelts to examine, snowflakes and healing herbs for a village with a cold fever, five frost wisps, the cause, that drink the
+  warmth of the sleeping. Ending: stay as the guild's second physician (the frost locket) or live a little (the glacier spear).
+- **Gideon, "The Debts of a King"**: Dorrit Ash, a baker whose family fled the Ashen Wastes when the old king fell, and who knows the
+  stories about a black sword: six char slimes off the refugees' fields, ember cores and magma shards for ovens that warm without
+  burning, five magma slimes out of the ruins of his old fortress. Ending: tell her the truth (the mantle of the king, kept for the
+  day he came home a better man) or stay her friend and a Guest (the hammer of her family's forge).
 
 `tools/tests/test_side_stories.py` plays every one from the first word to either ending with the story of the reference.
 

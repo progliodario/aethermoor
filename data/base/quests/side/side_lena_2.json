@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../../schemas/quest.schema.json",
+  "id": "base:quest/side/side_lena_2",
+  "name": "$i18n:quest.side_lena_2.name",
+  "kind": "side",
+  "faction": "folk",
+  "stages": [
+    {
+      "id": "task",
+      "journal": "$i18n:quest.side_lena_2.task",
+      "objectives": [
+        {
+          "type": "collect",
+          "item": "base:item/snowflake",
+          "count": 4
+        },
+        {
+          "type": "collect",
+          "item": "base:item/healing_herb",
+          "count": 3
+        }
+      ],
+      "next": "end"
+    }
+  ],
+  "rewards": [
+    {
+      "effect": "add_xp",
+      "amount": 1500
+    },
+    {
+      "effect": "add_gold",
+      "amount": 1000
+    }
+  ]
+}

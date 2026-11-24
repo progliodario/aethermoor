@@ -1815,5 +1815,17 @@
   "quest.side_yuki_2.task": "The guild's only painting was carried off into Whisperwood by the shade wolves, who like dark things. Chase off five of them and find it.",
   "quest.side_yuki_3.name": "The Honest Thief: The Cave under the Vault",
   "quest.side_yuki_3.task": "Bats nest in the cave under the vault, and things keep falling through the floor into it. Clear six of them and bring four bat wings for the mortar of a new floor.",
+  "quest.side_lena_1.name": "The Last Diagnosis: Cause of Death, Cold",
+  "quest.side_lena_1.task": "Frost wolves are found frozen in Frostveil, which frost wolves should not be. Bring Doctor Finch three of their pelts, from five of them.",
+  "quest.side_lena_2.name": "The Last Diagnosis: A Fever in the Snow",
+  "quest.side_lena_2.task": "A village of Frostveil is sick with a cold fever. Bring four snowflakes and three healing herbs for Doctor Finch's remedy.",
+  "quest.side_lena_3.name": "The Last Diagnosis: The Cold Light",
+  "quest.side_lena_3.task": "Frost wisps drink the warmth of the sleeping. Stop five of them, and the wolves and the villages of Frostveil can sleep.",
+  "quest.side_gideon_1.name": "The Debts of a King: Poisoned Fields",
+  "quest.side_gideon_1.task": "Char slimes poison the fields of the refugees from the Ashen Wastes. Clear six of them and bring three char chunks, to show the farmers the ground is clean.",
+  "quest.side_gideon_2.name": "The Debts of a King: A Hearth for the Wastes",
+  "quest.side_gideon_2.task": "The refugees want ovens that warm without burning. Bring Dorrit four ember cores and two magma shards to build them.",
+  "quest.side_gideon_3.name": "The Debts of a King: The Old Fortress",
+  "quest.side_gideon_3.task": "Magma slimes crawl out of the ruins of the old fortress of the Wastes toward the refugee farms. Stop five of them.",
   "enemy.slime_sun.name": "Sun slime"
 }

@@ -9,6 +9,11 @@ Checks:
   5. i18n keys are identical across languages and placeholders ({name}) agree.
   6. Every "$i18n:key" used in the data exists in every language of the pack.
 
+Usage: python tools/validate_data.py [pack folder ...]
+  (no argument)  every pack of data/ (the base game).
+  pack folders   those packs only, for instance a mod (docs/modding/README.md): its references and texts may also be those of the packs
+                 it `depends` on, which are read from data/; it may not define an ID they define.
+
 Exit code 0 when everything passes, 1 otherwise.
 """
 from __future__ import annotations
@@ -49,19 +54,27 @@ def placeholders(text: str) -> set[str]:
     return names
 
 
+def shown(path: Path) -> str:
+    """A path as the messages write it: from the root of the repository, or whole when it lies outside (a mod elsewhere)."""
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def load_json(path: Path, errors: list[str]):
     def no_twins(pairs):  # a key written twice: the clients would keep one of the two values, and not all the same one
         seen: set[str] = set()
         for key, _value in pairs:
             if key in seen:
-                errors.append(f"{path.relative_to(ROOT)}: the key {key!r} is written twice")
+                errors.append(f"{shown(path)}: the key {key!r} is written twice")
             seen.add(key)
         return dict(pairs)
 
     try:
         return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=no_twins)
     except (OSError, json.JSONDecodeError) as exc:
-        errors.append(f"{path.relative_to(ROOT)}: cannot parse JSON: {exc}")
+        errors.append(f"{shown(path)}: cannot parse JSON: {exc}")
         return None
 
 
@@ -103,7 +116,7 @@ def collect_id_refs(node, out: set[str], top_level_id: str | None = None) -> Non
 
 def check_graphs(path: Path, data: dict, errors: list[str]) -> None:
     """Dialogue and quest graphs: every `next` must point to an existing node/stage or 'end'."""
-    rel = path.relative_to(ROOT)
+    rel = shown(path)
     nodes = data.get("nodes")
     if isinstance(nodes, dict) and "start" in data:
         if data["start"] not in nodes:
@@ -132,7 +145,7 @@ def check_schemas(errors: list[str]) -> None:
         try:
             Draft202012Validator.check_schema(data)
         except SchemaError as exc:
-            errors.append(f"{path.relative_to(ROOT)}: invalid schema: {exc}")
+            errors.append(f"{shown(path)}: invalid schema: {exc}")
 
 
 def check_project(errors: list[str]) -> None:
@@ -142,8 +155,26 @@ def check_project(errors: list[str]) -> None:
         validate_against(data, ROOT / "schemas" / "project.schema.json", "project.json", errors)
 
 
-def check_pack(pack_dir: Path, errors: list[str]) -> None:
-    rel = pack_dir.relative_to(ROOT)
+def pack_contents(pack_dir: Path) -> tuple[set[str], dict[str, set[str]]]:
+    """The IDs a pack defines and the text keys of each of its languages (to check a pack that depends on it)."""
+    ids: set[str] = set()
+    texts: dict[str, set[str]] = {}
+    ignored: list[str] = []
+    for path in sorted(pack_dir.rglob("*.json")):
+        parts = path.relative_to(pack_dir).parts
+        data = load_json(path, ignored)
+        if not isinstance(data, dict):
+            continue
+        if parts[0] == "i18n" and len(parts) > 1:
+            texts.setdefault(parts[1], set()).update(k for k in data if k != "$schema")
+        elif path.name != "pack.json" and isinstance(data.get("id"), str):
+            ids.add(data["id"])
+    return ids, texts
+
+
+def check_pack(pack_dir: Path, errors: list[str], deps: tuple[set[str], dict[str, set[str]]] | None = None) -> None:
+    """Checks one pack. `deps`: the IDs and texts of the packs it depends on, which its references and texts may also use."""
+    rel = shown(pack_dir)
     manifest_path = pack_dir / "pack.json"
     if not manifest_path.exists():
         errors.append(f"{rel}: missing pack.json")
@@ -167,13 +198,15 @@ def check_pack(pack_dir: Path, errors: list[str]) -> None:
             own_id = data.get("id")
             if own_id is not None:
                 if not isinstance(own_id, str) or not valid_id(own_id):
-                    errors.append(f"{path.relative_to(ROOT)}: invalid id {own_id!r}")
+                    errors.append(f"{shown(path)}: invalid id {own_id!r}")
                 else:
                     if own_id.split(":")[0] != pack_id:
-                        errors.append(f"{path.relative_to(ROOT)}: id '{own_id}' is not in namespace '{pack_id}'")
+                        errors.append(f"{shown(path)}: id '{own_id}' is not in namespace '{pack_id}'")
+                    if deps is not None and own_id in deps[0]:
+                        errors.append(f"{shown(path)}: id '{own_id}' is already defined by a pack it depends on")
                     if own_id in defined:
-                        errors.append(f"{path.relative_to(ROOT)}: duplicate id '{own_id}' "
-                                      f"(also in {defined[own_id].relative_to(ROOT)})")
+                        errors.append(f"{shown(path)}: duplicate id '{own_id}' "
+                                      f"(also in {shown(defined[own_id])})")
                     defined[own_id] = path
             found: set[str] = set()
             collect_id_refs(data, found, own_id if isinstance(own_id, str) else None)
@@ -183,16 +216,18 @@ def check_pack(pack_dir: Path, errors: list[str]) -> None:
         declared = data.get("$schema") if isinstance(data, dict) else None
         if declared:
             schema_path = (path.parent / declared).resolve()
+            if not schema_path.exists() and (ROOT / "schemas" / Path(declared).name).exists():
+                schema_path = ROOT / "schemas" / Path(declared).name  # a pack outside the repository names the schema by its file
             if not schema_path.exists():
-                errors.append(f"{path.relative_to(ROOT)}: $schema not found: {declared}")
+                errors.append(f"{shown(path)}: $schema not found: {declared}")
             else:
-                validate_against(data, schema_path, str(path.relative_to(ROOT)), errors)
+                validate_against(data, schema_path, str(shown(path)), errors)
         if not in_i18n:
             collect_i18n_refs(data, refs)
 
     for ref, source in sorted(id_refs.items()):
-        if ref not in defined:
-            errors.append(f"{source.relative_to(ROOT)}: reference to undefined id '{ref}'")
+        if ref not in defined and (deps is None or ref not in deps[0]):
+            errors.append(f"{shown(source)}: reference to undefined id '{ref}'")
 
     languages = manifest.get("languages", [])
     tables: dict[str, dict[str, str]] = {}
@@ -210,7 +245,7 @@ def check_pack(pack_dir: Path, errors: list[str]) -> None:
                 if key == "$schema":
                     continue
                 if key in table:
-                    errors.append(f"{path.relative_to(ROOT)}: duplicate key '{key}'")
+                    errors.append(f"{shown(path)}: duplicate key '{key}'")
                 table[key] = value
         tables[lang] = table
 
@@ -229,20 +264,45 @@ def check_pack(pack_dir: Path, errors: list[str]) -> None:
                     errors.append(f"{rel}: placeholders of '{key}' differ between '{base_lang}' and '{lang}'")
 
     for lang, table in tables.items():
-        for ref in sorted(refs - set(table)):
+        for ref in sorted(refs - set(table) - (deps[1].get(lang, set()) if deps is not None else set())):
             errors.append(f"{rel}: $i18n:{ref} used in data but missing in '{lang}'")
 
 
-def main() -> int:
+def check_dependent_pack(pack_dir: Path, errors: list[str]) -> None:
+    """A pack given on the command line: its `depends` are read from data/, and it is checked over them."""
+    manifest = load_json(pack_dir / "pack.json", errors) if (pack_dir / "pack.json").exists() else None
+    ids: set[str] = set()
+    texts: dict[str, set[str]] = {}
+    for dep in (manifest or {}).get("depends", []):
+        dep_dir = ROOT / "data" / dep
+        if not (dep_dir / "pack.json").exists():
+            errors.append(f"{shown(pack_dir)}: it depends on the pack '{dep}', which data/ does not have")
+            continue
+        dep_ids, dep_texts = pack_contents(dep_dir)
+        ids |= dep_ids
+        for lang, keys in dep_texts.items():
+            texts.setdefault(lang, set()).update(keys)
+    check_pack(pack_dir, errors, (ids, texts))
+
+
+def main(argv: list[str] | None = None) -> int:
     errors: list[str] = []
     check_schemas(errors)
     check_project(errors)
-    data_dir = ROOT / "data"
-    packs = sorted(p for p in data_dir.iterdir() if p.is_dir() and p.name != "examples") if data_dir.is_dir() else []
-    if not packs:
-        errors.append("data/: no packs found")
-    for pack in packs:
-        check_pack(pack, errors)
+    if argv:
+        packs = [Path(arg).resolve() for arg in argv]
+        for pack in packs:
+            if not pack.is_dir():
+                errors.append(f"{arg_name(pack)}: not a folder")
+                continue
+            check_dependent_pack(pack, errors)
+    else:
+        data_dir = ROOT / "data"
+        packs = sorted(p for p in data_dir.iterdir() if p.is_dir() and p.name != "examples") if data_dir.is_dir() else []
+        if not packs:
+            errors.append("data/: no packs found")
+        for pack in packs:
+            check_pack(pack, errors)
 
     if errors:
         print(f"FAILED: {len(errors)} problem(s)")
@@ -253,5 +313,9 @@ def main() -> int:
     return 0
 
 
+def arg_name(path: Path) -> str:
+    return shown(path)
+
+
 if __name__ == "__main__":
-    sys.exit(main())
+    sys.exit(main(sys.argv[1:]))

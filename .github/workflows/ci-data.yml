@@ -10,6 +10,7 @@ on:
       - "tools/**"
       - "tests/**"
       - "project.json"
+      - "examples/**"
       - "desktop/tests/**"
       - "desktop/vcpkg.json"
       - "android/core/src/test/**"
@@ -41,6 +42,8 @@ jobs:
         run: ruff check tools
       - name: Validate data, schemas and localization
         run: python tools/validate_data.py
+      - name: Validate the example mod (docs/modding/README.md)
+        run: python tools/validate_data.py examples/mod-example
       - name: Tool tests
         run: pytest -q tools/tests
       - name: The committed conformance vectors are the ones the reference generates

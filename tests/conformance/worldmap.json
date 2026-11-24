@@ -3027,6 +3027,20 @@
               "variant": "teal",
               "dx": 387,
               "dy": -129
+            },
+            {
+              "key": "aldermere_physician_finch",
+              "dialogue": "base:dialogue/npc/finch",
+              "variant": "cream",
+              "dx": 383,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_baker_dorrit",
+              "dialogue": "base:dialogue/npc/dorrit",
+              "variant": "brown",
+              "dx": 385,
+              "dy": -127
             }
           ],
           "stamp_defs": {
@@ -11744,6 +11758,20 @@
               "variant": "teal",
               "dx": 387,
               "dy": -129
+            },
+            {
+              "key": "aldermere_physician_finch",
+              "dialogue": "base:dialogue/npc/finch",
+              "variant": "cream",
+              "dx": 383,
+              "dy": -127
+            },
+            {
+              "key": "aldermere_baker_dorrit",
+              "dialogue": "base:dialogue/npc/dorrit",
+              "variant": "brown",
+              "dx": 385,
+              "dy": -127
             }
           ],
           "stamp_defs": {
