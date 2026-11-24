@@ -275,16 +275,16 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 <!-- facts:begin -->
 | Che cosa | Quanti (contati dai dati da `tools/make_facts.py`) |
 |---|---|
-| Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
+| Mondo | 8 regioni, 46 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
 | Protagonisti | 8, ognuno con un compagno, altri 4 compagni che possono entrare nel gruppo, e una storia in sei atti (120 missioni di storia) |
-| Creature | 79, di cui 27 guardiani e 8 Echi |
+| Creature | 83, di cui 27 guardiani e 8 Echi |
 | Missioni | 407 (24 storie dei paesani) |
 | Oggetti e ricette | 290 oggetti, 86 ricette (8 segrete) |
-| Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
-| Persone con nome | 57 nei dati del mondo, oltre ai paesani generati |
+| Progressione | 50 titoli, 8 tag, 16 talenti, 29 imprese |
+| Persone con nome | 58 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4264 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 632 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 4283 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 31 file di vettori di conformità, 634 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
 
@@ -303,7 +303,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M6 Sistemi di vita | fatto | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con i suoi mobili e tre stanze da sistemare, otto residenti che arrivano agli avamposti, Odo il capo carovana, Brannoc il fabbro errante e Lark la cantastorie che ogni giorno sono in un altro avamposto e camminano tra le tappe, stagioni che cambiano i raccolti, il giardino del cottage, un colono in ogni villaggio generato con il suo mestiere, la sua missione e la sua bottega, una festa per regione con i suoi giochi, i paesani che ne parlano | nulla |
 | M7 Compagni | fatto | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna, un gruppo di compagni (i quattro randagi del cottage) che seguono uno alla volta, ognuno con il suo legame | nulla |
 | M8 Progressione profonda | fatto | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi tirati a sorte quando si trovano, anche ventiquattro pezzi comuni, e ritemprati all'incudine o dai fabbri, dodici pezzi rari con due affissi, affissi scelti all'incudine con il prisma, doni delle imprese a ogni partita nuova | nulla |
-| M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo, quinto e sesto atto ("Due Ospiti", che lega i protagonisti a coppie), epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | la modalità Dungeon di Gideon |
+| M9 Contenuti | fatto | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo, quinto e sesto atto ("Due Ospiti", che lega i protagonisti a coppie), epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere, il Dungeon di Gideon (cinque ondate di avventurieri, trappole, un titolo) | nulla |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento (anche i termini del glossario), log dei crash, la lista di controllo dell'accessibilità | un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | avviato | la guida per chi fa mod, il mod di esempio e il suo controllo in CI | pacchetti firmati, pagina di download (decisioni del proprietario) |
 
@@ -357,6 +357,9 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Missioni a tempo e prove delle stagioni** (dal 23 novembre, B4.1, spec 07 "Timed quests"): una missione può avere dei giorni
   (`time_limit_days`); passati, non conta più nulla e si riprende subito. Dal livello 25 gli impiegati della gilda offrono in ogni stagione
   una prova: due grandi creature di due regioni lontane in tre giorni, pagata con un pezzo raro a due affissi. Il diario dice i giorni rimasti.
+- **Il Dungeon di Gideon** (dal 24 novembre, C3.1, spec 18 "Gideon's Dungeon", la forma ridotta scelta dal proprietario): un sito accanto
+  al Santuario della Cenere, tre stanze dal cancello al nucleo; finita la storia di Gideon, Grubb apre i cancelli a cinque ondate di
+  avventurieri che marciano sul nucleo; trappole di spuntoni e di catrame; la ricompensa e il titolo Signore del Dungeon.
 - **Storie laterali** (dal 23 novembre, D1-D4, spec 18 "Side stories"): ognuno degli otto protagonisti ha una storia di tre missioni,
   raccontata ad Aldermere solo a chi porta il suo ricordo, con un finale scelto in dialogo che cambia l'oggetto ricevuto: Bertram Quill
   (Ren, i registri della gilda), Mirela (Haruka, le stalle), la capitana Wren Hale (Daichi, i pompieri volontari), Ottilie Brask (Sakura,
@@ -453,8 +456,6 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base. La proposta è
-   scritta (spec 18, "Gideon's Dungeon"): aspetta la scelta del proprietario tra la forma ridotta (L) e quella piena (XL).
 10. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
 11. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).
 

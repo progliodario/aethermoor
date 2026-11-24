@@ -82,6 +82,8 @@ struct Enemy {
     int broken = 0;            // ticks left of being broken: stunned, and hits do more; not saved
     int spawner_x = 0;         // streamed worlds: the spawner tile this enemy belongs to
     int spawner_y = 0;
+    bool defense = false;      // a creature of the defense of Gideon's Dungeon (spec 18): it marches on the core
+    std::vector<int> trapped;  // the spikes that have hurt it
     float radius() const { return static_cast<float>(def.radius_x100) / 100.0F; }
 };
 
@@ -449,6 +451,19 @@ public:
     std::string companion_id() const { return m_setup_.companion ? m_setup_.companion->id : std::string(); }
     bool companion_switch();
     bool recruit_companion(const std::string& id) override;
+    // Gideon's Dungeon (spec 18): the defense starts (false while one runs, or without one); whether one runs, the
+    // number of the wave that came last and of all of them, and its clock; a notice for the client when a wave comes or
+    // the defense ends ("" when none; an $i18n: key), taken once.
+    bool start_defense() override;
+    bool defense_active() const { return m_defense_active_; }
+    int defense_wave() const { return m_defense_wave_; }
+    int defense_waves() const { return m_setup_.defense ? static_cast<int>(m_setup_.defense->waves.size()) : 0; }
+    int defense_clock() const { return m_defense_clock_; }
+    std::string take_defense_notice() {
+        std::string notice;
+        notice.swap(m_defense_notice_);
+        return notice;
+    }
     const Story& story() const { return m_story_; }
 
     SaveState capture() const;
@@ -531,6 +546,13 @@ private:
     std::vector<std::string> m_start_party_;
     std::map<std::string, int> m_bonds_;
     void make_companion_active(const std::string& id);
+    bool m_defense_active_ = false;  // Gideon's Dungeon (spec 18): not saved
+    int m_defense_wave_ = 0;
+    int m_defense_clock_ = 0;
+    std::string m_defense_notice_;
+    void defense_wave();
+    void update_defense();
+    void defense_traps();
     int m_companion_cooldown_ = 0;
     bool m_companion_stay_ = false;
     int m_companion_bond_ = 0;

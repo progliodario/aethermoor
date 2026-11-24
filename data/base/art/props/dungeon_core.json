@@ -1,0 +1,130 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/dungeon_core",
+  "canvas": {
+    "w": 34,
+    "h": 52,
+    "origin": [
+      17,
+      47
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          17.5,
+          47,
+          14,
+          3.2
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.45,
+      "blur": 1.12
+    },
+    {
+      "shape": {
+        "ellipse": [
+          17.5,
+          47,
+          8.4,
+          1.76
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.36,
+      "blur": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 6 47 L 9 36 L 25 36 L 28 47 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 992,
+          "octaves": 3,
+          "stops": [
+            [
+              0.28,
+              "#2E2A33"
+            ],
+            [
+              0.5,
+              "#3A3440"
+            ],
+            [
+              0.74,
+              "#5D5962"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "path": "M 17 4 L 26 20 L 17 36 L 8 20 Z"
+      },
+      "fill": {
+        "linear": {
+          "x0": 8,
+          "y0": 0,
+          "x1": 26,
+          "y1": 0,
+          "stops": [
+            [
+              0,
+              "#C890F0"
+            ],
+            [
+              0.5,
+              "$p.crystal"
+            ],
+            [
+              1,
+              "#3A1060"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "path": "M 17 4 L 17 36"
+      },
+      "stroke": {
+        "color": "#E0C0FF",
+        "width": 0.5
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 11.00 14.00 C 11.00 11.24 12.34 9.00 14.00 9.00 C 15.66 9.00 17.00 11.24 17.00 14.00 C 17.00 16.76 15.66 19.00 14.00 19.00 C 12.34 19.00 11.00 16.76 11.00 14.00 Z"
+      },
+      "fill": {
+        "color": "#F4E0FF"
+      },
+      "alpha": 0.5,
+      "clip": true,
+      "blend": "add"
+    }
+  ],
+  "palette": {
+    "stone": "#3A3440",
+    "crystal": "#8A3AC8"
+  }
+}

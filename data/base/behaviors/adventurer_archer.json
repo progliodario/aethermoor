@@ -1,0 +1,11 @@
+{
+  "$schema": "../../../schemas/behavior.schema.json",
+  "id": "base:behavior/adventurer_archer",
+  "kind": "melee_chaser",
+  "aggro_x100": 400,
+  "leash_x100": 700,
+  "attack_range_x100": 400,
+  "hit_range_x100": 450,
+  "windup_ticks": 40,
+  "recovery_ticks": 60
+}

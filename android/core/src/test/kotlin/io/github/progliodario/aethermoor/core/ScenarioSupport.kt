@@ -32,6 +32,7 @@ import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.accessoryOf
 import io.github.progliodario.aethermoor.core.sim.furnitureOf
 import io.github.progliodario.aethermoor.core.sim.homeRoomsOf
+import io.github.progliodario.aethermoor.core.sim.parseDefense
 import io.github.progliodario.aethermoor.core.sim.parseStorySetup
 import io.github.progliodario.aethermoor.core.sim.runeOf
 import kotlinx.serialization.json.JsonArray
@@ -182,6 +183,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         startInventory = input["inventory"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
         companion = input["companion"]?.jsonObject?.let { companionOf(it) },
         companions = input["companions"]?.jsonObject?.mapValues { companionOf(it.value.jsonObject) } ?: emptyMap(),
+        defense = input["defense"]?.jsonObject?.let { d -> parseDefense(d).copy(enemies = d.getValue("enemies").jsonObject.mapValues { enemyDef(it.value.jsonObject) }) },
         talents = input["talents"]?.jsonArray?.map { t ->
             val o = t.jsonObject
             TalentDef(
@@ -423,6 +425,12 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         // the furniture of the home (spec 06, "Furniture")
         val got = sim.furniture.map { (key, item) -> listOf(key.first.toString(), key.second.toString(), item) }
         assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at furniture")
+    }
+    want["defense"]?.jsonObject?.let { wd ->
+        // Gideon's Dungeon (spec 18)
+        assertEquals(wd.getValue("active").jsonPrimitive.boolean, sim.defenseActive, "$at defense active")
+        assertEquals(wd.getValue("wave").jsonPrimitive.int, sim.defenseWave, "$at defense wave")
+        assertEquals(wd.getValue("clock").jsonPrimitive.int, sim.defenseClock, "$at defense clock")
     }
     want["party"]?.jsonArray?.let { wp ->
         // the party and the bonds that wait (spec 10, "The party")

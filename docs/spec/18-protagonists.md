@@ -138,32 +138,48 @@ The base pack (waves 9a to 9d of the plan) has one for every protagonist, all in
 
 `tools/tests/test_side_stories.py` plays every one from the first word to either ending with the story of the reference.
 
-## Gideon's Dungeon (proposed, not in the game)
+## Gideon's Dungeon
 
-Status: **proposed** on 24 November 2026 (item C3.1 of the operating program, issue progliodario/aethermoor#238). Nothing of this
-section is implemented: the owner chooses the form before any code, as the program asks. It is the reduced variant of the roadmap
-(section 4, valve 4): waves of invading heroes against Gideon's base.
+Status: **v1, the reduced form** chosen by the owner on 24 November 2026 (item C3.1 of the operating program). Waves of adventurers
+march on Gideon's base; the player fights them, with the traps of the Dungeon.
 
-- **Where.** Gideon's old throne in the Ashen Wastes (the hall of the Char Tyrant, his personal boss of the second act) becomes his
-  **Dungeon** once his story is over (the epilogue). A dungeon core by the throne (a prop) starts a **defense**, once a day of the world.
-- **The defense.** Five waves of adventurers come in through the gate and walk to the core through three rooms (the hall, the gallery,
-  the throne room), along fixed waypoints of the stamp. A wave starts when the one before is beaten, or 60 seconds after it started.
-  The waves grow: two adventurers, then three, four, five and a knight. The adventurers are creatures of a new kind (`adventurer`): the
-  warrior, the archer that hits from four tiles, the cleric that heals the others, the knight that guards the cleric. They ignore the
-  player until hit, and walk to the core.
-- **Traps.** Before the first wave the player places up to six traps on marked places of the rooms (as the furniture of the home,
-  spec 06): **spikes** (an adventurer that steps on them loses a fifth of its health, once) and **tar** (it walks at half speed for
-  three seconds). A trap costs materials of the Ashen Wastes.
-- **The end.** An adventurer that touches the core ends the defense: no reward, nothing lost. Fights must stay easy (`CLAUDE.md`):
-  the adventurers are weak against Gideon, the defense is a show of his power, not a wall.
-- **The reward.** The five waves beaten: gold, materials of the Ashen Wastes and, the first time, the title "Lord of the Dungeon"
-  (+5% attack, spec 11).
-- **Not saved.** A defense is not part of the save: a save taken during one starts it again at its first wave.
-- **Conformance.** A scenario with a whole defense: the five waves, both traps, the end at the core and the reward.
+**The data.** `data/base/defense.json` (ID `base:defense/dungeon`, schema `defense`): `core` and `gate` (positions in tiles, from the
+centre of the world; a scenario gives them as they are), `core_radius_x100`, `wave_ticks`, `waves` (lists of creature IDs),
+`traps` (`{kind, at, radius_x100, flag}`, `kind` `spikes` or `tar`), `spikes_pct`, `tar_ticks` and `reward` (`gold`, `items`,
+`counter`). A scenario gives the definitions of its creatures in `defense.enemies`.
 
-The cost: **L** in the reduced form above (the adventurers drawn with the art of the hollow armors, recoloured; a wave counter in the
-HUD; the traps placed like furniture, from the bag). **XL** with adventurers drawn as people (the rigs of spec 13 on creatures) and a
-panel to place the traps. The owner decides: whether to make it, and which of the two.
+**The start.** The dialogue effect `start_defense` (spec 07) starts the defense of the world: wave 1 comes at once. It does nothing
+while a defense runs. A defense is not saved: a game loaded during one has none, and its creatures are gone.
+
+**A wave.** Its creatures appear in the world, at the end of the list of the creatures, in the order of the data, at
+`gate + ((i - (n - 1) / 2) * 0.8, 0)` for the `i`-th of `n`, with full health, idle. They are **creatures of the defense**. A creature
+of the defense that is idle **marches**: instead of looking for the player it moves toward the core as a chasing creature moves
+toward the player (its speed, the rain, the season, the chill; resolved against the world), and its home is where it stands. When
+the player comes within its `aggro` (rain, night, fog and season do not change it) it chases as any creature does; when it comes
+back home it marches again. Its kill is a kill of the player.
+
+**Every tick**, while a defense runs, after the creatures have been updated:
+
+1. **Traps.** For every living creature of the defense and every trap whose `flag` the story has set, with the creature's centre
+   within `radius` of the trap: `spikes` hurt it once for each trap, by `max(1, its full health * spikes_pct / 100)` (a creature at 0
+   health or less dies as a kill of the player); `tar` slows it, its chill at least `tar_ticks`.
+2. **The core.** A living creature of the defense whose centre is within `core_radius` of the core ends the defense: **lost**.
+   Every creature of the defense leaves the world (it is dead, and not a kill); nothing is given.
+3. **The waves.** The wave clock grows by one. When no creature of the defense is alive, or the clock reaches `wave_ticks`, the next
+   wave comes and the clock goes back to 0; with no next wave and no creature of the defense alive, the defense is **won**: the
+   `gold` of the reward goes to the purse, its `items` to the bag, and the counter `counter` grows by one (spec 11).
+
+The checkpoints of a scenario with a defense carry `defense` (`active`, `wave`, the number of the wave, 0 before the first, and
+`clock`). Conformance: the scenarios `defense_won` and `defense_lost`.
+
+**The base pack** (`tools/make_dungeon.py`). Gideon's Dungeon is a landmark next to his sanctum (`gideon_dungeon`, the stamp
+`base:stamp/gideon_dungeon`): three rooms in a row, the hall at the gate, the gallery and the throne room, where the **dungeon core**
+stands. Grubb, Gideon's imp, waits in the throne room once Gideon's story is over (the quest `act6_gideon_3` done) and starts a
+defense; he also arms the traps of the Dungeon, two pits of spikes (for ten iron ores, the flag `dungeon_spikes`) and two of tar
+(for six pine resins, `dungeon_tar`). Five waves of 2, 3, 4, 5 and 6 adventurers, each wave sixty seconds at most: the warrior, the
+archer (who hits from four tiles), the cleric and the knight, with the art of the armoured creatures of the world. The reward is 500
+gold, two ember cores and five iron ores, and the counter `defenses_won`: the first time, the title Lord of the Dungeon (+5% attack).
+The HUD of the clients shows the wave during a defense, and a notice tells how it ended (spec 16).
 
 ## Texts
 

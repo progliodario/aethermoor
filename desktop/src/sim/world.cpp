@@ -109,6 +109,20 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
         m_party_.push_back(m_setup_.companion->id);
     }
     m_start_party_ = m_party_;
+    if (m_setup_.defense &&
+        m_store_) {  // Gideon's Dungeon (spec 18): the positions of the data are from the centre of the world
+        const float cx = static_cast<float>(m_store_->params().width / 2);
+        const float cy = static_cast<float>(m_store_->params().height / 2);
+        DefenseDef& d = *m_setup_.defense;
+        d.core_x += cx;
+        d.core_y += cy;
+        d.gate_x += cx;
+        d.gate_y += cy;
+        for (DefenseTrap& trap : d.traps) {
+            trap.x += cx;
+            trap.y += cy;
+        }
+    }
     for (const NpcDef& npc : m_setup_.story.npcs) {
         if (npc.when || !npc.route.empty()) {
             continue;  // a resident and a traveller are never solid (spec 07, "Residents", "Travellers")
@@ -1998,6 +2012,7 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
             --enemy.hit_flash;
         }
     }
+    update_defense();
     lightning();
     if (p.parry_ticks > 0) {
         --p.parry_ticks;
@@ -2217,7 +2232,7 @@ void WorldSim::on_kill(Enemy& enemy) {
     if (!enemy.def.id.empty()) {
         ++m_bestiary_[enemy.def.id];
     }
-    if (m_store_) {
+    if (m_store_ && !enemy.defense) {  // a creature of the defense has no spawner (spec 18)
         m_cleared_[{enemy.spawner_x, enemy.spawner_y}] = m_world_ticks_;
     }
     for (const DropDef& drop : enemy.def.drops) {
@@ -2464,6 +2479,18 @@ void WorldSim::behave_enemy(Enemy& enemy) {
     const BehaviorDef& b = enemy.def.behavior;
     const Player& p = m_player_;
     const float dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y);
+    if (enemy.state == EnemyState::Idle && enemy.defense && m_setup_.defense) {
+        // a creature of the defense marches on the core, and fights the player who comes near (spec 18)
+        if (dist <= static_cast<float>(b.aggro_x100) / 100.0F) {
+            enemy.state = EnemyState::Chase;
+            enemy.state_tick = 0;
+            m_cues_.push_back({"aggro", enemy.def.sound, enemy.position});
+        } else {
+            move_enemy(enemy, m_setup_.defense->core_x, m_setup_.defense->core_y);
+            enemy.home = enemy.position;
+        }
+        return;
+    }
     switch (enemy.state) {
         case EnemyState::Idle:
             if (dist <=
@@ -2511,6 +2538,113 @@ void WorldSim::behave_enemy(Enemy& enemy) {
             break;
         case EnemyState::Dead:
             break;
+    }
+}
+
+bool WorldSim::start_defense() {
+    if (!m_setup_.defense || m_defense_active_) {
+        return false;
+    }
+    m_defense_active_ = true;
+    m_defense_wave_ = 0;
+    defense_wave();
+    return true;
+}
+
+void WorldSim::defense_wave() {
+    const DefenseDef& d = *m_setup_.defense;
+    const std::vector<std::string>& ids = d.waves[static_cast<std::size_t>(m_defense_wave_)];
+    ++m_defense_wave_;
+    m_defense_clock_ = 0;
+    const float middle = static_cast<float>(ids.size() - 1) / 2.0F;
+    for (std::size_t i = 0; i < ids.size(); ++i) {
+        const auto def = d.enemies.find(ids[i]);
+        if (def == d.enemies.end()) {
+            continue;
+        }
+        Enemy enemy;
+        enemy.def = def->second;
+        enemy.position = {d.gate_x + (static_cast<float>(i) - middle) * 0.8F, d.gate_y};
+        enemy.home = enemy.position;
+        enemy.hp = enemy.def.hp;
+        enemy.defense = true;
+        enemy.spawner_x = static_cast<int>(std::floor(d.gate_x));
+        enemy.spawner_y = static_cast<int>(std::floor(d.gate_y));
+        m_enemies_.push_back(std::move(enemy));
+        m_hit_set_.push_back(false);
+    }
+    m_defense_notice_ = "$i18n:ui.defense_wave";
+}
+
+void WorldSim::defense_traps() {
+    const DefenseDef& d = *m_setup_.defense;
+    const auto& flags = m_story_.flags();
+    for (Enemy& enemy : m_enemies_) {
+        for (std::size_t k = 0; k < d.traps.size(); ++k) {
+            const DefenseTrap& trap = d.traps[k];
+            const auto armed = flags.find(trap.flag);
+            if (!enemy.defense || enemy.state == EnemyState::Dead || armed == flags.end() || !armed->second ||
+                distance(trap.x, trap.y, enemy.position.x, enemy.position.y) >
+                    static_cast<float>(trap.radius_x100) / 100.0F) {
+                continue;
+            }
+            const int index = static_cast<int>(k);
+            if (trap.kind == "spikes" &&
+                std::find(enemy.trapped.begin(), enemy.trapped.end(), index) == enemy.trapped.end()) {
+                enemy.trapped.push_back(index);
+                enemy.hp -= std::max<std::int64_t>(1, enemy.def.hp * d.spikes_pct / 100);
+                if (enemy.hp <= 0) {
+                    enemy.hp = 0;
+                    enemy.state = EnemyState::Dead;
+                    on_kill(enemy);
+                }
+            } else if (trap.kind == "tar") {
+                enemy.chill = std::max(enemy.chill, d.tar_ticks);
+            }
+        }
+    }
+}
+
+void WorldSim::update_defense() {
+    // Every tick of a defense, after the creatures (spec 18, "Gideon's Dungeon"): the traps, the core, the waves.
+    if (!m_defense_active_ || !m_setup_.defense) {
+        return;
+    }
+    const DefenseDef& d = *m_setup_.defense;
+    defense_traps();
+    const float core_reach = static_cast<float>(d.core_radius_x100) / 100.0F;
+    const bool reached = std::any_of(m_enemies_.begin(), m_enemies_.end(), [&](const Enemy& e) {
+        return e.defense && e.state != EnemyState::Dead &&
+               distance(d.core_x, d.core_y, e.position.x, e.position.y) <= core_reach;
+    });
+    if (reached) {  // lost: they leave the world, and nothing is given
+        for (Enemy& e : m_enemies_) {
+            if (e.defense && e.state != EnemyState::Dead) {
+                e.hp = 0;
+                e.state = EnemyState::Dead;
+            }
+        }
+        m_defense_active_ = false;
+        m_defense_notice_ = "$i18n:ui.defense_lost";
+        return;
+    }
+    ++m_defense_clock_;
+    const bool alive = std::any_of(m_enemies_.begin(), m_enemies_.end(),
+                                   [](const Enemy& e) { return e.defense && e.state != EnemyState::Dead; });
+    if (!alive || m_defense_clock_ >= d.wave_ticks) {
+        if (m_defense_wave_ < static_cast<int>(d.waves.size())) {
+            defense_wave();
+        } else if (!alive) {  // won
+            m_defense_active_ = false;
+            m_story_.set_gold(m_story_.gold() + d.reward_gold);
+            for (const auto& [item, qty] : d.reward_items) {
+                m_inventory_[item] += qty;
+            }
+            if (!d.reward_counter.empty()) {
+                ++m_counters_[d.reward_counter];
+            }
+            m_defense_notice_ = "$i18n:ui.defense_won";
+        }
     }
 }
 

@@ -90,6 +90,34 @@ REFORGE_ITEMS = {
        for name, affix in (("a", {"max_hp": 30}), ("b", {"def": 3}), ("c", {"mdef": 4}), ("d", {"atk": 3}), ("e", {"crit_pm": 40}))},
     "test:item/prism": {"kind": "reforge", "price": 300, "stack_max": 9, "reforge": {"station": "base:art/prop/anvil"}},
 }
+# Gideon's Dungeon (spec 18): a hall of 15 x 24 tiles, the gate at the south, the core at the north, spikes and tar on the way, and
+# the imp that arms them and starts the defense.
+def defense(waves: list[list[str]], hp: int, wave_ticks: int) -> dict:
+    marcher = {"behavior_overrides": {"aggro_x100": 250, "leash_x100": 500}, "speed_x100": 200, "hp": hp}
+    return {"core": [7.5, 3.5], "gate": [7.5, 20.5], "core_radius_x100": 120, "wave_ticks": wave_ticks, "waves": waves,
+            "enemies": {"test:enemy/warrior": {**enemy(0, 0, **marcher)["def"], "id": "test:enemy/warrior"},
+                        "test:enemy/knight": {**enemy(0, 0, **{**marcher, "hp": hp * 2, "speed_x100": 150})["def"],
+                                              "id": "test:enemy/knight"}},
+            "traps": [{"kind": "spikes", "at": [7.5, 15.5], "radius_x100": 50, "flag": "dungeon_spikes"},
+                      {"kind": "tar", "at": [7.5, 10.5], "radius_x100": 50, "flag": "dungeon_tar"}],
+            "spikes_pct": 20, "tar_ticks": 180,
+            "reward": {"gold": 100, "items": [{"item": "base:item/slime_gel", "qty": 2}], "counter": "defenses_won"}}
+
+
+def imp_story(at: list[float]) -> dict:
+    """The imp of the Dungeon: arms the spikes, the tar, and starts the defense."""
+    return {"quests": {}, "dialogues": {"test:dialogue/imp": {"id": "test:dialogue/imp", "start": "menu", "nodes": {
+        "menu": {"type": "choice", "choices": [{"text": "t.spikes", "next": "spikes"}, {"text": "t.tar", "next": "tar"},
+                                               {"text": "t.start", "next": "start"}]},
+        "spikes": {"type": "effects", "effects": [{"effect": "set_flag", "flag": "dungeon_spikes", "value": True}], "next": "end"},
+        "tar": {"type": "effects", "effects": [{"effect": "set_flag", "flag": "dungeon_tar", "value": True}], "next": "end"},
+        "start": {"type": "effects", "effects": [{"effect": "start_defense"}], "next": "end"}}}},
+        "npcs": [{"key": "imp", "pos": at, "dialogue": "test:dialogue/imp"}]}
+
+
+LORD = [{"id": "lord", "name": "t", "kind": "defenses_won", "count": 1, "atk_pct": 5}]
+
+
 ROLLED_DROPS = [{"item": "test:item/keen_sword", "qty_min": 1, "qty_max": 1, "weight_pm": 1000},
                 {"item": "test:item/warm_coat", "qty_min": 1, "qty_max": 1, "weight_pm": 1000}]
 PICK_DROPS = [{"item": "test:item/keen_sword", "pick": ["test:item/warm_coat", "base:item/slime_gel"], "qty_min": 1, "qty_max": 2,
@@ -503,6 +531,27 @@ def build_scenarios() -> list[dict]:
                     [segment(1, do=[{"cmd": "companion_stay"}]), segment(75, move=(1, 0)), segment(1, do=[{"cmd": "companion_recall"}]),
                      segment(60, move=(1, 0)), segment(30)], companion=COMPANION), "grid": arena(24, 9)},
         scenario("companion_recall_without", [enemy(12.0, 7.5, **passive)], [segment(1, do=[{"cmd": "companion_recall"}]), segment(10)]),
+        # Gideon's Dungeon (spec 18), lost: the imp arms the spikes and the tar and starts the defense; the two warriors march past the
+        # player, who stands aside, are hurt by the spikes, slowed by the tar; the clock of the first wave runs out and the second comes;
+        # the first two reach the core: all three leave, and nothing is given.
+        {**scenario("defense_lost", [enemy(12.5, 22.0, **passive)],
+                    [segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "choose", "index": 0}]),
+                     segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "choose", "index": 1}]),
+                     segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "choose", "index": 2}]),
+                     segment(150), segment(150), segment(150), segment(300), segment(30)],
+                    player={"start": [2.5, 12.5]}, story=imp_story([2.5, 13.3]), titles=LORD, start_gold=10,
+                    defense=defense([["test:enemy/warrior", "test:enemy/warrior"], ["test:enemy/warrior"]], 30, 300)),
+         "grid": arena(15, 24)},
+        # Gideon's Dungeon (spec 18), won: the player stands on the way and fights; the first wave, then the second when the first is beaten,
+        # then the knight when that one is beaten; all beaten: the gold, the gels and the counter (the title).
+        {**scenario("defense_won", [enemy(12.5, 22.0, **passive)],
+                    [segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "choose", "index": 2}]),
+                     segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "choose", "index": 2}]), segment(2, move=(0, 1)),
+                     segment(300, attack=True), segment(300, attack=True), segment(300, attack=True), segment(300, attack=True),
+                     segment(300, attack=True), segment(60)],
+                    player={"start": [7.5, 8.5]}, story=imp_story([8.3, 8.5]), titles=LORD, start_gold=10,
+                    defense=defense([["test:enemy/warrior", "test:enemy/warrior"], ["test:enemy/warrior"], ["test:enemy/knight"]], 12, 400)),
+         "grid": arena(15, 24)},
         # The party (spec 10): alone, the switch is refused; the keeper's dialogue recruits the dog, which follows at once and kills (its bond
         # grows); recruiting it again changes nothing; the switch brings the protagonist's own companion back (the dog's bond waits), then
         # the owl joins, and the switch goes round: own, dog (its bond back), owl, own.

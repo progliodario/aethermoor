@@ -4,6 +4,7 @@ import io.github.progliodario.aethermoor.core.Pack
 import io.github.progliodario.aethermoor.core.parseProtagonist
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.float
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -339,6 +340,7 @@ fun loadCombatSetup(
             talentPointsPerLevel = loadTalents(pack).second,
             companion = loadCompanion(pack, protagonist.companion),
             companions = loadCompanions(pack),
+            defense = loadDefense(pack),
             startWeapon = startWeapon,
         )
     }
@@ -348,3 +350,43 @@ fun homeRoomsOf(home: JsonObject): List<HomeRoom> = home["rooms"]?.jsonArray?.ma
     val room = r.jsonObject
     HomeRoom(room.getValue("id").jsonPrimitive.content, room.getValue("flag").jsonPrimitive.content, room.getValue("spot").jsonPrimitive.content)
 } ?: emptyList()
+
+/** A defense document (spec 18, "Gideon's Dungeon"), without the creatures of its waves. */
+fun parseDefense(d: JsonObject): DefenseDef {
+    fun at(key: String) = d.getValue(key).jsonArray.map { it.jsonPrimitive.float }
+    val reward = d["reward"]?.jsonObject
+    return DefenseDef(
+        coreX = at("core")[0],
+        coreY = at("core")[1],
+        gateX = at("gate")[0],
+        gateY = at("gate")[1],
+        coreRadiusX100 = d["core_radius_x100"]?.jsonPrimitive?.int ?: 120,
+        waveTicks = d["wave_ticks"]?.jsonPrimitive?.int ?: 3600,
+        waves = d.getValue("waves").jsonArray.map { w -> w.jsonArray.map { it.jsonPrimitive.content } },
+        traps = d["traps"]?.jsonArray?.map { t -> trapOf(t.jsonObject) } ?: emptyList(),
+        spikesPct = d["spikes_pct"]?.jsonPrimitive?.int ?: 20,
+        tarTicks = d["tar_ticks"]?.jsonPrimitive?.int ?: 180,
+        rewardGold = reward?.get("gold")?.jsonPrimitive?.long ?: 0L,
+        rewardItems = reward?.get("items")?.jsonArray?.map { i -> Pair(i.jsonObject.getValue("item").jsonPrimitive.content, i.jsonObject.getValue("qty").jsonPrimitive.long) } ?: emptyList(),
+        rewardCounter = reward?.get("counter")?.jsonPrimitive?.content ?: "",
+    )
+}
+
+private fun trapOf(t: JsonObject): DefenseTrap {
+    val at = t.getValue("at").jsonArray
+    return DefenseTrap(
+        t.getValue("kind").jsonPrimitive.content,
+        at[0].jsonPrimitive.float,
+        at[1].jsonPrimitive.float,
+        t["radius_x100"]?.jsonPrimitive?.int ?: 50,
+        t.getValue("flag").jsonPrimitive.content,
+    )
+}
+
+/** Gideon's Dungeon (spec 18): the defense of the pack, with the creatures of its waves; null without one. */
+private fun loadDefense(pack: Pack): DefenseDef? {
+    val text = pack.readDocument("base:defense/dungeon") ?: return null
+    val d = parseDefense(Json.parseToJsonElement(text).jsonObject)
+    val enemies = d.waves.flatten().distinct().mapNotNull { id -> loadEnemyDef(pack, id).getOrNull()?.let { id to it } }.toMap()
+    return d.copy(enemies = enemies)
+}

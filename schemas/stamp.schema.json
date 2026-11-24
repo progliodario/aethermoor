@@ -67,7 +67,8 @@
           },
           "radius_x100": {
             "type": "integer",
-            "minimum": 1
+            "minimum": 0,
+            "description": "the radius of the prop; 0: a mark on the ground that blocks nothing (spec 02)"
           },
           "npc": {
             "type": "string",

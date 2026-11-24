@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/adventurer_archer",
+  "name": "$i18n:enemy.adventurer_archer.name",
+  "level": 22,
+  "stats": {
+    "hp": 300,
+    "atk": 44,
+    "def": 14,
+    "mdef": 12,
+    "speed_x100": 230
+  },
+  "element": "none",
+  "sound": "knight",
+  "xp": 320,
+  "drops": [
+    {
+      "item": "base:item/iron_ore",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 600
+    },
+    {
+      "item": "base:item/rust_flake",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 400
+    }
+  ],
+  "radius_x100": 45,
+  "behavior": "base:behavior/adventurer_archer",
+  "art": "base:art/creature/rust_baron"
+}

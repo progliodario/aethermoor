@@ -1835,6 +1835,7 @@
   "item.writing_desk.desc": "Posalo nello studio del cottage. Una pagina ogni sera su ciò che hai imparato: il 5% di esperienza in più da ogni vittoria.",
   "item.planter.name": "Fioriera",
   "item.planter.desc": "Posala nella serra del cottage. Una talea di tutto ciò che trovi: uno in più di tutto ciò che raccogli.",
+  "title.dungeon_lord": "Signore del Dungeon",
   "home.room.workshop": "il laboratorio",
   "home.room.study": "lo studio",
   "home.room.greenhouse": "la serra",
@@ -1842,5 +1843,9 @@
   "companion.hoot.name": "Gufetto",
   "companion.sly.name": "Furbo",
   "companion.cinder.name": "Brace",
+  "enemy.adventurer_warrior.name": "Avventuriero guerriero",
+  "enemy.adventurer_archer.name": "Avventuriera arciera",
+  "enemy.adventurer_cleric.name": "Avventuriero chierico",
+  "enemy.adventurer_knight.name": "Avventuriera cavaliera",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

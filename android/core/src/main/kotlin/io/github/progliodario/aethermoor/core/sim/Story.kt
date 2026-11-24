@@ -79,6 +79,9 @@ sealed interface Effect {
     /** The companion [companion] joins the party and follows at once (spec 10, "The party"). */
     data class RecruitCompanion(val companion: String) : Effect
 
+    /** The defense of Gideon's Dungeon starts (spec 18). */
+    data object StartDefense : Effect
+
     data class SetFlag(val flag: String, val value: Boolean) : Effect
 
     data class StartQuest(val quest: String) : Effect
@@ -226,6 +229,9 @@ interface StoryHost {
     /** A companion joins the party (spec 10, "The party"); false, changing nothing, when it is unknown or already in it. */
     fun recruitCompanion(id: String): Boolean = false
 
+    /** The defense of Gideon's Dungeon starts (spec 18); false while one runs, or without one. */
+    fun startDefense(): Boolean = false
+
     /** The season of the day, empty without seasons. */
     fun seasonId(): String
 
@@ -287,6 +293,7 @@ private fun parseEffect(element: JsonElement): Effect {
         "heal_full" -> Effect.HealFull
         "temper" -> Effect.Temper(o["gold"]?.jsonPrimitive?.long ?: 0L)
         "recruit_companion" -> Effect.RecruitCompanion(o.str("companion"))
+        "start_defense" -> Effect.StartDefense
         "remove_item" -> Effect.RemoveItem(o.str("item"), o.getValue("qty").jsonPrimitive.long)
         "set_flag" -> Effect.SetFlag(o.str("flag"), o.getValue("value").jsonPrimitive.boolean)
         "start_quest" -> Effect.StartQuest(o.str("quest"))
@@ -449,6 +456,7 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
                 if (gold >= effect.gold && host.temperWorn()) gold -= effect.gold // paid only when it is done
             }
             is Effect.RecruitCompanion -> host.recruitCompanion(effect.companion) // spec 10, "The party"
+            is Effect.StartDefense -> host.startDefense() // spec 18, "Gideon's Dungeon"
             is Effect.RemoveItem -> {
                 val held = host.inventory[effect.item] ?: 0L
                 val left = held - minOf(held, effect.qty)

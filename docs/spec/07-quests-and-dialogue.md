@@ -41,6 +41,7 @@ An effect is an object with `effect` plus parameters, applied in list order:
 | `start_quest` | `quest` | starts the quest (ignored when it already exists) |
 | `add_guild_points` | `amount` | `guild_points += amount` |
 | `open_board` | none | opens the board of the settlement the player is in (see "Guild"); nothing when there is none |
+| `start_defense` | none | the defense of Gideon's Dungeon starts (spec 18); nothing while one runs |
 | `recruit_companion` | `companion` (an ID) | the companion joins the party and follows at once (spec 10, "The party"); nothing when it is unknown or already in the party |
 | `temper` | optional `gold` (default 0) | when the gold is at least `gold` and a worn piece can be tempered (spec 06, "Tempering": the worn weapon whose item has `affix_roll`, else the worn armor), its roll is drawn again and the better kept, and `gold` is paid; otherwise nothing happens and nothing is paid |
 | `open_shop` | optional `region`, `markup_pct` | opens the shop of the place (spec 06); nothing changes when the world has no shop there. With a `region` it opens the goods of that region at `markup_pct` percent (default 100) of its prices (spec 06, "Goods from afar") |

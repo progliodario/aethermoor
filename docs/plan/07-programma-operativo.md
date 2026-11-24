@@ -253,8 +253,11 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **Accettazione:** la sezione di spec è scritta e approvata dal proprietario; i vettori coprono una partita intera; la modalità è raggiungibile dalla base di Gideon nel gioco del proprietario.
 - **Rischi:** è la voce più grande del periodo medio, e la più facile da allargare. Il proprietario decide la portata dopo la spec.
 - **Dipende da:** niente (prima la spec). Taglia: L (XL senza la variante ridotta). Issue: [progliodario/aethermoor#238](https://github.com/progliodario/aethermoor/issues/238).
-- **Spec proposta (24 novembre 2026).** La sezione "Gideon's Dungeon" della spec 18 descrive la forma ridotta (cinque ondate, tre
-  stanze, due trappole, un titolo) e quella piena; aspetta la scelta del proprietario prima del codice.
+- **Fatto (24 novembre 2026), forma ridotta scelta dal proprietario.** Differenze dalla proposta: il Dungeon non è il trono della
+  Cenere ma un sito nuovo accanto al Santuario della Cenere (un landmark e un timbro); le trappole non si posano come mobili ma sono
+  fosse fisse del Dungeon, armate da Grubb in cambio di materiali (un flag per tipo); gli avventurieri non hanno abilità proprie (il
+  chierico non cura), solo statistiche e l'arciere un attacco da quattro caselle, e marciano verso il nucleo finché il giocatore non si
+  avvicina. Una difesa non si salva. Scenari `defense_won` e `defense_lost`; il proprietario deve ancora vederla sullo schermo.
 
 #### C4 Prestazioni su Android e thread di streaming
 

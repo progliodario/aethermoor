@@ -65,6 +65,8 @@ def resolve(x: float, y: float, grid: Grid, props: list[tuple[float, float, floa
                             y = ty + 1 + r
                     moved = True
         for ex, ey, er in props:
+            if er <= 0:  # a prop of radius 0 is a mark on the ground (a trap): it blocks nothing (spec 02)
+                continue
             dx, dy = x - ex, y - ey
             d2 = dx * dx + dy * dy
             md = r + er

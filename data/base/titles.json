@@ -347,6 +347,13 @@
       "atk_pct": 3
     },
     {
+      "id": "dungeon_lord",
+      "name": "$i18n:title.dungeon_lord",
+      "kind": "defenses_won",
+      "count": 1,
+      "atk_pct": 5
+    },
+    {
       "id": "snowbound",
       "name": "$i18n:title.snowbound",
       "kind": "kills_of",

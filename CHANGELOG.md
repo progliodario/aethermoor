@@ -6,6 +6,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Gideon's Dungeon** (spec 18, "Gideon's Dungeon", the reduced form the owner chose): a new site next to the Sanctum of Ash, three
+  rooms in a row from the gate to a dark core. Once Gideon's story is over, Grubb, his steward, opens the gates: five waves of
+  adventurers (warriors, archers, clerics and a knight) march on the core, and fight Gideon when he stands in their way. Grubb also
+  arms two pits of spikes (10 iron ores) and fills two of tar (6 pine resins). All five waves beaten: 500 gold, two ember cores, five
+  iron ores, and the first time the title Lord of the Dungeon (+5% attack); an adventurer that touches the core ends it, with nothing
+  lost. The HUD shows the wave.
+
+### Changed
+
+- A prop of radius 0 is a mark on the ground and blocks nothing (spec 02): the traps of the Dungeon.
+
 - **Accessibility checklist** (`docs/dev/accessibility.md`, E1.3): what the game does for players who see, hear or move differently,
   and what is still missing; the contrast of every text of the interface on its panel is tested (`tools/tests/test_accessibility.py`,
   WCAG AA, 4.5:1 or more).

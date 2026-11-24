@@ -353,6 +353,49 @@ def town_b() -> dict:
     return stamp("base:stamp/town_b", c, (17, 13), [(15, 11), (16, 11), (18, 11), (15, 15), (19, 15), (17, 15)], local=TOWN_LEGEND)
 
 
+DUNGEON_LEGEND = {  # Gideon's Dungeon (spec 18): the traps are marks on the ground (radius 0), the core is solid, the gate is floor
+    "1": {"tile": 14, "prop": "base:art/prop/trap_spikes", "radius_x100": 0},
+    "2": {"tile": 14, "prop": "base:art/prop/trap_tar", "radius_x100": 0},
+    "3": {"tile": 14, "prop": "base:art/prop/dungeon_core", "radius_x100": 45},
+    "4": {"tile": 14},
+}
+
+
+def gideon_dungeon() -> dict:
+    """Gideon's Dungeon (spec 18): three rooms in a row from the gate at the south to the core in the north, the hall, the gallery and the
+    throne room, two pits of spikes and two of tar on the way, and Grubb, the steward, by the core."""
+    rows = [
+        ".#############.",
+        ".#ccccc3ccccc#.",
+        ".#ccccccccccc#.",
+        ".#clccccccclc#.",
+        ".#ccccc2ccccc#.",
+        ".#ccccccccccc#.",
+        ".#####ccc#####.",
+        ".#ccccccccccc#.",
+        ".#clccccccclc#.",
+        ".#ccccc1ccccc#.",
+        ".#ccccccccccc#.",
+        ".#ccccc2ccccc#.",
+        ".#ccccccccccc#.",
+        ".#####ccc#####.",
+        ".#ccccccccccc#.",
+        ".#clccccccclc#.",
+        ".#ccccc1ccccc#.",
+        ".#ccccccccccc#.",
+        ".#ccccccccccc#.",
+        ".#ccccc4ccccc#.",
+        ".#####ccc#####.",
+        "......===......",
+    ]
+    c = Canvas(15, len(rows))
+    for y, row in enumerate(rows):
+        for x, ch in enumerate(row):
+            if ch != ".":
+                c.put(x, y, ch)
+    return stamp("base:stamp/gideon_dungeon", c, (7, 21), [(6, 21), (8, 21)], local=DUNGEON_LEGEND)
+
+
 def hamlet_home() -> dict:
     """The Guest's cottage, east of Fenwick (spec 09, "Landmarks"): a house with a chest and six places for furniture, a campfire and an
     anvil, plots, hens and a goat, a Threshold Stone, and Old Tam who keeps it (spec 07, "People of the towns"); east of them an annex of
@@ -1042,7 +1085,7 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     for build in (hamlet, village, town, barrow, cellar, mine, cavern, temple, hollow, ziggurat, observatory, citadel, den, vent, grotto, amber, icepit, roost, hamlet_b, hamlet_c, village_b, village_c, town_b,
                   outpost_ironspine, outpost_tidehaven, outpost_frostveil, outpost_whisperwood, outpost_sunscar, outpost_lumeria,
-                  outpost_ashen, outpost_verdalis, forge, galleon, keep, vault, hamlet_d, village_d, town_c, hamlet_home,
+                  outpost_ashen, outpost_verdalis, forge, galleon, keep, vault, hamlet_d, village_d, town_c, hamlet_home, gideon_dungeon,
                   nest_mint, nest_moss, nest_rust, nest_dune, nest_rookery, nest_shoal, nest_pool, nest_charpit,
                   *[(lambda who=who: sanctum(who)) for who in ("ren", "sakura", "daichi", "haruka", "marco", "yuki", "lena", "gideon")]):
         data = build()

@@ -1027,6 +1027,39 @@ def planter() -> Recipe:
     return r
 
 
+def trap_spikes() -> Recipe:
+    """A pit of iron spikes in the floor of Gideon's Dungeon (spec 18): a mark on the ground, nothing blocks on it."""
+    r = prop("trap_spikes", 36, 22, (18, 12), {"pit": "#2A2026", "iron": "#9AA0AC"})
+    r.ellipse(18, 12, 15, 7, "$p.pit", stroke=INK, width=0.4, alpha=0.9)
+    for k in range(9):  # the points of the spikes
+        x = 8 + (k % 5) * 5 + (k // 5) * 2.5
+        y = 9.5 + (k // 5) * 4
+        r.path(f"M {x - 1.4:.1f} {y + 2:.1f} L {x:.1f} {y - 2.6:.1f} L {x + 1.4:.1f} {y + 2:.1f} Z", "$p.iron", stroke=INK, width=0.3)
+    r.lit(ell(14, 9.5, 6, 2), 0.25, "#E8ECF4")
+    return r
+
+
+def trap_tar() -> Recipe:
+    """A pit of warm tar in the floor of Gideon's Dungeon (spec 18): a mark on the ground, nothing blocks on it."""
+    r = prop("trap_tar", 36, 22, (18, 12), {"tar": "#1A1418", "shine": "#5A4A58"})
+    r.ellipse(18, 12, 15, 7, noise(3, 991, (0.3, "#0E0A0C"), (0.6, "$p.tar"), (0.85, "#2C2228"), octaves=2), stroke=INK, width=0.4, alpha=0.92)
+    for x, y, s in ((12, 10, 1.6), (21, 13, 1.2), (25, 10.5, 0.9)):  # the bubbles
+        r.ellipse(x, y, s, s * 0.7, None, stroke="$p.shine", width=0.4, alpha=0.8)
+    r.lit(ell(15, 9.5, 5, 1.6), 0.3, "#8A7A88")
+    return r
+
+
+def dungeon_core() -> Recipe:
+    """The core of Gideon's Dungeon (spec 18): a dark crystal on a black pedestal, which the adventurers must not touch."""
+    r = prop("dungeon_core", 34, 52, (17, 47), {"stone": "#3A3440", "crystal": "#8A3AC8"})
+    r.shadow(17.5, 47, 14, 3.2, 0.45)
+    r.path("M 6 47 L 9 36 L 25 36 L 28 47 Z", stone(992, "#3A3440", 3), stroke=INK, width=0.5)
+    r.path("M 17 4 L 26 20 L 17 36 L 8 20 Z", linear(8, 0, 26, 0, (0, "#C890F0"), (0.5, "$p.crystal"), (1, "#3A1060")), stroke=INK, width=0.5)
+    r.path("M 17 4 L 17 36", None, stroke="#E0C0FF", width=0.5, alpha=0.6)
+    r.lit(ell(14, 14, 3, 5), 0.5, "#F4E0FF")
+    return r
+
+
 def build_props() -> list[Recipe]:
     props = [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
              statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms(),
@@ -1034,7 +1067,8 @@ def build_props() -> list[Recipe]:
              furniture_spot(), bed(), weapon_rack(), bookshelf(), herb_rack(), training_dummy(), work_table(),
              garden_bench(), scarecrow(), archery_target(), stone_lantern(),
              room_spot("workshop", "#9A7A58", "#5E4630", "#D8C0A0", 981), room_spot("study", "#4A6A9A", "#2A3E62", "#C8D4E8", 982),
-             room_spot("greenhouse", "#C8B070", "#7A6A3A", "#F0E4B8", 983), grindstone(), writing_desk(), planter()]
+             room_spot("greenhouse", "#C8B070", "#7A6A3A", "#F0E4B8", 983), grindstone(), writing_desk(), planter(),
+             trap_spikes(), trap_tar(), dungeon_core()]
     sway = {"tree_oak": 1.8, "pine": 1.1, "dead_tree": 0.5, "bush": 0.7, "reeds": 1.4, "banner": 0.5, "campfire": 0.6, "flowers": 0.9, "fern": 0.8, "dry_shrub": 0.6}  # what the wind moves
     for r in props:
         r.sway = sway.get(r.id.rsplit("/", 1)[1], 0.0)

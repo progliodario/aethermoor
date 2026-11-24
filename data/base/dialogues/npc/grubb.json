@@ -1,0 +1,137 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/grubb",
+  "start": "c_lord",
+  "nodes": {
+    "c_lord": {
+      "type": "condition",
+      "when": {
+        "quest_done": "base:quest/side/act6_gideon_3"
+      },
+      "then": "lord",
+      "else": "waiting"
+    },
+    "waiting": {
+      "type": "say",
+      "speaker": "dungeon_steward_grubb",
+      "text": "$i18n:dlg.grubb.waiting",
+      "next": "end"
+    },
+    "lord": {
+      "type": "say",
+      "speaker": "dungeon_steward_grubb",
+      "text": "$i18n:dlg.grubb.lord",
+      "next": "menu"
+    },
+    "open": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "start_defense"
+        }
+      ],
+      "next": "opened"
+    },
+    "opened": {
+      "type": "say",
+      "speaker": "dungeon_steward_grubb",
+      "text": "$i18n:dlg.grubb.opened",
+      "next": "end"
+    },
+    "arm_spikes": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "remove_item",
+          "item": "base:item/iron_ore",
+          "qty": 10
+        },
+        {
+          "effect": "set_flag",
+          "flag": "dungeon_spikes",
+          "value": true
+        }
+      ],
+      "next": "armed_spikes"
+    },
+    "armed_spikes": {
+      "type": "say",
+      "speaker": "dungeon_steward_grubb",
+      "text": "$i18n:dlg.grubb.armed_spikes",
+      "next": "menu"
+    },
+    "arm_tar": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "remove_item",
+          "item": "base:item/pine_resin",
+          "qty": 6
+        },
+        {
+          "effect": "set_flag",
+          "flag": "dungeon_tar",
+          "value": true
+        }
+      ],
+      "next": "armed_tar"
+    },
+    "armed_tar": {
+      "type": "say",
+      "speaker": "dungeon_steward_grubb",
+      "text": "$i18n:dlg.grubb.armed_tar",
+      "next": "menu"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.grubb.spikes",
+          "next": "arm_spikes",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "dungeon_spikes"
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/iron_ore",
+                  "qty": 10
+                }
+              }
+            ]
+          }
+        },
+        {
+          "text": "$i18n:dlg.grubb.tar",
+          "next": "arm_tar",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "dungeon_tar"
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/pine_resin",
+                  "qty": 6
+                }
+              }
+            ]
+          }
+        },
+        {
+          "text": "$i18n:dlg.grubb.open",
+          "next": "open"
+        },
+        {
+          "text": "$i18n:dlg.grubb.later",
+          "next": "end"
+        }
+      ]
+    }
+  }
+}

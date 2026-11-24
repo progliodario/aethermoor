@@ -100,6 +100,8 @@ Effect parse_effect(const Json& j) {
     } else if (kind == "temper") {
         e.kind = Effect::Kind::Temper;
         e.n = j.value("gold", static_cast<std::int64_t>(0));
+    } else if (kind == "start_defense") {
+        e.kind = Effect::Kind::StartDefense;
     } else if (kind == "recruit_companion") {
         e.kind = Effect::Kind::RecruitCompanion;
         e.a = j.at("companion").get<std::string>();
@@ -412,6 +414,9 @@ void Story::apply(const Effect& effect) {
             if (m_gold_ >= effect.n && m_host_.temper_worn()) {
                 m_gold_ -= effect.n;
             }
+            break;
+        case Effect::Kind::StartDefense:  // spec 18, "Gideon's Dungeon"
+            m_host_.start_defense();
             break;
         case Effect::Kind::RecruitCompanion:  // spec 10, "The party"
             m_host_.recruit_companion(effect.a);

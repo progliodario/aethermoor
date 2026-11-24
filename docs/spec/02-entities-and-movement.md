@@ -19,7 +19,8 @@ Hand-made maps are **Tiled TMJ** files (`data/<pack>/maps/*.tmj`, JSON, no compr
 - Cells outside the map are solid.
 
 A **streamed world** (spec 09) has no map file: the tiles, the props and the people come from the chunks around the player (the same rules apply: a solid tile or a
-prop circle pushes the player out). The tile gids come from `ChunkStore`, which answers for any tile of the world; a chunk that is not loaded is solid and empty (gid 0, not drawn), which the player never reaches because the window follows the player.
+prop circle pushes the player out). A prop of radius 0 is a mark on the ground (the traps of Gideon's Dungeon, spec 18): it pushes
+nothing out. The tile gids come from `ChunkStore`, which answers for any tile of the world; a chunk that is not loaded is solid and empty (gid 0, not drawn), which the player never reaches because the window follows the player.
 People (spec 07, 09) are solid circles of radius 0.3 at their current position, added to the props while they are in the loaded window and moved when a routine
 changes it (spec 08). Enemies are pushed out of solid tiles and props with the same `resolve` and their own radius (spec 05), but they do not push the player or each other: they hurt the player through their attack, not by contact.
 

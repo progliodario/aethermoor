@@ -324,6 +324,8 @@ class CombatSetup(
     val companion: CompanionDef? = null,
     /** Every companion of the pack, by ID: those that may join the party (spec 10, "The party"). */
     val companions: Map<String, CompanionDef> = emptyMap(),
+    /** Gideon's Dungeon (spec 18): the defense of the world, or null. */
+    val defense: DefenseDef? = null,
     /** The titles that can be earned (spec 11), in order of rank. */
     val titles: List<TitleDef> = emptyList(),
     /** Items with a `use` block, by item ID (spec 06). */
@@ -404,3 +406,36 @@ fun primaryAtLevel(setup: PlayerSetup, level: Long): Primary {
 
 /** A room of the home (spec 06, "Rooms"): its places are the props of [spot], places of the home once the story flag [flag] is set. */
 data class HomeRoom(val id: String, val flag: String, val spot: String)
+
+/** Gideon's Dungeon (spec 18): a trap of the defense, armed by a story flag; [kind] is `spikes` or `tar`. */
+data class DefenseTrap(val kind: String, val x: Float, val y: Float, val radiusX100: Int, val flag: String)
+
+/**
+ * Gideon's Dungeon (spec 18): the core, the gate and the waves of the defense (positions from the centre of the world in a streamed
+ * world, as they are in a scenario), its traps and its reward.
+ */
+data class DefenseDef(
+    val coreX: Float,
+    val coreY: Float,
+    val gateX: Float,
+    val gateY: Float,
+    val coreRadiusX100: Int = 120,
+    val waveTicks: Int = 3600,
+    val waves: List<List<String>> = emptyList(),
+    val enemies: Map<String, EnemyDef> = emptyMap(),
+    val traps: List<DefenseTrap> = emptyList(),
+    val spikesPct: Int = 20,
+    val tarTicks: Int = 180,
+    val rewardGold: Long = 0L,
+    val rewardItems: List<Pair<String, Long>> = emptyList(),
+    val rewardCounter: String = "",
+) {
+    /** The same defense, moved by ([dx], [dy]): the data of a streamed world is from its centre. */
+    fun shifted(dx: Float, dy: Float): DefenseDef = copy(
+        coreX = coreX + dx,
+        coreY = coreY + dy,
+        gateX = gateX + dx,
+        gateY = gateY + dy,
+        traps = traps.map { it.copy(x = it.x + dx, y = it.y + dy) },
+    )
+}

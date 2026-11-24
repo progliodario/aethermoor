@@ -138,7 +138,7 @@ class Player(var position: Vec2) {
 }
 
 class Enemy(val def: EnemyDef, var position: Vec2) {
-    val home: Vec2 = position
+    var home: Vec2 = position
     var hp: Long = def.hp
     var state = EnemyState.IDLE
     var stateTick = 0
@@ -146,6 +146,10 @@ class Enemy(val def: EnemyDef, var position: Vec2) {
     /** Streamed worlds: the spawner tile this enemy belongs to. */
     var spawnerX = 0
     var spawnerY = 0
+
+    /** A creature of the defense of Gideon's Dungeon (spec 18): it marches on the core; the spikes that have hurt it. */
+    var defense = false
+    val trapped = ArrayList<Int>()
 
     /** Presentation only. */
     var hitFlash = 0
@@ -354,6 +358,22 @@ class WorldSim(
     /** The companion that follows now (spec 10, "The party"): the protagonist's own until another of the party does; null: none. */
     var companionDef: CompanionDef? = combat.companion
         private set
+
+    /** Gideon's Dungeon (spec 18): the defense, at its place in the world; whether one runs, the wave that came last and its clock; not saved. */
+    private val defense: DefenseDef? = combat.defense?.let { d -> chunks?.let { d.shifted((it.params.width / 2).toFloat(), (it.params.height / 2).toFloat()) } ?: d }
+    var defenseActive = false
+        private set
+    var defenseWave = 0
+        private set
+    var defenseClock = 0
+        private set
+    private var defenseNotice = ""
+
+    /** How many waves the defense has; 0 without one. */
+    val defenseWaves: Int get() = defense?.waves?.size ?: 0
+
+    /** A notice for the client when a wave comes or the defense ends (an $i18n: key), taken once; "" when none. */
+    fun takeDefenseNotice(): String = defenseNotice.also { defenseNotice = "" }
 
     /** The ids of the party (spec 10, "The party"), the protagonist's companion first. */
     val party = ArrayList<String>(listOfNotNull(combat.companion?.id))
@@ -1704,6 +1724,7 @@ class WorldSim(
             updateEnemy(enemy)
             if (enemy.hitFlash > 0) enemy.hitFlash--
         }
+        updateDefense()
         lightning()
         if (p.parryTicks > 0) p.parryTicks--
         if (p.chill > 0) p.chill--
@@ -1843,7 +1864,7 @@ class WorldSim(
     }
 
     private fun onKill(enemy: Enemy) {
-        if (chunks != null) cleared[Pair(enemy.spawnerX, enemy.spawnerY)] = worldTicks
+        if (chunks != null && !enemy.defense) cleared[Pair(enemy.spawnerX, enemy.spawnerY)] = worldTicks // a creature of the defense has no spawner
         val p = player
         p.kills++
         if (enemy.def.id.isNotEmpty()) bestiary[enemy.def.id] = (bestiary[enemy.def.id] ?: 0) + 1
@@ -1991,6 +2012,10 @@ class WorldSim(
         val b = enemy.def.behavior
         val p = player
         val dist = distance(enemy.position.x, enemy.position.y, p.position.x, p.position.y)
+        if (enemy.state == EnemyState.IDLE && enemy.defense) {
+            marchEnemy(enemy, dist)
+            return
+        }
         when (enemy.state) {
             EnemyState.IDLE -> if (dist <= (b.aggroX100 * combat.gift.aggroPct / 100 * rainAggroPm / 1000 * nightAggroPm / 1000 * fogAggroPm / 1000 * seasonAggroPm / 1000).toFloat() / 100f) {
                 enemy.state = EnemyState.CHASE
@@ -2030,6 +2055,110 @@ class WorldSim(
             }
             EnemyState.DEAD -> Unit
         }
+    }
+
+    /** A creature of the defense marches on the core while it is idle, and fights the player who comes near (spec 18, "Gideon's Dungeon"). */
+    private fun marchEnemy(enemy: Enemy, dist: Float) {
+        val d = defense ?: return
+        if (dist <= enemy.def.behavior.aggroX100.toFloat() / 100f) {
+            enemy.state = EnemyState.CHASE
+            enemy.stateTick = 0
+            cues.add(SimCue("aggro", enemy.def.sound, enemy.position))
+        } else {
+            moveEnemy(enemy, d.coreX, d.coreY)
+            enemy.home = enemy.position
+        }
+    }
+
+    /** The defense starts: the first wave comes at once (spec 18, "Gideon's Dungeon"); false while one runs, or without one. */
+    override fun startDefense(): Boolean {
+        if (defense == null || defenseActive) return false
+        defenseActive = true
+        defenseWave = 0
+        defenseWaveComes()
+        return true
+    }
+
+    /** The next wave: its creatures at the gate, in a row, at the end of the list. */
+    private fun defenseWaveComes() {
+        val d = defense ?: return
+        val ids = d.waves[defenseWave]
+        defenseWave++
+        defenseClock = 0
+        val middle = (ids.size - 1) / 2f
+        for ((i, id) in ids.withIndex()) {
+            val def = d.enemies[id] ?: continue
+            val enemy = Enemy(def, Vec2(d.gateX + (i - middle) * 0.8f, d.gateY))
+            enemy.defense = true
+            enemy.spawnerX = floor(d.gateX).toInt()
+            enemy.spawnerY = floor(d.gateY).toInt()
+            enemies.add(enemy)
+            hitSet.add(false)
+        }
+        defenseNotice = "\$i18n:ui.defense_wave"
+    }
+
+    /** Every tick of a defense, after the creatures (spec 18, "Gideon's Dungeon"): the traps, the core, the waves. */
+    private fun updateDefense() {
+        val d = defense ?: return
+        if (!defenseActive) return
+        defenseTraps(d)
+        if (defenseLost(d)) return
+        defenseClock++
+        val alive = enemies.any { it.defense && it.state != EnemyState.DEAD }
+        if (alive && defenseClock < d.waveTicks) return
+        if (defenseWave < d.waves.size) {
+            defenseWaveComes()
+        } else if (!alive) {
+            defenseWon(d)
+        }
+    }
+
+    /** The armed traps hurt or slow the creatures of the defense on them. */
+    private fun defenseTraps(d: DefenseDef) {
+        for (enemy in enemies.filter { it.defense }) {
+            for ((k, trap) in d.traps.withIndex()) {
+                val near = distance(trap.x, trap.y, enemy.position.x, enemy.position.y) <= trap.radiusX100 / 100f
+                if (enemy.state != EnemyState.DEAD && story.flags[trap.flag] == true && near) springTrap(d, enemy, k, trap)
+            }
+        }
+    }
+
+    private fun springTrap(d: DefenseDef, enemy: Enemy, k: Int, trap: DefenseTrap) {
+        if (trap.kind == "spikes" && k !in enemy.trapped) {
+            enemy.trapped.add(k)
+            enemy.hp -= maxOf(1L, enemy.def.hp * d.spikesPct / 100)
+            if (enemy.hp <= 0L) {
+                enemy.hp = 0L
+                enemy.state = EnemyState.DEAD
+                onKill(enemy)
+            }
+        } else if (trap.kind == "tar") {
+            enemy.chill = maxOf(enemy.chill, d.tarTicks)
+        }
+    }
+
+    /** A creature of the defense at the core: lost; they leave the world and nothing is given. True when it was lost. */
+    private fun defenseLost(d: DefenseDef): Boolean {
+        val reach = d.coreRadiusX100 / 100f
+        val there = enemies.any { it.defense && it.state != EnemyState.DEAD && distance(d.coreX, d.coreY, it.position.x, it.position.y) <= reach }
+        if (!there) return false
+        for (e in enemies.filter { it.defense && it.state != EnemyState.DEAD }) {
+            e.hp = 0L
+            e.state = EnemyState.DEAD
+        }
+        defenseActive = false
+        defenseNotice = "\$i18n:ui.defense_lost"
+        return true
+    }
+
+    /** All the waves beaten: the reward (spec 18, "Gideon's Dungeon"). */
+    private fun defenseWon(d: DefenseDef) {
+        defenseActive = false
+        story.gold += d.rewardGold
+        for ((item, qty) in d.rewardItems) inventory[item] = (inventory[item] ?: 0L) + qty
+        if (d.rewardCounter.isNotEmpty()) count(d.rewardCounter)
+        defenseNotice = "\$i18n:ui.defense_won"
     }
 
     private fun moveEnemy(enemy: Enemy, targetX: Float, targetY: Float) {

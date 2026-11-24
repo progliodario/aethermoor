@@ -95,6 +95,8 @@ class _Enemy:
         self.burn = self.burn_clock = self.chill = self.weaken = self.stun = 0  # ticks left; not saved
         self.stagger = self.broken = 0  # the stagger bar and the ticks left of being broken; not saved
         self.marked = False  # the last creature the player hit: the companion goes for it first (spec 10, "Teamwork"); not saved
+        self.defense = False  # a creature of the defense of Gideon's Dungeon (spec 18): it marches on the core; not saved
+        self.trapped: set[int] = set()  # the spikes that have hurt it
 
 
 class CombatSim:
@@ -131,6 +133,11 @@ class CombatSim:
         self.comp_stay = False  # told to stay where it is (spec 10, "Commands")
         self.comp_bond = 0      # the creatures it has killed (spec 10, "Bond")
         self.comp_care = 0      # ticks since it last tended the player (spec 10, "Care"); not saved
+        # Gideon's Dungeon (spec 18): the defense of the scenario and its state, which is not saved
+        self.defense_def = scenario.get("defense")
+        self.defense_active = False
+        self.defense_wave = 0  # the number of the wave that came last
+        self.defense_clock = 0
         # The party (spec 10, "The party"): the companions that may join (id -> definition), the ids of the party (the protagonist's
         # first), and the bonds of those that wait.
         self.companions: dict[str, dict] = scenario.get("companions", {})
@@ -382,6 +389,7 @@ class CombatSim:
 
         for index, enemy in enumerate(self.enemies):
             self._update_enemy(index, enemy)
+        self._update_defense()
         self._lightning()
         if self.parry_ticks > 0:
             self.parry_ticks -= 1
@@ -854,7 +862,13 @@ class CombatSim:
         b = e.d["behavior"]
         dx, dy = self.x - e.x, self.y - e.y
         dist = math.sqrt(dx * dx + dy * dy)
-        if e.state == IDLE:
+        if e.state == IDLE and e.defense:  # a creature of the defense marches on the core (spec 18, "Gideon's Dungeon")
+            if dist <= b["aggro_x100"] / 100:
+                e.state, e.t = CHASE, 0
+            else:
+                self._move_enemy(e, self.defense_def["core"][0], self.defense_def["core"][1])
+                e.home = (e.x, e.y)
+        elif e.state == IDLE:
             rain_pm = 1000 - self.weather.get("rain_pm", 0) * self.weather.get("rain_aggro_cut_pm", 0) // 1000
             night_pm = 1000 - (1000 - self.weather.get("light_pm", 1000)) * self.weather.get("night_aggro_cut_pm", 0) // 1000
             fog_pm = 1000 - self.weather.get("fog_pm", 0) * self.weather.get("fog_aggro_cut_pm", 0) // 1000  # the fog hides you (spec 08, "Fog")
@@ -884,6 +898,72 @@ class CombatSim:
                 e.stagger = 0
             else:
                 self._move_enemy(e, hx, hy)
+
+    def start_defense(self) -> bool:
+        """The effect `start_defense` (spec 18, "Gideon's Dungeon"): the first wave comes at once. False while a defense runs, or without one."""
+        if self.defense_def is None or self.defense_active:
+            return False
+        self.defense_active = True
+        self.defense_wave = 0
+        self._defense_wave()
+        return True
+
+    def _defense_wave(self) -> None:
+        """The next wave of the defense: its creatures at the gate, in a row, at the end of the list."""
+        d = self.defense_def
+        ids = d["waves"][self.defense_wave]
+        self.defense_wave += 1
+        self.defense_clock = 0
+        for i, cid in enumerate(ids):
+            e = _Enemy({"def": d["enemies"][cid], "pos": [d["gate"][0] + (i - (len(ids) - 1) / 2) * 0.8, d["gate"][1]]})
+            e.defense = True
+            self.enemies.append(e)
+            self.hit_set.discard(len(self.enemies) - 1)
+
+    def _update_defense(self) -> None:
+        """Every tick of a defense, after the creatures (spec 18, "Gideon's Dungeon"): the traps, the core, the waves."""
+        if not self.defense_active:
+            return
+        d = self.defense_def
+        flags = self.story.flags if self.story is not None else {}
+        for e in self.enemies:
+            if not e.defense or e.state == DEAD:
+                continue
+            for k, trap in enumerate(d.get("traps", [])):
+                if not flags.get(trap["flag"], False) or e.state == DEAD:
+                    continue
+                if math.sqrt((trap["at"][0] - e.x) ** 2 + (trap["at"][1] - e.y) ** 2) > trap["radius_x100"] / 100:
+                    continue
+                if trap["kind"] == "spikes" and k not in e.trapped:
+                    e.trapped.add(k)
+                    e.hp -= max(1, e.d["hp"] * d["spikes_pct"] // 100)
+                    if e.hp <= 0:
+                        e.hp, e.state = 0, DEAD
+                        self._on_kill(e)
+                elif trap["kind"] == "tar":
+                    e.chill = max(e.chill, d["tar_ticks"])
+        cx, cy = d["core"]
+        if any(e.defense and e.state != DEAD and math.sqrt((cx - e.x) ** 2 + (cy - e.y) ** 2) <= d["core_radius_x100"] / 100
+               for e in self.enemies):
+            for e in self.enemies:  # lost: they leave the world, and nothing is given
+                if e.defense and e.state != DEAD:
+                    e.hp, e.state = 0, DEAD
+            self.defense_active = False
+            return
+        self.defense_clock += 1
+        alive = any(e.defense and e.state != DEAD for e in self.enemies)
+        if not alive or self.defense_clock >= d["wave_ticks"]:
+            if self.defense_wave < len(d["waves"]):
+                self._defense_wave()
+            elif not alive:  # won
+                self.defense_active = False
+                reward = d.get("reward", {})
+                if self.story is not None:
+                    self.story.gold += reward.get("gold", 0)
+                for item in reward.get("items", []):
+                    self.inventory[item["item"]] = self.inventory.get(item["item"], 0) + item["qty"]
+                if reward.get("counter"):
+                    self.counters[reward["counter"]] = self.counters.get(reward["counter"], 0) + 1
 
     def _move_enemy(self, e: _Enemy, tx: float, ty: float) -> None:
         dx, dy = tx - e.x, ty - e.y
@@ -1540,6 +1620,8 @@ class CombatSim:
             **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond,
                               **({"id": self.companion.get("id", "")} if self.companions else {})}} if self.companion is not None else {}),
             **({"party": list(self.party), "bonds": dict(sorted(self.bonds.items()))} if self.companions else {}),
+            **({"defense": {"active": self.defense_active, "wave": self.defense_wave, "clock": self.defense_clock}}
+               if self.defense_def is not None else {}),
             **({"chest": dict(sorted(self.chest.items())), "chest_open": self.chest_open} if self.storage is not None else {}),
             **({"plots": [[k[0], k[1], seed, ripe] for k, (seed, ripe) in sorted(self.plots.items())]} if self.farming is not None else {}),
             **({"furniture": [[k[0], k[1], item] for k, item in sorted(self.furniture.items())]} if self.home is not None else {}),

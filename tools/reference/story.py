@@ -137,6 +137,8 @@ class Story:
             self._refresh_all()
         elif kind == "set_flag":
             self.flags[effect["flag"]] = effect["value"]
+        elif kind == "start_defense":  # the defense of Gideon's Dungeon (spec 18)
+            getattr(self.host, "start_defense", lambda: False)()
         elif kind == "recruit_companion":  # a companion joins the party (spec 10, "The party")
             getattr(self.host, "recruit_companion", lambda _cid: False)(effect["companion"])
         elif kind == "start_quest":
