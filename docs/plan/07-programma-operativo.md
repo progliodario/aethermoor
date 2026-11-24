@@ -212,6 +212,13 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **File:** `docs/spec/06-items.md`, `tools/make_affixes.py`, `tools/make_common_affixes.py`, `tools/reference/combat.py`, `tools/conformance_m5.py`, `desktop/src/sim/world.cpp`, `android/core/.../sim/World.kt`.
 - **Accettazione:** lo scenario `affix_choice` (costo, tre offerte estratte in modo deterministico, una tenuta) passa in C++ e Kotlin; il salvataggio tiene il tiro scelto; `balance_report` a zero valori anomali.
 - **Dipende da:** B1.5. Taglia: M. Issue: [progliodario/aethermoor#236](https://github.com/progliodario/aethermoor/issues/236).
+- **Fatto (24 novembre 2026).** Differenze dal progetto: il prezzo è un oggetto, il prisma degli affissi (fatto all'incudine con un
+  nucleo di golem, due polveri di stelle e due minerali di ferro, venduto a Ironspine per 300 monete), così si usa come l'olio di tempra;
+  non c'è il limite di una volta per pezzo, perché ogni cambio costa un prisma. I "tipi" sono famiglie nei dati (`affix_family`): i
+  quattro affissi di ognuno dei sei pezzi comuni (tre offerte, nessuna estrazione) e le sei coppie dello spadone e della piastra da
+  cavaliere (tre estratte su cinque). Le offerte si guardano su una copia del flusso `loot`, quindi guardare non costa nulla. Lo
+  scenario `affix_choice` è in `tools/conformance_m3.py` (dove sta `temper_affix`), con due salvataggi. Il pannello è la terza
+  pagina di quello di creazione, nei due client; il proprietario deve ancora vederlo sullo schermo.
 
 #### C2 Compagni
 
@@ -344,6 +351,10 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **File:** `desktop/src/app/main.cpp`, `android/game/.../AethermoorGame.kt`, `docs/spec/12-save-format.md`.
 - **Accettazione:** un errore forzato in un test scrive il file su entrambi i client; niente lascia il dispositivo.
 - **Taglia:** S. Issue: [progliodario/aethermoor#248](https://github.com/progliodario/aethermoor/issues/248).
+- **Fatto (24 novembre 2026).** Differenza dal progetto: Android non ha un menu delle opzioni, quindi il log non si apre da lì. All'avvio
+  dopo l'errore la schermata del titolo, nei due client, dice una volta dov'è il file (rinominato `crash_last.txt`), e Android lo copia
+  negli appunti. Il log tiene gli ultimi 40 avvisi mostrati. I test (`desktop/tests/crash_log_test.cpp`, `CrashLogTest.kt`) forzano un
+  errore e rileggono il file.
 
 ##### E1.3 Traduzioni e accessibilità
 - **Cosa:** rileggere tutti i testi in italiano e in inglese contro la guida al tono e correggere quello che non torna; scrivere `docs/dev/accessibility.md` (contrasto, dimensione del testo, l'opzione dei lampi, il tocco con una mano, un controllo per il daltonismo) e testare ciò che si può testare.

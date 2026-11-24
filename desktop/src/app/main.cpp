@@ -25,6 +25,7 @@
 #include "core/numerics.hpp"
 #include "core/rules.hpp"
 #include "core/version.hpp"
+#include "data/crash_log.hpp"
 #include "data/pack.hpp"
 #include "data/protagonist.hpp"
 #include "sim/combat_loader.hpp"
@@ -57,8 +58,9 @@ constexpr float kBaseTilePx = 64.0F;
 constexpr const char* kProtagonistId = "base:protagonist/ren";
 // Who is played in this run (spec 18), chosen for a new game and kept in the folder of the slot.
 std::string g_protagonist_id = kProtagonistId;
-aether::SoundBoard g_sound;                             // the sounds (spec 14); silent in the smoke tests
-aether::SoundDirector g_sound_director;                 // decides what to play from what happens
+aether::CrashLog g_crash_log;            // the last notices, for the crash log (spec 12, "The crash log")
+aether::SoundBoard g_sound;              // the sounds (spec 14); silent in the smoke tests
+aether::SoundDirector g_sound_director;  // decides what to play from what happens
 std::optional<aether::MusicDirector> g_music_director;  // decides which piece plays and which layers
 std::string g_art_variant;                              // palette variant of the player's art
 bool g_has_analyze = true;                              // the protagonist has Ren's Analyze
@@ -122,7 +124,7 @@ struct Ui {
     int keys_cursor = 0;
     bool keys_waiting = false;  // the next key pressed is given to the chosen action
     bool show_craft = false;    // the crafting panel (spec 06, "Crafting")
-    int craft_tab = 0;          // what the panel shows: 0 the recipes, 1 the talents (spec 11, "Talents")
+    int craft_tab = 0;          // what the panel shows: 0 the recipes, 1 the talents (spec 11), 2 the affixes (spec 06)
     int craft_cursor = 0;
     int settings_cursor = 0;
     int journal_scroll = 0;  // first visible line of the journal
@@ -2312,6 +2314,21 @@ std::string dialogue_text(const aether::Pack& pack, const std::string& lang, con
 void notify(Ui& ui, const std::string& text) {
     ui.message = text;
     ui.message_frames = 150;
+    g_crash_log.note(text);
+}
+
+// The game stopped with an error last time (spec 12, "The crash log"): the log is kept as crash_last.txt and the title
+// screen says where it is, once. Empty: there was none.
+std::string take_crash_notice(const Assets& assets, const std::string& lang) {
+    const fs::path file = save_dir() / "crash.txt";
+    std::error_code ec;
+    if (!fs::exists(file, ec)) {
+        return {};
+    }
+    const fs::path kept = save_dir() / "crash_last.txt";
+    fs::remove(kept, ec);
+    fs::rename(file, kept, ec);
+    return assets.pack.text(lang, "$i18n:ui.crash_log", {{"path", (ec ? file : kept).string()}});
 }
 
 // Confirms the current dialogue line or choice.
@@ -2419,6 +2436,13 @@ void bag_use(aether::WorldSim& sim, const Assets& assets, Ui& ui) {
         } else {
             notify(ui, assets.pack.text(ui.lang, "$i18n:ui.temper_refused"));
         }
+        return;
+    }
+    if (def != sim.combat().items.end() && def->second.is_reforge) {  // a prism opens the page of the affixes (spec 06)
+        ui.show_inventory = false;
+        ui.show_craft = true;
+        ui.craft_tab = 2;
+        ui.craft_cursor = 0;
         return;
     }
     if (def != sim.combat().items.end() && def->second.is_furniture) {  // a piece stands on a place of the home
@@ -3697,11 +3721,71 @@ std::string talent_line(const Assets& assets, const Ui& ui, const aether::WorldS
     }();
 }
 
+// Whether the pack has a reforge item (spec 06, "Choosing an affix"): the crafting panel then has a page of affixes.
+bool has_affix_page(const aether::WorldSim& sim) {
+    const auto& items = sim.combat().items;
+    return std::any_of(items.begin(), items.end(), [](const auto& entry) { return entry.second.is_reforge; });
+}
+
+// The reforge item of the bag that the page of the affixes uses: the first in the order of the IDs; empty: none.
+std::string bag_prism(const aether::WorldSim& sim) {
+    for (const auto& [id, count] : sim.inventory()) {
+        const auto def = sim.combat().items.find(id);
+        if (count > 0 && def != sim.combat().items.end() && def->second.is_reforge) {
+            return id;
+        }
+    }
+    return {};
+}
+
+// Tab in the crafting panel: the next page that the pack has (the recipes, the talents, the affixes; spec 16).
+void next_craft_page(const aether::WorldSim& sim, Ui& ui) {
+    const bool talents = !sim.combat().talents.empty();
+    const bool affixes = has_affix_page(sim);
+    int page = ui.craft_tab;
+    for (int step = 0; step < 3; ++step) {
+        page = (page + 1) % 3;
+        if (page == 0 || (page == 1 && talents) || (page == 2 && affixes)) {
+            break;
+        }
+    }
+    ui.craft_tab = page;
+    ui.craft_cursor = 0;
+}
+
+// The page of the affixes (spec 06, "Choosing an affix"; spec 16): W/S choose an offer, E takes it with a prism.
+void handle_affix_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
+    const std::vector<std::string> offers = sim.affix_offers();
+    if (offers.empty()) {
+        return;
+    }
+    const int rows = static_cast<int>(offers.size());
+    ui.craft_cursor = std::clamp(ui.craft_cursor, 0, rows - 1);
+    if (key == SDLK_UP || key == SDLK_W) {
+        ui.craft_cursor = (ui.craft_cursor + rows - 1) % rows;
+    } else if (key == SDLK_DOWN || key == SDLK_S) {
+        ui.craft_cursor = (ui.craft_cursor + 1) % rows;
+    } else if (key == SDLK_E || key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE) {
+        const std::string old = sim.reforge_target();
+        const std::string piece = offers[static_cast<std::size_t>(ui.craft_cursor)];
+        if (sim.choose_affix(bag_prism(sim), piece)) {
+            notify(ui, assets.pack.text(
+                           ui.lang, "$i18n:ui.affix_chosen",
+                           {{"old", item_name(assets, ui, old, 1)}, {"item", item_name(assets, ui, piece, 1)}}));
+        } else {
+            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.affix_refused"));
+        }
+    }
+}
+
 void handle_craft_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
     const auto& talents = sim.combat().talents;
-    if (key == SDLK_TAB && !talents.empty()) {  // the same panel shows the recipes or the talents
-        ui.craft_tab = 1 - ui.craft_tab;
-        ui.craft_cursor = 0;
+    if (key == SDLK_TAB) {  // the same panel shows the recipes, the talents or the affixes
+        next_craft_page(sim, ui);
+        return;
+    }
+    if (ui.craft_tab == 2 && has_affix_page(sim)) {
+        handle_affix_key(sim, assets, ui, key);
         return;
     }
     if (ui.craft_tab == 1 && !talents.empty()) {
@@ -3750,9 +3834,76 @@ void handle_craft_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_K
     }
 }
 
+// The line under the title of the page of the affixes: what is missing, or the prisms of the bag and the station.
+std::string affix_status(const Assets& assets, const aether::WorldSim& sim, const Ui& ui) {
+    if (sim.reforge_target().empty()) {
+        return assets.pack.text(ui.lang, "$i18n:ui.affix_none");
+    }
+    const std::string prism = bag_prism(sim);
+    if (prism.empty()) {
+        return assets.pack.text(ui.lang, "$i18n:ui.affix_no_prism");
+    }
+    const auto def = sim.combat().items.find(prism);
+    const std::string& station = def->second.reforge_station;
+    std::string line =
+        assets.pack.text(ui.lang, "$i18n:ui.affix_prisms",
+                         {{"item", item_name(assets, ui, prism, 1)}, {"count", sim.inventory().at(prism)}});
+    if (!station.empty()) {  // the station of the prism (spec 06, "Stations")
+        line += "   " + assets.pack.text(ui.lang, sim.near_station(station)
+                                                      ? std::string("$i18n:ui.station_here")
+                                                      : "$i18n:ui.station_" + station.substr(station.rfind('/') + 1));
+    }
+    return line;
+}
+
+// The page of the affixes (spec 06, "Choosing an affix"): the worn piece of a family with its roll, the prisms and the
+// station, then the offers of now, one row each.
+void draw_affixes(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+                  int out_h, float density) {
+    constexpr float kScale = 1.5F;
+    const std::vector<std::string> offers = sim.affix_offers();
+    const std::string target = sim.reforge_target();
+    const float row = 8.0F * kScale + 16.0F;
+    const float w = std::min(static_cast<float>(out_w) - 40.0F, 760.0F * density);
+    const float h = std::min(static_cast<float>(out_h) - 40.0F, 130.0F + row * 3.0F);
+    const float x = (static_cast<float>(out_w) - w) / 2.0F;
+    const float y = (static_cast<float>(out_h) - h) / 2.0F;
+    draw_panel(renderer, x, y, w, h, 255, 215, 120, 245);
+    SDL_SetRenderScale(renderer, kScale, kScale);
+    SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+    std::string title = assets.pack.text(ui.lang, "$i18n:ui.affixes");
+    if (!target.empty()) {
+        title = assets.pack.text(ui.lang, "$i18n:ui.affix_piece", {{"item", item_name(assets, ui, target, 1)}});
+        if (sim.roll_of(target) > 0) {
+            title += "  " + assets.pack.text(ui.lang, "$i18n:ui.affix_roll", {{"pct", sim.roll_of(target)}});
+        }
+    }
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale, title.c_str());
+    SDL_SetRenderDrawColor(renderer, 170, 190, 215, 255);
+    debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F + row) / kScale, affix_status(assets, sim, ui).c_str());
+    for (std::size_t i = 0; i < offers.size(); ++i) {
+        const float ty = y + 44.0F + row * static_cast<float>(i + 1);
+        if (static_cast<int>(i) == ui.craft_cursor) {
+            SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+            fill_rect(renderer, x + 8.0F, ty - 4.0F, w - 16.0F, row, 40, 90, 140, 255);
+            SDL_SetRenderScale(renderer, kScale, kScale);
+        }
+        SDL_SetRenderDrawColor(renderer, 150, 255, 170, 255);
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, item_name(assets, ui, offers[i], 1).c_str());
+    }
+    SDL_SetRenderDrawColor(renderer, 150, 170, 200, 255);
+    debug_text(renderer, (x + 16.0F) / kScale, (y + h - 26.0F) / kScale,
+               assets.pack.text(ui.lang, "$i18n:ui.affix_hint").c_str());
+    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
+}
+
 void draw_craft(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
                 int out_h, float density) {
     if (!ui.show_craft) {
+        return;
+    }
+    if (ui.craft_tab == 2 && has_affix_page(sim)) {
+        draw_affixes(renderer, assets, sim, ui, out_w, out_h, density);
         return;
     }
     constexpr float kScale = 1.5F;
@@ -4398,7 +4549,7 @@ void menu_sound() {
 }
 
 int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, const std::string& lang, int first_slot,
-              const std::string& capture_path = {}) {
+              const std::string& capture_path = {}, const std::string& first_notice = {}) {
     std::vector<SlotInfo> slots;
     for (int slot = 1; slot <= kSlotCount; ++slot) {
         slots.push_back(read_slot(slot));
@@ -4409,7 +4560,7 @@ int run_title(SDL_Window* window, SDL_Renderer* renderer, const Assets& assets, 
         -1;  // the game that `R` asked to reincarnate; a second `R` does it (spec 11, "Reincarnation")
     bool show_credits = false;  // the credits (spec 16, "Credits"): C opens and closes them
     bool show_deeds = false;    // the deeds of all the games (spec 11, "Deeds"): A opens and closes them
-    std::string notice;
+    std::string notice = first_notice;
     for (;;) {
         menu_sound();
         float density = SDL_GetWindowPixelDensity(window);
@@ -4829,7 +4980,7 @@ std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const
 
 }  // namespace
 
-int main(int argc, char** argv) {
+int run_game(int argc, char** argv) {
     bool smoke_test = false;
     int forced_slot = 0;     // developer option: --slot=N skips the title screen
     std::string map_choice;  // "demo" or "world"; the default depends on the mode
@@ -4916,6 +5067,9 @@ int main(int argc, char** argv) {
         }
     }
 
+    // The crash log of the last time, if the game stopped with an error (spec 12, "The crash log").
+    std::string crash_notice =
+        smoke_test ? std::string() : take_crash_notice(assets, saved_language().value_or(detect_language()));
     // One game after another: Esc in a game comes back to the title screen, where another slot can be chosen.
     int exit_code = 0;
     int last_slot = 0;
@@ -4928,10 +5082,11 @@ int main(int argc, char** argv) {
             fs::create_directories(g_slot_dir, folder_error);
         } else {
             migrate_legacy_saves();
-            const int slot =
-                forced_slot >= 1 && forced_slot <= kSlotCount
-                    ? forced_slot
-                    : run_title(window, renderer, assets, saved_language().value_or(detect_language()), last_slot);
+            const int slot = forced_slot >= 1 && forced_slot <= kSlotCount
+                                 ? forced_slot
+                                 : run_title(window, renderer, assets, saved_language().value_or(detect_language()),
+                                             last_slot, {}, crash_notice);
+            crash_notice.clear();
             if (slot == 0) {
                 SDL_DestroyRenderer(renderer);
                 SDL_DestroyWindow(window);
@@ -5692,4 +5847,21 @@ int main(int argc, char** argv) {
     SDL_DestroyWindow(window);
     SDL_Quit();
     return exit_code;
+}
+
+// The crash log (spec 12, "The crash log"): an error that nothing caught writes the last notices and the error in the
+// folder of the saves (crash.txt), and the game stops; the title screen says where the log is at the next start.
+int crash_with_log(const std::string& error) {
+    g_crash_log.write(save_dir() / "crash.txt", aether::game_version(), error);
+    return 1;
+}
+
+int main(int argc, char** argv) {
+    try {
+        return run_game(argc, argv);
+    } catch (const std::exception& error) {
+        return crash_with_log(error.what());
+    } catch (...) {
+        return crash_with_log("unknown error");
+    }
 }

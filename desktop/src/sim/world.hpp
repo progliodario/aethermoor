@@ -340,6 +340,12 @@ public:
     std::int64_t tick_of_day() const;    // world_ticks % day_ticks, 0 without a clock
     // Uses one item of the inventory (spec 06). Returns false, changing nothing, when it is refused.
     bool use_item(const std::string& item_id);
+    // Choosing an affix (spec 06): the worn piece of a family (the weapon first, then the armor; empty: none), its
+    // offers of now (drawn on a copy of the loot stream: looking draws nothing), and the change of the worn piece into
+    // one of them with a reforge item of the bag next to its station (false, changing nothing, when it is refused).
+    std::string reforge_target() const;
+    std::vector<std::string> affix_offers() const;
+    bool choose_affix(const std::string& item_id, const std::string& piece);
     // Gathering (spec 06, "Gathering"): the items found at the nearest prop in reach that can be gathered from, which
     // are added to the bag.
     struct GatherResult {

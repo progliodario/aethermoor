@@ -68,7 +68,8 @@ def main() -> None:
                 write_json(DATA / "items" / f"{piece}.json", {
                     "$schema": "../../../schemas/item.schema.json", "id": f"base:item/{piece}", "name": f"$i18n:item.{piece}.name",
                     "description": f"$i18n:item.{piece}.desc", "kind": doc["kind"], "rarity": RARITY[tier], "price": doc["price"] * 2,
-                    doc["kind"]: doc[doc["kind"]], "affix": bonus, "affix_roll": ROLL})
+                    doc["kind"]: doc[doc["kind"]], "affix": bonus, "affix_roll": ROLL,
+                    "affix_family": base})  # its four affixes (spec 06, "Choosing an affix")
                 values = {"max_hp": bonus.get("max_hp", 0), "atk": bonus.get("atk", 0), "crit": bonus.get("crit_pm", 0) // 10,
                           "drain": bonus.get("drain_pm", 0) // 10}
                 for lang, name, what, label in (("en", name_en, what_en, "Affix"), ("it", name_it, what_it, "Affisso")):
@@ -84,7 +85,8 @@ def main() -> None:
             write_json(DATA / "items" / f"{piece}.json", {
                 "$schema": "../../../schemas/item.schema.json", "id": f"base:item/{piece}", "name": f"$i18n:item.{piece}.name",
                 "description": f"$i18n:item.{piece}.desc", "kind": doc["kind"], "rarity": "epic", "price": doc["price"] * 3,
-                doc["kind"]: doc[doc["kind"]], "affix": bonus, "affix_roll": ROLL})
+                doc["kind"]: doc[doc["kind"]], "affix": bonus, "affix_roll": ROLL,
+                "affix_family": f"{base}_pair"})  # its six pairs (spec 06, "Choosing an affix")
             values = {"max_hp": bonus.get("max_hp", 0), "atk": bonus.get("atk", 0), "crit": bonus.get("crit_pm", 0) // 10,
                       "drain": bonus.get("drain_pm", 0) // 10}
             for lang, label, which in (("en", "Two affixes", 3), ("it", "Due affissi", 4)):

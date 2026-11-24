@@ -179,12 +179,12 @@ The numbers (counted from the data by `tools/make_facts.py`):
 | Protagonists | 8, each with a companion (8 companions) and a story of six acts (120 story quests) |
 | Creatures | 79, of which 27 guardians and 8 Echoes |
 | Quests | 407 (24 tales of the villagers) |
-| Items and recipes | 286 items, 82 recipes (8 secret) |
+| Items and recipes | 287 items, 83 recipes (8 secret) |
 | Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 56 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 4211 keys, in Italian and English |
-| Same rules on both clients | 31 files of conformance vectors, 619 cases, run by the C++ and the Kotlin tests |
+| Texts | 4224 keys, in Italian and English |
+| Same rules on both clients | 31 files of conformance vectors, 624 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->
 

@@ -1588,5 +1588,16 @@
   "dlg.side.dorrit.reply_a": "Then this was yours too. My grandmother kept it: the mantle of the king, from the day he fell. She said someone should give it back to him if he ever came home a better man. I think she meant you.",
   "dlg.side.dorrit.choice_b": "I am a Guest, and your friend. That is all I want to be.",
   "dlg.side.dorrit.reply_b": "Then a friend gets the hammer of the forge, the one my family brought from the Wastes. It made swords once. Now it makes ovens. Like you.",
-  "ui.quest_repeatable": "(can be done again)"
+  "ui.quest_repeatable": "(can be done again)",
+  "ui.affixes": "Affixes",
+  "ui.affix_piece": "Choose another affix for {item}",
+  "ui.affix_none": "Wear a common weapon or armor with an affix (vigor, might, keenness, the leech) to choose another affix for it.",
+  "ui.affix_prisms": "{item}: {count} in the bag",
+  "ui.affix_no_prism": "You need an affix prism: made at an anvil, sold in Ironspine.",
+  "ui.affix_chosen": "{old} is now {item}.",
+  "ui.affix_refused": "The affix cannot be chosen now: an affix prism, a piece of a family worn and an anvil next to you.",
+  "ui.affix_hint": "W/S choose, E takes it (one prism), Tab the next page, Esc closes",
+  "ui.affix_hint_touch": "Tap an affix to choose it, tap it again to take it (one prism)",
+  "ui.crash_log": "The game stopped with an error last time. What happened is written in {path}: send it with your report.",
+  "ui.crash_log_copied": "The game stopped with an error last time. What happened is written in {path}, and copied: paste it in your report."
 }

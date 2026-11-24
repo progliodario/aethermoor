@@ -279,12 +279,12 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (120 missioni di storia) |
 | Creature | 79, di cui 27 guardiani e 8 Echi |
 | Missioni | 407 (24 storie dei paesani) |
-| Oggetti e ricette | 286 oggetti, 82 ricette (8 segrete) |
+| Oggetti e ricette | 287 oggetti, 83 ricette (8 segrete) |
 | Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 56 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4211 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 619 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 4224 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 31 file di vettori di conformità, 624 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
 
@@ -302,9 +302,9 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve, nebbia e notte che nascondono il giocatore, vento che lo spinge, temporali, stagioni che rallentano le creature o le rendono meno attente, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale |
 | M6 Sistemi di vita | avviato | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con sei posti per i mobili, otto residenti che arrivano agli avamposti, Odo il capo carovana, Brannoc il fabbro errante e Lark la cantastorie che ogni giorno sono in un altro avamposto, stagioni che cambiano i raccolti, il giardino del cottage, un colono in ogni villaggio generato con il suo mestiere, la sua missione e la sua bottega, una festa per regione con i suoi giochi, i paesani che ne parlano | carri che si vedono viaggiare |
 | M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
-| M8 Progressione profonda | avviato | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi tirati a sorte quando si trovano, anche ventiquattro pezzi comuni, e ritemprati all'incudine o dai fabbri, dodici pezzi rari con due affissi, doni delle imprese a ogni partita nuova | affissi che si scelgono |
+| M8 Progressione profonda | fatto | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi tirati a sorte quando si trovano, anche ventiquattro pezzi comuni, e ritemprati all'incudine o dai fabbri, dodici pezzi rari con due affissi, affissi scelti all'incudine con il prisma, doni delle imprese a ogni partita nuova | nulla |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo, quinto e sesto atto ("Due Ospiti", che lega i protagonisti a coppie), epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | la modalità Dungeon di Gideon |
-| M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento | un sintetizzatore migliore per riaccendere musica e ambiente |
+| M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento, log dei crash | un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | avviato | la guida per chi fa mod, il mod di esempio e il suo controllo in CI | pacchetti firmati, pagina di download (decisioni del proprietario) |
 
 ### 8.3 Che cosa è stato fatto, per area
@@ -389,6 +389,9 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Affissi** (dal 18 novembre, terza PR): armi e armature con un affisso, bonus fissi come quelli di un accessorio (salute, attacco, difesa, critico, risucchio); sedici pezzi, un'arma e un'armatura per regione, che i guardiani della regione lasciano una volta su cinque.
 - **Affissi tirati a sorte e tempra** (dal 21 e 22 novembre): un pezzo trovato ha l'affisso dal 100 al 160%; ventiquattro pezzi comuni con un
   affisso e dodici rari con due; l'olio di tempra all'incudine, o un fabbro a pagamento, ritira l'affisso e tiene il tiro migliore.
+- **Affissi scelti** (dal 24 novembre, C1.2, spec 06 "Choosing an affix"): con il prisma degli affissi (fatto all'incudine, venduto a
+  Ironspine), un pezzo comune con un affisso diventa lo stesso pezzo con un altro affisso, scelto tra tre (la terza pagina del pannello
+  di creazione); il tiro e la runa restano al pezzo.
 - **Tag** (dal 18 novembre, seconda PR): otto tratti guadagnati da come giochi (Berserker, Sentinella, Cercatore, Artefice, Epicureo, Coltivatore, Naturalista, Campione del popolo); se ne indossa uno alla volta (`Y`, o il pulsante Tag del diario) e solo quello dà il suo effetto, più forte di quello di un titolo.
 - Profilo comune a tutte le partite: echi (vita in più per ogni titolo e vita passata), reincarnazione dal livello 10 con eredità di metà dell'oro e dell'arma impugnata, imprese (dal 17 novembre) lette dal profilo e elencate dalla schermata del titolo.
 
@@ -406,6 +409,8 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 
 - Tre partite, salvataggio automatico e rapido, export e import di una partita in un file, profilo condiviso.
 - Italiano e inglese completi; font del pack su desktop e Android; tasti configurabili sul desktop (`F4`), comandi touch su Android.
+- **Log dei crash** (dal 24 novembre, E1.2, spec 12 "The crash log"): un errore che ferma il gioco scrive `crash.txt` nella cartella dei
+  salvataggi (versione, errore, ultimi avvisi); all'avvio dopo, la schermata del titolo dice dov'è (Android lo copia anche). Niente esce dal dispositivo.
 
 **Qualità e strumenti**
 
@@ -415,7 +420,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Fondamenta B1** (dal 23 novembre): le copie congelate dei salvataggi di ogni versione (`tests/saves/`, suite `save_fixtures`, spec 12),
   che il riferimento e i due client devono caricare; la matrice di parità generata (`docs/design/parity.md`) e il controllo delle licenze
   (`tools/licenses.py`), tutti e due in `ci-data`; la spec 15 (il tema "Finestra di sistema" e dove sta ogni pannello) e l'ADR 0014 (le
-  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita).
+  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita), poi a 87 (i suoni, i consigli e la partita nuova di Android in funzioni più piccole).
 - Catalogo dei contenuti e rapporto di bilanciamento generati dai dati; anteprime dell'arte in PNG senza avviare il gioco.
 - **Mod** (dal 24 novembre, E4.1): una guida passo per passo al primo mod (`docs/modding/README.md`), un mod di esempio
   (`examples/mod-example/`, una creatura e una missione) e il validatore che controlla un pacchetto qualsiasi sopra quelli da cui dipende;
@@ -434,16 +439,13 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 **A breve (le prossime PR)**
 
 1. **Ridurre la baseline di detekt** (M10; ktlint e detekt in CI ci sono, le segnalazioni vecchie restano in
-   `android/config/detekt-baseline.xml`: 90, di cui 71 di complessità, 18 di annidamento e uno di uscite dai cicli, tutto in
+   `android/config/detekt-baseline.xml`: 87, di cui 68 di complessità, 18 di annidamento e uno di uscite dai cicli, tutto in
    `AethermoorGame.kt`): spezzare a poco a poco le funzioni più complesse.
-2. **Viaggiatori che si vedono** (M6; Odo, Brannoc e Lark girano gli avamposti, ogni giorno in un altro): camminano lungo le strade invece di
-   comparire alla tappa; altri mercanti con il loro giro.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
 6. **Una casa più grande** (M6; i dieci mobili del cottage, in casa e in giardino, ci sono): stanze in più da comprare.
 7. **Più compagni scelti dal giocatore** (M7; il compagno di ognuno e la creatura domata di Haruka ci sono).
-8. **Affissi che si scelgono** (M8; affissi tirati a sorte e ritemprati ci sono).
 9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base.
 10. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
 11. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).

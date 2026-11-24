@@ -6820,6 +6820,1735 @@
       }
     },
     {
+      "name": "save_affix_choice_at_3",
+      "input": {
+        "op": "save_resume",
+        "split": 3,
+        "save": {
+          "player": {
+            "x": 7.4,
+            "y": 4.5,
+            "facing": [
+              1.0,
+              0.0
+            ],
+            "facing_left": false,
+            "moving": false,
+            "clip_tick": 0,
+            "hp": 142,
+            "level": 1,
+            "xp": 0,
+            "deaths": 0,
+            "kills": 0,
+            "iframes": 0,
+            "cooldown": 0,
+            "phase": "none",
+            "phase_tick": 0,
+            "hit_set": [
+              false
+            ]
+          },
+          "rng": {
+            "combat": {
+              "state": "0xe7c42fc2c24cb470",
+              "inc": "0x9417f2f99ce2f643"
+            },
+            "loot": {
+              "state": "0x2a27d2b1d21ee168",
+              "inc": "0x9bd9d15ae1ab096f"
+            }
+          },
+          "enemies": [
+            {
+              "x": 12.0,
+              "y": 7.5,
+              "hp": 28,
+              "state": "idle",
+              "state_tick": 0
+            }
+          ],
+          "inventory": {
+            "base:item/iron_sword": 1,
+            "test:item/blade_leech": 1,
+            "test:item/blade_vigor": 1,
+            "test:item/coat_c": 1,
+            "test:item/prism": 3
+          },
+          "equipped": {
+            "weapon": "test:item/blade_leech",
+            "armor": ""
+          },
+          "counters": {
+            "engraved": 1,
+            "reforged": 1,
+            "tempered": 1
+          },
+          "runes": {
+            "test:item/blade_leech": "test:item/rune_wind",
+            "test:item/blade_vigor": "test:item/rune_wind"
+          },
+          "rolls": {
+            "test:item/blade_leech": 121,
+            "test:item/blade_vigor": 121
+          },
+          "story": null,
+          "world_ticks": 92
+        },
+        "gather_props": [
+          {
+            "art": "base:art/prop/anvil",
+            "x": 8.0,
+            "y": 4.5,
+            "radius": 0.3
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              12.0,
+              7.5
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 0
+              },
+              {
+                "cmd": "equip",
+                "item": "test:item/blade_vigor"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/rune_wind"
+              },
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 0
+              }
+            ]
+          },
+          {
+            "ticks": 90,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/oil"
+              },
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "piece": "test:item/coat_a"
+              },
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 1
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 2
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "equip",
+                "item": "base:item/iron_sword"
+              },
+              {
+                "cmd": "equip",
+                "item": "test:item/coat_c"
+              },
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 0
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 2
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 0
+              }
+            ]
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ],
+        "inventory": {
+          "test:item/prism": 4,
+          "test:item/oil": 1,
+          "test:item/rune_wind": 1,
+          "test:item/blade_vigor": 2,
+          "test:item/coat_c": 1,
+          "base:item/iron_sword": 1
+        },
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/cleansing_draught": {
+            "kind": "food",
+            "price": 60,
+            "effects": [
+              {
+                "effect": "cleanse"
+              }
+            ]
+          },
+          "base:item/windleaf_brew": {
+            "kind": "food",
+            "price": 90,
+            "effects": [
+              {
+                "effect": "haste",
+                "amount": 50,
+                "ticks": 90
+              }
+            ]
+          },
+          "base:item/honey_cake": {
+            "kind": "food",
+            "price": 20,
+            "effects": [
+              {
+                "effect": "regen",
+                "amount": 6,
+                "ticks": 600
+              }
+            ]
+          },
+          "base:item/frost_tonic": {
+            "kind": "food",
+            "price": 160,
+            "effects": [
+              {
+                "effect": "ward",
+                "amount": 400,
+                "ticks": 300
+              }
+            ]
+          },
+          "base:item/roast_meat": {
+            "kind": "food",
+            "price": 30,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 20
+              },
+              {
+                "effect": "fortify",
+                "amount": 50,
+                "ticks": 200
+              }
+            ]
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          },
+          "base:item/fang_necklace": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "atk": 12,
+              "max_hp": 40
+            }
+          },
+          "base:item/bat_charm": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "drain_pm": 300
+            }
+          },
+          "test:item/rune_fire": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "element": "fire",
+              "atk": 4,
+              "station": "base:art/prop/anvil"
+            }
+          },
+          "test:item/rune_wind": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "element": "wind",
+              "atk": 2
+            }
+          },
+          "test:item/rune_stone": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "atk": 9,
+              "station": "base:art/prop/forge"
+            }
+          },
+          "test:item/blade_vigor": {
+            "kind": "weapon",
+            "price": 500,
+            "weapon": {
+              "atk": 10,
+              "matk": 0
+            },
+            "affix": {
+              "max_hp": 40
+            },
+            "affix_roll": {
+              "min_pct": 100,
+              "max_pct": 150
+            },
+            "affix_family": "blade"
+          },
+          "test:item/blade_might": {
+            "kind": "weapon",
+            "price": 500,
+            "weapon": {
+              "atk": 10,
+              "matk": 0
+            },
+            "affix": {
+              "atk": 6
+            },
+            "affix_roll": {
+              "min_pct": 100,
+              "max_pct": 150
+            },
+            "affix_family": "blade"
+          },
+          "test:item/blade_keen": {
+            "kind": "weapon",
+            "price": 500,
+            "weapon": {
+              "atk": 10,
+              "matk": 0
+            },
+            "affix": {
+              "crit_pm": 60
+            },
+            "affix_roll": {
+              "min_pct": 100,
+              "max_pct": 150
+            },
+            "affix_family": "blade"
+          },
+          "test:item/blade_leech": {
+            "kind": "weapon",
+            "price": 500,
+            "weapon": {
+              "atk": 10,
+              "matk": 0
+            },
+            "affix": {
+              "drain_pm": 80
+            },
+            "affix_roll": {
+              "min_pct": 100,
+              "max_pct": 150
+            },
+            "affix_family": "blade"
+          },
+          "test:item/coat_a": {
+            "kind": "armor",
+            "price": 500,
+            "armor": {
+              "def": 6,
+              "mdef": 3
+            },
+            "affix": {
+              "max_hp": 30
+            },
+            "affix_family": "coat"
+          },
+          "test:item/coat_b": {
+            "kind": "armor",
+            "price": 500,
+            "armor": {
+              "def": 6,
+              "mdef": 3
+            },
+            "affix": {
+              "def": 3
+            },
+            "affix_family": "coat"
+          },
+          "test:item/coat_c": {
+            "kind": "armor",
+            "price": 500,
+            "armor": {
+              "def": 6,
+              "mdef": 3
+            },
+            "affix": {
+              "mdef": 4
+            },
+            "affix_family": "coat"
+          },
+          "test:item/coat_d": {
+            "kind": "armor",
+            "price": 500,
+            "armor": {
+              "def": 6,
+              "mdef": 3
+            },
+            "affix": {
+              "atk": 3
+            },
+            "affix_family": "coat"
+          },
+          "test:item/coat_e": {
+            "kind": "armor",
+            "price": 500,
+            "armor": {
+              "def": 6,
+              "mdef": 3
+            },
+            "affix": {
+              "crit_pm": 40
+            },
+            "affix_family": "coat"
+          },
+          "test:item/prism": {
+            "kind": "reforge",
+            "price": 300,
+            "stack_max": 9,
+            "reforge": {
+              "station": "base:art/prop/anvil"
+            }
+          },
+          "test:item/oil": {
+            "kind": "temper",
+            "price": 160,
+            "stack_max": 9,
+            "temper": {
+              "station": "base:art/prop/anvil"
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/blade_vigor": 2,
+              "test:item/coat_c": 1,
+              "test:item/prism": 2
+            },
+            "equipped": {
+              "weapon": "test:item/blade_vigor",
+              "armor": ""
+            },
+            "runes": {
+              "test:item/blade_vigor": "test:item/rune_wind"
+            },
+            "atk": 28,
+            "derived": {
+              "atk": 28,
+              "matk": 17,
+              "def": 8,
+              "mdef": 8,
+              "max_hp": 190,
+              "crit_chance_pm": 265
+            },
+            "rolls": {
+              "test:item/blade_vigor": 121
+            },
+            "affix_offers": [
+              "test:item/blade_keen",
+              "test:item/blade_leech",
+              "test:item/blade_might"
+            ]
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/blade_vigor": 2,
+              "test:item/coat_a": 1,
+              "test:item/prism": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": "test:item/coat_a"
+            },
+            "runes": {
+              "test:item/blade_vigor": "test:item/rune_wind"
+            },
+            "atk": 23,
+            "derived": {
+              "atk": 23,
+              "matk": 17,
+              "def": 14,
+              "mdef": 11,
+              "max_hp": 172,
+              "crit_chance_pm": 265
+            },
+            "rolls": {
+              "test:item/blade_vigor": 121
+            },
+            "affix_offers": [
+              "test:item/coat_b",
+              "test:item/coat_c",
+              "test:item/coat_d"
+            ]
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/blade_vigor": 2,
+              "test:item/coat_d": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": "test:item/coat_d"
+            },
+            "runes": {
+              "test:item/blade_vigor": "test:item/rune_wind"
+            },
+            "atk": 26,
+            "derived": {
+              "atk": 26,
+              "matk": 17,
+              "def": 14,
+              "mdef": 11,
+              "max_hp": 142,
+              "crit_chance_pm": 265
+            },
+            "rolls": {
+              "test:item/blade_vigor": 121
+            },
+            "affix_offers": [
+              "test:item/coat_c",
+              "test:item/coat_a",
+              "test:item/coat_b"
+            ]
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/blade_vigor": 2,
+              "test:item/coat_d": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": "test:item/coat_d"
+            },
+            "runes": {
+              "test:item/blade_vigor": "test:item/rune_wind"
+            },
+            "atk": 26,
+            "derived": {
+              "atk": 26,
+              "matk": 17,
+              "def": 14,
+              "mdef": 11,
+              "max_hp": 142,
+              "crit_chance_pm": 265
+            },
+            "rolls": {
+              "test:item/blade_vigor": 121
+            },
+            "affix_offers": [
+              "test:item/coat_c",
+              "test:item/coat_a",
+              "test:item/coat_b"
+            ]
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/blade_vigor": 2,
+              "test:item/coat_d": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": "test:item/coat_d"
+            },
+            "runes": {
+              "test:item/blade_vigor": "test:item/rune_wind"
+            },
+            "atk": 26,
+            "derived": {
+              "atk": 26,
+              "matk": 17,
+              "def": 14,
+              "mdef": 11,
+              "max_hp": 142,
+              "crit_chance_pm": 265
+            },
+            "rolls": {
+              "test:item/blade_vigor": 121
+            },
+            "affix_offers": [
+              "test:item/coat_c",
+              "test:item/coat_a",
+              "test:item/coat_b"
+            ]
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "save_affix_choice_at_5",
+      "input": {
+        "op": "save_resume",
+        "split": 5,
+        "save": {
+          "player": {
+            "x": 7.4,
+            "y": 4.5,
+            "facing": [
+              1.0,
+              0.0
+            ],
+            "facing_left": false,
+            "moving": false,
+            "clip_tick": 2,
+            "hp": 142,
+            "level": 1,
+            "xp": 0,
+            "deaths": 0,
+            "kills": 0,
+            "iframes": 0,
+            "cooldown": 0,
+            "phase": "none",
+            "phase_tick": 0,
+            "hit_set": [
+              false
+            ]
+          },
+          "rng": {
+            "combat": {
+              "state": "0xe7c42fc2c24cb470",
+              "inc": "0x9417f2f99ce2f643"
+            },
+            "loot": {
+              "state": "0xa52462ac54df5481",
+              "inc": "0x9bd9d15ae1ab096f"
+            }
+          },
+          "enemies": [
+            {
+              "x": 12.0,
+              "y": 7.5,
+              "hp": 28,
+              "state": "idle",
+              "state_tick": 0
+            }
+          ],
+          "inventory": {
+            "base:item/iron_sword": 1,
+            "test:item/blade_vigor": 2,
+            "test:item/coat_a": 1,
+            "test:item/prism": 1
+          },
+          "equipped": {
+            "weapon": "base:item/iron_sword",
+            "armor": "test:item/coat_a"
+          },
+          "counters": {
+            "engraved": 1,
+            "reforged": 3,
+            "tempered": 1
+          },
+          "runes": {
+            "test:item/blade_vigor": "test:item/rune_wind"
+          },
+          "rolls": {
+            "test:item/blade_vigor": 121
+          },
+          "story": null,
+          "world_ticks": 94
+        },
+        "gather_props": [
+          {
+            "art": "base:art/prop/anvil",
+            "x": 8.0,
+            "y": 4.5,
+            "radius": 0.3
+          }
+        ],
+        "grid": [
+          "##############",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "#............#",
+          "##############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.2,
+            4.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              12.0,
+              7.5
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 0
+              },
+              {
+                "cmd": "equip",
+                "item": "test:item/blade_vigor"
+              },
+              {
+                "cmd": "use",
+                "item": "test:item/rune_wind"
+              },
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 0
+              }
+            ]
+          },
+          {
+            "ticks": 90,
+            "move": [
+              1,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "use",
+                "item": "test:item/oil"
+              },
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "piece": "test:item/coat_a"
+              },
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 1
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 2
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "equip",
+                "item": "base:item/iron_sword"
+              },
+              {
+                "cmd": "equip",
+                "item": "test:item/coat_c"
+              },
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 0
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 2
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose_affix",
+                "item": "test:item/prism",
+                "offer": 0
+              }
+            ]
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ],
+        "inventory": {
+          "test:item/prism": 4,
+          "test:item/oil": 1,
+          "test:item/rune_wind": 1,
+          "test:item/blade_vigor": 2,
+          "test:item/coat_c": 1,
+          "base:item/iron_sword": 1
+        },
+        "items": {
+          "base:item/bread": {
+            "kind": "food",
+            "price": 5,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/potion_mana_small": {
+            "kind": "consumable",
+            "price": 40,
+            "effects": [
+              {
+                "effect": "restore_mp",
+                "amount": 30
+              }
+            ]
+          },
+          "base:item/slime_gel": {
+            "kind": "material",
+            "price": 3,
+            "effects": []
+          },
+          "base:item/cleansing_draught": {
+            "kind": "food",
+            "price": 60,
+            "effects": [
+              {
+                "effect": "cleanse"
+              }
+            ]
+          },
+          "base:item/windleaf_brew": {
+            "kind": "food",
+            "price": 90,
+            "effects": [
+              {
+                "effect": "haste",
+                "amount": 50,
+                "ticks": 90
+              }
+            ]
+          },
+          "base:item/honey_cake": {
+            "kind": "food",
+            "price": 20,
+            "effects": [
+              {
+                "effect": "regen",
+                "amount": 6,
+                "ticks": 600
+              }
+            ]
+          },
+          "base:item/frost_tonic": {
+            "kind": "food",
+            "price": 160,
+            "effects": [
+              {
+                "effect": "ward",
+                "amount": 400,
+                "ticks": 300
+              }
+            ]
+          },
+          "base:item/roast_meat": {
+            "kind": "food",
+            "price": 30,
+            "effects": [
+              {
+                "effect": "heal",
+                "amount": 20
+              },
+              {
+                "effect": "fortify",
+                "amount": 50,
+                "ticks": 200
+              }
+            ]
+          },
+          "base:item/practice_sword": {
+            "kind": "weapon",
+            "price": 20,
+            "weapon": {
+              "atk": 3,
+              "matk": 0
+            }
+          },
+          "base:item/iron_sword": {
+            "kind": "weapon",
+            "price": 150,
+            "weapon": {
+              "atk": 7,
+              "matk": 0
+            }
+          },
+          "base:item/ember_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "fire"
+            }
+          },
+          "base:item/frost_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "water"
+            }
+          },
+          "base:item/storm_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "wind"
+            }
+          },
+          "base:item/quake_hammer": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "earth"
+            }
+          },
+          "base:item/sun_blade": {
+            "kind": "weapon",
+            "price": 400,
+            "weapon": {
+              "atk": 7,
+              "matk": 0,
+              "element": "light"
+            }
+          },
+          "base:item/leather_vest": {
+            "kind": "armor",
+            "price": 80,
+            "armor": {
+              "def": 2,
+              "mdef": 1
+            }
+          },
+          "base:item/chain_mail": {
+            "kind": "armor",
+            "price": 300,
+            "armor": {
+              "def": 5,
+              "mdef": 2
+            }
+          },
+          "base:item/fang_necklace": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "atk": 12,
+              "max_hp": 40
+            }
+          },
+          "base:item/bat_charm": {
+            "kind": "accessory",
+            "price": 200,
+            "accessory": {
+              "drain_pm": 300
+            }
+          },
+          "test:item/rune_fire": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "element": "fire",
+              "atk": 4,
+              "station": "base:art/prop/anvil"
+            }
+          },
+          "test:item/rune_wind": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "element": "wind",
+              "atk": 2
+            }
+          },
+          "test:item/rune_stone": {
+            "kind": "rune",
+            "price": 120,
+            "rune": {
+              "atk": 9,
+              "station": "base:art/prop/forge"
+            }
+          },
+          "test:item/blade_vigor": {
+            "kind": "weapon",
+            "price": 500,
+            "weapon": {
+              "atk": 10,
+              "matk": 0
+            },
+            "affix": {
+              "max_hp": 40
+            },
+            "affix_roll": {
+              "min_pct": 100,
+              "max_pct": 150
+            },
+            "affix_family": "blade"
+          },
+          "test:item/blade_might": {
+            "kind": "weapon",
+            "price": 500,
+            "weapon": {
+              "atk": 10,
+              "matk": 0
+            },
+            "affix": {
+              "atk": 6
+            },
+            "affix_roll": {
+              "min_pct": 100,
+              "max_pct": 150
+            },
+            "affix_family": "blade"
+          },
+          "test:item/blade_keen": {
+            "kind": "weapon",
+            "price": 500,
+            "weapon": {
+              "atk": 10,
+              "matk": 0
+            },
+            "affix": {
+              "crit_pm": 60
+            },
+            "affix_roll": {
+              "min_pct": 100,
+              "max_pct": 150
+            },
+            "affix_family": "blade"
+          },
+          "test:item/blade_leech": {
+            "kind": "weapon",
+            "price": 500,
+            "weapon": {
+              "atk": 10,
+              "matk": 0
+            },
+            "affix": {
+              "drain_pm": 80
+            },
+            "affix_roll": {
+              "min_pct": 100,
+              "max_pct": 150
+            },
+            "affix_family": "blade"
+          },
+          "test:item/coat_a": {
+            "kind": "armor",
+            "price": 500,
+            "armor": {
+              "def": 6,
+              "mdef": 3
+            },
+            "affix": {
+              "max_hp": 30
+            },
+            "affix_family": "coat"
+          },
+          "test:item/coat_b": {
+            "kind": "armor",
+            "price": 500,
+            "armor": {
+              "def": 6,
+              "mdef": 3
+            },
+            "affix": {
+              "def": 3
+            },
+            "affix_family": "coat"
+          },
+          "test:item/coat_c": {
+            "kind": "armor",
+            "price": 500,
+            "armor": {
+              "def": 6,
+              "mdef": 3
+            },
+            "affix": {
+              "mdef": 4
+            },
+            "affix_family": "coat"
+          },
+          "test:item/coat_d": {
+            "kind": "armor",
+            "price": 500,
+            "armor": {
+              "def": 6,
+              "mdef": 3
+            },
+            "affix": {
+              "atk": 3
+            },
+            "affix_family": "coat"
+          },
+          "test:item/coat_e": {
+            "kind": "armor",
+            "price": 500,
+            "armor": {
+              "def": 6,
+              "mdef": 3
+            },
+            "affix": {
+              "crit_pm": 40
+            },
+            "affix_family": "coat"
+          },
+          "test:item/prism": {
+            "kind": "reforge",
+            "price": 300,
+            "stack_max": 9,
+            "reforge": {
+              "station": "base:art/prop/anvil"
+            }
+          },
+          "test:item/oil": {
+            "kind": "temper",
+            "price": 160,
+            "stack_max": 9,
+            "temper": {
+              "station": "base:art/prop/anvil"
+            }
+          }
+        }
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/blade_vigor": 2,
+              "test:item/coat_d": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": "test:item/coat_d"
+            },
+            "runes": {
+              "test:item/blade_vigor": "test:item/rune_wind"
+            },
+            "atk": 26,
+            "derived": {
+              "atk": 26,
+              "matk": 17,
+              "def": 14,
+              "mdef": 11,
+              "max_hp": 142,
+              "crit_chance_pm": 265
+            },
+            "rolls": {
+              "test:item/blade_vigor": 121
+            },
+            "affix_offers": [
+              "test:item/coat_c",
+              "test:item/coat_a",
+              "test:item/coat_b"
+            ]
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/blade_vigor": 2,
+              "test:item/coat_d": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": "test:item/coat_d"
+            },
+            "runes": {
+              "test:item/blade_vigor": "test:item/rune_wind"
+            },
+            "atk": 26,
+            "derived": {
+              "atk": 26,
+              "matk": 17,
+              "def": 14,
+              "mdef": 11,
+              "max_hp": 142,
+              "crit_chance_pm": 265
+            },
+            "rolls": {
+              "test:item/blade_vigor": 121
+            },
+            "affix_offers": [
+              "test:item/coat_c",
+              "test:item/coat_a",
+              "test:item/coat_b"
+            ]
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.4,
+              "y": 4.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.0,
+                "y": 7.5
+              }
+            ],
+            "kills": 0,
+            "inventory": {
+              "base:item/iron_sword": 1,
+              "test:item/blade_vigor": 2,
+              "test:item/coat_d": 1
+            },
+            "equipped": {
+              "weapon": "base:item/iron_sword",
+              "armor": "test:item/coat_d"
+            },
+            "runes": {
+              "test:item/blade_vigor": "test:item/rune_wind"
+            },
+            "atk": 26,
+            "derived": {
+              "atk": 26,
+              "matk": 17,
+              "def": 14,
+              "mdef": 11,
+              "max_hp": 142,
+              "crit_chance_pm": 265
+            },
+            "rolls": {
+              "test:item/blade_vigor": 121
+            },
+            "affix_offers": [
+              "test:item/coat_c",
+              "test:item/coat_a",
+              "test:item/coat_b"
+            ]
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
       "name": "save_tags_worn_at_3",
       "input": {
         "op": "save_resume",

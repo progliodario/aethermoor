@@ -274,6 +274,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
                 affixRoll = d["affix_roll"]?.jsonObject?.let { Pair(it.getValue("min_pct").jsonPrimitive.int, it.getValue("max_pct").jsonPrimitive.int) },
                 furniture = d["furniture"]?.jsonObject?.let { furnitureOf(it) },
                 temperStation = d["temper"]?.jsonObject?.let { it["station"]?.jsonPrimitive?.content ?: "" },
+                reforgeStation = d["reforge"]?.jsonObject?.let { it["station"]?.jsonPrimitive?.content ?: "" },
+                affixFamily = d["affix_family"]?.jsonPrimitive?.content ?: "",
             )
         } ?: emptyMap(),
         startWeapon = input["equipped"]?.jsonObject?.get("weapon")?.jsonPrimitive?.content ?: "",
@@ -302,6 +304,14 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
 internal fun newSim(world: ScenarioWorld) =
     WorldSim(world.map, world.tileset, 0f, world.combat).also { it.story.gold = world.startGold }
 
+/** Chooses an affix (spec 06, "Choosing an affix"): the `piece` of the command, or the offer of now at its index `offer`. */
+private fun chooseAffix(sim: WorldSim, cmd: JsonObject) {
+    val offers = sim.affixOffers()
+    val index = cmd["offer"]?.jsonPrimitive?.int ?: -1
+    val piece = cmd["piece"]?.jsonPrimitive?.content ?: offers.getOrElse(index) { "" }
+    sim.chooseAffix(cmd.getValue("item").jsonPrimitive.content, piece)
+}
+
 /** Runs the story commands of a script segment, then its ticks. */
 internal fun runSegment(sim: WorldSim, segment: JsonObject) {
     val move = segment.getValue("move").jsonArray
@@ -314,6 +324,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
         when (cmd.getValue("cmd").jsonPrimitive.content) {
             "start_quest" -> sim.story.startQuest(cmd.getValue("quest").jsonPrimitive.content)
             "use" -> sim.useItem(cmd.getValue("item").jsonPrimitive.content)
+            "choose_affix" -> chooseAffix(sim, cmd)
             "gather" -> sim.gather()
             "talent" -> sim.learnTalent(cmd.getValue("talent").jsonPrimitive.content)
             "companion_stay" -> sim.companionStay()
@@ -402,6 +413,10 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         // the furniture of the home (spec 06, "Furniture")
         val got = sim.furniture.map { (key, item) -> listOf(key.first.toString(), key.second.toString(), item) }
         assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at furniture")
+    }
+    want["affix_offers"]?.jsonArray?.let { wo ->
+        // the offers of now (spec 06, "Choosing an affix")
+        assertEquals(wo.map { it.jsonPrimitive.content }, sim.affixOffers(), "$at affix_offers")
     }
     want["rolls"]?.jsonObject?.let { wr ->
         // the rolls of the pieces found (spec 06, "Rolled affixes")

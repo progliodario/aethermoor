@@ -36,12 +36,12 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Protagonists | 8, each with a companion (8 companions) and a story of six acts (120 story quests) |
 | Creatures | 79, of which 27 guardians and 8 Echoes |
 | Quests | 407 (24 tales of the villagers) |
-| Items and recipes | 286 items, 82 recipes (8 secret) |
+| Items and recipes | 287 items, 83 recipes (8 secret) |
 | Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 56 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 4211 keys, in Italian and English |
-| Same rules on both clients | 31 files of conformance vectors, 619 cases, run by the C++ and the Kotlin tests |
+| Texts | 4224 keys, in Italian and English |
+| Same rules on both clients | 31 files of conformance vectors, 624 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->
 
@@ -239,8 +239,8 @@ The project is developed by the owner together with Claude, an AI assistant that
 The next things, in order. The full program, with the batches, the files and the acceptance of each item, is in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md) (in Italian); the short list of the roadmap is in [section 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
 - **Soon:** a detekt baseline down to zero.
-- **Middle term:** rooms for the cottage; affixes the player chooses; companions the player chooses; Gideon's Dungeon mode; streaming on a worker thread and measures on Android; a synthesizer for music and ambience (only if the owner wants it).
-- **Toward 1.0:** quality settings, a crash log and a review of the translations; controls and layout on Android; signed packages; loading mods in the game (the guide and the check of a mod are there).
+- **Middle term:** rooms for the cottage; companions the player chooses; Gideon's Dungeon mode; streaming on a worker thread and measures on Android; a synthesizer for music and ambience (only if the owner wants it).
+- **Toward 1.0:** quality settings and a review of the translations; controls and layout on Android; signed packages; loading mods in the game (the guide and the check of a mod are there).
 - **The owner decides:** when to publish the first release (Alpha 0.1), the repository settings, the signing keys and the other decisions listed in the program.
 
 ## Contributing and license

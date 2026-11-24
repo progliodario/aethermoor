@@ -158,6 +158,9 @@ struct ItemDef {
     std::string rune_station;      // the art of the prop it is engraved next to; empty: anywhere
     bool is_temper = false;        // tempers the affix of a worn piece at its station (spec 06, "Tempering")
     std::string temper_station;    // the art of the prop it is used next to; empty: anywhere
+    bool is_reforge = false;       // changes the worn piece of a family at its station (spec 06, "Choosing an affix")
+    std::string reforge_station;   // the art of the prop it is used next to; empty: anywhere
+    std::string affix_family;      // the family of an affixed piece (spec 06, "Choosing an affix"); empty: none
     bool is_furniture = false;     // a piece of furniture (spec 06, "Furniture"): placed on a spot of the home
     std::string furniture_art;     // the prop it is drawn as (presentation)
     std::int64_t fur_atk_pct = 0;  // what it adds while placed, like a title (spec 11, "Titles with effects")

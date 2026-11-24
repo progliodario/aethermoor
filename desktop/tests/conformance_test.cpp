@@ -1035,6 +1035,11 @@ Scenario scenario_from_json(const Json& in) {
                 parsed.is_temper = true;
                 parsed.temper_station = def.at("temper").value("station", "");
             }
+            if (def.contains("reforge")) {  // spec 06, "Choosing an affix"
+                parsed.is_reforge = true;
+                parsed.reforge_station = def.at("reforge").value("station", "");
+            }
+            parsed.affix_family = def.value("affix_family", "");
             if (def.contains("furniture")) {  // spec 06, "Furniture"
                 const Json& f = def.at("furniture");
                 parsed.is_furniture = true;
@@ -1112,6 +1117,14 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
                 sim.story().start_quest(command.at("quest").get<std::string>());
             } else if (cmd == "use") {
                 sim.use_item(command.at("item").get<std::string>());
+            } else if (cmd == "choose_affix") {  // `piece`, or `offer`: the index of an offer of now (spec 06)
+                const std::vector<std::string> offers = sim.affix_offers();
+                const auto index = command.value("offer", static_cast<std::int64_t>(-1));
+                std::string piece = command.value("piece", "");
+                if (!command.contains("piece") && index >= 0 && index < static_cast<std::int64_t>(offers.size())) {
+                    piece = offers[static_cast<std::size_t>(index)];
+                }
+                sim.choose_affix(command.at("item").get<std::string>(), piece);
             } else if (cmd == "gather") {
                 sim.gather();
             } else if (cmd == "talent") {
@@ -1240,6 +1253,14 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
             REQUIRE(key.second == wf[i].at(1).get<int>());
             REQUIRE(item == wf[i].at(2).get<std::string>());
             ++i;
+        }
+    }
+    if (want.contains("affix_offers")) {  // the offers of now (spec 06, "Choosing an affix")
+        const Json& wo = want.at("affix_offers");
+        const std::vector<std::string> got = sim.affix_offers();
+        REQUIRE(got.size() == wo.size());
+        for (std::size_t i = 0; i < got.size(); ++i) {
+            REQUIRE(got[i] == wo[i].get<std::string>());
         }
     }
     if (want.contains("rolls")) {  // the rolls of the pieces found (spec 06, "Rolled affixes")

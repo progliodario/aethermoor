@@ -1013,6 +1013,97 @@ bool WorldSim::temper_worn() {
     return true;
 }
 
+namespace {
+// The offers of the piece `target` (spec 06, "Choosing an affix"): the other pieces of its family in the order of
+// their IDs, three of them drawn from `stream` when they are more.
+std::vector<std::string> draw_offers(const std::map<std::string, ItemDef>& items, const std::string& target,
+                                     Pcg32& stream) {
+    std::vector<std::string> offers;
+    const auto piece = items.find(target);
+    if (target.empty() || piece == items.end()) {
+        return offers;
+    }
+    for (const auto& [id, def] : items) {
+        if (id != target && def.affix_family == piece->second.affix_family) {
+            offers.push_back(id);
+        }
+    }
+    if (offers.size() > 3) {
+        for (std::size_t i = 0; i < 3; ++i) {
+            const auto left = static_cast<std::uint32_t>(offers.size() - i);
+            const std::size_t j = i + static_cast<std::size_t>(stream.next_bounded(left));
+            std::swap(offers[i], offers[j]);
+        }
+        offers.resize(3);
+    }
+    return offers;
+}
+}  // namespace
+
+std::string WorldSim::reforge_target() const {
+    for (const std::string* worn : {&m_equipped_weapon_, &m_equipped_armor_}) {
+        const auto piece = m_setup_.items.find(*worn);
+        if (!worn->empty() && piece != m_setup_.items.end() && !piece->second.affix_family.empty()) {
+            return *worn;
+        }
+    }
+    return {};
+}
+
+std::vector<std::string> WorldSim::affix_offers() const {
+    Pcg32 peek = m_loot_rng_;  // looking draws nothing: the draw is made on a copy of the stream
+    return draw_offers(m_setup_.items, reforge_target(), peek);
+}
+
+bool WorldSim::choose_affix(const std::string& item_id, const std::string& piece) {
+    if (m_story_.dialogue_active()) {
+        return false;
+    }
+    const auto prism = m_setup_.items.find(item_id);
+    const auto owned = m_inventory_.find(item_id);
+    if (prism == m_setup_.items.end() || !prism->second.is_reforge || owned == m_inventory_.end() ||
+        owned->second < 1) {
+        return false;
+    }
+    const std::string target = reforge_target();
+    if (target.empty() || !near_station(prism->second.reforge_station)) {
+        return false;
+    }
+    const std::vector<std::string> offers = affix_offers();
+    if (std::find(offers.begin(), offers.end(), piece) == offers.end()) {
+        return false;
+    }
+    draw_offers(m_setup_.items, target, m_loot_rng_);  // the same draws as the look, from the stream itself
+    take_one(item_id);
+    take_one(target);
+    m_inventory_[piece] += 1;
+    if (m_equipped_weapon_ == target) {
+        m_equipped_weapon_ = piece;
+    } else {
+        m_equipped_armor_ = piece;
+    }
+    const auto roll = m_rolls_.find(target);  // the roll goes with the piece, and the rune of a weapon too
+    if (roll != m_rolls_.end()) {
+        const std::int64_t old = roll->second;
+        std::int64_t& held = m_rolls_[piece];
+        held = std::max(held, old);
+    }
+    const auto rune = m_runes_.find(target);
+    if (rune != m_runes_.end()) {
+        const std::string engraved = rune->second;
+        m_runes_[piece] = engraved;
+    }
+    const auto stored = m_chest_.find(target);
+    if (m_inventory_.find(target) == m_inventory_.end() && (stored == m_chest_.end() || stored->second == 0)) {
+        m_rolls_.erase(target);  // the last copy is gone: so are its roll and its rune
+        m_runes_.erase(target);
+    }
+    ++m_counters_["reforged"];
+    recompute_derived();
+    m_player_.hp = std::min(m_player_.hp, m_derived_.max_hp);
+    return true;
+}
+
 bool WorldSim::engrave(const std::string& item_id, const ItemDef& rune) {
     // spec 06, "Runes": a weapon worn, the station of the rune in reach, and a weapon that does not bear it already
     const auto weapon = m_setup_.items.find(m_equipped_weapon_);

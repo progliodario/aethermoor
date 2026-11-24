@@ -1588,5 +1588,16 @@
   "dlg.side.dorrit.reply_a": "Allora anche questo era tuo. Mia nonna lo conservava: il mantello del re, dal giorno della sua caduta. Diceva che qualcuno avrebbe dovuto restituirglielo se fosse mai tornato a casa migliore. Credo intendesse te.",
   "dlg.side.dorrit.choice_b": "Sono un Ospite, e un tuo amico. È tutto quello che voglio essere.",
   "dlg.side.dorrit.reply_b": "Allora a un amico va il martello della fucina, quello che la mia famiglia portò dalle Terre. Una volta faceva spade. Ora fa forni. Come te.",
-  "ui.quest_repeatable": "(si può rifare)"
+  "ui.quest_repeatable": "(si può rifare)",
+  "ui.affixes": "Affissi",
+  "ui.affix_piece": "Scegli un altro affisso per {item}",
+  "ui.affix_none": "Indossa un'arma o un'armatura comune con un affisso (vigore, forza, acume, sanguisuga) per sceglierne un altro.",
+  "ui.affix_prisms": "{item}: {count} nella borsa",
+  "ui.affix_no_prism": "Serve un prisma degli affissi: si fa a un'incudine, si vende a Ironspine.",
+  "ui.affix_chosen": "{old} ora è {item}.",
+  "ui.affix_refused": "Ora l'affisso non si può scegliere: servono un prisma degli affissi, un pezzo di una famiglia addosso e un'incudine vicina.",
+  "ui.affix_hint": "W/S scegli, E lo prendi (un prisma), Tab la pagina dopo, Esc chiude",
+  "ui.affix_hint_touch": "Tocca un affisso per sceglierlo, toccalo di nuovo per prenderlo (un prisma)",
+  "ui.crash_log": "L'ultima volta il gioco si è fermato per un errore. Che cosa è successo è scritto in {path}: mandalo con la segnalazione.",
+  "ui.crash_log_copied": "L'ultima volta il gioco si è fermato per un errore. Che cosa è successo è scritto in {path}, ed è copiato: incollalo nella segnalazione."
 }

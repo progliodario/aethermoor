@@ -531,7 +531,8 @@
                   "base:item/hunters_jerkin",
                   "base:item/golem_amulet",
                   "base:item/bat_charm",
-                  "base:item/tempering_oil"
+                  "base:item/tempering_oil",
+                  "base:item/affix_prism"
                 ]
               },
               "bias": {
@@ -8154,7 +8155,8 @@
                   "base:item/hunters_jerkin",
                   "base:item/golem_amulet",
                   "base:item/bat_charm",
-                  "base:item/tempering_oil"
+                  "base:item/tempering_oil",
+                  "base:item/affix_prism"
                 ]
               },
               "bias": {

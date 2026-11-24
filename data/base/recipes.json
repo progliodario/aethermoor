@@ -1296,6 +1296,28 @@
       "station": "base:art/prop/anvil"
     },
     {
+      "id": "affix_prism",
+      "output": {
+        "item": "base:item/affix_prism",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/golem_core",
+          "qty": 1
+        },
+        {
+          "item": "base:item/star_dust",
+          "qty": 2
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "quilt_bed",
       "output": {
         "item": "base:item/quilt_bed",

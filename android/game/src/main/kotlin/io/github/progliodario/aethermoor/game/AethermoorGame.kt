@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import io.github.progliodario.aethermoor.core.CrashLog
 import io.github.progliodario.aethermoor.core.CreditLine
 import io.github.progliodario.aethermoor.core.GameInfo
 import io.github.progliodario.aethermoor.core.HintDef
@@ -88,6 +89,9 @@ import kotlin.math.sin
  * Mirrors desktop/src/app/main.cpp (draw order, scale buckets, fixed 60 Hz simulation).
  */
 class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
+    /** The last notices, for the crash log (spec 12, "The crash log"). */
+    private val crashLog = CrashLog()
+
     private class Assets(
         val pack: Pack,
         val rig: Rig,
@@ -160,8 +164,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var showMap = false
     private var showJournal = false
     private var showCraft = false // the crafting panel (spec 06, "Crafting")
-    private var craftTab = 0 // what the panel shows: 0 the recipes, 1 the talents (spec 11, "Talents")
-    private var craftTabRect: FloatArray? = null // the button of the panel that switches between the two
+    private var craftTab = 0 // what the panel shows: 0 the recipes, 1 the talents (spec 11), 2 the affixes (spec 06)
+    private var craftTabRect: FloatArray? = null // the button of the panel that goes to the next page
     private var craftCursor = 0
     private var craftPanel: FloatArray? = null
     private var craftRowRects: List<FloatArray> = emptyList()
@@ -249,6 +253,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         buildFont(loaded.pack)
         migrateLegacySaves()
         titleSlots = readSlots()
+        titleNotice = crashNotice(loaded) // the crash log of the last time (spec 12, "The crash log")
+        installCrashLog()
         Gdx.input.setCatchKey(Input.Keys.BACK, true) // Back leaves a game for the title screen (spec 12, "Slots")
     }
 
@@ -561,42 +567,52 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
     }
 
+    /** A new game (spec 12): the prologue of its protagonist, the heirloom of a past life and the gifts of the deeds done. */
+    private fun startNewGame(world: WorldSim, pack: Pack) {
+        // A new game opens with the prologue of its protagonist: a talk with Lyra at the Threshold (spec 18).
+        world.story.beginDialogue("base:dialogue/${protagonistId.substringAfterLast('/')}/prologue")
+        val before = readProfile()
+        val heirloomSaid = giveHeirloom(world, pack, before)
+        // the gifts of the deeds done (spec 11, "Gifts of the deeds"), in the bag of every new game
+        var gifts = 0L
+        for ((item, qty) in profileDeedGifts(before, assets?.deeds ?: emptyList())) {
+            if (pack.readDocument(item) == null) continue
+            world.inventory[item] = (world.inventory[item] ?: 0L) + qty
+            gifts += qty
+        }
+        if (gifts > 0) {
+            val said = if (heirloomSaid) message + "  " else ""
+            showNotice(said + pack.text(language, "\$i18n:ui.deed_gifts", mapOf("count" to gifts)))
+        }
+    }
+
+    /** The heirloom of a past life (spec 11): its gold and its weapon go to the new game, and the profile forgets them; true when there was one. */
+    private fun giveHeirloom(world: WorldSim, pack: Pack, before: Profile): Boolean {
+        val weapon = before.heirloomItem
+        val (heirloom, rest) = claimHeirloom(before)
+        if (heirloom <= 0 && weapon.isEmpty()) return false
+        world.story.gold += heirloom
+        if (weapon.isNotEmpty() && pack.readDocument(weapon) != null) world.inventory[weapon] = (world.inventory[weapon] ?: 0L) + 1 // the weapon of the past life
+        try {
+            profileFile().writeString(profileToJson(rest), false, "UTF-8")
+        } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
+            Gdx.app.error(TAG, "Cannot write the profile: ${e.message}")
+        }
+        val gift = weapon.isNotEmpty() && pack.readDocument(weapon) != null
+        showNotice(
+            if (gift) {
+                pack.text(language, "\$i18n:ui.heirloom_weapon", mapOf("gold" to heirloom, "item" to pack.text(language, "\$i18n:item.${weapon.substringAfterLast('/')}.name")))
+            } else {
+                pack.text(language, "\$i18n:ui.heirloom", mapOf("gold" to heirloom))
+            },
+        )
+        return true
+    }
+
     private fun loadAutosave(world: WorldSim, pack: Pack) {
         val file = saveFile()
         if (!file.exists()) {
-            // A new game opens with the prologue of its protagonist: a talk with Lyra at the Threshold (spec 18).
-            world.story.beginDialogue("base:dialogue/${protagonistId.substringAfterLast('/')}/prologue")
-            val before = readProfile()
-            val weapon = before.heirloomItem
-            val (heirloom, rest) = claimHeirloom(before) // the heirloom of a past life (spec 11)
-            if (heirloom > 0 || weapon.isNotEmpty()) {
-                world.story.gold += heirloom
-                if (weapon.isNotEmpty() && pack.readDocument(weapon) != null) world.inventory[weapon] = (world.inventory[weapon] ?: 0L) + 1 // the weapon of the past life
-                try {
-                    profileFile().writeString(profileToJson(rest), false, "UTF-8")
-                } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
-                    Gdx.app.error(TAG, "Cannot write the profile: ${e.message}")
-                }
-                val gift = weapon.isNotEmpty() && pack.readDocument(weapon) != null
-                showNotice(
-                    if (gift) {
-                        pack.text(language, "\$i18n:ui.heirloom_weapon", mapOf("gold" to heirloom, "item" to pack.text(language, "\$i18n:item.${weapon.substringAfterLast('/')}.name")))
-                    } else {
-                        pack.text(language, "\$i18n:ui.heirloom", mapOf("gold" to heirloom))
-                    },
-                )
-            }
-            // the gifts of the deeds done (spec 11, "Gifts of the deeds"), in the bag of every new game
-            var gifts = 0L
-            for ((item, qty) in profileDeedGifts(before, assets?.deeds ?: emptyList())) {
-                if (pack.readDocument(item) == null) continue
-                world.inventory[item] = (world.inventory[item] ?: 0L) + qty
-                gifts += qty
-            }
-            if (gifts > 0) {
-                val said = if (heirloom > 0 || weapon.isNotEmpty()) message + "  " else ""
-                showNotice(said + pack.text(language, "\$i18n:ui.deed_gifts", mapOf("count" to gifts)))
-            }
+            startNewGame(world, pack)
             return
         }
         val text = file.readString("UTF-8")
@@ -719,6 +735,17 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     /** Uses the item under the bag cursor (spec 06) and tells what happened. */
+    /** Places the piece of furniture of the bag [itemId], called [name], on the nearest place of the home (spec 06, "Furniture"). */
+    private fun placeSelected(world: WorldSim, itemId: String, name: String) {
+        val pack = assets?.pack ?: return
+        if (world.useItem(itemId)) {
+            showNotice(pack.text(language, "\$i18n:ui.furniture_placed", mapOf("item" to name)))
+            bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
+        } else {
+            showNotice(pack.text(language, "\$i18n:ui.furniture_refused"))
+        }
+    }
+
     private fun useSelectedItem(world: WorldSim) {
         val pack = assets?.pack ?: return
         val items = world.inventory.keys.toList()
@@ -742,12 +769,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
         if (world.combat.items[itemId]?.furniture != null) { // a piece stands on a place of the home (spec 06, "Furniture")
-            if (world.useItem(itemId)) {
-                showNotice(pack.text(language, "\$i18n:ui.furniture_placed", mapOf("item" to name)))
-                bagCursor = bagCursor.coerceIn(0, max(world.inventory.size - 1, 0))
-            } else {
-                showNotice(pack.text(language, "\$i18n:ui.furniture_refused"))
-            }
+            placeSelected(world, itemId, name)
+            return
+        }
+        if (world.combat.items[itemId]?.reforgeStation != null) { // a prism opens the page of the affixes (spec 06, "Choosing an affix")
+            showInventory = false
+            showCraft = true
+            craftTab = 2
+            craftCursor = 0
             return
         }
         if (wearable && world.equip(itemId)) {
@@ -763,6 +792,30 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun showNotice(text: String) {
         message = text
         messageFrames = 150
+        crashLog.note(text)
+    }
+
+    /** The crash log (spec 12, "The crash log"): an error that nothing caught writes the last notices and the error in the folder of the saves, then the game stops as before. */
+    private fun installCrashLog() {
+        val previous = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler { thread, error ->
+            runCatching { crashLog.write(Gdx.files.local("crash.txt").file(), info.version, error.stackTraceToString()) }
+            previous?.uncaughtException(thread, error)
+        }
+    }
+
+    /** The game stopped with an error last time: the log is kept as crash_last.txt, copied, and the title says where it is, once. */
+    private fun crashNotice(data: Assets): String {
+        val file = Gdx.files.local("crash.txt")
+        if (!file.exists()) return ""
+        val kept = Gdx.files.local("crash_last.txt")
+        val copied = runCatching {
+            val text = file.readString("UTF-8")
+            file.moveTo(kept)
+            Gdx.app.clipboard.contents = text
+        }.isSuccess
+        val path = (if (copied) kept else file).file().absolutePath
+        return data.pack.text(language, if (copied) "\$i18n:ui.crash_log_copied" else "\$i18n:ui.crash_log", mapOf("path" to path))
     }
 
     override fun pause() {
@@ -873,15 +926,25 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** The sounds: a snapshot of the game for the director (spec 14, "What plays when"). */
     private fun playChangeSounds(world: WorldSim) {
-        val hero = world.player
         val view = world.story.dialogueView()
         if (view.active && !view.isChoice && view.text != lastLine) dialogueLines++
         lastLine = if (view.active) view.text else ""
+        val snapshot = soundSnapshot(world, view.active)
+        for (event in soundDirector.update(snapshot)) sound.playEvent(event.event, event.volumePm)
+        sound.ambienceRules?.let { sound.setAmbience(ambienceGains(snapshot.region, snapshot.todPm, snapshot.rainPm, it)) }
+        if (musicDirector == null) musicDirector = sound.musicRules?.let { MusicDirector(it) }
+        musicDirector?.let { updateMusic(world, it, snapshot) }
+        sound.frame()
+    }
+
+    /** What the sound director hears this frame (spec 14): the player, the cues of the simulation, the panels open, the place and the weather. */
+    private fun soundSnapshot(world: WorldSim, dialogue: Boolean): SoundSnapshot {
+        val hero = world.player
         val ground = world.tileset.tiles[world.gidAt(floor(hero.position.x).toInt(), floor(hero.position.y).toInt())]
         val store = world.chunks
         val moment = world.time()
         val region = if (store != null) store.params.regions[regionAt(store.params, floor(hero.position.x).toInt(), floor(hero.position.y).toInt())].id else ""
-        val snapshot = SoundSnapshot(
+        return SoundSnapshot(
             frame = ++soundFrame,
             player = PlayerSound(
                 hp = hero.hp, maxHp = world.derived.maxHp, level = hero.level,
@@ -904,7 +967,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 board = world.board != null,
                 travel = world.travel != null,
             ),
-            dialogue = view.active,
+            dialogue = dialogue,
             line = dialogueLines,
             cursor = (bagCursor + shopCursor + boardCursor + travelCursor + choiceIndex).toLong(),
             questsStarted = world.story.quests.size.toLong(),
@@ -914,37 +977,36 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             todPm = moment?.todPm ?: 500,
             rainPm = moment?.rainPm ?: 0,
         )
-        for (event in soundDirector.update(snapshot)) sound.playEvent(event.event, event.volumePm)
-        sound.ambienceRules?.let { sound.setAmbience(ambienceGains(snapshot.region, snapshot.todPm, snapshot.rainPm, it)) }
-        if (musicDirector == null) musicDirector = sound.musicRules?.let { MusicDirector(it) }
-        musicDirector?.let { director ->
-            // the music: the piece of the place, the hour and the quest, and its layers
-            if (store != null && snapshot.frame - placeFrame >= 30) {
-                placeFrame = snapshot.frame
-                val here = settlementContaining(store.seed, store.params, floor(hero.position.x).toInt(), floor(hero.position.y).toInt())
-                place = if (here == null) {
-                    "wild"
-                } else if (here.kind == "dungeon") {
-                    "dungeon"
-                } else {
-                    "settlement"
-                }
+    }
+
+    /** The music (spec 14, "The music director"): the piece of the place, the hour and the quest, and its layers. */
+    private fun updateMusic(world: WorldSim, director: MusicDirector, snapshot: SoundSnapshot) {
+        val hero = world.player
+        val store = world.chunks
+        if (store != null && snapshot.frame - placeFrame >= 30) {
+            placeFrame = snapshot.frame
+            val here = settlementContaining(store.seed, store.params, floor(hero.position.x).toInt(), floor(hero.position.y).toInt())
+            place = if (here == null) {
+                "wild"
+            } else if (here.kind == "dungeon") {
+                "dungeon"
+            } else {
+                "settlement"
             }
-            val mood = MusicContext(
-                frame = snapshot.frame,
-                region = snapshot.region,
-                todPm = snapshot.todPm,
-                place = if (store != null) place else "wild",
-                quests = world.story.quests.filterValues { !it.done }.keys.toList(),
-                lowHp = hero.hp > 0 && hero.hp * 4 < world.derived.maxHp,
-                cues = snapshot.cues,
-                x = snapshot.player.x,
-                y = snapshot.player.y,
-            )
-            val choice = director.update(mood)
-            sound.setMusic(choice.piece, choice.layers)
         }
-        sound.frame()
+        val mood = MusicContext(
+            frame = snapshot.frame,
+            region = snapshot.region,
+            todPm = snapshot.todPm,
+            place = if (store != null) place else "wild",
+            quests = world.story.quests.filterValues { !it.done }.keys.toList(),
+            lowHp = hero.hp > 0 && hero.hp * 4 < world.derived.maxHp,
+            cues = snapshot.cues,
+            x = snapshot.player.x,
+            y = snapshot.player.y,
+        )
+        val choice = director.update(mood)
+        sound.setMusic(choice.piece, choice.layers)
     }
 
     private fun draw(world: WorldSim, data: Assets, tilePx: Int) {
@@ -1997,12 +2059,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
         if (showCraft) {
-            val rowCount = if (craftTab == 1) world.combat.talents.size else world.combat.recipes.count { world.recipeKnown(it) }
+            val rowCount = craftRowCount(world)
             if (input.isKeyJustPressed(Input.Keys.C) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
                 showCraft = false
-            } else if (input.isKeyJustPressed(Input.Keys.TAB) && world.combat.talents.isNotEmpty()) {
-                craftTab = 1 - craftTab
-                craftCursor = 0
+            } else if (input.isKeyJustPressed(Input.Keys.TAB) && craftPages(world).size > 1) {
+                nextCraftPage(world)
             } else if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) {
                 if (rowCount > 0) craftCursor = (craftCursor + rowCount - 1) % rowCount
             } else if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) {
@@ -2010,8 +2071,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER)) {
                 craftSelected(world)
             } else if (input.justTouched() && craftTabRect?.let { r -> input.x >= r[0] && input.x <= r[0] + r[2] && input.y >= r[1] && input.y <= r[1] + r[3] } == true) {
-                craftTab = 1 - craftTab // the button of the panel: recipes or talents
-                craftCursor = 0
+                nextCraftPage(world) // the button of the panel: the recipes, the talents, the affixes
             } else if (input.justTouched()) {
                 val x = input.x.toFloat()
                 val y = input.y.toFloat()
@@ -3151,9 +3211,121 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         return if (pct > 0L) gap + data.pack.text(language, "\$i18n:ui.affix_roll", mapOf("pct" to pct)) else ""
     }
 
+    /** The pages of the crafting panel that the pack has (spec 16): 0 the recipes, 1 the talents, 2 the affixes. */
+    private fun craftPages(world: WorldSim): List<Int> = listOfNotNull(0, if (world.combat.talents.isNotEmpty()) 1 else null, if (hasAffixPage(world)) 2 else null)
+
+    /** Tab, or the button of the panel: the next page that the pack has (spec 16). */
+    private fun nextCraftPage(world: WorldSim) {
+        val pages = craftPages(world)
+        craftTab = pages[(pages.indexOf(craftTab) + 1) % pages.size]
+        craftCursor = 0
+    }
+
+    /** The name of the page that the button of the panel goes to. */
+    private fun nextPageName(world: WorldSim, data: Assets): String {
+        val pages = craftPages(world)
+        val key = when (pages[(pages.indexOf(craftTab) + 1) % pages.size]) {
+            1 -> "ui.talents"
+            2 -> "ui.affixes"
+            else -> "ui.craft"
+        }
+        return data.pack.text(language, "\$i18n:$key")
+    }
+
+    /** How many rows the page of the crafting panel shows now. */
+    private fun craftRowCount(world: WorldSim): Int = when (craftTab) {
+        1 -> world.combat.talents.size
+        2 -> world.affixOffers().size
+        else -> world.combat.recipes.count { world.recipeKnown(it) }
+    }
+
+    /** Whether the pack has a reforge item (spec 06, "Choosing an affix"): the crafting panel then has a page of affixes. */
+    private fun hasAffixPage(world: WorldSim): Boolean = world.combat.items.values.any { it.reforgeStation != null }
+
+    /** The reforge item of the bag that the page of the affixes uses: the first in the order of the IDs, or null. */
+    private fun bagPrism(world: WorldSim): String? = world.inventory.keys.firstOrNull { (world.inventory[it] ?: 0L) > 0L && world.combat.items[it]?.reforgeStation != null }
+
+    /** Takes the offer under the cursor with a prism of the bag (spec 06, "Choosing an affix"). */
+    private fun chooseAffixSelected(world: WorldSim, data: Assets) {
+        val piece = world.affixOffers().getOrNull(craftCursor) ?: return
+        val old = world.reforgeTarget() ?: return
+        val prism = bagPrism(world)
+        if (prism != null && world.chooseAffix(prism, piece)) {
+            showNotice(data.pack.text(language, "\$i18n:ui.affix_chosen", mapOf("old" to itemName(data, old, 1L), "item" to itemName(data, piece, 1L))))
+        } else {
+            showNotice(data.pack.text(language, "\$i18n:ui.affix_refused"))
+        }
+    }
+
+    /** The title of the page of the affixes: the worn piece of a family and its roll. */
+    private fun affixTitle(world: WorldSim, data: Assets): String {
+        val target = world.reforgeTarget() ?: return data.pack.text(language, "\$i18n:ui.affixes")
+        return data.pack.text(language, "\$i18n:ui.affix_piece", mapOf("item" to itemName(data, target, 1L))) + rollText(world, data, target, "  ")
+    }
+
+    /** The line under the title of the page of the affixes: what is missing, or the prisms of the bag and the station. */
+    private fun affixStatus(world: WorldSim, data: Assets): String {
+        if (world.reforgeTarget() == null) return data.pack.text(language, "\$i18n:ui.affix_none")
+        val prism = bagPrism(world) ?: return data.pack.text(language, "\$i18n:ui.affix_no_prism")
+        val station = world.combat.items[prism]?.reforgeStation ?: ""
+        val line = data.pack.text(language, "\$i18n:ui.affix_prisms", mapOf("item" to itemName(data, prism, 1L), "count" to (world.inventory[prism] ?: 0L)))
+        if (station.isEmpty()) return line
+        val where = if (world.nearStation(station)) "\$i18n:ui.station_here" else "\$i18n:ui.station_${station.substringAfterLast('/')}"
+        return line + "   " + data.pack.text(language, where)
+    }
+
+    /** The page of the affixes (spec 06, "Choosing an affix"): the worn piece of a family, the prisms and the station, then the offers of now. */
+    private fun drawAffixes(world: WorldSim, data: Assets) {
+        val density = Gdx.graphics.density
+        val width = Gdx.graphics.width.toFloat()
+        val height = Gdx.graphics.height.toFloat()
+        val offers = world.affixOffers()
+        val rowH = font.lineHeight * 2.2f
+        val panelW = min(width - 40f, 680f * density)
+        val panelH = min(height - 40f, 120f * density + rowH * 4)
+        val panelX = (width - panelW) / 2f
+        val panelY = (height - panelH) / 2f
+        craftPanel = floatArrayOf(panelX, panelY, panelW, panelH)
+        val tabButton = floatArrayOf(panelX + panelW - 150f * density, panelY + 6f * density, 140f * density, 32f * density)
+        craftTabRect = tabButton
+        val firstRowY = panelY + 56f * density + rowH
+        craftCursor = craftCursor.coerceIn(0, max(offers.size - 1, 0))
+        craftRowRects = offers.indices.map { floatArrayOf(panelX, firstRowY + it * rowH, panelW, rowH) }
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        drawPanel(panelX, panelY, panelW, panelH, Color(1f, 0.84f, 0.47f, 1f), 0.96f)
+        craftRowRects.getOrNull(craftCursor)?.let { r ->
+            shapes.color = Color(0.16f, 0.35f, 0.55f, 1f)
+            shapes.rect(r[0] + 6f * density, r[1], r[2] - 12f * density, r[3] - 2f * density)
+        }
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color(1f, 0.84f, 0.47f, 1f)
+        font.draw(batch, affixTitle(world, data), panelX + 16f * density, panelY + 12f * density)
+        font.color = Color(0.6f, 0.85f, 1f, 1f)
+        font.draw(batch, "[ " + nextPageName(world, data) + " ]", tabButton[0] + 8f * density, tabButton[1] + 6f * density)
+        font.color = Color(0.67f, 0.75f, 0.85f, 1f)
+        font.draw(batch, affixStatus(world, data), panelX + 16f * density, panelY + 56f * density)
+        font.color = Color(0.6f, 1f, 0.67f, 1f)
+        for ((i, piece) in offers.withIndex()) {
+            val r = craftRowRects[i]
+            font.draw(batch, itemName(data, piece, 1L), r[0] + 16f * density, r[1] + (r[3] - font.lineHeight) / 2f)
+        }
+        font.color = Color(0.67f, 0.78f, 0.9f, 1f)
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.affix_hint_touch"), panelX + 16f * density, panelY + panelH - font.lineHeight * 1.5f)
+        font.color = Color.WHITE
+        batch.end()
+    }
+
     private fun craftSelected(world: WorldSim) {
         val data = assets ?: return
         val pack = data.pack
+        if (craftTab == 2) { // the affixes (spec 06, "Choosing an affix")
+            chooseAffixSelected(world, data)
+            return
+        }
         if (craftTab == 1) { // the talents (spec 11): one point for a rank
             val talent = world.combat.talents.getOrNull(craftCursor) ?: return
             if (world.learnTalent(talent.id)) {
@@ -3185,17 +3357,23 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         "hurt" -> world.player.hp * 2 < world.derived.maxHp
         "stone" -> world.stoneNear() != null
         "talent_points" -> world.talentPoints() > 0 && world.combat.talents.isNotEmpty()
-        "night" -> (world.time()?.lightPm ?: 1000) < 400
         "companion" -> world.combat.companion != null
         "renown" -> world.renownHere() > 0
         "plot" -> world.plotNear() != null
         "chest" -> world.chestNear()
         "home" -> world.spotNear() != null // an empty place of the home (spec 06, "Furniture")
+        "tag" -> world.earnedTags().isNotEmpty() && world.wornTag.isEmpty() // a tag earned and none worn (spec 11, "Tags")
+        "night", "wind", "fog", "storm", "season", "rain" -> weatherHintHolds(world, kind)
+        else -> false
+    }
+
+    /** Whether the hint of a time of the world is true now: the night, the wind, the fog, the storm, the season and the rain (spec 08). */
+    private fun weatherHintHolds(world: WorldSim, kind: String): Boolean = when (kind) {
+        "night" -> (world.time()?.lightPm ?: 1000) < 400
         "wind" -> world.windPm >= 600 // a strong wind at the back (spec 08, "Wind")
         "fog" -> (world.time()?.fogPm ?: 0) >= 600 // a thick fog (spec 08, "Fog")
         "storm" -> world.time()?.let { it.rainPm >= 900 && it.windPm >= 900 } ?: false // its lightning strikes (spec 08, "Lightning")
         "season" -> world.seasonSlowPm < 1000 || world.seasonAggroPm < 1000 // the season changes the creatures (spec 08)
-        "tag" -> world.earnedTags().isNotEmpty() && world.wornTag.isEmpty() // a tag earned and none worn (spec 11, "Tags")
         // it rains, and the rain raises the prices (spec 06, "Weather and prices")
         "rain" -> (world.time()?.rainPm ?: 0) >= 600 && (world.chunks?.params?.time?.goods?.risePm ?: 0) > 0
         else -> false
@@ -3324,7 +3502,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val points = world.talentPoints()
         font.draw(batch, "${data.pack.text(language, "\$i18n:ui.talents")}  (${data.pack.text(language, "\$i18n:ui.talent_points", mapOf("points" to points))})", panel[0] + 16f * density, panel[1] + 12f * density)
         font.color = Color(0.6f, 0.85f, 1f, 1f)
-        font.draw(batch, "[ " + data.pack.text(language, "\$i18n:ui.craft") + " ]", tabButton[0] + 8f * density, tabButton[1] + 6f * density)
+        font.draw(batch, "[ " + nextPageName(world, data) + " ]", tabButton[0] + 8f * density, tabButton[1] + 6f * density)
         for ((i, talent) in talents.withIndex()) {
             val r = craftRowRects[i]
             val rank = world.talents[talent.id] ?: 0
@@ -3380,7 +3558,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         craftPanel = floatArrayOf(panelX, panelY, panelW, panelH)
         // the button that switches the panel between the recipes and the talents, in its top right corner
         val tabButton = floatArrayOf(panelX + panelW - 150f * density, panelY + 6f * density, 140f * density, 32f * density)
-        craftTabRect = if (world.combat.talents.isEmpty()) null else tabButton
+        craftTabRect = if (craftPages(world).size < 2) null else tabButton
+        if (craftTab == 2 && hasAffixPage(world)) {
+            drawAffixes(world, data)
+            return
+        }
         if (craftTab == 1 && world.combat.talents.isNotEmpty()) {
             drawTalents(world, data, tabButton)
             return
@@ -3409,7 +3591,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.draw(batch, data.pack.text(language, "\$i18n:ui.craft"), panelX + 16f * density, panelY + 12f * density)
         if (craftTabRect != null) {
             font.color = Color(0.6f, 0.85f, 1f, 1f)
-            font.draw(batch, "[ " + data.pack.text(language, "\$i18n:ui.talents") + " ]", tabButton[0] + 8f * density, tabButton[1] + 6f * density)
+            font.draw(batch, "[ " + nextPageName(world, data) + " ]", tabButton[0] + 8f * density, tabButton[1] + 6f * density)
             font.color = Color(1f, 0.84f, 0.47f, 1f)
         }
         for ((i, recipe) in recipes.withIndex()) {

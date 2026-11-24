@@ -1827,5 +1827,7 @@
   "quest.side_gideon_2.task": "The refugees want ovens that warm without burning. Bring Dorrit four ember cores and two magma shards to build them.",
   "quest.side_gideon_3.name": "The Debts of a King: The Old Fortress",
   "quest.side_gideon_3.task": "Magma slimes crawl out of the ruins of the old fortress of the Wastes toward the refugee farms. Stop five of them.",
+  "item.affix_prism.name": "Affix prism",
+  "item.affix_prism.desc": "At an anvil, with a common piece with an affix worn: see three other affixes of the same piece and keep the one you like. The roll and the rune of the piece stay with it.",
   "enemy.slime_sun.name": "Sun slime"
 }

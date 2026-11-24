@@ -20,6 +20,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 | Keyboard, the `E` hint | the hint over what `E` would act on says what it does: `ui.interact` over a person (talk), `ui.interact_stone` over a Threshold Stone, `ui.interact_gather` over a prop to gather from; on Android the button has the same three words (`ui.touch_talk`, `ui.touch_stone`, `ui.touch_gather`). When more than one is near, the order is person, stone, prop |
 | Keyboard, title screen | besides `W`/`S`, `E`, `D`, `X` and `I` (spec 12): `R` reincarnates the chosen game when it has reached level 10, after a second `R` (spec 11). On Android the row of such a game has a `Rebirth` button |
 | Keyboard, talents | `Tab` in the crafting panel (`C`) switches between the recipes and the talents (spec 11); `W`/`S` choose, `E` learns a rank. On Android the panel has a button for it; a tap chooses a talent, a second tap learns |
+| Keyboard, affixes | when the pack has a reforge item, `Tab` goes on to a third page, the affixes (spec 06, "Choosing an affix"): the worn piece of a family, the reforge items of the bag, the station, and the offers; `W`/`S` choose an offer, `E` takes it. On Android the button of the panel goes through the three pages; a tap chooses an offer, a second tap takes it |
 | Keyboard, companion | `H`: the companion stays where it is, or follows again (spec 10, "Commands") |
 | Keyboard, recall | `G`: the companion comes back to the player at once (spec 10, "Commands") |
 | Keyboard, taming | `B`: Haruka tames a hurt creature (spec 18, "Gift rules") |

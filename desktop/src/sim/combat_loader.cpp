@@ -352,6 +352,11 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
                 def.is_temper = true;
                 def.temper_station = item->at("temper").value("station", "");
             }
+            if (item->contains("reforge")) {  // spec 06, "Choosing an affix"
+                def.is_reforge = true;
+                def.reforge_station = item->at("reforge").value("station", "");
+            }
+            def.affix_family = item->value("affix_family", "");
             if (item->contains("furniture")) {  // spec 06, "Furniture"
                 const Json& f = item->at("furniture");
                 def.is_furniture = true;

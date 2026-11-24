@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/affix_prism",
+  "name": "$i18n:item.affix_prism.name",
+  "description": "$i18n:item.affix_prism.desc",
+  "kind": "reforge",
+  "rarity": "rare",
+  "price": 300,
+  "stack_max": 9,
+  "reforge": {
+    "station": "base:art/prop/anvil"
+  }
+}

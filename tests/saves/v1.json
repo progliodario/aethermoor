@@ -1943,6 +1943,153 @@
     },
     "world_ticks": 1300
    }
+  },
+  {
+   "scenario": "affix_choice",
+   "split": 3,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 7.4,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 0,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0x2a27d2b1d21ee168",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 12.0,
+      "y": 7.5,
+      "hp": 28,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/iron_sword": 1,
+     "test:item/blade_leech": 1,
+     "test:item/blade_vigor": 1,
+     "test:item/coat_c": 1,
+     "test:item/prism": 3
+    },
+    "equipped": {
+     "weapon": "test:item/blade_leech",
+     "armor": ""
+    },
+    "counters": {
+     "engraved": 1,
+     "reforged": 1,
+     "tempered": 1
+    },
+    "runes": {
+     "test:item/blade_leech": "test:item/rune_wind",
+     "test:item/blade_vigor": "test:item/rune_wind"
+    },
+    "rolls": {
+     "test:item/blade_leech": 121,
+     "test:item/blade_vigor": 121
+    },
+    "story": null,
+    "world_ticks": 92
+   }
+  },
+  {
+   "scenario": "affix_choice",
+   "split": 5,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 7.4,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 2,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xa52462ac54df5481",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 12.0,
+      "y": 7.5,
+      "hp": 28,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/iron_sword": 1,
+     "test:item/blade_vigor": 2,
+     "test:item/coat_a": 1,
+     "test:item/prism": 1
+    },
+    "equipped": {
+     "weapon": "base:item/iron_sword",
+     "armor": "test:item/coat_a"
+    },
+    "counters": {
+     "engraved": 1,
+     "reforged": 3,
+     "tempered": 1
+    },
+    "runes": {
+     "test:item/blade_vigor": "test:item/rune_wind"
+    },
+    "rolls": {
+     "test:item/blade_vigor": 121
+    },
+    "story": null,
+    "world_ticks": 94
+   }
   }
  ],
  "game": {
