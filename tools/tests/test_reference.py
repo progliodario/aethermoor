@@ -126,6 +126,31 @@ def test_saves_in_the_vectors_match_the_schema():
             assert not errors, (path.name, errors[:1])
 
 
+def test_a_week_of_play_keeps_its_invariants():
+    """C5.1 of the operating program: a week of world time in one scenario (farming, cooking, two market days in the rain, hunting, the
+    feast of the second day, a walking traveller, a timed quest). The gold is never below zero, nothing in the bag goes below one, every
+    quest started is done, the feast was eaten, and a save at the start of any day resumes to the same week."""
+    import conformance_m3
+    from reference import combat
+
+    scenario = {k: v for k, v in conformance_m3.week_of_play().items() if k != "name"}
+    checkpoints = combat.run_scenario(scenario)
+    for checkpoint in checkpoints:
+        assert checkpoint["story"]["gold"] >= 0
+        assert all(count >= 1 for count in checkpoint["inventory"].values())
+    quests = checkpoints[-1]["story"]["quests"]
+    assert quests and all(q["done"] for q in quests.values())
+    assert checkpoints[-1]["story"]["flags"].get("feasted") is True
+    tick, days = 0, 0
+    for split, segment in enumerate(scenario["script"]):
+        if tick > 0 and tick % scenario["day_ticks"] == 0:
+            save, _ = combat.run_with_save(scenario, split)
+            assert combat.run_from_save(scenario, {"save_version": combat.SAVE_VERSION, **save}, split) == checkpoints[split:], split
+            days += 1
+        tick += segment["ticks"]
+    assert tick >= 7 * scenario["day_ticks"] and days >= 6
+
+
 def test_every_save_version_has_its_frozen_copy():
     """Spec 12, "Fixtures of the save": a file for every version, and every field the reference writes is in a case of the last one."""
     import make_save_fixtures

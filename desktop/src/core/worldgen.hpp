@@ -11,6 +11,8 @@
 #include <utility>
 #include <vector>
 
+#include "core/travel.hpp"
+
 #include "core/worldtime.hpp"
 
 namespace aether {
@@ -36,6 +38,7 @@ struct WorldNpc {
     std::string
         when;  // a resident (spec 07, "Residents"): the JSON of the condition that brings it; empty: always there
     std::vector<std::pair<int, int>> route;  // a traveller (spec 07, "Travellers"): its stops, as dx, dy; empty: none
+    TravellerWalk walk;                      // and how it walks between them (spec 07, "Travellers walk")
 };
 
 // An enemy of the fauna of a region (spec 09, "Fauna"): what a spawner makes and what it drops.

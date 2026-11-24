@@ -318,6 +318,11 @@ std::optional<StorySetup> parse_story_setup(std::string_view json_text, std::str
                     npc.route.emplace_back(stop.at(0).get<float>(), stop.at(1).get<float>());
                 }
             }
+            if (n.contains("walk")) {  // and how it walks between its stops (spec 07, "Travellers walk")
+                const Json& walk = n.at("walk");
+                npc.walk = {walk.at("arrive_pm").get<int>(), walk.at("depart_pm").get<int>(),
+                            walk.at("speed_x256").get<std::int64_t>()};
+            }
             setup.npcs.push_back(std::move(npc));
         }
         return setup;

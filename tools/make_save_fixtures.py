@@ -73,7 +73,7 @@ def fixture_path(version: int) -> Path:
 
 
 def scenarios_by_name() -> dict[str, dict]:
-    from conformance_m3 import build_scenarios as combat_scenarios
+    from conformance_m3 import all_scenarios as combat_scenarios
     from conformance_m4 import build_scenarios as story_scenarios
 
     return {sc["name"]: sc for sc in combat_scenarios() + story_scenarios()}

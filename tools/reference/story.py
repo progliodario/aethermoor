@@ -11,6 +11,43 @@ NPC_RADIUS = 0.3
 MAX_SETTLE_STEPS = 64
 
 
+def isqrt(v: int) -> int:
+    """The integer square root, rounded down (spec 07, "Travellers walk")."""
+    return math.isqrt(v)
+
+
+def div_trunc(a: int, b: int) -> int:
+    """a / b rounded toward zero, as C++ and Kotlin divide."""
+    q = abs(a) // abs(b)
+    return q if (a >= 0) == (b > 0) else -q
+
+
+def traveller_position(route: list, walk: dict | None, day: int, tick: int, day_ticks: int) -> list[float]:
+    """Where a traveller is (spec 07, "Travellers walk"): at its stop of the day, or on the way in or out of it."""
+    n = len(route)
+    s = (day - 1) % n
+    stop = list(route[s])  # where it stands, as the data gives it
+    here = [math.floor(stop[0] * 256 + 0.5), math.floor(stop[1] * 256 + 0.5)]
+    speed = (walk or {}).get("speed_x256", 0)
+    walked = 0
+    other = here
+    if speed > 0 and day_ticks > 0 and n > 1:
+        arrive = day_ticks * walk["arrive_pm"] // 1000
+        depart = day_ticks * walk["depart_pm"] // 1000
+        if tick < arrive:  # still on its way in, from the stop of the day before
+            prev = route[(s - 1) % n]
+            other, walked = [math.floor(prev[0] * 256 + 0.5), math.floor(prev[1] * 256 + 0.5)], speed * (arrive - tick)
+        elif tick >= depart:  # on its way out, toward the stop of the day after
+            nxt = route[(s + 1) % n]
+            other, walked = [math.floor(nxt[0] * 256 + 0.5), math.floor(nxt[1] * 256 + 0.5)], speed * (tick - depart)
+    dx, dy = other[0] - here[0], other[1] - here[1]
+    length = isqrt(dx * dx + dy * dy)
+    if walked <= 0 or length == 0:
+        return stop
+    w = min(walked, length // 2)
+    return [(here[0] + div_trunc(dx * w, length)) / 256, (here[1] + div_trunc(dy * w, length)) / 256]
+
+
 class Story:
     def __init__(self, host, setup: dict) -> None:
         self.host = host
@@ -253,12 +290,13 @@ class Story:
             self.apply(effect)
         self._go(choice["next"])
 
-    def move_travellers(self, day: int) -> None:
-        """Puts every traveller (an NPC with `route`) where its route says for that day: stop `(day - 1) % len(route)` (spec 07, "Travellers")."""
+    def move_travellers(self, day: int, tick: int = 0, day_ticks: int = 0) -> None:
+        """Puts every traveller (an NPC with `route`) where its route says for that day and tick of the day (spec 07, "Travellers",
+        "Travellers walk")."""
         for npc in self.npcs:
             route = npc.get("route")
             if route:
-                npc["pos"] = list(route[(day - 1) % len(route)])
+                npc["pos"] = traveller_position(route, npc.get("walk"), day, tick, day_ticks)
 
     def npc_present(self, npc: dict) -> bool:
         """Whether an NPC is there now: always, or while the condition of a resident holds (spec 07, "Residents")."""
@@ -319,4 +357,6 @@ class Story:
             "quests": {k: {"stage": v["stage"], "done": v["done"], "progress": list(v["progress"])}
                        for k, v in sorted(self.quests.items())},
             "dialogue": self.dialogue_view(),
+            # where the travellers are (spec 07, "Travellers walk"), when the story has some
+            **({"travellers": [list(n["pos"]) for n in self.npcs if n.get("route")]} if any(n.get("route") for n in self.npcs) else {}),
         }

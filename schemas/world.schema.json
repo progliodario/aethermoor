@@ -619,7 +619,18 @@
               "minItems": 2,
               "maxItems": 2
             }
-          }
+          },
+              "walk": {
+                "type": "object",
+                "required": ["arrive_pm", "depart_pm", "speed_x256"],
+                "additionalProperties": false,
+                "description": "How a traveller walks between its stops (spec 07, \"Travellers walk\"): in by arrive_pm, out at depart_pm, speed_x256 / 256 of a tile per tick.",
+                "properties": {
+                  "arrive_pm": { "type": "integer", "minimum": 0, "maximum": 1000 },
+                  "depart_pm": { "type": "integer", "minimum": 0, "maximum": 1000 },
+                  "speed_x256": { "type": "integer", "minimum": 0 }
+                }
+              }
         }
       }
     },

@@ -6,6 +6,16 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Travellers walk** (spec 07, "Travellers walk"): Odo, Brannoc and Lark no longer appear at their stop at dawn. They stand there
+  only from a quarter of the day to three quarters; in the morning they come walking in from the stop of the day before, and in the
+  evening they walk out toward the stop of the day after, at a walking pace, in a straight line. Their position comes from the clock of
+  the world with integer math, the same in the reference and in the two clients (scenario `traveller_walks`), and is not saved.
+- **A week of play** (C5.1 of the operating program, scenario `week_of_play` of the vectors): seven days of world time in one test run
+  by the reference and both clients, with farming, cooking, two market days in the rain, hunting, the feast of the second day, a
+  walking traveller and a timed quest. A test of the reference checks its invariants (the gold never below zero, no quest stuck, the
+  feast eaten, a save at the start of any day that resumes to the same week). `docs/design/suites.md` (`tools/make_suites_map.py`,
+  checked in `ci-data`) says where each category of conformance tests named by the plan is among the real suites.
+
 - **Side stories of Lena and Gideon** (spec 18, "Side stories"): every protagonist now has one. Lena meets Doctor Aurel Finch ("The
   Last Diagnosis": frost wolves found frozen, a cold fever, the frost wisps that drink the warmth of the sleeping; the frost locket or
   the glacier spear); Gideon meets Dorrit Ash, a baker from the Ashen Wastes who knows the stories about a black sword ("The Debts of a
@@ -290,6 +300,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 - M0: repository foundations (docs, ADRs, schemas, data validation, CI workflows, desktop and Android skeletons).
 
 ### Changed
+
+- **Quests that collect are done at once** (spec 07, "Quests"): what the bag holds is counted at the start of every tick, so a quest
+  that asks for berries, ore or a dish is done as soon as you have them, however they came (gathered, harvested, crafted, bought), not
+  at the next kill or talk.
 
 - The Kotlin of the core is tidier again (detekt baseline from 96 to 90 findings): the loops that find the creature to tame, to strike
   for the companion and the tamed friend, to hit with the burst and the swing, and the enemies of a loaded save have one way out each;

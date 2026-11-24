@@ -27,6 +27,8 @@ data class WorldNpc(
     val whenJson: String = "",
     /** A traveller (spec 07, "Travellers"): its stops, as dx, dy. */
     val route: List<Pair<Int, Int>> = emptyList(),
+    /** And how it walks between them (spec 07, "Travellers walk"). */
+    val walk: TravellerWalk = TravellerWalk(),
 )
 
 /** A visitor of a season (spec 09, "Seasonal visitors"): on a day of [season], the share [pm] of the spawners of the entry make [enemy]. */
@@ -1120,6 +1122,7 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
                     n.getValue("dy").jsonPrimitive.int,
                     n["when"]?.toString() ?: "",
                     (n["route"] as? JsonArray)?.map { stop -> Pair(stop.jsonArray[0].jsonPrimitive.int, stop.jsonArray[1].jsonPrimitive.int) } ?: emptyList(),
+                    parseTravellerWalk(n["walk"] as? JsonObject),
                 )
             },
         )

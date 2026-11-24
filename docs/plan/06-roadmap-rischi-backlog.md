@@ -284,7 +284,7 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Persone con nome | 56 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
 | Testi | 4211 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 609 casi, eseguiti dai test C++ e Kotlin |
+| Regole uguali sui due client | 31 file di vettori di conformità, 619 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
 
@@ -347,6 +347,11 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
   della regione ogni sua città ha tre ospiti in piazza, che raccontano da dove vengono. La condizione di presenza di ogni persona è nei vettori.
 - **Viaggiatori** (dal 18 al 22 novembre): Odo il capo carovana, Brannoc il fabbro errante (al contrario di Odo) e Lark la cantastorie, ogni
   giorno in un altro avamposto; le canzoni di Lark, la canzone della strada e le cacce delle stagioni.
+- **I viaggiatori camminano** (dal 24 novembre, B3.1, spec 07 "Travellers walk"): restano alla tappa da un quarto a tre quarti del giorno;
+  la mattina arrivano a piedi dalla tappa del giorno prima, la sera ripartono verso quella del giorno dopo, in linea retta e al passo.
+  La posizione viene dall'orologio del mondo con aritmetica intera, uguale nel riferimento e nei due client, e non si salva.
+- **Le missioni che chiedono oggetti si chiudono subito** (dal 24 novembre, spec 07 "Quests"): la borsa si conta all'inizio di ogni tick,
+  non più solo a un'uccisione o a una parola.
 - **Missioni ripetibili** (dal 22 novembre, `repeatable`): le cacce delle stagioni, le botteghe dei coloni e le taglie permanenti della gilda
   (una per regione, su un grande guardiano); il diario le segna "(si può rifare)".
 - **Missioni a tempo e prove delle stagioni** (dal 23 novembre, B4.1, spec 07 "Timed quests"): una missione può avere dei giorni
@@ -415,6 +420,9 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Mod** (dal 24 novembre, E4.1): una guida passo per passo al primo mod (`docs/modding/README.md`), un mod di esempio
   (`examples/mod-example/`, una creatura e una missione) e il validatore che controlla un pacchetto qualsiasi sopra quelli da cui dipende;
   la CI controlla il mod di esempio. Il gioco non carica ancora i mod.
+- **Una settimana di gioco** (dal 24 novembre, C5.1): lo scenario `week_of_play` dei vettori (sette giorni con campi, cucina, due mercati
+  sotto la pioggia, caccia, la festa, un viaggiatore e una missione a tempo), eseguito dal riferimento e dai due client, con le sue
+  invarianti in un test; `docs/design/suites.md` (`tools/make_suites_map.py`, in `ci-data`) dice dove sono le suite che il piano nomina.
 
 ### 8.4 Che cosa resta da fare, in ordine
 

@@ -52,5 +52,7 @@ jobs:
         run: python tools/make_save_fixtures.py --check
       - name: Both clients run every suite of vectors (docs/design/parity.md)
         run: python tools/make_parity.py --check
+      - name: Every category of conformance tests of the plan has its cases (docs/design/suites.md)
+        run: python tools/make_suites_map.py --check
       - name: Every dependency has an allowed license (THIRD_PARTY_NOTICES.md)
         run: python tools/licenses.py --check

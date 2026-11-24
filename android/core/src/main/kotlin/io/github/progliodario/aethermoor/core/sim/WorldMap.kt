@@ -25,6 +25,7 @@ fun makeStreamMap(params: WorldParams): TileMap {
                 ((cy + it.dy) * 256 + 128) / 256f,
                 it.whenJson,
                 it.route.map { (dx, dy) -> Pair(((cx + dx) * 256 + 128) / 256f, ((cy + dy) * 256 + 128) / 256f) },
+                it.walk,
             )
         },
     )

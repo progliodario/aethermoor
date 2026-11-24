@@ -9,6 +9,7 @@ sys.path.insert(0, str(TOOLS))
 
 import licenses  # noqa: E402
 import make_parity  # noqa: E402
+import make_suites_map  # noqa: E402
 
 
 def table() -> dict:
@@ -54,3 +55,9 @@ def test_a_suite_a_client_does_not_run_fails_the_check(tmp_path, monkeypatch):
     _, problems = make_parity.matrix()
     assert any("desktop" in p and "'hash'" in p for p in problems)
     assert not any("desktop" in p and "'rng'" in p for p in problems)
+
+
+def test_every_category_of_the_plan_has_its_cases():
+    text, problems = make_suites_map.build()
+    assert problems == []
+    assert make_suites_map.OUT.read_text(encoding="utf-8") == text

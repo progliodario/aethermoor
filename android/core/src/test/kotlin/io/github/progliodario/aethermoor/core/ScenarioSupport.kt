@@ -448,8 +448,20 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
     want["story"]?.jsonObject?.let { assertStory(it, sim, at) }
 }
 
+/** Where the travellers are (spec 07, "Travellers walk"): the NPCs with a route, in order. */
+private fun assertTravellers(want: JsonArray, sim: WorldSim, at: String) {
+    val travellers = sim.story.setup.npcs.filter { it.route.isNotEmpty() }
+    assertEquals(want.size, travellers.size, "$at travellers")
+    for ((i, npc) in travellers.withIndex()) {
+        val w = want[i].jsonArray
+        assertEquals(w[0].num(), npc.x, 1e-4f, "$at traveller ${npc.key} x")
+        assertEquals(w[1].num(), npc.y, 1e-4f, "$at traveller ${npc.key} y")
+    }
+}
+
 private fun assertStory(ws: JsonObject, sim: WorldSim, at: String) {
     val story = sim.story
+    ws["travellers"]?.let { assertTravellers(it.jsonArray, sim, at) }
     assertEquals(ws.long("gold"), story.gold, "$at gold")
     ws["guild_points"]?.let { assertEquals(it.jsonPrimitive.long, story.guildPoints, "$at guild points") }
     val wantFlags = ws.getValue("flags").jsonObject

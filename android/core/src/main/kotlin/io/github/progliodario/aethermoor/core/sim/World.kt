@@ -1087,6 +1087,12 @@ class WorldSim(
         return if (dayTicks > 0L) worldTicks / dayTicks + 1L else 1L
     }
 
+    /** The length of a day (spec 08), 0 without a clock. */
+    fun dayTicksNow(): Long = chunks?.params?.time?.dayTicks?.toLong() ?: combat.dayTicks.toLong()
+
+    /** The tick of the day: world ticks % day ticks, 0 without a clock. */
+    fun tickOfDay(): Long = dayTicksNow().let { if (it > 0L) worldTicks % it else 0L }
+
     /** The glut (spec 06): the items sold on [soldDay]; not saved. */
     private val soldToday = HashMap<String, Long>()
     private var soldDay = 0L
@@ -1462,7 +1468,8 @@ class WorldSim(
 
     fun tick(rawXIn: Float, rawYIn: Float, attackIn: Boolean = false, dodgeIn: Boolean = false, strikeIn: Boolean = false, parryIn: Boolean = false) {
         worldTicks++
-        story.moveTravellers(dayNow()) // the travellers stand where their route puts them today (spec 07)
+        story.moveTravellers(dayNow(), tickOfDay(), dayTicksNow()) // the travellers are where their route puts them now (spec 07)
+        story.refreshQuests() // and what the bag holds now counts for the quests that collect (spec 07, "Quests")
         syncWindow()
         // the rain hides the player (spec 08): creatures notice from a shorter distance
         val store = chunks
@@ -2208,7 +2215,7 @@ class WorldSim(
         explored.addAll(s.explored)
         markExplored()
         worldTicks = if (s.worldTicks >= 0) s.worldTicks else chunks?.params?.time?.startTick ?: 0L
-        story.moveTravellers(dayNow()) // the travellers are where the saved day puts them (spec 07, "Travellers")
+        story.moveTravellers(dayNow(), tickOfDay(), dayTicksNow()) // the travellers are where the saved time puts them (spec 07, "Travellers")
         if (chunks != null && windowValid) refreshPeople(windowX, windowY) // the people of the saved time of day
         events.clear()
         return Result.success(Unit)

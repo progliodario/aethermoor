@@ -805,6 +805,15 @@ std::int64_t WorldSim::day_now() const {
     return day_ticks > 0 ? m_world_ticks_ / day_ticks + 1 : 1;
 }
 
+std::int64_t WorldSim::day_ticks_now() const {
+    return m_store_ ? m_store_->params().time.day_ticks : m_setup_.day_ticks;
+}
+
+std::int64_t WorldSim::tick_of_day() const {
+    const std::int64_t day_ticks = day_ticks_now();
+    return day_ticks > 0 ? m_world_ticks_ % day_ticks : 0;
+}
+
 bool WorldSim::buy(const std::string& item_id) {
     if (!m_shop_ || std::find(m_shop_->stock.begin(), m_shop_->stock.end(), item_id) == m_shop_->stock.end()) {
         return false;
@@ -1639,7 +1648,8 @@ void WorldSim::tick(float raw_x, float raw_y, bool attack, bool dodge, bool stri
     Player& p = m_player_;
     const bool combat = m_setup_.enabled;
     ++m_world_ticks_;
-    m_story_.move_travellers(day_now());  // the travellers stand where their route puts them today (spec 07)
+    m_story_.move_travellers(day_now(), tick_of_day(), day_ticks_now());  // where their route puts them now (spec 07)
+    m_story_.refresh_quests();  // and what the bag holds now counts for the quests that collect (spec 07, "Quests")
     sync_window();
     {  // the rain hides the player (spec 08): creatures notice from a shorter distance
         int rain = m_setup_.rain_pm;
@@ -2718,7 +2728,9 @@ bool WorldSim::restore(const SaveState& saved, std::string& error) {
     if (m_store_ && m_window_valid_) {
         refresh_people(m_window_x_, m_window_y_);  // the people of the saved time of day
     }
-    m_story_.move_travellers(day_now());  // and the travellers where the saved day puts them (spec 07, "Travellers")
+    m_story_.move_travellers(
+        day_now(), tick_of_day(),
+        day_ticks_now());  // and the travellers where the saved time puts them (spec 07, "Travellers")
     m_events_.clear();
     return true;
 }

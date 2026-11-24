@@ -18,6 +18,9 @@ from make_home import CYCLE, quest, say
 from make_residents import free_tile
 from make_towns import DATA, set_texts
 
+# how the travellers walk between their stops (spec 07, "Travellers walk"): in by six, out at six, 1/16 of a tile per tick
+WALK = {"arrive_pm": 250, "depart_pm": 750, "speed_x256": 16}
+
 WORLD = DATA / "worlds" / "overworld.json"
 KEY = "caravan_master_odo"
 OUTPOST = {"verdalis": "verdalis_outpost", "whisperwood": "whisperwood_outpost", "ironspine": "ironspine_outpost",
@@ -127,7 +130,7 @@ def main() -> None:
         set_texts("core.json", lang, texts)
     stops = ", ".join(f"[{x}, {y}]" for x, y in route)
     line = (f'{{ "key": "{KEY}", "dialogue": "base:dialogue/npc/odo", "variant": "ochre", "dx": {route[0][0]}, "dy": {route[0][1]}, '
-            f'"route": [{stops}] }}')
+            f'"route": [{stops}], "walk": {json.dumps(WALK)} }}')
     raw = WORLD.read_text(encoding="utf-8", newline="")
     if f'"key": "{KEY}"' in raw:
         raw = re.sub(r'\{ "key": "' + KEY + r'"[^\n]*\}', line, raw)

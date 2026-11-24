@@ -886,9 +886,67 @@ def build_scenarios() -> list[dict]:
     ]
 
 
+def week_of_play() -> dict:
+    """A week of play (C5.1 of the operating program; spec 06, 07, 08): seven days of 300 ticks in the rain, in one scenario. The Guest sows
+    a seed and takes a timed quest for its harvest, hunts a slime for its gel, shops and sells on two market days with the weather on the
+    prices and the glut, harvests and cooks, eats at the feast of the second day, meets a walking traveller on the fifth and sells the
+    tonics at the end. tools/tests/test_reference.py checks its invariants: the gold is never below zero, nothing in the bag goes below
+    one, every quest started is done, and a save taken at the start of any day resumes to the same week."""
+    passive = {"behavior_overrides": {"aggro_x100": 0}, "speed_x100": 0}
+    shop = [{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/bread"}, {"cmd": "buy", "item": "base:item/potion_mana_small"},
+            {"cmd": "sell", "item": "base:item/slime_gel"}, {"cmd": "sell", "item": "base:item/slime_gel"}, {"cmd": "close_shop"}]
+    sc = scenario(
+        "week_of_play",
+        [enemy(3.5, 4.5, hp=5, id="base:enemy/slime_green", **passive)],
+        [segment(1, do=[{"cmd": "tend"}, {"cmd": "start_quest", "quest": "test:quest/harvest"}]),  # day 1: the seed in the plot, the quest
+         segment(40, attack=True),  # the slime, for its gel
+         segment(1, do=shop), segment(258),
+         segment(1, do=[{"cmd": "tend"}]),  # day 2: the harvest (240 ticks), which finishes the timed quest
+         segment(1, do=[{"cmd": "craft", "recipe": "tonic"}]),
+         segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "advance"}]),  # the feast of the second day: a meal and a gift
+         segment(296), segment(300), segment(300),  # to the start of days 3, 4 and 5
+         segment(100), segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "advance"}]),  # day 5, in the morning: the traveller
+         segment(198),
+         segment(1, do=shop + [{"cmd": "open_shop"}, {"cmd": "sell", "item": "base:item/tonic"}, {"cmd": "sell", "item": "base:item/tonic"},
+                               {"cmd": "close_shop"}]),  # day 6: the market again, and the tonics
+         segment(299), segment(300)],  # day 7
+        inventory={"base:item/healing_herb": 3, "base:item/slime_gel": 1}, start_gold=100, region="vale", day_ticks=300,
+        recipes=RECIPES, weather={"rain_pm": 1000, "weather_goods": WEATHER_GOODS},
+        shop={"price_pm": 1000, "stock": ["base:item/bread", "base:item/potion_mana_small"], "market_swing_pm": 100, "glut_step_pm": 80,
+              "glut_floor_pm": 400},
+        gather_props=[{"art": "base:art/prop/garden_plot", "x": 2.8, "y": 5.4, "radius": 0.2}],
+        farming={"plot": "base:art/prop/garden_plot", "reach_x100": 150, "rain_grow_cut_pm": 0, "crops": [
+            {"seed": "base:item/healing_herb", "crop": "base:item/wild_berries", "qty_min": 3, "qty_max": 3, "grow_ticks": 240}]})
+    sc["items"] = {**sc["items"], "base:item/tonic": {"kind": "consumable", "price": 30, "effects": [{"effect": "heal", "amount": 40}]},
+                   "base:item/healing_herb": {"kind": "material", "price": 6, "effects": []},
+                   "base:item/wild_berries": {"kind": "food", "price": 4, "effects": [{"effect": "heal", "amount": 5}]}}
+    sc["story"] = {
+        "quests": {"test:quest/harvest": {"id": "test:quest/harvest", "name": "t", "time_limit_days": 3, "stages": [
+            {"id": "s", "objectives": [{"type": "collect", "item": "base:item/wild_berries", "count": 3}], "next": "end"}],
+            "rewards": [{"effect": "add_gold", "amount": 60}]}},
+        "dialogues": {
+            "test:dialogue/innkeeper": {"id": "test:dialogue/innkeeper", "start": "s", "nodes": {
+                "s": {"type": "condition", "when": {"day_mod": {"every": 7, "at": 1}}, "then": "feast", "else": "plain"},
+                "feast": {"type": "effects", "effects": [{"effect": "heal_full"}, {"effect": "add_gold", "amount": 25},
+                                                        {"effect": "set_flag", "flag": "feasted", "value": True}], "next": "toast"},
+                "toast": {"type": "say", "speaker": "innkeeper", "text": "t.feast", "next": "end"},
+                "plain": {"type": "say", "speaker": "innkeeper", "text": "t.plain", "next": "end"}}},
+            "test:dialogue/pedlar": {"id": "test:dialogue/pedlar", "start": "s", "nodes": {
+                "s": {"type": "say", "speaker": "pedlar", "text": "t.road", "next": "end"}}}},
+        "npcs": [{"key": "innkeeper", "pos": [2.2, 3.4], "dialogue": "test:dialogue/innkeeper"},
+                 {"key": "pedlar", "pos": [3.0, 4.5], "dialogue": "test:dialogue/pedlar", "route": [[3.0, 4.5], [12.0, 4.5]],
+                  "walk": {"arrive_pm": 250, "depart_pm": 750, "speed_x256": 16}}]}
+    return sc
+
+
+def all_scenarios() -> list[dict]:
+    """The scenarios of the suite `combat`: the short ones, then the week of play."""
+    return build_scenarios() + [week_of_play()]
+
+
 def suite_combat() -> list[dict]:
     cases = []
-    for sc in build_scenarios():
+    for sc in all_scenarios():
         checkpoints = combat.run_scenario(sc)
         name = sc.pop("name")
         cases.append({"name": f"combat_{name}", "input": {"op": "combat", **sc},

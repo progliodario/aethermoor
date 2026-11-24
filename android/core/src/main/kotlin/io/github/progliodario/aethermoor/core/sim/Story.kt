@@ -1,6 +1,9 @@
 package io.github.progliodario.aethermoor.core.sim
 
 import io.github.progliodario.aethermoor.core.Offer
+import io.github.progliodario.aethermoor.core.TravellerWalk
+import io.github.progliodario.aethermoor.core.parseTravellerWalk
+import io.github.progliodario.aethermoor.core.travellerPosition
 import io.github.progliodario.aethermoor.core.vector.f
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
@@ -161,6 +164,8 @@ data class NpcDef(
     val whenCond: Condition? = null,
     /** A traveller (spec 07, "Travellers"): where it stands on each day of its cycle, in tiles; empty: it stays. Never solid. */
     val route: List<Pair<Float, Float>> = emptyList(),
+    /** How it walks between its stops (spec 07, "Travellers walk"); a speed of 0: it does not. */
+    val walk: TravellerWalk = TravellerWalk(),
 )
 
 class StorySetup(
@@ -363,6 +368,7 @@ fun parseStorySetup(element: JsonElement): StorySetup {
                 pos[1].f(),
                 whenCond = n["when"]?.let { w -> parseCondition(w) },
                 route = (n["route"] as? JsonArray)?.map { stop -> Pair(stop.jsonArray[0].f(), stop.jsonArray[1].f()) } ?: emptyList(),
+                walk = parseTravellerWalk(n["walk"] as? JsonObject),
             )
         },
     )
@@ -610,13 +616,16 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
     /** Whether an NPC is there now: always, or while the condition of a resident holds (spec 07, "Residents"). */
     fun npcPresent(npc: NpcDef): Boolean = npc.whenCond?.let { holds(it) } ?: true
 
-    /** Puts every traveller where its route says for that day: stop (day - 1) % its length (spec 07, "Travellers"). */
-    fun moveTravellers(day: Long) {
+    /**
+     * Puts every traveller where its route says for that day and tick of the day (spec 07, "Travellers", "Travellers walk"); a day of
+     * 0 ticks (no clock): at its stop.
+     */
+    fun moveTravellers(day: Long, tick: Long = 0L, dayTicks: Long = 0L) {
         for (npc in setup.npcs) {
             if (npc.route.isEmpty()) continue
-            val stop = npc.route[Math.floorMod(day - 1, npc.route.size.toLong()).toInt()]
-            npc.x = stop.first
-            npc.y = stop.second
+            val (x, y) = travellerPosition(npc.route, npc.walk, day, tick, dayTicks)
+            npc.x = x
+            npc.y = y
         }
     }
 
