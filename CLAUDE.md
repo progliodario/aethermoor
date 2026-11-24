@@ -177,16 +177,16 @@ The numbers (counted from the data by `tools/make_facts.py`):
 <!-- facts:begin -->
 | What | How many (counted from the data by `tools/make_facts.py`) |
 |---|---|
-| World | 8 regions, 45 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
+| World | 8 regions, 46 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
 | Protagonists | 8, each with a companion, 4 more companions who may join the party, and a story of six acts (120 story quests) |
-| Creatures | 79, of which 27 guardians and 8 Echoes |
+| Creatures | 83, of which 27 guardians and 8 Echoes |
 | Quests | 407 (24 tales of the villagers) |
 | Items and recipes | 290 items, 86 recipes (8 secret) |
-| Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
-| Named people | 57 in the world data, besides the generated villagers |
+| Progression | 50 titles, 8 tags, 16 talents, 29 deeds |
+| Named people | 58 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 4264 keys, in Italian and English |
-| Same rules on both clients | 31 files of conformance vectors, 632 cases, run by the C++ and the Kotlin tests |
+| Texts | 4283 keys, in Italian and English |
+| Same rules on both clients | 31 files of conformance vectors, 634 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->
 

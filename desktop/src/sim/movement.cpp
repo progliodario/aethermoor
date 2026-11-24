@@ -86,6 +86,10 @@ void CollisionWorld::resolve(float& x, float& y, float radius) const {
             }
         }
         const auto push_out = [&](const Circle& prop) {
+            if (prop.radius <=
+                0.0F) {  // a prop of radius 0 is a mark on the ground (a trap): it blocks nothing (spec 02)
+                return;
+            }
             const float dx = x - prop.x;
             const float dy = y - prop.y;
             const float d2 = dx * dx + dy * dy;

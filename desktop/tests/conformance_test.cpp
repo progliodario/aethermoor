@@ -669,6 +669,39 @@ TEST_CASE("conformance: raster", "[conformance]") {
 
 namespace {
 
+// The defense of a scenario (spec 18), without its creatures: the same fields as `data/base/defense.json`.
+aether::DefenseDef aether_test_parse_defense(const std::string& text) {
+    const Json d = Json::parse(text);
+    aether::DefenseDef def;
+    def.core_x = d.at("core").at(0).get<float>();
+    def.core_y = d.at("core").at(1).get<float>();
+    def.gate_x = d.at("gate").at(0).get<float>();
+    def.gate_y = d.at("gate").at(1).get<float>();
+    def.core_radius_x100 = d.at("core_radius_x100").get<int>();
+    def.wave_ticks = d.at("wave_ticks").get<int>();
+    for (const Json& wave : d.at("waves")) {
+        def.waves.push_back(wave.get<std::vector<std::string>>());
+    }
+    for (const Json& t : d.at("traps")) {
+        aether::DefenseTrap trap;
+        trap.kind = t.at("kind").get<std::string>();
+        trap.x = t.at("at").at(0).get<float>();
+        trap.y = t.at("at").at(1).get<float>();
+        trap.radius_x100 = t.at("radius_x100").get<int>();
+        trap.flag = t.at("flag").get<std::string>();
+        def.traps.push_back(trap);
+    }
+    def.spikes_pct = d.at("spikes_pct").get<int>();
+    def.tar_ticks = d.at("tar_ticks").get<int>();
+    const Json& reward = d.at("reward");
+    def.reward_gold = reward.at("gold").get<std::int64_t>();
+    for (const Json& item : reward.at("items")) {
+        def.reward_items.emplace_back(item.at("item").get<std::string>(), item.at("qty").get<std::int64_t>());
+    }
+    def.reward_counter = reward.at("counter").get<std::string>();
+    return def;
+}
+
 aether::EnemyDef enemy_def_from_json(const Json& d) {
     aether::EnemyDef def;
     def.id = d.value("id", "");
@@ -857,6 +890,14 @@ Scenario scenario_from_json(const Json& in) {
     };
     if (in.contains("companion")) {
         setup.companion = companion_of(in.at("companion"));
+    }
+    if (in.contains("defense")) {  // Gideon's Dungeon (spec 18)
+        const Json& d = in.at("defense");
+        auto def = aether_test_parse_defense(d.dump());
+        for (const auto& [id, e] : d.at("enemies").items()) {
+            def.enemies[id] = enemy_def_from_json(e);
+        }
+        setup.defense = def;
     }
     if (in.contains("companions")) {  // those that may join the party (spec 10, "The party")
         for (const auto& [id, c] : in.at("companions").items()) {
@@ -1268,6 +1309,12 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
             REQUIRE(item == wf[i].at(2).get<std::string>());
             ++i;
         }
+    }
+    if (want.contains("defense")) {  // Gideon's Dungeon (spec 18)
+        const Json& wd = want.at("defense");
+        REQUIRE(sim.defense_active() == wd.at("active").get<bool>());
+        REQUIRE(sim.defense_wave() == wd.at("wave").get<int>());
+        REQUIRE(sim.defense_clock() == wd.at("clock").get<int>());
     }
     if (want.contains("party")) {  // the party and the bonds that wait (spec 10, "The party")
         REQUIRE(sim.party() == want.at("party").get<std::vector<std::string>>());

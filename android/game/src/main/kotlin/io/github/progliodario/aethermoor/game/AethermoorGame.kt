@@ -879,6 +879,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             if (ticks == MAX_TICKS_PER_FRAME) accumulator = 0f
         }
         if (messageFrames > 0) messageFrames--
+        defenseNotice(world, data) // Gideon's Dungeon (spec 18)
         val free = !(showInventory || showMap || showJournal || showCraft || world.shop != null || world.chestOpen || world.board != null || world.travel != null || world.story.dialogueActive)
         if (newDeeds.isNotEmpty() && messageFrames <= 0) { // a deed done (spec 11, "Deeds"), one at a time
             val id = newDeeds.removeAt(0)
@@ -1824,6 +1825,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             )
             layout.setText(font, clock)
             hudText(clock, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f)
+            drawDefenseLine(world, data)
             world.chunks?.let { store ->
                 val regionIndex = regionAt(store.params, floor(p.position.x).toInt(), floor(p.position.y).toInt())
                 val name = data.pack.text(language, store.params.regions[regionIndex].name)
@@ -3503,6 +3505,21 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             assets?.let { data -> showNotice(data.pack.text(language, "\$i18n:ui.companion_switched", mapOf("name" to data.pack.text(language, world.companionDef?.name ?: "")))) }
         }
         return true
+    }
+
+    /** A wave of the defense came, or it ended (spec 18, "Gideon's Dungeon"): a notice. */
+    private fun defenseNotice(world: WorldSim, data: Assets) {
+        val notice = world.takeDefenseNotice()
+        if (notice.isNotEmpty()) showNotice(data.pack.text(language, notice, mapOf("wave" to world.defenseWave, "waves" to world.defenseWaves)))
+    }
+
+    /** The wave of the defense, under the clock, while one runs (spec 18, "Gideon's Dungeon"). */
+    private fun drawDefenseLine(world: WorldSim, data: Assets) {
+        if (!world.defenseActive) return
+        val density = Gdx.graphics.density
+        val line = data.pack.text(language, "\$i18n:ui.defense_hud", mapOf("wave" to world.defenseWave, "waves" to world.defenseWaves))
+        layout.setText(font, line)
+        hudText(line, Gdx.graphics.width - layout.width - 12f * density, 12f * density + 2f + font.lineHeight * 2.4f)
     }
 
     /** The button of the party (spec 10, "The party"), next to Stay and Come, when the party has another companion. */

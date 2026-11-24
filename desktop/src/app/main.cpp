@@ -1977,6 +1977,14 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
         outlined_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - text_columns(name) * 8.0F,
                       12.0F * density / 2.0F + 12.0F, name.c_str());
     }
+    if (sim.defense_active()) {  // the wave of the defense of Gideon's Dungeon (spec 18)
+        const std::string wave = assets.pack.text(ui.lang, "$i18n:ui.defense_hud",
+                                                  {{"wave", static_cast<std::int64_t>(sim.defense_wave())},
+                                                   {"waves", static_cast<std::int64_t>(sim.defense_waves())}});
+        SDL_SetRenderDrawColor(renderer, 255, 140, 140, 255);
+        outlined_text(renderer, (static_cast<float>(out_w) - 12.0F * density) / 2.0F - text_columns(wave) * 8.0F,
+                      12.0F * density / 2.0F + 24.0F, wave.c_str());
+    }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
@@ -5592,6 +5600,12 @@ int run_game(int argc, char** argv) {
                     }
                 }
 
+                if (const std::string notice = sim.take_defense_notice();
+                    !notice.empty()) {  // Gideon's Dungeon (spec 18)
+                    notify(ui, assets.pack.text(ui.lang, notice,
+                                                {{"wave", static_cast<std::int64_t>(sim.defense_wave())},
+                                                 {"waves", static_cast<std::int64_t>(sim.defense_waves())}}));
+                }
                 if (sim.chunks() != nullptr) {  // entering a region: its name, for a moment
                     const aether::WorldParams& world_params = sim.chunks()->params();
                     const int region =

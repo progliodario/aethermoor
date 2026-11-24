@@ -1835,6 +1835,7 @@
   "item.writing_desk.desc": "Place it in the study of the cottage. A page every evening on what you learned: 5% more experience from every victory.",
   "item.planter.name": "Planter",
   "item.planter.desc": "Place it in the greenhouse of the cottage. A cutting of everything you find: one more of everything you gather.",
+  "title.dungeon_lord": "Lord of the Dungeon",
   "home.room.workshop": "the workshop",
   "home.room.study": "the study",
   "home.room.greenhouse": "the greenhouse",
@@ -1842,5 +1843,9 @@
   "companion.hoot.name": "Hoot",
   "companion.sly.name": "Sly",
   "companion.cinder.name": "Cinder",
+  "enemy.adventurer_warrior.name": "Adventurer warrior",
+  "enemy.adventurer_archer.name": "Adventurer archer",
+  "enemy.adventurer_cleric.name": "Adventurer cleric",
+  "enemy.adventurer_knight.name": "Adventurer knight",
   "enemy.slime_sun.name": "Sun slime"
 }

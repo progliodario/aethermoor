@@ -78,7 +78,11 @@ Gear by level: L1: weapon 3, armor 2/1, L4: weapon 7, armor 4/2, L8: weapon 12, 
 | Drowned Captain | 18 | 12 | 3.0 s / 10% |
 | Cinder Colossus | 20 | 13 | 3.0 s / 10% |
 | Frost Sovereign | 20 | 13 | 3.0 s / 9% |
+| Adventurer archer | 22 | 4 | 1.0 s / 1% |
+| Adventurer cleric | 22 | 4 | 1.0 s / 1% |
+| Adventurer warrior | 22 | 6 | 1.3 s / 2% |
 | Vault Warden | 22 | 15 | 3.0 s / 10% |
+| Adventurer knight | 24 | 10 | 2.2 s / 3% |
 | The Third Floor | 24 | 16 | 2.9 s / 9% |
 | The Throne That Was | 24 | 16 | 2.9 s / 9% |
 | The Rain on the Road | 24 | 16 | 2.9 s / 9% |

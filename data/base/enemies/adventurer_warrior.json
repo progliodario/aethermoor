@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "base:enemy/adventurer_warrior",
+  "name": "$i18n:enemy.adventurer_warrior.name",
+  "level": 22,
+  "stats": {
+    "hp": 420,
+    "atk": 40,
+    "def": 22,
+    "mdef": 10,
+    "speed_x100": 210
+  },
+  "element": "none",
+  "sound": "knight",
+  "xp": 320,
+  "drops": [
+    {
+      "item": "base:item/iron_ore",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 600
+    },
+    {
+      "item": "base:item/rust_flake",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 400
+    }
+  ],
+  "radius_x100": 45,
+  "behavior": "base:behavior/adventurer",
+  "art": "base:art/creature/hollow_armor"
+}

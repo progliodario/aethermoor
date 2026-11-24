@@ -76,7 +76,8 @@
     { "id": "sanctum_marco", "name": "Sanctum of Steam", "stamp": "base:stamp/sanctum_marco", "kind": "dungeon", "dx": 384, "dy": -640 },
     { "id": "sanctum_yuki", "name": "Sanctum of Frames", "stamp": "base:stamp/sanctum_yuki", "kind": "dungeon", "dx": 384, "dy": 640 },
     { "id": "sanctum_lena", "name": "Sanctum of Silence", "stamp": "base:stamp/sanctum_lena", "kind": "dungeon", "dx": 640, "dy": -384 },
-    { "id": "sanctum_gideon", "name": "Sanctum of Ash", "stamp": "base:stamp/sanctum_gideon", "kind": "dungeon", "dx": 640, "dy": 384 }
+    { "id": "sanctum_gideon", "name": "Sanctum of Ash", "stamp": "base:stamp/sanctum_gideon", "kind": "dungeon", "dx": 640, "dy": 384 },
+    { "id": "gideon_dungeon", "name": "Gideon's Dungeon", "stamp": "base:stamp/gideon_dungeon", "kind": "dungeon", "dx": 896, "dy": 384 }
   ],
   "guild": {
     "offers_per_day": 4,
@@ -266,6 +267,7 @@
     { "key": "aldermere_vault_keeper_ilse", "dialogue": "base:dialogue/npc/ilse", "variant": "teal", "dx": 387, "dy": -129 },
     { "key": "aldermere_physician_finch", "dialogue": "base:dialogue/npc/finch", "variant": "cream", "dx": 383, "dy": -127 },
     { "key": "aldermere_baker_dorrit", "dialogue": "base:dialogue/npc/dorrit", "variant": "brown", "dx": 385, "dy": -127 },
-    { "key": "fenwick_carpenter_garrick", "dialogue": "base:dialogue/npc/garrick", "variant": "brown", "dx": 91, "dy": 45 }
+    { "key": "fenwick_carpenter_garrick", "dialogue": "base:dialogue/npc/garrick", "variant": "brown", "dx": 91, "dy": 45 },
+    { "key": "dungeon_steward_grubb", "dialogue": "base:dialogue/npc/grubb", "variant": "teal", "dx": 893, "dy": 365 }
   ]
 }

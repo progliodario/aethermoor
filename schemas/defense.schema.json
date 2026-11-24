@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aethermoor.invalid/schemas/defense.schema.json",
+  "title": "The defense of Gideon's Dungeon (spec 18): the core, the gate, the waves, the traps and the reward",
+  "type": "object",
+  "required": [
+    "id",
+    "core",
+    "gate",
+    "waves"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "point": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "a position in tiles from the centre of the world"
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*:defense/[a-z0-9_]+$"
+    },
+    "core": {
+      "$ref": "#/$defs/point"
+    },
+    "gate": {
+      "$ref": "#/$defs/point"
+    },
+    "core_radius_x100": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "wave_ticks": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "waves": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*:enemy/[a-z0-9_]+$"
+        }
+      }
+    },
+    "traps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "at",
+          "flag"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "spikes",
+              "tar"
+            ]
+          },
+          "at": {
+            "$ref": "#/$defs/point"
+          },
+          "radius_x100": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "flag": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          }
+        }
+      }
+    },
+    "spikes_pct": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "tar_ticks": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "reward": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gold": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "item",
+              "qty"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "item": {
+                "type": "string"
+              },
+              "qty": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        },
+        "counter": {
+          "type": "string",
+          "pattern": "^[a-z0-9_:]+$"
+        }
+      }
+    }
+  }
+}

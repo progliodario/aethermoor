@@ -2664,6 +2664,13 @@
               "variant": "brown",
               "dx": 91,
               "dy": 45
+            },
+            {
+              "key": "dungeon_steward_grubb",
+              "dialogue": "base:dialogue/npc/grubb",
+              "variant": "teal",
+              "dx": 893,
+              "dy": 365
             }
           ],
           "stamp_defs": {
@@ -7137,6 +7144,84 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/gideon_dungeon": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/gideon_dungeon",
+              "w": 15,
+              "h": 22,
+              "anchor": [
+                7,
+                21
+              ],
+              "rows": [
+                ".#############.",
+                ".#ccccc3ccccc#.",
+                ".#ccccccccccc#.",
+                ".#clccccccclc#.",
+                ".#ccccc2ccccc#.",
+                ".#ccccccccccc#.",
+                ".#####ccc#####.",
+                ".#ccccccccccc#.",
+                ".#clccccccclc#.",
+                ".#ccccc1ccccc#.",
+                ".#ccccccccccc#.",
+                ".#ccccc2ccccc#.",
+                ".#ccccccccccc#.",
+                ".#####ccc#####.",
+                ".#ccccccccccc#.",
+                ".#clccccccclc#.",
+                ".#ccccc1ccccc#.",
+                ".#ccccccccccc#.",
+                ".#ccccccccccc#.",
+                ".#ccccc4ccccc#.",
+                ".#####ccc#####.",
+                "......===......"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "1": {
+                  "tile": 14,
+                  "prop": "base:art/prop/trap_spikes",
+                  "radius_x100": 0
+                },
+                "2": {
+                  "tile": 14,
+                  "prop": "base:art/prop/trap_tar",
+                  "radius_x100": 0
+                },
+                "3": {
+                  "tile": 14,
+                  "prop": "base:art/prop/dungeon_core",
+                  "radius_x100": 45
+                },
+                "4": {
+                  "tile": 14
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": [
+                [
+                  6,
+                  21
+                ],
+                [
+                  8,
+                  21
+                ]
+              ]
             }
           }
         }
@@ -8080,6 +8165,11 @@
             "fenwick_carpenter_garrick",
             35712,
             21888
+          ],
+          [
+            "dungeon_steward_grubb",
+            241024,
+            103808
           ]
         ],
         "gid_histogram": {
@@ -10771,6 +10861,13 @@
               "variant": "brown",
               "dx": 91,
               "dy": 45
+            },
+            {
+              "key": "dungeon_steward_grubb",
+              "dialogue": "base:dialogue/npc/grubb",
+              "variant": "teal",
+              "dx": 893,
+              "dy": 365
             }
           ],
           "stamp_defs": {
@@ -15244,6 +15341,84 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/gideon_dungeon": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/gideon_dungeon",
+              "w": 15,
+              "h": 22,
+              "anchor": [
+                7,
+                21
+              ],
+              "rows": [
+                ".#############.",
+                ".#ccccc3ccccc#.",
+                ".#ccccccccccc#.",
+                ".#clccccccclc#.",
+                ".#ccccc2ccccc#.",
+                ".#ccccccccccc#.",
+                ".#####ccc#####.",
+                ".#ccccccccccc#.",
+                ".#clccccccclc#.",
+                ".#ccccc1ccccc#.",
+                ".#ccccccccccc#.",
+                ".#ccccc2ccccc#.",
+                ".#ccccccccccc#.",
+                ".#####ccc#####.",
+                ".#ccccccccccc#.",
+                ".#clccccccclc#.",
+                ".#ccccc1ccccc#.",
+                ".#ccccccccccc#.",
+                ".#ccccccccccc#.",
+                ".#ccccc4ccccc#.",
+                ".#####ccc#####.",
+                "......===......"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "1": {
+                  "tile": 14,
+                  "prop": "base:art/prop/trap_spikes",
+                  "radius_x100": 0
+                },
+                "2": {
+                  "tile": 14,
+                  "prop": "base:art/prop/trap_tar",
+                  "radius_x100": 0
+                },
+                "3": {
+                  "tile": 14,
+                  "prop": "base:art/prop/dungeon_core",
+                  "radius_x100": 45
+                },
+                "4": {
+                  "tile": 14
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": [
+                [
+                  6,
+                  21
+                ],
+                [
+                  8,
+                  21
+                ]
+              ]
             }
           }
         }
@@ -16183,6 +16358,11 @@
             "fenwick_carpenter_garrick",
             33664,
             20864
+          ],
+          [
+            "dungeon_steward_grubb",
+            238976,
+            102784
           ]
         ],
         "gid_histogram": {
@@ -18874,6 +19054,13 @@
               "variant": "brown",
               "dx": 91,
               "dy": 45
+            },
+            {
+              "key": "dungeon_steward_grubb",
+              "dialogue": "base:dialogue/npc/grubb",
+              "variant": "teal",
+              "dx": 893,
+              "dy": 365
             }
           ],
           "stamp_defs": {
@@ -23347,6 +23534,84 @@
                 }
               },
               "spots": []
+            },
+            "base:stamp/gideon_dungeon": {
+              "$schema": "../../../schemas/stamp.schema.json",
+              "id": "base:stamp/gideon_dungeon",
+              "w": 15,
+              "h": 22,
+              "anchor": [
+                7,
+                21
+              ],
+              "rows": [
+                ".#############.",
+                ".#ccccc3ccccc#.",
+                ".#ccccccccccc#.",
+                ".#clccccccclc#.",
+                ".#ccccc2ccccc#.",
+                ".#ccccccccccc#.",
+                ".#####ccc#####.",
+                ".#ccccccccccc#.",
+                ".#clccccccclc#.",
+                ".#ccccc1ccccc#.",
+                ".#ccccccccccc#.",
+                ".#ccccc2ccccc#.",
+                ".#ccccccccccc#.",
+                ".#####ccc#####.",
+                ".#ccccccccccc#.",
+                ".#clccccccclc#.",
+                ".#ccccc1ccccc#.",
+                ".#ccccccccccc#.",
+                ".#ccccccccccc#.",
+                ".#ccccc4ccccc#.",
+                ".#####ccc#####.",
+                "......===......"
+              ],
+              "legend": {
+                "#": {
+                  "tile": 5
+                },
+                "1": {
+                  "tile": 14,
+                  "prop": "base:art/prop/trap_spikes",
+                  "radius_x100": 0
+                },
+                "2": {
+                  "tile": 14,
+                  "prop": "base:art/prop/trap_tar",
+                  "radius_x100": 0
+                },
+                "3": {
+                  "tile": 14,
+                  "prop": "base:art/prop/dungeon_core",
+                  "radius_x100": 45
+                },
+                "4": {
+                  "tile": 14
+                },
+                "=": {
+                  "tile": 11
+                },
+                "c": {
+                  "tile": 14
+                },
+                "l": {
+                  "tile": 14,
+                  "prop": "base:art/prop/lamp",
+                  "radius_x100": 15
+                }
+              },
+              "spots": [
+                [
+                  6,
+                  21
+                ],
+                [
+                  8,
+                  21
+                ]
+              ]
             }
           }
         }
@@ -24298,6 +24563,11 @@
             "fenwick_carpenter_garrick",
             34688,
             23936
+          ],
+          [
+            "dungeon_steward_grubb",
+            240000,
+            105856
           ]
         ],
         "gid_histogram": {

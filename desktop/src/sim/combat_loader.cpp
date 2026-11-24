@@ -86,6 +86,42 @@ std::optional<EnemyDef> load_enemy_impl(const Pack& pack, const std::string& id,
     }
 }
 
+// The defense document (spec 18, "Gideon's Dungeon"), without its creatures; nullopt when it is not one.
+std::optional<DefenseDef> parse_defense(const std::string& text) {
+    const Json d = Json::parse(text, nullptr, /*allow_exceptions=*/false);
+    if (d.is_discarded() || !d.contains("waves")) {
+        return std::nullopt;
+    }
+    DefenseDef def;
+    def.core_x = d.at("core").at(0).get<float>();
+    def.core_y = d.at("core").at(1).get<float>();
+    def.gate_x = d.at("gate").at(0).get<float>();
+    def.gate_y = d.at("gate").at(1).get<float>();
+    def.core_radius_x100 = d.value("core_radius_x100", 120);
+    def.wave_ticks = d.value("wave_ticks", 3600);
+    for (const Json& wave : d.at("waves")) {
+        def.waves.push_back(wave.get<std::vector<std::string>>());
+    }
+    for (const Json& t : d.value("traps", Json::array())) {
+        DefenseTrap trap;
+        trap.kind = t.at("kind").get<std::string>();
+        trap.x = t.at("at").at(0).get<float>();
+        trap.y = t.at("at").at(1).get<float>();
+        trap.radius_x100 = t.value("radius_x100", 50);
+        trap.flag = t.at("flag").get<std::string>();
+        def.traps.push_back(std::move(trap));
+    }
+    def.spikes_pct = d.value("spikes_pct", 20);
+    def.tar_ticks = d.value("tar_ticks", 180);
+    const Json reward = d.value("reward", Json::object());
+    def.reward_gold = reward.value("gold", static_cast<std::int64_t>(0));
+    for (const Json& item : reward.value("items", Json::array())) {
+        def.reward_items.emplace_back(item.at("item").get<std::string>(), item.at("qty").get<std::int64_t>());
+    }
+    def.reward_counter = reward.value("counter", "");
+    return def;
+}
+
 // A companion document (spec 10); nullopt when it is not one.
 std::optional<CompanionDef> parse_companion(const std::string& id, const std::string& text) {
     const Json c = Json::parse(text, nullptr, /*allow_exceptions=*/false);
@@ -150,6 +186,20 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
     setup.gift.tame_bond = protagonist->tame_bond;
     setup.gift.pocket_keep_pm = protagonist->pocket_keep_pm;
     setup.gift.friend_atk_pct = protagonist->friend_atk_pct;
+    if (const auto text = pack.read_document("base:defense/dungeon")) {  // Gideon's Dungeon (spec 18)
+        if (auto defense = parse_defense(*text)) {
+            for (const auto& wave : defense->waves) {
+                for (const std::string& id : wave) {
+                    if (defense->enemies.find(id) == defense->enemies.end()) {
+                        if (auto enemy = load_enemy_def(pack, id, error)) {
+                            defense->enemies.emplace(id, std::move(*enemy));
+                        }
+                    }
+                }
+            }
+            setup.defense = std::move(*defense);
+        }
+    }
     for (const auto& [id, path] : pack.document_paths) {  // every companion: those that may join the party (spec 10)
         if (path.rfind("companions/", 0) == 0) {
             if (const auto text = pack.read_document(id)) {

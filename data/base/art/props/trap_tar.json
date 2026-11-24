@@ -1,0 +1,110 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/trap_tar",
+  "canvas": {
+    "w": 36,
+    "h": 22,
+    "origin": [
+      18,
+      12
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          12,
+          15,
+          7
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 991,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#0E0A0C"
+            ],
+            [
+              0.6,
+              "$p.tar"
+            ],
+            [
+              0.85,
+              "#2C2228"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      },
+      "alpha": 0.92
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12,
+          10,
+          1.6,
+          1.12
+        ]
+      },
+      "stroke": {
+        "color": "$p.shine",
+        "width": 0.4
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          21,
+          13,
+          1.2,
+          0.84
+        ]
+      },
+      "stroke": {
+        "color": "$p.shine",
+        "width": 0.4
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25,
+          10.5,
+          0.9,
+          0.63
+        ]
+      },
+      "stroke": {
+        "color": "$p.shine",
+        "width": 0.4
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "path": "M 10.00 9.50 C 10.00 8.62 12.24 7.90 15.00 7.90 C 17.76 7.90 20.00 8.62 20.00 9.50 C 20.00 10.38 17.76 11.10 15.00 11.10 C 12.24 11.10 10.00 10.38 10.00 9.50 Z"
+      },
+      "fill": {
+        "color": "#8A7A88"
+      },
+      "alpha": 0.3,
+      "clip": true,
+      "blend": "add"
+    }
+  ],
+  "palette": {
+    "tar": "#1A1418",
+    "shine": "#5A4A58"
+  }
+}

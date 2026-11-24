@@ -107,6 +107,7 @@ class CollisionWorld(
                 }
             }
             fun pushOut(cx: Float, cy: Float, radius: Float) {
+                if (radius <= 0f) return // a prop of radius 0 is a mark on the ground (a trap): it blocks nothing (spec 02)
                 val dx = x - cx
                 val dy = y - cy
                 val d2 = dx * dx + dy * dy

@@ -55,7 +55,8 @@ struct Effect {
         AddGuildPoints,
         OpenBoard,
         Temper,  // the smith tempers a worn piece for `n` gold, paid only when it is done (spec 06, "Tempering")
-        RecruitCompanion  // the companion `a` joins the party (spec 10, "The party")
+        RecruitCompanion,  // the companion `a` joins the party (spec 10, "The party")
+        StartDefense       // the defense of Gideon's Dungeon starts (spec 18)
     };
     Kind kind = Kind::AddXp;
     std::string a;       // item / flag / quest
@@ -208,6 +209,8 @@ public:
     virtual bool temper_worn() { return false; }
     // A companion joins the party (spec 10, "The party"); false, changing nothing, when it is unknown or already in it.
     virtual bool recruit_companion(const std::string& /*id*/) { return false; }
+    // The defense of Gideon's Dungeon starts (spec 18); false while one runs, or without one.
+    virtual bool start_defense() { return false; }
 };
 
 class Story {

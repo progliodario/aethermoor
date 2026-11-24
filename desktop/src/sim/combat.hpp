@@ -282,6 +282,34 @@ struct TalentDef {
     int active_radius_x100 = 0;  // burst: how far it reaches
 };
 
+// Gideon's Dungeon (spec 18): a trap of the defense, armed by a story flag.
+struct DefenseTrap {
+    std::string kind;  // "spikes" or "tar"
+    float x = 0.0F;
+    float y = 0.0F;
+    int radius_x100 = 50;
+    std::string flag;
+};
+
+// Gideon's Dungeon (spec 18): the core, the gate and the waves of the defense (positions from the centre of the world
+// in a streamed world, as they are in a scenario), its traps and its reward.
+struct DefenseDef {
+    float core_x = 0.0F;
+    float core_y = 0.0F;
+    float gate_x = 0.0F;
+    float gate_y = 0.0F;
+    int core_radius_x100 = 120;
+    int wave_ticks = 3600;
+    std::vector<std::vector<std::string>> waves;
+    std::map<std::string, EnemyDef> enemies;
+    std::vector<DefenseTrap> traps;
+    int spikes_pct = 20;
+    int tar_ticks = 180;
+    std::int64_t reward_gold = 0;
+    std::vector<std::pair<std::string, std::int64_t>> reward_items;
+    std::string reward_counter;
+};
+
 struct CombatSetup {
     bool enabled = false;
     std::vector<TalentDef> talents;  // the talents that can be learned, in the order of the data
@@ -339,9 +367,10 @@ struct CombatSetup {
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data
     std::optional<CompanionDef> companion;           // the companion of the protagonist (spec 10)
     std::map<std::string, CompanionDef>
-        companions;                // every companion of the pack, by ID: those that may join the party
-    std::vector<TitleDef> titles;  // the titles that can be earned (spec 11), in order of rank
-    std::vector<TitleDef> tags;    // the tags (spec 11, "Tags"): earned like titles, one worn at a time; in data order
+        companions;                     // every companion of the pack, by ID: those that may join the party
+    std::optional<DefenseDef> defense;  // Gideon's Dungeon (spec 18)
+    std::vector<TitleDef> titles;       // the titles that can be earned (spec 11), in order of rank
+    std::vector<TitleDef> tags;  // the tags (spec 11, "Tags"): earned like titles, one worn at a time; in data order
     int day_ticks = 0;   // the length of a day of a world without a clock, for the market (spec 06); 0: always day 1
     std::string region;  // the region of a world without regions: the renown is counted by region (spec 07, "Renown")
     std::string season;  // the season of a world without a clock (spec 06, "Seasons on the plots"); empty: none

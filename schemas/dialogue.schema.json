@@ -368,6 +368,19 @@
               "pattern": "^[a-z][a-z0-9_]*:companion/[a-z0-9_]+$"
             }
           }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect"
+          ],
+          "additionalProperties": false,
+          "description": "the defense of Gideon's Dungeon starts (spec 18)",
+          "properties": {
+            "effect": {
+              "const": "start_defense"
+            }
+          }
         }
       ]
     },

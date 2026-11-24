@@ -59,6 +59,7 @@ TITLES = {
     "runesmith": ("engraved", 3, None, "Runesmith", "Incisore di rune"),
     "homemaker": ("furnished", 6, None, "Homemaker", "Padrone di casa"),
     "temperer": ("tempered", 5, None, "Temperer", "Temprista"),  # spec 06, "Tempering"
+    "dungeon_lord": ("defenses_won", 1, None, "Lord of the Dungeon", "Signore del Dungeon"),  # spec 18, "Gideon's Dungeon"
     # the creatures of one season (spec 09, "Seasonal visitors")
     "snowbound": ("kills_of", 10, "slime_snow", "Snowbound", "Figlio della neve"),
     "sunkissed": ("kills_of", 10, "slime_sun", "Sunkissed", "Baciato dal sole"),
@@ -75,7 +76,7 @@ PERKS = {"forager": {"gather_bonus": 1}, "artisan": {"craft_bonus": 1, "fine_pm"
          "harvest_lord": {"gather_bonus": 1}, "gourmet": {"xp_pct": 5}, "duelist": {"parry_bonus": 8}, "slayer_of_hundreds": {"xp_pct": 10}, "homemaker": {"xp_pct": 5}, "runesmith": {"fine_pm": 50},
          "pest_control": {"xp_pct": 10}, "boar_hunter": {"gather_bonus": 1}, "elk_stalker": {"xp_pct": 10},
          "seasoned_forager": {"gather_bonus": 1}, "master_artisan": {"craft_bonus": 1, "fine_pm": 150}, "great_hunter": {"xp_pct": 15}, "veteran": {"xp_pct": 15}, "legend": {"xp_pct": 25}}
-ATTACK_PCT = {"keeper_of_legends": 6, "newcomer": 2, "veteran": 5, "great_hunter": 6, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10, "duelist": 4, "slayer_of_hundreds": 6, "runesmith": 5}
+ATTACK_PCT = {"dungeon_lord": 5, "keeper_of_legends": 6, "newcomer": 2, "veteran": 5, "great_hunter": 6, "gel_slayer": 5, "hero": 8, "chronicler": 8, "legend": 10, "duelist": 4, "slayer_of_hundreds": 6, "runesmith": 5}
 
 
 def add_texts(lang: str, entries: dict[str, str]) -> None:

@@ -1,0 +1,100 @@
+{
+  "$schema": "../../schemas/defense.schema.json",
+  "id": "base:defense/dungeon",
+  "core": [
+    896.5,
+    364.5
+  ],
+  "gate": [
+    896.5,
+    382.5
+  ],
+  "core_radius_x100": 120,
+  "wave_ticks": 3600,
+  "waves": [
+    [
+      "base:enemy/adventurer_warrior",
+      "base:enemy/adventurer_warrior"
+    ],
+    [
+      "base:enemy/adventurer_warrior",
+      "base:enemy/adventurer_archer",
+      "base:enemy/adventurer_warrior"
+    ],
+    [
+      "base:enemy/adventurer_warrior",
+      "base:enemy/adventurer_warrior",
+      "base:enemy/adventurer_archer",
+      "base:enemy/adventurer_cleric"
+    ],
+    [
+      "base:enemy/adventurer_warrior",
+      "base:enemy/adventurer_warrior",
+      "base:enemy/adventurer_archer",
+      "base:enemy/adventurer_archer",
+      "base:enemy/adventurer_cleric"
+    ],
+    [
+      "base:enemy/adventurer_knight",
+      "base:enemy/adventurer_warrior",
+      "base:enemy/adventurer_warrior",
+      "base:enemy/adventurer_archer",
+      "base:enemy/adventurer_archer",
+      "base:enemy/adventurer_cleric"
+    ]
+  ],
+  "traps": [
+    {
+      "kind": "spikes",
+      "at": [
+        896.5,
+        372.5
+      ],
+      "radius_x100": 60,
+      "flag": "dungeon_spikes"
+    },
+    {
+      "kind": "spikes",
+      "at": [
+        896.5,
+        379.5
+      ],
+      "radius_x100": 60,
+      "flag": "dungeon_spikes"
+    },
+    {
+      "kind": "tar",
+      "at": [
+        896.5,
+        367.5
+      ],
+      "radius_x100": 60,
+      "flag": "dungeon_tar"
+    },
+    {
+      "kind": "tar",
+      "at": [
+        896.5,
+        374.5
+      ],
+      "radius_x100": 60,
+      "flag": "dungeon_tar"
+    }
+  ],
+  "spikes_pct": 20,
+  "tar_ticks": 180,
+  "reward": {
+    "gold": 500,
+    "items": [
+      {
+        "item": "base:item/ember_core",
+        "qty": 2
+      },
+      {
+        "item": "base:item/iron_ore",
+        "qty": 5
+      }
+    ],
+    "counter": "defenses_won"
+  }
+}

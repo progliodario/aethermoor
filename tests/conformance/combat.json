@@ -31843,6 +31843,2096 @@
       }
     },
     {
+      "name": "combat_defense_lost",
+      "input": {
+        "op": "combat",
+        "story": {
+          "quests": {},
+          "dialogues": {
+            "test:dialogue/imp": {
+              "id": "test:dialogue/imp",
+              "start": "menu",
+              "nodes": {
+                "menu": {
+                  "type": "choice",
+                  "choices": [
+                    {
+                      "text": "t.spikes",
+                      "next": "spikes"
+                    },
+                    {
+                      "text": "t.tar",
+                      "next": "tar"
+                    },
+                    {
+                      "text": "t.start",
+                      "next": "start"
+                    }
+                  ]
+                },
+                "spikes": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "set_flag",
+                      "flag": "dungeon_spikes",
+                      "value": true
+                    }
+                  ],
+                  "next": "end"
+                },
+                "tar": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "set_flag",
+                      "flag": "dungeon_tar",
+                      "value": true
+                    }
+                  ],
+                  "next": "end"
+                },
+                "start": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "start_defense"
+                    }
+                  ],
+                  "next": "end"
+                }
+              }
+            }
+          },
+          "npcs": [
+            {
+              "key": "imp",
+              "pos": [
+                2.5,
+                13.3
+              ],
+              "dialogue": "test:dialogue/imp"
+            }
+          ]
+        },
+        "titles": [
+          {
+            "id": "lord",
+            "name": "t",
+            "kind": "defenses_won",
+            "count": 1,
+            "atk_pct": 5
+          }
+        ],
+        "start_gold": 10,
+        "defense": {
+          "core": [
+            7.5,
+            3.5
+          ],
+          "gate": [
+            7.5,
+            20.5
+          ],
+          "core_radius_x100": 120,
+          "wave_ticks": 300,
+          "waves": [
+            [
+              "test:enemy/warrior",
+              "test:enemy/warrior"
+            ],
+            [
+              "test:enemy/warrior"
+            ]
+          ],
+          "enemies": {
+            "test:enemy/warrior": {
+              "hp": 30,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 200,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 250,
+                "leash_x100": 500,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "test:enemy/warrior"
+            },
+            "test:enemy/knight": {
+              "hp": 60,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 150,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 250,
+                "leash_x100": 500,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "test:enemy/knight"
+            }
+          },
+          "traps": [
+            {
+              "kind": "spikes",
+              "at": [
+                7.5,
+                15.5
+              ],
+              "radius_x100": 50,
+              "flag": "dungeon_spikes"
+            },
+            {
+              "kind": "tar",
+              "at": [
+                7.5,
+                10.5
+              ],
+              "radius_x100": 50,
+              "flag": "dungeon_tar"
+            }
+          ],
+          "spikes_pct": 20,
+          "tar_ticks": 180,
+          "reward": {
+            "gold": 100,
+            "items": [
+              {
+                "item": "base:item/slime_gel",
+                "qty": 2
+              }
+            ],
+            "counter": "defenses_won"
+          }
+        },
+        "grid": [
+          "###############",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "###############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.5,
+            12.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              12.5,
+              22.0
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 1
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 2
+              }
+            ]
+          },
+          {
+            "ticks": 150,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 150,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 150,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 300,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 0,
+              "clock": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {},
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "t.spikes",
+                  "t.tar",
+                  "t.start"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 0,
+              "clock": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {
+                "dungeon_spikes": true
+              },
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 0,
+              "clock": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {
+                "dungeon_spikes": true
+              },
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "t.spikes",
+                  "t.tar",
+                  "t.start"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 0,
+              "clock": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {
+                "dungeon_spikes": true,
+                "dungeon_tar": true
+              },
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 0,
+              "clock": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {
+                "dungeon_spikes": true,
+                "dungeon_tar": true
+              },
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "t.spikes",
+                  "t.tar",
+                  "t.start"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 30,
+                "state": "idle",
+                "x": 7.100784096704532,
+                "y": 20.466675890057363
+              },
+              {
+                "hp": 30,
+                "state": "idle",
+                "x": 7.899215903295468,
+                "y": 20.466675890057363
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 1,
+              "clock": 1
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {
+                "dungeon_spikes": true,
+                "dungeon_tar": true
+              },
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 24,
+                "state": "idle",
+                "x": 7.218398602384441,
+                "y": 15.468059398661833
+              },
+              {
+                "hp": 24,
+                "state": "idle",
+                "x": 7.781601397615559,
+                "y": 15.468059398661833
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 1,
+              "clock": 151
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {
+                "dungeon_spikes": true,
+                "dungeon_tar": true
+              },
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 24,
+                "state": "idle",
+                "x": 7.330524431132614,
+                "y": 10.702711676864546
+              },
+              {
+                "hp": 24,
+                "state": "idle",
+                "x": 7.669475568867386,
+                "y": 10.702711676864546
+              },
+              {
+                "hp": 30,
+                "state": "idle",
+                "x": 7.5,
+                "y": 20.466666666666665
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 2,
+              "clock": 1
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {
+                "dungeon_spikes": true,
+                "dungeon_tar": true
+              },
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 24,
+                "state": "idle",
+                "x": 7.3893316839725385,
+                "y": 8.203403431166794
+              },
+              {
+                "hp": 24,
+                "state": "idle",
+                "x": 7.6106683160274615,
+                "y": 8.203403431166794
+              },
+              {
+                "hp": 24,
+                "state": "idle",
+                "x": 7.5,
+                "y": 15.466666666666447
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 2,
+              "clock": 151
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {
+                "dungeon_spikes": true,
+                "dungeon_tar": true
+              },
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.472445934653007,
+                "y": 4.671047777247129
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.527554065346993,
+                "y": 4.671047777247129
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.5,
+                "y": 10.883333333333123
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 2,
+              "clock": 291
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {
+                "dungeon_spikes": true,
+                "dungeon_tar": true
+              },
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.5,
+              "y": 12.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.472445934653007,
+                "y": 4.671047777247129
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.527554065346993,
+                "y": 4.671047777247129
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.5,
+                "y": 10.883333333333123
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 2,
+              "clock": 291
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {
+                "dungeon_spikes": true,
+                "dungeon_tar": true
+              },
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
+      "name": "combat_defense_won",
+      "input": {
+        "op": "combat",
+        "story": {
+          "quests": {},
+          "dialogues": {
+            "test:dialogue/imp": {
+              "id": "test:dialogue/imp",
+              "start": "menu",
+              "nodes": {
+                "menu": {
+                  "type": "choice",
+                  "choices": [
+                    {
+                      "text": "t.spikes",
+                      "next": "spikes"
+                    },
+                    {
+                      "text": "t.tar",
+                      "next": "tar"
+                    },
+                    {
+                      "text": "t.start",
+                      "next": "start"
+                    }
+                  ]
+                },
+                "spikes": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "set_flag",
+                      "flag": "dungeon_spikes",
+                      "value": true
+                    }
+                  ],
+                  "next": "end"
+                },
+                "tar": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "set_flag",
+                      "flag": "dungeon_tar",
+                      "value": true
+                    }
+                  ],
+                  "next": "end"
+                },
+                "start": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "start_defense"
+                    }
+                  ],
+                  "next": "end"
+                }
+              }
+            }
+          },
+          "npcs": [
+            {
+              "key": "imp",
+              "pos": [
+                8.3,
+                8.5
+              ],
+              "dialogue": "test:dialogue/imp"
+            }
+          ]
+        },
+        "titles": [
+          {
+            "id": "lord",
+            "name": "t",
+            "kind": "defenses_won",
+            "count": 1,
+            "atk_pct": 5
+          }
+        ],
+        "start_gold": 10,
+        "defense": {
+          "core": [
+            7.5,
+            3.5
+          ],
+          "gate": [
+            7.5,
+            20.5
+          ],
+          "core_radius_x100": 120,
+          "wave_ticks": 400,
+          "waves": [
+            [
+              "test:enemy/warrior",
+              "test:enemy/warrior"
+            ],
+            [
+              "test:enemy/warrior"
+            ],
+            [
+              "test:enemy/knight"
+            ]
+          ],
+          "enemies": {
+            "test:enemy/warrior": {
+              "hp": 12,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 200,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 250,
+                "leash_x100": 500,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "test:enemy/warrior"
+            },
+            "test:enemy/knight": {
+              "hp": 24,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 150,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 250,
+                "leash_x100": 500,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              },
+              "id": "test:enemy/knight"
+            }
+          },
+          "traps": [
+            {
+              "kind": "spikes",
+              "at": [
+                7.5,
+                15.5
+              ],
+              "radius_x100": 50,
+              "flag": "dungeon_spikes"
+            },
+            {
+              "kind": "tar",
+              "at": [
+                7.5,
+                10.5
+              ],
+              "radius_x100": 50,
+              "flag": "dungeon_tar"
+            }
+          ],
+          "spikes_pct": 20,
+          "tar_ticks": 180,
+          "reward": {
+            "gold": 100,
+            "items": [
+              {
+                "item": "base:item/slime_gel",
+                "qty": 2
+              }
+            ],
+            "counter": "defenses_won"
+          }
+        },
+        "grid": [
+          "###############",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "#.............#",
+          "###############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            7.5,
+            8.5
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              12.5,
+              22.0
+            ],
+            "def": {
+              "hp": 28,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 2
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 2
+              }
+            ]
+          },
+          {
+            "ticks": 2,
+            "move": [
+              0,
+              1
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 300,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 300,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 300,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 300,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 300,
+            "move": [
+              0,
+              0
+            ],
+            "attack": true
+          },
+          {
+            "ticks": 60,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 0,
+              "clock": 0
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {},
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "t.spikes",
+                  "t.tar",
+                  "t.start"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 12,
+                "state": "idle",
+                "x": 7.100784096704532,
+                "y": 20.466675890057363
+              },
+              {
+                "hp": 12,
+                "state": "idle",
+                "x": 7.899215903295468,
+                "y": 20.466675890057363
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 1,
+              "clock": 1
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {},
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 12,
+                "state": "idle",
+                "x": 7.101568193409065,
+                "y": 20.433351780114727
+              },
+              {
+                "hp": 12,
+                "state": "idle",
+                "x": 7.898431806590935,
+                "y": 20.433351780114727
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 1,
+              "clock": 2
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {},
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "t.spikes",
+                  "t.tar",
+                  "t.start"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.5
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 12,
+                "state": "idle",
+                "x": 7.102352290113598,
+                "y": 20.40002767017209
+              },
+              {
+                "hp": 12,
+                "state": "idle",
+                "x": 7.897647709886402,
+                "y": 20.40002767017209
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 1,
+              "clock": 3
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {},
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.635333333333332
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 12,
+                "state": "idle",
+                "x": 7.103920483522663,
+                "y": 20.333379450286817
+              },
+              {
+                "hp": 12,
+                "state": "idle",
+                "x": 7.896079516477337,
+                "y": 20.333379450286817
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 1,
+              "clock": 5
+            },
+            "bestiary": {},
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {},
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 12,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.635333333333332
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.359682393338515,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.640317606661485,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 12,
+                "state": "idle",
+                "x": 7.5,
+                "y": 20.333333333333325
+              }
+            ],
+            "kills": 2,
+            "inventory": {
+              "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 2,
+              "clock": 5
+            },
+            "bestiary": {
+              "test:enemy/warrior": 2
+            },
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {},
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 12,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.635333333333332
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.359682393338515,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.640317606661485,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 12,
+                "state": "chase",
+                "x": 7.5,
+                "y": 10.366666666666465
+              }
+            ],
+            "kills": 2,
+            "inventory": {
+              "base:item/slime_gel": 3
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 2,
+              "clock": 305
+            },
+            "bestiary": {
+              "test:enemy/warrior": 2
+            },
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {},
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 18,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.635333333333332
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.359682393338515,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.640317606661485,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.5,
+                "y": 10.166666666666465
+              },
+              {
+                "hp": 24,
+                "state": "idle",
+                "x": 7.5,
+                "y": 13.175000000000216
+              }
+            ],
+            "kills": 3,
+            "inventory": {
+              "base:item/slime_gel": 4
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": true,
+              "wave": 3,
+              "clock": 293
+            },
+            "bestiary": {
+              "test:enemy/warrior": 3
+            },
+            "titles": [],
+            "counters": {},
+            "story": {
+              "flags": {},
+              "gold": 10,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 24,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.635333333333332
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.359682393338515,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.640317606661485,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.5,
+                "y": 10.166666666666465
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.5,
+                "y": 10.350000000000176
+              }
+            ],
+            "kills": 4,
+            "inventory": {
+              "base:item/slime_gel": 6
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 3,
+              "clock": 408
+            },
+            "bestiary": {
+              "test:enemy/knight": 1,
+              "test:enemy/warrior": 3
+            },
+            "titles": [
+              "lord"
+            ],
+            "counters": {
+              "defenses_won": 1
+            },
+            "story": {
+              "flags": {},
+              "gold": 110,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 24,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.635333333333332
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.359682393338515,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.640317606661485,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.5,
+                "y": 10.166666666666465
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.5,
+                "y": 10.350000000000176
+              }
+            ],
+            "kills": 4,
+            "inventory": {
+              "base:item/slime_gel": 6
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 3,
+              "clock": 408
+            },
+            "bestiary": {
+              "test:enemy/knight": 1,
+              "test:enemy/warrior": 3
+            },
+            "titles": [
+              "lord"
+            ],
+            "counters": {
+              "defenses_won": 1
+            },
+            "story": {
+              "flags": {},
+              "gold": 110,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 24,
+              "deaths": 0,
+              "x": 7.5,
+              "y": 8.635333333333332
+            },
+            "enemies": [
+              {
+                "hp": 28,
+                "state": "idle",
+                "x": 12.5,
+                "y": 22.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.359682393338515,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.640317606661485,
+                "y": 10.570663949624477
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.5,
+                "y": 10.166666666666465
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 7.5,
+                "y": 10.350000000000176
+              }
+            ],
+            "kills": 4,
+            "inventory": {
+              "base:item/slime_gel": 6
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "defense": {
+              "active": false,
+              "wave": 3,
+              "clock": 408
+            },
+            "bestiary": {
+              "test:enemy/knight": 1,
+              "test:enemy/warrior": 3
+            },
+            "titles": [
+              "lord"
+            ],
+            "counters": {
+              "defenses_won": 1
+            },
+            "story": {
+              "flags": {},
+              "gold": 110,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
       "name": "combat_party_of_companions",
       "input": {
         "op": "combat",
