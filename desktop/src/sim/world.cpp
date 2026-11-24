@@ -2547,11 +2547,11 @@ bool WorldSim::start_defense() {
     }
     m_defense_active_ = true;
     m_defense_wave_ = 0;
-    defense_wave();
+    spawn_defense_wave();
     return true;
 }
 
-void WorldSim::defense_wave() {
+void WorldSim::spawn_defense_wave() {
     const DefenseDef& d = *m_setup_.defense;
     const std::vector<std::string>& ids = d.waves[static_cast<std::size_t>(m_defense_wave_)];
     ++m_defense_wave_;
@@ -2633,7 +2633,7 @@ void WorldSim::update_defense() {
                                    [](const Enemy& e) { return e.defense && e.state != EnemyState::Dead; });
     if (!alive || m_defense_clock_ >= d.wave_ticks) {
         if (m_defense_wave_ < static_cast<int>(d.waves.size())) {
-            defense_wave();
+            spawn_defense_wave();
         } else if (!alive) {  // won
             m_defense_active_ = false;
             m_story_.set_gold(m_story_.gold() + d.reward_gold);

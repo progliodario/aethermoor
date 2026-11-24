@@ -550,7 +550,7 @@ private:
     int m_defense_wave_ = 0;
     int m_defense_clock_ = 0;
     std::string m_defense_notice_;
-    void defense_wave();
+    void spawn_defense_wave();
     void update_defense();
     void defense_traps();
     int m_companion_cooldown_ = 0;
