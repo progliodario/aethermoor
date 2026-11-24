@@ -94,7 +94,28 @@ FURNITURE = {
                       "Stone lantern", "Lanterna di pietra",
                       "Place it in the garden of the cottage. Calm light for careful work: 5% more fine work, and a steadier parry.",
                       "Posala nel giardino del cottage. Luce calma per un lavoro attento: il 5% in più di opere pregiate, e una parata più salda."),
+    # the rooms of the annex (spec 06, "Rooms"): one piece made for each
+    "grindstone": ("grindstone", {"atk_pct": 5}, 220, {"stone_chunk": 4, "wood_log": 2, "iron_ore": 1},
+                   "Grindstone", "Mola",
+                   "Place it in the workshop of the cottage. Every blade sharpened at dawn: your hits are 5% stronger.",
+                   "Posala nel laboratorio del cottage. Ogni lama affilata all'alba: i tuoi colpi sono più forti del 5%."),
+    "writing_desk": ("writing_desk", {"xp_pct": 5}, 220, {"wood_log": 5, "pine_resin": 1, "wildflowers": 1},
+                     "Writing desk", "Scrittoio",
+                     "Place it in the study of the cottage. A page every evening on what you learned: 5% more experience from every victory.",
+                     "Posalo nello studio del cottage. Una pagina ogni sera su ciò che hai imparato: il 5% di esperienza in più da ogni vittoria."),
+    "planter": ("planter", {"gather_bonus": 1}, 200, {"stone_chunk": 3, "wood_log": 2, "wildflowers": 2},
+                "Planter", "Fioriera",
+                "Place it in the greenhouse of the cottage. A cutting of everything you find: one more of everything you gather.",
+                "Posala nella serra del cottage. Una talea di tutto ciò che trovi: uno in più di tutto ciò che raccogli."),
 }
+
+# The rooms of the annex of the cottage (spec 06, "Rooms"): id, the price that Garrick the carpenter asks (gold and items, tools/make_rooms.py),
+# and the name in en and it. Each has the flag `room_<id>` and its own rug, `base:art/prop/room_spot_<id>`.
+ROOMS = [
+    ("workshop", 600, {"wood_log": 12, "iron_ore": 6}, "the workshop", "il laboratorio"),
+    ("study", 900, {"wood_log": 10, "pine_resin": 4}, "the study", "lo studio"),
+    ("greenhouse", 1200, {"stone_chunk": 10, "wildflowers": 8}, "the greenhouse", "la serra"),
+]
 
 # The items that temper an affix (spec 06, "Tempering"): (rarity, price, inputs, name en, name it, description en, description it)
 TEMPERS = {
@@ -118,7 +139,9 @@ RECIPES.update({name: (name, 1, spec[2]) for name, spec in TEMPERS.items()})
 RECIPES.update({name: (name, 1, spec[2]) for name, spec in REFORGES.items()})
 RECIPES.update({name: (name, 1, spec[3]) for name, spec in FURNITURE.items()})
 
-HOME = {"$schema": "../../schemas/home.schema.json", "id": "base:home/cottage", "spot": "base:art/prop/furniture_spot", "reach_x100": 150}
+HOME = {"$schema": "../../schemas/home.schema.json", "id": "base:home/cottage", "spot": "base:art/prop/furniture_spot", "reach_x100": 150,
+        "rooms": [{"id": room, "name": f"$i18n:home.room.{room}", "flag": f"room_{room}", "spot": f"base:art/prop/room_spot_{room}"}
+                  for room, _gold, _items, _en, _it in ROOMS]}
 
 
 def write_json(path, doc) -> None:
@@ -156,6 +179,9 @@ def main() -> None:
         texts["en"].update({f"item.{name}.name": name_en, f"item.{name}.desc": desc_en})
         texts["it"].update({f"item.{name}.name": name_it, f"item.{name}.desc": desc_it})
     write_json(DATA / "home.json", HOME)
+    for room, _gold, _items, name_en, name_it in ROOMS:
+        texts["en"][f"home.room.{room}"] = name_en
+        texts["it"][f"home.room.{room}"] = name_it
     for lang in ("en", "it"):
         set_texts("content.json", lang, texts[lang])
     print(f"wrote {len(RUNES)} runes, {len(FURNITURE)} pieces of furniture and the home")

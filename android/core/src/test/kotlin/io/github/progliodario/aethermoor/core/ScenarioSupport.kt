@@ -31,6 +31,7 @@ import io.github.progliodario.aethermoor.core.sim.WeaponStats
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.accessoryOf
 import io.github.progliodario.aethermoor.core.sim.furnitureOf
+import io.github.progliodario.aethermoor.core.sim.homeRoomsOf
 import io.github.progliodario.aethermoor.core.sim.parseStorySetup
 import io.github.progliodario.aethermoor.core.sim.runeOf
 import kotlinx.serialization.json.JsonArray
@@ -228,6 +229,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         chestReachX100 = input["storage"]?.jsonObject?.get("reach_x100")?.jsonPrimitive?.int ?: 200,
         homeSpot = input["home"]?.jsonObject?.get("spot")?.jsonPrimitive?.content ?: "",
         homeReachX100 = input["home"]?.jsonObject?.get("reach_x100")?.jsonPrimitive?.int ?: 200,
+        homeRooms = input["home"]?.jsonObject?.let { homeRoomsOf(it) } ?: emptyList(),
         farming = input["farming"]?.jsonObject?.let { f ->
             FarmingDef(
                 f.getValue("plot").jsonPrimitive.content,

@@ -391,6 +391,9 @@ public:
     // "parry", "fine" or "xp").
     const std::map<std::pair<int, int>, std::string>& furniture() const { return m_furniture_; }
     std::optional<std::pair<float, float>> spot_near() const;
+    // Whether a prop of `art` is a place of the home now: the spot of the home, or the spot of a room whose flag is set
+    // (spec 06, "Rooms").
+    bool is_home_place(const std::string& art) const;
     std::int64_t home_bonus(const std::string& what) const;
     // The wind of this tick (spec 08, "Wind"), in permille (presentation reads it for the plants).
     int wind_pm() const { return m_wind_pm_; }

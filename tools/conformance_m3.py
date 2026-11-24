@@ -800,6 +800,34 @@ def build_scenarios() -> list[dict]:
                     home={"spot": "base:art/prop/furniture_spot", "reach_x100": 150},
                     titles=[{"id": "homemaker", "name": "t", "kind": "furnished", "count": 3}]),
          "items": {**ITEMS, **FURNITURE_ITEMS}},
+        # Rooms (spec 06, "Rooms"): the places of a room are no places while its flag is not set (the bed is refused, the house spot being
+        # out of reach); the carpenter is paid (gold and gels) and sets the flag; then the bed stands on the nearest place of the room,
+        # and the rack takes its place (the bed back to the bag). The rack's attack counts on a kill.
+        {**scenario("cottage_rooms", [enemy(8.6, 5.0, **passive, hp=30)],
+                    [segment(1, do=[{"cmd": "use", "item": "test:item/bed"}]),
+                     segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "choose", "index": 0}]),
+                     segment(1, do=[{"cmd": "advance"}]),
+                     segment(1, do=[{"cmd": "use", "item": "test:item/bed"}]),
+                     segment(1, do=[{"cmd": "use", "item": "test:item/rack"}]),
+                     segment(60, attack=True, move=(1, 0)), segment(10)],
+                    inventory={"test:item/bed": 1, "test:item/rack": 1, "base:item/slime_gel": 3}, player={"start": [6.0, 5.0]},
+                    start_gold=150,
+                    gather_props=[{"art": "base:art/prop/furniture_spot", "x": 3.0, "y": 4.0, "radius": 0.2},
+                                  {"art": "base:art/prop/room_spot_workshop", "x": 6.0, "y": 4.0, "radius": 0.2},
+                                  {"art": "base:art/prop/room_spot_workshop", "x": 7.0, "y": 4.0, "radius": 0.2}],
+                    home={"spot": "base:art/prop/furniture_spot", "reach_x100": 150,
+                          "rooms": [{"id": "den", "name": "t", "flag": "room_den", "spot": "base:art/prop/room_spot_workshop"}]},
+                    story={"quests": {}, "dialogues": {"test:dialogue/carpenter": {"id": "test:dialogue/carpenter", "start": "menu", "nodes": {
+                        "menu": {"type": "choice", "choices": [
+                            {"text": "t.buy", "when": {"all": [{"not": {"flag": "room_den"}}, {"gold_at_least": 100},
+                                                               {"has_item": {"item": "base:item/slime_gel", "qty": 2}}]}, "next": "build"},
+                            {"text": "t.bye", "next": "end"}]},
+                        "build": {"type": "effects", "effects": [{"effect": "spend_gold", "amount": 100},
+                                                                 {"effect": "remove_item", "item": "base:item/slime_gel", "qty": 2},
+                                                                 {"effect": "set_flag", "flag": "room_den", "value": True}], "next": "built"},
+                        "built": {"type": "say", "speaker": "carpenter", "text": "t.built", "next": "end"}}}},
+                        "npcs": [{"key": "carpenter", "pos": [6.6, 5.6], "dialogue": "test:dialogue/carpenter"}]}),
+         "items": {**ITEMS, **FURNITURE_ITEMS}},
         # Affixes (spec 06, "Affixes"): the affixed sword and coat add their flat bonuses to the derived stats, with the accessory; both
         # drain, and the drains add up; changing the weapon takes its affix away.
         {**scenario("affixes_worn", [enemy(3.6, 4.5, hp=400, **passive)],

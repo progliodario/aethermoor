@@ -1,0 +1,275 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/grindstone",
+  "canvas": {
+    "w": 40,
+    "h": 38,
+    "origin": [
+      20,
+      33
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "ellipse": [
+          20.5,
+          33,
+          18,
+          3.4
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.4,
+      "blur": 1.19
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20.5,
+          33,
+          10.8,
+          1.87
+        ]
+      },
+      "fill": {
+        "color": "#141030"
+      },
+      "alpha": 0.32,
+      "blur": 0.85
+    },
+    {
+      "shape": {
+        "path": "M 6 33 L 10 18 L 13 18 L 10 33 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 951,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#664223"
+            ],
+            [
+              0.5,
+              "#7A4E2A"
+            ],
+            [
+              0.72,
+              "#8D6748"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "path": "M 34 33 L 30 18 L 27 18 L 30 33 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 952,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#664223"
+            ],
+            [
+              0.5,
+              "#7A4E2A"
+            ],
+            [
+              0.72,
+              "#8D6748"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          8,
+          26,
+          24,
+          4
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 953,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#744C28"
+            ],
+            [
+              0.5,
+              "#8A5A30"
+            ],
+            [
+              0.72,
+              "#9A714D"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          9,
+          26.6,
+          22,
+          1.2
+        ]
+      },
+      "fill": {
+        "color": "#6A9AC8"
+      },
+      "alpha": 0.8
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          16,
+          10,
+          10
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 954,
+          "octaves": 3,
+          "stops": [
+            [
+              0.28,
+              "#7B8086"
+            ],
+            [
+              0.5,
+              "#9AA0A8"
+            ],
+            [
+              0.74,
+              "#ACB1B8"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.5
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          16,
+          2,
+          2
+        ]
+      },
+      "fill": {
+        "color": "#4A3A2A"
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.3
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 16 L 33 12"
+      },
+      "stroke": {
+        "color": "#5C4030",
+        "width": 1
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          32,
+          9.6,
+          2.2,
+          4.4
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 2,
+          "seed": 955,
+          "octaves": 3,
+          "stops": [
+            [
+              0.3,
+              "#865932"
+            ],
+            [
+              0.5,
+              "#A06A3C"
+            ],
+            [
+              0.72,
+              "#AD7F57"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.3
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20 6 C 26 6 30 10 30 16 C 30 22 26 26 20 26 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.25,
+      "blur": 0.8,
+      "blend": "multiply"
+    },
+    {
+      "shape": {
+        "path": "M 13.00 11.00 C 13.00 9.78 14.79 8.80 17.00 8.80 C 19.21 8.80 21.00 9.78 21.00 11.00 C 21.00 12.22 19.21 13.20 17.00 13.20 C 14.79 13.20 13.00 12.22 13.00 11.00 Z"
+      },
+      "fill": {
+        "color": "#F0F4F8"
+      },
+      "alpha": 0.35,
+      "clip": true,
+      "blend": "add"
+    }
+  ],
+  "palette": {
+    "wood": "#8A5A30",
+    "stone": "#9AA0A8"
+  }
+}

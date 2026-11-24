@@ -250,6 +250,7 @@ SAVE_SPLITS = {
     "chest_storage": (3, 5),          # things in the chest (spec 06, "Chests"); a loaded game has it closed
     "runes_engrave": (2, 4),          # runes on two weapons (spec 06, "Runes"); the worn one still adds to the attack
     "furniture_home": (3,),           # furniture on two spots (spec 06, "Furniture"); what it adds counts after a load
+    "cottage_rooms": (4,),            # the flag of a bought room is saved: its places stay places after a load (spec 06, "Rooms")
     "timed_quests": (7, 9),
     "traveller_walks": (4, 8),
     "week_of_play": (4, 12),          # the week: on the morning of the harvest, and on the fifth day with the traveller at its stop        # a traveller on its way out, then in: where it is comes from the time, not from the save           # the day a timed quest started is saved (spec 07, "Timed quests"): one over, one in time; then restarted

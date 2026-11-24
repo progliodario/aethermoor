@@ -1829,5 +1829,14 @@
   "quest.side_gideon_3.task": "Gli slime di magma escono strisciando dalle rovine della vecchia fortezza delle Terre verso le fattorie dei profughi. Fermane cinque.",
   "item.affix_prism.name": "Prisma degli affissi",
   "item.affix_prism.desc": "A un'incudine, con addosso un pezzo comune con un affisso: vedi tre altri affissi dello stesso pezzo e tieni quello che preferisci. Il tiro e la runa del pezzo restano con lui.",
+  "item.grindstone.name": "Mola",
+  "item.grindstone.desc": "Posala nel laboratorio del cottage. Ogni lama affilata all'alba: i tuoi colpi sono più forti del 5%.",
+  "item.writing_desk.name": "Scrittoio",
+  "item.writing_desk.desc": "Posalo nello studio del cottage. Una pagina ogni sera su ciò che hai imparato: il 5% di esperienza in più da ogni vittoria.",
+  "item.planter.name": "Fioriera",
+  "item.planter.desc": "Posala nella serra del cottage. Una talea di tutto ciò che trovi: uno in più di tutto ciò che raccogli.",
+  "home.room.workshop": "il laboratorio",
+  "home.room.study": "lo studio",
+  "home.room.greenhouse": "la serra",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

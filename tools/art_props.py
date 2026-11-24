@@ -958,12 +958,83 @@ def stone_lantern() -> Recipe:
     return r
 
 
+def room_spot(room: str, rug: str, ring: str, light: str, seed: int) -> Recipe:
+    """An empty place of a room of the home (spec 06, "Rooms"): a square rug of its own colours, where a piece can stand once the room is
+    the player's."""
+    r = prop(f"room_spot_{room}", 40, 24, (20, 14), {"rug": rug, "ring": ring, "light": light})
+    r.path("M 4 14 L 20 6.4 L 36 14 L 20 21.6 Z", noise(3, seed, (0.3, "$p.ring"), (0.55, "$p.rug"), (0.8, "$p.light"), octaves=2),
+           stroke=INK, width=0.4, alpha=0.85)
+    r.path("M 9 14 L 20 8.8 L 31 14 L 20 19.2 Z", None, stroke="$p.ring", width=0.7, alpha=0.75)  # the border, square in square
+    r.path("M 14 14 L 20 11.2 L 26 14 L 20 16.8 Z", None, stroke="$p.light", width=0.6, alpha=0.7)
+    for k in range(8):  # the tassels at the two far corners
+        r.line(4.4 - k * 0.1, 13.2 + k * 0.2, 2.6 - k * 0.1, 13.4 + k * 0.2, "$p.light", 0.3, alpha=0.6)
+        r.line(35.6 + k * 0.1, 13.2 + k * 0.2, 37.4 + k * 0.1, 13.4 + k * 0.2, "$p.light", 0.3, alpha=0.6)
+    r.shade(ell(25, 15.5, 10, 5), 0.18, blur=1.4)
+    return r
+
+
+def grindstone() -> Recipe:
+    """A grindstone on a wooden frame, with a crank and a water trough: the blows are sharper (spec 06, "Rooms")."""
+    r = prop("grindstone", 40, 38, (20, 33), {"wood": "#8A5A30", "stone": "#9AA0A8"})
+    r.shadow(20.5, 33, 18, 3.4, 0.4)
+    r.path("M 6 33 L 10 18 L 13 18 L 10 33 Z", wood(951, "#7A4E2A", 2), stroke=INK, width=0.4)  # the legs
+    r.path("M 34 33 L 30 18 L 27 18 L 30 33 Z", wood(952, "#7A4E2A", 2), stroke=INK, width=0.4)
+    r.rect(8, 26, 24, 4, wood(953, "#8A5A30", 3), stroke=INK, width=0.4)  # the trough
+    r.rect(9, 26.6, 22, 1.2, "#6A9AC8", alpha=0.8)
+    r.ellipse(20, 16, 10, 10, stone(954, "#9AA0A8", 3), stroke=INK, width=0.5)  # the wheel
+    r.ellipse(20, 16, 2, 2, "#4A3A2A", stroke=INK, width=0.3)
+    r.line(20, 16, 33, 12, "#5C4030", 1.0)  # the crank
+    r.rect(32, 9.6, 2.2, 4.4, wood(955, "#A06A3C", 2), stroke=INK, width=0.3)
+    r.shade("M 20 6 C 26 6 30 10 30 16 C 30 22 26 26 20 26 Z", 0.25, blur=0.8)  # the far half of the wheel
+    r.lit(ell(17, 11, 4, 2.2), 0.35, "#F0F4F8")
+    return r
+
+
+def writing_desk() -> Recipe:
+    """A writing desk with an inkwell, a quill and an open book: every victory teaches a little more (spec 06, "Rooms")."""
+    r = prop("writing_desk", 46, 38, (23, 33), {"wood": "#7A4A2A", "page": "#F4ECD8"})
+    r.shadow(23.5, 33, 21, 3.6, 0.4)
+    for x in (5, 38):  # the legs
+        r.rect(x, 18, 3.2, 15, wood(961, "#5E3820", 2), stroke=INK, width=0.4)
+    r.path("M 3 14 L 43 14 L 43 19 L 3 19 Z", wood(962, "#7A4A2A", 4), stroke=INK, width=0.5)  # the top
+    r.path("M 3 14 L 6 10 L 40 10 L 43 14 Z", wood(963, "#9A6438", 4), stroke=INK, width=0.45)
+    r.rect(26, 19, 14, 6, wood(964, "#6A4024", 3), stroke=INK, width=0.4)  # the drawer
+    r.ellipse(33, 22, 0.9, 0.9, "#D8B060", stroke=INK, width=0.2)
+    r.path("M 11 12.4 L 18 10.4 L 25 12.4 L 18 14 Z", "$p.page", stroke=INK, width=0.3)  # the open book
+    r.line(18, 10.4, 18, 14, "#B8A888", 0.3)
+    r.rect(30, 8.4, 3.4, 3, "#2A2A3A", stroke=INK, width=0.3)  # the inkwell and its quill
+    r.path("M 32 8.6 Q 34 4 37 1.6", None, stroke="#F4F0E8", width=0.9)
+    r.shade("M 34 10 L 40 10 L 43 14 L 43 19 L 34 19 Z", 0.3, blur=0.8, clip=True)
+    r.lit(box(6, 10, 34, 0.8), 0.45, "#FFF0D0")
+    return r
+
+
+def planter() -> Recipe:
+    """A long planter of stone with herbs and a watering can: one more of everything gathered (spec 06, "Rooms")."""
+    r = prop("planter", 44, 34, (22, 29), {"stone": "#A89880", "leaf": "#5A9A4A"})
+    r.shadow(22.5, 29, 20, 3.2, 0.4)
+    r.path("M 4 18 L 40 18 L 37 29 L 7 29 Z", stone(971, "#A89880", 3), stroke=INK, width=0.5)  # the trough
+    r.rect(3, 16.4, 38, 2.4, stone(972, "#C0B098", 2), stroke=INK, width=0.4)
+    for k, x in enumerate((9, 15, 21, 27, 33)):  # the herbs
+        h = 7 + (k * 3 % 4)
+        r.path(f"M {x} 16.6 Q {x - 3} {16.6 - h * 0.6} {x - 1.6} {16.6 - h}", None, stroke="$p.leaf", width=1.2)
+        r.path(f"M {x} 16.6 Q {x + 3} {16.6 - h * 0.5} {x + 2} {16.6 - h * 0.9}", None, stroke="#7AB85A", width=1.1)
+        r.ellipse(x - 1.6, 16.6 - h, 1.2, 0.8, "#8AC86A", stroke=INK, width=0.2)
+    r.path("M 36 10 L 42 10 L 41 16 L 37 16 Z", "#7A8A9A", stroke=INK, width=0.35)  # the watering can
+    r.path("M 36 11 L 32 8", None, stroke="#6A7A8A", width=0.8)
+    r.shade("M 30 18 L 40 18 L 37 29 L 30 29 Z", 0.3, blur=0.8, clip=True)
+    r.lit(box(4, 16.4, 34, 0.7), 0.4, "#FFF4E0")
+    return r
+
+
 def build_props() -> list[Recipe]:
     props = [tree_oak(), pine(), dead_tree(), bush(), rock(), cactus(), campfire(), crate(), barrel(), bones(), lamp(), signpost(),
              statue(), tent(), banner(), well(), threshold_stone(), stall(), haybale(), anvil(), reeds(), mushrooms(),
              stump(), flowers(), fern(), log(), driftwood(), ice_shard(), dry_shrub(), garden_plot(), coop(), pen(), chest(),
              furniture_spot(), bed(), weapon_rack(), bookshelf(), herb_rack(), training_dummy(), work_table(),
-             garden_bench(), scarecrow(), archery_target(), stone_lantern()]
+             garden_bench(), scarecrow(), archery_target(), stone_lantern(),
+             room_spot("workshop", "#9A7A58", "#5E4630", "#D8C0A0", 981), room_spot("study", "#4A6A9A", "#2A3E62", "#C8D4E8", 982),
+             room_spot("greenhouse", "#C8B070", "#7A6A3A", "#F0E4B8", 983), grindstone(), writing_desk(), planter()]
     sway = {"tree_oak": 1.8, "pine": 1.1, "dead_tree": 0.5, "bush": 0.7, "reeds": 1.4, "banner": 0.5, "campfire": 0.6, "flowers": 0.9, "fern": 0.8, "dry_shrub": 0.6}  # what the wind moves
     for r in props:
         r.sway = sway.get(r.id.rsplit("/", 1)[1], 0.0)

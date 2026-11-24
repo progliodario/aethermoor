@@ -1125,6 +1125,24 @@ bool WorldSim::engrave(const std::string& item_id, const ItemDef& rune) {
     return true;
 }
 
+bool WorldSim::is_home_place(const std::string& art) const {
+    if (art.empty()) {
+        return false;
+    }
+    if (art == m_setup_.home_spot) {
+        return true;
+    }
+    for (const CombatSetup::HomeRoom& room : m_setup_.home_rooms) {
+        if (room.spot == art) {
+            const auto flag = m_story_.flags().find(room.flag);
+            if (flag != m_story_.flags().end() && flag->second) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 std::optional<std::pair<float, float>> WorldSim::spot_near() const {
     if (m_setup_.home_spot.empty()) {
         return std::nullopt;
@@ -1135,7 +1153,7 @@ std::optional<std::pair<float, float>> WorldSim::spot_near() const {
     std::optional<std::pair<float, float>> best;
     float best_d = 0.0F;
     for_each_prop(at.x - far, at.y - far, at.x + far, at.y + far, [&](const Prop& prop) {
-        if (prop.art != m_setup_.home_spot) {
+        if (!is_home_place(prop.art)) {  // the spot of the home, or of a room that is the player's (spec 06, "Rooms")
             return;
         }
         const float d = distance(prop.x, prop.y, at.x, at.y);

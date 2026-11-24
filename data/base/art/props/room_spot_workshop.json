@@ -1,0 +1,241 @@
+{
+  "$schema": "../../../../schemas/art_recipe.schema.json",
+  "id": "base:art/prop/room_spot_workshop",
+  "canvas": {
+    "w": 40,
+    "h": 24,
+    "origin": [
+      20,
+      14
+    ]
+  },
+  "layers": [
+    {
+      "shape": {
+        "path": "M 4 14 L 20 6.4 L 36 14 L 20 21.6 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 981,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "$p.ring"
+            ],
+            [
+              0.55,
+              "$p.rug"
+            ],
+            [
+              0.8,
+              "$p.light"
+            ]
+          ]
+        }
+      },
+      "stroke": {
+        "color": "#1E1830",
+        "width": 0.4
+      },
+      "alpha": 0.85
+    },
+    {
+      "shape": {
+        "path": "M 9 14 L 20 8.8 L 31 14 L 20 19.2 Z"
+      },
+      "stroke": {
+        "color": "$p.ring",
+        "width": 0.7
+      },
+      "alpha": 0.75
+    },
+    {
+      "shape": {
+        "path": "M 14 14 L 20 11.2 L 26 14 L 20 16.8 Z"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.6
+      },
+      "alpha": 0.7
+    },
+    {
+      "shape": {
+        "path": "M 4.4 13.2 L 2.6 13.4"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 35.6 13.2 L 37.4 13.4"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 4.3 13.4 L 2.5 13.6"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 35.7 13.4 L 37.5 13.6"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 4.2 13.6 L 2.4 13.8"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 35.8 13.6 L 37.6 13.8"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 4.1 13.8 L 2.3 14"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 35.9 13.8 L 37.7 14"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 4 14 L 2.2 14.2"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 36 14 L 37.8 14.2"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 3.9 14.2 L 2.1 14.4"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 36.1 14.2 L 37.9 14.4"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 3.8 14.4 L 2 14.6"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 36.2 14.4 L 38 14.6"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 3.7 14.6 L 1.9 14.8"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 36.3 14.6 L 38.1 14.8"
+      },
+      "stroke": {
+        "color": "$p.light",
+        "width": 0.3
+      },
+      "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 15.00 15.50 C 15.00 12.74 19.48 10.50 25.00 10.50 C 30.52 10.50 35.00 12.74 35.00 15.50 C 35.00 18.26 30.52 20.50 25.00 20.50 C 19.48 20.50 15.00 18.26 15.00 15.50 Z"
+      },
+      "fill": {
+        "color": "#5A4E9A"
+      },
+      "alpha": 0.18,
+      "blur": 1.4,
+      "blend": "multiply"
+    }
+  ],
+  "palette": {
+    "rug": "#9A7A58",
+    "ring": "#5E4630",
+    "light": "#D8C0A0"
+  }
+}

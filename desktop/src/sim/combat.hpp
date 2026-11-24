@@ -327,6 +327,13 @@ struct CombatSetup {
     int chest_reach_x100 = 200;
     std::string home_spot;  // the furniture spot prop (spec 06, "Furniture"); empty: no furniture
     int home_reach_x100 = 200;
+    // The rooms of the home (spec 06, "Rooms"): the props of `spot` are places once the story flag `flag` is set.
+    struct HomeRoom {
+        std::string id;
+        std::string flag;
+        std::string spot;
+    };
+    std::vector<HomeRoom> home_rooms;
     std::map<std::string, EnemyDef> stream_enemies;  // the enemies of the fauna of a streamed world, by ID
     std::map<std::string, GatherNode> gather_nodes;  // the props that can be gathered from, by art ID
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data

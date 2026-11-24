@@ -1,0 +1,247 @@
+{
+  "$schema": "../../../../schemas/dialogue.schema.json",
+  "id": "base:dialogue/npc/garrick",
+  "start": "c_owner",
+  "nodes": {
+    "c_owner": {
+      "type": "condition",
+      "when": {
+        "flag": "cottage_given"
+      },
+      "then": "c_done",
+      "else": "stranger"
+    },
+    "stranger": {
+      "type": "say",
+      "speaker": "fenwick_carpenter_garrick",
+      "text": "$i18n:dlg.home.garrick.stranger",
+      "next": "end"
+    },
+    "c_done": {
+      "type": "condition",
+      "when": {
+        "all": [
+          {
+            "flag": "room_workshop"
+          },
+          {
+            "flag": "room_study"
+          },
+          {
+            "flag": "room_greenhouse"
+          }
+        ]
+      },
+      "then": "done",
+      "else": "owner"
+    },
+    "done": {
+      "type": "say",
+      "speaker": "fenwick_carpenter_garrick",
+      "text": "$i18n:dlg.home.garrick.done",
+      "next": "end"
+    },
+    "owner": {
+      "type": "say",
+      "speaker": "fenwick_carpenter_garrick",
+      "text": "$i18n:dlg.home.garrick.owner",
+      "next": "menu"
+    },
+    "prices": {
+      "type": "say",
+      "speaker": "fenwick_carpenter_garrick",
+      "text": "$i18n:dlg.home.garrick.price_list",
+      "next": "menu"
+    },
+    "build_workshop": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 600
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/wood_log",
+          "qty": 12
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/iron_ore",
+          "qty": 6
+        },
+        {
+          "effect": "set_flag",
+          "flag": "room_workshop",
+          "value": true
+        }
+      ],
+      "next": "built_workshop"
+    },
+    "built_workshop": {
+      "type": "say",
+      "speaker": "fenwick_carpenter_garrick",
+      "text": "$i18n:dlg.home.garrick.built_workshop",
+      "next": "end"
+    },
+    "build_study": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 900
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/wood_log",
+          "qty": 10
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/pine_resin",
+          "qty": 4
+        },
+        {
+          "effect": "set_flag",
+          "flag": "room_study",
+          "value": true
+        }
+      ],
+      "next": "built_study"
+    },
+    "built_study": {
+      "type": "say",
+      "speaker": "fenwick_carpenter_garrick",
+      "text": "$i18n:dlg.home.garrick.built_study",
+      "next": "end"
+    },
+    "build_greenhouse": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "spend_gold",
+          "amount": 1200
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/stone_chunk",
+          "qty": 10
+        },
+        {
+          "effect": "remove_item",
+          "item": "base:item/wildflowers",
+          "qty": 8
+        },
+        {
+          "effect": "set_flag",
+          "flag": "room_greenhouse",
+          "value": true
+        }
+      ],
+      "next": "built_greenhouse"
+    },
+    "built_greenhouse": {
+      "type": "say",
+      "speaker": "fenwick_carpenter_garrick",
+      "text": "$i18n:dlg.home.garrick.built_greenhouse",
+      "next": "end"
+    },
+    "menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.home.garrick.fix_workshop",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "room_workshop"
+                }
+              },
+              {
+                "gold_at_least": 600
+              },
+              {
+                "has_item": {
+                  "item": "base:item/wood_log",
+                  "qty": 12
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/iron_ore",
+                  "qty": 6
+                }
+              }
+            ]
+          },
+          "next": "build_workshop"
+        },
+        {
+          "text": "$i18n:dlg.home.garrick.fix_study",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "room_study"
+                }
+              },
+              {
+                "gold_at_least": 900
+              },
+              {
+                "has_item": {
+                  "item": "base:item/wood_log",
+                  "qty": 10
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/pine_resin",
+                  "qty": 4
+                }
+              }
+            ]
+          },
+          "next": "build_study"
+        },
+        {
+          "text": "$i18n:dlg.home.garrick.fix_greenhouse",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "room_greenhouse"
+                }
+              },
+              {
+                "gold_at_least": 1200
+              },
+              {
+                "has_item": {
+                  "item": "base:item/stone_chunk",
+                  "qty": 10
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/wildflowers",
+                  "qty": 8
+                }
+              }
+            ]
+          },
+          "next": "build_greenhouse"
+        },
+        {
+          "text": "$i18n:dlg.home.garrick.prices",
+          "next": "prices"
+        },
+        {
+          "text": "$i18n:dlg.home.garrick.bye",
+          "next": "end"
+        }
+      ]
+    }
+  }
+}

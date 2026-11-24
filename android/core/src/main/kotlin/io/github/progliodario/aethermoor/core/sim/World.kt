@@ -1368,6 +1368,10 @@ class WorldSim(
         return true
     }
 
+    /** Whether a prop of [art] is a place of the home now: the spot of the home, or the spot of a room whose flag is set (spec 06, "Rooms"). */
+    fun isHomePlace(art: String): Boolean =
+        art.isNotEmpty() && (art == combat.homeSpot || combat.homeRooms.any { it.spot == art && story.flags[it.flag] == true })
+
     /** The nearest furniture spot in reach, where a piece would be placed; null: none. */
     fun spotNear(): Vec2? {
         if (combat.homeSpot.isEmpty()) return null
@@ -1377,7 +1381,7 @@ class WorldSim(
         var best: Vec2? = null
         var bestD = 0f
         forEachProp(at.x - far, at.y - far, at.x + far, at.y + far) { prop ->
-            if (prop.art != combat.homeSpot) return@forEachProp
+            if (!isHomePlace(prop.art)) return@forEachProp // of the house, or of a room that is the player's (spec 06, "Rooms")
             val d = distance(prop.x, prop.y, at.x, at.y)
             if (d > reach + prop.radius) return@forEachProp
             val b = best

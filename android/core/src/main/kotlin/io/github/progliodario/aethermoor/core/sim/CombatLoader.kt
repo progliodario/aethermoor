@@ -327,6 +327,7 @@ fun loadCombatSetup(
             chestReachX100 = pack.readDocument("base:storage/chests")?.let { Json.parseToJsonElement(it).jsonObject["reach_x100"]?.jsonPrimitive?.int } ?: 200,
             homeSpot = pack.readDocument("base:home/cottage")?.let { Json.parseToJsonElement(it).jsonObject["spot"]?.jsonPrimitive?.content } ?: "",
             homeReachX100 = pack.readDocument("base:home/cottage")?.let { Json.parseToJsonElement(it).jsonObject["reach_x100"]?.jsonPrimitive?.int } ?: 200,
+            homeRooms = pack.readDocument("base:home/cottage")?.let { homeRoomsOf(Json.parseToJsonElement(it).jsonObject) } ?: emptyList(),
             recipes = loadRecipes(pack),
             titles = loadTitles(pack),
             tags = loadTitles(pack, "base:tags/all", "tags"),
@@ -336,3 +337,9 @@ fun loadCombatSetup(
             startWeapon = startWeapon,
         )
     }
+
+/** The rooms of a home document (spec 06, "Rooms"). */
+fun homeRoomsOf(home: JsonObject): List<HomeRoom> = home["rooms"]?.jsonArray?.map { r ->
+    val room = r.jsonObject
+    HomeRoom(room.getValue("id").jsonPrimitive.content, room.getValue("flag").jsonPrimitive.content, room.getValue("spot").jsonPrimitive.content)
+} ?: emptyList()

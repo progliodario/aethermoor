@@ -1306,7 +1306,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     /** A place of the home with a piece of furniture on it (spec 06, "Furniture"). */
     private fun drawFurniture(prop: Prop, fx: Float, fy: Float, tilePx: Int, k: Float) {
         val world = sim ?: return
-        if (world.combat.homeSpot.isEmpty() || prop.art != world.combat.homeSpot) return
+        if (!world.isHomePlace(prop.art)) return // of the house, or of a room (spec 06, "Rooms")
         val item = world.furniture[Pair(kotlin.math.floor(prop.x * 100f + 0.5f).toInt(), kotlin.math.floor(prop.y * 100f + 0.5f).toInt())] ?: return
         val art = world.combat.items[item]?.furniture?.art ?: return
         val piece = cache.get(art, tilePx) ?: return

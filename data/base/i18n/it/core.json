@@ -1599,5 +1599,18 @@
   "ui.affix_hint": "W/S scegli, E lo prendi (un prisma), Tab la pagina dopo, Esc chiude",
   "ui.affix_hint_touch": "Tocca un affisso per sceglierlo, toccalo di nuovo per prenderlo (un prisma)",
   "ui.crash_log": "L'ultima volta il gioco si è fermato per un errore. Che cosa è successo è scritto in {path}: mandalo con la segnalazione.",
+  "speaker.fenwick_carpenter_garrick": "Garrick, falegname di Fenwick",
+  "dlg.home.garrick.stranger": "Garrick, falegname di Fenwick. Costruisco e aggiusto. Questo annesso, qui: nessuno l'ha mai finito, tre stanze di assi nude e spifferi. Chi avrà questa casa, deve parlare con me.",
+  "dlg.home.garrick.owner": "L'Ospite del cottage! L'annesso è solido, ma le stanze sono assi nude e spifferi. Posso sistemarle, una alla volta. Porta i materiali e le monete, al martello penso io.",
+  "dlg.home.garrick.prices": "Quanto costa?",
+  "dlg.home.garrick.bye": "Arrivederci, Garrick.",
+  "dlg.home.garrick.price_list": "Il laboratorio: 600 monete, dodici ceppi e sei minerali di ferro. Lo studio: 900 monete, dieci ceppi e quattro resine di pino. La serra: 1200 monete, dieci pezzi di pietra e otto mazzi di fiori di campo. Ognuna ha due posti per i mobili.",
+  "dlg.home.garrick.done": "Tutte e tre le stanze sono finite. Il miglior annesso da questa parte del fiume, se posso dirlo.",
+  "dlg.home.garrick.fix_workshop": "Sistema il laboratorio (600 monete, 12 ceppi, 6 minerali di ferro)",
+  "dlg.home.garrick.built_workshop": "Ecco fatto: il laboratorio adesso è a posto. Due posti per i mobili, e neanche uno spiffero. Costruisci qualcosa per la stanza alla tua incudine.",
+  "dlg.home.garrick.fix_study": "Sistema lo studio (900 monete, 10 ceppi, 4 resine di pino)",
+  "dlg.home.garrick.built_study": "Ecco fatto: lo studio adesso è a posto. Due posti per i mobili, e neanche uno spiffero. Costruisci qualcosa per la stanza alla tua incudine.",
+  "dlg.home.garrick.fix_greenhouse": "Sistema la serra (1200 monete, 10 pezzi di pietra, 8 fiori di campo)",
+  "dlg.home.garrick.built_greenhouse": "Ecco fatto: la serra adesso è a posto. Due posti per i mobili, e neanche uno spiffero. Costruisci qualcosa per la stanza alla tua incudine.",
   "ui.crash_log_copied": "L'ultima volta il gioco si è fermato per un errore. Che cosa è successo è scritto in {path}, ed è copiato: incollalo nella segnalazione."
 }

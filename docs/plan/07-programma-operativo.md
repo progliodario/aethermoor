@@ -205,6 +205,12 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **File:** `data/base/home.json`, `data/base/furnishings/`, `schemas/home.schema.json`, `docs/spec/06-items.md`, `tools/make_home.py`, `tools/make_furnishings.py`, `desktop/src/sim/world.cpp`, `android/core/.../sim/World.kt`.
 - **Accettazione:** vettori per l'acquisto e la posa dei mobili; la copia di salvataggio versione 2 si carica; i due client disegnano i posti nuovi; `balance_report` non cambia.
 - **Dipende da:** B1.5. Taglia: M. Issue: [progliodario/aethermoor#235](https://github.com/progliodario/aethermoor/issues/235).
+- **Fatto (24 novembre 2026).** Differenze dal progetto: le stanze sono già nella mappa (un annesso a est della casa, nel timbro del
+  cottage), e comprarle non cambia le caselle: una stanza è dell'Ospite quando ha il suo flag della storia, e solo allora i suoi
+  tappeti (un'arte per stanza) sono posti per i mobili. Così il salvataggio non ha un campo nuovo (i flag ci sono già) e non serve la
+  versione 2. Il falegname si chiama Garrick (c'è già un venditore Hobb) e sta al cottage, accanto all'annesso, non a Fenwick: lì
+  sarebbe entrato nei fotogrammi del test di fumo. Lo scenario `cottage_rooms` è in `tools/conformance_m3.py`, accanto a
+  `furniture_home`; il proprietario deve ancora vedere l'annesso sullo schermo.
 
 ##### C1.2 Affissi scelti
 - **Cosa:** all'incudine, per un pezzo con un affisso tirato a sorte, si può pagare (oro e un materiale raro) per vedere altri tre affissi del suo tipo e tenerne uno, una sola volta per pezzo. L'olio di tempra resta com'è.

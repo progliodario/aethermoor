@@ -142,6 +142,23 @@ What the pieces add counts **like the effects of a title** (spec 11, "Titles wit
 
 The base pack has ten pieces, made at an anvil (`tools/make_furnishings.py`): the quilted bed (+10% experience), the weapon rack (+5% attack), the bookshelf (+5% fine work), the drying rack (one more of everything gathered), the training dummy (the parry four ticks longer) and the work table (one more of every recipe) for the house, and for the garden the bench (+5% experience), the scarecrow (one more of everything gathered), the archery target (+5% attack) and the stone lantern (+5% fine work, the parry two ticks longer). The Guest's cottage (spec 07) has ten spots, the round braided rugs along the walls of its house (art `base:art/prop/furniture_spot`, the character `1` of the cottage stamp) and four in its garden (`2`, on the grass); any piece can stand on any spot, and is drawn on its rug. Old Tam tells the owner about them. Conformance: the scenario `furniture_home` (its checkpoints carry `furniture`) and a save split of it.
 
+### Rooms
+
+The home may have **rooms** (`rooms` of `home.json`, each `{id, name, flag, spot}`): a part of the home that is the player's only once
+the story flag `flag` is set (spec 07). The places of a room are props of its own art `spot`, not the spot of the home. While the flag is
+not set they are no places at all: a piece used next to one is refused, or goes to the nearest place of the house in reach. Once the
+flag is set they are places like the others, by the same rules (the nearest in reach, the piece that goes back to the bag, the effects
+that count once a kind), and what stands on them is saved the same way (`furniture`, spec 12). The price of a room is paid by the
+effects of the dialogue that sets its flag; nothing else is saved.
+
+The Guest's cottage has three rooms in an annex east of the house (`tools/make_furnishings.py`; the characters `3`, `4` and `5` of the
+cottage stamp, `tools/make_stamps.py`), two places each: the workshop (`base:art/prop/room_spot_workshop`, the flag `room_workshop`),
+the study (`room_spot_study`, `room_study`) and the greenhouse (`room_spot_greenhouse`, `room_greenhouse`). Garrick, the carpenter of
+Fenwick (spec 07, "People of the towns", `tools/make_rooms.py`), fixes them up for the owner of the cottage: the workshop for 600 gold,
+twelve logs and six iron ores; the study for 900 gold, ten logs and four pine resins; the greenhouse for 1200 gold, ten stone chunks
+and eight bunches of wildflowers. Three more pieces are made at an anvil for them: the grindstone (+5% attack), the writing desk (+5%
+experience) and the planter (one more of everything gathered). Conformance: the scenario `cottage_rooms` and a save split of it.
+
 ## Hunting
 
 Hunting is fighting creatures that are game: they are ordinary creatures (spec 05) of the fauna of the regions (spec 09), shy (the behavior `skittish`), weak and slow to anger, and what they leave is

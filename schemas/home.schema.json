@@ -26,6 +26,21 @@
       "description": "How far from the edge of the spot the player can place a piece, in hundredths of a tile",
       "type": "integer",
       "minimum": 0
+    },
+    "rooms": {
+      "description": "The rooms of the home (spec 06, \"Rooms\"): the places of their own spot are places of the home once the story flag is set",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "flag", "spot"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "name": { "type": "string", "pattern": "^\\$i18n:" },
+          "flag": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "spot": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:art/prop/[a-z0-9_]+$" }
+        }
+      }
     }
   }
 }
