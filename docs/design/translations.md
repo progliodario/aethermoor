@@ -15,3 +15,7 @@ None.
 ## English texts with Italian words (0)
 
 None.
+
+## Terms of the glossary not kept in Italian (0)
+
+None.

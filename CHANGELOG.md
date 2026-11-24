@@ -6,6 +6,15 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Accessibility checklist** (`docs/dev/accessibility.md`, E1.3): what the game does for players who see, hear or move differently,
+  and what is still missing; the contrast of every text of the interface on its panel is tested (`tools/tests/test_accessibility.py`,
+  WCAG AA, 4.5:1 or more).
+- **The terms of the game are kept in every translation** (`tools/check_translations.py`, `GLOSSARY`): an English text that says
+  "Threshold Stone", "guild", "Echo", "renown", "Guest", "title", "quest", "feast", "talent", "affix", "bond" or "party" has the
+  Italian term in its translation; the glossary (`docs/glossary.md`) is up to date and says which terms are checked.
+- **Gideon's Dungeon, proposed** (spec 18, C3.1): the reduced mode of the roadmap, written as a proposal for the owner to choose
+  (five waves of adventurers, two kinds of traps, a title); nothing of it is in the game yet.
+
 - **The party** (spec 10, "The party"): more companions, one at a time. Old Tam lets the owner of the cottage take along its four
   strays: Biscuit, the dog Odo's caravan left behind; Hoot, the owl of the barn (from level 10); Sly, the fox of the garden (for three
   wild berries); and Cinder, the ember slime by the anvil (for an ember core; it keeps you warm). The one taken along follows at once;

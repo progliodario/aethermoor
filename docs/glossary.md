@@ -1,24 +1,32 @@
 # Glossary
 
-Terms of the game (from the plan; the ones marked "planned" are not in the game yet).
+Terms of the game (from the plan; the ones marked "planned" are not in the game yet). The terms marked "checked" are kept in every
+translation: `tools/check_translations.py` (`GLOSSARY`) fails when an English text uses the term and its Italian text does not use the
+Italian one.
 
 | Italian | English | Meaning |
 |---|---|---|
 | Dono | Gift | The protagonist's "cheat": Ren's System Eye is Analyze, the others' gifts are flavor and stats for now (spec 18) |
 | Soglia | Threshold | Place/force of Lyra between worlds; checkpoint stones |
-| Pietra della Soglia | Threshold Stone | A glowing stone in the plaza of every hamlet, village, town and outpost: wake it with `E` to heal and to travel to the stones you woke (spec 09) |
-| Echi (dell'anima) | Echoes | Meta-currency earned on reincarnation (planned) |
+| Pietra della Soglia | Threshold Stone | A glowing stone in the plaza of every hamlet, village, town and outpost: wake it with `E` to heal and to travel to the stones you woke (spec 09). Checked |
+| Echi | Echoes | The traces of the other Guests: eight creatures of the sanctums (spec 18), and the health the profile gives to every game for its titles and past lives (spec 11). Checked |
 | Albero dell'Eredità | Legacy Tree | Meta-progression tree kept across lives (planned) |
-| Ospite | Guest / Wanderer | Soul summoned from another world; the protagonists are Guests (Ren, Sakura, Daichi, Haruka) |
+| Ospite | Guest / Wanderer | Soul summoned from another world; the eight protagonists are Guests. Checked |
 | Mana | Mana | The pool spent by the power strike and the other skills with a cost; regenerates over time (spec 05) |
 | Marea Oscura | Dark Tide | Cyclic threat that the Demon King leads (planned) |
-| Finestra di stato | Status window | In-game system window with stats (planned) |
-| Titolo | Title | Earned honorific with small bonuses (planned) |
-| Tag | Tag | State/trait label that drives dialogue and small rules (planned) |
-| Gilda | Guild | Adventurers' guild with ranks F to S; a guild clerk of every town keeps the board (spec 07) |
+| Finestra di stato | Status window | The window of the stats, the gear and the titles, at the top of the journal (`V`, spec 16) |
+| Titolo | Title | An honorific earned by how one plays, often with a small bonus (spec 11). Checked |
+| Tag | Tag | A trait earned by how one plays; one is worn at a time and gives its effect (spec 11, "Tags") |
+| Gilda | Guild | Adventurers' guild with ranks F to S; a guild clerk of every town keeps the board (spec 07). Checked |
 | Bacheca | Board | The guild board: new work every day, generated from the seed, the town and the day |
 | Commissione | Commission | A two-stage guild job (hunt, then gather) unlocked by level and in order |
-| Legame | Bond | Affinity with an NPC or companion, 0 to 10 (planned) |
+| Legame | Bond | What a companion has learned fighting with the Guest: its kills, which make it stronger, and care from bond 10 (spec 10). Checked |
+| Gruppo | Party | The companions that walk with the Guest, one at a time (spec 10, "The party"). Checked; "a party of adventurers" is a "squadra" |
+| Missione | Quest | A task with stages and rewards, from a person, the board or the story (spec 07). Checked ("incarico" and "compito" too) |
+| Fama | Renown | How well a region knows the Guest: one point for every quest finished there (spec 07, "Renown"). Checked |
+| Festa | Feast | The day of a region in the cycle of the pedlars: a free meal, a market and a game (spec 07, "Feasts"). Checked |
+| Talento | Talent | A rank of the talent tree, bought with the points of the levels (spec 11). Checked |
+| Affisso | Affix | The bonus of a weapon or an armor, rolled when found, tempered and chosen at an anvil (spec 06). Checked |
 | Oro | Gold | Currency (`ui.gold`). The plan's "Aure/Aurei" was not used |
 | Ricetta (d'arte) | Art recipe | JSON description of vector art (spec 13) |
 | Pack | Pack | Content package with a `pack.json` |

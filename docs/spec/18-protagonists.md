@@ -138,6 +138,33 @@ The base pack (waves 9a to 9d of the plan) has one for every protagonist, all in
 
 `tools/tests/test_side_stories.py` plays every one from the first word to either ending with the story of the reference.
 
+## Gideon's Dungeon (proposed, not in the game)
+
+Status: **proposed** on 24 November 2026 (item C3.1 of the operating program, issue progliodario/aethermoor#238). Nothing of this
+section is implemented: the owner chooses the form before any code, as the program asks. It is the reduced variant of the roadmap
+(section 4, valve 4): waves of invading heroes against Gideon's base.
+
+- **Where.** Gideon's old throne in the Ashen Wastes (the hall of the Char Tyrant, his personal boss of the second act) becomes his
+  **Dungeon** once his story is over (the epilogue). A dungeon core by the throne (a prop) starts a **defense**, once a day of the world.
+- **The defense.** Five waves of adventurers come in through the gate and walk to the core through three rooms (the hall, the gallery,
+  the throne room), along fixed waypoints of the stamp. A wave starts when the one before is beaten, or 60 seconds after it started.
+  The waves grow: two adventurers, then three, four, five and a knight. The adventurers are creatures of a new kind (`adventurer`): the
+  warrior, the archer that hits from four tiles, the cleric that heals the others, the knight that guards the cleric. They ignore the
+  player until hit, and walk to the core.
+- **Traps.** Before the first wave the player places up to six traps on marked places of the rooms (as the furniture of the home,
+  spec 06): **spikes** (an adventurer that steps on them loses a fifth of its health, once) and **tar** (it walks at half speed for
+  three seconds). A trap costs materials of the Ashen Wastes.
+- **The end.** An adventurer that touches the core ends the defense: no reward, nothing lost. Fights must stay easy (`CLAUDE.md`):
+  the adventurers are weak against Gideon, the defense is a show of his power, not a wall.
+- **The reward.** The five waves beaten: gold, materials of the Ashen Wastes and, the first time, the title "Lord of the Dungeon"
+  (+5% attack, spec 11).
+- **Not saved.** A defense is not part of the save: a save taken during one starts it again at its first wave.
+- **Conformance.** A scenario with a whole defense: the five waves, both traps, the end at the core and the reward.
+
+The cost: **L** in the reduced form above (the adventurers drawn with the art of the hollow armors, recoloured; a wave counter in the
+HUD; the traps placed like furniture, from the bag). **XL** with adventurers drawn as people (the rigs of spec 13 on creatures) and a
+panel to place the traps. The owner decides: whether to make it, and which of the two.
+
 ## Texts
 
 For a protagonist with the ID `base:protagonist/<name>`: `protagonist.<name>.name`, `.tagline`, `.gift` and `.story` in **both** languages (`content.json`). The story is a short paragraph about who they were and how they arrived (the Threshold of Lyra drops every guest in Verdalis, where the home village is).
