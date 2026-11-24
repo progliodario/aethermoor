@@ -15,13 +15,8 @@
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawStory(world: WorldSim, data: Assets)</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawTitle(data: Assets, slots: List&lt;SlotSummary&gt;)</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun drawWorldMap(world: WorldSim, data: Assets)</ID>
-    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleBoardInput(world: WorldSim)</ID>
-    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleMapInput(world: WorldSim)</ID>
-    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleShopInput(world: WorldSim)</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleStoryInput(world: WorldSim)</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleTitleInput(data: Assets, slots: List&lt;SlotSummary&gt;)</ID>
-    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun handleTravelInput(world: WorldSim)</ID>
-    <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun interact(world: WorldSim)</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun journalEntries(world: WorldSim, data: Assets): List&lt;Pair&lt;String, Int&gt;&gt;</ID>
     <ID>CyclomaticComplexMethod:AethermoorGame.kt$AethermoorGame$private fun questPlace(world: WorldSim, stage: QuestStage): QuestPlace?</ID>
     <ID>CyclomaticComplexMethod:CombatLoader.kt$fun loadCombatSetup( pack: Pack, map: TileMap, protagonistId: String, seed: ULong, /** The enemies of the fauna of a streamed world, if the map is one. */ streamEnemyIds: Collection&lt;String&gt; = emptyList(), /** The difficulty of the world (spec 04): health and attack of the streamed creatures, in percent. */ enemyHpPct: Int = 100, enemyAtkPct: Int = 100, ): Result&lt;CombatSetup&gt;</ID>

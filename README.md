@@ -233,6 +233,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 | Che cosa fa ogni script | [`tools/README.md`](tools/README.md) |
 | Perché il progetto è fatto così | [`docs/adr/`](docs/adr/README.md) |
 | Che cosa è cambiato | [`CHANGELOG.md`](CHANGELOG.md) |
+| Accessibilità: che cosa fa il gioco e che cosa manca | [`docs/dev/accessibility.md`](docs/dev/accessibility.md) |
 
 ## Che cosa manca
 
@@ -240,7 +241,7 @@ Le prossime cose, in ordine. Il programma completo, con i batch, i file e i crit
 
 - **A breve:** la baseline di detekt a zero.
 - **A medio termine:** la modalità Dungeon di Gideon; thread di streaming e misure su Android; un sintetizzatore per musica e ambiente (solo se il proprietario lo vuole).
-- **Verso la 1.0:** qualità grafica e revisione delle traduzioni; comandi e layout su Android; pacchetti firmati; il caricamento dei mod nel gioco (la guida e il controllo dei mod ci sono già).
+- **Verso la 1.0:** qualità grafica; comandi e layout su Android; pacchetti firmati; il caricamento dei mod nel gioco (la guida e il controllo dei mod ci sono già).
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1), le impostazioni del repository, le chiavi di firma e le altre decisioni elencate nel programma.
 
 ## Contribuire e licenza

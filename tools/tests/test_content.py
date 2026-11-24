@@ -243,7 +243,7 @@ def test_every_text_looks_translated():
     import sys
     sys.path.insert(0, str(DATA.parent.parent / "tools"))
     import check_translations
-    assert check_translations.findings() == ([], [], [])
+    assert check_translations.findings() == ([], [], [], [])
 
 
 def test_the_deeds_name_real_titles_and_creatures():

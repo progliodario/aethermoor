@@ -233,6 +233,7 @@ The project is developed by the owner together with Claude, an AI assistant that
 | What every script does | [`tools/README.md`](tools/README.md) |
 | Why the project is built this way | [`docs/adr/`](docs/adr/README.md) |
 | What changed | [`CHANGELOG.md`](CHANGELOG.md) |
+| Accessibility: what the game does and what is missing | [`docs/dev/accessibility.md`](docs/dev/accessibility.md) |
 
 ## What is missing
 
@@ -240,7 +241,7 @@ The next things, in order. The full program, with the batches, the files and the
 
 - **Soon:** a detekt baseline down to zero.
 - **Middle term:** Gideon's Dungeon mode; streaming on a worker thread and measures on Android; a synthesizer for music and ambience (only if the owner wants it).
-- **Toward 1.0:** quality settings and a review of the translations; controls and layout on Android; signed packages; loading mods in the game (the guide and the check of a mod are there).
+- **Toward 1.0:** quality settings; controls and layout on Android; signed packages; loading mods in the game (the guide and the check of a mod are there).
 - **The owner decides:** when to publish the first release (Alpha 0.1), the repository settings, the signing keys and the other decisions listed in the program.
 
 ## Contributing and license

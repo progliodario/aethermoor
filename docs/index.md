@@ -9,7 +9,7 @@ Start here. For what the game is, read the [README](../README.en.md) ([italiano]
 | [adr/](adr/README.md) | English | Architecture decision records: why the project is built this way |
 | [design/](design/README.md) | English | Art style ([art-style.md](design/art-style.md)); generated reports: the [catalog](design/catalog.md) of the content, the [balance](design/balance.md) model, the [translations](design/translations.md) to look at |
 | [guides/](guides/README.md) | English | How to add content ([adding content](guides/add-content.md)) |
-| [dev/](dev/setup.md) | English | Setup, build, debugging; [the style of the Kotlin](dev/kotlin-style.md) (ktlint and detekt in CI); [the release checklist](dev/release-checklist.md) |
+| [dev/](dev/setup.md) | English | Setup, build, debugging; [the style of the Kotlin](dev/kotlin-style.md) (ktlint and detekt in CI); [the release checklist](dev/release-checklist.md); [accessibility](dev/accessibility.md) (the checklist, and the contrast of the texts, tested) |
 | [modding/](modding/README.md) | English | Mod authoring |
 | [glossary](glossary.md) | IT/EN | Shared terminology |
 | [tools](../tools/README.md) | English | What every script of `tools/` does, which can run again, what to run after a change |

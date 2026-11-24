@@ -304,7 +304,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M7 Compagni | fatto | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna, un gruppo di compagni (i quattro randagi del cottage) che seguono uno alla volta, ognuno con il suo legame | nulla |
 | M8 Progressione profonda | fatto | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi tirati a sorte quando si trovano, anche ventiquattro pezzi comuni, e ritemprati all'incudine o dai fabbri, dodici pezzi rari con due affissi, affissi scelti all'incudine con il prisma, doni delle imprese a ogni partita nuova | nulla |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo, quinto e sesto atto ("Due Ospiti", che lega i protagonisti a coppie), epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | la modalità Dungeon di Gideon |
-| M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento, log dei crash | un sintetizzatore migliore per riaccendere musica e ambiente |
+| M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento (anche i termini del glossario), log dei crash, la lista di controllo dell'accessibilità | un sintetizzatore migliore per riaccendere musica e ambiente |
 | M11 Release 1.0 | avviato | la guida per chi fa mod, il mod di esempio e il suo controllo in CI | pacchetti firmati, pagina di download (decisioni del proprietario) |
 
 ### 8.3 Che cosa è stato fatto, per area
@@ -426,11 +426,14 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Fondamenta B1** (dal 23 novembre): le copie congelate dei salvataggi di ogni versione (`tests/saves/`, suite `save_fixtures`, spec 12),
   che il riferimento e i due client devono caricare; la matrice di parità generata (`docs/design/parity.md`) e il controllo delle licenze
   (`tools/licenses.py`), tutti e due in `ci-data`; la spec 15 (il tema "Finestra di sistema" e dove sta ogni pannello) e l'ADR 0014 (le
-  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita), poi a 87 (i suoni, i consigli e la partita nuova di Android in funzioni più piccole).
+  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita), poi a 87 (i suoni, i consigli e la partita nuova di Android in funzioni più piccole), poi a 82 (l'interazione, i viaggi, la bacheca, la mappa e il negozio).
 - Catalogo dei contenuti e rapporto di bilanciamento generati dai dati; anteprime dell'arte in PNG senza avviare il gioco.
 - **Mod** (dal 24 novembre, E4.1): una guida passo per passo al primo mod (`docs/modding/README.md`), un mod di esempio
   (`examples/mod-example/`, una creatura e una missione) e il validatore che controlla un pacchetto qualsiasi sopra quelli da cui dipende;
   la CI controlla il mod di esempio. Il gioco non carica ancora i mod.
+- **Accessibilità e traduzioni** (dal 24 novembre, E1.3): la lista di controllo dell'accessibilità (`docs/dev/accessibility.md`), con il
+  contrasto dei testi controllato da un test; il controllo delle traduzioni tiene anche i termini del glossario (Pietra della Soglia,
+  gilda, Echi, fama, Ospite, titolo, missione, festa, talento, affisso, legame, gruppo) in ogni testo.
 - **Una settimana di gioco** (dal 24 novembre, C5.1): lo scenario `week_of_play` dei vettori (sette giorni con campi, cucina, due mercati
   sotto la pioggia, caccia, la festa, un viaggiatore e una missione a tempo), eseguito dal riferimento e dai due client, con le sue
   invarianti in un test; `docs/design/suites.md` (`tools/make_suites_map.py`, in `ci-data`) dice dove sono le suite che il piano nomina.
@@ -445,12 +448,13 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 **A breve (le prossime PR)**
 
 1. **Ridurre la baseline di detekt** (M10; ktlint e detekt in CI ci sono, le segnalazioni vecchie restano in
-   `android/config/detekt-baseline.xml`: 87, di cui 68 di complessità, 18 di annidamento e uno di uscite dai cicli, tutto in
+   `android/config/detekt-baseline.xml`: 82, di cui 63 di complessità, 18 di annidamento e uno di uscite dai cicli, tutto in
    `AethermoorGame.kt`): spezzare a poco a poco le funzioni più complesse.
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base.
+9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base. La proposta è
+   scritta (spec 18, "Gideon's Dungeon"): aspetta la scelta del proprietario tra la forma ridotta (L) e quella piena (XL).
 10. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
 11. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).
 

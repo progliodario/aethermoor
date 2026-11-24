@@ -253,6 +253,8 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **Accettazione:** la sezione di spec è scritta e approvata dal proprietario; i vettori coprono una partita intera; la modalità è raggiungibile dalla base di Gideon nel gioco del proprietario.
 - **Rischi:** è la voce più grande del periodo medio, e la più facile da allargare. Il proprietario decide la portata dopo la spec.
 - **Dipende da:** niente (prima la spec). Taglia: L (XL senza la variante ridotta). Issue: [progliodario/aethermoor#238](https://github.com/progliodario/aethermoor/issues/238).
+- **Spec proposta (24 novembre 2026).** La sezione "Gideon's Dungeon" della spec 18 descrive la forma ridotta (cinque ondate, tre
+  stanze, due trappole, un titolo) e quella piena; aspetta la scelta del proprietario prima del codice.
 
 #### C4 Prestazioni su Android e thread di streaming
 
@@ -375,6 +377,11 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **File:** `data/base/i18n/`, `docs/dev/accessibility.md` (nuovo), `docs/glossary.md`.
 - **Accettazione:** `check_translations` dà 0 testi da guardare; la checklist è completa e linkata dai README.
 - **Taglia:** M. Issue: [progliodario/aethermoor#249](https://github.com/progliodario/aethermoor/issues/249).
+- **Fatto (24 novembre 2026).** Differenza dal progetto: la rilettura di tutti i testi non è stata fatta a mano da una persona; al suo
+  posto il controllo delle traduzioni tiene ora i termini del glossario in ogni testo (dodici termini, `GLOSSARY` di
+  `tools/check_translations.py`), e i testi che li usano in un altro senso sono elencati dopo uno sguardo. La lista di controllo
+  (`docs/dev/accessibility.md`) dice che cosa c'è e che cosa manca; il contrasto dei testi è controllato da un test, il controllo per il
+  daltonismo è la differenza di luminosità tra gli stati che il colore distingue. Il glossario è aggiornato.
 
 #### E2 Comandi su Android
 

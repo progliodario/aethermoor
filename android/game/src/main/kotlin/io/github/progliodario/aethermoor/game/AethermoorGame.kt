@@ -1903,25 +1903,27 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
             shopConfirm(world)
         } else if (input.justTouched()) {
-            // The tabs switch between buying and selling; a row is selected by a tap and confirmed by a second one; elsewhere closes.
-            val x = input.x.toFloat()
-            val y = input.y.toFloat()
-            fun hit(r: FloatArray?) = r != null && x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]
-            val row = shopRowRects.indexOfFirst { hit(it) }
-            if (hit(shopBuyTab)) {
-                shopSell = false
-                shopCursor = 0
-            } else if (hit(shopSellTab)) {
-                shopSell = true
-                shopCursor = 0
-            } else if (row < 0) {
-                world.closeShop()
-                world.closeChest()
-            } else if (row == shopCursor) {
-                shopConfirm(world)
-            } else {
-                shopCursor = row
-            }
+            tapShop(world, input.x.toFloat(), input.y.toFloat())
+        }
+    }
+
+    /** A tap on the shop or the chest: the tabs switch between buying and selling; a row is selected by a tap and confirmed by a second one; elsewhere closes. */
+    private fun tapShop(world: WorldSim, x: Float, y: Float) {
+        fun hit(r: FloatArray?) = r != null && x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3]
+        val row = shopRowRects.indexOfFirst { hit(it) }
+        if (hit(shopBuyTab)) {
+            shopSell = false
+            shopCursor = 0
+        } else if (hit(shopSellTab)) {
+            shopSell = true
+            shopCursor = 0
+        } else if (row < 0) {
+            world.closeShop()
+            world.closeChest()
+        } else if (row == shopCursor) {
+            shopConfirm(world)
+        } else {
+            shopCursor = row
         }
     }
 
@@ -1951,17 +1953,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
             boardConfirm(world)
         } else if (input.justTouched()) {
-            // A tap selects an offer, a second tap on it accepts it; a tap elsewhere closes the board.
-            val x = input.x.toFloat()
-            val y = input.y.toFloat()
-            val row = boardRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
-            if (row < 0) {
-                world.closeBoard()
-            } else if (row == boardCursor) {
-                boardConfirm(world)
-            } else {
-                boardCursor = row
-            }
+            tapBoard(world, input.x.toFloat(), input.y.toFloat())
+        }
+    }
+
+    /** A tap on the board: it selects an offer, a second tap on it accepts it; a tap elsewhere closes the board. */
+    private fun tapBoard(world: WorldSim, x: Float, y: Float) {
+        val row = boardRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+        if (row < 0) {
+            world.closeBoard()
+        } else if (row == boardCursor) {
+            boardConfirm(world)
+        } else {
+            boardCursor = row
         }
     }
 
@@ -1969,33 +1973,48 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun interact(world: WorldSim) {
         val story = world.story
         if (!story.dialogueView().active && story.npcInRange() == null && world.useStone()) {
-            val travel = world.travel
-            travelCursor = if (travel != null && travel.here == 0 && travel.stops.size > 1) 1 else 0
+            travelCursor = firstTravelRow(world)
         } else if (story.npcInRange() == null && !story.dialogueView().active && world.openChest()) { // a chest (spec 06, "Chests")
             shopSell = false // the chest opens on what it holds
             shopCursor = 0
         } else if (story.npcInRange() == null && !story.dialogueView().active && world.plotNear() != null) { // a plot to tend (spec 06, "Farming")
-            val pack = assets?.pack ?: return
-            val tended = world.tend()
-            val name = if (tended.item.isEmpty()) "" else pack.text(language, "\$i18n:${tended.item.substringAfter(':').replace('/', '.')}.name", mapOf("count" to tended.qty))
-            showNotice(
-                when (tended.kind) {
-                    "harvested" -> pack.text(language, "\$i18n:ui.harvested", mapOf("item" to name, "qty" to tended.qty))
-                    "sown" -> pack.text(language, "\$i18n:ui.sown", mapOf("item" to name))
-                    else -> pack.text(language, if (world.plotNear()?.state == 1) "\$i18n:ui.plot_growing" else "\$i18n:ui.plot_no_seed")
-                },
-            )
+            tendPlot(world)
         } else if (story.npcInRange() == null && !story.dialogueView().active) { // a prop to gather from (spec 06, "Gathering")
-            val pack = assets?.pack ?: return
-            val found = world.gather()
-            if (found.node) {
-                val list = found.items.joinToString(", ") { (item, qty) ->
-                    pack.text(language, "\$i18n:${item.substringAfter(':').replace('/', '.')}.name", mapOf("count" to qty)) + " x$qty"
-                }
-                showNotice(if (list.isEmpty()) pack.text(language, "\$i18n:ui.gather_nothing") else pack.text(language, "\$i18n:ui.gathered", mapOf("items" to list)))
-            }
+            gatherHere(world)
         } else {
             story.interact()
+        }
+    }
+
+    /** The row of the list of the stones chosen first: the next stone when the player stands at the first (spec 09, "Threshold Stones"). */
+    private fun firstTravelRow(world: WorldSim): Int {
+        val travel = world.travel
+        return if (travel != null && travel.here == 0 && travel.stops.size > 1) 1 else 0
+    }
+
+    /** Tends the plot in reach (spec 06, "Farming"), and says what happened. */
+    private fun tendPlot(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val tended = world.tend()
+        val name = if (tended.item.isEmpty()) "" else pack.text(language, "\$i18n:${tended.item.substringAfter(':').replace('/', '.')}.name", mapOf("count" to tended.qty))
+        showNotice(
+            when (tended.kind) {
+                "harvested" -> pack.text(language, "\$i18n:ui.harvested", mapOf("item" to name, "qty" to tended.qty))
+                "sown" -> pack.text(language, "\$i18n:ui.sown", mapOf("item" to name))
+                else -> pack.text(language, if (world.plotNear()?.state == 1) "\$i18n:ui.plot_growing" else "\$i18n:ui.plot_no_seed")
+            },
+        )
+    }
+
+    /** Gathers from the prop in reach (spec 06, "Gathering"), and says what was found. */
+    private fun gatherHere(world: WorldSim) {
+        val pack = assets?.pack ?: return
+        val found = world.gather()
+        if (found.node) {
+            val list = found.items.joinToString(", ") { (item, qty) ->
+                pack.text(language, "\$i18n:${item.substringAfter(':').replace('/', '.')}.name", mapOf("count" to qty)) + " x$qty"
+            }
+            showNotice(if (list.isEmpty()) pack.text(language, "\$i18n:ui.gather_nothing") else pack.text(language, "\$i18n:ui.gathered", mapOf("items" to list)))
         }
     }
 
@@ -2025,17 +2044,19 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         } else if (input.isKeyJustPressed(Input.Keys.E) || input.isKeyJustPressed(Input.Keys.ENTER) || input.isKeyJustPressed(Input.Keys.SPACE)) {
             travelConfirm(world)
         } else if (input.justTouched()) {
-            // A tap selects a stone, a second tap on it travels there; a tap elsewhere closes the list.
-            val x = input.x.toFloat()
-            val y = input.y.toFloat()
-            val row = travelRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
-            if (row < 0) {
-                world.closeTravel()
-            } else if (row == travelCursor) {
-                travelConfirm(world)
-            } else {
-                travelCursor = row
-            }
+            tapTravel(world, input.x.toFloat(), input.y.toFloat())
+        }
+    }
+
+    /** A tap on the list of the stones: it selects a stone, a second tap on it travels there; a tap elsewhere closes the list. */
+    private fun tapTravel(world: WorldSim, x: Float, y: Float) {
+        val row = travelRowRects.indexOfFirst { x >= it[0] && x <= it[0] + it[2] && y >= it[1] && y <= it[1] + it[3] }
+        if (row < 0) {
+            world.closeTravel()
+        } else if (row == travelCursor) {
+            travelConfirm(world)
+        } else {
+            travelCursor = row
         }
     }
 
@@ -2965,12 +2986,39 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
         val step = mapViewCells / 6f
+        mapZoomKeys()
+        mapMoveKeys(store, step)
+        mapActionKeys(world)
+        if (input.justTouched()) {
+            tapMap(world)
+            return
+        }
+        if (mapTouchOnButton) {
+            if (!input.isTouched) mapTouchOnButton = false
+            return
+        }
+        dragMap(store)
+    }
+
+    /** The keys of the zoom of the map: `+` and `-`. */
+    private fun mapZoomKeys() {
+        val input = Gdx.input
         if (input.isKeyJustPressed(Input.Keys.PLUS) || input.isKeyJustPressed(Input.Keys.EQUALS)) mapZoom(1)
         if (input.isKeyJustPressed(Input.Keys.MINUS)) mapZoom(-1)
+    }
+
+    /** The keys that move the map by a sixth of the view, [step] cells. */
+    private fun mapMoveKeys(store: io.github.progliodario.aethermoor.core.sim.ChunkStore, step: Float) {
+        val input = Gdx.input
         if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) mapPan(store, 0f, -step)
         if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) mapPan(store, 0f, step)
         if (input.isKeyJustPressed(Input.Keys.LEFT) || input.isKeyJustPressed(Input.Keys.A)) mapPan(store, -step, 0f)
         if (input.isKeyJustPressed(Input.Keys.RIGHT) || input.isKeyJustPressed(Input.Keys.D)) mapPan(store, step, 0f)
+    }
+
+    /** The other keys of the map: the player, the places, the quests, the goal and the level of the view. */
+    private fun mapActionKeys(world: WorldSim) {
+        val input = Gdx.input
         if (input.isKeyJustPressed(Input.Keys.C)) mapCenterOnPlayer(world)
         if (input.isKeyJustPressed(Input.Keys.TAB)) mapNextPlace(world)
         if (input.isKeyJustPressed(Input.Keys.Q)) mapNextQuest(world)
@@ -2980,34 +3028,36 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             saveGoal()
         }
         if (input.isKeyJustPressed(Input.Keys.NUM_0) || input.isKeyJustPressed(Input.Keys.HOME)) mapLevel = -1
+    }
 
-        if (input.justTouched()) {
-            val x = input.x.toFloat()
-            val y = input.y.toFloat()
-            val button = mapButtons.firstOrNull { x >= it.rect[0] && x <= it.rect[0] + it.rect[2] && y >= it.rect[1] && y <= it.rect[1] + it.rect[3] }
-            mapTouchOnButton = button != null
-            mapPinch = 0f
-            when (button?.action) {
-                0 -> mapZoom(1)
-                1 -> mapZoom(-1)
-                2 -> mapCenterOnPlayer(world)
-                3 -> mapLevel = -1
-                4 -> showMap = false
-                5 -> if (hasGoal) {
-                    hasGoal = false
-                    saveGoal()
-                } else {
-                    setGoal(world, mapCx, mapCy)
-                }
-                6 -> mapNextPlace(world)
-                7 -> mapNextQuest(world)
+    /** A tap on the map: a button of the map, or a touch that starts a drag. */
+    private fun tapMap(world: WorldSim) {
+        val input = Gdx.input
+        val x = input.x.toFloat()
+        val y = input.y.toFloat()
+        val button = mapButtons.firstOrNull { x >= it.rect[0] && x <= it.rect[0] + it.rect[2] && y >= it.rect[1] && y <= it.rect[1] + it.rect[3] }
+        mapTouchOnButton = button != null
+        mapPinch = 0f
+        when (button?.action) {
+            0 -> mapZoom(1)
+            1 -> mapZoom(-1)
+            2 -> mapCenterOnPlayer(world)
+            3 -> mapLevel = -1
+            4 -> showMap = false
+            5 -> if (hasGoal) {
+                hasGoal = false
+                saveGoal()
+            } else {
+                setGoal(world, mapCx, mapCy)
             }
-            return
+            6 -> mapNextPlace(world)
+            7 -> mapNextQuest(world)
         }
-        if (mapTouchOnButton) {
-            if (!input.isTouched) mapTouchOnButton = false
-            return
-        }
+    }
+
+    /** A drag moves the map under the finger; a pinch of two fingers zooms. */
+    private fun dragMap(store: io.github.progliodario.aethermoor.core.sim.ChunkStore) {
+        val input = Gdx.input
         if (input.isTouched(0) && input.isTouched(1)) {
             // Pinch: the zoom goes up a level when the fingers spread by half, down a level when they close by a third.
             val dx = (input.getX(0) - input.getX(1)).toFloat()

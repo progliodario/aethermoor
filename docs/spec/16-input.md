@@ -100,6 +100,8 @@ The first minutes are explained by **hints** (`data/base/hints.json`, ID `base:h
 
 Four options are kept in the settings file as booleans: `hints` (the hints of the first minutes), `damage_numbers` (the numbers that rise from a hit) and `flashes` (the red flash of a creature that is hit), on by default, and `large_text`, off by default: the text of the interface is larger (a quarter larger on desktop, where the glyphs grow around the middle of their line and the widths of the texts grow with them; on Android the font of the pack is baked again, three tenths larger). Desktop: four more rows in the settings panel, `A`/`D` or `E` switch them. Android: four buttons at the bottom of the open journal. They change nothing of the game.
 
+The checklist of accessibility, with the contrast of the texts (tested), is [`docs/dev/accessibility.md`](../dev/accessibility.md).
+
 ## Credits
 
 The credits are `data/base/credits.json` (ID `base:credits/all`, schema `credits`): a list of sections, each a `heading` and its `lines`; a heading or a line that starts with `$i18n:` is a text key, any other line is shown as it is (the names of the libraries). They open from the title screen: `C` on desktop (again, or `Esc`, closes them), a `Credits` button at the top right on Android (a tap or Back closes them). Presentation only.
