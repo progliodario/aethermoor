@@ -2,6 +2,12 @@
 
 Guide for Claude, any other AI assistant ([`AGENTS.md`](AGENTS.md) points here) and humans working in this repo. The project owner mostly changes the game by asking Claude, so this file is the source of working rules. Read it whole before changing anything.
 
+**New here?** Read, in this order: this file; [`docs/guides/continue-the-work.md`](docs/guides/continue-the-work.md) (what to read, where the
+project stands, the loop of a session, a change through every layer with a worked example, shipping, what to do when CI fails);
+[`docs/dev/architecture.md`](docs/dev/architecture.md) (the layers, the folders and the files of both clients, the reference, the vectors,
+the CI); then [section 0 of the operating program](docs/plan/07-programma-operativo.md#0-stato-delle-voci) (which items are done and which
+come next).
+
 ## What this is
 
 **Aethermoor** (working title): top-down real-time isekai fantasy action RPG, 2D vector graphics, open world, eight playable protagonists, single player, offline.
@@ -64,6 +70,13 @@ Full plan: `docs/plan/README.md` (Italian). Decisions: `docs/adr/`. Index of all
 - detekt fails on a function grown too complex (`CyclomaticComplexMethod`): take a branch out into a function of its own. ktlint wants the
   arguments of a call one per line once they do not fit on one.
 - The client tests count drops, people, stamps and tiles: a new drop or person changes `desktop/tests/` and `android/core/src/test/`.
+- An edit script must be idempotent: replace an exact block that occurs once, and do nothing when the new text is already there. A script
+  that ran twice once inserted a C++ struct twice (`redefinition of struct`); one whose new text was a prefix of the old silently skipped
+  an edit.
+- In C++ a private method must not share its name with a public accessor (`void defense_wave()` and `int defense_wave() const`): on a
+  non-const object the private overload wins, and the call fails to compile.
+- A prop of radius 0 is a mark on the ground and blocks nothing (spec 02); a prop that must not block has radius 0, never a small one.
+- `tools/tests/test_docs.py` wants `newline="\n"` on the same line as `.write_text(`: build the text in a variable first.
 
 ## Where to change what
 
@@ -76,6 +89,10 @@ Full plan: `docs/plan/README.md` (Italian). Decisions: `docs/adr/`. Index of all
 | world generation, world time, weather | `docs/spec/08`, `09` | `tools/reference/worldgen.py`, `worldtime.py` | `desktop/src/core/`, `desktop/src/data/world_data.cpp` | `core/WorldTime.kt`, `core/WorldGen.kt` |
 | the interface (panels, HUD, title screen, input) | `docs/spec/16` | none | `desktop/src/app/main.cpp` | `android/game/.../game/AethermoorGame.kt` |
 | art (recipes, rasterizer) | `docs/spec/13` | `tools/reference/raster.py`, `tools/art_*.py` | `desktop/src/vector/` | `android/core/.../core/vector/`, `game/TextureCache.kt` |
+| movement and collisions (props of radius 0 block nothing) | `docs/spec/02` | `tools/reference/movement.py` | `desktop/src/sim/movement.cpp` | `core/sim/Movement.kt` |
+| the companion and the party | `docs/spec/10` | `_update_companion`, `recruit_companion`, `companion_switch` in `combat.py` | `world.cpp` (`update_companion`, `make_companion_active`) | `World.kt` (`updateCompanion`, `makeCompanionActive`) |
+| the home: furniture and rooms | `docs/spec/06`, "Furniture", "Rooms" | `_spot_near`, `_place` in `combat.py` | `world.cpp` (`spot_near`, `is_home_place`) | `World.kt` (`spotNear`, `isHomePlace`) |
+| Gideon's Dungeon (the defense) | `docs/spec/18`, "Gideon's Dungeon" | `start_defense`, `_update_defense` in `combat.py`; scenarios `defense_*` in `conformance_m3.py` | `world.cpp` (`start_defense`, `update_defense`), `combat.hpp` (`DefenseDef`) | `World.kt` (`startDefense`, `updateDefense`), `Combat.kt` (`DefenseDef`) |
 
 The conformance harnesses that run the vectors are `desktop/tests/conformance_test.cpp` and `android/core/src/test/.../ScenarioSupport.kt` (plus `ConformanceAudioDirectorTest.kt` for the profile): a new field of a scenario needs both. Content (people, quests, items, places) is data written by generators: see `tools/README.md`, "Generators of content".
 
@@ -163,12 +180,12 @@ cd android && gradle :core:test :app:assembleDebug
 - **Add enemy / item / skill / quest / place / region:** follow [`docs/guides/add-content.md`](docs/guides/add-content.md): copy the closest file in `data/base/`, follow its schema in `schemas/`, add i18n keys (it+en), run the validator, regenerate the vectors and the catalog (`tools/gen_conformance.py`, `tools/make_stamps.py`, `tools/make_catalog.py`, `tools/make_facts.py`).
 - **Add a named person:** add them to the table of the generator that writes their place (`tools/make_home.py`, `make_rooms.py`, `make_towns.py`, `towns_outposts.py`); people must stand on open floor (`tools/tests/test_content.py` checks it) and the clients' tests count them.
 - **Add protagonist:** follow the section "A protagonist" of [`docs/guides/add-content.md`](docs/guides/add-content.md) and [spec 18](docs/spec/18-protagonists.md).
-- **Change a rule:** `docs/spec` → `tools/reference` → `tools/conformance_m*.py` (a scenario) → `tools/gen_conformance.py` → desktop → android (see "Where to change what").
+- **Change a rule:** `docs/spec` → `tools/reference` → `tools/conformance_m*.py` (a scenario) → `tools/gen_conformance.py` → desktop → android (see "Where to change what"); the thirteen steps, with the affix choice as the worked example, are in [`docs/guides/continue-the-work.md`](docs/guides/continue-the-work.md), section 5.
 - **Add a language:** new folder `data/base/i18n/<lang>/`, add it to `pack.json` languages.
 
 ## Slash commands (`.claude/commands/`)
 
-`/validate`, `/spec-change`, `/parity-check`.
+`/continue` (start a session: the state, the next items, the plan), `/validate`, `/spec-change`, `/parity-check`.
 
 ## Where things stand
 
@@ -192,7 +209,7 @@ The numbers (counted from the data by `tools/make_facts.py`):
 
 - **What the game holds:** every creature, item, quest and site is in [`docs/design/catalog.md`](docs/design/catalog.md); the systems,
   area by area, in section 8.3 of the roadmap; the rules in `docs/spec/`. Which generator writes which content: [`tools/README.md`](tools/README.md).
-- **What comes next:** section 8.4 of the roadmap, "A breve" first; the program of the batches, with the files and the acceptance of every item, is in [`docs/plan/07-programma-operativo.md`](docs/plan/07-programma-operativo.md), and every item is a GitHub issue in a milestone.
+- **What comes next:** section 8.4 of the roadmap, "A breve" first; the program of the batches, with the files and the acceptance of every item, is in [`docs/plan/07-programma-operativo.md`](docs/plan/07-programma-operativo.md) (its section 0 is the state of every item), and every item is a GitHub issue in a milestone.
 - **Difficulty:** `enemy_hp_pct` 100 and `enemy_atk_pct` 70 (easy on purpose, see "How to work").
 - **Sound:** effects are on; music and regional ambience are off.
 - **Parity:** feature gating exists (ADR 0009) but is not used: `supported_features` is empty in `project.json` and in both clients; parity is

@@ -1,5 +1,8 @@
 # Development setup
 
+The map of the code is [`architecture.md`](architecture.md); the way to carry a change from the spec to both clients and ship it is
+[`docs/guides/continue-the-work.md`](../guides/continue-the-work.md).
+
 ## Common
 
 - Git, Python 3.12+ (3.13 works).
@@ -45,9 +48,9 @@ CI (`.github/workflows/`) runs on every pull request and on pushes to `main`:
 
 | Workflow | What it does |
 |---|---|
-| `ci-data` | `ruff check tools`, `tools/validate_data.py`, `pytest tools/tests`, `gen_conformance.py --check` |
+| `ci-data` | `ruff check tools`, `tools/validate_data.py` (the base pack and the example mod), `pytest tools/tests`, `gen_conformance.py --check`, `make_save_fixtures.py --check`, `make_parity.py --check`, `make_suites_map.py --check`, `licenses.py --check` |
 | `ci-desktop` | on Windows (MSVC) and Linux (GCC): vcpkg (binary cache), configure, build, `ctest` (unit tests, every conformance suite, three smoke tests), checks the smoke-test frames against `tests/frames/` (`tools/check_frames.py`), then packages the playable build and uploads it with the frames |
-| `ci-android` | JDK 17, Gradle 8.10.2, `:core:test` (JVM tests, including every conformance suite), `:app:assembleDebug`, uploads the debug APK |
+| `ci-android` | job `build`: JDK 17, Gradle 8.10.2, `:core:test` (JVM tests, including every conformance suite), `:app:assembleDebug`, uploads the debug APK; job `kotlin-style`: ktlint and detekt ([`kotlin-style.md`](kotlin-style.md)) |
 | `labeler` | labels the pull request from the paths it touches |
 | `release` | on a `v*` tag: validates the data and creates a draft release (no artifacts yet) |
 

@@ -4,6 +4,17 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Documentation
+
+- **A handbook for whoever continues the work** (`docs/guides/continue-the-work.md`): what to read and in which order, where the state
+  of the project is written, the loop of a session, a change through every layer (thirteen steps, with the affix choice as the worked
+  example), the checks and the chains of generators, shipping, a table of the CI failures already met and their fixes, working without
+  compilers, working with the owner. **A map of the code** (`docs/dev/architecture.md`): the layers, the folders, the libraries and files
+  of both clients, the simulation and its tick, the reference and the vectors, content and art, the CI. The operating program has a
+  **section 0** with the state of every item and its pull requests; roadmap 8.4 and the READMEs list what is left, in order; spec 03
+  gives the order of a tick as the code runs it; `CLAUDE.md`, `AGENTS.md` and the indexes point to all of it, and a `/continue` command
+  starts a session.
+
 ### Added
 
 - **Gideon's Dungeon** (spec 18, "Gideon's Dungeon", the reduced form the owner chose): a new site next to the Sanctum of Ash, three
