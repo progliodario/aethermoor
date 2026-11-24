@@ -81,7 +81,8 @@ can reach (`Android/data/<package>/files/exports`; the private folder when the d
 - `tag` (spec 11, "Tags") is the ID of the tag worn; absent when none is.
 - `furniture` (spec 06, "Furniture") is a list of `[x100, y100, item]`, the pieces on the spots of the home in order of `x100` then `y100`; absent when none is placed.
 - `friend` (spec 10, "The tamed friend") is `{"enemy", "x", "y", "cooldown"}`: the ID of the creature, where it is and how many ticks until it hits again, with `stay` when it was told to stay; absent when there is none.
-- `companion` (a protagonist with a companion, spec 10) is `{"x", "y", "cooldown"}`: where the companion is and how many ticks until it hits again, with `stay` (true when it was told to stay) and `bond` (its kills) when they are not false and 0; absent in older saves (it is put next to the player).
+- `companion` (a protagonist with a companion, spec 10) is `{"x", "y", "cooldown"}`: where the companion is and how many ticks until it hits again, with `stay` (true when it was told to stay) and `bond` (its kills) when they are not false and 0; absent in older saves (it is put next to the player). With `id`, the companion that follows when the party is not the one of the start (spec 10, "The party").
+- `party` (spec 10, "The party") is the list of the companions of the party, the protagonist's first, absent while it is the one of the start; `bonds` maps the companions that wait to their bond, absent when none has one.
 - `stones` (streamed world) is the list of the tiles `[x, y]` of the Threshold Stones that were used, in the order they were woken (spec 09); absent in old saves.
 - `story.quests.<id>.day` is the day a timed quest was started (spec 07, "Timed quests"); written only for a quest with `time_limit_days`,
   absent in older saves.

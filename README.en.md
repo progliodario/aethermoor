@@ -33,15 +33,15 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | What | How many (counted from the data by `tools/make_facts.py`) |
 |---|---|
 | World | 8 regions, 45 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
-| Protagonists | 8, each with a companion (8 companions) and a story of six acts (120 story quests) |
+| Protagonists | 8, each with a companion, 4 more companions who may join the party, and a story of six acts (120 story quests) |
 | Creatures | 79, of which 27 guardians and 8 Echoes |
 | Quests | 407 (24 tales of the villagers) |
 | Items and recipes | 290 items, 86 recipes (8 secret) |
 | Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 57 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 4246 keys, in Italian and English |
-| Same rules on both clients | 31 files of conformance vectors, 627 cases, run by the C++ and the Kotlin tests |
+| Texts | 4264 keys, in Italian and English |
+| Same rules on both clients | 31 files of conformance vectors, 632 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->
 
@@ -55,7 +55,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | World | huge, eight regions, towns, dungeons, weather that hides and slows, wind that pushes, fog and storms | performance measured on a phone |
 | Quests and stories | a story in six acts for every protagonist, tales of the villagers, guild, legends, bounties | Gideon's Dungeon mode |
 | Life | gathering, fishing, hunting, gardens, animals, shared chests, the Guest's cottage and its furniture, pedlars, secret recipes, food with effects | wagons seen travelling, a bigger house |
-| Companions | one per protagonist with commands, bond and care; Haruka tames a second one | more companions chosen by the player |
+| Companions | one per protagonist with commands, bond and care; Haruka tames a second one; a party with the four strays of the cottage, one at a time | the abilities of pairs |
 | Progression | talents with abilities, titles with effects, bestiary, reincarnation with an heirloom, deeds that give echoes, runes on the weapons, tags to wear, weapons and armors with rolled affixes (also on twenty-four common pieces) tempered at an anvil or by the smiths, pieces with two affixes, gifts of the deeds | affixes to choose |
 | Accessibility | hints, damage numbers and flashes can be turned off, large text, configurable keys | — |
 | Release | test builds from CI | Alpha 0.1 and then 1.0 (the owner decides) |
@@ -239,7 +239,7 @@ The project is developed by the owner together with Claude, an AI assistant that
 The next things, in order. The full program, with the batches, the files and the acceptance of each item, is in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md) (in Italian); the short list of the roadmap is in [section 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
 - **Soon:** a detekt baseline down to zero.
-- **Middle term:** companions the player chooses; Gideon's Dungeon mode; streaming on a worker thread and measures on Android; a synthesizer for music and ambience (only if the owner wants it).
+- **Middle term:** Gideon's Dungeon mode; streaming on a worker thread and measures on Android; a synthesizer for music and ambience (only if the owner wants it).
 - **Toward 1.0:** quality settings and a review of the translations; controls and layout on Android; signed packages; loading mods in the game (the guide and the check of a mod are there).
 - **The owner decides:** when to publish the first release (Alpha 0.1), the repository settings, the signing keys and the other decisions listed in the program.
 

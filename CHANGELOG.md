@@ -6,6 +6,15 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The party** (spec 10, "The party"): more companions, one at a time. Old Tam lets the owner of the cottage take along its four
+  strays: Biscuit, the dog Odo's caravan left behind; Hoot, the owl of the barn (from level 10); Sly, the fox of the garden (for three
+  wild berries); and Cinder, the ember slime by the anvil (for an ember core; it keeps you warm). The one taken along follows at once;
+  `O` on desktop and the `Next` button on Android make the next companion of the party follow. Every companion keeps its own bond.
+
+### Fixed
+
+- The Python reference did not save the companion (both clients did): it saves it now, as spec 12 says.
+
 - **Rooms of the cottage** (spec 06, "Rooms"): the Guest's cottage has an annex east of the house with three rooms, two places for
   furniture each: the workshop, the study and the greenhouse. Garrick, the carpenter of Fenwick, works by the annex and fixes them up
   for the owner of the cottage, one at a time: the workshop for 600 gold, twelve logs and six iron ores; the study for 900 gold, ten

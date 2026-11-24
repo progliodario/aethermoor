@@ -180,15 +180,8 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
         startLevel = player.getValue("level").jsonPrimitive.int,
         story = input["story"]?.let { parseStorySetup(it) } ?: StorySetup(),
         startInventory = input["inventory"]?.jsonObject?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
-        companion = input["companion"]?.jsonObject?.let { c ->
-            CompanionDef(
-                atkBase = c.long("atk_base"), atkPerLevel = c.long("atk_per_level"), rangeX100 = c.getValue("range_x100").jsonPrimitive.int,
-                cooldownTicks = c.getValue("cooldown_ticks").jsonPrimitive.int, speedX100 = c.getValue("speed_x100").jsonPrimitive.int,
-                followX100 = c.getValue("follow_x100").jsonPrimitive.int,
-                careBond = c["care_bond"]?.jsonPrimitive?.int ?: 0, careTicks = c["care_ticks"]?.jsonPrimitive?.int ?: 0,
-                carePct = c["care_pct"]?.jsonPrimitive?.int ?: 0,
-            )
-        },
+        companion = input["companion"]?.jsonObject?.let { companionOf(it) },
+        companions = input["companions"]?.jsonObject?.mapValues { companionOf(it.value.jsonObject) } ?: emptyMap(),
         talents = input["talents"]?.jsonArray?.map { t ->
             val o = t.jsonObject
             TalentDef(
@@ -306,6 +299,20 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
 internal fun newSim(world: ScenarioWorld) =
     WorldSim(world.map, world.tileset, 0f, world.combat).also { it.story.gold = world.startGold }
 
+/** A companion of a scenario (spec 10). */
+private fun companionOf(c: JsonObject): CompanionDef = CompanionDef(
+    id = c["id"]?.jsonPrimitive?.content ?: "",
+    atkBase = c.long("atk_base"),
+    atkPerLevel = c.long("atk_per_level"),
+    rangeX100 = c.getValue("range_x100").jsonPrimitive.int,
+    cooldownTicks = c.getValue("cooldown_ticks").jsonPrimitive.int,
+    speedX100 = c.getValue("speed_x100").jsonPrimitive.int,
+    followX100 = c.getValue("follow_x100").jsonPrimitive.int,
+    careBond = c["care_bond"]?.jsonPrimitive?.int ?: 0,
+    careTicks = c["care_ticks"]?.jsonPrimitive?.int ?: 0,
+    carePct = c["care_pct"]?.jsonPrimitive?.int ?: 0,
+)
+
 /** Chooses an affix (spec 06, "Choosing an affix"): the `piece` of the command, or the offer of now at its index `offer`. */
 private fun chooseAffix(sim: WorldSim, cmd: JsonObject) {
     val offers = sim.affixOffers()
@@ -331,6 +338,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             "talent" -> sim.learnTalent(cmd.getValue("talent").jsonPrimitive.content)
             "companion_stay" -> sim.companionStay()
             "companion_recall" -> sim.companionRecall()
+            "companion_switch" -> sim.companionSwitch()
             "ability" -> sim.useAbility(cmd.getValue("kind").jsonPrimitive.content)
             "craft" -> sim.craft(cmd.getValue("recipe").jsonPrimitive.content)
             "equip" -> sim.equip(cmd.getValue("item").jsonPrimitive.content)
@@ -416,6 +424,11 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         val got = sim.furniture.map { (key, item) -> listOf(key.first.toString(), key.second.toString(), item) }
         assertEquals(wp.map { p -> p.jsonArray.map { it.jsonPrimitive.content } }, got, "$at furniture")
     }
+    want["party"]?.jsonArray?.let { wp ->
+        // the party and the bonds that wait (spec 10, "The party")
+        assertEquals(wp.map { it.jsonPrimitive.content }, sim.party.toList(), "$at party")
+        assertEquals(want.getValue("bonds").jsonObject.mapValues { it.value.jsonPrimitive.int }, sim.waitingBonds.toMap(), "$at bonds")
+    }
     want["affix_offers"]?.jsonArray?.let { wo ->
         // the offers of now (spec 06, "Choosing an affix")
         assertEquals(wo.map { it.jsonPrimitive.content }, sim.affixOffers(), "$at affix_offers")
@@ -445,6 +458,7 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertNear(wc.getValue("y").num(), pos.y, tol, "$at companion y")
         assertEquals(wc.getValue("stay").jsonPrimitive.boolean, sim.companionStaying, "$at companion stay")
         assertEquals(wc.getValue("bond").jsonPrimitive.int, sim.companionBond, "$at companion bond")
+        wc["id"]?.let { assertEquals(it.jsonPrimitive.content, sim.companionDef?.id, "$at companion id") } // spec 10, "The party"
     }
     want["bestiary"]?.jsonObject?.let { b ->
         assertEquals(b.size, sim.bestiary.size, "$at bestiary size")

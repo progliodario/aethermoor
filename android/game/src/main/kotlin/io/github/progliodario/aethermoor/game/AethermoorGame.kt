@@ -172,6 +172,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var craftRect: FloatArray? = null
     private var abilityRects: List<Pair<String, FloatArray>> = emptyList() // the buttons of the active abilities (spec 11, "Active abilities")
     private var recallRect: FloatArray? = null // the button that calls the companion back (spec 10, "Commands")
+    private var switchRect: FloatArray? = null // the button that makes the next companion of the party follow (spec 10, "The party")
     private var companionRect: FloatArray? = null // the button that tells the companion to stay or to follow (spec 10)
     private var journalScroll = 0
     private var journalRect: FloatArray? = null
@@ -884,7 +885,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             data.deeds.firstOrNull { it.id == id }?.let { showNotice(data.pack.text(language, "\$i18n:ui.deed_done", mapOf("deed" to data.pack.text(language, it.name)))) }
         }
         if (options[0]) updateHints(world, data, free) // unless the hints are turned off (spec 16, "Settings")
-        world.combat.companion?.let { c ->
+        world.companionDef?.let { c ->
             // moments of the bond, once a game (spec 10)
             val moment = c.moments.firstOrNull { (bond, _) -> world.companionBond >= bond && world.story.flags["moment_${c.id}_$bond"] != true }
             if (moment != null) {
@@ -1277,7 +1278,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** The companion (spec 10), drawn with the art of its creature, a little smaller, bobbing. */
     private fun drawCompanion(world: WorldSim, camX: Float, camY: Float, tilePx: Int, tile: Float, k: Float) {
-        val def = world.combat.companion ?: return
+        val def = world.companionDef ?: return
         val at = world.companionPosition ?: return
         val sprite = cache.get(def.art, tilePx) ?: return
         val s = k * def.scalePct / 100f
@@ -2260,6 +2261,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     if (world.companionRecall()) assets?.let { showNotice(it.pack.text(language, "\$i18n:ui.companion_recalled")) }
                     return
                 }
+                if (tapSwitch(world, x, y)) return
                 val craftButton = craftRect
                 if (craftButton != null && x >= craftButton[0] && x <= craftButton[0] + craftButton[2] && y >= craftButton[1] && y <= craftButton[1] + craftButton[3]) {
                     showCraft = true
@@ -2681,7 +2683,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             }
         }
         // The companion (spec 10): its name, what it is doing, its bond and what the bond adds to its attack.
-        world.combat.companion?.let { companion ->
+        world.companionDef?.let { companion ->
             entries.add(Pair("", 2))
             entries.add(Pair(data.pack.text(language, "\$i18n:ui.journal_companion"), 0))
             entries.add(Pair(data.pack.text(language, companion.name), 1))
@@ -3357,7 +3359,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         "hurt" -> world.player.hp * 2 < world.derived.maxHp
         "stone" -> world.stoneNear() != null
         "talent_points" -> world.talentPoints() > 0 && world.combat.talents.isNotEmpty()
-        "companion" -> world.combat.companion != null
+        "companion" -> world.companionDef != null
         "renown" -> world.renownHere() > 0
         "plot" -> world.plotNear() != null
         "chest" -> world.chestNear()
@@ -3443,13 +3445,43 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.end()
     }
 
+    /** A tap on the button of the party (spec 10, "The party"): the next companion follows, and a notice names it; true when it was the button. */
+    private fun tapSwitch(world: WorldSim, x: Float, y: Float): Boolean {
+        val r = switchRect ?: return false
+        if (x < r[0] || x > r[0] + r[2] || y < r[1] || y > r[1] + r[3]) return false
+        if (world.companionSwitch()) {
+            assets?.let { data -> showNotice(data.pack.text(language, "\$i18n:ui.companion_switched", mapOf("name" to data.pack.text(language, world.companionDef?.name ?: "")))) }
+        }
+        return true
+    }
+
+    /** The button of the party (spec 10, "The party"), next to Stay and Come, when the party has another companion. */
+    private fun drawSwitchButton(world: WorldSim, data: Assets) {
+        val density = Gdx.graphics.density
+        val button = floatArrayOf(12f * density + 208f * density, 154f * density, 96f * density, 34f * density)
+        switchRect = if (world.party.size > 1 && companionRect != null) button else null
+        if (switchRect == null) return
+        shapes.projectionMatrix = camera.combined
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        shapes.begin(ShapeRenderer.ShapeType.Filled)
+        shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
+        shapes.rect(button[0], button[1], button[2], button[3])
+        shapes.end()
+        batch.projectionMatrix = camera.combined
+        batch.begin()
+        font.color = Color.WHITE
+        font.draw(batch, data.pack.text(language, "\$i18n:ui.companion_switch_button"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+        batch.end()
+    }
+
     /** The button that tells the companion to stay or to follow (spec 10, "Commands"), in a second row under the other buttons. */
     private fun drawCompanionButton(world: WorldSim, data: Assets) {
         val density = Gdx.graphics.density
         val button = floatArrayOf(12f * density, 154f * density, 96f * density, 34f * density)
-        if (world.combat.companion == null || showCraft || world.story.dialogueActive || showMap || showInventory || showJournal) {
+        if (world.companionDef == null || showCraft || world.story.dialogueActive || showMap || showInventory || showJournal) {
             companionRect = null
             recallRect = null
+            switchRect = null
             return
         }
         companionRect = button
@@ -3469,6 +3501,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         font.draw(batch, data.pack.text(language, "\$i18n:ui.companion_recall_button"), recall[0] + 8f * density, recall[1] + (recall[3] - font.lineHeight) / 2f)
         font.draw(batch, data.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_follow_button" else "\$i18n:ui.companion_stay_button"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
         batch.end()
+        drawSwitchButton(world, data)
     }
 
     /** What opens a branch of the talent tree that is still closed, or nothing. */

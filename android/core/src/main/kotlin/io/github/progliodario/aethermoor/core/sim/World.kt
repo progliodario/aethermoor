@@ -348,10 +348,24 @@ class WorldSim(
     private val events = ArrayList<DamageEvent>()
     private val cues = ArrayList<SimCue>()
 
-    /** The companion (spec 10): where it is, or null when the protagonist has none. */
-    var companionPosition: Vec2? = if (combat.companion != null) player.position else null
+    /** The companions that may follow (spec 10, "The party"): those of the pack and the protagonist's own, by ID. */
+    private val companionDefs: Map<String, CompanionDef> = combat.companions + (combat.companion?.let { mapOf(it.id to it) } ?: emptyMap())
+
+    /** The companion that follows now (spec 10, "The party"): the protagonist's own until another of the party does; null: none. */
+    var companionDef: CompanionDef? = combat.companion
         private set
-    private var companionCooldown = combat.companion?.cooldownTicks ?: 0
+
+    /** The ids of the party (spec 10, "The party"), the protagonist's companion first. */
+    val party = ArrayList<String>(listOfNotNull(combat.companion?.id))
+    private val startParty: List<String> = party.toList()
+
+    /** The bonds of the companions of the party that wait (spec 10, "The party"). */
+    val waitingBonds = java.util.TreeMap<String, Int>()
+
+    /** The companion (spec 10): where it is, or null when the protagonist has none. */
+    var companionPosition: Vec2? = if (companionDef != null) player.position else null
+        private set
+    private var companionCooldown = companionDef?.cooldownTicks ?: 0
 
     /** The companion was told to stay where it is (spec 10, "Commands"). */
     var companionStaying = false
@@ -364,7 +378,7 @@ class WorldSim(
 
     /** Tells the companion to stay where it is, or to follow again; false when there is none. */
     fun companionStay(): Boolean {
-        if (combat.companion == null) return false
+        if (companionDef == null) return false
         companionStaying = !companionStaying
         tamedFriend?.stay = companionStaying // the tamed friend obeys too (spec 10)
         return true
@@ -389,7 +403,7 @@ class WorldSim(
         tamed.hp = 0
         tamed.state = EnemyState.DEAD
         count("tamed")
-        if (combat.companion != null) companionBond += gift.tameBond
+        if (companionDef != null) companionBond += gift.tameBond
         cues.add(SimCue("die", tamed.def.sound, tamed.position))
         onKill(tamed)
         if (gift.friendAtkPct > 0) tamedFriend = Friend(tamed.def, tamed.position, FRIEND_COOLDOWN) // it stays, in place of the one before (spec 10)
@@ -478,9 +492,50 @@ class WorldSim(
     /** Whether a recipe can be made: one without `requires_flag` always, the others once the story has that flag (spec 06, "Recipe book"). */
     fun recipeKnown(recipe: RecipeDef): Boolean = recipe.requiresFlag.isEmpty() || story.flags[recipe.requiresFlag] == true
 
+    /** The companion [id] of the party follows now (spec 10, "The party"): the bond of the one before waits with it. */
+    private fun makeCompanionActive(id: String) {
+        companionDef?.let { if (companionBond > 0) waitingBonds[it.id] = companionBond }
+        val def = companionDefs.getValue(id)
+        companionDef = def
+        companionBond = waitingBonds.remove(id) ?: 0
+        companionPosition = player.position
+        companionStaying = false
+        companionCooldown = def.cooldownTicks
+        companionCare = 0
+    }
+
+    /** A companion joins the party, last, and follows at once (spec 10, "The party"); false, changing nothing, when it is unknown or in it. */
+    override fun recruitCompanion(id: String): Boolean {
+        if (id !in combat.companions || id in party) return false
+        party.add(id)
+        makeCompanionActive(id)
+        return true
+    }
+
+    /** The next companion of the party follows, after the last the first (spec 10, "The party"); false with fewer than two, or in a dialogue. */
+    fun companionSwitch(): Boolean {
+        val def = companionDef ?: return false
+        if (party.size < 2 || story.dialogueActive) return false
+        makeCompanionActive(party[(party.indexOf(def.id) + 1) % party.size])
+        return true
+    }
+
+    /** What a save keeps of the party (spec 10, "The party"): the companion that follows and the party, nothing while it is the one of the start. */
+    private fun savedParty(): Pair<String, List<String>> = if (party == startParty) Pair("", emptyList()) else Pair(companionDef?.id ?: "", party.toList())
+
+    /** The party of a save, and the companion that follows (spec 10, "The party"). */
+    private fun restoreParty(s: SaveState) {
+        party.clear()
+        party.addAll((s.party.ifEmpty { startParty }).filter { it in companionDefs })
+        waitingBonds.clear()
+        waitingBonds.putAll(s.bonds)
+        companionDefs[s.companionId.ifEmpty { startParty.firstOrNull() ?: "" }]?.let { companionDef = it }
+        companionCare = 0
+    }
+
     /** Calls the companion back (spec 10, "Commands"): it is next to the player at once and follows again; false when there is none. */
     fun companionRecall(): Boolean {
-        if (combat.companion == null) return false
+        if (companionDef == null) return false
         companionPosition = player.position
         companionStaying = false
         tamedFriend?.let {
@@ -1210,7 +1265,7 @@ class WorldSim(
 
     // The companion follows the player and hits the nearest creature in range now and then (spec 10).
     private fun updateCompanion() {
-        val c = combat.companion ?: return
+        val c = companionDef ?: return
         var pos = companionPosition ?: player.position
         val p = player
         val dx = p.position.x - pos.x
@@ -2105,6 +2160,9 @@ class WorldSim(
             bestiary = bestiary.toMap(),
             companionStay = companionStaying,
             companionBond = companionBond,
+            companionId = savedParty().first,
+            party = savedParty().second,
+            bonds = waitingBonds.toMap(),
             tamedFriend = tamedFriend?.let { FriendSave(it.def.id, it.position.x, it.position.y, it.cooldown, it.stay) },
             counters = counters.toMap(),
             talents = talents.toMap(),
@@ -2114,7 +2172,7 @@ class WorldSim(
             rolls = rolls.toMap(),
             furniture = furniture.map { (key, item) -> FurnitureSave(key.first, key.second, item) },
             tag = wornTag,
-            companion = if (combat.companion != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
+            companion = if (companionDef != null) Triple((companionPosition ?: player.position).x, (companionPosition ?: player.position).y, companionCooldown) else null,
             equippedWeapon = equippedWeapon,
             equippedArmor = equippedArmor,
             equippedAccessory = equippedAccessory,
@@ -2249,7 +2307,8 @@ class WorldSim(
         for (f in s.furniture) furniture[Pair(f.x, f.y)] = f.item
         wornTag = s.tag
         recomputeDerived() // the talents change the derived stats
-        combat.companion?.let { c ->
+        restoreParty(s)
+        companionDef?.let { c ->
             // a save without a companion (an older one) puts it next to the player
             val saved = s.companion
             companionPosition = if (saved != null) Vec2(saved.first, saved.second) else player.position

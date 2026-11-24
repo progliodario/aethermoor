@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/companion.schema.json",
+  "id": "base:companion/hoot",
+  "name": "$i18n:companion.hoot.name",
+  "art": "base:art/creature/night_owl",
+  "scale_pct": 60,
+  "atk_base": 8,
+  "atk_per_level": 1,
+  "range_x100": 300,
+  "cooldown_ticks": 90,
+  "speed_x100": 400,
+  "follow_x100": 240
+}

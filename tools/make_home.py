@@ -14,6 +14,7 @@ from __future__ import annotations
 import json
 import re
 
+from make_party import tam_nodes
 from make_towns import DATA, set_texts
 
 WORLD = DATA / "worlds" / "overworld.json"
@@ -236,11 +237,13 @@ def tam_dialogue() -> dict:
             {"text": "$i18n:dlg.home.tam.rest", "next": "rest"},
             {"text": "$i18n:dlg.home.tam.about", "next": "story"},
             {"text": "$i18n:dlg.home.tam.furnish", "when": {"flag": "cottage_given"}, "next": "furniture"},
+            tam_nodes()[0],  # the strays of the cottage, who may join the party (spec 10, "The party"; tools/make_party.py)
             {"text": "$i18n:dlg.home.tam.bye", "next": "end"}]},
         "rest": {"type": "effects", "effects": [{"effect": "heal_full"}], "next": "slept"},
         "slept": say(sp, "dlg.home.tam.slept", "end"),
         "story": say(sp, "dlg.home.tam.story", "menu"),
         "furniture": say(sp, "dlg.home.tam.furniture", "menu"),  # spec 06, "Furniture"
+        **tam_nodes()[1],
     }}
 
 

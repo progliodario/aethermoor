@@ -350,6 +350,24 @@
               "minimum": 0
             }
           }
+        },
+        {
+          "type": "object",
+          "required": [
+            "effect",
+            "companion"
+          ],
+          "additionalProperties": false,
+          "description": "a companion joins the party and follows at once (spec 10, The party)",
+          "properties": {
+            "effect": {
+              "const": "recruit_companion"
+            },
+            "companion": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*:companion/[a-z0-9_]+$"
+            }
+          }
         }
       ]
     },

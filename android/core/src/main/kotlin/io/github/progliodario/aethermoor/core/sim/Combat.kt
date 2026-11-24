@@ -322,6 +322,8 @@ class CombatSetup(
     val recipes: List<RecipeDef> = emptyList(),
     /** The companion of the protagonist (spec 10), or null. */
     val companion: CompanionDef? = null,
+    /** Every companion of the pack, by ID: those that may join the party (spec 10, "The party"). */
+    val companions: Map<String, CompanionDef> = emptyMap(),
     /** The titles that can be earned (spec 11), in order of rank. */
     val titles: List<TitleDef> = emptyList(),
     /** Items with a `use` block, by item ID (spec 06). */

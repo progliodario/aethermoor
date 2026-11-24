@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/companion.schema.json",
+  "id": "base:companion/sly",
+  "name": "$i18n:companion.sly.name",
+  "art": "base:art/creature/dune_fox",
+  "scale_pct": 60,
+  "atk_base": 6,
+  "atk_per_level": 1,
+  "range_x100": 180,
+  "cooldown_ticks": 50,
+  "speed_x100": 380,
+  "follow_x100": 200
+}

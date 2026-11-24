@@ -276,15 +276,15 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Che cosa | Quanti (contati dai dati da `tools/make_facts.py`) |
 |---|---|
 | Mondo | 8 regioni, 45 luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati |
-| Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (120 missioni di storia) |
+| Protagonisti | 8, ognuno con un compagno, altri 4 compagni che possono entrare nel gruppo, e una storia in sei atti (120 missioni di storia) |
 | Creature | 79, di cui 27 guardiani e 8 Echi |
 | Missioni | 407 (24 storie dei paesani) |
 | Oggetti e ricette | 290 oggetti, 86 ricette (8 segrete) |
 | Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 57 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4246 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 627 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 4264 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 31 file di vettori di conformità, 632 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
 
@@ -301,7 +301,7 @@ Legenda: **fatto** = le consegne del piano ci sono e funzionano su tutti e due i
 | M4 Dialoghi, missioni, inventario, salvataggi | quasi | dialoghi con condizioni ed effetti, missioni con meta sulla mappa, zaino, negozi, equipaggiamento a tre posti, diario e finestra di stato, gilda con ranghi F-S e bacheca, locande, tre partite, export e import, `profile.json`, volumi, tasti configurabili (desktop), Fenwick e Aldermere scritti a mano, otto prologhi | la **release Alpha 0.1** (tag e pacchetti: decisione del proprietario) |
 | M5 Mondo aperto | quasi | streaming dei chunk, regioni, insediamenti, siti, fiumi e strade, stagioni, meteo con pioggia, neve, nebbia e notte che nascondono il giocatore, vento che lo spinge, temporali, stagioni che rallentano le creature o le rendono meno attente, routine dei PNG, Pietre della Soglia, mappa del mondo e mini mappa, luci di notte | prestazioni misurate su un telefono reale |
 | M6 Sistemi di vita | fatto | raccolta (alberi, cespugli, rocce, cactus, funghi, canneti per pescare e la scenografia selvatica), caccia, ricette al falò e all'incudine (otto segrete, insegnate dai bottegai), cibi e infusi con effetti (fortifica, protegge, rigenera, rapidità, purifica), accessori, opere pregiate, giorni di mercato, merci di altre regioni portate dalle carovane, orti (che crescono prima con la pioggia), pollai e recinti nei villaggi, negozi che pagano meno se vendi troppo, bauli condivisi in ogni villaggio e città, Nonna Brin, il venditore ambulante Corvin, il cottage dell'Ospite con i suoi mobili e tre stanze da sistemare, otto residenti che arrivano agli avamposti, Odo il capo carovana, Brannoc il fabbro errante e Lark la cantastorie che ogni giorno sono in un altro avamposto e camminano tra le tappe, stagioni che cambiano i raccolti, il giardino del cottage, un colono in ogni villaggio generato con il suo mestiere, la sua missione e la sua bottega, una festa per regione con i suoi giochi, i paesani che ne parlano | nulla |
-| M7 Compagni | avviato | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna | più compagni scelti dal giocatore |
+| M7 Compagni | fatto | un compagno per protagonista che segue, combatte, resta, segue o torna a comando, cresce di legame e cura il giocatore; i doni di Haruka (legame più rapido) e di Gideon (compagno più forte) ; Haruka doma le creature ferite e l'ultima resta con lei come secondo compagno ; momenti del legame; il compagno domato obbedisce a resta e torna, un gruppo di compagni (i quattro randagi del cottage) che seguono uno alla volta, ognuno con il suo legame | nulla |
 | M8 Progressione profonda | fatto | bestiario con debolezze, titoli con effetti e progressi visibili, albero di talenti con quattro abilità e due abilità a comando, echi, reincarnazione con eredità di oro e arma, imprese di tutte le partite lette dal profilo, rune incise sulle armi, tag da indossare, armi e armature con affissi tirati a sorte quando si trovano, anche ventiquattro pezzi comuni, e ritemprati all'incudine o dai fabbri, dodici pezzi rari con due affissi, affissi scelti all'incudine con il prisma, doni delle imprese a ogni partita nuova | nulla |
 | M9 Contenuti | quasi | per ognuno degli otto protagonisti: prologo, dono, due missioni personali, storia in tre atti, epilogo, quinto e sesto atto ("Due Ospiti", che lega i protagonisti a coppie), epilogo contro il proprio Eco e boss; Libro delle Leggende (una leggenda per regione), taglie su tutti i guardiani, missioni di città, avamposti, caccia, pesca, lettere | la modalità Dungeon di Gideon |
 | M10 Rifinitura | avviato | effetti sonori, pannelli e barre ridisegnati, testi che vanno a capo per larghezza, niente scatti quando appare roba nuova, consigli per i primi minuti, opzioni di accessibilità (consigli, numeri, lampi, testo grande), crediti, traduzioni controllate da uno strumento, log dei crash | un sintetizzatore migliore per riaccendere musica e ambiente |
@@ -384,6 +384,9 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 **Compagni** (spec 10)
 
 - Un compagno per protagonista: segue, combatte quello che colpisci, resta o segue a comando, torna subito da te a comando (dal 14 novembre), il legame cresce con le sue vittorie; dal legame 10 ti cura un po' ogni dieci secondi.
+- **Il gruppo** (dal 24 novembre, C2.1, spec 10 "The party"): il vecchio Tam lascia portare via i quattro randagi del cottage (Biscotto
+  il cane, Gufetto il gufo, Furbo la volpe, Brace la gelatina di brace); ne segue uno alla volta, `O` o il pulsante `Altro` fa seguire
+  il prossimo, e ognuno tiene il suo legame.
 
 **Progressione** (spec 11, 12)
 
@@ -447,7 +450,6 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 
 **A medio termine (verso Alpha 0.2 e Beta 0.5)**
 
-7. **Più compagni scelti dal giocatore** (M7; il compagno di ognuno e la creatura domata di Haruka ci sono).
 9. **La modalità Dungeon** di Gideon (M9): una variante semplificata, ondate di eroi invasori contro la sua base.
 10. **Prestazioni su Android** misurate su un telefono, e la prova della perdita del contesto grafico (R4, R6).
 11. **Un sintetizzatore con rumore filtrato**, per poter riaccendere musica e ambiente (solo se il proprietario lo vuole).

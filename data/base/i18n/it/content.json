@@ -1838,5 +1838,9 @@
   "home.room.workshop": "il laboratorio",
   "home.room.study": "lo studio",
   "home.room.greenhouse": "la serra",
+  "companion.biscuit.name": "Biscotto",
+  "companion.hoot.name": "Gufetto",
+  "companion.sly.name": "Furbo",
+  "companion.cinder.name": "Brace",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

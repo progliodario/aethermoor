@@ -841,9 +841,9 @@ Scenario scenario_from_json(const Json& in) {
             setup.start_inventory[item] = quantity.get<std::int64_t>();
         }
     }
-    if (in.contains("companion")) {
-        const Json& c = in.at("companion");
+    const auto companion_of = [](const Json& c) {
         aether::CompanionDef def;
+        def.id = c.value("id", "");
         def.atk_base = integer(c, "atk_base");
         def.atk_per_level = integer(c, "atk_per_level");
         def.range_x100 = c.at("range_x100").get<int>();
@@ -853,7 +853,15 @@ Scenario scenario_from_json(const Json& in) {
         def.care_bond = c.value("care_bond", 0);
         def.care_ticks = c.value("care_ticks", 0);
         def.care_pct = c.value("care_pct", 0);
-        setup.companion = def;
+        return def;
+    };
+    if (in.contains("companion")) {
+        setup.companion = companion_of(in.at("companion"));
+    }
+    if (in.contains("companions")) {  // those that may join the party (spec 10, "The party")
+        for (const auto& [id, c] : in.at("companions").items()) {
+            setup.companions[id] = companion_of(c);
+        }
     }
     if (in.contains("recipes")) {
         for (const Json& r : in.at("recipes")) {
@@ -1137,6 +1145,8 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
                 sim.companion_stay();
             } else if (cmd == "companion_recall") {
                 sim.companion_recall();
+            } else if (cmd == "companion_switch") {
+                sim.companion_switch();
             } else if (cmd == "ability") {
                 sim.use_ability(command.at("kind").get<std::string>());
             } else if (cmd == "craft") {
@@ -1259,6 +1269,10 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
             ++i;
         }
     }
+    if (want.contains("party")) {  // the party and the bonds that wait (spec 10, "The party")
+        REQUIRE(sim.party() == want.at("party").get<std::vector<std::string>>());
+        REQUIRE(sim.waiting_bonds() == want.at("bonds").get<std::map<std::string, int>>());
+    }
     if (want.contains("affix_offers")) {  // the offers of now (spec 06, "Choosing an affix")
         const Json& wo = want.at("affix_offers");
         const std::vector<std::string> got = sim.affix_offers();
@@ -1299,6 +1313,9 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(sim.companion_position()->y == Catch::Approx(wc.at("y").get<float>()).margin(tol));
         REQUIRE(sim.companion_staying() == wc.at("stay").get<bool>());
         REQUIRE(sim.companion_bond() == wc.at("bond").get<int>());
+        if (wc.contains("id")) {  // the companion that follows (spec 10, "The party")
+            REQUIRE(sim.companion_id() == wc.at("id").get<std::string>());
+        }
     }
     if (want.contains("bestiary")) {
         const Json& bestiary = want.at("bestiary");

@@ -1,6 +1,6 @@
 # 10. Companions
 
-Status: **v1.2 (a follower that fights, the stay command, a bond that grows with its kills, and care: a close companion heals the player; several companions at once come later)**. Reference: `CombatSim._update_companion` in `tools/reference/combat.py`.
+Status: **v1.3 (a follower that fights, the stay command, a bond that grows with its kills, care: a close companion heals the player, and the party: more companions, one of them at a time)**. Reference: `CombatSim._update_companion` in `tools/reference/combat.py`.
 Schema: `schemas/companion.schema.json`. Conformance: the scenarios `companion_fights`, `companion_follows`, `companion_stays` and `companion_bond` (the checkpoints carry `companion`: position, `stay`, `bond`) of the suite `combat`.
 
 Every protagonist has a **companion** (`companion` in the protagonist data, spec 18): a small creature that walks with the player and hits the enemies near it now and then, so that fights are
@@ -52,6 +52,28 @@ A protagonist with the gift `friend_atk_pct` (spec 18) keeps the last creature i
 2. **Hit.** Its cooldown goes down by one; at 0 it hits the nearest living creature whose centre is within `2.0 + its radius` tiles (the first one in the order of the world, of two at the same distance): `damage(atk of its creature * friend_atk_pct / 100, power 100%, the defense of the target, the levels of the player and of the target, variance 1000, no critical)`, and the cooldown is 50 again. A creature it kills is a kill of the player.
 
 It obeys the commands of the companion: `companion_stay` makes it stay or follow with the companion (a friend that stays does not move in step 1 until it is more than 8 tiles away, which also makes it follow again), and `companion_recall` puts it on the player's position, following. Creatures never attack it; it cannot die. A save keeps it (`friend` in the save document, spec 12); a save of a creature the world no longer knows loses it. The checkpoints of the scenarios carry `friend` (`enemy`, `x`, `y`, `stay`) when there is one. The clients draw it with the art of its creature, three quarters of its size, and name it in the journal. Conformance: the scenarios `gift_tame_friend` and `friend_commands`.
+
+## The party
+
+The protagonist's companion is the first of a **party**. The dialogue effect `recruit_companion {companion}` (spec 07; an ID of
+`data/base/companions/`) adds a companion to it, last, and makes it the one that follows at once; a companion unknown to the game or
+already in the party changes nothing. One companion of the party at a time is **active**: it is the companion of every rule above
+(it follows, hits, stays, cares, grows its bond, is drawn). The others wait: they are not in the world.
+
+The command `companion_switch` makes the next companion of the party active (after the last, the first). It is refused, changing
+nothing, with fewer than two in the party and while a dialogue is open. **Making a companion active**: the bond of the one that was
+active waits with it (each companion of the party has its own bond, which is never lost); the new one is put on the player's position,
+following, with its cooldown at its `cooldown_ticks`, its care counter at 0 and the bond that waited for it (0 the first time). The
+tamed friend (below) stays as it is. A save keeps the party, the companion that follows and the bonds that wait (`party`, `bonds` and
+`companion.id`, spec 12). The checkpoints of a scenario with `companions` (the definitions that may join) carry `companion.id`,
+`party` and `bonds`. Desktop: `O` (an action of the configurable keys, `switch`); Android: the `Next` button next to `Stay` and `Come`,
+shown when the party has another companion; a notice names the one that follows.
+
+The base pack has four companions that may join (`tools/make_party.py`), the strays of the Guest's cottage, which Old Tam lets its
+owner take along (spec 07, "People of the towns"): Biscuit, the dog Odo's caravan left behind (art of the tawny wolf at 55%); Hoot, the
+owl of the barn, from level 10 (the night owl, 60%); Sly, the fox of the garden, for three wild berries (the dune fox, 60%); and Cinder,
+the ember slime by the anvil, for an ember core (70%; it keeps the Guest warm: care from bond 10). Conformance: the scenario
+`party_of_companions` and two save splits of it.
 
 ## Bond
 

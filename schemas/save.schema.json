@@ -376,7 +376,17 @@
       "type": "object",
       "required": ["x", "y", "cooldown"],
       "additionalProperties": false,
-      "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "cooldown": { "type": "integer", "minimum": 0 }, "stay": { "type": "boolean" }, "bond": { "type": "integer", "minimum": 0 } }
+      "properties": { "x": { "type": "number" }, "y": { "type": "number" }, "cooldown": { "type": "integer", "minimum": 0 }, "stay": { "type": "boolean" }, "bond": { "type": "integer", "minimum": 0 }, "id": { "type": "string" } }
+    },
+    "party": {
+      "description": "the companions of the party, the protagonist's first (spec 10, \"The party\"); absent while it is the one of the start",
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "bonds": {
+      "description": "the bonds of the companions of the party that wait (spec 10, \"The party\")",
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 1 }
     },
     "plots": {
       "type": "array",

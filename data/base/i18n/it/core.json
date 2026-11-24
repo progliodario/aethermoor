@@ -1612,5 +1612,19 @@
   "dlg.home.garrick.built_study": "Ecco fatto: lo studio adesso è a posto. Due posti per i mobili, e neanche uno spiffero. Costruisci qualcosa per la stanza alla tua incudine.",
   "dlg.home.garrick.fix_greenhouse": "Sistema la serra (1200 monete, 10 pezzi di pietra, 8 fiori di campo)",
   "dlg.home.garrick.built_greenhouse": "Ecco fatto: la serra adesso è a posto. Due posti per i mobili, e neanche uno spiffero. Costruisci qualcosa per la stanza alla tua incudine.",
-  "ui.crash_log_copied": "L'ultima volta il gioco si è fermato per un errore. Che cosa è successo è scritto in {path}, ed è copiato: incollalo nella segnalazione."
+  "ui.crash_log_copied": "L'ultima volta il gioco si è fermato per un errore. Che cosa è successo è scritto in {path}, ed è copiato: incollalo nella segnalazione.",
+  "ui.key_switch": "Compagno: il prossimo del gruppo",
+  "ui.companion_switched": "{name} adesso è con te.",
+  "dlg.home.tam.strays": "Gli animali del cottage",
+  "dlg.home.tam.strays_line": "Il cottage attira i randagi, Ospite. Le galline si lamentano, ma lo fanno sempre. Ognuno di loro ti seguirebbe, se glielo chiedessi come si deve. Ne cammina con te uno alla volta; gli altri aspettano qui e tengono quello che hanno imparato.",
+  "dlg.home.tam.strays_back": "Non adesso",
+  "dlg.home.tam.take_biscuit": "Prendi Biscotto, il cane rimasto indietro dalla carovana di Odo",
+  "dlg.home.tam.took_biscuit": "Biscotto scodinzola con tutto quello che ha. Un cane rimasto indietro non dimentica chi l'ha portato con sé.",
+  "dlg.home.tam.take_hoot": "Prendi Gufetto, il gufo del fienile (livello 10)",
+  "dlg.home.tam.took_hoot": "Gufetto ti guarda a lungo, poi ti si posa sulla spalla. I gufi scelgono; sei stato scelto.",
+  "dlg.home.tam.take_sly": "Conquista Furbo, la volpe del giardino (3 bacche selvatiche)",
+  "dlg.home.tam.took_sly": "Furbo mangia le bacche una per una, molto lentamente, e poi decide che probabilmente vai bene.",
+  "dlg.home.tam.take_cinder": "Sveglia Brace, la gelatina di brace vicino all'incudine (1 nucleo di brace)",
+  "dlg.home.tam.took_cinder": "Brace inghiotte il nucleo di brace, si accende come un tramonto e ti salta dietro. Starle accanto scalda.",
+  "ui.companion_switch_button": "Altro"
 }

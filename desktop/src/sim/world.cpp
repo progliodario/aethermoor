@@ -103,6 +103,12 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
     m_spawn_ = m_player_.position;
     m_companion_pos_ = m_player_.position;
     m_companion_cooldown_ = m_setup_.companion ? m_setup_.companion->cooldown_ticks : 0;
+    m_companion_defs_ = m_setup_.companions;  // the party (spec 10, "The party"): the own companion first
+    if (m_setup_.companion) {
+        m_companion_defs_[m_setup_.companion->id] = *m_setup_.companion;
+        m_party_.push_back(m_setup_.companion->id);
+    }
+    m_start_party_ = m_party_;
     for (const NpcDef& npc : m_setup_.story.npcs) {
         if (npc.when || !npc.route.empty()) {
             continue;  // a resident and a traveller are never solid (spec 07, "Residents", "Travellers")
@@ -1122,6 +1128,43 @@ bool WorldSim::engrave(const std::string& item_id, const ItemDef& rune) {
     ++m_counters_["engraved"];
     recompute_derived();
     m_player_.hp = std::min(m_player_.hp, m_derived_.max_hp);
+    return true;
+}
+
+void WorldSim::make_companion_active(const std::string& id) {
+    if (m_setup_.companion && m_companion_bond_ > 0) {  // the bond of the one that leaves waits with it
+        m_bonds_[m_setup_.companion->id] = m_companion_bond_;
+    }
+    m_setup_.companion = m_companion_defs_.at(id);
+    const auto waiting = m_bonds_.find(id);
+    m_companion_bond_ = 0;
+    if (waiting != m_bonds_.end()) {
+        m_companion_bond_ = waiting->second;
+        m_bonds_.erase(waiting);
+    }
+    m_companion_pos_ = m_player_.position;
+    m_companion_stay_ = false;
+    m_companion_cooldown_ = m_setup_.companion->cooldown_ticks;
+    m_companion_care_ = 0;
+}
+
+bool WorldSim::recruit_companion(const std::string& id) {
+    if (m_setup_.companions.find(id) == m_setup_.companions.end() ||
+        std::find(m_party_.begin(), m_party_.end(), id) != m_party_.end()) {
+        return false;
+    }
+    m_party_.push_back(id);
+    make_companion_active(id);
+    return true;
+}
+
+bool WorldSim::companion_switch() {
+    if (m_party_.size() < 2 || !m_setup_.companion || m_story_.dialogue_active()) {
+        return false;
+    }
+    const auto at = std::find(m_party_.begin(), m_party_.end(), m_setup_.companion->id);
+    const std::size_t index = at == m_party_.end() ? 0 : static_cast<std::size_t>(at - m_party_.begin()) + 1;
+    make_companion_active(m_party_[index % m_party_.size()]);
     return true;
 }
 
@@ -2636,6 +2679,11 @@ SaveState WorldSim::capture() const {
         s.companion_stay = m_companion_stay_;
         s.companion_bond = m_companion_bond_;
     }
+    if (m_party_ != m_start_party_) {  // the party (spec 10, "The party")
+        s.companion_id = companion_id();
+        s.party = m_party_;
+    }
+    s.bonds = m_bonds_;
     if (m_friend_) {
         s.has_friend = true;
         s.friend_enemy = m_friend_->def.id;
@@ -2807,7 +2855,21 @@ bool WorldSim::restore(const SaveState& saved, std::string& error) {
     m_rolls_ = s.rolls;
     m_furniture_ = s.furniture;
     m_tag_ = s.tag;
-    recompute_derived();       // the talents change the derived stats
+    recompute_derived();  // the talents change the derived stats
+    // the party and the companion that follows (spec 10, "The party")
+    m_party_.clear();
+    for (const std::string& id : s.party.empty() ? m_start_party_ : s.party) {
+        if (m_companion_defs_.find(id) != m_companion_defs_.end()) {
+            m_party_.push_back(id);
+        }
+    }
+    m_bonds_ = s.bonds;
+    const std::string follows =
+        s.companion_id.empty() ? (m_start_party_.empty() ? std::string() : m_start_party_.front()) : s.companion_id;
+    if (const auto def = m_companion_defs_.find(follows); def != m_companion_defs_.end()) {
+        m_setup_.companion = def->second;
+    }
+    m_companion_care_ = 0;
     if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
         m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;
         m_companion_cooldown_ = s.has_companion ? s.companion_cooldown : m_setup_.companion->cooldown_ticks;

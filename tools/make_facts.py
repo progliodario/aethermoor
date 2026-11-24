@@ -61,6 +61,7 @@ def count() -> dict[str, int]:
         "regions": len(params["regions"]),
         "protagonists": len(files("protagonists")),
         "companions": len(files("companions")),
+        "strays": len(files("companions")) - len(files("protagonists")),  # the companions that may join the party (spec 10)
         "creatures": len(files("enemies")),
         "guardians": len(only_in_sites - echoes),
         "echoes": len(echoes),
@@ -88,7 +89,7 @@ def count() -> dict[str, int]:
 ROWS = {
     "en": [
         ("World", "{regions} regions, {sites} hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements"),
-        ("Protagonists", "{protagonists}, each with a companion ({companions} companions) and a story of six acts ({story_quests} story quests)"),
+        ("Protagonists", "{protagonists}, each with a companion, {strays} more companions who may join the party, and a story of six acts ({story_quests} story quests)"),
         ("Creatures", "{creatures}, of which {guardians} guardians and {echoes} Echoes"),
         ("Quests", "{quests} ({tales} tales of the villagers)"),
         ("Items and recipes", "{items} items, {recipes} recipes ({secret_recipes} secret)"),
@@ -101,7 +102,7 @@ ROWS = {
     ],
     "it": [
         ("Mondo", "{regions} regioni, {sites} luoghi fatti a mano (sotterranei, tane, avamposti, santuari, Fenwick, il cottage dell'Ospite, Aldermere) e circa 130 insediamenti generati"),
-        ("Protagonisti", "{protagonists}, ognuno con un compagno ({companions} compagni) e una storia in sei atti ({story_quests} missioni di storia)"),
+        ("Protagonisti", "{protagonists}, ognuno con un compagno, altri {strays} compagni che possono entrare nel gruppo, e una storia in sei atti ({story_quests} missioni di storia)"),
         ("Creature", "{creatures}, di cui {guardians} guardiani e {echoes} Echi"),
         ("Missioni", "{quests} ({tales} storie dei paesani)"),
         ("Oggetti e ricette", "{items} oggetti, {recipes} ricette ({secret_recipes} segrete)"),

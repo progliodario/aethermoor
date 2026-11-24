@@ -193,6 +193,19 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         if (s.companion_bond > 0) {
             j["companion"]["bond"] = s.companion_bond;
         }
+        if (!s.companion_id.empty()) {
+            j["companion"]["id"] = s.companion_id;
+        }
+    }
+    if (!s.party.empty()) {  // the party (spec 10, "The party")
+        j["party"] = s.party;
+    }
+    if (!s.bonds.empty()) {
+        Json bonds = Json::object();
+        for (const auto& [id, bond] : s.bonds) {
+            bonds[id] = bond;
+        }
+        j["bonds"] = bonds;
     }
     if (s.has_friend) {  // the tamed friend (spec 10)
         j["friend"] = {
@@ -306,6 +319,17 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             s.companion_cooldown = c.at("cooldown").get<int>();
             s.companion_stay = c.value("stay", false);
             s.companion_bond = c.value("bond", 0);
+            s.companion_id = c.value("id", "");
+        }
+        if (j.contains("party")) {  // the party (spec 10, "The party")
+            for (const Json& id : j.at("party")) {
+                s.party.push_back(id.get<std::string>());
+            }
+        }
+        if (j.contains("bonds")) {
+            for (const auto& [id, bond] : j.at("bonds").items()) {
+                s.bonds[id] = bond.get<int>();
+            }
         }
         if (j.contains("friend")) {
             const Json& f = j.at("friend");
