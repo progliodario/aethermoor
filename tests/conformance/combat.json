@@ -31843,6 +31843,1693 @@
       }
     },
     {
+      "name": "combat_party_of_companions",
+      "input": {
+        "op": "combat",
+        "companion": {
+          "atk_base": 1,
+          "atk_per_level": 1,
+          "range_x100": 300,
+          "cooldown_ticks": 60,
+          "speed_x100": 320,
+          "follow_x100": 220,
+          "id": "test:companion/own"
+        },
+        "companions": {
+          "test:companion/dog": {
+            "atk_base": 40,
+            "atk_per_level": 1,
+            "range_x100": 300,
+            "cooldown_ticks": 20,
+            "speed_x100": 320,
+            "follow_x100": 220,
+            "id": "test:companion/dog"
+          },
+          "test:companion/owl": {
+            "atk_base": 30,
+            "atk_per_level": 1,
+            "range_x100": 300,
+            "cooldown_ticks": 60,
+            "speed_x100": 320,
+            "follow_x100": 150,
+            "id": "test:companion/owl"
+          }
+        },
+        "story": {
+          "quests": {},
+          "dialogues": {
+            "test:dialogue/keeper": {
+              "id": "test:dialogue/keeper",
+              "start": "menu",
+              "nodes": {
+                "menu": {
+                  "type": "choice",
+                  "choices": [
+                    {
+                      "text": "t.dog",
+                      "next": "dog"
+                    },
+                    {
+                      "text": "t.owl",
+                      "next": "owl"
+                    }
+                  ]
+                },
+                "dog": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "recruit_companion",
+                      "companion": "test:companion/dog"
+                    }
+                  ],
+                  "next": "end"
+                },
+                "owl": {
+                  "type": "effects",
+                  "effects": [
+                    {
+                      "effect": "recruit_companion",
+                      "companion": "test:companion/owl"
+                    }
+                  ],
+                  "next": "end"
+                }
+              }
+            }
+          },
+          "npcs": [
+            {
+              "key": "keeper",
+              "pos": [
+                2.4,
+                6.4
+              ],
+              "dialogue": "test:dialogue/keeper"
+            }
+          ]
+        },
+        "grid": [
+          "############",
+          "#..........#",
+          "#..........#",
+          "#..........#",
+          "#..........#",
+          "#..........#",
+          "#..........#",
+          "#..........#",
+          "############"
+        ],
+        "props": [],
+        "seed": "0x0000000000C0FFEE",
+        "player": {
+          "start": [
+            2.4,
+            5.6
+          ],
+          "level": 1,
+          "base_stats": {
+            "str": 6,
+            "vit": 7,
+            "dex": 8,
+            "agi": 8,
+            "int": 7,
+            "wis": 7,
+            "luk": 9
+          },
+          "growth_pm": {
+            "str": 1000,
+            "vit": 1000,
+            "dex": 1200,
+            "agi": 1100,
+            "int": 1000,
+            "wis": 1000,
+            "luk": 1300
+          },
+          "weapon_atk": 3,
+          "weapon_matk": 0
+        },
+        "skill": {
+          "startup": 6,
+          "active": 4,
+          "recovery": 10,
+          "cooldown": 24,
+          "power_pct": 100,
+          "radius_x100": 160,
+          "angle_deg": 110
+        },
+        "xp_table": [
+          50,
+          130,
+          233,
+          355,
+          493,
+          647,
+          814,
+          995,
+          1189,
+          1394,
+          1611,
+          1838
+        ],
+        "enemies": [
+          {
+            "pos": [
+              3.4,
+              4.0
+            ],
+            "def": {
+              "hp": 6,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.6999999999999997,
+              4.0
+            ],
+            "def": {
+              "hp": 6,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              4.0,
+              4.0
+            ],
+            "def": {
+              "hp": 6,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.4,
+              4.4
+            ],
+            "def": {
+              "hp": 6,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              3.6999999999999997,
+              4.4
+            ],
+            "def": {
+              "hp": 6,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          },
+          {
+            "pos": [
+              4.0,
+              4.4
+            ],
+            "def": {
+              "hp": 6,
+              "atk": 6,
+              "def": 2,
+              "level": 1,
+              "xp": 6,
+              "radius_x100": 35,
+              "speed_x100": 0,
+              "drops": [
+                {
+                  "item": "base:item/slime_gel",
+                  "qty_min": 1,
+                  "qty_max": 2,
+                  "weight_pm": 700
+                }
+              ],
+              "behavior": {
+                "aggro_x100": 0,
+                "leash_x100": 900,
+                "attack_range_x100": 120,
+                "hit_range_x100": 150,
+                "windup_ticks": 18,
+                "recovery_ticks": 30
+              }
+            }
+          }
+        ],
+        "script": [
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "companion_switch"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "ticks": 200,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "companion_switch"
+              }
+            ]
+          },
+          {
+            "ticks": 30,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "interact"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "choose",
+                "index": 1
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "companion_switch"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "companion_switch"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "companion_switch"
+              }
+            ]
+          },
+          {
+            "ticks": 1,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false,
+            "do": [
+              {
+                "cmd": "companion_switch"
+              }
+            ]
+          },
+          {
+            "ticks": 20,
+            "move": [
+              0,
+              0
+            ],
+            "attack": false
+          }
+        ]
+      },
+      "expect": {
+        "checkpoints": [
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/own"
+            },
+            "party": [
+              "test:companion/own"
+            ],
+            "bonds": {},
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/own"
+            },
+            "party": [
+              "test:companion/own"
+            ],
+            "bonds": {},
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "t.dog",
+                  "t.owl"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 0,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 6,
+                "state": "idle",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 0,
+            "inventory": {},
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/dog"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog"
+            ],
+            "bonds": {},
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 6,
+              "id": "test:companion/dog"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog"
+            ],
+            "bonds": {},
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 6,
+              "id": "test:companion/dog"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog"
+            ],
+            "bonds": {},
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "t.dog",
+                  "t.owl"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 6,
+              "id": "test:companion/dog"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog"
+            ],
+            "bonds": {},
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/own"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog"
+            ],
+            "bonds": {
+              "test:companion/dog": 6
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/own"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog"
+            ],
+            "bonds": {
+              "test:companion/dog": 6
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/own"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog"
+            ],
+            "bonds": {
+              "test:companion/dog": 6
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": {
+                "type": "choice",
+                "choices": [
+                  "t.dog",
+                  "t.owl"
+                ]
+              }
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/owl"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog",
+              "test:companion/owl"
+            ],
+            "bonds": {
+              "test:companion/dog": 6
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/own"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog",
+              "test:companion/owl"
+            ],
+            "bonds": {
+              "test:companion/dog": 6
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 6,
+              "id": "test:companion/dog"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog",
+              "test:companion/owl"
+            ],
+            "bonds": {},
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/owl"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog",
+              "test:companion/owl"
+            ],
+            "bonds": {
+              "test:companion/dog": 6
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/own"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog",
+              "test:companion/owl"
+            ],
+            "bonds": {
+              "test:companion/dog": 6
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          },
+          {
+            "player": {
+              "hp": 142,
+              "level": 1,
+              "xp": 36,
+              "deaths": 0,
+              "x": 2.4,
+              "y": 5.6
+            },
+            "enemies": [
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.0
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.4,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 3.6999999999999997,
+                "y": 4.4
+              },
+              {
+                "hp": 0,
+                "state": "dead",
+                "x": 4.0,
+                "y": 4.4
+              }
+            ],
+            "kills": 6,
+            "inventory": {
+              "base:item/slime_gel": 7
+            },
+            "equipped": {
+              "weapon": "",
+              "armor": ""
+            },
+            "companion": {
+              "x": 2.4,
+              "y": 5.6,
+              "stay": false,
+              "bond": 0,
+              "id": "test:companion/own"
+            },
+            "party": [
+              "test:companion/own",
+              "test:companion/dog",
+              "test:companion/owl"
+            ],
+            "bonds": {
+              "test:companion/dog": 6
+            },
+            "story": {
+              "flags": {},
+              "gold": 0,
+              "guild_points": 0,
+              "quests": {},
+              "dialogue": null
+            }
+          }
+        ],
+        "tol": 0.02
+      }
+    },
+    {
       "name": "combat_talent_riposte",
       "input": {
         "op": "combat",

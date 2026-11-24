@@ -503,6 +503,27 @@ def build_scenarios() -> list[dict]:
                     [segment(1, do=[{"cmd": "companion_stay"}]), segment(75, move=(1, 0)), segment(1, do=[{"cmd": "companion_recall"}]),
                      segment(60, move=(1, 0)), segment(30)], companion=COMPANION), "grid": arena(24, 9)},
         scenario("companion_recall_without", [enemy(12.0, 7.5, **passive)], [segment(1, do=[{"cmd": "companion_recall"}]), segment(10)]),
+        # The party (spec 10): alone, the switch is refused; the keeper's dialogue recruits the dog, which follows at once and kills (its bond
+        # grows); recruiting it again changes nothing; the switch brings the protagonist's own companion back (the dog's bond waits), then
+        # the owl joins, and the switch goes round: own, dog (its bond back), owl, own.
+        {**scenario("party_of_companions", [enemy(3.4 + 0.3 * (i % 3), 4.0 + 0.4 * (i // 3), hp=6, **passive) for i in range(6)],
+                    [segment(1, do=[{"cmd": "companion_switch"}]),
+                     segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "choose", "index": 0}]),
+                     segment(200),
+                     segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "choose", "index": 0}]),
+                     segment(1, do=[{"cmd": "companion_switch"}]), segment(30),
+                     segment(1, do=[{"cmd": "interact"}]), segment(1, do=[{"cmd": "choose", "index": 1}]),
+                     segment(1, do=[{"cmd": "companion_switch"}]), segment(1, do=[{"cmd": "companion_switch"}]),
+                     segment(1, do=[{"cmd": "companion_switch"}]), segment(1, do=[{"cmd": "companion_switch"}]), segment(20)],
+                    player={"start": [2.4, 5.6]}, companion={**COMPANION, "id": "test:companion/own", "atk_base": 1},
+                    companions={"test:companion/dog": {**COMPANION, "id": "test:companion/dog", "atk_base": 40, "cooldown_ticks": 20},
+                                "test:companion/owl": {**COMPANION, "id": "test:companion/owl", "atk_base": 30, "follow_x100": 150}},
+                    story={"quests": {}, "dialogues": {"test:dialogue/keeper": {"id": "test:dialogue/keeper", "start": "menu", "nodes": {
+                        "menu": {"type": "choice", "choices": [{"text": "t.dog", "next": "dog"}, {"text": "t.owl", "next": "owl"}]},
+                        "dog": {"type": "effects", "effects": [{"effect": "recruit_companion", "companion": "test:companion/dog"}], "next": "end"},
+                        "owl": {"type": "effects", "effects": [{"effect": "recruit_companion", "companion": "test:companion/owl"}], "next": "end"}}}},
+                        "npcs": [{"key": "keeper", "pos": [2.4, 6.4], "dialogue": "test:dialogue/keeper"}]}),
+         "grid": arena(12, 9)},
         # Abilities of the talents (spec 11): riposte, a parry hits the attacker back with the attack times the power of the talent, with no roll, and
         # can kill it; before the talent the same parry only stuns.
         scenario("talent_riposte", [enemy(4.2, 4.5, atk=60, hp=150)],

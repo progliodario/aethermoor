@@ -23,6 +23,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 | Keyboard, affixes | when the pack has a reforge item, `Tab` goes on to a third page, the affixes (spec 06, "Choosing an affix"): the worn piece of a family, the reforge items of the bag, the station, and the offers; `W`/`S` choose an offer, `E` takes it. On Android the button of the panel goes through the three pages; a tap chooses an offer, a second tap takes it |
 | Keyboard, companion | `H`: the companion stays where it is, or follows again (spec 10, "Commands") |
 | Keyboard, recall | `G`: the companion comes back to the player at once (spec 10, "Commands") |
+| Keyboard, party | `O`: the next companion of the party follows (spec 10, "The party"); Android: the `Next` button next to `Stay` and `Come` |
 | Keyboard, taming | `B`: Haruka tames a hurt creature (spec 18, "Gift rules") |
 | Keyboard, abilities | `R`: the shockwave, `T`: mend, once their talents are learned (spec 11, "Active abilities") |
 | Keyboard, parry | `U`: the parry (spec 05, "Parry"); held, it opens a window whenever the wait is over |
@@ -81,7 +82,7 @@ the critical chance, the speed, what the titles add to the attack, the gold and 
 ## Configurable keys
 
 Desktop: `<user data>/keys.json` (next to `settings.json`) is `{"keys": {"<action>": "<key>", ...}}` with the actions `up`, `down`, `left`, `right`, `attack`, `strike`, `dodge`, `parry`, `interact`, `bag`, `journal`, `map`,
-`minimap`, `crafting`, `companion`, `analyze`, `recall`, `burst`, `mend`, `tame` and `tag`. A key is named as SDL names it (`"F"`, `"Space"`, `"Left Ctrl"`, `"Keypad 5"`); an empty name, an unknown one or the default key changes nothing. The key named for an
+`minimap`, `crafting`, `companion`, `analyze`, `recall`, `burst`, `mend`, `tame`, `tag` and `switch`. A key is named as SDL names it (`"F"`, `"Space"`, `"Left Ctrl"`, `"Keypad 5"`); an empty name, an unknown one or the default key changes nothing. The key named for an
 action does what the default key of the action does, in the game, while it is held and when it is pressed; **the default keys keep working**. A key given to an action stops doing what it did before (so giving `E` to
 `attack` leaves talking to `Enter`). The file is written the first time the game starts, with every action and an empty key, and read when the game starts. The **keys panel** (`F4` in a game) does the same from inside the game: `W`/`S` choose an action, `E` waits for a key and gives it to the action (`Esc` cancels; the default key or `Backspace` takes the choice away), `Esc` closes; the file is written at once. The game pauses meanwhile. Android uses touch; a physical keyboard there keeps the
 default keys. Presentation only: nothing of it is in the simulation or in the vectors.

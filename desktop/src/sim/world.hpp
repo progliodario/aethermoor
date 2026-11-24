@@ -151,9 +151,12 @@ struct SaveState {
     float companion_x = 0.0F;
     float companion_y = 0.0F;
     int companion_cooldown = 0;
-    bool companion_stay = false;  // told to stay (spec 10, "Commands")
-    int companion_bond = 0;       // the creatures it has killed (spec 10, "Bond")
-    bool has_friend = false;      // the tamed friend (spec 10, "The tamed friend"): its creature, where, cooldown
+    bool companion_stay = false;     // told to stay (spec 10, "Commands")
+    int companion_bond = 0;          // the creatures it has killed (spec 10, "Bond")
+    std::string companion_id;        // the companion that follows, when the party is not the one of the start (spec 10)
+    std::vector<std::string> party;  // the party (spec 10, "The party"); empty: the one of the start
+    std::map<std::string, int> bonds;  // the bonds of the companions that wait
+    bool has_friend = false;           // the tamed friend (spec 10, "The tamed friend"): its creature, where, cooldown
     std::string friend_enemy;
     float friend_x = 0.0F;
     float friend_y = 0.0F;
@@ -439,6 +442,13 @@ public:
     bool tame();
     bool companion_staying() const { return m_companion_stay_; }
     int companion_bond() const { return m_companion_bond_; }
+    // The party (spec 10, "The party"): its companions (the protagonist's first), the bonds of those that wait, the one
+    // that follows, the next one made to follow (false with fewer than two, or in a dialogue) and a new one that joins.
+    const std::vector<std::string>& party() const { return m_party_; }
+    const std::map<std::string, int>& waiting_bonds() const { return m_bonds_; }
+    std::string companion_id() const { return m_setup_.companion ? m_setup_.companion->id : std::string(); }
+    bool companion_switch();
+    bool recruit_companion(const std::string& id) override;
     const Story& story() const { return m_story_; }
 
     SaveState capture() const;
@@ -516,6 +526,11 @@ private:
     std::vector<DamageEvent> m_events_;
     std::vector<SimCue> m_cues_;
     Vec2 m_companion_pos_;
+    std::map<std::string, CompanionDef> m_companion_defs_;  // those that may follow: of the party, and the own one
+    std::vector<std::string> m_party_;
+    std::vector<std::string> m_start_party_;
+    std::map<std::string, int> m_bonds_;
+    void make_companion_active(const std::string& id);
     int m_companion_cooldown_ = 0;
     bool m_companion_stay_ = false;
     int m_companion_bond_ = 0;

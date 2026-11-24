@@ -90,6 +90,10 @@ data class SaveState(
     /** The companion was told to stay, and the creatures it has killed (spec 10). */
     val companionStay: Boolean = false,
     val companionBond: Int = 0,
+    /** The party (spec 10, "The party"): the companion that follows and the party, when not the ones of the start; the bonds that wait. */
+    val companionId: String = "",
+    val party: List<String> = emptyList(),
+    val bonds: Map<String, Int> = emptyMap(),
     /** The tamed friend (spec 10): its creature, where it is and its cooldown; null: none. */
     val tamedFriend: FriendSave? = null,
     /** The item ids worn (spec 06); null: not in the save (the starting weapon, no armor). */
@@ -261,9 +265,12 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
                     put("cooldown", c.third)
                     if (s.companionStay) put("stay", true)
                     if (s.companionBond > 0) put("bond", s.companionBond)
+                    if (s.companionId.isNotEmpty()) put("id", s.companionId)
                 },
             )
         }
+        if (s.party.isNotEmpty()) put("party", JsonArray(s.party.map { JsonPrimitive(it) })) // spec 10, "The party"
+        if (s.bonds.isNotEmpty()) put("bonds", JsonObject(s.bonds.mapValues { JsonPrimitive(it.value) }))
         if (meta.map == "world") {
             put("explored", JsonArray(s.explored.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
             put("stones", JsonArray(s.stones.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
@@ -404,6 +411,9 @@ fun saveFromJson(text: String): Result<SaveState> =
             counters = (j["counters"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             companionStay = ((j["companion"] as? JsonObject)?.get("stay") as? JsonPrimitive)?.content == "true",
             companionBond = ((j["companion"] as? JsonObject)?.get("bond") as? JsonPrimitive)?.content?.toIntOrNull() ?: 0,
+            companionId = ((j["companion"] as? JsonObject)?.get("id") as? JsonPrimitive)?.content ?: "",
+            party = (j["party"] as? JsonArray)?.map { it.jsonPrimitive.content } ?: emptyList(),
+            bonds = (j["bonds"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
             tamedFriend = (j["friend"] as? JsonObject)?.let { f ->
                 FriendSave(f.getValue("enemy").jsonPrimitive.content, f.getValue("x").jsonPrimitive.float, f.getValue("y").jsonPrimitive.float, f.getValue("cooldown").jsonPrimitive.int, (f["stay"] as? JsonPrimitive)?.content == "true")
             },

@@ -236,6 +236,13 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **Accettazione:** lo scenario `party_of_three` passa in entrambi i client; le abilità di coppia sono nei vettori; il menu funziona con tastiera, mouse e tocco.
 - **Rischi:** più compagni significano più combattimento: il bilancio va ricontrollato con `balance_report` (combattimenti facili, sempre).
 - **Dipende da:** B1.5. Taglia: L. Issue: [progliodario/aethermoor#237](https://github.com/progliodario/aethermoor/issues/237).
+- **Fatto (24 novembre 2026).** Differenze dal progetto: segue un compagno alla volta (il "compagno attivo" del progetto), gli altri
+  aspettano, e nessun limite di tre; non c'è un menu del gruppo, ma un comando che passa al prossimo (`O`, il pulsante `Altro`), come i
+  tag. I compagni nuovi non sono Odo, Brannoc, Lark e Corvin (sono persone, e i compagni sono piccole creature disegnate con l'arte delle
+  creature), ma i quattro randagi del cottage, che il vecchio Tam lascia portare via: Biscotto (il cane rimasto dalla carovana di
+  Odo), Gufetto, Furbo e Brace. Ognuno tiene il suo legame. Le abilità di coppia della spec 18 non ci sono: restano da progettare.
+  Scrivendo i salvataggi del gruppo è venuto fuori che il riferimento Python non salvava il compagno; ora lo salva. Scenario
+  `party_of_companions` con due salvataggi.
 
 #### C3 Gideon
 

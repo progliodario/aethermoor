@@ -133,6 +133,8 @@ cd android && gradle :core:test :app:assembleDebug
 - The C++ is formatted by `ship.py` (clang-format) before it commits; long comments may be wrapped onto a second line.
 - If vcpkg fails to download in CI (a flake), rerun the failed job (`gh run rerun <id> --failed`) and `ship.py --skip-checks`.
 - Keep the CI fast: the vcpkg cache key ends with `github.run_id` so that every run saves what it built (an exact key that never changes keeps a stale cache forever and rebuilds SDL3 on every run); if a desktop Configure step takes minutes, look for `Restored 0 package(s)` in its log.
+- A new person or prop near the start (Fenwick) shows in the smoke-test frames and moves them: put people where the start view does not
+  reach (the cottage, Aldermere, the outposts) unless the change means to move the frames.
 - The desktop CI checks the smoke-test frames (`tools/check_frames.py`). A change that moves them on purpose (a new HUD, new art at the start) fails that step: download the frames of its run (`gh run download <id> -n screenshots-windows-msvc`), look at them, then write the references again with `--write` and push.
 
 ## Definition of Done
@@ -176,15 +178,15 @@ The numbers (counted from the data by `tools/make_facts.py`):
 | What | How many (counted from the data by `tools/make_facts.py`) |
 |---|---|
 | World | 8 regions, 45 hand-made sites (dungeons, lairs, outposts, sanctums, Fenwick, the Guest's cottage, Aldermere) and about 130 generated settlements |
-| Protagonists | 8, each with a companion (8 companions) and a story of six acts (120 story quests) |
+| Protagonists | 8, each with a companion, 4 more companions who may join the party, and a story of six acts (120 story quests) |
 | Creatures | 79, of which 27 guardians and 8 Echoes |
 | Quests | 407 (24 tales of the villagers) |
 | Items and recipes | 290 items, 86 recipes (8 secret) |
 | Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 57 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 4246 keys, in Italian and English |
-| Same rules on both clients | 31 files of conformance vectors, 627 cases, run by the C++ and the Kotlin tests |
+| Texts | 4264 keys, in Italian and English |
+| Same rules on both clients | 31 files of conformance vectors, 632 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->
 

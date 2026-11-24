@@ -42,6 +42,13 @@
           "next": "furniture"
         },
         {
+          "text": "$i18n:dlg.home.tam.strays",
+          "when": {
+            "flag": "cottage_given"
+          },
+          "next": "strays"
+        },
+        {
           "text": "$i18n:dlg.home.tam.bye",
           "next": "end"
         }
@@ -73,6 +80,182 @@
       "speaker": "cottage_keeper_tam",
       "text": "$i18n:dlg.home.tam.furniture",
       "next": "menu"
+    },
+    "strays": {
+      "type": "say",
+      "speaker": "cottage_keeper_tam",
+      "text": "$i18n:dlg.home.tam.strays_line",
+      "next": "strays_menu"
+    },
+    "take_biscuit": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "recruit_companion",
+          "companion": "base:companion/biscuit"
+        },
+        {
+          "effect": "set_flag",
+          "flag": "party_biscuit",
+          "value": true
+        }
+      ],
+      "next": "took_biscuit"
+    },
+    "took_biscuit": {
+      "type": "say",
+      "speaker": "cottage_keeper_tam",
+      "text": "$i18n:dlg.home.tam.took_biscuit",
+      "next": "end"
+    },
+    "take_hoot": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "recruit_companion",
+          "companion": "base:companion/hoot"
+        },
+        {
+          "effect": "set_flag",
+          "flag": "party_hoot",
+          "value": true
+        }
+      ],
+      "next": "took_hoot"
+    },
+    "took_hoot": {
+      "type": "say",
+      "speaker": "cottage_keeper_tam",
+      "text": "$i18n:dlg.home.tam.took_hoot",
+      "next": "end"
+    },
+    "take_sly": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "remove_item",
+          "item": "base:item/wild_berries",
+          "qty": 3
+        },
+        {
+          "effect": "recruit_companion",
+          "companion": "base:companion/sly"
+        },
+        {
+          "effect": "set_flag",
+          "flag": "party_sly",
+          "value": true
+        }
+      ],
+      "next": "took_sly"
+    },
+    "took_sly": {
+      "type": "say",
+      "speaker": "cottage_keeper_tam",
+      "text": "$i18n:dlg.home.tam.took_sly",
+      "next": "end"
+    },
+    "take_cinder": {
+      "type": "effects",
+      "effects": [
+        {
+          "effect": "remove_item",
+          "item": "base:item/ember_core",
+          "qty": 1
+        },
+        {
+          "effect": "recruit_companion",
+          "companion": "base:companion/cinder"
+        },
+        {
+          "effect": "set_flag",
+          "flag": "party_cinder",
+          "value": true
+        }
+      ],
+      "next": "took_cinder"
+    },
+    "took_cinder": {
+      "type": "say",
+      "speaker": "cottage_keeper_tam",
+      "text": "$i18n:dlg.home.tam.took_cinder",
+      "next": "end"
+    },
+    "strays_menu": {
+      "type": "choice",
+      "choices": [
+        {
+          "text": "$i18n:dlg.home.tam.take_biscuit",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "party_biscuit"
+                }
+              }
+            ]
+          },
+          "next": "take_biscuit"
+        },
+        {
+          "text": "$i18n:dlg.home.tam.take_hoot",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "party_hoot"
+                }
+              },
+              {
+                "level_at_least": 10
+              }
+            ]
+          },
+          "next": "take_hoot"
+        },
+        {
+          "text": "$i18n:dlg.home.tam.take_sly",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "party_sly"
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/wild_berries",
+                  "qty": 3
+                }
+              }
+            ]
+          },
+          "next": "take_sly"
+        },
+        {
+          "text": "$i18n:dlg.home.tam.take_cinder",
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "party_cinder"
+                }
+              },
+              {
+                "has_item": {
+                  "item": "base:item/ember_core",
+                  "qty": 1
+                }
+              }
+            ]
+          },
+          "next": "take_cinder"
+        },
+        {
+          "text": "$i18n:dlg.home.tam.strays_back",
+          "next": "menu"
+        }
+      ]
     }
   }
 }

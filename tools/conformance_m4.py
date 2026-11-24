@@ -250,6 +250,7 @@ SAVE_SPLITS = {
     "chest_storage": (3, 5),          # things in the chest (spec 06, "Chests"); a loaded game has it closed
     "runes_engrave": (2, 4),          # runes on two weapons (spec 06, "Runes"); the worn one still adds to the attack
     "furniture_home": (3,),           # furniture on two spots (spec 06, "Furniture"); what it adds counts after a load
+    "party_of_companions": (6, 10),   # the party, the companion that follows and the bonds that wait are saved (spec 10, "The party")
     "cottage_rooms": (4,),            # the flag of a bought room is saved: its places stay places after a load (spec 06, "Rooms")
     "timed_quests": (7, 9),
     "traveller_walks": (4, 8),

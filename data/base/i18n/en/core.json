@@ -1612,5 +1612,19 @@
   "dlg.home.garrick.built_study": "There: the study is yours. Two places for furniture, and not a single draught. Make something for it at your anvil.",
   "dlg.home.garrick.fix_greenhouse": "Fix up the greenhouse (1200 gold, 10 stone chunks, 8 wildflowers)",
   "dlg.home.garrick.built_greenhouse": "There: the greenhouse is yours. Two places for furniture, and not a single draught. Make something for it at your anvil.",
-  "ui.crash_log_copied": "The game stopped with an error last time. What happened is written in {path}, and copied: paste it in your report."
+  "ui.crash_log_copied": "The game stopped with an error last time. What happened is written in {path}, and copied: paste it in your report.",
+  "ui.key_switch": "Companion: the next of the party",
+  "ui.companion_switched": "{name} is with you now.",
+  "dlg.home.tam.strays": "The animals of the cottage",
+  "dlg.home.tam.strays_line": "The cottage draws strays, Guest. The hens complain, but they always do. Any of them would follow you, if you asked properly. Only one walks with you at a time; the others wait here and keep what they learned.",
+  "dlg.home.tam.strays_back": "Not now",
+  "dlg.home.tam.take_biscuit": "Take Biscuit, the dog Odo's caravan left behind",
+  "dlg.home.tam.took_biscuit": "Biscuit wags everything he has. A dog that was left behind never forgets who took him along.",
+  "dlg.home.tam.take_hoot": "Take Hoot, the owl of the barn (level 10)",
+  "dlg.home.tam.took_hoot": "Hoot looks at you for a long time, then lands on your shoulder. Owls choose; you have been chosen.",
+  "dlg.home.tam.take_sly": "Win over Sly, the fox of the garden (3 wild berries)",
+  "dlg.home.tam.took_sly": "Sly eats the berries one by one, very slowly, and then decides that you are probably all right.",
+  "dlg.home.tam.take_cinder": "Wake Cinder, the ember slime by the anvil (1 ember core)",
+  "dlg.home.tam.took_cinder": "Cinder swallows the ember core, glows like a sunset and bounces after you. It is warm to stand next to.",
+  "ui.companion_switch_button": "Next"
 }

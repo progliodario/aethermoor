@@ -131,6 +131,14 @@ class CombatSim:
         self.comp_stay = False  # told to stay where it is (spec 10, "Commands")
         self.comp_bond = 0      # the creatures it has killed (spec 10, "Bond")
         self.comp_care = 0      # ticks since it last tended the player (spec 10, "Care"); not saved
+        # The party (spec 10, "The party"): the companions that may join (id -> definition), the ids of the party (the protagonist's
+        # first), and the bonds of those that wait.
+        self.companions: dict[str, dict] = scenario.get("companions", {})
+        self.companion_defs = {**self.companions, **({self.companion.get("id", ""): self.companion} if self.companion else {})}
+        self.own_companion = self.companion.get("id", "") if self.companion else ""
+        self.party: list[str] = [self.own_companion] if self.companion else []
+        self.start_party = list(self.party)  # a save writes the party only when it is not this one
+        self.bonds: dict[str, int] = {}
         self.friend: dict | None = None  # the tamed friend (spec 10): {"d": the creature, "x", "y", "cd"}, or None
         self.titles = scenario.get("titles", [])  # titles (spec 11)
         self.tag_defs = scenario.get("tags", [])  # tags (spec 11, "Tags"): earned like titles, one is worn
@@ -585,6 +593,37 @@ class CombatSim:
         if recipe is None or recipe.get("fine_pm", 0) <= 0:
             return 0
         return min(1000, recipe["fine_pm"] + self.title_bonus("fine_pm"))
+
+    def _make_active(self, cid: str) -> None:
+        """The companion `cid` of the party is the one that follows now (spec 10, "The party"): the bond of the one before waits with it."""
+        if self.companion is not None:
+            old = self.companion.get("id", "")
+            if self.comp_bond > 0:
+                self.bonds[old] = self.comp_bond
+        self.companion = self.companion_defs[cid]
+        self.comp_bond = self.bonds.pop(cid, 0)
+        self.comp_x, self.comp_y = self.x, self.y
+        self.comp_stay = False
+        self.comp_cooldown = self.companion["cooldown_ticks"]
+        self.comp_care = 0
+
+    def recruit_companion(self, cid: str) -> bool:
+        """The effect `recruit_companion` (spec 10, "The party"): a companion joins the party, last, and follows at once. False, changing
+        nothing, when it is unknown or already in the party."""
+        if cid not in self.companions or cid in self.party:
+            return False
+        self.party.append(cid)
+        self._make_active(cid)
+        return True
+
+    def companion_switch(self) -> bool:
+        """The next companion of the party follows (spec 10, "The party"); after the last, the first. False with fewer than two, or while a
+        dialogue is open."""
+        if len(self.party) < 2 or self.companion is None or (self.story is not None and self.story.dialogue_active):
+            return False
+        at = self.party.index(self.companion.get("id", ""))
+        self._make_active(self.party[(at + 1) % len(self.party)])
+        return True
 
     def companion_recall(self) -> bool:
         """Calls the companion back (spec 10, "Commands"): it is next to the player at once and follows again. False when there is no companion."""
@@ -1421,6 +1460,13 @@ class CombatSim:
             # the sown plots (spec 06, "Farming"; spec 12): what grows there, and the tick it is ripe
             **({"plots": [[k[0], k[1], seed, ripe] for k, (seed, ripe) in sorted(self.plots.items())]} if self.plots else {}),
             **({"tag": self.tag} if self.tag else {}),
+            # the companion that follows (spec 10, spec 12), the party and the bonds of those that wait (spec 10, "The party")
+            **({"companion": {"x": self.comp_x, "y": self.comp_y, "cooldown": self.comp_cooldown, **({"stay": True} if self.comp_stay else {}),
+                              **({"bond": self.comp_bond} if self.comp_bond > 0 else {}),
+                              **({"id": self.companion.get("id", "")} if self.party != self.start_party else {})}}
+               if self.companion is not None else {}),
+            **({"party": list(self.party)} if self.party != self.start_party else {}),
+            **({"bonds": dict(sorted(self.bonds.items()))} if self.bonds else {}),
             "story": self.story.save_state() if self.story is not None else None,
             "world_ticks": self.world_ticks,  # the clock (spec 08, spec 12): the day of the market, of the travellers, of the plots
         }
@@ -1459,6 +1505,20 @@ class CombatSim:
         self.tag = save.get("tag", "")
         self.derived = self._derive()
         self.world_ticks = save.get("world_ticks", 0)
+        # the party and the companion that follows (spec 10, "The party"); an older save puts it next to the player
+        self.party = [cid for cid in save.get("party", self.party) if cid in self.companion_defs]
+        self.bonds = dict(save.get("bonds", {}))
+        if self.companion_defs:
+            saved = save.get("companion")
+            cid = saved.get("id", self.own_companion) if saved else self.own_companion
+            self.companion = self.companion_defs.get(cid, self.companion)
+            if saved:
+                self.comp_x, self.comp_y, self.comp_cooldown = saved["x"], saved["y"], saved["cooldown"]
+                self.comp_stay, self.comp_bond = saved.get("stay", False), saved.get("bond", 0)
+            else:
+                self.comp_x, self.comp_y, self.comp_cooldown = self.x, self.y, self.companion["cooldown_ticks"]
+                self.comp_stay, self.comp_bond = False, 0
+            self.comp_care = 0
         if self.story is not None and save["story"] is not None:
             self.story.load_state(save["story"])
         if self.story is not None:  # the travellers are where the loaded time puts them, at once (spec 07, "Travellers")
@@ -1477,7 +1537,9 @@ class CombatSim:
             **({"talents": dict(sorted(self.talents.items())), "talent_points": self.talent_points(), "max_hp": self.derived["max_hp"],
                 "max_mp": self.derived["max_mp"], "matk": self.derived["matk"], "crit_chance_pm": self.derived["crit_chance_pm"],
                 "move_speed_x100": self.derived["move_speed_x100"]} if self.talent_defs else {}),
-            **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond}} if self.companion is not None else {}),
+            **({"companion": {"x": self.comp_x, "y": self.comp_y, "stay": self.comp_stay, "bond": self.comp_bond,
+                              **({"id": self.companion.get("id", "")} if self.companions else {})}} if self.companion is not None else {}),
+            **({"party": list(self.party), "bonds": dict(sorted(self.bonds.items()))} if self.companions else {}),
             **({"chest": dict(sorted(self.chest.items())), "chest_open": self.chest_open} if self.storage is not None else {}),
             **({"plots": [[k[0], k[1], seed, ripe] for k, (seed, ripe) in sorted(self.plots.items())]} if self.farming is not None else {}),
             **({"furniture": [[k[0], k[1], item] for k, item in sorted(self.furniture.items())]} if self.home is not None else {}),
@@ -1518,6 +1580,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] == "companion_recall":
             sim.companion_recall()
+            continue
+        if command["cmd"] == "companion_switch":
+            sim.companion_switch()
             continue
         if command["cmd"] == "ability":
             sim.use_ability(command["kind"])

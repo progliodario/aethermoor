@@ -338,8 +338,10 @@ struct CombatSetup {
     std::map<std::string, GatherNode> gather_nodes;  // the props that can be gathered from, by art ID
     std::vector<RecipeDef> recipes;                  // crafting recipes, in the order of the data
     std::optional<CompanionDef> companion;           // the companion of the protagonist (spec 10)
-    std::vector<TitleDef> titles;                    // the titles that can be earned (spec 11), in order of rank
-    std::vector<TitleDef> tags;  // the tags (spec 11, "Tags"): earned like titles, one worn at a time; in data order
+    std::map<std::string, CompanionDef>
+        companions;                // every companion of the pack, by ID: those that may join the party
+    std::vector<TitleDef> titles;  // the titles that can be earned (spec 11), in order of rank
+    std::vector<TitleDef> tags;    // the tags (spec 11, "Tags"): earned like titles, one worn at a time; in data order
     int day_ticks = 0;   // the length of a day of a world without a clock, for the market (spec 06); 0: always day 1
     std::string region;  // the region of a world without regions: the renown is counted by region (spec 07, "Renown")
     std::string season;  // the season of a world without a clock (spec 06, "Seasons on the plots"); empty: none

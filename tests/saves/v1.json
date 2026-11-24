@@ -2158,6 +2158,239 @@
     },
     "world_ticks": 4
    }
+  },
+  {
+   "scenario": "party_of_companions",
+   "split": 6,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.4,
+     "y": 5.6,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 205,
+     "hp": 142,
+     "level": 1,
+     "xp": 36,
+     "deaths": 0,
+     "kills": 6,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xbd36250bac19f982",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.4,
+      "y": 4.0,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.6999999999999997,
+      "y": 4.0,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 4.0,
+      "y": 4.0,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.4,
+      "y": 4.4,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.6999999999999997,
+      "y": 4.4,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 4.0,
+      "y": 4.4,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/slime_gel": 7
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "companion": {
+     "x": 2.4,
+     "y": 5.6,
+     "cooldown": 0,
+     "bond": 6,
+     "id": "test:companion/dog"
+    },
+    "party": [
+     "test:companion/own",
+     "test:companion/dog"
+    ],
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 205
+   }
+  },
+  {
+   "scenario": "party_of_companions",
+   "split": 10,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.4,
+     "y": 5.6,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 238,
+     "hp": 142,
+     "level": 1,
+     "xp": 36,
+     "deaths": 0,
+     "kills": 6,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xbd36250bac19f982",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.4,
+      "y": 4.0,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.6999999999999997,
+      "y": 4.0,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 4.0,
+      "y": 4.0,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.4,
+      "y": 4.4,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 3.6999999999999997,
+      "y": 4.4,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 4.0,
+      "y": 4.4,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/slime_gel": 7
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "companion": {
+     "x": 2.4,
+     "y": 5.6,
+     "cooldown": 59,
+     "id": "test:companion/owl"
+    },
+    "party": [
+     "test:companion/own",
+     "test:companion/dog",
+     "test:companion/owl"
+    ],
+    "bonds": {
+     "test:companion/dog": 6
+    },
+    "story": {
+     "flags": {},
+     "gold": 0,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 238
+   }
   }
  ],
  "game": {

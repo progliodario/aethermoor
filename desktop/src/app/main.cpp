@@ -292,7 +292,7 @@ constexpr Rebindable kRebindable[] = {
     {"strike", SDLK_K},  {"dodge", SDLK_L},  {"parry", SDLK_U},   {"interact", SDLK_E}, {"bag", SDLK_I},
     {"journal", SDLK_Q}, {"map", SDLK_M},    {"minimap", SDLK_N}, {"crafting", SDLK_C}, {"companion", SDLK_H},
     {"analyze", SDLK_Z}, {"recall", SDLK_G}, {"burst", SDLK_R},   {"mend", SDLK_T},     {"tame", SDLK_B},
-    {"tag", SDLK_Y},
+    {"tag", SDLK_Y},     {"switch", SDLK_O},
 };
 std::map<SDL_Keycode, SDL_Keycode> g_key_remap;   // a key the player chose -> the default key it stands for
 std::map<std::string, SDL_Keycode> g_key_choice;  // action -> the key the player chose for it
@@ -5338,6 +5338,14 @@ int run_game(int argc, char** argv) {
                                !ui.show_map && !sim.story().dialogue_active()) {
                         if (sim.companion_recall()) {  // the companion comes back at once (spec 10, "Commands")
                             notify(ui, assets.pack.text(ui.lang, "$i18n:ui.companion_recalled"));
+                        }
+                    } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_O && !smoke_test &&
+                               !ui.show_map && !sim.story().dialogue_active()) {
+                        if (sim.companion_switch()) {  // the next companion of the party follows (spec 10, "The party")
+                            const std::string name =
+                                sim.combat().companion ? sim.combat().companion->name : std::string();
+                            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.companion_switched",
+                                                        {{"name", assets.pack.text(ui.lang, name)}}));
                         }
                     } else if (event.type == SDL_EVENT_KEY_DOWN &&
                                (event.key.key == SDLK_R || event.key.key == SDLK_T) && !smoke_test && !ui.show_map &&

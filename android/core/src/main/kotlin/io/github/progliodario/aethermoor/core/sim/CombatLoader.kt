@@ -70,6 +70,10 @@ private fun loadCompanion(pack: Pack, id: String): CompanionDef? {
     )
 }
 
+/** Every companion of the pack, by ID: those that may join the party (spec 10, "The party"). */
+private fun loadCompanions(pack: Pack): Map<String, CompanionDef> =
+    pack.documentPaths.filterValues { it.startsWith("companions/") }.keys.mapNotNull { id -> loadCompanion(pack, id)?.let { id to it } }.toMap()
+
 /** The talents (spec 11) and the points a level gives; none when the pack has no table. */
 private fun loadTalents(pack: Pack): Pair<List<TalentDef>, Int> {
     val text = pack.readDocument("base:talents/all") ?: return Pair(emptyList(), 1)
@@ -334,6 +338,7 @@ fun loadCombatSetup(
             talents = loadTalents(pack).first,
             talentPointsPerLevel = loadTalents(pack).second,
             companion = loadCompanion(pack, protagonist.companion),
+            companions = loadCompanions(pack),
             startWeapon = startWeapon,
         )
     }

@@ -100,6 +100,9 @@ Effect parse_effect(const Json& j) {
     } else if (kind == "temper") {
         e.kind = Effect::Kind::Temper;
         e.n = j.value("gold", static_cast<std::int64_t>(0));
+    } else if (kind == "recruit_companion") {
+        e.kind = Effect::Kind::RecruitCompanion;
+        e.a = j.at("companion").get<std::string>();
     } else if (kind == "remove_item") {
         e.kind = Effect::Kind::RemoveItem;
         e.a = j.at("item").get<std::string>();
@@ -409,6 +412,9 @@ void Story::apply(const Effect& effect) {
             if (m_gold_ >= effect.n && m_host_.temper_worn()) {
                 m_gold_ -= effect.n;
             }
+            break;
+        case Effect::Kind::RecruitCompanion:  // spec 10, "The party"
+            m_host_.recruit_companion(effect.a);
             break;
         case Effect::Kind::RemoveItem: {
             auto& inventory = m_host_.host_inventory();

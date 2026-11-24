@@ -86,6 +86,34 @@ std::optional<EnemyDef> load_enemy_impl(const Pack& pack, const std::string& id,
     }
 }
 
+// A companion document (spec 10); nullopt when it is not one.
+std::optional<CompanionDef> parse_companion(const std::string& id, const std::string& text) {
+    const Json c = Json::parse(text, nullptr, /*allow_exceptions=*/false);
+    if (c.is_discarded() || !c.contains("atk_base")) {
+        return std::nullopt;
+    }
+    CompanionDef def;
+    def.id = id;
+    def.name = c.value("name", "");
+    def.art = c.value("art", "");
+    def.scale_pct = c.value("scale_pct", 100);
+    def.atk_base = c.at("atk_base").get<std::int64_t>();
+    def.atk_per_level = c.at("atk_per_level").get<std::int64_t>();
+    def.range_x100 = c.at("range_x100").get<int>();
+    def.cooldown_ticks = c.at("cooldown_ticks").get<int>();
+    def.speed_x100 = c.at("speed_x100").get<int>();
+    def.follow_x100 = c.at("follow_x100").get<int>();
+    def.care_bond = c.value("care_bond", 0);
+    def.care_ticks = c.value("care_ticks", 0);
+    def.care_pct = c.value("care_pct", 0);
+    if (c.contains("moments")) {
+        for (const Json& m : c.at("moments")) {
+            def.moments.emplace_back(m.at("bond").get<int>(), m.at("text").get<std::string>());
+        }
+    }
+    return def;
+}
+
 }  // namespace
 
 std::optional<EnemyDef> load_enemy_def(const Pack& pack, const std::string& id, std::string& error) {
@@ -122,31 +150,19 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
     setup.gift.tame_bond = protagonist->tame_bond;
     setup.gift.pocket_keep_pm = protagonist->pocket_keep_pm;
     setup.gift.friend_atk_pct = protagonist->friend_atk_pct;
-    if (!protagonist->companion.empty()) {  // the companion of the protagonist (spec 10)
-        if (const auto companion_text = pack.read_document(protagonist->companion)) {
-            const Json c = Json::parse(*companion_text, nullptr, /*allow_exceptions=*/false);
-            if (!c.is_discarded() && c.contains("atk_base")) {
-                CompanionDef def;
-                def.id = protagonist->companion;
-                def.name = c.value("name", "");
-                def.art = c.value("art", "");
-                def.scale_pct = c.value("scale_pct", 100);
-                def.atk_base = c.at("atk_base").get<std::int64_t>();
-                def.atk_per_level = c.at("atk_per_level").get<std::int64_t>();
-                def.range_x100 = c.at("range_x100").get<int>();
-                def.cooldown_ticks = c.at("cooldown_ticks").get<int>();
-                def.speed_x100 = c.at("speed_x100").get<int>();
-                def.follow_x100 = c.at("follow_x100").get<int>();
-                def.care_bond = c.value("care_bond", 0);
-                def.care_ticks = c.value("care_ticks", 0);
-                def.care_pct = c.value("care_pct", 0);
-                if (c.contains("moments")) {
-                    for (const Json& m : c.at("moments")) {
-                        def.moments.emplace_back(m.at("bond").get<int>(), m.at("text").get<std::string>());
-                    }
+    for (const auto& [id, path] : pack.document_paths) {  // every companion: those that may join the party (spec 10)
+        if (path.rfind("companions/", 0) == 0) {
+            if (const auto text = pack.read_document(id)) {
+                if (auto def = parse_companion(id, *text)) {
+                    setup.companions.emplace(id, std::move(*def));
                 }
-                setup.companion = std::move(def);
             }
+        }
+    }
+    if (!protagonist->companion.empty()) {  // the companion of the protagonist (spec 10)
+        const auto own = setup.companions.find(protagonist->companion);
+        if (own != setup.companions.end()) {
+            setup.companion = own->second;
         }
     }
 

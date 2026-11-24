@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../schemas/companion.schema.json",
+  "id": "base:companion/biscuit",
+  "name": "$i18n:companion.biscuit.name",
+  "art": "base:art/creature/wolf_tawny",
+  "scale_pct": 55,
+  "atk_base": 7,
+  "atk_per_level": 1,
+  "range_x100": 200,
+  "cooldown_ticks": 70,
+  "speed_x100": 360,
+  "follow_x100": 200
+}

@@ -1838,5 +1838,9 @@
   "home.room.workshop": "the workshop",
   "home.room.study": "the study",
   "home.room.greenhouse": "the greenhouse",
+  "companion.biscuit.name": "Biscuit",
+  "companion.hoot.name": "Hoot",
+  "companion.sly.name": "Sly",
+  "companion.cinder.name": "Cinder",
   "enemy.slime_sun.name": "Sun slime"
 }
