@@ -22,8 +22,8 @@ conformance tests; the vectors of `tests/conformance/` were written later with o
 | `dialogue_eval` | the dialogues | `story`: `clerk_quest`, `decline_then_busy`, `dialogue_freezes_player`, `trader_conditions_and_effects`, `trader_barter`, `trader_inn`, `resident_arrives`, `traveller_moves`, `smith_tempers`, `traveller_walks` |
 | `condition_eval` | the conditions of the dialogues | `story`: `trader_conditions_and_effects`, `resident_arrives`, `timed_quests`<br>`combat`: `renown_dialogue`, `faction_dialogue` |
 | `effect_apply` | the effects of the dialogues | `story`: `trader_conditions_and_effects`, `trader_barter`, `trader_inn`, `smith_tempers` |
-| `save_roundtrip` | save and resume | `save` (all 30 cases) |
-| `save_migration` | the frozen saves of every version | `save_fixtures` (all 31 cases) |
+| `save_roundtrip` | save and resume | `save` (all 31 cases) |
+| `save_migration` | the frozen saves of every version | `save_fixtures` (all 32 cases) |
 | `i18n_format` | the format of the texts | `i18n_format` (all 16 cases) |
 | `vector_recipe_parse` | the art recipes and the rasterizer | `raster` (all 31 cases)<br>`rig_pose` (all 26 cases) |
 | `crafting_quality` | crafting and the fine pieces | `combat`: `craft_at_fire`, `craft_recipes`, `craft_quality`, `recipe_taught` |

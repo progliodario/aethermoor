@@ -106,7 +106,11 @@ for _who, _entry in __import__("make_echoes").ECHOES.items():
     LEGEND[_entry[0]] = {"tile": 14, "spawner": f"base:enemy/echo_{_who}"}
 # Every printable character is taken, so a few stamps give a character a meaning of their own (`local` of `stamp()`): it holds only there.
 FURNITURE_SPOT = {"tile": 13, "prop": "base:art/prop/furniture_spot", "radius_x100": 20}  # a place for a piece of furniture (spec 06)
-HOME_LEGEND = {"1": FURNITURE_SPOT, "2": {"prop": "base:art/prop/furniture_spot", "radius_x100": 20}}  # in the house, and on the grass
+HOME_LEGEND = {"1": FURNITURE_SPOT, "2": {"prop": "base:art/prop/furniture_spot", "radius_x100": 20},  # in the house, and on the grass
+               # the places of the three rooms of the annex (spec 06, "Rooms"): each room has a rug of its own
+               "3": {"tile": 13, "prop": "base:art/prop/room_spot_workshop", "radius_x100": 20},
+               "4": {"tile": 13, "prop": "base:art/prop/room_spot_study", "radius_x100": 20},
+               "5": {"tile": 13, "prop": "base:art/prop/room_spot_greenhouse", "radius_x100": 20}}
 VILLAGE_LEGEND = {"1": {"tile": 14, "npc": "settler"}}  # a settler, who comes once the region knows the Guest (spec 07, "Residents")
 # a guest of the feast, on the cobblestones of the plaza, there only on the feast day of the region (spec 07, "Feasts"; spec 09)
 TOWN_LEGEND = {"2": {"tile": 14, "npc": "feast_guest"}}
@@ -351,13 +355,22 @@ def town_b() -> dict:
 
 def hamlet_home() -> dict:
     """The Guest's cottage, east of Fenwick (spec 09, "Landmarks"): a house with a chest and six places for furniture, a campfire and an
-    anvil, plots, hens and a goat, a Threshold Stone, and Old Tam who keeps it (spec 07, "People of the towns")."""
-    c = Canvas(15, 11)
+    anvil, plots, hens and a goat, a Threshold Stone, and Old Tam who keeps it (spec 07, "People of the towns"); east of them an annex of
+    three rooms, two places each, that Garrick the carpenter fixes up for the owner (spec 06, "Rooms")."""
+    c = Canvas(29, 11)
     # the places for the furniture (spec 06, "Furniture") along the walls, and a free way from the door
     c.house(1, 1, 8, 5, {(1, 1): "~", (2, 1): "\\", (4, 1): "1", (5, 1): "b", (6, 1): "1", (1, 2): "1", (6, 2): "1", (1, 3): "1", (6, 3): "1"},
             door=4)
     c.vline(5, 6, 10, "=")
-    c.hline(0, 14, 7, "=")
+    c.hline(0, 28, 7, "=")
+    # the annex: the workshop, the study and the greenhouse side by side, each with its door on the road
+    c.house(16, 1, 13, 5, {(1, 1): "3", (3, 1): "3", (5, 1): "4", (7, 1): "4", (9, 1): "5", (11, 1): "5"}, door=2)
+    for x in (20, 24):  # the walls between the rooms
+        c.vline(x, 2, 4, ":")
+    for x in (18, 22, 26):  # a door to each room, and the path to the road
+        c.put(x, 5, ";")
+        c.put(x, 6, "=")
+    c.put(24, 8, "c")  # where Garrick the carpenter stands (spec 07, "People of the towns")
     c.put(7, 6, "l")
     c.put(7, 8, "c")  # where Old Tam stands
     c.put(10, 2, "?")  # a campfire to cook at (spec 06, "Stations")
@@ -369,7 +382,7 @@ def hamlet_home() -> dict:
     c.put(12, 9, "T")
     for x, y in ((9, 6), (12, 6), (9, 9), (14, 8)):  # four places for the pieces of the garden (spec 06, "Furniture")
         c.put(x, y, "2")
-    for x, y in ((0, 0), (14, 0), (9, 10), (14, 10)):
+    for x, y in ((0, 0), (14, 0), (9, 10), (14, 10), (28, 0), (20, 10), (27, 10)):
         c.put(x, y, "t")
     return stamp("base:stamp/hamlet_home", c, (5, 7), [(4, 7), (6, 7)], local=HOME_LEGEND)
 

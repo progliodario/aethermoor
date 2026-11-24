@@ -1829,5 +1829,14 @@
   "quest.side_gideon_3.task": "Magma slimes crawl out of the ruins of the old fortress of the Wastes toward the refugee farms. Stop five of them.",
   "item.affix_prism.name": "Affix prism",
   "item.affix_prism.desc": "At an anvil, with a common piece with an affix worn: see three other affixes of the same piece and keep the one you like. The roll and the rune of the piece stay with it.",
+  "item.grindstone.name": "Grindstone",
+  "item.grindstone.desc": "Place it in the workshop of the cottage. Every blade sharpened at dawn: your hits are 5% stronger.",
+  "item.writing_desk.name": "Writing desk",
+  "item.writing_desk.desc": "Place it in the study of the cottage. A page every evening on what you learned: 5% more experience from every victory.",
+  "item.planter.name": "Planter",
+  "item.planter.desc": "Place it in the greenhouse of the cottage. A cutting of everything you find: one more of everything you gather.",
+  "home.room.workshop": "the workshop",
+  "home.room.study": "the study",
+  "home.room.greenhouse": "the greenhouse",
   "enemy.slime_sun.name": "Sun slime"
 }

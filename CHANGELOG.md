@@ -6,6 +6,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Rooms of the cottage** (spec 06, "Rooms"): the Guest's cottage has an annex east of the house with three rooms, two places for
+  furniture each: the workshop, the study and the greenhouse. Garrick, the carpenter of Fenwick, works by the annex and fixes them up
+  for the owner of the cottage, one at a time: the workshop for 600 gold, twelve logs and six iron ores; the study for 900 gold, ten
+  logs and four pine resins; the greenhouse for 1200 gold, ten stone chunks and eight bunches of wildflowers. Each room has a rug of its
+  own, and three new pieces are made at an anvil for them: the grindstone (+5% attack), the writing desk (+5% experience) and the
+  planter (one more of everything gathered).
+
 - **Choosing an affix** (spec 06, "Choosing an affix"): at an anvil, with the new **affix prism** in the bag (made at an anvil from a
   golem core, two star dusts and two iron ores, sold in Ironspine for 300 gold), a common weapon or armor with an affix can become the
   same piece with another affix: the crafting panel has a third page (`Tab`; on Android its button), with the worn piece and three

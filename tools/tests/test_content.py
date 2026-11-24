@@ -275,6 +275,11 @@ def test_the_echoes_wait_only_in_their_sanctums_and_the_cottage_has_its_spots():
     home = json.loads((DATA / "stamps" / "hamlet_home.json").read_text(encoding="utf-8"))
     spots = sum(1 for row in home["rows"] for ch in row if home["legend"].get(ch, {}).get("prop") == "base:art/prop/furniture_spot")
     assert spots == 10
+    rooms = json.loads((DATA / "home.json").read_text(encoding="utf-8"))["rooms"]  # spec 06, "Rooms": two places in every room
+    for room in rooms:
+        assert sum(1 for row in home["rows"] for ch in row if home["legend"].get(ch, {}).get("prop") == room["spot"]) == 2, room["id"]
+    garrick = json.loads((DATA / "dialogues" / "npc" / "garrick.json").read_text(encoding="utf-8"))
+    assert {e["flag"] for node in garrick["nodes"].values() for e in node.get("effects", []) if e["effect"] == "set_flag"} == {r["flag"] for r in rooms}
 
 
 def test_seasonal_visitors_common_affixes_and_feasts():

@@ -36,12 +36,12 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Protagonisti | 8, ognuno con un compagno (8 compagni) e una storia in sei atti (120 missioni di storia) |
 | Creature | 79, di cui 27 guardiani e 8 Echi |
 | Missioni | 407 (24 storie dei paesani) |
-| Oggetti e ricette | 287 oggetti, 83 ricette (8 segrete) |
+| Oggetti e ricette | 290 oggetti, 86 ricette (8 segrete) |
 | Progressione | 49 titoli, 8 tag, 16 talenti, 29 imprese |
-| Persone con nome | 56 nei dati del mondo, oltre ai paesani generati |
+| Persone con nome | 57 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4224 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 624 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 4246 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 31 file di vettori di conformità, 627 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
 
@@ -239,7 +239,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 Le prossime cose, in ordine. Il programma completo, con i batch, i file e i criteri di ogni voce, è in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md); la lista breve della roadmap è nella [sezione 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
 - **A breve:** la baseline di detekt a zero.
-- **A medio termine:** stanze del cottage; compagni scelti dal giocatore; la modalità Dungeon di Gideon; thread di streaming e misure su Android; un sintetizzatore per musica e ambiente (solo se il proprietario lo vuole).
+- **A medio termine:** compagni scelti dal giocatore; la modalità Dungeon di Gideon; thread di streaming e misure su Android; un sintetizzatore per musica e ambiente (solo se il proprietario lo vuole).
 - **Verso la 1.0:** qualità grafica e revisione delle traduzioni; comandi e layout su Android; pacchetti firmati; il caricamento dei mod nel gioco (la guida e il controllo dei mod ci sono già).
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1), le impostazioni del repository, le chiavi di firma e le altre decisioni elencate nel programma.
 

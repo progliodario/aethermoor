@@ -1522,6 +1522,72 @@
       "station": "base:art/prop/anvil"
     },
     {
+      "id": "grindstone",
+      "output": {
+        "item": "base:item/grindstone",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/stone_chunk",
+          "qty": 4
+        },
+        {
+          "item": "base:item/wood_log",
+          "qty": 2
+        },
+        {
+          "item": "base:item/iron_ore",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "writing_desk",
+      "output": {
+        "item": "base:item/writing_desk",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/wood_log",
+          "qty": 5
+        },
+        {
+          "item": "base:item/pine_resin",
+          "qty": 1
+        },
+        {
+          "item": "base:item/wildflowers",
+          "qty": 1
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
+      "id": "planter",
+      "output": {
+        "item": "base:item/planter",
+        "qty": 1
+      },
+      "inputs": [
+        {
+          "item": "base:item/stone_chunk",
+          "qty": 3
+        },
+        {
+          "item": "base:item/wood_log",
+          "qty": 2
+        },
+        {
+          "item": "base:item/wildflowers",
+          "qty": 2
+        }
+      ],
+      "station": "base:art/prop/anvil"
+    },
+    {
       "id": "grandmothers_pie",
       "output": {
         "item": "base:item/grandmothers_pie",

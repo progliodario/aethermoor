@@ -2,5 +2,25 @@
   "$schema": "../../schemas/home.schema.json",
   "id": "base:home/cottage",
   "spot": "base:art/prop/furniture_spot",
-  "reach_x100": 150
+  "reach_x100": 150,
+  "rooms": [
+    {
+      "id": "workshop",
+      "name": "$i18n:home.room.workshop",
+      "flag": "room_workshop",
+      "spot": "base:art/prop/room_spot_workshop"
+    },
+    {
+      "id": "study",
+      "name": "$i18n:home.room.study",
+      "flag": "room_study",
+      "spot": "base:art/prop/room_spot_study"
+    },
+    {
+      "id": "greenhouse",
+      "name": "$i18n:home.room.greenhouse",
+      "flag": "room_greenhouse",
+      "spot": "base:art/prop/room_spot_greenhouse"
+    }
+  ]
 }

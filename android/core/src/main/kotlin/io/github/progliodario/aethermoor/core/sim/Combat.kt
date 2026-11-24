@@ -316,6 +316,8 @@ class CombatSetup(
     /** The furniture spot prop and its reach (spec 06, "Furniture"); empty: no furniture. */
     val homeSpot: String = "",
     val homeReachX100: Int = 200,
+    /** The rooms of the home (spec 06, "Rooms"): the props of their spot are places once their story flag is set. */
+    val homeRooms: List<HomeRoom> = emptyList(),
     /** Crafting recipes, in the order of the data (spec 06, "Crafting"). */
     val recipes: List<RecipeDef> = emptyList(),
     /** The companion of the protagonist (spec 10), or null. */
@@ -397,3 +399,6 @@ fun primaryAtLevel(setup: PlayerSetup, level: Long): Primary {
         stat(b.luk, g.luk),
     )
 }
+
+/** A room of the home (spec 06, "Rooms"): its places are the props of [spot], places of the home once the story flag [flag] is set. */
+data class HomeRoom(val id: String, val flag: String, val spot: String)

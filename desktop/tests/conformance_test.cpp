@@ -934,6 +934,10 @@ Scenario scenario_from_json(const Json& in) {
     if (in.contains("home")) {  // the furniture spots (spec 06, "Furniture")
         setup.home_spot = in.at("home").at("spot").get<std::string>();
         setup.home_reach_x100 = in.at("home").at("reach_x100").get<int>();
+        for (const Json& room : in.at("home").value("rooms", Json::array())) {  // spec 06, "Rooms"
+            setup.home_rooms.push_back({room.at("id").get<std::string>(), room.at("flag").get<std::string>(),
+                                        room.at("spot").get<std::string>()});
+        }
     }
     if (in.contains("farming")) {  // the plots and the crops (spec 06, "Farming")
         const Json& f = in.at("farming");

@@ -1242,9 +1242,11 @@ class CombatSim:
         """The nearest furniture spot in reach (spec 06, "Furniture"): (distance, x, y, key), or None."""
         if self.home is None:
             return None
+        flags = self.story.flags if self.story is not None else {}
+        spots = {self.home["spot"]} | {room["spot"] for room in self.home.get("rooms", []) if flags.get(room["flag"], False)}  # spec 06, "Rooms"
         best = None
         for art, x, y, radius in self.gather_props:
-            if art != self.home["spot"]:
+            if art not in spots:
                 continue
             dist = math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
             if dist > self.home["reach_x100"] / 100 + radius:

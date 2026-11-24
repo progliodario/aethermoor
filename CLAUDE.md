@@ -159,7 +159,7 @@ cd android && gradle :core:test :app:assembleDebug
 ## Common tasks
 
 - **Add enemy / item / skill / quest / place / region:** follow [`docs/guides/add-content.md`](docs/guides/add-content.md): copy the closest file in `data/base/`, follow its schema in `schemas/`, add i18n keys (it+en), run the validator, regenerate the vectors and the catalog (`tools/gen_conformance.py`, `tools/make_stamps.py`, `tools/make_catalog.py`, `tools/make_facts.py`).
-- **Add a named person:** add them to the table of the generator that writes their place (`tools/make_home.py`, `make_towns.py`, `towns_outposts.py`); people must stand on open floor (`tools/tests/test_content.py` checks it) and the clients' tests count them.
+- **Add a named person:** add them to the table of the generator that writes their place (`tools/make_home.py`, `make_rooms.py`, `make_towns.py`, `towns_outposts.py`); people must stand on open floor (`tools/tests/test_content.py` checks it) and the clients' tests count them.
 - **Add protagonist:** follow the section "A protagonist" of [`docs/guides/add-content.md`](docs/guides/add-content.md) and [spec 18](docs/spec/18-protagonists.md).
 - **Change a rule:** `docs/spec` → `tools/reference` → `tools/conformance_m*.py` (a scenario) → `tools/gen_conformance.py` → desktop → android (see "Where to change what").
 - **Add a language:** new folder `data/base/i18n/<lang>/`, add it to `pack.json` languages.
@@ -179,12 +179,12 @@ The numbers (counted from the data by `tools/make_facts.py`):
 | Protagonists | 8, each with a companion (8 companions) and a story of six acts (120 story quests) |
 | Creatures | 79, of which 27 guardians and 8 Echoes |
 | Quests | 407 (24 tales of the villagers) |
-| Items and recipes | 287 items, 83 recipes (8 secret) |
+| Items and recipes | 290 items, 86 recipes (8 secret) |
 | Progression | 49 titles, 8 tags, 16 talents, 29 deeds |
-| Named people | 56 in the world data, besides the generated villagers |
+| Named people | 57 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 4224 keys, in Italian and English |
-| Same rules on both clients | 31 files of conformance vectors, 624 cases, run by the C++ and the Kotlin tests |
+| Texts | 4246 keys, in Italian and English |
+| Same rules on both clients | 31 files of conformance vectors, 627 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->
 

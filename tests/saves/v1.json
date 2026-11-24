@@ -2090,6 +2090,74 @@
     "story": null,
     "world_ticks": 94
    }
+  },
+  {
+   "scenario": "cottage_rooms",
+   "split": 4,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 6.0,
+     "y": 5.0,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 4,
+     "hp": 142,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 8.6,
+      "y": 5.0,
+      "hp": 30,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/slime_gel": 1,
+     "test:item/bed": 1,
+     "test:item/rack": 1
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "story": {
+     "flags": {
+      "room_den": true
+     },
+     "gold": 50,
+     "guild_points": 0,
+     "quests": {},
+     "dialogue": null
+    },
+    "world_ticks": 4
+   }
   }
  ],
  "game": {

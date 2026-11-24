@@ -1599,5 +1599,18 @@
   "ui.affix_hint": "W/S choose, E takes it (one prism), Tab the next page, Esc closes",
   "ui.affix_hint_touch": "Tap an affix to choose it, tap it again to take it (one prism)",
   "ui.crash_log": "The game stopped with an error last time. What happened is written in {path}: send it with your report.",
+  "speaker.fenwick_carpenter_garrick": "Garrick, carpenter of Fenwick",
+  "dlg.home.garrick.stranger": "Garrick, carpenter of Fenwick. I build and I mend. This annex here: nobody ever finished it, three rooms of bare boards and draughts. Whoever gets this house, I am the one to see.",
+  "dlg.home.garrick.owner": "The Guest of the cottage! The annex is sound, but the rooms are bare boards and draughts. I can fix them up, one at a time. Bring the materials and the coin, and I bring the hammer.",
+  "dlg.home.garrick.prices": "How much is it?",
+  "dlg.home.garrick.bye": "Goodbye, Garrick.",
+  "dlg.home.garrick.price_list": "The workshop: 600 gold, twelve logs and six iron ores. The study: 900 gold, ten logs and four pine resins. The greenhouse: 1200 gold, ten stone chunks and eight bunches of wildflowers. Each has two places for furniture.",
+  "dlg.home.garrick.done": "All three rooms are finished. Best annex this side of the river, if I may say so.",
+  "dlg.home.garrick.fix_workshop": "Fix up the workshop (600 gold, 12 logs, 6 iron ores)",
+  "dlg.home.garrick.built_workshop": "There: the workshop is yours. Two places for furniture, and not a single draught. Make something for it at your anvil.",
+  "dlg.home.garrick.fix_study": "Fix up the study (900 gold, 10 logs, 4 pine resins)",
+  "dlg.home.garrick.built_study": "There: the study is yours. Two places for furniture, and not a single draught. Make something for it at your anvil.",
+  "dlg.home.garrick.fix_greenhouse": "Fix up the greenhouse (1200 gold, 10 stone chunks, 8 wildflowers)",
+  "dlg.home.garrick.built_greenhouse": "There: the greenhouse is yours. Two places for furniture, and not a single draught. Make something for it at your anvil.",
   "ui.crash_log_copied": "The game stopped with an error last time. What happened is written in {path}, and copied: paste it in your report."
 }

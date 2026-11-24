@@ -4389,7 +4389,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                 draw_sprite(renderer, *sprite, fx, fy, k);
             }
             // a place of the home with a piece of furniture on it (spec 06, "Furniture")
-            if (!sim.combat().home_spot.empty() && item.prop->art == sim.combat().home_spot) {
+            if (sim.is_home_place(item.prop->art)) {  // of the house, or of a room (spec 06, "Rooms")
                 const auto placed = sim.furniture().find({static_cast<int>(std::floor(item.prop->x * 100.0F + 0.5F)),
                                                           static_cast<int>(std::floor(item.prop->y * 100.0F + 0.5F))});
                 if (placed != sim.furniture().end()) {

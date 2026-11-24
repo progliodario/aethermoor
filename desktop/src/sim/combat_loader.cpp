@@ -457,6 +457,9 @@ std::optional<CombatSetup> load_combat_setup(const Pack& pack, const TileMap& ma
         if (!parsed.is_discarded()) {
             setup.home_spot = parsed.value("spot", "");
             setup.home_reach_x100 = parsed.value("reach_x100", 200);
+            for (const Json& room : parsed.value("rooms", Json::array())) {  // spec 06, "Rooms"
+                setup.home_rooms.push_back({room.value("id", ""), room.value("flag", ""), room.value("spot", "")});
+            }
         }
     }
     if (const auto farm = pack.read_document("base:farming/all")) {  // the plots and the crops (spec 06, "Farming")

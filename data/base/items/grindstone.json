@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../schemas/item.schema.json",
+  "id": "base:item/grindstone",
+  "name": "$i18n:item.grindstone.name",
+  "description": "$i18n:item.grindstone.desc",
+  "kind": "furniture",
+  "rarity": "uncommon",
+  "price": 220,
+  "stack_max": 3,
+  "furniture": {
+    "art": "base:art/prop/grindstone",
+    "atk_pct": 5
+  }
+}
