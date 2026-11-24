@@ -125,6 +125,10 @@ class ItemDef(
     val furniture: FurnitureStats? = null,
     /** Tempers the affix of a worn piece next to this station (spec 06, "Tempering"); empty: anywhere; null: not a tempering item. */
     val temperStation: String? = null,
+    /** Changes the worn piece of a family next to this station (spec 06, "Choosing an affix"); empty: anywhere; null: not a reforge item. */
+    val reforgeStation: String? = null,
+    /** The family of an affixed piece (spec 06, "Choosing an affix"): the same piece with another affix; empty: none. */
+    val affixFamily: String = "",
 )
 
 /** [element]: the element the weapon hits with, "none" to keep its own; [station]: the art of the prop it is engraved next to, empty: anywhere. */

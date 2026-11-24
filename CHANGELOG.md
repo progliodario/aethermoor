@@ -6,6 +6,15 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Choosing an affix** (spec 06, "Choosing an affix"): at an anvil, with the new **affix prism** in the bag (made at an anvil from a
+  golem core, two star dusts and two iron ores, sold in Ironspine for 300 gold), a common weapon or armor with an affix can become the
+  same piece with another affix: the crafting panel has a third page (`Tab`; on Android its button), with the worn piece and three
+  offers. The four affixes of a common piece are all offered; the six pairs of a claymore or a knight's plate with two affixes give
+  three drawn at random. The roll and the rune of the piece go with it. Using the prism from the bag opens the page.
+- **Crash log** (spec 12, "The crash log"): when an error stops the game, `crash.txt` is written in the folder of the saves with the
+  version, the error and the last 40 notices; at the next start the title screen says where it is (Android also copies it, to be
+  pasted in a report). Nothing leaves the device.
+
 - **Travellers walk** (spec 07, "Travellers walk"): Odo, Brannoc and Lark no longer appear at their stop at dawn. They stand there
   only from a quarter of the day to three quarters; in the morning they come walking in from the stop of the day before, and in the
   evening they walk out toward the stop of the day after, at a walking pace, in a straight line. Their position comes from the clock of

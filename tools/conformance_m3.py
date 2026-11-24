@@ -79,6 +79,17 @@ ROLLED_ITEMS = {
                              "affix_roll": {"min_pct": 100, "max_pct": 160}},
     "test:item/warm_coat": {"kind": "armor", "price": 900, "armor": {"def": 6, "mdef": 4}, "affix": {"max_hp": 60, "mdef": 3}},
 }
+# Choosing an affix (spec 06): a family of four blades that roll (three offers, nothing drawn), a family of five coats (three drawn
+# among four), and the prism that changes the worn piece of a family at an anvil.
+REFORGE_ITEMS = {
+    **{f"test:item/blade_{name}": {"kind": "weapon", "price": 500, "weapon": {"atk": 10, "matk": 0}, "affix": affix,
+                                   "affix_roll": {"min_pct": 100, "max_pct": 150}, "affix_family": "blade"}
+       for name, affix in (("vigor", {"max_hp": 40}), ("might", {"atk": 6}), ("keen", {"crit_pm": 60}), ("leech", {"drain_pm": 80}))},
+    **{f"test:item/coat_{name}": {"kind": "armor", "price": 500, "armor": {"def": 6, "mdef": 3}, "affix": affix,
+                                  "affix_family": "coat"}
+       for name, affix in (("a", {"max_hp": 30}), ("b", {"def": 3}), ("c", {"mdef": 4}), ("d", {"atk": 3}), ("e", {"crit_pm": 40}))},
+    "test:item/prism": {"kind": "reforge", "price": 300, "stack_max": 9, "reforge": {"station": "base:art/prop/anvil"}},
+}
 ROLLED_DROPS = [{"item": "test:item/keen_sword", "qty_min": 1, "qty_max": 1, "weight_pm": 1000},
                 {"item": "test:item/warm_coat", "qty_min": 1, "qty_max": 1, "weight_pm": 1000}]
 PICK_DROPS = [{"item": "test:item/keen_sword", "pick": ["test:item/warm_coat", "base:item/slime_gel"], "qty_min": 1, "qty_max": 2,
@@ -851,6 +862,29 @@ def build_scenarios() -> list[dict]:
                     titles=TITLES, gather_props=[{"art": "base:art/prop/anvil", "x": 8.0, "y": 4.5, "radius": 0.3}]),
          "items": {**ITEMS, **ROLLED_ITEMS, "test:item/oil": {"kind": "temper", "price": 160, "stack_max": 9,
                                                              "temper": {"station": "base:art/prop/anvil"}}}},
+        # Choosing an affix (spec 06): refused with no piece of a family worn, then far from the anvil; at the anvil the tempered blade of
+        # vigor (a rune on it) becomes the blade of the leech, which takes its roll and its rune; then back to vigor, and the leech, gone,
+        # forgets both; a piece that is not an offer is refused. With a blade of no family the coat is the piece: its offers are drawn,
+        # twice. With no prism left it is refused.
+        {**scenario("affix_choice", [enemy(12.0, 7.5, **passive)],
+                    [segment(1, do=[{"cmd": "choose_affix", "item": "test:item/prism", "offer": 0},
+                                    {"cmd": "equip", "item": "test:item/blade_vigor"}, {"cmd": "use", "item": "test:item/rune_wind"},
+                                    {"cmd": "choose_affix", "item": "test:item/prism", "offer": 0}]),
+                     segment(90, move=(1, 0)),
+                     segment(1, do=[{"cmd": "use", "item": "test:item/oil"},
+                                    {"cmd": "choose_affix", "item": "test:item/prism", "piece": "test:item/coat_a"},
+                                    {"cmd": "choose_affix", "item": "test:item/prism", "offer": 1}]),
+                     segment(1, do=[{"cmd": "choose_affix", "item": "test:item/prism", "offer": 2}]),
+                     segment(1, do=[{"cmd": "equip", "item": "base:item/iron_sword"}, {"cmd": "equip", "item": "test:item/coat_c"},
+                                    {"cmd": "choose_affix", "item": "test:item/prism", "offer": 0}]),
+                     segment(1, do=[{"cmd": "choose_affix", "item": "test:item/prism", "offer": 2}]),
+                     segment(1, do=[{"cmd": "choose_affix", "item": "test:item/prism", "offer": 0}]),
+                     segment(30)],
+                    inventory={"test:item/prism": 4, "test:item/oil": 1, "test:item/rune_wind": 1, "test:item/blade_vigor": 2,
+                               "test:item/coat_c": 1, "base:item/iron_sword": 1},
+                    gather_props=[{"art": "base:art/prop/anvil", "x": 8.0, "y": 4.5, "radius": 0.3}]),
+         "items": {**ITEMS, **RUNE_ITEMS, **REFORGE_ITEMS, "test:item/oil": {"kind": "temper", "price": 160, "stack_max": 9,
+                                                                             "temper": {"station": "base:art/prop/anvil"}}}},
         # The season of a creature (spec 05, "Loot"): a boar killed in autumn leaves two more of every plain drop; the drop one of a list
         # gets nothing more; in spring (no bonus of its own) the boar leaves what it always leaves.
         {**scenario("loot_in_season", [enemy(3.6, 4.4, hp=6, **passive, drops=SEASON_DROPS, season_bonus={"autumn": 2, "winter": 1}),

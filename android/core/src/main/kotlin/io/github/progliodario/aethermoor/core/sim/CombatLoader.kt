@@ -299,6 +299,8 @@ fun loadCombatSetup(
                 affixRoll = doc["affix_roll"]?.jsonObject?.let { Pair(it.getValue("min_pct").jsonPrimitive.int, it.getValue("max_pct").jsonPrimitive.int) },
                 furniture = doc["furniture"]?.jsonObject?.let { furnitureOf(it) },
                 temperStation = doc["temper"]?.jsonObject?.let { it["station"]?.jsonPrimitive?.content ?: "" },
+                reforgeStation = doc["reforge"]?.jsonObject?.let { it["station"]?.jsonPrimitive?.content ?: "" },
+                affixFamily = doc["affix_family"]?.jsonPrimitive?.content ?: "",
             )
         }
 

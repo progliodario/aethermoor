@@ -103,9 +103,19 @@ TEMPERS = {
                       "Usalo a un'incudine: l'affisso dell'arma che impugni (o della tua armatura) viene temprato di nuovo, e si tiene il tiro migliore."),
 }
 
+# The items that change the affix of a worn piece of a family (spec 06, "Choosing an affix"): as TEMPERS
+REFORGES = {
+    "affix_prism": ("rare", 300, {"golem_core": 1, "star_dust": 2, "iron_ore": 2}, "Affix prism", "Prisma degli affissi",
+                    "At an anvil, with a common piece with an affix worn: see three other affixes of the same piece and keep the one you like. "
+                    "The roll and the rune of the piece stay with it.",
+                    "A un'incudine, con addosso un pezzo comune con un affisso: vedi tre altri affissi dello stesso pezzo e tieni quello che "
+                    "preferisci. Il tiro e la runa del pezzo restano con lui."),
+}
+
 # What make_recipes.py writes: recipe id -> (output item, quantity, inputs); all of them at an anvil.
 RECIPES = {name: (name, 1, spec[5]) for name, spec in RUNES.items()}
 RECIPES.update({name: (name, 1, spec[2]) for name, spec in TEMPERS.items()})
+RECIPES.update({name: (name, 1, spec[2]) for name, spec in REFORGES.items()})
 RECIPES.update({name: (name, 1, spec[3]) for name, spec in FURNITURE.items()})
 
 HOME = {"$schema": "../../schemas/home.schema.json", "id": "base:home/cottage", "spot": "base:art/prop/furniture_spot", "reach_x100": 150}
@@ -136,6 +146,13 @@ def main() -> None:
                                                        "name": f"$i18n:item.{name}.name", "description": f"$i18n:item.{name}.desc",
                                                        "kind": "temper", "rarity": rarity, "price": price, "stack_max": 9,
                                                        "temper": {"station": ANVIL}})
+        texts["en"].update({f"item.{name}.name": name_en, f"item.{name}.desc": desc_en})
+        texts["it"].update({f"item.{name}.name": name_it, f"item.{name}.desc": desc_it})
+    for name, (rarity, price, _inputs, name_en, name_it, desc_en, desc_it) in REFORGES.items():
+        write_json(DATA / "items" / f"{name}.json", {"$schema": "../../../schemas/item.schema.json", "id": f"base:item/{name}",
+                                                       "name": f"$i18n:item.{name}.name", "description": f"$i18n:item.{name}.desc",
+                                                       "kind": "reforge", "rarity": rarity, "price": price, "stack_max": 9,
+                                                       "reforge": {"station": ANVIL}})
         texts["en"].update({f"item.{name}.name": name_en, f"item.{name}.desc": desc_en})
         texts["it"].update({f"item.{name}.name": name_it, f"item.{name}.desc": desc_it})
     write_json(DATA / "home.json", HOME)

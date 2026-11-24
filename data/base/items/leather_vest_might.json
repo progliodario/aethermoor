@@ -16,5 +16,6 @@
   "affix_roll": {
     "min_pct": 100,
     "max_pct": 150
-  }
+  },
+  "affix_family": "leather_vest"
 }

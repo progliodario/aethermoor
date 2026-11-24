@@ -43,7 +43,8 @@ target_compile_definitions(aether_core PUBLIC
 aether_target_options(aether_core)
 
 # Content packs: JSON loading. Still headless.
-add_library(aether_data STATIC src/data/pack.cpp src/data/protagonist.cpp src/data/world_data.cpp src/data/lights.cpp src/data/font.cpp src/data/hints.cpp)
+add_library(aether_data STATIC src/data/pack.cpp src/data/protagonist.cpp src/data/world_data.cpp src/data/lights.cpp src/data/font.cpp src/data/hints.cpp
+  src/data/crash_log.cpp)
 target_link_libraries(aether_data PUBLIC aether_core PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_data)
 
@@ -82,7 +83,8 @@ add_executable(aether_tests
   tests/conformance_test.cpp
   tests/pack_test.cpp
   tests/sim_test.cpp
-  tests/combat_test.cpp)
+  tests/combat_test.cpp
+  tests/crash_log_test.cpp)
 target_link_libraries(aether_tests PRIVATE aether_core aether_data aether_vector aether_audio aether_sim
                                            nlohmann_json::nlohmann_json Catch2::Catch2WithMain)
 target_compile_definitions(aether_tests PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")

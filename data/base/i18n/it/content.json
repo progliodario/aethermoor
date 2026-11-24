@@ -1827,5 +1827,7 @@
   "quest.side_gideon_2.task": "I profughi vogliono forni che scaldino senza bruciare. Porta a Dorrit quattro nuclei di brace e due schegge di magma per costruirli.",
   "quest.side_gideon_3.name": "I debiti di un re: la vecchia fortezza",
   "quest.side_gideon_3.task": "Gli slime di magma escono strisciando dalle rovine della vecchia fortezza delle Terre verso le fattorie dei profughi. Fermane cinque.",
+  "item.affix_prism.name": "Prisma degli affissi",
+  "item.affix_prism.desc": "A un'incudine, con addosso un pezzo comune con un affisso: vedi tre altri affissi dello stesso pezzo e tieni quello che preferisci. Il tiro e la runa del pezzo restano con lui.",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

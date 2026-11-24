@@ -37,7 +37,8 @@
         "seed",
         "rune",
         "furniture",
-        "temper"
+        "temper",
+        "reforge"
       ]
     },
     "rarity": {
@@ -109,6 +110,19 @@
           }
         }
       }
+    },
+    "reforge": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "changes the affix of a worn piece of a family (spec 06, \"Choosing an affix\"): next to its station, the worn piece becomes one of three others of its family, chosen by the player",
+      "properties": {
+        "station": { "type": "string" }
+      }
+    },
+    "affix_family": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "description": "the family of an affixed piece (spec 06, \"Choosing an affix\"): the pieces of a family are the same piece with another affix"
     },
     "temper": {
       "type": "object",

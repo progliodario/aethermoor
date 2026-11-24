@@ -93,6 +93,42 @@ The base pack has the **tempering oil** (`tools/make_furnishings.py`), made at a
 slime gels, and sold in Ironspine. The smiths temper too, for gold, with the dialogue effect `temper` (spec 07): the shopkeepers of
 the villages for 60 gold and Brannoc, the wandering smith, for 40. Conformance: the scenario `temper_affix` and a save split of it.
 
+## Choosing an affix
+
+An affixed piece may belong to an **affix family**, `affix_family` (a name, `snake_case`): the pieces of a family are the same
+piece with another affix. An item of kind `reforge` has `reforge {station}` (anywhere when absent): with it, next to its station,
+the worn piece of a family can be changed into another piece of the family, chosen among three.
+
+The piece is the **worn weapon** when its item has `affix_family`, else the **worn armor** when its item has one (none: there is
+nothing to choose). Its **offers** are the other pieces of its family, in the order of their IDs; when they are more than three,
+three of them are drawn from the `loot` stream, one after the other, without putting any back (`n` is how many they are):
+
+```
+for i in 0, 1, 2:
+    j = i + loot.next_bounded(n - i)
+    swap(c[i], c[j])
+offers = c[0], c[1], c[2]                  (three or fewer: all of them, in order, and nothing is drawn)
+```
+
+The offers can be looked at without drawing anything: the draw is made on a copy of the stream (the panel of the game and the
+checkpoints of the scenarios do so). **Choosing** one (`choose_affix {item, piece}`: `item` a reforge item of the bag, `piece` one of
+the offers) is refused, changing nothing, while a dialogue is open, when the bag holds no such item, when no worn piece has a family,
+when the station is not in reach and when `piece` is not among the offers of now. Otherwise the offers are drawn from the stream
+itself (the same draws as the look), one reforge item leaves the bag, and the worn piece becomes the one chosen:
+
+- one copy of the old piece leaves the bag, one of the new piece enters it, and the new piece is worn in the same slot;
+- the roll goes with it (section "Rolled affixes"): when the old piece has one, the roll of the new one is the better of the two; so
+  does the rune of a weapon (section "Runes"): when the old piece bears one, the new one bears it;
+- when that was the last copy of the old piece (none left in the bag nor in the chest), its roll and its rune are forgotten;
+- the counter `reforged` grows by one (spec 11), the derived stats are worked out again and the health is no more than the new maximum.
+
+Looking at the offers and leaving costs nothing. The base pack has the **affix prism** (`tools/make_furnishings.py`), made at an anvil
+from a golem core, two pinches of star dust and two lumps of iron ore, and sold in Ironspine. Its families are those of the common
+pieces with an affix (section "Rolled affixes", `tools/make_common_affixes.py`): the four affixes of each of the six common bases
+(three offers, nothing drawn), and the six pairs of affixes of the claymore and of the knight's plate (three offers drawn among five).
+The sixteen regional pieces have no family. Presentation: the third page of the crafting panel (spec 16). Conformance: the scenario
+`affix_choice` (its checkpoints carry `affix_offers`, the offers of now) and a save split of it.
+
 ## Furniture
 
 `data/base/home.json` (ID `base:home/cottage`, schema `home`) names the **spot** prop, an empty place of the home, and the reach of the player (`reach_x100`). An item of kind `furniture` has `furniture {art, atk_pct, gather_bonus, craft_bonus, parry_bonus, xp_pct, fine_pm}`: the prop it is drawn as and what it adds (each optional, 0 when absent).

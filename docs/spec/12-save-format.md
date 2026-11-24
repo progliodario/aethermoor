@@ -146,6 +146,15 @@ next version is forced to load it.
 
 Reference: `tools/reference/profile.py`; conformance: the suite `profile`. The profile is not part of the `.aethersave` bundle.
 
+## The crash log
+
+When an error that nothing catches stops the game, the client writes **`crash.txt`** in the folder of the saves (`<user data>/saves/`
+on desktop, the app-private folder on Android): a text file with the version of the game, the error (on Android its stack), and the
+last 40 notices the game showed, the oldest first. Nothing is sent anywhere (no network, `CLAUDE.md`, rule 8). At the next start the
+file is renamed `crash_last.txt` (the one of before goes) and the title screen says, once, where it is (`ui.crash_log`); Android also
+copies it to the clipboard, to be pasted in a report (`ui.crash_log_copied`). The smoke test neither reads nor writes it. The log is
+written by `CrashLog` (`desktop/src/data/crash_log.hpp`, `core/CrashLog.kt`), whose tests force an error and read the file back.
+
 ## Not yet in v1
 
 CRC of the file, other changes of the streamed world (arrive with the world systems), thumbnails.

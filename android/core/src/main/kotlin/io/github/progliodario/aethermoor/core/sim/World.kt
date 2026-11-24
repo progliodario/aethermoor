@@ -4,6 +4,7 @@ import io.github.progliodario.aethermoor.core.DamageInput
 import io.github.progliodario.aethermoor.core.DerivedStats
 import io.github.progliodario.aethermoor.core.Equipment
 import io.github.progliodario.aethermoor.core.Offer
+import io.github.progliodario.aethermoor.core.Pcg32
 import io.github.progliodario.aethermoor.core.Settlement
 import io.github.progliodario.aethermoor.core.TimeSample
 import io.github.progliodario.aethermoor.core.damage
@@ -1305,6 +1306,54 @@ class WorldSim(
         rolls[target] = maxOf(rollOf(target), pct) // the better of the two is kept
         count("tempered")
         recomputeDerived()
+        return true
+    }
+
+    /** The worn piece an affix is chosen for (spec 06, "Choosing an affix"): the worn weapon when it has a family, else the worn armor. */
+    fun reforgeTarget(): String? = listOf(equippedWeapon, equippedArmor).firstOrNull { it.isNotEmpty() && !combat.items[it]?.affixFamily.isNullOrEmpty() }
+
+    /** The offers of [target]: the other pieces of its family in the order of their IDs, three of them drawn from [stream] when they are more. */
+    private fun drawOffers(target: String?, stream: Pcg32): List<String> {
+        val family = target?.let { combat.items[it]?.affixFamily } ?: return emptyList()
+        val offers = combat.items.keys.filter { it != target && combat.items[it]?.affixFamily == family }.sorted().toMutableList()
+        if (offers.size <= 3) return offers
+        for (i in 0 until 3) {
+            val j = i + stream.nextBounded((offers.size - i).toLong()).toInt()
+            val chosen = offers[j]
+            offers[j] = offers[i]
+            offers[i] = chosen
+        }
+        return offers.take(3)
+    }
+
+    /** The offers of now (spec 06, "Choosing an affix"), drawn on a copy of the loot stream: looking draws nothing. */
+    fun affixOffers(): List<String> = drawOffers(reforgeTarget(), Pcg32(0uL, 0uL).also { it.setState(lootRng.state, lootRng.inc) })
+
+    /** Whether the reforge item [itemId] can change the worn piece of a family into [piece] now (spec 06, "Choosing an affix"). */
+    private fun canChooseAffix(itemId: String, piece: String): Boolean {
+        val station = combat.items[itemId]?.reforgeStation ?: return false
+        val owned = (inventory[itemId] ?: 0L) >= 1L
+        return !story.dialogueActive && owned && reforgeTarget() != null && nearStation(station) && piece in affixOffers()
+    }
+
+    /** Changes the worn piece of a family into one of its offers with a reforge item of the bag (spec 06, "Choosing an affix"). */
+    fun chooseAffix(itemId: String, piece: String): Boolean {
+        if (!canChooseAffix(itemId, piece)) return false
+        val target = requireNotNull(reforgeTarget())
+        drawOffers(target, lootRng) // the same draws as the look, from the stream itself
+        takeOne(itemId)
+        takeOne(target)
+        inventory[piece] = (inventory[piece] ?: 0L) + 1L
+        if (equippedWeapon == target) equippedWeapon = piece else equippedArmor = piece
+        rolls[target]?.let { rolls[piece] = maxOf(rollOf(piece), it) } // the roll goes with the piece, and the rune of a weapon too
+        runes[target]?.let { runes[piece] = it }
+        if ((inventory[target] ?: 0L) == 0L && (chest[target] ?: 0L) == 0L) { // the last copy is gone: so are its roll and its rune
+            rolls.remove(target)
+            runes.remove(target)
+        }
+        count("reforged")
+        recomputeDerived()
+        player.hp = minOf(player.hp, derived.maxHp)
         return true
     }
 

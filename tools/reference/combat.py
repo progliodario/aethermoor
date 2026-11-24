@@ -1184,6 +1184,60 @@ class CombatSim:
         self.derived = self._derive()
         return True
 
+    def _reforge_target(self) -> str:
+        """The worn piece an affix is chosen for (spec 06, "Choosing an affix"): the worn weapon when it has a family, else the worn armor; ""."""
+        return next((self.equipped[slot] for slot in ("weapon", "armor")
+                     if self.equipped[slot] and "affix_family" in self.items.get(self.equipped[slot], {})), "")
+
+    def _draw_offers(self, stream: nm.Pcg32) -> list[str]:
+        """The offers of the worn piece of a family (spec 06, "Choosing an affix"), drawn from `stream` when its family has more than four."""
+        target = self._reforge_target()
+        if not target:
+            return []
+        family = self.items[target]["affix_family"]
+        offers = sorted(i for i, d in self.items.items() if d.get("affix_family") == family and i != target)
+        if len(offers) > 3:
+            for i in range(3):
+                j = i + stream.next_bounded(len(offers) - i)
+                offers[i], offers[j] = offers[j], offers[i]
+            offers = offers[:3]
+        return offers
+
+    def affix_offers(self) -> list[str]:
+        """The offers of now, drawn on a copy of the loot stream: looking draws nothing (spec 06, "Choosing an affix")."""
+        peek = nm.Pcg32(0, 0)
+        peek.state, peek.inc = self.loot.state, self.loot.inc
+        return self._draw_offers(peek)
+
+    def choose_affix(self, item_id: str, piece: str) -> bool:
+        """Changes the worn piece of a family into one of its offers with a reforge item of the bag, at its station (spec 06, "Choosing an
+        affix"). False, changing nothing, when it is refused."""
+        if self.story is not None and self.story.dialogue_active:
+            return False
+        item = self.items.get(item_id)
+        if item is None or "reforge" not in item or self.inventory.get(item_id, 0) < 1:
+            return False
+        target = self._reforge_target()
+        if not target or not self.near_station(item["reforge"].get("station", "")) or piece not in self.affix_offers():
+            return False
+        self._draw_offers(self.loot)  # the same draws as the look, from the stream itself
+        self._take_one(item_id)
+        slot = "weapon" if self.equipped["weapon"] == target else "armor"
+        self._take_one(target)
+        self.inventory[piece] = self.inventory.get(piece, 0) + 1
+        self.equipped[slot] = piece
+        if target in self.rolls:  # the roll goes with the piece, and the rune of a weapon too
+            self.rolls[piece] = max(self.rolls.get(piece, 0), self.rolls[target])
+        if target in self.runes:
+            self.runes[piece] = self.runes[target]
+        if self.inventory.get(target, 0) == 0 and self.chest.get(target, 0) == 0:  # the last copy is gone: so are its roll and rune
+            self.rolls.pop(target, None)
+            self.runes.pop(target, None)
+        self.counters["reforged"] = self.counters.get("reforged", 0) + 1
+        self.derived = self._derive()
+        self.hp = min(self.hp, self.derived["max_hp"])
+        return True
+
     def _spot_near(self):
         """The nearest furniture spot in reach (spec 06, "Furniture"): (distance, x, y, key), or None."""
         if self.home is None:
@@ -1429,6 +1483,7 @@ class CombatSim:
             **({"derived": {k: self.derived[k] for k in ("atk", "matk", "def", "mdef", "max_hp", "crit_chance_pm")}}
                if any("affix" in i for i in self.items.values()) else {}),
             **({"rolls": dict(sorted(self.rolls.items()))} if any("affix_roll" in i for i in self.items.values()) else {}),
+            **({"affix_offers": self.affix_offers()} if any("reforge" in i for i in self.items.values()) else {}),
             **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"], "stay": self.friend["stay"]}}
                if self.friend is not None else {}),
             **({"tag": self.tag, "tags": self.earned_tags()} if self.tag_defs else {}),
@@ -1444,6 +1499,11 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
     for command in segment.get("do", []):
         if command["cmd"] == "use":
             sim.use_item(command["item"])
+            continue
+        if command["cmd"] == "choose_affix":  # `piece`, or `offer`: the index of one of the offers of now (spec 06, "Choosing an affix")
+            offers = sim.affix_offers()
+            index = command.get("offer", -1)
+            sim.choose_affix(command["item"], command.get("piece", offers[index] if 0 <= index < len(offers) else ""))
             continue
         if command["cmd"] in ("equip", "buy", "sell"):
             getattr(sim, command["cmd"])(command["item"])

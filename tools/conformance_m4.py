@@ -243,6 +243,7 @@ SAVE_SPLITS = {
     "affixes_rolled": (2, 4),         # the rolls of the pieces found (spec 06, "Rolled affixes"), before and after a sale
     "repeatable_quest": (2,),          # a repeatable quest done, then started anew after a load
     "temper_affix": (4,),             # the tempered roll is saved (spec 06, "Tempering")
+    "affix_choice": (3, 5),           # the chosen piece, its roll and rune, and the loot stream of the draws (spec 06, "Choosing an affix")
     "tags_worn": (3, 5),              # the worn tag is saved (spec 11, "Tags")
     "traveller_moves": (3,),           # the traveller is where the day says after a load
     "resident_arrives": (3, 5),       # the flag that brings the resident is saved, so it is there after a load
