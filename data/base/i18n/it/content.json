@@ -1815,5 +1815,17 @@
   "quest.side_yuki_2.task": "L'unico quadro della gilda è stato portato a Whisperwood dai lupi d'ombra, che amano le cose scure. Scacciane cinque e ritrovalo.",
   "quest.side_yuki_3.name": "La ladra onesta: la grotta sotto la cassaforte",
   "quest.side_yuki_3.task": "I pipistrelli fanno il nido nella grotta sotto la cassaforte, e le cose continuano a cadere giù dal pavimento. Liberane sei e porta quattro ali di pipistrello per la malta del pavimento nuovo.",
+  "quest.side_lena_1.name": "L'ultima diagnosi: causa di morte, freddo",
+  "quest.side_lena_1.task": "A Frostveil si trovano lupi del gelo congelati, e i lupi del gelo non dovrebbero congelare. Porta al dottor Finch tre delle loro pellicce, da cinque di loro.",
+  "quest.side_lena_2.name": "L'ultima diagnosi: una febbre nella neve",
+  "quest.side_lena_2.task": "Un villaggio di Frostveil è malato di una febbre fredda. Porta quattro fiocchi di neve e tre erbe medicinali per il rimedio del dottor Finch.",
+  "quest.side_lena_3.name": "L'ultima diagnosi: la luce fredda",
+  "quest.side_lena_3.task": "I fuochi fatui del gelo bevono il calore di chi dorme. Fermane cinque, e i lupi e i villaggi di Frostveil potranno dormire.",
+  "quest.side_gideon_1.name": "I debiti di un re: campi avvelenati",
+  "quest.side_gideon_1.task": "Gli slime di carbone avvelenano i campi dei profughi delle Terre di Cenere. Eliminane sei e porta tre pezzi di carbone, per mostrare ai contadini che la terra è pulita.",
+  "quest.side_gideon_2.name": "I debiti di un re: un focolare per le Terre",
+  "quest.side_gideon_2.task": "I profughi vogliono forni che scaldino senza bruciare. Porta a Dorrit quattro nuclei di brace e due schegge di magma per costruirli.",
+  "quest.side_gideon_3.name": "I debiti di un re: la vecchia fortezza",
+  "quest.side_gideon_3.task": "Gli slime di magma escono strisciando dalle rovine della vecchia fortezza delle Terre verso le fattorie dei profughi. Fermane cinque.",
   "enemy.slime_sun.name": "Gelatina del sole"
 }

@@ -1,0 +1,7 @@
+{
+  "$schema": "../../../../schemas/i18n.schema.json",
+  "pack.example.name": "Mod di esempio",
+  "enemy.slime_honey.name": "Slime di miele",
+  "quest.honey_hunt.name": "Dita appiccicose",
+  "quest.honey_hunt.task": "Gli slime di miele razziano gli alveari. Scacciane cinque."
+}

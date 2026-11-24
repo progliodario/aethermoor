@@ -1,0 +1,7 @@
+{
+  "$schema": "../../../../schemas/i18n.schema.json",
+  "pack.example.name": "Example mod",
+  "enemy.slime_honey.name": "Honey slime",
+  "quest.honey_hunt.name": "Sticky Fingers",
+  "quest.honey_hunt.task": "Honey slimes are raiding the hives. Drive five of them away."
+}

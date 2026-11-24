@@ -21,7 +21,7 @@ Python scripts (3.12 or newer; the virtual environment of [`docs/dev/setup.md`](
 
 | Script | What it does |
 |---|---|
-| `validate_data.py` | validates the project metadata, every pack against the schemas, the references between files and the texts of both languages |
+| `validate_data.py` (`[pack folder ...]`) | validates the project metadata, every pack of `data/` against the schemas, the references between files and the texts of both languages; with folders, those packs only (a mod: its references and texts may be those of the packs it `depends` on, read from `data/`; it may not define their IDs again; `docs/modding/README.md`) |
 | `gen_conformance.py` (`--check`, `--serial`) | writes (or checks) `tests/conformance/*.json` from the reference, in parallel; never edit those files by hand |
 | `gen_tables.py` (`--check`) | writes `data/base/tables/xp_table.json` from the formulas of spec 04 |
 | `check_frames.py` (`--write`) | the automatic checks of the graphics (spec 16, "Checks of the frames"): the smoke-test frames of the desktop CI against their references `tests/frames/` (not blank, not black, near the fingerprint); `--write` writes the references from a CI run's frames |

@@ -1,0 +1,36 @@
+{
+  "$schema": "../../../schemas/enemy.schema.json",
+  "id": "example:enemy/slime_honey",
+  "name": "$i18n:enemy.slime_honey.name",
+  "level": 2,
+  "stats": {
+    "hp": 30,
+    "atk": 6,
+    "def": 1,
+    "mdef": 1,
+    "speed_x100": 220
+  },
+  "element": "none",
+  "sound": "slime",
+  "weaknesses_pm": {
+    "fire": 1500
+  },
+  "xp": 7,
+  "drops": [
+    {
+      "item": "base:item/slime_gel",
+      "qty_min": 1,
+      "qty_max": 2,
+      "weight_pm": 700
+    },
+    {
+      "item": "base:item/honey_cake",
+      "qty_min": 1,
+      "qty_max": 1,
+      "weight_pm": 150
+    }
+  ],
+  "radius_x100": 34,
+  "behavior": "base:behavior/skittish",
+  "art": "base:art/creature/slime_amber"
+}

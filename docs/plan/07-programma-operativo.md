@@ -308,6 +308,10 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **Dipende da:** D2. Taglia: XL (per protagonista). Issue: [progliodario/aethermoor#245](https://github.com/progliodario/aethermoor/issues/245).
 
 #### D4 Ondata 9d
+
+> **Fatta (23 novembre 2026, sesto batch).** Lena ("The Last Diagnosis", il dottor Aurel Finch) e Gideon ("The Debts of a King", la
+> fornaia Dorrit Ash), ad Aldermere. La storia di Gideon non dipende dal Dungeon (C3.1): racconta il suo passato di re attraverso i
+> profughi delle Terre di Cenere, e il Dungeon resta una voce a sé.
 - **Cosa:** lo stesso modello per Lena (Frostveil) e Gideon (Ashen Wastes). Per Gideon, la storia laterale si lega a C3.1 (il Dungeon) oppure alla sua variante ridotta.
 - **Dipende da:** D3 e C3.1. Taglia: XL (per protagonista). Issue: [progliodario/aethermoor#246](https://github.com/progliodario/aethermoor/issues/246).
 
@@ -373,6 +377,10 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 #### E4 Mod e pubblicazione
 
 ##### E4.1 Documentazione per i mod
+
+> **Fatta (24 novembre 2026, sesto batch, con D4).** Come progettato. Il mod di esempio è una creatura (lo slime di miele) e una missione,
+> con i testi nelle due lingue; il validatore accetta una cartella anche fuori dal repository e la controlla sopra i pacchetti di
+> `depends`. Caricare i mod nel gioco resta dopo l'1.0 (F1): la documentazione lo dice.
 - **Cosa:** completare `docs/modding/`; `tools/validate_data.py` accetta una cartella di pacchetto sulla riga di comando; un mod di esempio (una creatura e una missione) è validato in CI.
 - **Perché:** M11 chiede la documentazione per chi fa mod. Oggi il validatore controlla solo il pacchetto base.
 - **File:** `docs/modding/README.md`, `tools/validate_data.py`, `examples/mod-example/` (nuovo), `.github/workflows/ci-data.yml`.

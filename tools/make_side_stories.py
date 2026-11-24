@@ -4,7 +4,7 @@ quests from a person of the world, one after the other, and an ending that the p
 Guest takes home). The person talks to everyone, but tells the story only to whoever carries the keepsake of that protagonist (the
 condition `has_item`, the same way Maren and Pip tell theirs).
 
-Wave 9a (D1): Ren and Haruka; wave 9b (D2): Daichi and Sakura; wave 9c (D3): Marco and Yuki; all in Aldermere. It writes the people into the world data (`npcs`, one line each, written again in
+Wave 9a (D1): Ren and Haruka; wave 9b (D2): Daichi and Sakura; wave 9c (D3): Marco and Yuki; wave 9d (D4): Lena and Gideon; all in Aldermere. It writes the people into the world data (`npcs`, one line each, written again in
 place), their dialogues, the quests and their texts (it and en); it can be run any number of times. Then run `make_catalog.py` and
 `make_facts.py`; the clients' tests count the named people of the world (`desktop/tests/combat_test.cpp`, `WorldGenTest.kt`).
 """
@@ -390,6 +390,132 @@ STORIES = [
                   "base:item/shadow_dagger",
                   ("I saw nothing. And since you will be carrying a painting through dark places, take this blade: it does not catch the light.",
                    "Non ho visto niente. E visto che porterai un quadro in posti bui, prendi questa lama: non riflette la luce.")),
+        },
+    },
+    {
+        "key": "aldermere_physician_finch", "file": "finch", "variant": "cream", "dx": 383, "dy": -127, "protagonist": "lena",
+        "name": ("Doctor Aurel Finch, physician of the guild", "Dottor Aurel Finch, medico della gilda"),
+        "stranger": ("Bandages on the left, tonics on the right, bad news in the drawer. What can I do for you, Guest?",
+                     "Bende a sinistra, tonici a destra, cattive notizie nel cassetto. Che cosa posso fare per te, Ospite?"),
+        "hello": ("You read my notes upside down, from across the table, and you corrected one. You were right. Who taught you to read a body?",
+                  "Hai letto i miei appunti al contrario, dall'altra parte del tavolo, e ne hai corretto uno. Avevi ragione. Chi ti ha insegnato a leggere un corpo?"),
+        "after": ("I write my reports the way you taught me now: what happened, what killed, what was missed. Nobody reads them, but I sleep better.",
+                  "Ora scrivo i miei rapporti come mi hai insegnato tu: che cosa è successo, che cosa ha ucciso, che cosa è sfuggito. Nessuno li legge, ma dormo meglio."),
+        "quests": [
+            ("side_lena_1", ("The Last Diagnosis: Cause of Death, Cold", "L'ultima diagnosi: causa di morte, freddo"),
+             ("Frost wolves are found frozen in Frostveil, which frost wolves should not be. Bring Doctor Finch three of their pelts, from five of them.",
+              "A Frostveil si trovano lupi del gelo congelati, e i lupi del gelo non dovrebbero congelare. Porta al dottor Finch tre delle loro pellicce, da cinque di loro."),
+             [{"type": "kill", "enemy": "base:enemy/wolf_frost", "count": 5}, {"type": "collect", "item": "base:item/frost_pelt", "count": 3}],
+             900, 600,
+             ("Frost wolves, frozen solid. Animals born in the ice, dead of cold. It makes no sense, and things that make no sense make me "
+              "nervous. I need to look at them closely. Three pelts, from the pack around the pass.",
+              "Lupi del gelo, congelati. Animali nati nel ghiaccio, morti di freddo. Non ha senso, e le cose senza senso mi rendono nervoso. "
+              "Devo guardarli da vicino. Tre pellicce, dal branco attorno al passo."),
+             ("Three frost pelts. Do not wash them: the dirt is evidence.", "Tre pellicce del gelo. Non lavarle: lo sporco è una prova."),
+             ("Look: frost on the inside of the fur. Something drank their warmth from within. You already suspected it, didn't you?",
+              "Guarda: brina all'interno del pelo. Qualcosa ha bevuto il loro calore da dentro. Lo sospettavi già, vero?")),
+            ("side_lena_2", ("The Last Diagnosis: A Fever in the Snow", "L'ultima diagnosi: una febbre nella neve"),
+             ("A village of Frostveil is sick with a cold fever. Bring four snowflakes and three healing herbs for Doctor Finch's remedy.",
+              "Un villaggio di Frostveil è malato di una febbre fredda. Porta quattro fiocchi di neve e tre erbe medicinali per il rimedio del dottor Finch."),
+             [{"type": "collect", "item": "base:item/snowflake", "count": 4}, {"type": "collect", "item": "base:item/healing_herb", "count": 3}],
+             1500, 1000,
+             ("Now the people. A whole village with a fever that makes them shiver by the fire. Same signs as the wolves, earlier. "
+              "There is a remedy in the old books: snowflakes that do not melt, and healing herbs. Four and three.",
+              "Adesso le persone. Un villaggio intero con una febbre che li fa tremare accanto al fuoco. Gli stessi segni dei lupi, prima. "
+              "Nei vecchi libri c'è un rimedio: fiocchi di neve che non si sciolgono, ed erbe medicinali. Quattro e tre."),
+             ("Four snowflakes and three healing herbs. The fever does not wait.", "Quattro fiocchi di neve e tre erbe medicinali. La febbre non aspetta."),
+             ("They are warm again, all of them. And all of them dreamed the same thing: a small cold light at the window, watching.",
+              "Sono di nuovo caldi, tutti. E tutti hanno sognato la stessa cosa: una piccola luce fredda alla finestra, che guardava.")),
+            ("side_lena_3", ("The Last Diagnosis: The Cold Light", "L'ultima diagnosi: la luce fredda"),
+             ("Frost wisps drink the warmth of the sleeping. Stop five of them, and the wolves and the villages of Frostveil can sleep.",
+              "I fuochi fatui del gelo bevono il calore di chi dorme. Fermane cinque, e i lupi e i villaggi di Frostveil potranno dormire."),
+             [{"type": "kill", "enemy": "base:enemy/frost_wisp", "count": 5}], 3000, 2000,
+             ("The cause. Frost wisps: they sit by the sleeping and drink their warmth, a little every night, until there is none. A "
+              "diagnosis is worth nothing without a cure. Five of them.",
+              "La causa. Fuochi fatui del gelo: si siedono accanto a chi dorme e ne bevono il calore, un poco ogni notte, finché non ne resta. "
+              "Una diagnosi non vale niente senza una cura. Cinque."),
+             ("Five frost wisps. They are fragile, and they are not innocent.", "Cinque fuochi fatui del gelo. Sono fragili, e non sono innocenti."),
+             ("No fevers. No frozen wolves. Case closed, as you say. I have never closed one before.",
+              "Niente febbri. Niente lupi congelati. Caso chiuso, come dici tu. Non ne avevo mai chiuso uno.")),
+        ],
+        "ending": {
+            "ask": ("The guild needs a second physician, Lena, and I need someone who sees what I miss. Or... you came here with a second "
+                    "chance. Maybe it is not for other people's deaths. Maybe it is for your life. Which?",
+                    "La gilda ha bisogno di un secondo medico, Lena, e io di qualcuno che veda quello che mi sfugge. Oppure... sei arrivata qui con "
+                    "una seconda possibilità. Forse non è per le morti degli altri. Forse è per la tua vita. Cosa scegli?"),
+            "a": (("I will stay. Somebody has to notice what kills, before it does.", "Resto. Qualcuno deve accorgersi di ciò che uccide, prima che uccida."),
+                  "base:item/frost_locket",
+                  ("Then wear this locket: there is a frost wisp inside, the last one, asleep. A reminder of the first case we closed.",
+                   "Allora porta questo medaglione: dentro c'è un fuoco fatuo del gelo, l'ultimo, addormentato. Un ricordo del primo caso che abbiamo chiuso.")),
+            "b": (("I will live a little. My notes can wait.", "Vivrò un po'. I miei appunti possono aspettare."),
+                  "base:item/glacier_spear",
+                  ("Good. Then live far, and live well. Take this spear: the people of the pass gave it to me for you. They said you would go north.",
+                   "Bene. Allora vivi lontano, e vivi bene. Prendi questa lancia: me l'ha data la gente del passo per te. Hanno detto che saresti andata a nord.")),
+        },
+    },
+    {
+        "key": "aldermere_baker_dorrit", "file": "dorrit", "variant": "brown", "dx": 385, "dy": -127, "protagonist": "gideon",
+        "name": ("Dorrit Ash, baker from the Ashen Wastes", "Dorrit Ash, fornaia delle Terre di Cenere"),
+        "stranger": ("Ash bread, Guest? My grandmother's recipe, from the Wastes. It tastes of smoke. Everything there did.",
+                     "Pane di cenere, Ospite? La ricetta di mia nonna, delle Terre. Sa di fumo. Laggiù tutto sapeva di fumo."),
+        "hello": ("That black sword. My grandmother told stories about a sword like that. She said it belonged to the King of the Wastes. "
+                  "You do not look like a king. You look like a man who needs bread.",
+                  "Quella spada nera. Mia nonna raccontava storie su una spada così. Diceva che era del Re delle Terre. Non sembri un re. "
+                  "Sembri un uomo che ha bisogno di pane."),
+        "after": ("The refugees of the Wastes buy my bread on Sundays and talk about going home. For the first time, they talk about it as a good thing.",
+                  "I profughi delle Terre comprano il mio pane la domenica e parlano di tornare a casa. Per la prima volta, ne parlano come di una cosa bella."),
+        "quests": [
+            ("side_gideon_1", ("The Debts of a King: Poisoned Fields", "I debiti di un re: campi avvelenati"),
+             ("Char slimes poison the fields of the refugees from the Ashen Wastes. Clear six of them and bring three char chunks, to show the farmers the ground is clean.",
+              "Gli slime di carbone avvelenano i campi dei profughi delle Terre di Cenere. Eliminane sei e porta tre pezzi di carbone, per mostrare ai contadini che la terra è pulita."),
+             [{"type": "kill", "enemy": "base:enemy/slime_char", "count": 6}, {"type": "collect", "item": "base:item/char_chunk", "count": 3}],
+             900, 600,
+             ("My people came from the Wastes three generations ago, after the old king fell. They farm a strip of land at the edge of the "
+              "ash, and the char slimes eat the roots. Six of them, and three of their chunks for the farmers to see.",
+              "La mia gente è venuta dalle Terre tre generazioni fa, dopo la caduta del vecchio re. Coltivano una striscia di terra al bordo "
+              "della cenere, e gli slime di carbone mangiano le radici. Sei, e tre dei loro pezzi da mostrare ai contadini."),
+             ("Six char slimes and three chunks. The farmers trust what they can hold.", "Sei slime di carbone e tre pezzi. I contadini si fidano di quello che possono tenere in mano."),
+             ("The first green shoots on the ash in a hundred years. The farmers want to know your name. I told them 'the baker's friend'.",
+              "I primi germogli verdi sulla cenere da cent'anni. I contadini vogliono sapere il tuo nome. Gli ho detto 'l'amico della fornaia'.")),
+            ("side_gideon_2", ("The Debts of a King: A Hearth for the Wastes", "I debiti di un re: un focolare per le Terre"),
+             ("The refugees want ovens that warm without burning. Bring Dorrit four ember cores and two magma shards to build them.",
+              "I profughi vogliono forni che scaldino senza bruciare. Porta a Dorrit quattro nuclei di brace e due schegge di magma per costruirli."),
+             [{"type": "collect", "item": "base:item/ember_core", "count": 4}, {"type": "collect", "item": "base:item/magma_shard", "count": 2}],
+             1500, 1000,
+             ("In the Wastes fire was a weapon. My grandmother said the king made it so. I want it to be bread again. An oven that keeps the "
+              "heat of an ember core and never burns: four cores, and two magma shards for the walls.",
+              "Nelle Terre il fuoco era un'arma. Mia nonna diceva che l'aveva voluto il re. Io voglio che torni a essere pane. Un forno che "
+              "trattiene il calore di un nucleo di brace e non brucia mai: quattro nuclei, e due schegge di magma per le pareti."),
+             ("Four ember cores and two magma shards. You hold them as if you knew them.", "Quattro nuclei di brace e due schegge di magma. Li tieni come se li conoscessi."),
+             ("The first loaf from the new oven. Taste it. It tastes of smoke, still, but of the good kind. Of home.",
+              "La prima pagnotta dal forno nuovo. Assaggia. Sa ancora di fumo, ma di quello buono. Di casa.")),
+            ("side_gideon_3", ("The Debts of a King: The Old Fortress", "I debiti di un re: la vecchia fortezza"),
+             ("Magma slimes crawl out of the ruins of the old fortress of the Wastes toward the refugee farms. Stop five of them.",
+              "Gli slime di magma escono strisciando dalle rovine della vecchia fortezza delle Terre verso le fattorie dei profughi. Fermane cinque."),
+             [{"type": "kill", "enemy": "base:enemy/slime_magma", "count": 5}], 3000, 2000,
+             ("The magma slimes come out of the old fortress, the one of the king. Nobody goes near it: they say it still remembers him. "
+              "Five of them, and the farms are safe. You are pale. Do you know that place?",
+              "Gli slime di magma escono dalla vecchia fortezza, quella del re. Nessuno ci va vicino: dicono che si ricordi ancora di lui. "
+              "Cinque, e le fattorie sono al sicuro. Sei pallido. Conosci quel posto?"),
+             ("Five magma slimes from the old fortress. Come back before dark.", "Cinque slime di magma dalla vecchia fortezza. Torna prima che faccia buio."),
+             ("You came back from the fortress, and you came back different. Lighter. I made you bread. Sit.",
+              "Sei tornato dalla fortezza, e sei tornato diverso. Più leggero. Ti ho fatto il pane. Siediti.")),
+        ],
+        "ending": {
+            "ask": ("I will ask you once, and then never again. My grandmother said the king had a black sword and eyes that did not blink "
+                    "in the smoke. You do not blink in my oven's smoke, Gideon. You can tell me, or not. I will bake for you either way.",
+                    "Te lo chiedo una volta, e poi mai più. Mia nonna diceva che il re aveva una spada nera e occhi che non battevano ciglio nel "
+                    "fumo. Tu non batti ciglio nel fumo del mio forno, Gideon. Puoi dirmelo, oppure no. Cucinerò per te in ogni caso."),
+            "a": (("It was me. I was the King of the Wastes. I am sorry.", "Ero io. Ero il Re delle Terre. Mi dispiace."),
+                  "base:item/sovereigns_mantle",
+                  ("Then this was yours too. My grandmother kept it: the mantle of the king, from the day he fell. She said someone should give it "
+                   "back to him if he ever came home a better man. I think she meant you.",
+                   "Allora anche questo era tuo. Mia nonna lo conservava: il mantello del re, dal giorno della sua caduta. Diceva che qualcuno "
+                   "avrebbe dovuto restituirglielo se fosse mai tornato a casa migliore. Credo intendesse te.")),
+            "b": (("I am a Guest, and your friend. That is all I want to be.", "Sono un Ospite, e un tuo amico. È tutto quello che voglio essere."),
+                  "base:item/tyrants_hammer",
+                  ("Then a friend gets the hammer of the forge, the one my family brought from the Wastes. It made swords once. Now it makes ovens. Like you.",
+                   "Allora a un amico va il martello della fucina, quello che la mia famiglia portò dalle Terre. Una volta faceva spade. Ora fa forni. Come te.")),
         },
     },
 ]

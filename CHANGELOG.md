@@ -6,6 +6,11 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **Side stories of Lena and Gideon** (spec 18, "Side stories"): every protagonist now has one. Lena meets Doctor Aurel Finch ("The
+  Last Diagnosis": frost wolves found frozen, a cold fever, the frost wisps that drink the warmth of the sleeping; the frost locket or
+  the glacier spear); Gideon meets Dorrit Ash, a baker from the Ashen Wastes who knows the stories about a black sword ("The Debts of a
+  King": poisoned fields, ovens that warm without burning, his old fortress; the mantle of the king or the hammer of her forge).
+
 - **Side stories of Daichi, Sakura, Marco and Yuki** (spec 18, "Side stories"): Daichi meets Captain Wren Hale, fire warden of
   Aldermere ("The Bucket Brigade": ice for the cistern, ember slimes on the wind, cinder wolves in the hills; the rescue axe or the
   ember ring); Sakura meets Ottilie Brask, astronomer of the guild ("The Unfinished Proof": star dust to calibrate, wisps in the data,
@@ -439,6 +444,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 - Dungeons, lairs, nests and outposts no longer end up under a lake or inside a mountain range for some world seeds: around every landmark (spec 09, "Clearings") water and mountains become plains for 24 tiles beyond its footprint.
 
 ### Documentation
+
+- **Modding**: `docs/modding/README.md` walks through a first mod, a creature and a quest, step by step; `examples/mod-example/` is that
+  mod, and `tools/validate_data.py <pack folder>` checks a pack of one's own, anywhere, over the packs it depends on (the IDs and texts
+  of the base game, no ID defined twice, every text in every language). The CI checks the example mod.
 
 - **Spec 15, the layout of the interface**: the units, the "System window" theme (the panel, the accents, the bars), where every
   panel is and the known differences of the two clients. **ADR 0014**: the screens stay in the code of each client until 1.0 (the
