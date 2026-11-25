@@ -67,18 +67,18 @@ class TouchLayout(val buttons: Map<String, TouchButton> = emptyMap()) {
         fun fromSettings(text: String?): TouchLayout {
             val doc = text?.let { runCatching { Json.parseToJsonElement(it) }.getOrNull() } as? JsonObject ?: return TouchLayout()
             val layout = doc["touch_layout"] as? JsonObject ?: return TouchLayout()
-            val buttons = HashMap<String, TouchButton>()
-            for (id in BUTTONS) {
-                val entry = layout[id] as? JsonArray ?: continue
-                val values = entry.mapNotNull { (it as? JsonPrimitive)?.intOrNull }
-                if (entry.size != 3 || values.size != 3) continue
-                buttons[id] = TouchButton(
-                    values[0].coerceIn(-MAX_MOVE_PM, MAX_MOVE_PM),
-                    values[1].coerceIn(-MAX_MOVE_PM, MAX_MOVE_PM),
-                    values[2].coerceIn(MIN_SIZE_PCT, MAX_SIZE_PCT),
-                )
-            }
-            return TouchLayout(buttons)
+            return TouchLayout(BUTTONS.mapNotNull { id -> parseButton(layout[id] as? JsonArray)?.let { id to it } }.toMap())
+        }
+
+        /** A button of the layout, `[dx_pm, dy_pm, size_pct]`; null when it is not three integers. */
+        private fun parseButton(entry: JsonArray?): TouchButton? {
+            val values = entry?.mapNotNull { (it as? JsonPrimitive)?.intOrNull } ?: return null
+            if (entry.size != 3 || values.size != 3) return null
+            return TouchButton(
+                values[0].coerceIn(-MAX_MOVE_PM, MAX_MOVE_PM),
+                values[1].coerceIn(-MAX_MOVE_PM, MAX_MOVE_PM),
+                values[2].coerceIn(MIN_SIZE_PCT, MAX_SIZE_PCT),
+            )
         }
     }
 }
