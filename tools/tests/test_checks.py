@@ -42,6 +42,19 @@ def test_the_notices_are_written_from_the_table():
     assert licenses.NOTICES.read_text(encoding="utf-8") == licenses.notices(table())
 
 
+def test_the_bill_of_materials_lists_what_the_game_ships():
+    doc = licenses.sbom(table(), "2026-01-01T00:00:00Z")
+    assert doc["spdxVersion"] == "SPDX-2.3"
+    names = {p["name"] for p in doc["packages"]}
+    shipped = {row["component"] for row in table()["dependencies"] if row["scope"] == "ship"}
+    assert shipped <= names and "Catch2" not in names
+    ids = [p["SPDXID"] for p in doc["packages"]]
+    assert len(ids) == len(set(ids))
+    assert all(r["relatedSpdxElement"] in ids for r in doc["relationships"])
+    gdx = next(p for p in doc["packages"] if p["name"] == "libGDX")
+    assert gdx["versionInfo"] == licenses.pinned_versions()["com.badlogicgames.gdx:gdx"]
+
+
 def test_both_clients_run_every_suite():
     text, problems = make_parity.matrix()
     assert problems == []

@@ -29,4 +29,5 @@ kotlin {
 dependencies {
     api(project(":core"))
     api(libs.gdx)
+    implementation(libs.gdx.controllers.core) // the game controller (spec 16, "Android")
 }

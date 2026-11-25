@@ -4,6 +4,34 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Added
+
+- **The quality of the graphics** (spec 13, "Quality"; item E1.1): low, normal or high, kept in the settings. Low bakes the textures
+  at most at 64 pixels a tile and leaves out the moving water, the rounded corners of the ground and the long shadows of dawn and dusk;
+  normal bakes them at most at 128; high at 256, as before. Desktop: the last row of the settings panel (`F10`). Android: a button at
+  the bottom of the open journal. The first time, the game chooses: the desktop high, Android from the memory the phone gives it. A test
+  in the reference and in both clients checks that all the art fits the memory budget of each level.
+- **A controller on Android** (spec 16; item E2.2): the first connected game controller plays with the buttons of the gamepad of the
+  desktop. The left stick moves; `A` attacks and confirms; `X` talks and confirms; `RB` is the power strike, `LB` the parry; `B` rolls
+  and closes a panel; `Y` switches buy and sell in a shop; the D-pad moves in lists and choices. Every panel works with it as with a
+  keyboard.
+- **The release pipeline** (item E3.1): on a tag `v*` the release workflow builds every package with the same workflows as the pull
+  requests, names them after the version, writes `SHA256SUMS` and a bill of materials (SPDX, `tools/licenses.py --sbom`), checks the
+  sums and creates a draft release with all the files; it never publishes. By hand it makes a dry run, with the files as an artifact.
+- **Measures** (item C4.2; `docs/design/performance.md`): a performance test in both clients with wide budgets for a chunk of the world
+  (25 ms) and a tick (4 ms), whose numbers the CI prints; a nightly workflow that runs the game on an Android emulator of API 30 and 34
+  (start, rotation, pause and resume, the same game after them).
+
+### Fixed
+
+- **Android after a lost graphics context**: the textures of the art and of the font are now managed by libGDX, which loads them again
+  when Android takes the context away (risk R6). Before, they could come back empty after a long time in the background.
+
+### Changed
+
+- detekt: the baseline of the old findings goes from 82 to 77 (the reading of the time, of the world, of the profile and of a bundle of
+  saves, and the input of Android, in smaller functions).
+
 ### Documentation
 
 - **A handbook for whoever continues the work** (`docs/guides/continue-the-work.md`): what to read and in which order, where the state

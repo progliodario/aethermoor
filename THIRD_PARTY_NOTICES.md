@@ -18,10 +18,15 @@ one must have a row in the table, with a license compatible with GPL-3.0-or-late
 | libGDX (`com.badlogicgames.gdx:gdx`) | Apache-2.0 | in the game | drawing, input |
 | libGDX Android backend (`com.badlogicgames.gdx:gdx-backend-android`) | Apache-2.0 | in the game | the activity, the GL surface |
 | libGDX natives (`com.badlogicgames.gdx:gdx-platform`) | Apache-2.0 | in the game | the native libraries of libGDX (arm64-v8a, x86_64) |
+| gdx-controllers (`com.badlogicgames.gdx-controllers:gdx-controllers-core`) | Apache-2.0 | in the game | the game controller (spec 16) |
+| gdx-controllers Android backend (`com.badlogicgames.gdx-controllers:gdx-controllers-android`) | Apache-2.0 | in the game | the game controller on Android |
 | kotlinx.serialization (`org.jetbrains.kotlinx:kotlinx-serialization-json`) | Apache-2.0 | in the game | JSON: data and saves |
 | JUnit (bill of materials) (`org.junit:junit-bom`) | EPL-2.0 | tests only | the versions of JUnit |
 | JUnit Jupiter (`org.junit.jupiter:junit-jupiter`) | EPL-2.0 | tests only | the tests of Android |
 | JUnit Platform Launcher (`org.junit.platform:junit-platform-launcher`) | EPL-2.0 | tests only | running the tests of Android |
+| AndroidX Test core (`androidx.test:core`) | Apache-2.0 | tests only | the test of the game on the emulator (ActivityScenario) |
+| AndroidX Test runner (`androidx.test:runner`) | Apache-2.0 | tests only | running the test on the emulator |
+| AndroidX Test JUnit (`androidx.test.ext:junit`) | Apache-2.0 | tests only | the runner of the test on the emulator (it brings JUnit 4, EPL-1.0, in that test only) |
 | Android Gradle Plugin (`com.android.application`) | Apache-2.0 | build only | building the APK |
 | Android Gradle Plugin (library) (`com.android.library`) | Apache-2.0 | build only | building the game module |
 | Kotlin (Android) and its standard library (`org.jetbrains.kotlin.android`) | Apache-2.0 | in the game | all the code of Android |

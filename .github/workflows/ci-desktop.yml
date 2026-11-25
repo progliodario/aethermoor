@@ -11,12 +11,14 @@ on:
       - "tests/frames/**"
       - "tools/check_frames.py"
       - ".github/workflows/ci-desktop.yml"
+  workflow_call:  # the release workflow builds the packages with this same workflow (item E3.1)
 
 permissions:
   contents: read
 
+# The group is named, not ${{ github.workflow }}: called by the release workflow, that would be the name of the caller for both builds.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ci-desktop-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
@@ -132,6 +134,11 @@ jobs:
       - name: Test
         working-directory: desktop
         run: ctest --preset ${{ matrix.preset }}
+
+      - name: The numbers of the performance test (docs/design/performance.md)
+        if: always()
+        shell: bash
+        run: cat desktop/build/${{ matrix.preset }}/performance.txt || true
 
       - name: Check the smoke-test frames against their references
         shell: bash

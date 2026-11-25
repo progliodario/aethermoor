@@ -153,10 +153,12 @@ field of a scenario or of a checkpoint is added in the three places.
 | Workflow | Job | What it checks |
 |---|---|---|
 | `ci-data` | `validate` | ruff, `validate_data.py` (the base pack and the example mod), pytest, `gen_conformance.py --check`, `make_save_fixtures.py --check`, `make_parity.py --check`, `make_suites_map.py --check`, `licenses.py --check` |
-| `ci-desktop` | `windows-msvc`, `linux-gcc` | vcpkg (cached), configure, build, `ctest` (unit tests, every conformance suite, three smoke tests), the smoke-test frames against `tests/frames/`, the playable build and the frames as artifacts |
-| `ci-android` | `build` | `:core:test` (JVM tests, every conformance suite), `:app:assembleDebug`, the debug APK as an artifact |
+| `ci-desktop` | `windows-msvc`, `linux-gcc` | vcpkg (cached), configure, build, `ctest` (unit tests, every conformance suite, the performance test, three smoke tests), the smoke-test frames against `tests/frames/`, the playable build and the frames as artifacts |
+| `ci-android` | `build` | `:core:test` (JVM tests, every conformance suite, the performance test), `:app:assembleDebug`, the debug APK as an artifact |
 | | `kotlin-style` | ktlint and detekt (with `android/config/detekt-baseline.xml`) |
+| `nightly` | `emulator (API 30)`, `emulator (API 34)` | the game on an Android emulator: start, rotation, pause and resume (`android/app/src/androidTest/`) |
 | `labeler` | `label` | labels the pull request from its paths |
-| `release` | `draft-release` | on a `v*` tag: validates the data and drafts a release |
+| `release` | `validate`, `desktop`, `android`, `package` | on a `v*` tag or by hand: the packages (with `ci-desktop` and `ci-android`, called), `SHA256SUMS`, the SBOM, a draft release on a tag |
 
-`tools/ship.py` waits for all of them before it merges.
+`tools/ship.py` waits for all the checks of the pull request before it merges (`nightly` runs on a pull request only when it changes the
+workflow or the test on the emulator; `release` never runs on a pull request).

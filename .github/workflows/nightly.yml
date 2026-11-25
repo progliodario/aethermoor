@@ -1,0 +1,76 @@
+name: nightly
+
+# The checks too slow for every pull request (item C4.2 of docs/plan/07-programma-operativo.md; docs/design/performance.md):
+# the game on an Android emulator of API 30 and of API 34 (android/app/src/androidTest: it starts and draws, turns, goes to the
+# background and comes back, and it is still the same game). It runs every night on main, on demand, and on a pull request that
+# changes this workflow or the test itself.
+
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/nightly.yml"
+      - "android/app/src/androidTest/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  emulator:
+    name: emulator (API ${{ matrix.api }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        api: [30, 34]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: "8.10.2"
+
+      # The emulator needs the hardware acceleration of the runner (KVM), which the hosted Linux runners give to any user once allowed.
+      - name: Allow KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Build the APK and its test
+        working-directory: android
+        run: gradle --no-daemon :app:assembleDebug :app:assembleDebugAndroidTest
+
+      - name: The game on the emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: google_apis
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          working-directory: android
+          script: |
+            adb logcat -c
+            gradle --no-daemon :app:connectedDebugAndroidTest || { adb logcat -d > logcat.txt; exit 1; }
+
+      - name: Upload the reports of the test
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: emulator-api-${{ matrix.api }}
+          path: |
+            android/logcat.txt
+            android/app/build/reports/androidTests/
+            android/app/build/outputs/androidTest-results/
+          if-no-files-found: ignore

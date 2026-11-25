@@ -164,41 +164,45 @@ fun parseTimeParams(time: JsonObject): TimeParams {
     return TimeParams(
         dayTicks = time.getValue("day_ticks").jsonPrimitive.int,
         startTick = time.getValue("start_tick").jsonPrimitive.long,
-        light = time.getValue("light").jsonArray.map { Pair(it.jsonArray[0].jsonPrimitive.int, it.jsonArray[1].jsonPrimitive.int) },
+        light = parseLightFrames(time.getValue("light").jsonArray),
         periodTicks = weather.getValue("period_ticks").jsonPrimitive.int,
         fadeTicks = weather.getValue("fade_ticks").jsonPrimitive.int,
-        rainAggroCutPm = weather["rain_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
-        rainSlowPm = weather["rain_slow_pm"]?.jsonPrimitive?.int ?: 0,
-        windHastePm = weather["wind_haste_pm"]?.jsonPrimitive?.int ?: 0,
-        fogAggroCutPm = weather["fog_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
-        lightningTicks = weather["lightning_ticks"]?.jsonPrimitive?.int ?: 0,
-        lightningPct = weather["lightning_pct"]?.jsonPrimitive?.int ?: 0,
-        lightningRangeX100 = weather["lightning_range_x100"]?.jsonPrimitive?.int ?: 0,
-        nightAggroCutPm = time["night_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
+        rainAggroCutPm = weather.intOrZero("rain_aggro_cut_pm"),
+        rainSlowPm = weather.intOrZero("rain_slow_pm"),
+        windHastePm = weather.intOrZero("wind_haste_pm"),
+        fogAggroCutPm = weather.intOrZero("fog_aggro_cut_pm"),
+        lightningTicks = weather.intOrZero("lightning_ticks"),
+        lightningPct = weather.intOrZero("lightning_pct"),
+        lightningRangeX100 = weather.intOrZero("lightning_range_x100"),
+        nightAggroCutPm = time.intOrZero("night_aggro_cut_pm"),
         goods = parseWeatherGoods(weather["weather_goods"] as? JsonObject),
-        kinds = weather.getValue("kinds").jsonArray.map {
-            val k = it.jsonObject
-            WeatherKind(
-                k.getValue("id").jsonPrimitive.content,
-                k.getValue("weight").jsonPrimitive.int,
-                k.getValue("rain_pm").jsonPrimitive.int,
-                k.getValue("dim_pm").jsonPrimitive.int,
-                k["wind_pm"]?.jsonPrimitive?.int ?: 0,
-                k["fog_pm"]?.jsonPrimitive?.int ?: 0,
-            )
-        },
-        seasons = (time["seasons"] as? JsonArray)?.map {
-            val s = it.jsonObject
-            Season(
-                s.getValue("id").jsonPrimitive.content,
-                s.getValue("days").jsonPrimitive.int,
-                s.getValue("tint").jsonArray.map { v -> v.jsonPrimitive.int },
-                (s["weights"] as? JsonObject)?.mapValues { (_, v) -> v.jsonPrimitive.int } ?: emptyMap(),
-                (s["light"] as? JsonArray)?.map { f -> Pair(f.jsonArray[0].jsonPrimitive.int, f.jsonArray[1].jsonPrimitive.int) } ?: emptyList(),
-                creatureSlowPm = s["creature_slow_pm"]?.jsonPrimitive?.int ?: 0,
-                creatureAggroCutPm = s["creature_aggro_cut_pm"]?.jsonPrimitive?.int ?: 0,
-                stock = (s["stock"] as? JsonArray)?.map { v -> v.jsonPrimitive.content } ?: emptyList(),
-            )
-        } ?: emptyList(),
+        kinds = weather.getValue("kinds").jsonArray.map { parseWeatherKind(it.jsonObject) },
+        seasons = (time["seasons"] as? JsonArray)?.map { parseSeason(it.jsonObject) } ?: emptyList(),
     )
 }
+
+/** An optional integer of the data: 0 when it is not there. */
+private fun JsonObject.intOrZero(key: String): Int = this[key]?.jsonPrimitive?.int ?: 0
+
+/** The frames of the light of the day, `[tick of the day, light permille]` each. */
+private fun parseLightFrames(frames: JsonArray): List<Pair<Int, Int>> = frames.map { Pair(it.jsonArray[0].jsonPrimitive.int, it.jsonArray[1].jsonPrimitive.int) }
+
+private fun parseWeatherKind(k: JsonObject): WeatherKind = WeatherKind(
+    k.getValue("id").jsonPrimitive.content,
+    k.getValue("weight").jsonPrimitive.int,
+    k.getValue("rain_pm").jsonPrimitive.int,
+    k.getValue("dim_pm").jsonPrimitive.int,
+    k.intOrZero("wind_pm"),
+    k.intOrZero("fog_pm"),
+)
+
+private fun parseSeason(s: JsonObject): Season = Season(
+    s.getValue("id").jsonPrimitive.content,
+    s.getValue("days").jsonPrimitive.int,
+    s.getValue("tint").jsonArray.map { v -> v.jsonPrimitive.int },
+    (s["weights"] as? JsonObject)?.mapValues { (_, v) -> v.jsonPrimitive.int } ?: emptyMap(),
+    (s["light"] as? JsonArray)?.let { parseLightFrames(it) } ?: emptyList(),
+    creatureSlowPm = s.intOrZero("creature_slow_pm"),
+    creatureAggroCutPm = s.intOrZero("creature_aggro_cut_pm"),
+    stock = (s["stock"] as? JsonArray)?.map { v -> v.jsonPrimitive.content } ?: emptyList(),
+)

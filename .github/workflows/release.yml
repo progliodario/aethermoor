@@ -1,19 +1,24 @@
 name: release
 
-# Drafts a GitHub release for a tag v*: it checks the data and creates the draft, without files yet.
-# The CI already builds the test packages (Windows zip, Linux tar.gz, Android APK). Attaching them here,
-# with checksums and signing, is item E3.1 of docs/plan/07-programma-operativo.md.
+# The release pipeline (item E3.1 of docs/plan/07-programma-operativo.md; docs/dev/release-checklist.md). On a tag v*, or by hand for a
+# dry run: it checks the data and that the tag is the version of project.json, builds every package with the workflows of the pull
+# requests (ci-desktop and ci-android, called here), names the files after the version, writes SHA256SUMS and the bill of materials
+# (SPDX, from tools/licenses.json) and checks the sums again. On a tag it creates a DRAFT release with all the files attached; it never
+# publishes: publishing, and signing the packages (item E3.2), are decisions of the owner. A dry run only keeps the files as an artifact.
 
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  draft-release:
+  validate:
     runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -22,7 +27,72 @@ jobs:
       - run: pip install -r tools/requirements.txt
       - name: Validate data before releasing
         run: python tools/validate_data.py
-      - name: Create draft release
+      - name: The version of project.json, and the tag
+        id: version
+        shell: bash
+        run: |
+          version=$(python -c "import json; print(json.load(open('project.json', encoding='utf-8'))['version'])")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "project.json: $version, ref: $GITHUB_REF_NAME"
+          if [ "$GITHUB_REF_TYPE" = "tag" ] && [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "the tag $GITHUB_REF_NAME is not v$version: change project.json or the tag (docs/dev/release-checklist.md)"
+            exit 1
+          fi
+
+  desktop:
+    needs: validate
+    uses: ./.github/workflows/ci-desktop.yml
+
+  android:
+    needs: validate
+    uses: ./.github/workflows/ci-android.yml
+
+  package:
+    needs: [validate, desktop, android]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write  # only to create the draft
+    env:
+      VERSION: ${{ needs.validate.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Download the packages
+        uses: actions/download-artifact@v7
+        with:
+          pattern: aethermoor-*
+          path: built
+      - name: Name the files after the version
+        shell: bash
+        run: |
+          set -e
+          mkdir -p dist
+          ls -R built
+          cp built/aethermoor-windows-msvc/aethermoor-windows-x64.zip "dist/aethermoor-$VERSION-windows-x64.zip"
+          cp built/aethermoor-linux-gcc/aethermoor-linux-x64.tar.gz "dist/aethermoor-$VERSION-linux-x64.tar.gz"
+          apk=$(ls built/aethermoor-debug-apk/*.apk | head -n 1)
+          cp "$apk" "dist/aethermoor-$VERSION-android-debug.apk"
+      - name: The bill of materials
+        run: python tools/licenses.py --sbom "dist/aethermoor-$VERSION-sbom.spdx.json"
+      - name: SHA256SUMS, checked again
+        shell: bash
+        run: |
+          set -e
+          cd dist
+          sha256sum -- * > SHA256SUMS
+          cat SHA256SUMS
+          sha256sum -c SHA256SUMS
+      - name: Keep the files of the run
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-files
+          path: dist/
+          if-no-files-found: error
+      - name: Create the draft release (a tag only; never published here)
+        if: github.ref_type == 'tag'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" --draft --generate-notes --title "$GITHUB_REF_NAME"
+        shell: bash
+        run: gh release create "$GITHUB_REF_NAME" --draft --generate-notes --title "$GITHUB_REF_NAME" dist/*

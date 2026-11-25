@@ -1640,5 +1640,9 @@
   "ui.defense_won": "The Dungeon stands! Every wave is beaten.",
   "ui.defense_lost": "An adventurer touched the core: the others leave, laughing. Try again when you like.",
   "ui.defense_hud": "Defense: wave {wave}/{waves}",
-  "ui.companion_switch_button": "Next"
+  "ui.companion_switch_button": "Next",
+  "ui.option_quality": "Quality",
+  "ui.quality_low": "Low",
+  "ui.quality_normal": "Normal",
+  "ui.quality_high": "High"
 }

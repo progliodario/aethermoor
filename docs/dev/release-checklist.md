@@ -22,9 +22,15 @@ Work down the list in order. Every line is a yes or a no; a no stops the release
 
 ## 2. The builds
 
-- [ ] The artifacts of the CI run of the release commit are downloaded: the Windows build, the Linux build and the APK.
+- [ ] A dry run of the release workflow is green: `gh workflow run release.yml` on `main` (it builds every package with the workflows
+      of the pull requests, names the files after the version, writes `SHA256SUMS` and the bill of materials, checks the sums and keeps
+      the files as the artifact `release-files` of the run; it creates no release).
+- [ ] The files of the dry run are downloaded (`gh run download <id> -n release-files`): the Windows zip, the Linux tar.gz, the APK, the
+      SBOM and `SHA256SUMS`; `sha256sum -c SHA256SUMS` passes.
 - [ ] `THIRD_PARTY_NOTICES.md`, `LICENSE`, `LICENSE-CONTENT.md` and the credits are in every package.
-- [ ] Each artifact has its SHA-256 written down (until the release pipeline, item E3.1, writes `SHA256SUMS`).
+- [ ] The last run of the nightly workflow (the game on the emulator of API 30 and 34) is green.
+- [ ] The APK is the debug build: it is signed with a key of the CI that changes, so an APK of a new release does not install over the
+      old one until the packages are signed (item E3.2, a decision of the owner).
 
 ## 3. Played by the owner
 
@@ -37,13 +43,16 @@ Work down the list in order. Every line is a yes or a no; a no stops the release
       tests; the owner proves it with a real save).
 - [ ] The language is changed in the settings and every panel follows it.
 - [ ] Nothing is heard that should not be: music and ambience are off (`CLAUDE.md`).
-- [ ] The frames per second on the owner's phone are written in the release issue (risk R4; item C4.2 measures them in CI).
+- [ ] The frames per second on the owner's phone, in Fenwick, in a village and in a big fight, with the quality used, are written in
+      [`docs/design/performance.md`](../design/performance.md) and in the release issue (risk R4; item C4.2).
+- [ ] The three levels of the quality of the graphics (spec 13, "Quality") are tried on a phone and on a PC: the game looks right at each.
 
 ## 4. The decision
 
 - [ ] The owner has read the list and says yes on the release issue.
-- [ ] Only then: the tag `v<version>` is pushed, the draft of the release is filled with the artifacts and their checksums, and the
-      owner publishes it.
+- [ ] Only then: the tag `v<version>` is pushed (it must be the version of `project.json`, or the release workflow stops); the workflow
+      builds everything again from the tag and creates the **draft** of the release with all the files and `SHA256SUMS` attached; the
+      owner reads it and publishes it.
 
 ## After the release
 

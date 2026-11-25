@@ -11,7 +11,7 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 
 | Voce | Che cosa | Stato | PR | Issue |
 |---|---|---|---|---|
-| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 82 | #258, #265, #268 | #224 aperta |
+| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 77 | #258, #265, #268, batch 13 | #224 aperta |
 | B1.2 | Spec 15 e ADR 0014 | fatta | #258 | #225 |
 | B1.3 | Licenze in CI | fatta | #258 | #226 |
 | B1.4 | Matrice di parità | fatta | #258 | #227 |
@@ -27,24 +27,24 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 | C2.1 | Compagni scelti (il gruppo) | fatta | #267 | #237 |
 | C3.1 | Dungeon di Gideon, forma ridotta | fatta | #268 (spec), #269 | #238 |
 | C4.1 | Streaming con thread | **aperta** | | #239 aperta |
-| C4.2 | Misure su Android | **aperta** | | #240 aperta |
+| C4.2 | Misure su Android | **quasi fatta**: mancano i numeri del telefono del proprietario | batch 13 | #240 aperta |
 | C5.1 | Una settimana di gioco | fatta | #264 | #241 |
 | C6.1 | Sintetizzatore | **bloccata**: solo con il sì del proprietario | | #242 aperta |
 | D1-D4 | Storie laterali degli otto protagonisti | fatte | #261, #262, #263 | #243-#246 |
-| E1.1 | Modalità qualità | **aperta** (dopo C4.2) | | #247 aperta |
+| E1.1 | Modalità qualità | **fatta** | batch 13 | #247 chiusa |
 | E1.2 | Log dei crash | fatta | #265 | #248 |
 | E1.3 | Traduzioni e accessibilità | fatta | #268 | #249 |
 | E2.1 | Rimappatura su Android | **aperta** | | #250 aperta |
-| E2.2 | Controller su Android | **aperta** | | #251 aperta |
-| E3.1 | Pipeline di rilascio | **aperta** | | #252 aperta |
+| E2.2 | Controller su Android | **fatta** | batch 13 | #251 chiusa |
+| E3.1 | Pipeline di rilascio | **fatta**; la prova con un tag la decide il proprietario | batch 13 | #252 chiusa |
 | E3.2 | Firma del codice | **bloccata**: decisione e chiavi del proprietario | | #253 aperta |
 | E4.1 | Documentazione per i mod | fatta | #263 | #254 |
 | E4.2 | Pagina di download | **aperta**: decisione del proprietario | | #255 aperta |
 | F1 | Dopo la 1.0 | **aperta** (lungo termine) | | #256 aperta |
 
-**Le prossime voci, nell'ordine consigliato:** B1.1 a ogni batch (un po' alla volta); C4.1 e poi C4.2 (le prestazioni, che servono a
-E1.1); E2.2 e E2.1 (i comandi su Android); E3.1 (la pipeline di rilascio, senza pubblicare). Le voci bloccate o del proprietario
-aspettano la sua risposta e non fermano le altre.
+**Le prossime voci, nell'ordine consigliato:** B1.1 a ogni batch (un po' alla volta); C4.1 (lo streaming su un thread, con il job
+notturno di ThreadSanitizer); E2.1 (l'editor del layout touch su Android); i numeri del telefono di C4.2, che misura il proprietario.
+Le voci bloccate o del proprietario aspettano la sua risposta e non fermano le altre.
 
 ## 1. Come leggere questo programma
 
@@ -318,6 +318,12 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **Accettazione:** il workflow notturno è verde; i numeri stanno in `docs/design/performance.md`, scritti a partire dall'output della CI; i numeri del telefono del proprietario sono registrati nello stesso file.
 - **Rischi:** l'emulatore non è un telefono. I numeri di CI servono per confrontare, non per dichiarare "60 FPS".
 - **Dipende da:** C4.1 per i numeri finali. Taglia: M. Issue: [progliodario/aethermoor#240](https://github.com/progliodario/aethermoor/issues/240).
+- **Fatto in parte (25 novembre 2026).** (a) `desktop/tests/performance_test.cpp` e `core/PerformanceTest.kt`: 300 chunk e 600 tick con
+  budget di 25 ms e 4 ms, numeri stampati dalla CI. (b) `.github/workflows/nightly.yml` con `android/app/src/androidTest/.../LifecycleTest.kt`
+  su API 30 e 34; gira anche sulle PR che cambiano il workflow o il test. Differenza dal progetto: il test non conserva una partita (parte
+  dalla schermata del titolo) ma controlla che attività e gioco restino gli stessi e che le texture siano gestite. (c) Le texture dell'arte
+  e del font sono gestite (`PixmapTextureData` con il pixmap tenuto). (d) Manca: i numeri del telefono del proprietario, in
+  `docs/design/performance.md`.
 
 #### C5 Una settimana di gioco
 
@@ -404,6 +410,10 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **File:** `docs/spec/16-input.md`, `docs/spec/13-vector-art.md`, `desktop/src/app/main.cpp`, `android/game/.../AethermoorGame.kt`.
 - **Accettazione:** l'impostazione è nel menu opzioni e si salva; il test del budget passa su entrambi i client.
 - **Dipende da:** C4.2. Taglia: M. Issue: [progliodario/aethermoor#247](https://github.com/progliodario/aethermoor/issues/247).
+- **Fatto (25 novembre 2026).** Spec 13 "Quality": tre livelli con il bucket più grande (64, 128, 256), l'acqua che si muove, gli angoli
+  del terreno e le ombre lunghe; il budget delle texture (32, 128, 512 MiB) è controllato dal riferimento e dai due client. Differenza dal
+  progetto: non ci sono "passaggi di luce" o "ombre morbide" da scalare (le luci sono un velo solo); la qualità tocca ciò che costa davvero.
+  Al primo avvio il gioco sceglie (desktop alta, Android dalla memoria) e la scelta si vede nelle impostazioni.
 
 ##### E1.2 Log dei crash
 - **Cosa:** a un errore non gestito, il gioco scrive un file di testo con l'errore e gli ultimi messaggi nella cartella dei salvataggi. Il menu opzioni lo apre o lo copia. Nessuna rete, nessun invio (`CLAUDE.md`, regola 8).
@@ -443,6 +453,9 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **File:** `docs/spec/16-input.md`, `android/game/.../InputController.kt`.
 - **Accettazione:** un controller gioca su Android con le stesse azioni e gli stessi tasti del desktop.
 - **Taglia:** M. Issue: [progliodario/aethermoor#251](https://github.com/progliodario/aethermoor/issues/251).
+- **Fatto (25 novembre 2026).** `game/GamePad.kt` con gdx-controllers 2.2.4: il primo controller collegato; i pulsanti dei pannelli
+  arrivano al gioco come i tasti della tastiera per la stessa azione (`PadInput`), quelli del combattimento passano da `InputController.read`.
+  Sul titolo `B` non fa nulla (Indietro uscirebbe dall'app). Non provato su un controller vero: lo prova il proprietario.
 
 #### E3 Pacchetti e firma
 
@@ -452,6 +465,10 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **File:** `.github/workflows/release.yml`, `.github/workflows/ci-desktop.yml`, `.github/workflows/ci-android.yml`, `docs/dev/release-checklist.md`.
 - **Accettazione:** un tag di prova produce una bozza con tutti i file; i checksum corrispondono.
 - **Dipende da:** B1.6. Taglia: L. Issue: [progliodario/aethermoor#252](https://github.com/progliodario/aethermoor/issues/252).
+- **Fatto (25 novembre 2026).** `release.yml` chiama `ci-desktop` e `ci-android` (ora `workflow_call`), controlla che il tag sia la versione
+  di `project.json`, scrive `SHA256SUMS` e l'SBOM SPDX (`tools/licenses.py --sbom`), ricontrolla le somme e crea la bozza con i file; a mano
+  fa una prova senza bozza (artefatto `release-files`). Differenza dal progetto: niente AppImage e l'APK è quello di debug finché la firma
+  (E3.2) non c'è. Il tag di prova lo spinge il proprietario quando vuole: è un'azione pubblica.
 
 ##### E3.2 Firma del codice
 - **Cosa:** Windows: SignPath (gratuito per i progetti open source), richiesto dal proprietario. Android: la chiave la custodisce il proprietario e la passa al workflow come segreto di GitHub, mai nel repository (`CLAUDE.md`, regola 8).

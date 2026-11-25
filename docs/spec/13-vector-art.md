@@ -189,12 +189,35 @@ A **mirrored** pose (facing left) negates every `x` and every rotation.
 The renderer asks for `tile_px` pixels per tile and rasterizes at `s = tile_px / 32`. `tile_px` is rounded up to a
 bucket `{32, 48, 64, 96, 128, 192, 256}` (the base size of a tile on screen is 64 pixels times the density of the screen) and the texture is drawn scaled to the exact size. Textures are cached by
 `(recipe id, variant, bucket)`; a change of bucket (zoom, screen density) re-bakes in the background. After a lost
-graphics context (Android) all textures are re-created from the CPU bitmaps.
+graphics context (Android) all textures are re-created from the CPU bitmaps: the textures are managed by libGDX, which keeps
+the bitmap of each and loads it again by itself (risk R6; the test on the emulator of the nightly workflow, item C4.2).
 
 **Baking in instalments.** The first three frames of a game bake everything they show. After them a frame bakes until it
 has spent a few milliseconds (6 on desktop, 8 on Android), always at least one recipe; what is not baked yet is not drawn
 in that frame and appears in one of the next. Walking into a new place thus never freezes the game: new things pop in
 over a few frames instead.
+
+## Quality
+
+The quality of the graphics is a setting of the player (spec 16, "Settings": `"quality"` in the settings file), one of three
+levels. It is presentation only: the game, the saves and the conformance vectors are the same at every level.
+
+| Level | Largest bucket | Moving water | Rounded corners of the ground | Long shadows of dawn and dusk | Budget of the textures |
+|---|---|---|---|---|---|
+| `low` | 64 | no | no | no | 32 MiB |
+| `normal` | 128 | yes | yes | yes | 128 MiB |
+| `high` | 256 | yes | yes | yes | 512 MiB |
+
+**Largest bucket.** The bucket of a tile is the one of "Scale buckets and caching", but never above the largest of the level:
+a tile drawn larger is drawn from that texture, scaled up. **Budget.** Every recipe of the art of the pack, baked once at the
+largest bucket of a level (four bytes a pixel, the size the rasterizer gives: `ceil(width * s) x ceil(height * s)`), fits in the
+budget of the level; a test checks it in the reference (`tools/tests/test_content.py`) and in both clients (the performance tests,
+`docs/design/performance.md`), so that art that grows past it is seen. Android keeps a copy of every picture on the CPU for a lost
+context, so it uses up to twice the budget.
+
+**The first start.** Without `"quality"` in the settings the game chooses one: the desktop `high`; Android from the memory the
+system gives the app (`Runtime.maxMemory`): `high` from 256 MiB, `normal` from 160 MiB, `low` below. The choice is shown in the
+settings and kept once the player changes it.
 
 ## Overrides
 

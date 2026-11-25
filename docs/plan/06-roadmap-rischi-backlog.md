@@ -283,7 +283,7 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Progressione | 50 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 58 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4283 chiavi, in italiano e inglese |
+| Testi | 4287 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 31 file di vettori di conformità, 634 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
@@ -420,6 +420,16 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - Italiano e inglese completi; font del pack su desktop e Android; tasti configurabili sul desktop (`F4`), comandi touch su Android.
 - **Log dei crash** (dal 24 novembre, E1.2, spec 12 "The crash log"): un errore che ferma il gioco scrive `crash.txt` nella cartella dei
   salvataggi (versione, errore, ultimi avvisi); all'avvio dopo, la schermata del titolo dice dov'è (Android lo copia anche). Niente esce dal dispositivo.
+- **Qualità della grafica** (dal 25 novembre, E1.1, spec 13 "Quality"): bassa, normale o alta, salvata nelle impostazioni (desktop:
+  l'ultima riga del pannello `F10`; Android: un pulsante in fondo al diario). La bassa cuoce le texture al massimo a 64 pixel per casella e
+  toglie l'acqua che si muove, gli angoli arrotondati del terreno e le ombre lunghe dell'alba e del tramonto; la normale al massimo a 128;
+  l'alta a 256. La prima volta sceglie il gioco (il desktop alta, Android dalla memoria del telefono); un test controlla in tutte e tre le
+  implementazioni che tutta l'arte stia nel budget di memoria di ogni livello.
+- **Controller su Android** (dal 25 novembre, E2.2, spec 16): il primo controller collegato gioca con i pulsanti del gamepad del desktop
+  (levetta, `A` attacca e conferma, `X` parla, `RB` colpo potente, `LB` parata, `B` schiva e chiude, `Y` compra o vende, la croce nelle liste);
+  ogni pannello funziona come con una tastiera.
+- **Il contesto grafico perso su Android** (dal 25 novembre, C4.2): le texture dell'arte e del font sono gestite da libGDX, che le ricarica
+  da sola quando Android toglie il contesto (rischio R6).
 
 **Qualità e strumenti**
 
@@ -429,7 +439,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Fondamenta B1** (dal 23 novembre): le copie congelate dei salvataggi di ogni versione (`tests/saves/`, suite `save_fixtures`, spec 12),
   che il riferimento e i due client devono caricare; la matrice di parità generata (`docs/design/parity.md`) e il controllo delle licenze
   (`tools/licenses.py`), tutti e due in `ci-data`; la spec 15 (il tema "Finestra di sistema" e dove sta ogni pannello) e l'ADR 0014 (le
-  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita), poi a 87 (i suoni, i consigli e la partita nuova di Android in funzioni più piccole), poi a 82 (l'interazione, i viaggi, la bacheca, la mappa e il negozio).
+  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita), poi a 87 (i suoni, i consigli e la partita nuova di Android in funzioni più piccole), poi a 82 (l'interazione, i viaggi, la bacheca, la mappa e il negozio), poi a 77 (la lettura del tempo, del mondo, del profilo e dei pacchetti di salvataggi, e l'input di Android).
 - Catalogo dei contenuti e rapporto di bilanciamento generati dai dati; anteprime dell'arte in PNG senza avviare il gioco.
 - **Mod** (dal 24 novembre, E4.1): una guida passo per passo al primo mod (`docs/modding/README.md`), un mod di esempio
   (`examples/mod-example/`, una creatura e una missione) e il validatore che controlla un pacchetto qualsiasi sopra quelli da cui dipende;
@@ -440,6 +450,12 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Una settimana di gioco** (dal 24 novembre, C5.1): lo scenario `week_of_play` dei vettori (sette giorni con campi, cucina, due mercati
   sotto la pioggia, caccia, la festa, un viaggiatore e una missione a tempo), eseguito dal riferimento e dai due client, con le sue
   invarianti in un test; `docs/design/suites.md` (`tools/make_suites_map.py`, in `ci-data`) dice dove sono le suite che il piano nomina.
+- **Misure** (dal 25 novembre, C4.2, `docs/design/performance.md`): un test di prestazione nei due client con budget ampi per un chunk
+  del mondo (25 ms) e un tick (4 ms), i cui numeri la CI stampa; un workflow notturno che prova il gioco su un emulatore Android di API 30 e
+  34 (avvio, rotazione, pausa e ripresa, la stessa partita dopo). Mancano i numeri del telefono del proprietario.
+- **Pipeline di rilascio** (dal 25 novembre, E3.1): su un tag `v*` il workflow di rilascio costruisce tutti i pacchetti con gli stessi
+  workflow delle PR, li chiama con la versione, scrive `SHA256SUMS` e la distinta dei componenti (SPDX, `tools/licenses.py --sbom`),
+  ricontrolla le somme e crea una release in **bozza** con tutti i file; non pubblica mai. A mano fa una prova senza release.
 
 ### 8.4 Che cosa resta da fare, in ordine
 
@@ -451,18 +467,20 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 **A breve (le prossime PR)**
 
 1. **Ridurre la baseline di detekt** (B1.1, issue #224; ktlint e detekt in CI ci sono): le segnalazioni del codice vecchio restano in
-   `android/config/detekt-baseline.xml`, 82 (63 di complessità, 18 di annidamento, una di uscite dai cicli): 24 in `AethermoorGame.kt`,
-   16 in `World.kt`, le altre in 22 file. Si spezzano a poco a poco le funzioni più complesse, qualche voce in ogni batch.
+   `android/config/detekt-baseline.xml`, 77 (58 di complessità, 18 di annidamento, una di uscite dai cicli): 24 in `AethermoorGame.kt`,
+   16 in `World.kt`, le altre in 18 file. Si spezzano a poco a poco le funzioni più complesse, qualche voce in ogni batch.
 2. **Lo streaming su un thread** (C4.1, #239): i chunk davanti al giocatore generati su un thread di lavoro, consegnati in un punto
-   fisso del tick, senza rompere il determinismo.
-3. **Le misure su Android** (C4.2, #240): test di prestazione nei test JVM, un test notturno sull'emulatore, la prova della perdita del
-   contesto grafico; le misure su un telefono le fa il proprietario (rischi R4, R6).
+   fisso del tick, senza rompere il determinismo; con il job notturno di ThreadSanitizer.
+3. **I numeri del telefono** (C4.2, #240): il proprietario misura i fotogrammi al secondo su un telefono con la lista di rilascio e li
+   scrive in `docs/design/performance.md` (rischio R4); il resto di C4.2 è fatto.
 
 **Verso la 1.0**
 
-4. **Il controller su Android** (E2.2, #251) e **la rimappatura con l'editor del layout touch** (E2.1, #250).
-5. **La modalità qualità** (E1.1, #247): bassa, normale, alta, con un budget di memoria; dopo le misure di C4.2.
-6. **La pipeline di rilascio** (E3.1, #252): pacchetti, SHA256SUMS, una release in bozza con gli artefatti; senza pubblicare.
+4. **La rimappatura con l'editor del layout touch** (E2.1, #250): posizione e dimensione dei pulsanti su Android, salvate, con un ripristino.
+5. **Una prova del rilascio** (E3.1, #252): un giro a mano del workflow di rilascio (`gh workflow run release.yml`) e la bozza di un tag di
+   prova, quando il proprietario lo vuole; la pipeline c'è.
+6. **I suggerimenti dell'ultimo dispositivo** (spec 16): i consigli e l'HUD mostrano i tasti, il tocco o il controller secondo quello usato
+   per ultimo.
 
 **Decide il proprietario** (programma, sezione 8; issue #234)
 

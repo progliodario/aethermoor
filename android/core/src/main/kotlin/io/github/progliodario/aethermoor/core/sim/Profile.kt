@@ -2,6 +2,7 @@ package io.github.progliodario.aethermoor.core.sim
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
@@ -25,20 +26,36 @@ fun parseProfile(text: String?): Profile {
     val doc = runCatching { Json.parseToJsonElement(text) }.getOrNull() as? JsonObject ?: return Profile()
     val version = doc["profile_version"] as? JsonPrimitive ?: return Profile()
     if (version.isString || version.content.toLongOrNull() != 1L) return Profile()
-    val bestiary = java.util.TreeMap<String, Int>()
-    (doc["bestiary"] as? JsonObject)?.forEach { (name, count) ->
-        val n = (count as? JsonPrimitive)?.takeIf { !it.isString }?.content?.toLongOrNull()
-        if (n != null && n >= 1) bestiary[name] = n.toInt()
+    val lives = numberOf(doc["lives"])?.takeIf { it >= 0 }?.toInt() ?: 0
+    val heirloom = numberOf(doc["heirloom"])?.takeIf { it >= 0 } ?: 0L
+    val item = textOf(doc["heirloom_item"]) ?: ""
+    return Profile(parseBestiary(doc["bestiary"] as? JsonObject), parseTitles(doc["titles"] as? JsonArray), lives, heirloom, item)
+}
+
+/** A number of the profile (not a text): null when it is not one. */
+private fun numberOf(element: JsonElement?): Long? = (element as? JsonPrimitive)?.takeIf { !it.isString }?.content?.toLongOrNull()
+
+/** A text of the profile: null when it is not one. */
+private fun textOf(element: JsonElement?): String? = (element as? JsonPrimitive)?.takeIf { it.isString }?.content
+
+/** The creatures and their counts, in the order of their names; a count below 1 or not a number is dropped. */
+private fun parseBestiary(bestiary: JsonObject?): java.util.TreeMap<String, Int> {
+    val out = java.util.TreeMap<String, Int>()
+    bestiary?.forEach { (name, count) ->
+        val n = numberOf(count)
+        if (n != null && n >= 1) out[name] = n.toInt()
     }
-    val titles = ArrayList<String>()
-    (doc["titles"] as? JsonArray)?.forEach { title ->
-        val s = (title as? JsonPrimitive)?.takeIf { it.isString }?.content
-        if (s != null && s !in titles) titles.add(s)
+    return out
+}
+
+/** The titles, once each, in their order; what is not a text is dropped. */
+private fun parseTitles(titles: JsonArray?): ArrayList<String> {
+    val out = ArrayList<String>()
+    titles?.forEach { title ->
+        val s = textOf(title)
+        if (s != null && s !in out) out.add(s)
     }
-    val lives = (doc["lives"] as? JsonPrimitive)?.takeIf { !it.isString }?.content?.toLongOrNull()?.takeIf { it >= 0 }?.toInt() ?: 0
-    val heirloom = (doc["heirloom"] as? JsonPrimitive)?.takeIf { !it.isString }?.content?.toLongOrNull()?.takeIf { it >= 0 } ?: 0L
-    val item = (doc["heirloom_item"] as? JsonPrimitive)?.takeIf { it.isString }?.content ?: ""
-    return Profile(bestiary, titles, lives, heirloom, item)
+    return out
 }
 
 /** The profile after a game reports its bestiary and titles: the best count of every creature, every title ever earned. */

@@ -2,9 +2,11 @@
 """The licenses of the dependencies (risk R10 of the plan; ADR 0010): every dependency of the build has a row in tools/licenses.json
 with a license allowed for its scope, and THIRD_PARTY_NOTICES.md is written from that table.
 
-Usage: python tools/licenses.py [--check]
-  (no flag)  write THIRD_PARTY_NOTICES.md from tools/licenses.json, and report the problems.
-  --check    write nothing; fail on a problem or when THIRD_PARTY_NOTICES.md is not current.
+Usage: python tools/licenses.py [--check] [--sbom FILE]
+  (no flag)    write THIRD_PARTY_NOTICES.md from tools/licenses.json, and report the problems.
+  --check      write nothing; fail on a problem or when THIRD_PARTY_NOTICES.md is not current.
+  --sbom FILE  also write the bill of materials of the packages (SPDX 2.3, JSON): the game and every dependency of scope `ship`,
+               with the versions the manifests pin. The release workflow attaches it to the draft (item E3.1).
 
 The dependencies are read from the manifests: `dependencies` of desktop/vcpkg.json (source `vcpkg`), the `[libraries]` and
 `[plugins]` of android/gradle/libs.versions.toml and the coordinates written in the build.gradle.kts files (`gradle`,
@@ -16,6 +18,7 @@ EPL-2.0 is allowed in the tests only. The GitHub Actions of the workflows run on
 from __future__ import annotations
 
 import argparse
+import datetime
 import json
 import re
 import sys
@@ -107,11 +110,83 @@ def notices(table: dict) -> str:
     return "\n".join(lines)
 
 
+def pinned_versions(root: Path = ROOT) -> dict[str, str]:
+    """The versions the manifests pin, by the name of the row: the libraries and plugins of the Gradle catalog (vcpkg pins none)."""
+    toml = tomllib.loads((root / "android" / "gradle" / "libs.versions.toml").read_text(encoding="utf-8"))
+    versions = toml.get("versions", {})
+    out: dict[str, str] = {}
+    for section, key in (("libraries", "module"), ("plugins", "id")):
+        for entry in toml.get(section, {}).values():
+            if isinstance(entry, dict) and key in entry and "version" in entry:
+                ref = entry["version"]
+                out[entry[key]] = versions.get(ref["ref"], "") if isinstance(ref, dict) else str(ref)
+    gdx = versions.get("gdx")
+    if gdx:
+        out["com.badlogicgames.gdx:gdx-platform"] = gdx
+    return {name: version for name, version in out.items() if version}
+
+
+def spdx_id(name: str) -> str:
+    return "SPDXRef-" + re.sub(r"[^A-Za-z0-9.\-]+", "-", name)
+
+
+def sbom(table: dict, created: str, root: Path = ROOT) -> dict:
+    """The bill of materials of the packages (SPDX 2.3): the game, and every dependency of scope `ship` it contains."""
+    meta = json.loads((root / "project.json").read_text(encoding="utf-8"))
+    versions = pinned_versions(root)
+    game = {
+        "SPDXID": "SPDXRef-game",
+        "name": meta["name"],
+        "versionInfo": meta["version"],
+        "downloadLocation": "NOASSERTION",
+        "licenseConcluded": "GPL-3.0-or-later AND CC-BY-SA-4.0",
+        "licenseDeclared": "GPL-3.0-or-later AND CC-BY-SA-4.0",
+        "copyrightText": "NOASSERTION",
+        "filesAnalyzed": False,
+    }
+    packages = [game]
+    relationships = [{"spdxElementId": "SPDXRef-DOCUMENT", "relationshipType": "DESCRIBES", "relatedSpdxElement": "SPDXRef-game"}]
+    for row in table["dependencies"]:
+        if row["scope"] != "ship":
+            continue
+        package = {
+            "SPDXID": spdx_id(row["name"]),
+            "name": row["component"],
+            "downloadLocation": "NOASSERTION",
+            "licenseConcluded": row["license"],
+            "licenseDeclared": row["license"],
+            "copyrightText": "NOASSERTION",
+            "filesAnalyzed": False,
+            "comment": f"{row['source']} {row['name']}: {row['used_for']}",
+        }
+        if row["name"] in versions:
+            package["versionInfo"] = versions[row["name"]]
+        packages.append(package)
+        relationships.append({"spdxElementId": "SPDXRef-game", "relationshipType": "CONTAINS", "relatedSpdxElement": package["SPDXID"]})
+    return {
+        "spdxVersion": "SPDX-2.3",
+        "dataLicense": "CC0-1.0",
+        "SPDXID": "SPDXRef-DOCUMENT",
+        "name": f"{meta['name']} {meta['version']}",
+        "documentNamespace": f"https://github.com/progliodario/aethermoor/sbom/{meta['version']}/{created}",
+        "creationInfo": {"created": created, "creators": ["Tool: tools/licenses.py"]},
+        "packages": packages,
+        "relationships": relationships,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--sbom", help="write the bill of materials (SPDX 2.3, JSON) to this file")
     args = parser.parse_args()
     table = json.loads(TABLE.read_text(encoding="utf-8"))
+    if args.sbom:
+        created = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        text = json.dumps(sbom(table, created), indent=2, ensure_ascii=False) + "\n"
+        with open(args.sbom, "w", encoding="utf-8", newline="\n") as f:
+            f.write(text)
+        print(f"wrote {args.sbom}")
     found = problems(find_dependencies(), table)
     for problem in found:
         print("ERROR:", problem)

@@ -1,36 +1,258 @@
 {
   "note": "The table of tools/licenses.py: one row for every dependency of the build. Edit it by hand when a dependency is added, then run tools/licenses.py to write THIRD_PARTY_NOTICES.md.",
   "allowed": {
-    "MIT": ["ship", "build", "test", "tools"],
-    "BSD-2-Clause": ["ship", "build", "test", "tools"],
-    "BSD-3-Clause": ["ship", "build", "test", "tools"],
-    "Apache-2.0": ["ship", "build", "test", "tools"],
-    "Apache-2.0 WITH LLVM-exception": ["ship", "build", "test", "tools"],
-    "Zlib": ["ship", "build", "test", "tools"],
-    "BSL-1.0": ["ship", "build", "test", "tools"],
-    "OFL-1.1": ["ship", "build", "test", "tools"],
-    "EPL-2.0": ["test"]
+    "MIT": [
+      "ship",
+      "build",
+      "test",
+      "tools"
+    ],
+    "BSD-2-Clause": [
+      "ship",
+      "build",
+      "test",
+      "tools"
+    ],
+    "BSD-3-Clause": [
+      "ship",
+      "build",
+      "test",
+      "tools"
+    ],
+    "Apache-2.0": [
+      "ship",
+      "build",
+      "test",
+      "tools"
+    ],
+    "Apache-2.0 WITH LLVM-exception": [
+      "ship",
+      "build",
+      "test",
+      "tools"
+    ],
+    "Zlib": [
+      "ship",
+      "build",
+      "test",
+      "tools"
+    ],
+    "BSL-1.0": [
+      "ship",
+      "build",
+      "test",
+      "tools"
+    ],
+    "OFL-1.1": [
+      "ship",
+      "build",
+      "test",
+      "tools"
+    ],
+    "EPL-2.0": [
+      "test"
+    ]
   },
   "dependencies": [
-    { "source": "vcpkg", "name": "sdl3", "component": "SDL3", "license": "Zlib", "scope": "ship", "used_for": "window, renderer, input, gamepad, the fallback font" },
-    { "source": "vcpkg", "name": "nlohmann-json", "component": "nlohmann/json", "license": "MIT", "scope": "ship", "used_for": "reading data and saves" },
-    { "source": "vcpkg", "name": "catch2", "component": "Catch2", "license": "BSL-1.0", "scope": "test", "used_for": "the tests of the desktop" },
-    { "source": "gradle", "name": "com.badlogicgames.gdx:gdx", "component": "libGDX", "license": "Apache-2.0", "scope": "ship", "used_for": "drawing, input" },
-    { "source": "gradle", "name": "com.badlogicgames.gdx:gdx-backend-android", "component": "libGDX Android backend", "license": "Apache-2.0", "scope": "ship", "used_for": "the activity, the GL surface" },
-    { "source": "gradle", "name": "com.badlogicgames.gdx:gdx-platform", "component": "libGDX natives", "license": "Apache-2.0", "scope": "ship", "used_for": "the native libraries of libGDX (arm64-v8a, x86_64)" },
-    { "source": "gradle", "name": "org.jetbrains.kotlinx:kotlinx-serialization-json", "component": "kotlinx.serialization", "license": "Apache-2.0", "scope": "ship", "used_for": "JSON: data and saves" },
-    { "source": "gradle", "name": "org.junit:junit-bom", "component": "JUnit (bill of materials)", "license": "EPL-2.0", "scope": "test", "used_for": "the versions of JUnit" },
-    { "source": "gradle", "name": "org.junit.jupiter:junit-jupiter", "component": "JUnit Jupiter", "license": "EPL-2.0", "scope": "test", "used_for": "the tests of Android" },
-    { "source": "gradle", "name": "org.junit.platform:junit-platform-launcher", "component": "JUnit Platform Launcher", "license": "EPL-2.0", "scope": "test", "used_for": "running the tests of Android" },
-    { "source": "gradle-plugin", "name": "com.android.application", "component": "Android Gradle Plugin", "license": "Apache-2.0", "scope": "build", "used_for": "building the APK" },
-    { "source": "gradle-plugin", "name": "com.android.library", "component": "Android Gradle Plugin (library)", "license": "Apache-2.0", "scope": "build", "used_for": "building the game module" },
-    { "source": "gradle-plugin", "name": "org.jetbrains.kotlin.android", "component": "Kotlin (Android) and its standard library", "license": "Apache-2.0", "scope": "ship", "used_for": "all the code of Android" },
-    { "source": "gradle-plugin", "name": "org.jetbrains.kotlin.jvm", "component": "Kotlin (JVM) and its standard library", "license": "Apache-2.0", "scope": "ship", "used_for": "the core module" },
-    { "source": "pip", "name": "jsonschema", "component": "jsonschema", "license": "MIT", "scope": "tools", "used_for": "checking the data against the schemas" },
-    { "source": "pip", "name": "pytest", "component": "pytest", "license": "MIT", "scope": "tools", "used_for": "the tests of the tools" },
-    { "source": "pip", "name": "ruff", "component": "ruff", "license": "MIT", "scope": "tools", "used_for": "the style of the Python" },
-    { "source": "pip", "name": "clang-format", "component": "clang-format (PyPI wheel)", "license": "Apache-2.0 WITH LLVM-exception", "scope": "tools", "used_for": "the style of the C++" },
-    { "source": "ci", "name": "pinterest/ktlint", "component": "ktlint", "license": "MIT", "scope": "tools", "used_for": "the style of the Kotlin, in CI" },
-    { "source": "ci", "name": "detekt/detekt", "component": "detekt", "license": "Apache-2.0", "scope": "tools", "used_for": "the checks of the Kotlin, in CI" }
+    {
+      "source": "vcpkg",
+      "name": "sdl3",
+      "component": "SDL3",
+      "license": "Zlib",
+      "scope": "ship",
+      "used_for": "window, renderer, input, gamepad, the fallback font"
+    },
+    {
+      "source": "vcpkg",
+      "name": "nlohmann-json",
+      "component": "nlohmann/json",
+      "license": "MIT",
+      "scope": "ship",
+      "used_for": "reading data and saves"
+    },
+    {
+      "source": "vcpkg",
+      "name": "catch2",
+      "component": "Catch2",
+      "license": "BSL-1.0",
+      "scope": "test",
+      "used_for": "the tests of the desktop"
+    },
+    {
+      "source": "gradle",
+      "name": "com.badlogicgames.gdx:gdx",
+      "component": "libGDX",
+      "license": "Apache-2.0",
+      "scope": "ship",
+      "used_for": "drawing, input"
+    },
+    {
+      "source": "gradle",
+      "name": "com.badlogicgames.gdx:gdx-backend-android",
+      "component": "libGDX Android backend",
+      "license": "Apache-2.0",
+      "scope": "ship",
+      "used_for": "the activity, the GL surface"
+    },
+    {
+      "source": "gradle",
+      "name": "com.badlogicgames.gdx:gdx-platform",
+      "component": "libGDX natives",
+      "license": "Apache-2.0",
+      "scope": "ship",
+      "used_for": "the native libraries of libGDX (arm64-v8a, x86_64)"
+    },
+    {
+      "source": "gradle",
+      "name": "com.badlogicgames.gdx-controllers:gdx-controllers-core",
+      "component": "gdx-controllers",
+      "license": "Apache-2.0",
+      "scope": "ship",
+      "used_for": "the game controller (spec 16)"
+    },
+    {
+      "source": "gradle",
+      "name": "com.badlogicgames.gdx-controllers:gdx-controllers-android",
+      "component": "gdx-controllers Android backend",
+      "license": "Apache-2.0",
+      "scope": "ship",
+      "used_for": "the game controller on Android"
+    },
+    {
+      "source": "gradle",
+      "name": "org.jetbrains.kotlinx:kotlinx-serialization-json",
+      "component": "kotlinx.serialization",
+      "license": "Apache-2.0",
+      "scope": "ship",
+      "used_for": "JSON: data and saves"
+    },
+    {
+      "source": "gradle",
+      "name": "org.junit:junit-bom",
+      "component": "JUnit (bill of materials)",
+      "license": "EPL-2.0",
+      "scope": "test",
+      "used_for": "the versions of JUnit"
+    },
+    {
+      "source": "gradle",
+      "name": "org.junit.jupiter:junit-jupiter",
+      "component": "JUnit Jupiter",
+      "license": "EPL-2.0",
+      "scope": "test",
+      "used_for": "the tests of Android"
+    },
+    {
+      "source": "gradle",
+      "name": "org.junit.platform:junit-platform-launcher",
+      "component": "JUnit Platform Launcher",
+      "license": "EPL-2.0",
+      "scope": "test",
+      "used_for": "running the tests of Android"
+    },
+    {
+      "source": "gradle",
+      "name": "androidx.test:core",
+      "component": "AndroidX Test core",
+      "license": "Apache-2.0",
+      "scope": "test",
+      "used_for": "the test of the game on the emulator (ActivityScenario)"
+    },
+    {
+      "source": "gradle",
+      "name": "androidx.test:runner",
+      "component": "AndroidX Test runner",
+      "license": "Apache-2.0",
+      "scope": "test",
+      "used_for": "running the test on the emulator"
+    },
+    {
+      "source": "gradle",
+      "name": "androidx.test.ext:junit",
+      "component": "AndroidX Test JUnit",
+      "license": "Apache-2.0",
+      "scope": "test",
+      "used_for": "the runner of the test on the emulator (it brings JUnit 4, EPL-1.0, in that test only)"
+    },
+    {
+      "source": "gradle-plugin",
+      "name": "com.android.application",
+      "component": "Android Gradle Plugin",
+      "license": "Apache-2.0",
+      "scope": "build",
+      "used_for": "building the APK"
+    },
+    {
+      "source": "gradle-plugin",
+      "name": "com.android.library",
+      "component": "Android Gradle Plugin (library)",
+      "license": "Apache-2.0",
+      "scope": "build",
+      "used_for": "building the game module"
+    },
+    {
+      "source": "gradle-plugin",
+      "name": "org.jetbrains.kotlin.android",
+      "component": "Kotlin (Android) and its standard library",
+      "license": "Apache-2.0",
+      "scope": "ship",
+      "used_for": "all the code of Android"
+    },
+    {
+      "source": "gradle-plugin",
+      "name": "org.jetbrains.kotlin.jvm",
+      "component": "Kotlin (JVM) and its standard library",
+      "license": "Apache-2.0",
+      "scope": "ship",
+      "used_for": "the core module"
+    },
+    {
+      "source": "pip",
+      "name": "jsonschema",
+      "component": "jsonschema",
+      "license": "MIT",
+      "scope": "tools",
+      "used_for": "checking the data against the schemas"
+    },
+    {
+      "source": "pip",
+      "name": "pytest",
+      "component": "pytest",
+      "license": "MIT",
+      "scope": "tools",
+      "used_for": "the tests of the tools"
+    },
+    {
+      "source": "pip",
+      "name": "ruff",
+      "component": "ruff",
+      "license": "MIT",
+      "scope": "tools",
+      "used_for": "the style of the Python"
+    },
+    {
+      "source": "pip",
+      "name": "clang-format",
+      "component": "clang-format (PyPI wheel)",
+      "license": "Apache-2.0 WITH LLVM-exception",
+      "scope": "tools",
+      "used_for": "the style of the C++"
+    },
+    {
+      "source": "ci",
+      "name": "pinterest/ktlint",
+      "component": "ktlint",
+      "license": "MIT",
+      "scope": "tools",
+      "used_for": "the style of the Kotlin, in CI"
+    },
+    {
+      "source": "ci",
+      "name": "detekt/detekt",
+      "component": "detekt",
+      "license": "Apache-2.0",
+      "scope": "tools",
+      "used_for": "the checks of the Kotlin, in CI"
+    }
   ]
 }

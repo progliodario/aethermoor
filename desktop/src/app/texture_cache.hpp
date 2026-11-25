@@ -4,6 +4,7 @@
 
 #include <SDL3/SDL.h>
 
+#include <algorithm>
 #include <map>
 #include <string>
 #include <string_view>
@@ -45,17 +46,24 @@ public:
     // Destroys textures baked for other scale buckets than the one used by `tile_px`.
     void release_other_buckets(int tile_px);
 
+    // The largest bucket the textures are baked at, from the quality of the graphics (spec 13, "Quality"); a larger
+    // tile is drawn from it, scaled.
+    void set_bucket_cap(int cap) { m_bucket_cap_ = cap; }
+
     std::size_t size() const { return m_entries_.size(); }
 
     static int bucket_for(int tile_px);
 
 private:
+    int capped_bucket(int tile_px) const { return std::min(bucket_for(tile_px), m_bucket_cap_); }
+
     struct Entry {
         Sprite sprite;
         int bucket = 0;
         bool failed = false;
     };
 
+    int m_bucket_cap_ = 256;
     Sint64 m_budget_ns_ = -1;
     Sint64 m_spent_ns_ = 0;
     SDL_Renderer* m_renderer_;

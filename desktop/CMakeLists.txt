@@ -84,7 +84,8 @@ add_executable(aether_tests
   tests/pack_test.cpp
   tests/sim_test.cpp
   tests/combat_test.cpp
-  tests/crash_log_test.cpp)
+  tests/crash_log_test.cpp
+  tests/performance_test.cpp)
 target_link_libraries(aether_tests PRIVATE aether_core aether_data aether_vector aether_audio aether_sim
                                            nlohmann_json::nlohmann_json Catch2::Catch2WithMain)
 target_compile_definitions(aether_tests PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")

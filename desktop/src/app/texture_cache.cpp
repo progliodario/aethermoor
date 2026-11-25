@@ -33,7 +33,7 @@ int TextureCache::bucket_for(int tile_px) {
 }
 
 const Sprite* TextureCache::get(const std::string& recipe_id, int tile_px, std::string_view variant) {
-    const int bucket = bucket_for(tile_px);
+    const int bucket = capped_bucket(tile_px);
     const std::string key = recipe_id + "|" + std::string(variant) + "|" + std::to_string(bucket);
     const auto found = m_entries_.find(key);
     if (found != m_entries_.end()) {
@@ -84,7 +84,7 @@ const Sprite* TextureCache::get(const std::string& recipe_id, int tile_px, std::
 }
 
 void TextureCache::release_other_buckets(int tile_px) {
-    const int bucket = bucket_for(tile_px);
+    const int bucket = capped_bucket(tile_px);
     for (auto it = m_entries_.begin(); it != m_entries_.end();) {
         if (it->second.bucket != bucket) {
             if (it->second.sprite.texture != nullptr) {

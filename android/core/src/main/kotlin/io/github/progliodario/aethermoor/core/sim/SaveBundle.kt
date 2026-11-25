@@ -25,23 +25,27 @@ private fun JsonPrimitive.isInteger(): Boolean = !isString && content.toLongOrNu
 
 /** The files of a bundle, or null when it is not a valid one. */
 fun importBundle(text: String): Map<String, String>? {
-    val doc = runCatching { Json.parseToJsonElement(text) }.getOrNull() as? JsonObject ?: return null
+    val doc = jsonObjectOf(text) ?: return null
     val format = doc["aethersave"] as? JsonPrimitive ?: return null
     if (!format.isInteger() || format.content.toLong() != 1L) return null
-    val filesObject = doc["files"] as? JsonObject ?: return null
+    val out = bundleFiles(doc["files"] as? JsonObject) ?: return null
+    val saves = listOf("auto.json", "quick.json").mapNotNull { out[it] }
+    return if (saves.isNotEmpty() && saves.all { isSaveText(it) }) out else null
+}
+
+private fun jsonObjectOf(text: String): JsonObject? = runCatching { Json.parseToJsonElement(text) }.getOrNull() as? JsonObject
+
+/** The files of a bundle by name, or null when one is not a file a bundle may hold or is not a text. */
+private fun bundleFiles(files: JsonObject?): Map<String, String>? {
+    if (files == null) return null
     val out = LinkedHashMap<String, String>()
-    for ((name, content) in filesObject) {
+    for ((name, content) in files) {
         val primitive = content as? JsonPrimitive ?: return null
         if (!isBundleFile(name) || !primitive.isString) return null
         out[name] = primitive.content
     }
-    var hasSave = false
-    for (name in listOf("auto.json", "quick.json")) {
-        val saveText = out[name] ?: continue
-        hasSave = true
-        val save = runCatching { Json.parseToJsonElement(saveText) }.getOrNull() as? JsonObject ?: return null
-        val version = save["save_version"] as? JsonPrimitive ?: return null
-        if (!version.isInteger()) return null
-    }
-    return if (hasSave) out else null
+    return out
 }
+
+/** A save of a bundle: a JSON object with an integer `save_version`. */
+private fun isSaveText(text: String): Boolean = (jsonObjectOf(text)?.get("save_version") as? JsonPrimitive)?.isInteger() == true

@@ -969,6 +969,96 @@ fun loadWorldParams(pack: Pack, worldId: String): Result<WorldParams> =
         parseWorldParams(JsonObject(j + ("stamp_defs" to JsonObject(defs))).toString()).getOrThrow()
     }
 
+/** An optional integer of this object (which may itself be missing): [default] when it is not there. */
+private fun JsonObject?.optInt(key: String, default: Int = 0): Int = this?.get(key)?.jsonPrimitive?.int ?: default
+
+/** An optional text of this object (which may itself be missing): empty when it is not there. */
+private fun JsonObject?.optText(key: String): String = this?.get(key)?.jsonPrimitive?.content ?: ""
+
+/** The props a ground may hold, `{art, radius_x100, per_mille}` each (spec 09). */
+private fun parsePropOptions(options: JsonElement): List<PropOption> = options.jsonArray.map {
+    val o = it.jsonObject
+    PropOption(o.getValue("art").jsonPrimitive.content, o.getValue("radius_x100").jsonPrimitive.int, o.getValue("per_mille").jsonPrimitive.int)
+}
+
+/** The routines of the roles of the settlements: `[tick of the day, place]` frames by role (spec 07, "Routines"). */
+private fun parseRoutines(routines: JsonObject?): Map<String, List<Pair<Int, String>>> = (routines?.get("roles") as? JsonObject)?.mapValues { (_, frames) ->
+    frames.jsonArray.map { f -> Pair(f.jsonArray[0].jsonPrimitive.int, f.jsonArray[1].jsonPrimitive.content) }
+} ?: emptyMap()
+
+private fun parseLandmark(l: JsonObject): Landmark = Landmark(
+    l.getValue("id").jsonPrimitive.content,
+    l.getValue("name").jsonPrimitive.content,
+    l.getValue("stamp").jsonPrimitive.content,
+    l.getValue("kind").jsonPrimitive.content,
+    l.getValue("dx").jsonPrimitive.int,
+    l.getValue("dy").jsonPrimitive.int,
+)
+
+private fun parseGuild(g: JsonObject): GuildParams = GuildParams(
+    g.getValue("offers_per_day").jsonPrimitive.int,
+    g.getValue("ranks").jsonArray.map { GuildRank(it.jsonObject.getValue("id").jsonPrimitive.content, it.jsonObject.getValue("points").jsonPrimitive.int) },
+    g.getValue("templates").jsonArray.map {
+        val t = it.jsonObject
+        GuildTemplate(
+            t.getValue("id").jsonPrimitive.content, t.getValue("type").jsonPrimitive.content, t.getValue("target").jsonPrimitive.content,
+            t.getValue("count_min").jsonPrimitive.int, t.getValue("count_max").jsonPrimitive.int,
+            t.getValue("gold_base").jsonPrimitive.int, t.getValue("gold_per").jsonPrimitive.int,
+            t.getValue("xp_base").jsonPrimitive.int, t.getValue("xp_per").jsonPrimitive.int,
+            t.getValue("points_base").jsonPrimitive.int, t.getValue("points_per").jsonPrimitive.int,
+        )
+    },
+)
+
+private fun parseFaunaEntry(e: JsonObject): FaunaEntry = FaunaEntry(
+    e.getValue("enemy").jsonPrimitive.content,
+    e.getValue("drop").jsonPrimitive.content,
+    e.getValue("weight").jsonPrimitive.int,
+    (e["seasons"] as? JsonArray)?.map { v ->
+        val o = v.jsonObject
+        FaunaVisitor(o.getValue("season").jsonPrimitive.content, o.getValue("enemy").jsonPrimitive.content, o.getValue("pm").jsonPrimitive.int)
+    } ?: emptyList(),
+)
+
+private fun parseRegion(r: JsonObject): Region {
+    val shop = r.getValue("shop").jsonObject
+    val bias = r["bias"] as? JsonObject
+    val fauna = r.getValue("fauna").jsonArray.map { parseFaunaEntry(it.jsonObject) }
+    require(fauna.isNotEmpty() && fauna.all { it.weight >= 1 }) { "a region needs fauna with positive weights" }
+    return Region(
+        r.getValue("id").jsonPrimitive.content, r.getValue("name").jsonPrimitive.content,
+        r.getValue("x_pm").jsonPrimitive.int, r.getValue("y_pm").jsonPrimitive.int, r.getValue("danger").jsonPrimitive.int,
+        r.getValue("tone").jsonPrimitive.content,
+        shop.getValue("price_pm").jsonPrimitive.int,
+        shop.getValue("stock").jsonArray.map { it.jsonPrimitive.content },
+        fauna,
+        shopRenownStepPm = shop.optInt("renown_step_pm"),
+        shopRenownMaxPm = shop.optInt("renown_max_pm"),
+        shopMarketSwingPm = shop.optInt("market_swing_pm"),
+        shopGlutStepPm = shop.optInt("glut_step_pm"),
+        shopGlutFloorPm = shop.optInt("glut_floor_pm", 1000),
+        shopRenownStock = (shop["renown_stock"] as? JsonArray)?.map { w ->
+            Pair(w.jsonObject.getValue("item").jsonPrimitive.content, w.jsonObject.getValue("renown").jsonPrimitive.int)
+        } ?: emptyList(),
+        biasElevation = bias.optInt("elevation"),
+        biasTemperature = bias.optInt("temperature"),
+        biasMoisture = bias.optInt("moisture"),
+        ground = (r["ground"] as? JsonObject)?.mapValues { (_, gids) -> gids.jsonArray.map { gid -> gid.jsonPrimitive.int } } ?: emptyMap(),
+        props = (r["props"] as? JsonObject)?.mapValues { (_, options) -> parsePropOptions(options) } ?: emptyMap(),
+    )
+}
+
+private fun parseWorldNpc(n: JsonObject): WorldNpc = WorldNpc(
+    n.getValue("key").jsonPrimitive.content,
+    n.getValue("dialogue").jsonPrimitive.content,
+    n.getValue("variant").jsonPrimitive.content,
+    n.getValue("dx").jsonPrimitive.int,
+    n.getValue("dy").jsonPrimitive.int,
+    n["when"]?.toString() ?: "",
+    (n["route"] as? JsonArray)?.map { stop -> Pair(stop.jsonArray[0].jsonPrimitive.int, stop.jsonArray[1].jsonPrimitive.int) } ?: emptyList(),
+    parseTravellerWalk(n["walk"] as? JsonObject),
+)
+
 fun parseWorldParams(jsonText: String): Result<WorldParams> =
     runCatching {
         val j = Json.parseToJsonElement(jsonText).jsonObject
@@ -978,7 +1068,7 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
         fun threshold(key: String) = t.getValue(key).jsonPrimitive.int
         fun tile(key: String) = tiles.getValue(key).jsonPrimitive.int
         val params = WorldParams(
-            id = j["id"]?.jsonPrimitive?.content ?: "",
+            id = j.optText("id"),
             width = j.getValue("width").jsonPrimitive.int,
             height = j.getValue("height").jsonPrimitive.int,
             border = j.getValue("border").jsonPrimitive.int,
@@ -1000,98 +1090,27 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             tileMountain = tile("mountain"), tileForest = tile("forest"),
             tileRiver = tile("river"), tileFord = tile("ford"), tileRoad = tile("road"), tileBridge = tile("bridge"),
             tilesPlains = tiles.getValue("plains").jsonArray.map { it.jsonPrimitive.int },
-            props = j.getValue("props").jsonObject.mapValues { (_, options) ->
-                options.jsonArray.map {
-                    val o = it.jsonObject
-                    PropOption(o.getValue("art").jsonPrimitive.content, o.getValue("radius_x100").jsonPrimitive.int, o.getValue("per_mille").jsonPrimitive.int)
-                }
-            },
+            props = j.getValue("props").jsonObject.mapValues { (_, options) -> parsePropOptions(options) },
             spawnerBiomes = s.getValue("biomes").jsonArray.map { it.jsonPrimitive.content },
             spawnerMinDistance = s.getValue("min_distance").jsonPrimitive.int,
             spawnerPer10000 = s.getValue("per_10000").jsonPrimitive.int,
             spawnerRespawnTicks = s.getValue("respawn_ticks").jsonPrimitive.int,
             time = parseTimeParams(j.getValue("time").jsonObject),
-            routines = (j["routines"] as? JsonObject)?.getValue("roles")?.jsonObject?.mapValues { (_, frames) ->
-                frames.jsonArray.map { f -> Pair(f.jsonArray[0].jsonPrimitive.int, f.jsonArray[1].jsonPrimitive.content) }
-            } ?: emptyMap(),
+            routines = parseRoutines(j["routines"] as? JsonObject),
             stoneArt = j.getValue("stones").jsonObject.getValue("art").jsonPrimitive.content,
             stoneRangeX100 = j.getValue("stones").jsonObject.getValue("range_x100").jsonPrimitive.int,
-            landmarks = (j["landmarks"] as? JsonArray)?.map {
-                val l = it.jsonObject
-                Landmark(
-                    l.getValue("id").jsonPrimitive.content,
-                    l.getValue("name").jsonPrimitive.content,
-                    l.getValue("stamp").jsonPrimitive.content,
-                    l.getValue("kind").jsonPrimitive.content,
-                    l.getValue("dx").jsonPrimitive.int,
-                    l.getValue("dy").jsonPrimitive.int,
-                )
-            } ?: emptyList(),
-            guild = j.getValue("guild").jsonObject.let { g ->
-                GuildParams(
-                    g.getValue("offers_per_day").jsonPrimitive.int,
-                    g.getValue("ranks").jsonArray.map { GuildRank(it.jsonObject.getValue("id").jsonPrimitive.content, it.jsonObject.getValue("points").jsonPrimitive.int) },
-                    g.getValue("templates").jsonArray.map {
-                        val t = it.jsonObject
-                        GuildTemplate(
-                            t.getValue("id").jsonPrimitive.content, t.getValue("type").jsonPrimitive.content, t.getValue("target").jsonPrimitive.content,
-                            t.getValue("count_min").jsonPrimitive.int, t.getValue("count_max").jsonPrimitive.int,
-                            t.getValue("gold_base").jsonPrimitive.int, t.getValue("gold_per").jsonPrimitive.int,
-                            t.getValue("xp_base").jsonPrimitive.int, t.getValue("xp_per").jsonPrimitive.int,
-                            t.getValue("points_base").jsonPrimitive.int, t.getValue("points_per").jsonPrimitive.int,
-                        )
-                    },
-                )
-            },
-            regionBlend = j["region_blend"]?.jsonPrimitive?.int ?: 0,
-            enemyHpPct = j["difficulty"]?.jsonObject?.get("enemy_hp_pct")?.jsonPrimitive?.int ?: 100,
-            enemyAtkPct = j["difficulty"]?.jsonObject?.get("enemy_atk_pct")?.jsonPrimitive?.int ?: 100,
-            landmarkClearing = j["landmark_clearing"]?.jsonPrimitive?.int ?: 0,
-            homeRadius = j["home"]?.jsonObject?.getValue("radius")?.jsonPrimitive?.int ?: 0,
-            homeStamp = j["home"]?.jsonObject?.getValue("stamp")?.jsonPrimitive?.content ?: "",
-            homeDx = j["home"]?.jsonObject?.getValue("dx")?.jsonPrimitive?.int ?: 0,
-            homeDy = j["home"]?.jsonObject?.getValue("dy")?.jsonPrimitive?.int ?: 0,
-            homeName = j["home"]?.jsonObject?.get("name")?.jsonPrimitive?.content ?: "",
-            regions = j.getValue("regions").jsonArray.map {
-                val r = it.jsonObject
-                Region(
-                    r.getValue("id").jsonPrimitive.content, r.getValue("name").jsonPrimitive.content,
-                    r.getValue("x_pm").jsonPrimitive.int, r.getValue("y_pm").jsonPrimitive.int, r.getValue("danger").jsonPrimitive.int,
-                    r.getValue("tone").jsonPrimitive.content,
-                    r.getValue("shop").jsonObject.getValue("price_pm").jsonPrimitive.int,
-                    r.getValue("shop").jsonObject.getValue("stock").jsonArray.map { it.jsonPrimitive.content },
-                    r.getValue("fauna").jsonArray.map { f ->
-                        val e = f.jsonObject
-                        FaunaEntry(
-                            e.getValue("enemy").jsonPrimitive.content,
-                            e.getValue("drop").jsonPrimitive.content,
-                            e.getValue("weight").jsonPrimitive.int,
-                            (e["seasons"] as? JsonArray)?.map { v ->
-                                val o = v.jsonObject
-                                FaunaVisitor(o.getValue("season").jsonPrimitive.content, o.getValue("enemy").jsonPrimitive.content, o.getValue("pm").jsonPrimitive.int)
-                            } ?: emptyList(),
-                        )
-                    }.also { list -> require(list.isNotEmpty() && list.all { it.weight >= 1 }) { "a region needs fauna with positive weights" } },
-                    shopRenownStepPm = r.getValue("shop").jsonObject["renown_step_pm"]?.jsonPrimitive?.int ?: 0,
-                    shopRenownMaxPm = r.getValue("shop").jsonObject["renown_max_pm"]?.jsonPrimitive?.int ?: 0,
-                    shopMarketSwingPm = r.getValue("shop").jsonObject["market_swing_pm"]?.jsonPrimitive?.int ?: 0,
-                    shopGlutStepPm = r.getValue("shop").jsonObject["glut_step_pm"]?.jsonPrimitive?.int ?: 0,
-                    shopGlutFloorPm = r.getValue("shop").jsonObject["glut_floor_pm"]?.jsonPrimitive?.int ?: 1000,
-                    shopRenownStock = r.getValue("shop").jsonObject["renown_stock"]?.jsonArray?.map { w ->
-                        Pair(w.jsonObject.getValue("item").jsonPrimitive.content, w.jsonObject.getValue("renown").jsonPrimitive.int)
-                    } ?: emptyList(),
-                    biasElevation = r["bias"]?.jsonObject?.get("elevation")?.jsonPrimitive?.int ?: 0,
-                    biasTemperature = r["bias"]?.jsonObject?.get("temperature")?.jsonPrimitive?.int ?: 0,
-                    biasMoisture = r["bias"]?.jsonObject?.get("moisture")?.jsonPrimitive?.int ?: 0,
-                    ground = r["ground"]?.jsonObject?.mapValues { (_, gids) -> gids.jsonArray.map { gid -> gid.jsonPrimitive.int } } ?: emptyMap(),
-                    props = r["props"]?.jsonObject?.mapValues { (_, options) ->
-                        options.jsonArray.map { o ->
-                            val option = o.jsonObject
-                            PropOption(option.getValue("art").jsonPrimitive.content, option.getValue("radius_x100").jsonPrimitive.int, option.getValue("per_mille").jsonPrimitive.int)
-                        }
-                    } ?: emptyMap(),
-                )
-            },
+            landmarks = (j["landmarks"] as? JsonArray)?.map { parseLandmark(it.jsonObject) } ?: emptyList(),
+            guild = parseGuild(j.getValue("guild").jsonObject),
+            regionBlend = j.optInt("region_blend"),
+            enemyHpPct = (j["difficulty"] as? JsonObject).optInt("enemy_hp_pct", 100),
+            enemyAtkPct = (j["difficulty"] as? JsonObject).optInt("enemy_atk_pct", 100),
+            landmarkClearing = j.optInt("landmark_clearing"),
+            homeRadius = (j["home"] as? JsonObject).optInt("radius"),
+            homeStamp = (j["home"] as? JsonObject).optText("stamp"),
+            homeDx = (j["home"] as? JsonObject).optInt("dx"),
+            homeDy = (j["home"] as? JsonObject).optInt("dy"),
+            homeName = (j["home"] as? JsonObject).optText("name"),
+            regions = j.getValue("regions").jsonArray.map { parseRegion(it.jsonObject) },
             settlementPerMille = j.getValue("settlements").jsonObject.getValue("per_mille").jsonPrimitive.int,
             settlementKinds = j.getValue("settlements").jsonObject.getValue("kinds").jsonArray.map {
                 val k = it.jsonObject
@@ -1112,19 +1131,7 @@ fun parseWorldParams(jsonText: String): Result<WorldParams> =
             peopleStart = j.getValue("settlements").jsonObject.getValue("people").jsonObject.getValue("start").jsonArray.map { it.jsonPrimitive.content },
             peopleEnd = j.getValue("settlements").jsonObject.getValue("people").jsonObject.getValue("end").jsonArray.map { it.jsonPrimitive.content },
             stamps = (j["stamp_defs"]?.jsonObject ?: JsonObject(emptyMap())).mapValues { (_, def) -> parseStamp(def.jsonObject) },
-            npcs = j.getValue("npcs").jsonArray.map {
-                val n = it.jsonObject
-                WorldNpc(
-                    n.getValue("key").jsonPrimitive.content,
-                    n.getValue("dialogue").jsonPrimitive.content,
-                    n.getValue("variant").jsonPrimitive.content,
-                    n.getValue("dx").jsonPrimitive.int,
-                    n.getValue("dy").jsonPrimitive.int,
-                    n["when"]?.toString() ?: "",
-                    (n["route"] as? JsonArray)?.map { stop -> Pair(stop.jsonArray[0].jsonPrimitive.int, stop.jsonArray[1].jsonPrimitive.int) } ?: emptyList(),
-                    parseTravellerWalk(n["walk"] as? JsonObject),
-                )
-            },
+            npcs = j.getValue("npcs").jsonArray.map { parseWorldNpc(it.jsonObject) },
         )
         require(params.tilesPlains.isNotEmpty() && params.width >= 1 && params.height >= 1 && params.fordScale >= 1) { "invalid world parameters" }
         params

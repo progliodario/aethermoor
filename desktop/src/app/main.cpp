@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "app/texture_cache.hpp"
+#include "vector/quality.hpp"
 #include "core/numerics.hpp"
 #include "core/rules.hpp"
 #include "core/version.hpp"
@@ -79,6 +80,10 @@ constexpr int kOptions = 4;
 bool g_option[kOptions] = {true, true, true, false};
 const char* const kOptionKeys[kOptions] = {"hints", "damage_numbers", "flashes", "large_text"};
 constexpr float kLargeText = 1.25F;  // how much larger the text is with the option `large_text` (spec 16, "Settings")
+// The quality of the graphics (spec 13, "Quality"): an index of aether::kQualityLevels, kept in the settings as
+// "quality". The desktop starts at the highest level.
+int g_quality = 2;
+const aether::QualityLevel& quality() { return aether::kQualityLevels[static_cast<std::size_t>(g_quality)]; }
 
 // The size of the text against the layout: 1, or larger with the option `large_text`.
 float text_zoom() { return g_option[3] ? kLargeText : 1.0F; }
@@ -2165,6 +2170,7 @@ void write_settings(const std::optional<std::string>& lang) {
     for (int i = 0; i < kOptions; ++i) {  // the options of accessibility (spec 16, "Settings")
         out += std::string("  \"") + kOptionKeys[i] + "\": " + (g_option[i] ? "true" : "false") + ",\n";
     }
+    out += "  \"quality\": \"" + std::string(quality().id) + "\",\n";  // spec 13, "Quality"
     for (int i = 0; i < kVolumeKinds; ++i) {
         out += std::string("  \"") + kVolumeKeys[i] + "\": " + std::to_string(g_volume[i]);
         out += i + 1 < kVolumeKinds ? ",\n" : "\n";
@@ -2249,6 +2255,17 @@ void load_volumes() {
                     colon == std::string::npos ? colon : text->find_first_not_of(" \t", colon + 1);
                 g_option[i] = !(value != std::string::npos && text->compare(value, 5, "false") == 0);
             }
+        }
+        // the quality of the graphics (spec 13, "Quality"): "quality": "<id>"
+        const std::size_t quality_at = text->find("\"quality\"");
+        const std::size_t quality_colon = quality_at == std::string::npos ? quality_at : text->find(':', quality_at);
+        const std::size_t quality_open =
+            quality_colon == std::string::npos ? quality_colon : text->find('"', quality_colon);
+        const std::size_t quality_close =
+            quality_open == std::string::npos ? quality_open : text->find('"', quality_open + 1);
+        if (quality_close != std::string::npos) {
+            g_quality =
+                aether::quality_index(text->substr(quality_open + 1, quality_close - quality_open - 1), g_quality);
         }
         for (int i = 0; i < kVolumeKinds; ++i) {
             const std::string key = std::string("\"") + kVolumeKeys[i] + "\"";
@@ -3412,11 +3429,17 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
 
 // The volume panel (F10): four rows, W/S choose, A/D change by a tenth, Esc closes.
 void handle_settings_key(Ui& ui, SDL_Keycode key) {
-    constexpr int kRows = kVolumeKinds + kOptions;
+    constexpr int kRows = kVolumeKinds + kOptions + 1;  // the volumes, the options, the quality of the graphics
     if (key == SDLK_UP || key == SDLK_W) {
         ui.settings_cursor = (ui.settings_cursor + kRows - 1) % kRows;
     } else if (key == SDLK_DOWN || key == SDLK_S) {
         ui.settings_cursor = (ui.settings_cursor + 1) % kRows;
+    } else if (ui.settings_cursor == kVolumeKinds + kOptions &&
+               (key == SDLK_LEFT || key == SDLK_A || key == SDLK_RIGHT || key == SDLK_D || key == SDLK_E ||
+                key == SDLK_RETURN || key == SDLK_SPACE)) {  // the quality of the graphics (spec 13, "Quality")
+        const int count = static_cast<int>(aether::kQualityLevels.size());
+        g_quality = (g_quality + ((key == SDLK_LEFT || key == SDLK_A) ? count - 1 : 1)) % count;
+        write_settings();
     } else if (ui.settings_cursor >= kVolumeKinds &&
                (key == SDLK_LEFT || key == SDLK_A || key == SDLK_RIGHT || key == SDLK_D || key == SDLK_E ||
                 key == SDLK_RETURN || key == SDLK_SPACE)) {  // an option of accessibility: on or off
@@ -3514,7 +3537,7 @@ void draw_settings(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, i
     constexpr float kScale = 1.5F;
     const float row = 8.0F * kScale + 22.0F;
     const float w = std::min(static_cast<float>(out_w) - 40.0F, 520.0F * density);
-    const float h = 60.0F + row * static_cast<float>(kVolumeKinds + kOptions) + 36.0F;
+    const float h = 60.0F + row * static_cast<float>(kVolumeKinds + kOptions + 1) + 36.0F;
     const float x = (static_cast<float>(out_w) - w) / 2.0F;
     const float y = (static_cast<float>(out_h) - h) / 2.0F;
     draw_panel(renderer, x, y, w, h, 255, 215, 120, 245);
@@ -3541,6 +3564,16 @@ void draw_settings(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, i
         debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, assets.pack.text(ui.lang, kOptionLabels[i]).c_str());
         const std::string state = assets.pack.text(ui.lang, g_option[i] ? "$i18n:ui.option_on" : "$i18n:ui.option_off");
         debug_text(renderer, (x + w - 70.0F) / kScale, ty / kScale, state.c_str());
+    }
+    {  // the quality of the graphics (spec 13, "Quality"), the last row
+        const int index = kVolumeKinds + kOptions;
+        const float ty = y + 48.0F + row * static_cast<float>(index);
+        SDL_SetRenderDrawColor(renderer, index == ui.settings_cursor ? 255 : 170,
+                               index == ui.settings_cursor ? 255 : 190, index == ui.settings_cursor ? 255 : 215, 255);
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale,
+                   assets.pack.text(ui.lang, "$i18n:ui.option_quality").c_str());
+        const std::string level_text = assets.pack.text(ui.lang, "$i18n:ui.quality_" + std::string(quality().id));
+        debug_text(renderer, (x + w - 110.0F) / kScale, ty / kScale, level_text.c_str());
     }
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
     for (int i = 0; i < kVolumeKinds; ++i) {
@@ -4227,7 +4260,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const SDL_FRect dst{sx0, sy0, sx1 - sx0, sy1 - sy0};
             const SDL_FRect src = tile_source(*sprite, tx, ty);
             SDL_RenderTexture(renderer, sprite->texture, &src, &dst);
-            if (def->second.surface == "water" && sprite->width > 48.0F) {
+            if (def->second.surface == "water" && sprite->width > 48.0F && quality().water) {
                 // Water moves (spec 13, "Water"): the same picture, shifted by whole tiles, fades in and out over it.
                 const float t = static_cast<float>(now_ms % 16336281ULL);
                 const float first = 0.26F + 0.22F * std::sin(t / 1300.0F);
@@ -4271,6 +4304,9 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             };
             constexpr int kCorners[4][2] = {{-1, -1}, {1, -1}, {-1, 1}, {1, 1}};
             for (const auto& corner : kCorners) {
+                if (!quality().corners) {  // not at the low quality (spec 13, "Quality")
+                    break;
+                }
                 const auto other = assets.tileset.tiles.find(sim.gid_at(tx + corner[0], ty + corner[1]));
                 if (other == assets.tileset.tiles.end() || other->second.blend <= def->second.blend ||
                     rank_at(tx + corner[0], ty) > def->second.blend ||
@@ -4312,7 +4348,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     std::stable_sort(items.begin(), items.end(),
                      [](const DrawItem& a, const DrawItem& b) { return a.feet_y < b.feet_y; });
     // The long shadows of dawn and dusk (spec 08, "The colour of the hour"): props and creatures, before any of them.
-    if (const auto shade_time = sim.time(); shade_time && g_grading.shadow_pm > 0) {
+    if (const auto shade_time = sim.time(); shade_time && g_grading.shadow_pm > 0 && quality().long_shadows) {
         const float low =
             std::clamp(1.0F - std::fabs(static_cast<float>(shade_time->light_pm) - 550.0F) / 350.0F, 0.0F, 1.0F);
         if (low > 0.02F) {
@@ -5805,6 +5841,7 @@ int run_game(int argc, char** argv) {
                     density = 1.0F;
                 }
                 const int tile_px = std::max(16, static_cast<int>(std::lround(kBaseTilePx * density)));
+                cache.set_bucket_cap(quality().bucket_cap);  // spec 13, "Quality"
                 cache.release_other_buckets(tile_px);
                 // The first frames bake all they show (the world appears whole); after them a frame bakes for a few
                 // milliseconds at most, so that walking into new things never stops the game (spec 13, "Scale
