@@ -439,7 +439,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Fondamenta B1** (dal 23 novembre): le copie congelate dei salvataggi di ogni versione (`tests/saves/`, suite `save_fixtures`, spec 12),
   che il riferimento e i due client devono caricare; la matrice di parità generata (`docs/design/parity.md`) e il controllo delle licenze
   (`tools/licenses.py`), tutti e due in `ci-data`; la spec 15 (il tema "Finestra di sistema" e dove sta ogni pannello) e l'ADR 0014 (le
-  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita), poi a 87 (i suoni, i consigli e la partita nuova di Android in funzioni più piccole), poi a 82 (l'interazione, i viaggi, la bacheca, la mappa e il negozio), poi a 77 (la lettura del tempo, del mondo, del profilo e dei pacchetti di salvataggi, e l'input di Android).
+  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita), poi a 87 (i suoni, i consigli e la partita nuova di Android in funzioni più piccole), poi a 82 (l'interazione, i viaggi, la bacheca, la mappa e il negozio), poi a 75 (la lettura del tempo, del mondo, delle mappe, dei messaggi, del profilo e dei pacchetti di salvataggi, e l'input di Android).
 - Catalogo dei contenuti e rapporto di bilanciamento generati dai dati; anteprime dell'arte in PNG senza avviare il gioco.
 - **Mod** (dal 24 novembre, E4.1): una guida passo per passo al primo mod (`docs/modding/README.md`), un mod di esempio
   (`examples/mod-example/`, una creatura e una missione) e il validatore che controlla un pacchetto qualsiasi sopra quelli da cui dipende;
@@ -467,8 +467,8 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 **A breve (le prossime PR)**
 
 1. **Ridurre la baseline di detekt** (B1.1, issue #224; ktlint e detekt in CI ci sono): le segnalazioni del codice vecchio restano in
-   `android/config/detekt-baseline.xml`, 77 (58 di complessità, 18 di annidamento, una di uscite dai cicli): 24 in `AethermoorGame.kt`,
-   16 in `World.kt`, le altre in 18 file. Si spezzano a poco a poco le funzioni più complesse, qualche voce in ogni batch.
+   `android/config/detekt-baseline.xml`, 75 (56 di complessità, 18 di annidamento, una di uscite dai cicli): 24 in `AethermoorGame.kt`,
+   16 in `World.kt`, le altre in 16 file. Si spezzano a poco a poco le funzioni più complesse, qualche voce in ogni batch.
 2. **Lo streaming su un thread** (C4.1, #239): i chunk davanti al giocatore generati su un thread di lavoro, consegnati in un punto
    fisso del tick, senza rompere il determinismo; con il job notturno di ThreadSanitizer.
 3. **I numeri del telefono** (C4.2, #240): il proprietario misura i fotogrammi al secondo su un telefono con la lista di rilascio e li

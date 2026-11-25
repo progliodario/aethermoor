@@ -11,7 +11,7 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 
 | Voce | Che cosa | Stato | PR | Issue |
 |---|---|---|---|---|
-| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 77 | #258, #265, #268, batch 13 | #224 aperta |
+| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 75 | #258, #265, #268, batch 13 | #224 aperta |
 | B1.2 | Spec 15 e ADR 0014 | fatta | #258 | #225 |
 | B1.3 | Licenze in CI | fatta | #258 | #226 |
 | B1.4 | Matrice di parità | fatta | #258 | #227 |

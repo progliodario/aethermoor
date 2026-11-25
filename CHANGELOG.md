@@ -29,8 +29,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
-- detekt: the baseline of the old findings goes from 82 to 77 (the reading of the time, of the world, of the profile and of a bundle of
-  saves, and the input of Android, in smaller functions).
+- detekt: the baseline of the old findings goes from 82 to 75 (the reading of the time, of the world, of the maps, of the messages, of
+  the profile and of a bundle of saves, and the input of Android, in smaller functions).
 
 ### Documentation
 

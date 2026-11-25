@@ -8,7 +8,8 @@ second on a phone": only the owner's phone says that.
 ## The budgets
 
 The tests fail when a change makes the game many times slower. The budgets are wide on purpose: the machines of the CI are shared and
-their speed changes from run to run, so a budget is about five times the time measured. A frame at 60 Hz is 16.7 ms.
+their speed changes from run to run, so a budget is tens of times the time measured (the numbers below), and still within a frame at
+60 Hz (16.7 ms) for a chunk.
 
 | What | How it is measured | Budget |
 |---|---|---|
@@ -28,9 +29,14 @@ and the CI prints it in the step "The numbers of the performance test" of `ci-de
 
 | Run | Client | A chunk | A tick |
 |---|---|---|---|
-| first measure (pull request of C4.2) | desktop, Windows MSVC | to be filled from the run | |
-| | desktop, Linux GCC | | |
-| | Android core on the JVM (Linux) | | |
+| 25 November 2026, pull request of C4.2 | desktop, Windows MSVC (`windows-2022`) | 0.675 ms | 0.024 ms |
+| | desktop, Linux GCC (`ubuntu-24.04`) | 0.409 ms | 0.013 ms |
+| | Android core on the JVM (`ubuntu-24.04`, JDK 17) | 0.703 ms | 0.126 ms |
+
+A chunk is generated in under a millisecond and a tick takes a hundredth of a millisecond on the desktop and a tenth on the JVM: the
+simulation is far from the frame budget. What a phone spends goes to drawing, which only the phone can say.
+
+The test on the emulator of that pull request passed on API 30 and API 34 (one test, none failed).
 
 The textures of all the art of the base pack at the largest bucket of each level: about 12 MiB at 64 (low), 49 MiB at 128 (normal) and
 196 MiB at 256 (high), counted by the same tests (Android keeps a copy of every picture on the CPU, so up to twice that).
