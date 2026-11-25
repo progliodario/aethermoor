@@ -22,7 +22,6 @@
     <ID>CyclomaticComplexMethod:CombatLoader.kt$fun loadCombatSetup( pack: Pack, map: TileMap, protagonistId: String, seed: ULong, /** The enemies of the fauna of a streamed world, if the map is one. */ streamEnemyIds: Collection&lt;String&gt; = emptyList(), /** The difficulty of the world (spec 04): health and attack of the streamed creatures, in percent. */ enemyHpPct: Int = 100, enemyAtkPct: Int = 100, ): Result&lt;CombatSetup&gt;</ID>
     <ID>CyclomaticComplexMethod:ConformanceAudioDirectorTest.kt$ConformanceAudioDirectorTest$@Test fun profileSuite()</ID>
     <ID>CyclomaticComplexMethod:Director.kt$SoundDirector$fun update(s: SoundSnapshot): List&lt;SoundEvent&gt;</ID>
-    <ID>CyclomaticComplexMethod:MessageFormat.kt$private fun parseBranches(spec: String): Map&lt;String, String&gt;?</ID>
     <ID>CyclomaticComplexMethod:Movement.kt$CollisionWorld$fun resolve(start: Vec2, radius: Float = PLAYER_RADIUS): Vec2</ID>
     <ID>CyclomaticComplexMethod:Music.kt$MusicDirector$fun update(ctx: MusicContext): MusicChoice</ID>
     <ID>CyclomaticComplexMethod:Music.kt$private fun voice(patch: MusicPatch, freq: Double, length: Int, total: Int, stateSeed: Int): DoubleArray</ID>
@@ -41,7 +40,6 @@
     <ID>CyclomaticComplexMethod:Story.kt$Story$fun holds(c: Condition): Boolean</ID>
     <ID>CyclomaticComplexMethod:Story.kt$private fun parseCondition(element: JsonElement): Condition</ID>
     <ID>CyclomaticComplexMethod:Synth.kt$fun synthesize(recipe: SfxRecipe): ShortArray</ID>
-    <ID>CyclomaticComplexMethod:TileMap.kt$fun parseTileMap(tmjText: String): Result&lt;TileMap&gt;</ID>
     <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun craft(recipeId: String): Boolean</ID>
     <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun restore(saved: SaveState): Result&lt;Unit&gt;</ID>
     <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun tame(): Boolean</ID>

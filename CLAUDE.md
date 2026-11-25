@@ -73,6 +73,8 @@ Full plan: `docs/plan/README.md` (Italian). Decisions: `docs/adr/`. Index of all
 - An edit script must be idempotent: replace an exact block that occurs once, and do nothing when the new text is already there. A script
   that ran twice once inserted a C++ struct twice (`redefinition of struct`); one whose new text was a prefix of the old silently skipped
   an edit.
+- A key of the Gradle catalog (`android/gradle/libs.versions.toml`) must not start with another key and a dash: `gdx-controllers` in
+  `[versions]` made `libs.versions.gdx` a group, and `libs.versions.gdx.get()` stopped compiling. Name it `gdxControllers`.
 - A workflow that another calls (`workflow_call`: `ci-desktop` and `ci-android`, called by `release`) names its concurrency group
   (`ci-desktop-${{ github.ref }}`): with `${{ github.workflow }}` the two called builds would share the name of the caller and cancel
   each other.
