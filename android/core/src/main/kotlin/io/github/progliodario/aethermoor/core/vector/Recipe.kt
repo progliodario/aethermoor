@@ -158,31 +158,33 @@ private fun parseShape(shape: JsonObject): Shape {
     return Shape.Path(shape.str("path"))
 }
 
+/** A layer of a recipe (spec 13, "Recipes"). */
+private fun parseLayer(l: JsonObject): Layer = Layer(
+    shape = parseShape(l.getValue("shape").jsonObject),
+    fill = l["fill"]?.let { parsePaint(it.jsonObject) } ?: Paint.None,
+    stroke = l["stroke"]?.jsonObject?.let { StrokeStyle(it.str("color"), it.getValue("width").f()) },
+    alpha = l["alpha"]?.f() ?: 1f,
+    only = variantList(l["only"]),
+    except = variantList(l["except"]),
+    blur = l["blur"]?.f() ?: 0f,
+    clip = l["clip"]?.asBoolean() ?: false,
+    blend = when ((l["blend"] as? JsonPrimitive)?.contentOrNull) {
+        "multiply" -> Blend.MULTIPLY
+        "add" -> Blend.ADD
+        else -> Blend.NORMAL
+    },
+)
+
+/** The variants a layer is drawn for (`only`) or not drawn for (`except`): none when the list is not there. */
+private fun variantList(element: JsonElement?): List<String> = element?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList()
+
 /** Parses a recipe from JSON text; the failure carries the reason. */
 fun parseRecipe(jsonText: String): Result<Recipe> =
     runCatching {
         val j = Json.parseToJsonElement(jsonText).jsonObject
         val canvas = j.getValue("canvas").jsonObject
         val origin = canvas.getValue("origin").jsonArray
-        val layers = j.getValue("layers").jsonArray.map { element ->
-            val l = element.jsonObject
-            val stroke = l["stroke"]?.jsonObject?.let { StrokeStyle(it.str("color"), it.getValue("width").f()) }
-            Layer(
-                shape = parseShape(l.getValue("shape").jsonObject),
-                fill = l["fill"]?.let { parsePaint(it.jsonObject) } ?: Paint.None,
-                stroke = stroke,
-                alpha = l["alpha"]?.f() ?: 1f,
-                only = l["only"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                except = l["except"]?.jsonArray?.map { it.jsonPrimitive.content } ?: emptyList(),
-                blur = l["blur"]?.f() ?: 0f,
-                clip = l["clip"]?.asBoolean() ?: false,
-                blend = when ((l["blend"] as? JsonPrimitive)?.contentOrNull) {
-                    "multiply" -> Blend.MULTIPLY
-                    "add" -> Blend.ADD
-                    else -> Blend.NORMAL
-                },
-            )
-        }
+        val layers = j.getValue("layers").jsonArray.map { parseLayer(it.jsonObject) }
         Recipe(
             id = (j["id"] as? JsonPrimitive)?.contentOrNull ?: "",
             width = canvas.getValue("w").f(),

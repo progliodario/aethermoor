@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.controllers.Controller
 import com.badlogic.gdx.controllers.ControllerMapping
 import com.badlogic.gdx.controllers.Controllers
+import kotlin.math.abs
 
 /** Where the player is, for the buttons of a controller (spec 16, "Android", the row Controller). */
 enum class PadContext {
@@ -20,10 +21,14 @@ enum class PadContext {
     MENU,
 }
 
+/** The device the player used last (spec 16, "The last device"): it decides the texts of the hints. */
+enum class Device { TOUCH, KEYS, PAD }
+
 /**
  * A game controller on Android (spec 16, "Android", the row Controller), with the buttons of the gamepad of the desktop: the left stick
  * moves; `A` (south) attacks and confirms; `X` (west) talks and confirms; `RB` is the power strike; `LB` the parry; `B` (east) rolls in
- * the game and closes a panel; `Y` (north) switches buy and sell in a shop; the D-pad moves in lists and choices. The buttons of the
+ * the game and closes a panel; `Y` (north) switches buy and sell in a shop; the D-pad moves in lists and choices; `Start` opens the bag
+ * and `Back` the journal. The buttons of the
  * panels reach the game as the keys it already reads for a physical keyboard ([keys]), so every panel works with a controller as it
  * works with a keyboard; the buttons of the fight are read by [InputController.read].
  */
@@ -48,6 +53,10 @@ class GamePad {
     var parry = false
         private set
 
+    /** The controller was used in this frame: a button is held or the stick is pushed past the middle. */
+    var used = false
+        private set
+
     /** Reads the first connected controller, once a frame, before the input of the frame is handled. */
     fun update(context: PadContext) {
         before = held
@@ -60,6 +69,7 @@ class GamePad {
             dodge = false
             strike = false
             parry = false
+            used = false
             return
         }
         val m = pad.mapping
@@ -71,7 +81,10 @@ class GamePad {
         dodge = fighting && down(pad, m.buttonB)
         strike = fighting && down(pad, m.buttonR1)
         parry = fighting && down(pad, m.buttonL1)
+        used = wasUsed()
     }
+
+    private fun wasUsed(): Boolean = held.isNotEmpty() || attack || dodge || strike || parry || abs(stickX) > HALF || abs(stickY) > HALF
 
     /** The input of the frame as the game reads it: the keyboard and the touches of [base], and the buttons of the controller as keys. */
     fun keys(base: Input): Input {
@@ -91,6 +104,10 @@ class GamePad {
             if (down(pad, button)) keys += key
         }
         press(m.buttonX, Input.Keys.E) // talks next to a person, confirms everywhere
+        if (context == PadContext.PLAY || context == PadContext.PANEL) {
+            press(m.buttonStart, Input.Keys.I) // the bag
+            press(m.buttonBack, Input.Keys.Q) // the journal
+        }
         if (context == PadContext.PLAY) return keys
         press(m.buttonA, Input.Keys.ENTER)
         press(m.buttonDpadUp, Input.Keys.UP)
@@ -110,6 +127,11 @@ class GamePad {
     private fun down(pad: Controller, button: Int): Boolean = button != ControllerMapping.UNDEFINED && pad.getButton(button)
 
     private fun axis(pad: Controller, code: Int): Float = if (code == ControllerMapping.UNDEFINED) 0f else pad.getAxis(code).coerceIn(-1f, 1f)
+
+    private companion object {
+        /** How far the stick must be pushed to count as using the controller. */
+        const val HALF = 0.5f
+    }
 }
 
 /** [base] (the keyboard and the touches) with the buttons of [pad] pressed as keys. */

@@ -44,7 +44,7 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 | Debug | `F3` toggles the debug overlay |
 | `Esc` | closes the open panel (map, bag, journal, shop, board, stones); with none open it saves the game and returns to the list of games; on the list it quits |
 | Title screen | `W`/`S` or the arrows move, `E`/`Enter`/`Space`, the number keys `1` to `3` or a mouse click choose a game, `D` or `Delete` twice deletes the selected one |
-| Gamepad | left stick moves; `A` (south) attacks and confirms; `X` (west) talks and confirms; `RB` (right shoulder) is the power strike; `LB` (left shoulder) is the parry; `B` (east) rolls out of the way in the game (and closes a panel); `Y` (north) switches buy/sell in a shop; `B` (east) closes a panel; the D-pad moves in lists and choices |
+| Gamepad | left stick moves; `A` (south) attacks and confirms; `X` (west) talks and confirms; `RB` (right shoulder) is the power strike; `LB` (left shoulder) is the parry; `B` (east) rolls out of the way in the game (and closes a panel); `Y` (north) switches buy/sell in a shop; `B` (east) closes a panel; the D-pad moves in lists and choices (and scrolls the journal); `Start` opens the bag (again: closes it), `Back` the journal (again, or `B`: closes it) |
 
 Several things share a key because they never happen together: `E` talks next to a person, wakes a stone next to a stone and uses the item in the bag.
 
@@ -63,10 +63,16 @@ Several things share a key because they never happen together: `E` talks next to
 | Lists | a tap on a row chooses it, a second tap on the chosen row confirms (use an item, buy, accept, travel); the journal scrolls with a tap above or below its middle; a tap outside a panel closes it |
 | Title screen | a tap chooses a game, the cross twice deletes it |
 | Back key | closes the open panel; with none open it saves the game and returns to the list of games; on the list it leaves the app |
+| Layout of the buttons | the `Button layout` button at the top right of the open journal opens the editor (section "The layout of the buttons") |
 | Keyboard | as on desktop (`WASD`, `J`, `Space`, `E`, `I`, `Q`, `M`, `F2`) for a physical keyboard |
-| Controller | the gamepad of the desktop (the row Gamepad above), the first connected controller (gdx-controllers): left stick moves; `A` (south) attacks, and confirms in a dialogue, a list or a panel; `X` (west) talks and confirms; `RB` is the power strike; `LB` the parry; `B` (east) rolls in the game and closes a panel; `Y` (north) switches buy and sell in a shop; the D-pad moves in lists and choices (and the view of the world map). On the title screen `A` and `X` choose a game and the D-pad moves; `B` does nothing there (Back would leave the app). The buttons of the panels reach the game as the keys of a physical keyboard for the same action, so every panel works with a controller as with a keyboard |
+| Controller | the gamepad of the desktop (the row Gamepad above), the first connected controller (gdx-controllers): left stick moves; `A` (south) attacks, and confirms in a dialogue, a list or a panel; `X` (west) talks and confirms; `RB` is the power strike; `LB` the parry; `B` (east) rolls in the game and closes a panel; `Y` (north) switches buy and sell in a shop; the D-pad moves in lists and choices (and the view of the world map); `Start` opens the bag, `Back` the journal. On the title screen `A` and `X` choose a game and the D-pad moves; `B` does nothing there (Back would leave the app). The buttons of the panels reach the game as the keys of a physical keyboard for the same action, so every panel works with a controller as with a keyboard |
 
-The last used device decides which hints are shown: not implemented yet; the HUD shows the keys of the desktop and the buttons of Android.
+### The last device
+
+The device the player used last decides the text of a hint (section "Hints"): a key or a mouse button on desktop, a touch on Android, a
+key of a physical keyboard on Android (but Back, a key of every phone) or a button or the stick of a controller (pushed past the middle) on
+both. A keyboard shows `text`, a touch screen `text_touch`, a controller `text_pad` (`text` when the hint has none). The hint keeps the
+text it was shown with. The rest of the HUD does not change.
 
 ## Lists that do not fit
 
@@ -93,11 +99,22 @@ folder). Without it the language of the system is used (`it` if it is Italian, e
 
 ## Hints
 
-The first minutes are explained by **hints** (`data/base/hints.json`, ID `base:hints/all`, schema `hints`): a list of `{id, when, text, text_touch}`, in order. Presentation only, not in the contract. Once a second, when no panel and no dialogue is open and no hint is shown, a client takes the first hint whose story flag `hint_<id>` is not set and whose `when` holds now, sets the flag (so it is saved and never shown again in that game) and shows its text for eight seconds in a panel (`text` on a keyboard, `text_touch` on a touch screen). `when` is one of: `start` (always), `quest` (a quest is active), `enemy_near` (a creature chases or attacks), `gather` (something to gather is in reach), `hurt` (less than half of the health), `stone` (a Threshold Stone is in reach), `talent_points` (points to spend), `night` (the light is below 400 permille), `companion` (the protagonist has one), `renown` (some renown in the region), `plot` (a garden plot is in reach, spec 06), `chest` (a chest is in reach, spec 06), `home` (an empty place of the home is in reach, spec 06, "Furniture"), `wind` (the wind of the weather is 600 permille or more, spec 08, "Wind"), `fog` (the fog is 600 permille or more, spec 08, "Fog"), `storm` (rain and wind are both 900 permille or more, spec 08, "Lightning"), `season` (the season of the day slows the creatures or hides the player, spec 08, "Seasons and the creatures"), `tag` (a tag is earned and none is worn, spec 11, "Tags"), `rain` (the rain is 600 permille or more in a world whose rain raises the prices, spec 06, "Weather and prices"). The base pack has nineteen.
+The first minutes are explained by **hints** (`data/base/hints.json`, ID `base:hints/all`, schema `hints`): a list of `{id, when, text, text_touch}`, in order. Presentation only, not in the contract. Once a second, when no panel and no dialogue is open and no hint is shown, a client takes the first hint whose story flag `hint_<id>` is not set and whose `when` holds now, sets the flag (so it is saved and never shown again in that game) and shows its text for eight seconds in a panel (`text` on a keyboard, `text_touch` on a touch screen, `text_pad` on a controller: section "The last device"). `when` is one of: `start` (always), `quest` (a quest is active), `enemy_near` (a creature chases or attacks), `gather` (something to gather is in reach), `hurt` (less than half of the health), `stone` (a Threshold Stone is in reach), `talent_points` (points to spend), `night` (the light is below 400 permille), `companion` (the protagonist has one), `renown` (some renown in the region), `plot` (a garden plot is in reach, spec 06), `chest` (a chest is in reach, spec 06), `home` (an empty place of the home is in reach, spec 06, "Furniture"), `wind` (the wind of the weather is 600 permille or more, spec 08, "Wind"), `fog` (the fog is 600 permille or more, spec 08, "Fog"), `storm` (rain and wind are both 900 permille or more, spec 08, "Lightning"), `season` (the season of the day slows the creatures or hides the player, spec 08, "Seasons and the creatures"), `tag` (a tag is earned and none is worn, spec 11, "Tags"), `rain` (the rain is 600 permille or more in a world whose rain raises the prices, spec 06, "Weather and prices"). The base pack has nineteen.
 
 ### Accessibility
 
 Four options are kept in the settings file as booleans: `hints` (the hints of the first minutes), `damage_numbers` (the numbers that rise from a hit) and `flashes` (the red flash of a creature that is hit), on by default, and `large_text`, off by default: the text of the interface is larger (a quarter larger on desktop, where the glyphs grow around the middle of their line and the widths of the texts grow with them; on Android the font of the pack is baked again, three tenths larger). Desktop: four more rows in the settings panel, `A`/`D` or `E` switch them. Android: four buttons at the bottom of the open journal. They change nothing of the game.
+
+### The layout of the buttons
+
+Android only. The Dodge, Strike, Parry and Analyze buttons can be moved and resized. `"touch_layout"` in the settings file is
+`{"dodge": [dx_pm, dy_pm, size_pct], ...}`: how far each button is moved from where it is by default, in permille of the width and of
+the height of the screen (so that a button keeps its place when the phone turns), and its size in percent of the size by default (60 to
+160); a button that is not there is where it is by default. A button is always kept inside the screen. The editor opens from the
+`Button layout` button of the open journal (`ui.option_layout`): the game pauses; every button is shown with a frame (gold: the chosen
+one); dragging a button moves it and chooses it; a band along the top has `-` and `+` (the chosen button smaller or larger by a tenth),
+`Reset` (every button where it is by default) and `Done` (`ui.layout_done`; Back or `B` too), which keeps the layout in the settings.
+Presentation only. The code is `core/TouchLayout.kt` (tested: the settings file, a turn of the phone, the edges of the screen).
 
 ### Quality of the graphics
 

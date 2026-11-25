@@ -1644,5 +1644,18 @@
   "ui.option_quality": "Qualità",
   "ui.quality_low": "Bassa",
   "ui.quality_normal": "Media",
-  "ui.quality_high": "Alta"
+  "ui.quality_high": "Alta",
+  "ui.option_layout": "Disposizione",
+  "ui.layout_hint": "Trascina un pulsante per spostarlo; - e + cambiano la grandezza di quello dorato. Fatto (o Indietro) tiene la disposizione.",
+  "ui.layout_reset": "Ripristina",
+  "ui.layout_done": "Fatto",
+  "hint.move.pad": "Cammina con la levetta sinistra, attacca con A. Premi X vicino a qualcuno per parlare, vicino a una pianta o a una roccia per raccogliere.",
+  "hint.quest.pad": "Hai una missione. Back apre il diario, dove è scritta.",
+  "hint.fight.pad": "Una creatura ti ha visto. RB è un colpo potente, B una capriola, LB una parata. Niente paura: sei molto più forte di questo mondo.",
+  "hint.gather.pad": "C'è qualcosa da raccogliere qui vicino: premi X accanto.",
+  "hint.hurt.pad": "Ferito? Start apre lo zaino: cibo e pozioni curano (A ne usa uno). Una Pietra della Soglia ti cura del tutto.",
+  "hint.stone.pad": "Una Pietra della Soglia: toccala (X) per svegliarla. Ti cura, e ti fa viaggiare fino a ogni pietra che hai svegliato.",
+  "hint.farm.pad": "Un orto: con dei semi nello zaino (li vende ogni negozio), premi X per seminare; torna quando fiorisce e premi di nuovo X per raccogliere.",
+  "hint.chest.pad": "Un baule: premi X per aprirlo. Tutti i bauli dei villaggi e delle città contengono le stesse cose, quindi ciò che riponi qui ti aspetta ovunque.",
+  "hint.home.pad": "Un posto per un mobile. Costruisci i mobili a un'incudine, poi vieni qui, apri lo zaino (Start) e usalo (A): ogni tipo di mobile ti aiuta ovunque, come un titolo."
 }

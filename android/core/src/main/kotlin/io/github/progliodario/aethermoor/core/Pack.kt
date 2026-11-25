@@ -146,6 +146,11 @@ fun loadPack(source: PackSource, errors: MutableList<String>): Pack? {
         return null
     }
 
+    return Pack(manifest, loadTexts(manifest, source, errors), loadIntTables(source, errors), loadDocuments(source, errors), source)
+}
+
+/** The texts of every language of the pack (spec 17), from `i18n/<language>/`. */
+private fun loadTexts(manifest: PackManifest, source: PackSource, errors: MutableList<String>): Map<String, Map<String, String>> {
     val strings = HashMap<String, MutableMap<String, String>>()
     for (lang in manifest.languages) {
         val table = strings.getOrPut(lang) { HashMap() }
@@ -154,7 +159,11 @@ fun loadPack(source: PackSource, errors: MutableList<String>): Pack? {
             addTexts(table, json, file, errors)
         }
     }
+    return strings
+}
 
+/** The integer tables of the pack (`tables/`, kind `int_list`), by id. */
+private fun loadIntTables(source: PackSource, errors: MutableList<String>): Map<String, IntTable> {
     val intTables = HashMap<String, IntTable>()
     for (file in source.listJson("tables")) {
         val json = parseJson(file, source, errors) as? JsonObject
@@ -163,14 +172,16 @@ fun loadPack(source: PackSource, errors: MutableList<String>): Pack? {
         val start = (json["start_level"] as? JsonPrimitive)?.longOrNull ?: 0L
         intTables[json.string("id")] = IntTable(start, values)
     }
+    return intTables
+}
 
+/** Every document of the pack by its id, but the manifest and the texts; a second document with the same id is an error. */
+private fun loadDocuments(source: PackSource, errors: MutableList<String>): Map<String, String> {
     val documents = HashMap<String, String>()
     for (file in source.listJson("")) {
-        // the manifest and the texts are no documents; the others are, by their id
         val json = if (file == "pack.json" || file.startsWith("i18n/")) null else parseJson(file, source, errors) as? JsonObject
         val id = (json?.get("id") as? JsonPrimitive)?.takeIf { it.isString }?.content ?: continue
         if (documents.putIfAbsent(id, file) != null) errors.add("$file: duplicate id '$id'")
     }
-
-    return Pack(manifest, strings, intTables, documents, source)
+    return documents
 }

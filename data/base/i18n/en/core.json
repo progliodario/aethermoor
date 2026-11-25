@@ -1644,5 +1644,18 @@
   "ui.option_quality": "Quality",
   "ui.quality_low": "Low",
   "ui.quality_normal": "Normal",
-  "ui.quality_high": "High"
+  "ui.quality_high": "High",
+  "ui.option_layout": "Button layout",
+  "ui.layout_hint": "Drag a button to move it; - and + change the size of the one in gold. Done (or Back) keeps the layout.",
+  "ui.layout_reset": "Reset",
+  "ui.layout_done": "Done",
+  "hint.move.pad": "Walk with the left stick, attack with A. Press X next to somebody to talk, next to a plant or a rock to gather.",
+  "hint.quest.pad": "You have a quest. Back opens the journal, where it is written.",
+  "hint.fight.pad": "A creature has seen you. RB is a power strike, B a roll, LB a parry. Don't worry: you are far stronger than this world.",
+  "hint.gather.pad": "Something to gather is near: press X next to it.",
+  "hint.hurt.pad": "Hurt? Start opens the bag: food and potions heal (A uses one). A Threshold Stone heals you completely.",
+  "hint.stone.pad": "A Threshold Stone: touch it (X) to wake it. It heals you, and lets you travel to every stone you have woken.",
+  "hint.farm.pad": "A garden plot: with seeds in the bag (every shop sells them), press X to sow; come back when it flowers and press X again to harvest.",
+  "hint.chest.pad": "A chest: press X to open it. Every chest in the villages and towns holds the same things, so what you store here waits for you everywhere.",
+  "hint.home.pad": "A place for furniture. Make furniture at an anvil, then stand here, open the bag (Start) and use it (A): each kind of piece helps you everywhere, like a title."
 }

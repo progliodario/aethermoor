@@ -59,6 +59,10 @@
           },
           "text_touch": {
             "type": "string"
+          },
+          "text_pad": {
+            "type": "string",
+            "description": "The text for a game controller (spec 16, \"The last device\"); without it the controller shows `text`."
           }
         }
       }

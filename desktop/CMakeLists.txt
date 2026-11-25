@@ -15,15 +15,29 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 get_filename_component(AETHER_REPO_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/.." ABSOLUTE)
 
-find_package(SDL3 CONFIG REQUIRED)
+# The nightly workflow builds only the headless libraries and their tests, with ThreadSanitizer (item C4.1): no SDL, no
+# game, no smoke tests; and the warnings of another compiler do not stop it.
+option(AETHER_HEADLESS_ONLY "Build only the headless libraries and their unit tests" OFF)
+option(AETHER_WERROR "Treat warnings as errors" ON)
+
+if(NOT AETHER_HEADLESS_ONLY)
+  find_package(SDL3 CONFIG REQUIRED)
+endif()
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(Threads REQUIRED)
 
 # Strict warnings and deterministic floating point (see ADR 0005): no fast-math, no FMA contraction.
 function(aether_target_options target)
   if(MSVC)
-    target_compile_options(${target} PRIVATE /W4 /WX /permissive- /fp:strict)
+    target_compile_options(${target} PRIVATE /W4 /permissive- /fp:strict)
+    if(AETHER_WERROR)
+      target_compile_options(${target} PRIVATE /WX)
+    endif()
   else()
-    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror -ffp-contract=off)
+    target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -ffp-contract=off)
+    if(AETHER_WERROR)
+      target_compile_options(${target} PRIVATE -Werror)
+    endif()
   endif()
 endfunction()
 
@@ -61,18 +75,20 @@ aether_target_options(aether_audio)
 # Simulation: tile maps, movement, collisions, the M2 world. Headless.
 add_library(aether_sim STATIC
   src/sim/tilemap.cpp src/sim/movement.cpp src/sim/combat.cpp src/sim/story.cpp src/sim/save.cpp src/sim/save_bundle.cpp src/sim/profile.cpp src/sim/combat_loader.cpp src/sim/world.cpp src/sim/world_map.cpp src/sim/chunk_store.cpp)
-target_link_libraries(aether_sim PUBLIC aether_core aether_data PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(aether_sim PUBLIC aether_core aether_data Threads::Threads PRIVATE nlohmann_json::nlohmann_json)
 aether_target_options(aether_sim)
 
-add_executable(aethermoor src/app/main.cpp src/app/texture_cache.cpp src/app/sound_board.cpp)
-target_link_libraries(aethermoor PRIVATE aether_core aether_data aether_vector aether_audio aether_sim SDL3::SDL3)
-target_compile_definitions(aethermoor PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")
-aether_target_options(aethermoor)
+if(NOT AETHER_HEADLESS_ONLY)
+  add_executable(aethermoor src/app/main.cpp src/app/texture_cache.cpp src/app/sound_board.cpp)
+  target_link_libraries(aethermoor PRIVATE aether_core aether_data aether_vector aether_audio aether_sim SDL3::SDL3)
+  target_compile_definitions(aethermoor PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")
+  aether_target_options(aethermoor)
 
-# Ship the shared data next to the executable.
-add_custom_command(TARGET aethermoor POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy_directory
-          "${CMAKE_CURRENT_SOURCE_DIR}/../data" "$<TARGET_FILE_DIR:aethermoor>/data")
+  # Ship the shared data next to the executable.
+  add_custom_command(TARGET aethermoor POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/../data" "$<TARGET_FILE_DIR:aethermoor>/data")
+endif()
 
 enable_testing()
 
@@ -90,6 +106,10 @@ target_link_libraries(aether_tests PRIVATE aether_core aether_data aether_vector
                                            nlohmann_json::nlohmann_json Catch2::Catch2WithMain)
 target_compile_definitions(aether_tests PRIVATE AETHER_REPO_ROOT="${AETHER_REPO_ROOT}")
 add_test(NAME unit COMMAND aether_tests)
+
+if(AETHER_HEADLESS_ONLY)
+  return()
+endif()
 
 # Smoke test: opens a window with the dummy video driver, bakes the art and walks the player.
 add_test(NAME smoke COMMAND aethermoor --smoke-test --map=demo --screenshot-dir=${CMAKE_BINARY_DIR}/screenshots)

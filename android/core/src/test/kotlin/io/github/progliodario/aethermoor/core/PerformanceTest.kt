@@ -1,6 +1,7 @@
 package io.github.progliodario.aethermoor.core
 
 import io.github.progliodario.aethermoor.core.sim.ChunkStore
+import io.github.progliodario.aethermoor.core.sim.KEEP_RADIUS
 import io.github.progliodario.aethermoor.core.sim.StreamConfig
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
@@ -8,6 +9,8 @@ import io.github.progliodario.aethermoor.core.sim.makeStreamMap
 import io.github.progliodario.aethermoor.core.sim.parseTileset
 import io.github.progliodario.aethermoor.core.vector.QUALITY_LEVELS
 import io.github.progliodario.aethermoor.core.vector.parseRecipe
+import org.junit.jupiter.api.Assertions.assertArrayEquals
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -70,6 +73,46 @@ class PerformanceTest {
             val mib = bytes / (1024 * 1024)
             println("quality ${level.id}: $mib MiB of ${recipes.size} recipes")
             assertTrue(bytes <= level.textureBudgetMib * 1024L * 1024L, "quality ${level.id}: $mib MiB, the budget is ${level.textureBudgetMib}")
+        }
+    }
+
+    /**
+     * The chunks made ahead on the thread of the chunk store (spec 09, "Streaming"; item C4.1) are exactly the chunks made at once: a store
+     * with the thread and one without walk the same way, and every chunk of every window is the same.
+     */
+    @Test
+    fun theChunksMadeAheadOnAThreadAreTheChunksMadeAtOnce() {
+        val pack = loadBasePack(repoRoot)
+        val params = loadWorldParams(pack, "base:world/overworld").getOrThrow()
+        val tileset = parseTileset(requireNotNull(pack.readDocument("base:tileset/overworld"))).getOrThrow()
+        val plain = ChunkStore(params, 42uL, tileset)
+        val threaded = ChunkStore(params, 42uL, tileset)
+        threaded.startPrefetch()
+        repeat(16) { step ->
+            val cx = 250 + step
+            val cy = 250 + step / 3
+            plain.keepAround(cx, cy)
+            threaded.keepAround(cx, cy)
+            assertEquals(plain.loaded, threaded.loaded)
+            assertSameChunks(plain, threaded, cx, cy)
+            threaded.awaitPrefetched() // the next step finds its new column ready
+        }
+        assertTrue(threaded.prefetchedTaken > 0, "no chunk was taken from the thread")
+    }
+
+    private fun assertSameChunks(plain: ChunkStore, threaded: ChunkStore, cx: Int, cy: Int) {
+        for (j in cy - KEEP_RADIUS..cy + KEEP_RADIUS) {
+            for (i in cx - KEEP_RADIUS..cx + KEEP_RADIUS) {
+                val a = plain.find(i, j)
+                val b = threaded.find(i, j)
+                assertEquals(a == null, b == null, "chunk $i, $j")
+                if (a == null || b == null) continue
+                assertArrayEquals(a.tiles, b.tiles)
+                assertArrayEquals(a.solid, b.solid)
+                assertEquals(a.props, b.props)
+                assertEquals(a.spawners, b.spawners)
+                assertEquals(a.people.size, b.people.size)
+            }
         }
     }
 

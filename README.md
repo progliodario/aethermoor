@@ -40,7 +40,7 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Progressione | 50 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 58 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4287 chiavi, in italiano e inglese |
+| Testi | 4300 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 31 file di vettori di conformità, 634 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
@@ -52,12 +52,12 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Fondamenta, regole, CI | tutto, anche i fotogrammi del test di fumo controllati in CI | ktlint e detekt in CI |
 | Grafica | arte da anime per tutto, persone viste di fronte, di lato e di spalle, luce dell'ora, vento, acqua, ombre, font del pack, qualità bassa, normale o alta | — |
 | Combattimento | completo: elementi, stati, parata, stagger, guardiani, abilità a comando | ritocchi, sempre verso scontri facili |
-| Mondo | enorme, otto regioni, città, sotterranei, meteo che nasconde e rallenta, vento che spinge, nebbia e temporali; prestazioni misurate in CI | i numeri di un telefono |
+| Mondo | enorme, otto regioni, città, sotterranei, meteo che nasconde e rallenta, vento che spinge, nebbia e temporali; il mondo davanti generato su un thread; prestazioni misurate in CI | i numeri di un telefono |
 | Missioni e storie | storie in sei atti per ogni protagonista, storie dei paesani, gilda, leggende, taglie, il Dungeon di Gideon | nulla |
 | Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite con i suoi mobili, venditori ambulanti, ricette segrete, cibi con effetti | carri che si vedono viaggiare, una casa più grande |
 | Compagni | uno per protagonista con comandi, legame e cura; Haruka doma un secondo compagno; un gruppo con i quattro randagi del cottage, uno alla volta | le abilità di coppia |
 | Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi, tag da indossare, armi e armature con affissi tirati a sorte (anche su ventiquattro pezzi comuni) e ritemprati all'incudine o dai fabbri, pezzi con due affissi, affissi scelti al prisma, doni delle imprese | — |
-| Accessibilità | consigli, numeri dei danni e lampi disattivabili, testo grande, tasti configurabili, controller anche su Android | l'editor del layout touch |
+| Accessibilità | consigli (secondo l'ultimo dispositivo), numeri dei danni e lampi disattivabili, testo grande, tasti configurabili, controller anche su Android, pulsanti touch spostabili | — |
 | Uscita | versioni di prova dalla CI; la pipeline di rilascio (pacchetti, SHA256SUMS, SBOM, bozza) | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
 
 ## Che cosa c'è nel gioco
@@ -242,8 +242,8 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine. Il programma completo, con i batch, i file e i criteri di ogni voce, è in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md); la lista breve della roadmap è nella [sezione 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
-- **A breve:** la baseline di detekt a zero (un po' a ogni batch); lo streaming dei chunk su un thread; i numeri delle prestazioni su un telefono.
-- **Verso la 1.0:** l'editor del layout touch su Android; i suggerimenti secondo l'ultimo dispositivo usato; una prova della pipeline di rilascio.
+- **A breve:** la baseline di detekt a zero (un po' a ogni batch); le abilità di coppia dei compagni; i numeri delle prestazioni su un telefono.
+- **Verso la 1.0:** le scritte dell'HUD secondo l'ultimo dispositivo; una prova della pipeline di rilascio con un tag (decide il proprietario).
 - **Dopo la 1.0:** nuovi protagonisti, regioni e lingue; il caricamento dei mod nel gioco (la guida e il controllo dei mod ci sono già).
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1), le impostazioni del repository, le chiavi di firma e le altre decisioni elencate nel programma.
 

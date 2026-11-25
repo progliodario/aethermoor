@@ -123,3 +123,51 @@ TEST_CASE("quality: all the art baked once at the largest bucket of a level fits
     }
     REQUIRE(recipes > 100);
 }
+
+// The chunks made ahead on the thread of the chunk store (spec 09, "Streaming"; item C4.1) are exactly the chunks made
+// at once: a store with the thread and one without walk the same way, and every chunk of every window is the same. The
+// nightly workflow runs this test with ThreadSanitizer.
+TEST_CASE("streaming: the chunks made ahead on a thread are the chunks made at once", "[streaming]") {
+    const std::filesystem::path root = AETHER_REPO_ROOT;
+    std::vector<std::string> errors;
+    auto pack = aether::load_pack(root / "data" / "base", errors);
+    REQUIRE(pack.has_value());
+    std::string error;
+    auto params = aether::load_world_params(*pack, "base:world/overworld", error);
+    REQUIRE(params.has_value());
+    auto tileset = aether::parse_tileset(*pack->read_document("base:tileset/overworld"), error);
+    REQUIRE(tileset.has_value());
+    aether::ChunkStore plain(*params, 42, *tileset);
+    aether::ChunkStore threaded(*params, 42, *tileset);
+    threaded.start_prefetch();
+    for (int step = 0; step < 16; ++step) {
+        const int cx = 250 + step;
+        const int cy = 250 + step / 3;
+        plain.keep_around(cx, cy);
+        threaded.keep_around(cx, cy);
+        REQUIRE(plain.loaded() == threaded.loaded());
+        for (int j = cy - aether::kKeepRadius; j <= cy + aether::kKeepRadius; ++j) {
+            for (int i = cx - aether::kKeepRadius; i <= cx + aether::kKeepRadius; ++i) {
+                const aether::Chunk* a = plain.find(i, j);
+                const aether::Chunk* b = threaded.find(i, j);
+                REQUIRE((a == nullptr) == (b == nullptr));
+                if (a == nullptr) {
+                    continue;
+                }
+                REQUIRE(a->tiles == b->tiles);
+                REQUIRE(a->solid == b->solid);
+                REQUIRE(a->spawners == b->spawners);
+                REQUIRE(a->people.size() == b->people.size());
+                REQUIRE(a->props.size() == b->props.size());
+                for (std::size_t k = 0; k < a->props.size(); ++k) {
+                    REQUIRE(a->props[k].art == b->props[k].art);
+                    REQUIRE(a->props[k].x == b->props[k].x);
+                    REQUIRE(a->props[k].y == b->props[k].y);
+                    REQUIRE(a->props[k].radius == b->props[k].radius);
+                }
+            }
+        }
+        threaded.wait_prefetched();  // the next step finds its new column ready
+    }
+    REQUIRE(threaded.prefetched_taken() > 0);
+}

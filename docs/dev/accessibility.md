@@ -15,9 +15,9 @@ is tested: the contrast of the texts by `tools/tests/test_accessibility.py`, the
 | The numbers that rise from a hit can be turned off | done: `damage_numbers` | spec 16, "Accessibility" |
 | The hints of the first minutes can be turned off | done: `hints` | spec 16, "Hints" |
 | Every key of the desktop can be changed | done: `F4` | spec 16, "Configurable keys" |
-| The touch controls can be moved and resized | not yet: E2.1 | [the program](../plan/07-programma-operativo.md) |
+| The touch controls can be moved and resized | done: the editor of the layout, from the journal (Dodge, Strike, Parry, Analyze) | [spec 16](../spec/16-input.md), "The layout of the buttons" |
 | A controller on Android | done: the buttons of the gamepad of the desktop | spec 16, "Android" (the row Controller) |
-| Play with one hand on a phone | not yet: the stick is on the left and the actions on the right; it comes with E2.1 | the program |
+| Play with one hand on a phone | in part: the action buttons can be moved anywhere (E2.1); the stick still takes the left half of the screen | the program |
 | No voice is needed: every line of the dialogues is written | done | [spec 07](../spec/07-quests-and-dialogue.md) |
 | Sounds have their own volumes, and music and ambience are off | done | spec 16, "Settings"; [spec 14](../spec/14-audio.md) |
 | No timed input in the dialogues: a line waits for the player | done | spec 07 |
