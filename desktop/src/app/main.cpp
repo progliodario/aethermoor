@@ -70,8 +70,10 @@ constexpr int kFloatingTextFrames = 50;
 constexpr double kAutosaveSeconds = 30.0;
 constexpr const char* kWorldId = "base:world/overworld";
 
-std::vector<aether::LightDef> g_lights;     // the props that shine at night (spec 08, "Lights")
-std::vector<aether::HintDef> g_hints;       // the hints of the first minutes (spec 16, "Hints")
+std::vector<aether::LightDef> g_lights;  // the props that shine at night (spec 08, "Lights")
+std::vector<aether::HintDef> g_hints;    // the hints of the first minutes (spec 16, "Hints")
+bool g_last_pad =
+    false;  // the last device used is the gamepad, not the keyboard or the mouse (spec 16, "The last device")
 std::vector<aether::CreditLine> g_credits;  // the credits, shown from the title screen (spec 16, "Credits")
 std::vector<aether::DeedDef> g_deeds;       // the deeds of all the games (spec 11, "Deeds")
 std::vector<std::string> g_new_deeds;       // deeds done by the last save, still to be told to the player
@@ -3699,7 +3701,7 @@ void update_hints(aether::WorldSim& sim, const Assets& assets, Ui& ui, bool free
         remember.a = flag;
         remember.value = true;
         sim.story().apply(remember);
-        ui.hint = assets.pack.text(ui.lang, hint.text);
+        ui.hint = assets.pack.text(ui.lang, g_last_pad && !hint.text_pad.empty() ? hint.text_pad : hint.text);
         ui.hint_frames = 480;
         return;
     }
@@ -5238,6 +5240,7 @@ int run_game(int argc, char** argv) {
             aether::TextureCache cache(renderer, assets.pack);
             int warm_frames = 3;  // frames in which every picture in view is baked at once
             aether::WorldSim sim(assets.map, assets.tileset, 0.0F, std::move(*combat), stream);
+            sim.start_prefetch();  // the chunks ahead of the player on a thread (spec 09, "Streaming")
             if (start_at && g_map_name == "world") {
                 sim.teleport(start_at->first, start_at->second);
             }
@@ -5328,6 +5331,13 @@ int run_game(int argc, char** argv) {
 
                 SDL_Event event;
                 while (SDL_PollEvent(&event)) {
+                    // the last device used decides the texts of the hints (spec 16, "The last device")
+                    if (event.type == SDL_EVENT_GAMEPAD_BUTTON_DOWN ||
+                        (event.type == SDL_EVENT_GAMEPAD_AXIS_MOTION && std::abs(event.gaxis.value) > 16000)) {
+                        g_last_pad = true;
+                    } else if (event.type == SDL_EVENT_KEY_DOWN || event.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+                        g_last_pad = false;
+                    }
                     if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
                         (ui.show_keys || (event.key.key == SDLK_F4 && !sim.story().dialogue_active()))) {
                         if (!ui.show_keys) {  // F4 opens the keys panel; while it is open it takes every key, as it was
@@ -5558,9 +5568,30 @@ int run_game(int argc, char** argv) {
                             } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_WEST ||
                                        event.gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
                                 bag_use(sim, assets, ui);
-                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST) {
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST ||
+                                       event.gbutton.button == SDL_GAMEPAD_BUTTON_START) {
                                 ui.show_inventory = false;
                             }
+                        } else if (ui.show_journal) {  // the journal: the D-pad scrolls, B or Back closes it (spec 16)
+                            if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_UP) {
+                                ui.journal_scroll = std::max(ui.journal_scroll - 1, 0);
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
+                                ++ui.journal_scroll;
+                            } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_EAST ||
+                                       event.gbutton.button == SDL_GAMEPAD_BUTTON_BACK) {
+                                ui.show_journal = false;
+                            }
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_START &&
+                                   !sim.story().dialogue_active()) {  // Start: the bag (spec 16)
+                            ui.show_inventory = true;
+                            ui.show_map = false;
+                            ui.show_craft = false;
+                        } else if (event.gbutton.button == SDL_GAMEPAD_BUTTON_BACK &&
+                                   !sim.story().dialogue_active()) {  // Back: the journal (spec 16)
+                            ui.show_journal = true;
+                            ui.journal_scroll = 0;
+                            ui.show_map = false;
+                            ui.show_craft = false;
                         } else {
                             handle_dialogue_button(sim, assets, ui, event.gbutton.button);
                         }

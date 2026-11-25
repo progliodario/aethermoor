@@ -1,9 +1,10 @@
 name: nightly
 
-# The checks too slow for every pull request (item C4.2 of docs/plan/07-programma-operativo.md; docs/design/performance.md):
+# The checks too slow for every pull request (items C4.1 and C4.2 of docs/plan/07-programma-operativo.md; docs/design/performance.md):
 # the game on an Android emulator of API 30 and of API 34 (android/app/src/androidTest: it starts and draws, turns, goes to the
-# background and comes back, and it is still the same game). It runs every night on main, on demand, and on a pull request that
-# changes this workflow or the test itself.
+# background and comes back, and it is still the same game), and the thread of the streaming of the desktop under ThreadSanitizer.
+# It runs every night on main, on demand, and on a pull request that changes this workflow, the test on the emulator or the chunk
+# store.
 
 on:
   schedule:
@@ -13,6 +14,7 @@ on:
     paths:
       - ".github/workflows/nightly.yml"
       - "android/app/src/androidTest/**"
+      - "desktop/src/sim/chunk_store.*"
 
 permissions:
   contents: read
@@ -74,3 +76,30 @@ jobs:
             android/app/build/reports/androidTests/
             android/app/build/outputs/androidTest-results/
           if-no-files-found: ignore
+
+  # The thread that generates the chunks ahead of time (spec 09, "Streaming"; item C4.1), under ThreadSanitizer: only the headless
+  # libraries and their tests (CMake option AETHER_HEADLESS_ONLY), built by clang with the packages of Ubuntu, no vcpkg.
+  thread-sanitizer:
+    name: thread sanitizer (streaming)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v7
+      - name: Packages
+        run: |
+          APT="-o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o DPkg::Lock::Timeout=120"
+          sudo timeout 300 apt-get $APT update || echo "some package lists did not refresh"
+          sudo timeout 420 apt-get $APT install -y --no-install-recommends ninja-build clang catch2 nlohmann-json3-dev
+      - name: Configure (clang, ThreadSanitizer, headless only)
+        run: >-
+          cmake -S desktop -B build-tsan -G Ninja -DAETHER_HEADLESS_ONLY=ON -DAETHER_WERROR=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_CXX_FLAGS=-fsanitize=thread -DCMAKE_EXE_LINKER_FLAGS=-fsanitize=thread
+      - name: Build the tests
+        run: cmake --build build-tsan --target aether_tests
+      # The kernels of the runners randomize memory more than ThreadSanitizer accepts ("unexpected memory mapping"): less of it.
+      - name: The streaming under ThreadSanitizer
+        env:
+          TSAN_OPTIONS: halt_on_error=1 second_deadlock_stack=1
+        run: |
+          sudo sysctl vm.mmap_rnd_bits=28
+          ./build-tsan/aether_tests "[streaming]"

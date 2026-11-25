@@ -283,7 +283,7 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Progressione | 50 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 58 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4287 chiavi, in italiano e inglese |
+| Testi | 4300 chiavi, in italiano e inglese |
 | Regole uguali sui due client | 31 file di vettori di conformità, 634 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
@@ -430,6 +430,11 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
   ogni pannello funziona come con una tastiera.
 - **Il contesto grafico perso su Android** (dal 25 novembre, C4.2): le texture dell'arte e del font sono gestite da libGDX, che le ricarica
   da sola quando Android toglie il contesto (rischio R6).
+- **Disposizione dei pulsanti touch** (dal 25 novembre, E2.1, spec 16 "The layout of the buttons"): su Android Schivata, Colpo, Parata e
+  Analizza si spostano e si ridimensionano; l'editor si apre dal pulsante `Disposizione` del diario (trascinare, `-` e `+`, Ripristina,
+  Fatto); la disposizione resta dopo un riavvio e una rotazione (è in millesimi dello schermo).
+- **I consigli seguono l'ultimo dispositivo** (dal 25 novembre, spec 16 "The last device"): tastiera, tocco o controller; nove consigli
+  hanno un testo per il controller. `Start` apre lo zaino e `Back` il diario, sul desktop e su Android.
 
 **Qualità e strumenti**
 
@@ -439,7 +444,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Fondamenta B1** (dal 23 novembre): le copie congelate dei salvataggi di ogni versione (`tests/saves/`, suite `save_fixtures`, spec 12),
   che il riferimento e i due client devono caricare; la matrice di parità generata (`docs/design/parity.md`) e il controllo delle licenze
   (`tools/licenses.py`), tutti e due in `ci-data`; la spec 15 (il tema "Finestra di sistema" e dove sta ogni pannello) e l'ADR 0014 (le
-  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita), poi a 87 (i suoni, i consigli e la partita nuova di Android in funzioni più piccole), poi a 82 (l'interazione, i viaggi, la bacheca, la mappa e il negozio), poi a 75 (la lettura del tempo, del mondo, delle mappe, dei messaggi, del profilo e dei pacchetti di salvataggi, e l'input di Android).
+  schermate restano nel codice fino all'1.0); la lista di rilascio (`docs/dev/release-checklist.md`); la baseline di detekt da 104 a 96, poi a 90 (i cicli del modulo `core` hanno ognuno una sola uscita), poi a 87 (i suoni, i consigli e la partita nuova di Android in funzioni più piccole), poi a 82 (l'interazione, i viaggi, la bacheca, la mappa e il negozio), poi a 73 (la lettura del tempo, del mondo, delle mappe, dei messaggi, del profilo, dei pacchetti di salvataggi, delle ricette dell'arte e del pack, e l'input di Android).
 - Catalogo dei contenuti e rapporto di bilanciamento generati dai dati; anteprime dell'arte in PNG senza avviare il gioco.
 - **Mod** (dal 24 novembre, E4.1): una guida passo per passo al primo mod (`docs/modding/README.md`), un mod di esempio
   (`examples/mod-example/`, una creatura e una missione) e il validatore che controlla un pacchetto qualsiasi sopra quelli da cui dipende;
@@ -453,6 +458,10 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Misure** (dal 25 novembre, C4.2, `docs/design/performance.md`): un test di prestazione nei due client con budget ampi per un chunk
   del mondo (25 ms) e un tick (4 ms), i cui numeri la CI stampa; un workflow notturno che prova il gioco su un emulatore Android di API 30 e
   34 (avvio, rotazione, pausa e ripresa, la stessa partita dopo). Mancano i numeri del telefono del proprietario.
+- **Il mondo davanti su un thread** (dal 25 novembre, C4.1, spec 09 "Streaming"): i due client generano su un thread l'anello di
+  chunk appena fuori dalla finestra, che la finestra prende quando sono pronti; la simulazione li carica sempre nello stesso punto del
+  tick, quindi il gioco non cambia (un test di ogni client confronta un archivio con il thread e uno senza, chunk per chunk). Un job
+  notturno esegue quel test del desktop con ThreadSanitizer (opzione CMake `AETHER_HEADLESS_ONLY`).
 - **Pipeline di rilascio** (dal 25 novembre, E3.1): su un tag `v*` il workflow di rilascio costruisce tutti i pacchetti con gli stessi
   workflow delle PR, li chiama con la versione, scrive `SHA256SUMS` e la distinta dei componenti (SPDX, `tools/licenses.py --sbom`),
   ricontrolla le somme e crea una release in **bozza** con tutti i file; non pubblica mai. A mano fa una prova senza release.
@@ -467,20 +476,20 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 **A breve (le prossime PR)**
 
 1. **Ridurre la baseline di detekt** (B1.1, issue #224; ktlint e detekt in CI ci sono): le segnalazioni del codice vecchio restano in
-   `android/config/detekt-baseline.xml`, 75 (56 di complessità, 18 di annidamento, una di uscite dai cicli): 24 in `AethermoorGame.kt`,
-   16 in `World.kt`, le altre in 16 file. Si spezzano a poco a poco le funzioni più complesse, qualche voce in ogni batch.
-2. **Lo streaming su un thread** (C4.1, #239): i chunk davanti al giocatore generati su un thread di lavoro, consegnati in un punto
-   fisso del tick, senza rompere il determinismo; con il job notturno di ThreadSanitizer.
-3. **I numeri del telefono** (C4.2, #240): il proprietario misura i fotogrammi al secondo su un telefono con la lista di rilascio e li
+   `android/config/detekt-baseline.xml`, 73 (54 di complessità, 18 di annidamento, una di uscite dai cicli): 24 in `AethermoorGame.kt`,
+   16 in `World.kt`, le altre in 14 file. Si spezzano a poco a poco le funzioni più complesse, qualche voce in ogni batch.
+2. **I numeri del telefono** (C4.2, #240): il proprietario misura i fotogrammi al secondo su un telefono con la lista di rilascio e li
    scrive in `docs/design/performance.md` (rischio R4); il resto di C4.2 è fatto.
+3. **Le abilità di coppia** (spec 10): un colpo fatto insieme dal protagonista e dal compagno quando il legame è alto; regola nuova,
+   quindi spec, riferimento, vettori e due client.
+4. **I carri che si vedono viaggiare** (spec 07, "Travellers walk"): i viaggiatori camminano già; manca un carro disegnato per Odo.
 
 **Verso la 1.0**
 
-4. **La rimappatura con l'editor del layout touch** (E2.1, #250): posizione e dimensione dei pulsanti su Android, salvate, con un ripristino.
-5. **Una prova del rilascio** (E3.1, #252): un giro a mano del workflow di rilascio (`gh workflow run release.yml`) e la bozza di un tag di
-   prova, quando il proprietario lo vuole; la pipeline c'è.
-6. **I suggerimenti dell'ultimo dispositivo** (spec 16): i consigli e l'HUD mostrano i tasti, il tocco o il controller secondo quello usato
-   per ultimo.
+5. **Una prova del rilascio** (E3.1, #252): la pipeline c'è e la prova a mano è verde; la bozza di un tag di prova la decide il
+   proprietario.
+6. **I suggerimenti del controller nell'HUD** (spec 16, "The last device"): oggi seguono l'ultimo dispositivo solo i consigli; le scritte
+   dell'HUD (per esempio "E: parla") mostrano ancora i tasti.
 
 **Decide il proprietario** (programma, sezione 8; issue #234)
 

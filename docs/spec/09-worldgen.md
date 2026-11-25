@@ -278,6 +278,12 @@ player, `(floor(x / 32), floor(y / 32))` with `(x, y)` in tiles. The window is r
   A killed enemy stays in the list (dead, not drawn) until its chunk leaves, and its spawner becomes cleared. A cleared spawner stays cleared
   until its enemy has been dead for `respawn_ticks` of world time and its chunk enters the window again (spec 08, "Respawn").
 - **NPCs** are placed from the world parameters (see above) and always exist.
+- **Chunks made ahead.** A client may generate chunks before the window needs them, on a thread of its own (both clients do: the ring
+  of the 24 chunks at distance 3, asked after every move of the window). The simulation still loads the window at the same point of the
+  tick and in the same order: a chunk the thread has finished is taken, any other is generated at once. Generating a chunk is a pure
+  function of the seed, the parameters and its coordinates, so nothing of the game changes: the vectors are the same with or without the
+  thread, a test of each client walks a store with the thread and one without and compares every chunk, and the nightly workflow runs
+  that test of the desktop under ThreadSanitizer (item C4.1).
 - **Saves** keep the seed, the cleared spawners and the enemies of the window with their state (spec 12); on load the window is rebuilt around the
   saved player position and the saved enemy list defines the order.
 

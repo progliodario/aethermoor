@@ -6,37 +6,43 @@
       "id": "move",
       "when": "start",
       "text": "$i18n:hint.move",
-      "text_touch": "$i18n:hint.move.touch"
+      "text_touch": "$i18n:hint.move.touch",
+      "text_pad": "$i18n:hint.move.pad"
     },
     {
       "id": "quest",
       "when": "quest",
       "text": "$i18n:hint.quest",
-      "text_touch": "$i18n:hint.quest.touch"
+      "text_touch": "$i18n:hint.quest.touch",
+      "text_pad": "$i18n:hint.quest.pad"
     },
     {
       "id": "fight",
       "when": "enemy_near",
       "text": "$i18n:hint.fight",
-      "text_touch": "$i18n:hint.fight.touch"
+      "text_touch": "$i18n:hint.fight.touch",
+      "text_pad": "$i18n:hint.fight.pad"
     },
     {
       "id": "gather",
       "when": "gather",
       "text": "$i18n:hint.gather",
-      "text_touch": "$i18n:hint.gather.touch"
+      "text_touch": "$i18n:hint.gather.touch",
+      "text_pad": "$i18n:hint.gather.pad"
     },
     {
       "id": "hurt",
       "when": "hurt",
       "text": "$i18n:hint.hurt",
-      "text_touch": "$i18n:hint.hurt.touch"
+      "text_touch": "$i18n:hint.hurt.touch",
+      "text_pad": "$i18n:hint.hurt.pad"
     },
     {
       "id": "stone",
       "when": "stone",
       "text": "$i18n:hint.stone",
-      "text_touch": "$i18n:hint.stone.touch"
+      "text_touch": "$i18n:hint.stone.touch",
+      "text_pad": "$i18n:hint.stone.pad"
     },
     {
       "id": "talents",
@@ -60,7 +66,8 @@
       "id": "farm",
       "when": "plot",
       "text": "$i18n:hint.farm",
-      "text_touch": "$i18n:hint.farm.touch"
+      "text_touch": "$i18n:hint.farm.touch",
+      "text_pad": "$i18n:hint.farm.pad"
     },
     {
       "id": "renown",
@@ -72,13 +79,15 @@
       "id": "chest",
       "when": "chest",
       "text": "$i18n:hint.chest",
-      "text_touch": "$i18n:hint.chest.touch"
+      "text_touch": "$i18n:hint.chest.touch",
+      "text_pad": "$i18n:hint.chest.pad"
     },
     {
       "id": "home",
       "when": "home",
       "text": "$i18n:hint.home",
-      "text_touch": "$i18n:hint.home.touch"
+      "text_touch": "$i18n:hint.home.touch",
+      "text_pad": "$i18n:hint.home.pad"
     },
     {
       "id": "wind",

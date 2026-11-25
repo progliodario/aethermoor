@@ -254,6 +254,13 @@ public:
     // Day, light and weather of the streamed world now (spec 08); nullopt on a fixed map.
     std::optional<TimeSample> time() const;
     const ChunkStore* chunks() const { return m_store_.get(); }
+    // Generates the chunks around the window ahead of time on a thread (spec 09, "Streaming"); changes nothing of the
+    // game.
+    void start_prefetch() {
+        if (m_store_) {
+            m_store_->start_prefetch();
+        }
+    }
     // The gid at the tile on whichever map is played, 0 when unknown.
     int gid_at(int x, int y) const;
     // Calls `fn` for every prop inside the rectangle (in tiles).

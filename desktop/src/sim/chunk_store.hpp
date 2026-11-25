@@ -2,9 +2,15 @@
 
 // The chunks of a streamed world that are loaded right now. Spec: docs/spec/09-worldgen.md ("Streaming").
 
+#include <condition_variable>
 #include <cstdint>
+#include <deque>
 #include <functional>
 #include <map>
+#include <memory>
+#include <mutex>
+#include <set>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -35,6 +41,18 @@ struct Chunk {
 class ChunkStore {
 public:
     ChunkStore(WorldParams params, std::uint64_t seed, const Tileset& tileset);
+    ~ChunkStore();
+    ChunkStore(const ChunkStore&) = delete;
+    ChunkStore& operator=(const ChunkStore&) = delete;
+
+    // Starts a thread that generates ahead of time the ring of chunks just outside the window (spec 09, "Streaming";
+    // item C4.1). keep_around takes a chunk from it when it is ready and generates it at once when it is not: the
+    // chunks the simulation sees, and the tick in which it sees them, are the same with or without the thread.
+    void start_prefetch();
+    // Waits until the thread has generated every chunk asked of it (for the tests).
+    void wait_prefetched();
+    // How many chunks keep_around took from the thread (for the tests).
+    std::size_t prefetched_taken() const { return m_taken_; }
 
     // Loads the chunks within kActiveRadius of (cx, cy) and drops those beyond kKeepRadius.
     void keep_around(int cx, int cy);
@@ -55,8 +73,26 @@ public:
     std::uint64_t seed() const { return m_seed_; }
 
 private:
-    const Chunk& load(int cx, int cy);
+    // What the thread of start_prefetch shares with the simulation, behind its mutex: the chunks asked, the one being
+    // generated and those that are ready.
+    struct Prefetch {
+        std::mutex mutex;
+        std::condition_variable wake;  // a chunk is asked, or the thread must stop
+        std::condition_variable idle;  // nothing is asked or being generated
+        std::deque<std::pair<int, int>> wanted;
+        std::set<std::pair<int, int>> busy;
+        std::map<std::pair<int, int>, GeneratedChunk> ready;
+        bool stop = false;
+        std::thread thread;
+    };
 
+    const Chunk& load(int cx, int cy);
+    bool take_prefetched(int cx, int cy, GeneratedChunk& out);
+    void ask_ring(int cx, int cy);
+    static void run_prefetch(Prefetch& prefetch, WorldParams params, std::uint64_t seed);
+
+    std::unique_ptr<Prefetch> m_prefetch_;
+    std::size_t m_taken_ = 0;
     WorldParams m_params_;
     std::uint64_t m_seed_;
     const Tileset* m_tileset_;

@@ -18,14 +18,14 @@ The game picks Italian or English from your system language (F2 switches).
   Companion ....... H stay here / follow me, G come back to me
   Tame ............ B (Haruka): calm a creature hurt to half of its health
   Tag ............. Y: wear the next tag earned (a trait of how you play), then none
-  Bag ............. I (W/S to choose, E to use or wear)
-  Journal ......... Q or V: quests, your status, companion, titles, bestiary (W/S to scroll)
+  Bag ............. I (W/S to choose, E to use or wear; gamepad: Start, A to use)
+  Journal ......... Q or V: quests, your status, companion, titles, bestiary (W/S to scroll; gamepad: Back, D-pad)
   Crafting ........ C (Tab: the talents, one point each level)
   World map ....... M (+ / - or the wheel to zoom, WASD or drag to move, C = where I am, 0 = all,
                     P or right click = mark a goal, X = remove it, Tab = next place found)
   Small map ....... N
   Shop / chest .... Tab switches buy/sell (take/store), E confirms
-  Settings ........ F10: volumes and options (hints, damage numbers, flashes, large text)
+  Settings ........ F10: volumes, options (hints, damage numbers, flashes, large text) and the quality of the graphics
   Your own keys ... F4 in a game (or edit keys.json next to settings.json)
   Sound on / off .. F8       Quick save .. F5       Quick load .. F9       New game .. F7
   Close a panel ... Esc      Debug info .. F3

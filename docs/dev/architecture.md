@@ -156,7 +156,7 @@ field of a scenario or of a checkpoint is added in the three places.
 | `ci-desktop` | `windows-msvc`, `linux-gcc` | vcpkg (cached), configure, build, `ctest` (unit tests, every conformance suite, the performance test, three smoke tests), the smoke-test frames against `tests/frames/`, the playable build and the frames as artifacts |
 | `ci-android` | `build` | `:core:test` (JVM tests, every conformance suite, the performance test), `:app:assembleDebug`, the debug APK as an artifact |
 | | `kotlin-style` | ktlint and detekt (with `android/config/detekt-baseline.xml`) |
-| `nightly` | `emulator (API 30)`, `emulator (API 34)` | the game on an Android emulator: start, rotation, pause and resume (`android/app/src/androidTest/`) |
+| `nightly` | `emulator (API 30)`, `emulator (API 34)`, `thread sanitizer (streaming)` | the game on an Android emulator: start, rotation, pause and resume (`android/app/src/androidTest/`); the tests `[streaming]` of the desktop under ThreadSanitizer |
 | `labeler` | `label` | labels the pull request from its paths |
 | `release` | `validate`, `desktop`, `android`, `package` | on a `v*` tag or by hand: the packages (with `ci-desktop` and `ci-android`, called), `SHA256SUMS`, the SBOM, a draft release on a tag |
 

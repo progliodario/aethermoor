@@ -11,7 +11,7 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 
 | Voce | Che cosa | Stato | PR | Issue |
 |---|---|---|---|---|
-| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 75 | #258, #265, #268, batch 13 | #224 aperta |
+| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 73 | #258, #265, #268, #271, batch 14 | #224 aperta |
 | B1.2 | Spec 15 e ADR 0014 | fatta | #258 | #225 |
 | B1.3 | Licenze in CI | fatta | #258 | #226 |
 | B1.4 | Matrice di parità | fatta | #258 | #227 |
@@ -26,7 +26,7 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 | C1.2 | Affissi scelti | fatta | #265 | #236 |
 | C2.1 | Compagni scelti (il gruppo) | fatta | #267 | #237 |
 | C3.1 | Dungeon di Gideon, forma ridotta | fatta | #268 (spec), #269 | #238 |
-| C4.1 | Streaming con thread | **aperta** | | #239 aperta |
+| C4.1 | Streaming con thread | **fatta** | batch 14 | #239 chiusa |
 | C4.2 | Misure su Android | **quasi fatta**: mancano i numeri del telefono del proprietario | batch 13 | #240 aperta |
 | C5.1 | Una settimana di gioco | fatta | #264 | #241 |
 | C6.1 | Sintetizzatore | **bloccata**: solo con il sì del proprietario | | #242 aperta |
@@ -34,7 +34,7 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 | E1.1 | Modalità qualità | **fatta** | batch 13 | #247 chiusa |
 | E1.2 | Log dei crash | fatta | #265 | #248 |
 | E1.3 | Traduzioni e accessibilità | fatta | #268 | #249 |
-| E2.1 | Rimappatura su Android | **aperta** | | #250 aperta |
+| E2.1 | Rimappatura su Android | **fatta** | batch 14 | #250 chiusa |
 | E2.2 | Controller su Android | **fatta** | batch 13 | #251 chiusa |
 | E3.1 | Pipeline di rilascio | **fatta**; la prova con un tag la decide il proprietario | batch 13 | #252 chiusa |
 | E3.2 | Firma del codice | **bloccata**: decisione e chiavi del proprietario | | #253 aperta |
@@ -42,8 +42,8 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 | E4.2 | Pagina di download | **aperta**: decisione del proprietario | | #255 aperta |
 | F1 | Dopo la 1.0 | **aperta** (lungo termine) | | #256 aperta |
 
-**Le prossime voci, nell'ordine consigliato:** B1.1 a ogni batch (un po' alla volta); C4.1 (lo streaming su un thread, con il job
-notturno di ThreadSanitizer); E2.1 (l'editor del layout touch su Android); i numeri del telefono di C4.2, che misura il proprietario.
+**Le prossime voci, nell'ordine consigliato:** B1.1 a ogni batch (un po' alla volta); le abilità di coppia dei compagni (spec 10); i
+numeri del telefono di C4.2, che misura il proprietario.
 Le voci bloccate o del proprietario aspettano la sua risposta e non fermano le altre.
 
 ## 1. Come leggere questo programma
@@ -310,6 +310,12 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **Accettazione:** i vettori `chunk_window` e `worldgen_chunks` restano identici in entrambi i client; un test di tempo di frame nei test JVM; lo smoke test del desktop è verde; un job ThreadSanitizer gira di notte.
 - **Rischi:** i bug di concorrenza non si vedono senza compilatore: la mitigazione è il punto di consegna fisso e il job di sanitizzazione. Il determinismo è difeso dai vettori.
 - **Dipende da:** B1.4. Taglia: L. Issue: [progliodario/aethermoor#239](https://github.com/progliodario/aethermoor/issues/239).
+- **Fatto (25 novembre 2026).** Differenza dal progetto: il thread non consegna la finestra, ma prepara l'anello dei 24 chunk a distanza
+  3, chiesto dopo ogni spostamento della finestra; `keep_around`/`keepAround` prende un chunk pronto e genera subito quelli che non lo sono,
+  nello stesso punto del tick di prima. Così il determinismo non dipende dal thread (la generazione è una funzione pura) e i vettori non
+  cambiano. Desktop: un `std::thread` per archivio, con mutex e due variabili di condizione; Android: un esecutore a un thread, demone, per
+  tutta l'app. Test: `[streaming]` in `desktop/tests/performance_test.cpp` e `theChunksMadeAheadOnAThreadAreTheChunksMadeAtOnce` in
+  `PerformanceTest.kt`; il job notturno `thread sanitizer (streaming)` (opzioni CMake `AETHER_HEADLESS_ONLY` e `AETHER_WERROR`).
 
 ##### C4.2 Misure su Android
 - **Cosa:** (a) test di prestazione nei test JVM, con budget ampi per la generazione dei chunk e per il tick; (b) un test strumentato di notte sull'emulatore (API 30 e 34): avvio, rotazione, pausa e ripresa, stato conservato; (c) gli atlanti si ricostruiscono dalla cache su CPU quando il contesto GL si perde (rischio R6); (d) il proprietario misura i frame su un telefono con la lista di rilascio.
@@ -446,6 +452,10 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
 - **File:** `docs/spec/16-input.md`, `android/game/.../InputController.kt`, `android/game/.../AethermoorGame.kt`.
 - **Accettazione:** l'editor si apre dalle impostazioni; il layout sopravvive a un riavvio e a una rotazione.
 - **Dipende da:** B1.2. Taglia: L. Issue: [progliodario/aethermoor#250](https://github.com/progliodario/aethermoor/issues/250).
+- **Fatto (25 novembre 2026).** Differenza dal progetto: l'editor si apre dal pulsante `Disposizione` del diario (Android non ha un menu
+  delle impostazioni) e muove i quattro pulsanti d'azione (Schivata, Colpo, Parata, Analizza), non quelli dei pannelli. La logica è in
+  `core/TouchLayout.kt` (testata: il file delle impostazioni, la rotazione, i bordi dello schermo); la disposizione è in millesimi dello
+  schermo, quindi resta dopo una rotazione. Non provato sullo schermo: lo prova il proprietario.
 
 ##### E2.2 Controller su Android
 - **Cosa:** il piano (documento 04) dice che il controller su Android non c'è. Prima si verifica il codice (`InputController`), poi si mappa un controller con le stesse azioni del desktop (spec 16).

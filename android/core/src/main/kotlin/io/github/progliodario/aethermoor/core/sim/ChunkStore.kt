@@ -2,8 +2,13 @@ package io.github.progliodario.aethermoor.core.sim
 
 import io.github.progliodario.aethermoor.core.CHUNK_SIZE
 import io.github.progliodario.aethermoor.core.GenPerson
+import io.github.progliodario.aethermoor.core.GeneratedChunk
 import io.github.progliodario.aethermoor.core.WorldParams
 import io.github.progliodario.aethermoor.core.generateChunk
+import java.util.concurrent.Callable
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
 import kotlin.math.abs
 import kotlin.math.floor
 import kotlin.math.max
@@ -38,16 +43,83 @@ class Chunk(
     val people: List<GenPerson>,
 )
 
+/**
+ * The thread that generates chunks ahead of time (spec 09, "Streaming"; item C4.1), one for the whole app: a daemon of low priority, so it
+ * never keeps the app alive and never takes the time of a frame.
+ */
+private val PREFETCH: ExecutorService by lazy {
+    Executors.newSingleThreadExecutor { task ->
+        Thread(task, "aether-chunks").apply {
+            isDaemon = true
+            priority = Thread.MIN_PRIORITY
+        }
+    }
+}
+
+/** A chunk asked of the thread of [PREFETCH]. */
+private class Ahead(val cx: Int, val cy: Int, val future: Future<GeneratedChunk>)
+
 class ChunkStore(val params: WorldParams, val seed: ULong, private val tileset: Tileset) {
     private val chunks = HashMap<Long, Chunk>()
+    private val ahead = HashMap<Long, Ahead>()
+    private var prefetching = false
 
     val loaded: Int get() = chunks.size
 
+    /** How many chunks [keepAround] took from the thread (for the tests). */
+    var prefetchedTaken = 0
+        private set
+
     private fun key(cx: Int, cy: Int): Long = (cx.toLong() shl 32) or (cy.toLong() and 0xFFFFFFFFL)
+
+    /**
+     * Generates ahead of time, on a thread, the ring of chunks just outside the window (spec 09, "Streaming"; item C4.1). [keepAround]
+     * takes a chunk from it when it is ready and generates it at once when it is not: the chunks the simulation sees, and the tick in
+     * which it sees them, are the same with or without the thread. The thread only runs [generateChunk], which shares nothing.
+     */
+    fun startPrefetch() {
+        prefetching = true
+    }
+
+    /** Waits until the thread has generated every chunk asked of it (for the tests). */
+    fun awaitPrefetched() {
+        for (a in ahead.values) runCatching { a.future.get() }
+    }
+
+    private fun generated(cx: Int, cy: Int): GeneratedChunk {
+        val asked = ahead.remove(key(cx, cy))
+        if (asked != null && asked.future.isDone && !asked.future.isCancelled) {
+            val ready = runCatching { asked.future.get() }.getOrNull()
+            if (ready != null) {
+                prefetchedTaken++
+                return ready
+            }
+        }
+        asked?.future?.cancel(false) // not done yet: made at once here
+        return generateChunk(seed, params, cx, cy)
+    }
+
+    /** Asks the thread for the ring just outside the window around (cx, cy), and forgets what is asked farther away. */
+    private fun askRing(cx: Int, cy: Int) {
+        if (!prefetching) return
+        val far = ahead.values.filter { max(abs(it.cx - cx), abs(it.cy - cy)) > KEEP_RADIUS }
+        for (a in far) {
+            a.future.cancel(false)
+            ahead.remove(key(a.cx, a.cy))
+        }
+        val ring = ACTIVE_RADIUS + 1
+        for (j in cy - ring..cy + ring) {
+            for (i in cx - ring..cx + ring) {
+                val k = key(i, j)
+                if (max(abs(i - cx), abs(j - cy)) != ring || chunks.containsKey(k) || ahead.containsKey(k)) continue
+                ahead[k] = Ahead(i, j, PREFETCH.submit(Callable { generateChunk(seed, params, i, j) }))
+            }
+        }
+    }
 
     private fun load(cx: Int, cy: Int): Chunk =
         chunks.getOrPut(key(cx, cy)) {
-            val generated = generateChunk(seed, params, cx, cy)
+            val generated = generated(cx, cy)
             Chunk(
                 cx,
                 cy,
@@ -65,6 +137,7 @@ class ChunkStore(val params: WorldParams, val seed: ULong, private val tileset: 
             for (i in cx - ACTIVE_RADIUS..cx + ACTIVE_RADIUS) load(i, j)
         }
         chunks.values.removeAll { max(abs(it.cx - cx), abs(it.cy - cy)) > KEEP_RADIUS }
+        askRing(cx, cy)
     }
 
     fun find(cx: Int, cy: Int): Chunk? = chunks[key(cx, cy)]

@@ -6,6 +6,19 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The world ahead is made on a thread** (item C4.1, spec 09 "Streaming"): both clients generate the ring of chunks just outside the
+  window on a thread of their own, and the window takes them when they are ready, so walking into new land costs the frame almost
+  nothing. The simulation still loads the window at the same point of the tick: nothing of the game changes, and a test of each client
+  compares a store with the thread and one without, chunk by chunk. A nightly job runs that test of the desktop under ThreadSanitizer.
+- **The layout of the touch buttons** (item E2.1, spec 16 "The layout of the buttons"): on Android, the Dodge, Strike, Parry and Analyze
+  buttons can be moved and resized. `Button layout`, at the top right of the open journal, opens the editor: drag a button to move it,
+  `-` and `+` change its size, `Reset` puts every button back, `Done` keeps the layout. The layout survives a restart and a turn of the
+  phone (it is kept in permille of the screen).
+- **The hints follow the last device used** (spec 16, "The last device"): a keyboard shows the keys, a touch screen the buttons and a
+  controller its buttons; nine hints have a text of their own for a controller, in Italian and English.
+- **More of the controller**: `Start` opens the bag and `Back` the journal, on the desktop and on Android; in the journal the D-pad
+  scrolls and `B` or `Back` closes it.
+
 - **The quality of the graphics** (spec 13, "Quality"; item E1.1): low, normal or high, kept in the settings. Low bakes the textures
   at most at 64 pixels a tile and leaves out the moving water, the rounded corners of the ground and the long shadows of dawn and dusk;
   normal bakes them at most at 128; high at 256, as before. Desktop: the last row of the settings panel (`F10`). Android: a button at
@@ -29,8 +42,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
-- detekt: the baseline of the old findings goes from 82 to 75 (the reading of the time, of the world, of the maps, of the messages, of
-  the profile and of a bundle of saves, and the input of Android, in smaller functions).
+- detekt: the baseline of the old findings goes from 82 to 73 (the reading of the time, of the world, of the maps, of the messages, of
+  the profile, of a bundle of saves, of the recipes of the art and of the pack, and the input of Android, in smaller functions).
 
 ### Documentation
 

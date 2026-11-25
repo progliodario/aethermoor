@@ -25,6 +25,7 @@ std::vector<HintDef> load_hints(const Pack& pack) {
         hint.when = h.value("when", "");
         hint.text = h.value("text", "");
         hint.text_touch = h.value("text_touch", "");
+        hint.text_pad = h.value("text_pad", "");
         if (!hint.id.empty() && !hint.text.empty()) {
             out.push_back(std::move(hint));
         }

@@ -15,6 +15,7 @@ struct HintDef {
                              // companion, renown
     std::string text;        // an $i18n: key, for a keyboard
     std::string text_touch;  // an $i18n: key, for a touch screen; empty: `text`
+    std::string text_pad;    // an $i18n: key, for a game controller (spec 16, "The last device"); empty: `text`
 };
 
 // The hints of the pack in the order of the data; none when it has no table or the table is broken.
