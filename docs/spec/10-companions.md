@@ -1,7 +1,7 @@
 # 10. Companions
 
-Status: **v1.3 (a follower that fights, the stay command, a bond that grows with its kills, care: a close companion heals the player, and the party: more companions, one of them at a time)**. Reference: `CombatSim._update_companion` in `tools/reference/combat.py`.
-Schema: `schemas/companion.schema.json`. Conformance: the scenarios `companion_fights`, `companion_follows`, `companion_stays` and `companion_bond` (the checkpoints carry `companion`: position, `stay`, `bond`) of the suite `combat`.
+Status: **v1.3 (a follower that fights, the stay command, a bond that grows with its kills, care: a close companion heals the player, the party: more companions, one of them at a time, and the duo strike)**. Reference: `CombatSim._update_companion` in `tools/reference/combat.py`.
+Schema: `schemas/companion.schema.json`. Conformance: the scenarios `companion_fights`, `companion_follows`, `companion_stays`, `companion_bond` and `companion_duo` (the checkpoints carry `companion`: position, `stay`, `bond`) of the suite `combat`.
 
 Every protagonist has a **companion** (`companion` in the protagonist data, spec 18): a small creature that walks with the player and hits the enemies near it now and then, so that fights are
 shared. It cannot be hurt, it is saved with the game (spec 12), and the creatures ignore it: it is help, not a second character to look after.
@@ -86,6 +86,26 @@ A companion may have `care_bond`, `care_ticks` and `care_pct` (all optional, 0 w
 before it looks for a target) adds one to a counter; when the counter reaches `care_ticks` it goes back to 0 and, if the player is alive and hurt, the player's health becomes
 `min(max_hp, hp + max(1, max_hp * care_pct / 100))`. The counter is not saved and starts at 0. The base pack gives every companion `care_bond` 10, `care_ticks` 600 and `care_pct` 5 (`tools/make_companions.py`):
 after ten kills together it heals 5% of the health every ten seconds. Conformance: the scenario `companion_care` (without care, the same fight kills the player).
+
+## Duo strike
+
+A companion may have `duo_bond`, `duo_pct`, `duo_range_x100` and `duo_cooldown_ticks` (all optional, 0 when absent; without `duo_pct`
+there is no duo strike). The companion keeps a **duo counter**, 0 at the start. In the player's hits (spec 05), after a hit of the
+**power strike** has been dealt to a creature (and after the health drained by the equipment), the companion joins it when all of these
+hold: the companion is in the world, its duo counter is 0, its bond is at least `duo_bond`, the creature is still alive, and the creature
+is within `duo_range_x100 / 100 + radius of the creature` of the companion. It hits that creature at once: the damage formula (spec 04)
+with the attack of the companion (section "Bond"), `power_pct` = `duo_pct`, the creature's `def`, the levels of the player and of the
+creature, `variance_pm` 1000, no critical hit, no element, and no random number is drawn; its counter goes to `duo_cooldown_ticks`. So a
+strike that hits several creatures brings the duo hit on the first of them only. The hit comes before the status, the stagger (which counts
+only the player's damage) and the death of the creature are handled: a creature it kills is the player's kill and adds no bond. In step 1 of
+every tick, after it moves and before care, the counter goes down by one if it is above 0. The counter is not saved and goes back to 0 when
+the companion that follows changes (section "The party").
+
+The base pack gives every companion of a protagonist `duo_bond` 20, `duo_pct` 300, `duo_range_x100` 400 and `duo_cooldown_ticks` 600
+(`tools/make_companions.py`), and the strays of the party the same with `duo_pct` 250 (`tools/make_party.py`): after twenty kills together,
+a power strike near the companion brings its hit, three times its attack, every ten seconds. The clients show the duo hit as a number,
+like the companion's own. Conformance: the scenario `companion_duo` (the first strike brings the duo hit, the second comes too soon, the
+third finds it ready).
 
 ## Later
 

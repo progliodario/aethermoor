@@ -1160,6 +1160,7 @@ void WorldSim::make_companion_active(const std::string& id) {
     m_companion_stay_ = false;
     m_companion_cooldown_ = m_setup_.companion->cooldown_ticks;
     m_companion_care_ = 0;
+    m_companion_duo_ = 0;
 }
 
 bool WorldSim::recruit_companion(const std::string& id) {
@@ -1292,6 +1293,9 @@ void WorldSim::update_companion() {
         m_companion_pos_.y += dy / dist * step;
         m_collision_.resolve(m_companion_pos_.x, m_companion_pos_.y, kCompanionRadius);
     }
+    if (m_companion_duo_ > 0) {  // the duo strike gets ready again (spec 10, "Duo strike")
+        --m_companion_duo_;
+    }
     if (c.care_ticks > 0 && m_companion_bond_ >= c.care_bond) {  // care (spec 10): it tends the player now and then
         ++m_companion_care_;
         if (m_companion_care_ >= c.care_ticks) {
@@ -1332,8 +1336,7 @@ void WorldSim::update_companion() {
         return;
     }
     DamageInput in;
-    in.atk = c.atk_base + c.atk_per_level * (p.level - 1) + std::min(m_companion_bond_ / 5, 10);  // the bond (spec 10)
-    in.atk = in.atk * m_setup_.gift.companion_atk_pct / 100;  // a gift of command (spec 18)
+    in.atk = companion_atk();
     in.power_pct = 100;
     in.def_target = target->def.def;
     in.lvl_attacker = p.level;
@@ -1354,6 +1357,40 @@ void WorldSim::update_companion() {
         m_companion_bond_ += m_setup_.gift.bond_gain;  // a gift of taming makes the bond grow faster (spec 18)
         on_kill(*target);
     }
+}
+
+std::int64_t WorldSim::companion_atk() const {
+    const CompanionDef& c = *m_setup_.companion;
+    const std::int64_t atk = c.atk_base + c.atk_per_level * (m_player_.level - 1) + std::min(m_companion_bond_ / 5, 10);
+    return atk * m_setup_.gift.companion_atk_pct / 100;  // a gift of command (spec 18)
+}
+
+void WorldSim::duo_hit(Enemy& enemy) {
+    if (!m_setup_.companion || !m_player_.using_strike || m_companion_duo_ > 0 || enemy.hp <= 0) {
+        return;
+    }
+    const CompanionDef& c = *m_setup_.companion;
+    if (c.duo_pct <= 0 || m_companion_bond_ < c.duo_bond) {
+        return;
+    }
+    const float dx = enemy.position.x - m_companion_pos_.x;
+    const float dy = enemy.position.y - m_companion_pos_.y;
+    if (std::sqrt(dx * dx + dy * dy) > static_cast<float>(c.duo_range_x100) / 100.0F + enemy.radius()) {
+        return;
+    }
+    DamageInput in;
+    in.atk = companion_atk();
+    in.power_pct = c.duo_pct;
+    in.def_target = enemy.def.def;
+    in.lvl_attacker = m_player_.level;
+    in.lvl_target = enemy.def.level;
+    in.variance_pm = 1000;
+    in.crit = false;
+    in.crit_mult_pm = 1500;
+    const std::int64_t amount = damage(in);
+    enemy.hp -= amount;
+    m_events_.push_back({enemy.position, amount, false, false});
+    m_companion_duo_ = c.duo_cooldown_ticks;
 }
 
 bool WorldSim::companion_stay() {
@@ -2135,6 +2172,7 @@ void WorldSim::do_hits() {
         enemy.hit_flash = kHitFlashTicks;
         m_events_.push_back({enemy.position, amount, crit, false, in.elem_mult_pm > 1000});
         m_cues_.push_back({"hit", enemy.def.sound, enemy.position, crit, in.elem_mult_pm > 1000});
+        duo_hit(enemy);  // the companion joins a power strike (spec 10, "Duo strike")
         if (enemy.hp > 0) {
             apply_status(enemy);
             if (enemy.def.stagger_pct > 0 && enemy.broken == 0) {  // the stagger bar (spec 05, "Stagger")
@@ -3004,6 +3042,7 @@ bool WorldSim::restore(const SaveState& saved, std::string& error) {
         m_setup_.companion = def->second;
     }
     m_companion_care_ = 0;
+    m_companion_duo_ = 0;
     if (m_setup_.companion) {  // a save without a companion (an older one) puts it next to the player
         m_companion_pos_ = s.has_companion ? Vec2{s.companion_x, s.companion_y} : s.position;
         m_companion_cooldown_ = s.has_companion ? s.companion_cooldown : m_setup_.companion->cooldown_ticks;

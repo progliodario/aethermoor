@@ -133,6 +133,7 @@ class CombatSim:
         self.comp_stay = False  # told to stay where it is (spec 10, "Commands")
         self.comp_bond = 0      # the creatures it has killed (spec 10, "Bond")
         self.comp_care = 0      # ticks since it last tended the player (spec 10, "Care"); not saved
+        self.comp_duo = 0       # ticks before the next duo strike (spec 10, "Duo strike"); not saved
         # Gideon's Dungeon (spec 18): the defense of the scenario and its state, which is not saved
         self.defense_def = scenario.get("defense")
         self.defense_active = False
@@ -459,6 +460,8 @@ class CombatSim:
             self.comp_x += dx / dist * step
             self.comp_y += dy / dist * step
             self.comp_x, self.comp_y = mv.resolve(self.comp_x, self.comp_y, self.grid, self.props, COMPANION_RADIUS)
+        if self.comp_duo > 0:  # the duo strike gets ready again (spec 10, "Duo strike")
+            self.comp_duo -= 1
         if c.get("care_ticks", 0) > 0 and self.comp_bond >= c.get("care_bond", 0):  # care (spec 10): it tends the player now and then
             self.comp_care += 1
             if self.comp_care >= c["care_ticks"]:
@@ -485,9 +488,7 @@ class CombatSim:
                 target, best = enemy, d
         if target is None:
             return
-        atk = c["atk_base"] + c["atk_per_level"] * (self.level - 1) + min(self.comp_bond // COMPANION_BOND_STEP, COMPANION_BOND_MAX)
-        atk = atk * self.gift.get("companion_atk_pct", 100) // 100  # a gift of command (spec 18)
-        damage = rules.damage(atk, 100, target.d["def"], 1000, 0, self.level, target.d["level"], 1000, False, 1500, 1000)
+        damage = rules.damage(self._companion_atk(), 100, target.d["def"], 1000, 0, self.level, target.d["level"], 1000, False, 1500, 1000)
         target.hp -= damage
         self.comp_cooldown = c["cooldown_ticks"]
         if target.hp <= 0:
@@ -495,6 +496,25 @@ class CombatSim:
             target.state = DEAD
             self.comp_bond += self.gift.get("bond_gain", 1)  # a gift of taming makes the bond grow faster (spec 18)
             self._on_kill(target)
+
+    def _companion_atk(self) -> int:
+        """The attack of the companion (spec 10, "Bond"): its own, one more point every five kills (ten at most), and a gift of command (spec 18)."""
+        c = self.companion
+        atk = c["atk_base"] + c["atk_per_level"] * (self.level - 1) + min(self.comp_bond // COMPANION_BOND_STEP, COMPANION_BOND_MAX)
+        return atk * self.gift.get("companion_atk_pct", 100) // 100
+
+    def _duo_hit(self, enemy, skill: dict) -> None:
+        """The duo strike (spec 10, "Duo strike"): a power strike brings the companion's hit on the first creature it hits that is still alive and
+        near the companion, when the bond is high enough and the duo is ready; then the duo waits `duo_cooldown_ticks`."""
+        c = self.companion
+        if c is None or self.strike is None or skill is not self.strike or c.get("duo_pct", 0) <= 0 or self.comp_duo > 0:
+            return
+        if enemy.hp <= 0 or self.comp_bond < c.get("duo_bond", 0):
+            return
+        if math.sqrt((enemy.x - self.comp_x) ** 2 + (enemy.y - self.comp_y) ** 2) > c.get("duo_range_x100", 0) / 100 + enemy.radius:
+            return
+        enemy.hp -= rules.damage(self._companion_atk(), c["duo_pct"], enemy.d["def"], 1000, 0, self.level, enemy.d["level"], 1000, False, 1500, 1000)
+        self.comp_duo = c.get("duo_cooldown_ticks", 0)
 
     def companion_stay(self) -> bool:
         """Tells the companion to stay where it is, or to follow again (spec 10, "Commands"). False when there is no companion."""
@@ -614,6 +634,7 @@ class CombatSim:
         self.comp_stay = False
         self.comp_cooldown = self.companion["cooldown_ticks"]
         self.comp_care = 0
+        self.comp_duo = 0
 
     def recruit_companion(self, cid: str) -> bool:
         """The effect `recruit_companion` (spec 10, "The party"): a companion joins the party, last, and follows at once. False, changing
@@ -715,6 +736,7 @@ class CombatSim:
             drain = sum(b.get("drain_pm", 0) for b in self._flat_bonuses())
             if drain > 0 and 0 < self.hp < self.derived["max_hp"]:  # an accessory or an affix that drains (spec 06, "Equipment")
                 self.hp = min(self.derived["max_hp"], self.hp + max(1, damage * drain // 1000))
+            self._duo_hit(enemy, s)  # the companion joins a power strike (spec 10, "Duo strike")
             if enemy.hp > 0:
                 self._apply_status(enemy)
                 pct = enemy.d.get("stagger_pct", STAGGER_PCT)

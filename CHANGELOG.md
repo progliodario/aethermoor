@@ -6,6 +6,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Added
 
+- **The duo strike** (spec 10, "Duo strike"): once the bond with a companion reaches twenty kills, a power strike near it brings its
+  hit too, three times its attack, on the first creature the strike hits, every ten seconds (the strays of the party: two and a half
+  times). Same rule in the reference, the vectors (scenario `companion_duo`) and both clients.
+
 - **The world ahead is made on a thread** (item C4.1, spec 09 "Streaming"): both clients generate the ring of chunks just outside the
   window on a thread of their own, and the window takes them when they are ready, so walking into new land costs the frame almost
   nothing. The simulation still loads the window at the same point of the tick: nothing of the game changes, and a test of each client

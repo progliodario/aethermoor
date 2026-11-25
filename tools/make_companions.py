@@ -11,6 +11,9 @@ DATA = ROOT / "data" / "base"
 
 # Care (spec 10): from this bond on, every companion heals the player now and then (ten seconds, 5% of the health).
 CARE_BOND, CARE_TICKS, CARE_PCT = 10, 600, 5
+# The duo strike (spec 10): after twenty kills together, a power strike near the companion brings its hit, three times its attack, every
+# ten seconds.
+DUO = {"duo_bond": 20, "duo_pct": 300, "duo_range_x100": 400, "duo_cooldown_ticks": 600}
 
 # companion: (protagonist, creature art, name en, name it, atk_base, atk_per_level, range_x100, cooldown_ticks, speed_x100, scale_pct)
 COMPANIONS = {
@@ -82,7 +85,7 @@ def main() -> None:
         write_json(DATA / "companions" / f"{name}.json", {
             "$schema": "../../../schemas/companion.schema.json", "id": f"base:companion/{name}", "name": f"$i18n:companion.{name}.name",
             "art": f"base:art/creature/{art}", "scale_pct": scale, "atk_base": atk, "atk_per_level": per_level, "range_x100": reach,
-            "cooldown_ticks": cooldown, "speed_x100": speed, "follow_x100": 220, "care_bond": CARE_BOND, "care_ticks": CARE_TICKS, "care_pct": CARE_PCT,
+            "cooldown_ticks": cooldown, "speed_x100": speed, "follow_x100": 220, "care_bond": CARE_BOND, "care_ticks": CARE_TICKS, "care_pct": CARE_PCT, **DUO,
             "moments": [{"bond": bond, "text": f"$i18n:companion.{name}.moment_{bond}"} for bond in MOMENT_BONDS]})
         for bond, (line_en, line_it) in zip(MOMENT_BONDS, MOMENTS[name]):
             en[f"companion.{name}.moment_{bond}"], it[f"companion.{name}.moment_{bond}"] = line_en, line_it

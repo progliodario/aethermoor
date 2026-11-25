@@ -313,6 +313,10 @@ private fun companionOf(c: JsonObject): CompanionDef = CompanionDef(
     careBond = c["care_bond"]?.jsonPrimitive?.int ?: 0,
     careTicks = c["care_ticks"]?.jsonPrimitive?.int ?: 0,
     carePct = c["care_pct"]?.jsonPrimitive?.int ?: 0,
+    duoBond = c["duo_bond"]?.jsonPrimitive?.int ?: 0,
+    duoPct = c["duo_pct"]?.jsonPrimitive?.int ?: 0,
+    duoRangeX100 = c["duo_range_x100"]?.jsonPrimitive?.int ?: 0,
+    duoCooldownTicks = c["duo_cooldown_ticks"]?.jsonPrimitive?.int ?: 0,
 )
 
 /** Chooses an affix (spec 06, "Choosing an affix"): the `piece` of the command, or the offer of now at its index `offer`. */

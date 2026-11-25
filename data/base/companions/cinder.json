@@ -12,5 +12,9 @@
   "follow_x100": 220,
   "care_bond": 10,
   "care_ticks": 600,
-  "care_pct": 4
+  "care_pct": 4,
+  "duo_bond": 20,
+  "duo_pct": 250,
+  "duo_range_x100": 400,
+  "duo_cooldown_ticks": 600
 }

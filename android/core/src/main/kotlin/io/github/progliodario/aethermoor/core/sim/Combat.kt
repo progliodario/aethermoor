@@ -229,6 +229,11 @@ class CompanionDef(
     val careBond: Int = 0,
     val careTicks: Int = 0,
     val carePct: Int = 0,
+    /** The duo strike (spec 10): from [duoBond] on it joins a power strike with [duoPct] (0: never) on a creature within [duoRangeX100], then waits [duoCooldownTicks]. */
+    val duoBond: Int = 0,
+    val duoPct: Int = 0,
+    val duoRangeX100: Int = 0,
+    val duoCooldownTicks: Int = 0,
     /** Moments of the bond (spec 10): at this bond the companion shows a line, once a game ($i18n: keys). Presentation. */
     val moments: List<Pair<Int, String>> = emptyList(),
 )

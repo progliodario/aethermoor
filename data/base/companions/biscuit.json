@@ -9,5 +9,9 @@
   "range_x100": 200,
   "cooldown_ticks": 70,
   "speed_x100": 360,
-  "follow_x100": 200
+  "follow_x100": 200,
+  "duo_bond": 20,
+  "duo_pct": 250,
+  "duo_range_x100": 400,
+  "duo_cooldown_ticks": 600
 }
