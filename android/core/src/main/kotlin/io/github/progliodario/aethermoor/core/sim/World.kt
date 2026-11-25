@@ -1301,7 +1301,7 @@ class WorldSim(
         val amount = damage(
             DamageInput(
                 atk = companionAtk(c),
-                powerPct = c.duoPct,
+                powerPct = c.duoPct.toLong(),
                 defTarget = enemy.def.def,
                 lvlAttacker = player.level,
                 lvlTarget = enemy.def.level,
