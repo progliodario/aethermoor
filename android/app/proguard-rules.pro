@@ -16,3 +16,5 @@
    boolean reportFixture(long);
    float   reportRayFixture(long, float, float, float, float, float);
 }
+# gdx-controllers finds its Android backend by name (spec 16, the controller).
+-keep class com.badlogic.gdx.controllers.android.** { *; }

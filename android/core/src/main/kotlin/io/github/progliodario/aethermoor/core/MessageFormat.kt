@@ -43,22 +43,33 @@ private fun splitTopLevelCommas(body: String, limit: Int): List<String> {
 
 private fun parseBranches(spec: String): Map<String, String>? {
     val branches = HashMap<String, String>()
-    var i = 0
-    val n = spec.length
-    while (i < n) {
-        while (i < n && isSpace(spec[i])) i++
-        if (i >= n) break
+    var i = skipSpaces(spec, 0)
+    while (i < spec.length) {
         val start = i
-        while (i < n && !isSpace(spec[i]) && spec[i] != '{') i++
+        i = selectorEnd(spec, i)
         val selector = spec.substring(start, i)
-        while (i < n && isSpace(spec[i])) i++
-        if (selector.isEmpty() || i >= n || spec[i] != '{') return null
+        i = skipSpaces(spec, i)
+        if (selector.isEmpty() || i >= spec.length || spec[i] != '{') return null
         val end = matchingBrace(spec, i)
         if (end < 0) return null
         branches[selector] = spec.substring(i + 1, end)
-        i = end + 1
+        i = skipSpaces(spec, end + 1)
     }
     return branches
+}
+
+/** The first index from [from] that is not a space. */
+private fun skipSpaces(spec: String, from: Int): Int {
+    var i = from
+    while (i < spec.length && isSpace(spec[i])) i++
+    return i
+}
+
+/** Where the selector that starts at [from] ends: at the first space or brace. */
+private fun selectorEnd(spec: String, from: Int): Int {
+    var i = from
+    while (i < spec.length && !isSpace(spec[i]) && spec[i] != '{') i++
+    return i
 }
 
 private fun argToString(value: Any): String = value.toString()

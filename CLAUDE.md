@@ -73,6 +73,13 @@ Full plan: `docs/plan/README.md` (Italian). Decisions: `docs/adr/`. Index of all
 - An edit script must be idempotent: replace an exact block that occurs once, and do nothing when the new text is already there. A script
   that ran twice once inserted a C++ struct twice (`redefinition of struct`); one whose new text was a prefix of the old silently skipped
   an edit.
+- A key of the Gradle catalog (`android/gradle/libs.versions.toml`) must not start with another key and a dash: `gdx-controllers` in
+  `[versions]` made `libs.versions.gdx` a group, and `libs.versions.gdx.get()` stopped compiling. Name it `gdxControllers`.
+- A workflow that another calls (`workflow_call`: `ci-desktop` and `ci-android`, called by `release`) names its concurrency group
+  (`ci-desktop-${{ github.ref }}`): with `${{ github.workflow }}` the two called builds would share the name of the caller and cancel
+  each other.
+- MSVC fails on a local that hides a member or a global (C4456-C4459): name a new helper so that no local of the file shares it
+  (`capped_bucket`, not `bucket`, in a class whose methods have a local `bucket`).
 - In C++ a private method must not share its name with a public accessor (`void defense_wave()` and `int defense_wave() const`): on a
   non-const object the private overload wins, and the call fails to compile.
 - A prop of radius 0 is a mark on the ground and blocks nothing (spec 02); a prop that must not block has radius 0, never a small one.
@@ -202,7 +209,7 @@ The numbers (counted from the data by `tools/make_facts.py`):
 | Progression | 50 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 58 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 4283 keys, in Italian and English |
+| Texts | 4287 keys, in Italian and English |
 | Same rules on both clients | 31 files of conformance vectors, 634 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->

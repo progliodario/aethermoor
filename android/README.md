@@ -5,7 +5,7 @@ Kotlin and libGDX, Android 11+ (minSdk 30), portrait and landscape. Three Gradle
 | Module | Type | Purpose |
 |---|---|---|
 | `core` | Kotlin/JVM | Everything that is not drawing: numerics, rules, world generation and time, the story engine, combat, saves, the pack loader, the vector rasterizer and rigs. No Android or libGDX imports; tested on the JVM against the shared conformance vectors. |
-| `game` | Android library | The libGDX layer (`AethermoorGame`): rendering, the HUD and panels, touch input (`InputController`), the texture cache, reading the pack from the assets (`GdxPackSource`) |
+| `game` | Android library | The libGDX layer (`AethermoorGame`): rendering, the HUD and panels, touch input (`InputController`), a game controller (`GamePad`, gdx-controllers), the texture cache (managed textures, capped by the quality of the graphics), reading the pack from the assets (`GdxPackSource`) |
 | `app` | Android application | The launcher activity, the manifest, and the bundling of `../data` as assets |
 
 Name, version and application id come from `../project.json`. Setup: [`docs/dev/setup.md`](../docs/dev/setup.md). The desktop client has the same features; the two clients are kept equal by the specs and the vectors (`docs/spec/`, `tests/conformance/`).

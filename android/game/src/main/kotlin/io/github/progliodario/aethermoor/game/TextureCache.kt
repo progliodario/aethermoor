@@ -4,9 +4,11 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.graphics.glutils.PixmapTextureData
 import io.github.progliodario.aethermoor.core.Pack
 import io.github.progliodario.aethermoor.core.vector.parseRecipe
 import io.github.progliodario.aethermoor.core.vector.rasterize
+import kotlin.math.min
 
 /** A baked recipe. Sizes and origin are in art units; the region is flipped for a y-down projection. */
 class Sprite(
@@ -22,8 +24,8 @@ class Sprite(
 )
 
 /**
- * Bakes vector recipes into textures at the current scale bucket (spec 13). The pixmaps are kept next to
- * their textures so libGDX can re-create the textures after the OpenGL context is lost.
+ * Bakes vector recipes into textures at the current scale bucket (spec 13). The textures are managed, from pixmaps kept next to them,
+ * so that libGDX loads them again by itself after the OpenGL context is lost (a pause of the app, risk R6 of the roadmap).
  */
 class TextureCache(private val pack: Pack) {
     private class Entry(val bucket: Int, val sprite: Sprite?, val texture: Texture?, val pixmap: Pixmap?)
@@ -33,6 +35,9 @@ class TextureCache(private val pack: Pack) {
     val size: Int get() = entries.size
 
     private var budgetNanos = -1L
+
+    /** The largest bucket the textures are baked at, from the quality of the graphics (spec 13, "Quality"); a larger tile is drawn from it, scaled. */
+    var bucketCap = 256
     private var spentNanos = 0L
 
     /**
@@ -46,7 +51,7 @@ class TextureCache(private val pack: Pack) {
     }
 
     fun get(recipeId: String, tilePx: Int, variant: String? = null): Sprite? {
-        val bucket = bucketFor(tilePx)
+        val bucket = min(bucketFor(tilePx), bucketCap)
         val key = "$recipeId|${variant ?: ""}|$bucket"
         entries[key]?.let { return it.sprite }
         if (budgetNanos >= 0 && spentNanos > budgetNanos) return null // not this frame: the picture appears in one of the next
@@ -64,7 +69,8 @@ class TextureCache(private val pack: Pack) {
                     pixmap.pixels.clear()
                     pixmap.pixels.put(bitmap.rgba)
                     pixmap.pixels.rewind()
-                    val texture = Texture(pixmap)
+                    // managed (kept pixmap, not disposed by the texture): libGDX loads it again when the OpenGL context is lost (risk R6)
+                    val texture = Texture(PixmapTextureData(pixmap, null, false, false, true))
                     texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
                     val region = TextureRegion(texture)
                     region.flip(false, true)
@@ -80,7 +86,7 @@ class TextureCache(private val pack: Pack) {
 
     /** Disposes textures baked for other scale buckets than the one used by [tilePx]. */
     fun releaseOtherBuckets(tilePx: Int) {
-        val bucket = bucketFor(tilePx)
+        val bucket = min(bucketFor(tilePx), bucketCap)
         val iterator = entries.entries.iterator()
         while (iterator.hasNext()) {
             val entry = iterator.next().value

@@ -1640,5 +1640,9 @@
   "ui.defense_won": "Il Dungeon resiste! Tutte le ondate sono battute.",
   "ui.defense_lost": "Un avventuriero ha toccato il nucleo: gli altri se ne vanno ridendo. Riprova quando vuoi.",
   "ui.defense_hud": "Difesa: ondata {wave}/{waves}",
-  "ui.companion_switch_button": "Altro"
+  "ui.companion_switch_button": "Altro",
+  "ui.option_quality": "Qualità",
+  "ui.quality_low": "Bassa",
+  "ui.quality_normal": "Media",
+  "ui.quality_high": "Alta"
 }

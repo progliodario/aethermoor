@@ -40,7 +40,7 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Progression | 50 titles, 8 tags, 16 talents, 29 deeds |
 | Named people | 58 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
-| Texts | 4283 keys, in Italian and English |
+| Texts | 4287 keys, in Italian and English |
 | Same rules on both clients | 31 files of conformance vectors, 634 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->

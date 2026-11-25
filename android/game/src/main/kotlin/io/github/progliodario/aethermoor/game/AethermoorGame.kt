@@ -68,10 +68,13 @@ import io.github.progliodario.aethermoor.core.sim.saveFromJson
 import io.github.progliodario.aethermoor.core.sim.savePeek
 import io.github.progliodario.aethermoor.core.sim.saveToJson
 import io.github.progliodario.aethermoor.core.vector.Clip
+import io.github.progliodario.aethermoor.core.vector.QUALITY_LEVELS
+import io.github.progliodario.aethermoor.core.vector.QualityLevel
 import io.github.progliodario.aethermoor.core.vector.Rig
 import io.github.progliodario.aethermoor.core.vector.evaluatePose
 import io.github.progliodario.aethermoor.core.vector.parseClip
 import io.github.progliodario.aethermoor.core.vector.parseRig
+import io.github.progliodario.aethermoor.core.vector.qualityIndex
 import io.github.progliodario.aethermoor.core.worldEnemyIds
 import java.util.Locale
 import kotlin.math.PI
@@ -134,6 +137,13 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private lateinit var camera: OrthographicCamera
     private lateinit var cache: TextureCache
     private val input = InputController()
+
+    /** A game controller, with the buttons of the gamepad of the desktop (spec 16, "Android"). */
+    private val pad = GamePad()
+
+    /** The keyboard and the touches, with the buttons of the controller pressed as the keys of the same actions. */
+    private val keyInput: Input
+        get() = pad.keys(Gdx.input)
 
     private var assets: Assets? = null
     private var sim: WorldSim? = null
@@ -284,13 +294,23 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         titleSlots = readSlots()
     }
 
+    /** A panel or a list is open: the bag, the map, the journal, crafting, a shop, a chest, the board or the stones (they pause the game). */
+    private fun panelOpen(world: WorldSim): Boolean = showInventory || showMap || showJournal || showCraft || world.shop != null || world.chestOpen || world.board != null || world.travel != null
+
+    /** Where the player is, for the buttons of a controller ([GamePad]). */
+    private fun padContext(world: WorldSim?): PadContext = when {
+        world == null -> if (chooserSlot > 0) PadContext.PANEL else PadContext.MENU
+        panelOpen(world) -> PadContext.PANEL
+        world.story.dialogueActive -> PadContext.DIALOGUE
+        else -> PadContext.PLAY
+    }
+
     /** Back (or Esc with no panel open) comes out of a game; with a panel open, Back closes it. Returns true when the game was left. */
     private fun handleBack(world: WorldSim): Boolean {
-        val back = Gdx.input.isKeyJustPressed(Input.Keys.BACK)
-        val escape = Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)
+        val back = keyInput.isKeyJustPressed(Input.Keys.BACK)
+        val escape = keyInput.isKeyJustPressed(Input.Keys.ESCAPE)
         if (!back && !escape) return false
-        val panelOpen = showInventory || showMap || showJournal || showCraft || world.shop != null || world.chestOpen || world.board != null || world.travel != null
-        if (panelOpen) {
+        if (panelOpen(world)) {
             if (back) {
                 showInventory = false
                 showMap = false
@@ -666,6 +686,11 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private val options = booleanArrayOf(true, true, true, false)
     private var optionRects: List<FloatArray> = emptyList()
 
+    /** The quality of the graphics (spec 13, "Quality"): an index of [QUALITY_LEVELS], kept in the settings as `quality`; proposed from the device. */
+    private var quality = defaultQuality()
+    private val gfx: QualityLevel
+        get() = QUALITY_LEVELS[quality]
+
     private val volumeKeys = arrayOf("volume_master_pm", "volume_effects_pm", "volume_ambience_pm", "volume_music_pm")
 
     /** Reads the volumes of the settings file (the defaults stay for what is missing) and gives them to the sound board. */
@@ -676,6 +701,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             for ((i, key) in optionKeys.withIndex()) {
                 Regex("\"$key\"\\s*:\\s*(true|false)").find(text)?.groupValues?.get(1)?.let { options[i] = it == "true" }
             }
+            Regex("\"quality\"\\s*:\\s*\"(\\w+)\"").find(text)?.groupValues?.get(1)?.let { quality = qualityIndex(it, quality) }
             for ((i, key) in volumeKeys.withIndex()) {
                 Regex("\"$key\"\\s*:\\s*(\\d+)").find(text)?.groupValues?.get(1)?.toIntOrNull()?.let { volumes[i] = it.coerceIn(0, 1000) }
             }
@@ -690,10 +716,27 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         try {
             val volumeText = volumeKeys.indices.joinToString(",\n") { "  \"${volumeKeys[it]}\": ${volumes[it]}" }
             val optionText = optionKeys.indices.joinToString("") { "  \"${optionKeys[it]}\": ${options[it]},\n" }
-            settingsFile().writeString("{\n  \"language\": \"$language\",\n$optionText$volumeText\n}\n", false, "UTF-8")
+            val qualityText = "  \"quality\": \"${gfx.id}\",\n" // spec 13, "Quality"
+            settingsFile().writeString("{\n  \"language\": \"$language\",\n$optionText$qualityText$volumeText\n}\n", false, "UTF-8")
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
             Gdx.app.error(TAG, "Cannot write the settings: ${e.message}")
         }
+    }
+
+    /** The level of quality a device gets the first time (spec 13, "Quality"): from the memory the system gives the app. */
+    private fun defaultQuality(): Int {
+        val mib = Runtime.getRuntime().maxMemory() / (1024 * 1024)
+        return when {
+            mib >= HIGH_QUALITY_MIB -> 2
+            mib >= NORMAL_QUALITY_MIB -> 1
+            else -> 0
+        }
+    }
+
+    /** The button of the quality in the journal: low, normal, high and round again. */
+    private fun cycleQuality() {
+        quality = (quality + 1) % QUALITY_LEVELS.size
+        writeSettings()
     }
 
     /** The sound button: the whole volume goes 100, 60, 30, 0 percent and round again. */
@@ -834,6 +877,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val world = sim
         val data = assets
         val slots = titleSlots
+        pad.update(padContext(world)) // once a frame, before any input is read
         if (world == null && data != null && slots != null) {
             // the title and the chooser have the music of the title and no ambience
             sound.musicRules?.let { sound.setMusic(it.title, listOf("base")) }
@@ -844,7 +888,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 if (chooserSlot > 0) drawChooser(data)
                 return
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.BACK) || Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            if (keyInput.isKeyJustPressed(Input.Keys.BACK) || keyInput.isKeyJustPressed(Input.Keys.ESCAPE)) {
                 if (showCredits) {
                     showCredits = false
                 } else if (showDeeds) {
@@ -865,8 +909,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         if (handleBack(world)) return
         handleStoryInput(world)
-        val frame = input.read()
-        if (showInventory || showMap || showJournal || showCraft || world.shop != null || world.chestOpen || world.board != null || world.travel != null) {
+        val frame = input.read(pad)
+        if (panelOpen(world)) {
             accumulator = 0f // the bag, the map, the journal, the shop, the board and the stones pause the game
         } else {
             accumulator += min(Gdx.graphics.deltaTime, MAX_FRAME_SECONDS)
@@ -880,7 +924,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         if (messageFrames > 0) messageFrames--
         defenseNotice(world, data) // Gideon's Dungeon (spec 18)
-        val free = !(showInventory || showMap || showJournal || showCraft || world.shop != null || world.chestOpen || world.board != null || world.travel != null || world.story.dialogueActive)
+        val free = !(panelOpen(world) || world.story.dialogueActive)
         if (newDeeds.isNotEmpty() && messageFrames <= 0) { // a deed done (spec 11, "Deeds"), one at a time
             val id = newDeeds.removeAt(0)
             data.deeds.firstOrNull { it.id == id }?.let { showNotice(data.pack.text(language, "\$i18n:ui.deed_done", mapOf("deed" to data.pack.text(language, it.name)))) }
@@ -918,6 +962,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         floating.removeAll { it.age > FLOATING_TEXT_FRAMES }
 
         val tilePx = max(16, (BASE_TILE_PX * Gdx.graphics.density).roundToInt())
+        cache.bucketCap = gfx.bucketCap // spec 13, "Quality"
         cache.releaseOtherBuckets(tilePx)
         // The first frames bake all they show (the world appears whole); after them a frame bakes for a few milliseconds
         // at most, so that walking into new things never stops the game (spec 13, "Scale buckets").
@@ -1038,7 +1083,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 val u = (tx % span).toFloat() / span
                 val v = (ty % span).toFloat() / span
                 batch.draw(sprite.region.texture, sx0, sy0, sx1 - sx0, sy1 - sy0, u, v, u + 1f / span, v + 1f / span)
-                if (def.surface == "water" && span > 1) {
+                if (def.surface == "water" && span > 1 && gfx.water) {
                     // Water moves (spec 13, "Water"): the same picture, shifted by whole tiles, fades in and out over it.
                     val t = (System.currentTimeMillis() % 16336281L).toFloat()
                     val shifts = intArrayOf(1, 2, 2, 3)
@@ -1069,7 +1114,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     drawGroundBlend(over, tx, ty, side[0], side[1], sx0, sy0, sx1 - sx0, sy1 - sy0)
                 }
                 // the corners: a higher ground that touches the tile only at a corner rounds that corner
-                for (corner in GROUND_CORNERS) {
+                for (corner in if (gfx.corners) GROUND_CORNERS else NO_CORNERS) { // not at the low quality (spec 13, "Quality")
                     val other = data.tileset.tiles[world.gidAt(tx + corner[0], ty + corner[1])] ?: continue
                     if (other.blend <= def.blend) continue
                     if ((data.tileset.tiles[world.gidAt(tx + corner[0], ty)]?.blend ?: 0) > def.blend) continue
@@ -1093,7 +1138,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         // The long shadows of dawn and dusk (spec 08, "The colour of the hour"): props and creatures, before any of them.
         val shadeTime = world.time()
         val grade = gradingOf(data)
-        if (shadeTime != null && grade.shadowPm > 0) {
+        if (shadeTime != null && grade.shadowPm > 0 && gfx.longShadows) {
             val low = (1f - abs(shadeTime.lightPm - 550f) / 350f).coerceIn(0f, 1f)
             if (low > 0.02f) {
                 val alpha = grade.shadowPm / 1000f * low
@@ -1890,7 +1935,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     private fun handleShopInput(world: WorldSim) {
-        val input = Gdx.input
+        val input = keyInput
         val count = shopEntries(world).size
         if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             world.closeShop()
@@ -1944,7 +1989,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     private fun handleBoardInput(world: WorldSim) {
-        val input = Gdx.input
+        val input = keyInput
         val count = world.board?.offers?.size ?: 0
         if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             world.closeBoard()
@@ -2035,7 +2080,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     private fun handleTravelInput(world: WorldSim) {
-        val input = Gdx.input
+        val input = keyInput
         val count = world.travel?.stops?.size ?: 0
         if (input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             world.closeTravel()
@@ -2064,7 +2109,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     private fun handleStoryInput(world: WorldSim) {
         val story = world.story
-        val input = Gdx.input
+        val input = keyInput
         val view = story.dialogueView()
         if (world.travel != null) {
             handleTravelInput(world)
@@ -2130,7 +2175,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 val y = input.y.toFloat()
                 val panel = journalPanel
                 val option = optionRects.indexOfFirst { r -> x >= r[0] && x <= r[0] + r[2] && y >= r[1] && y <= r[1] + r[3] }
-                if (option == 4) { // the tag worn (spec 11, "Tags")
+                if (option == QUALITY_BUTTON) { // the quality of the graphics (spec 13, "Quality")
+                    cycleQuality()
+                } else if (option == QUALITY_BUTTON + 1) { // the tag worn (spec 11, "Tags")
                     sim?.let { cycleTag(it) }
                 } else if (option >= 0) { // an option of accessibility, at the bottom of the journal (spec 16, "Settings")
                     options[option] = !options[option]
@@ -2826,21 +2873,24 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             optionRects = emptyList()
             return
         }
-        // and a fifth button, the tag worn (spec 11, "Tags"): a touch wears the next one earned
-        val buttons = if (world.combat.tags.isNotEmpty()) 5 else 4
+        // a fifth button, the quality of the graphics (spec 13, "Quality"), and a sixth, the tag worn (spec 11, "Tags"): a touch wears the next one earned
+        val buttons = if (world.combat.tags.isNotEmpty()) QUALITY_BUTTON + 2 else QUALITY_BUTTON + 1
         val optionW = (panelW - 32f * density - 8f * density * (buttons - 1)) / buttons
         val optionY = panelY + panelH - font.lineHeight * 2.2f - 40f * density
         optionRects = List(buttons) { i -> floatArrayOf(panelX + 16f * density + i * (optionW + 8f * density), optionY, optionW, 34f * density) }
         shapes.begin(ShapeRenderer.ShapeType.Filled)
         for ((i, r) in optionRects.withIndex()) {
-            shapes.color = if (i < 4 && options[i] || i == 4 && world.wornTag.isNotEmpty()) Color(0.16f, 0.35f, 0.55f, 1f) else Color(0.2f, 0.2f, 0.24f, 1f)
+            val lit = i < QUALITY_BUTTON && options[i] || i == QUALITY_BUTTON || i == QUALITY_BUTTON + 1 && world.wornTag.isNotEmpty()
+            shapes.color = if (lit) Color(0.16f, 0.35f, 0.55f, 1f) else Color(0.2f, 0.2f, 0.24f, 1f)
             shapes.rect(r[0], r[1], r[2], r[3])
         }
         shapes.end()
         batch.begin()
         val labels = arrayOf("\$i18n:ui.option_hints", "\$i18n:ui.option_numbers", "\$i18n:ui.option_flashes", "\$i18n:ui.option_large_text")
         for ((i, r) in optionRects.withIndex()) {
-            val label = if (i == 4) {
+            val label = if (i == QUALITY_BUTTON) {
+                data.pack.text(language, "\$i18n:ui.option_quality") + ": " + data.pack.text(language, "\$i18n:ui.quality_${gfx.id}")
+            } else if (i == QUALITY_BUTTON + 1) {
                 data.pack.text(language, "\$i18n:ui.option_tag") + ": " +
                     (if (world.wornTag.isEmpty()) data.pack.text(language, "\$i18n:ui.option_off") else data.pack.text(language, "\$i18n:tag.${world.wornTag}"))
             } else {
@@ -2982,7 +3032,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     /** The keys, the buttons, the drag and the pinch of the open world map (spec 16). */
     private fun handleMapInput(world: WorldSim) {
         val store = world.chunks ?: return
-        val input = Gdx.input
+        val input = keyInput
         if (input.isKeyJustPressed(Input.Keys.M) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             showMap = false
             return
@@ -3004,14 +3054,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** The keys of the zoom of the map: `+` and `-`. */
     private fun mapZoomKeys() {
-        val input = Gdx.input
+        val input = keyInput
         if (input.isKeyJustPressed(Input.Keys.PLUS) || input.isKeyJustPressed(Input.Keys.EQUALS)) mapZoom(1)
         if (input.isKeyJustPressed(Input.Keys.MINUS)) mapZoom(-1)
     }
 
     /** The keys that move the map by a sixth of the view, [step] cells. */
     private fun mapMoveKeys(store: io.github.progliodario.aethermoor.core.sim.ChunkStore, step: Float) {
-        val input = Gdx.input
+        val input = keyInput
         if (input.isKeyJustPressed(Input.Keys.UP) || input.isKeyJustPressed(Input.Keys.W)) mapPan(store, 0f, -step)
         if (input.isKeyJustPressed(Input.Keys.DOWN) || input.isKeyJustPressed(Input.Keys.S)) mapPan(store, 0f, step)
         if (input.isKeyJustPressed(Input.Keys.LEFT) || input.isKeyJustPressed(Input.Keys.A)) mapPan(store, -step, 0f)
@@ -3020,7 +3070,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** The other keys of the map: the player, the places, the quests, the goal and the level of the view. */
     private fun mapActionKeys(world: WorldSim) {
-        val input = Gdx.input
+        val input = keyInput
         if (input.isKeyJustPressed(Input.Keys.C)) mapCenterOnPlayer(world)
         if (input.isKeyJustPressed(Input.Keys.TAB)) mapNextPlace(world)
         if (input.isKeyJustPressed(Input.Keys.Q)) mapNextQuest(world)
@@ -3034,7 +3084,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** A tap on the map: a button of the map, or a touch that starts a drag. */
     private fun tapMap(world: WorldSim) {
-        val input = Gdx.input
+        val input = keyInput
         val x = input.x.toFloat()
         val y = input.y.toFloat()
         val button = mapButtons.firstOrNull { x >= it.rect[0] && x <= it.rect[0] + it.rect[2] && y >= it.rect[1] && y <= it.rect[1] + it.rect[3] }
@@ -3059,7 +3109,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** A drag moves the map under the finger; a pinch of two fingers zooms. */
     private fun dragMap(store: io.github.progliodario.aethermoor.core.sim.ChunkStore) {
-        val input = Gdx.input
+        val input = keyInput
         if (input.isTouched(0) && input.isTouched(1)) {
             // Pinch: the zoom goes up a level when the fingers spread by half, down a level when they close by a third.
             val dx = (input.getX(0) - input.getX(1)).toFloat()
@@ -4378,7 +4428,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** The title screen (spec 12, "Slots"): a tap or Enter on a game plays it, the cross or D deletes it after a second confirmation. */
     private fun handleTitleInput(data: Assets, slots: List<SlotSummary>) {
-        val input = Gdx.input
+        val input = keyInput
         if (showCredits) { // the credits are open: a tap, C or Back closes them (spec 16, "Credits")
             if (input.justTouched() || input.isKeyJustPressed(Input.Keys.C) || input.isKeyJustPressed(Input.Keys.ESCAPE) || input.isKeyJustPressed(Input.Keys.BACK)) showCredits = false
             return
@@ -4469,7 +4519,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** The screen where a protagonist is chosen: a tap on a name selects it, a tap on the selected one (or Enter) confirms, Back returns to the games. */
     private fun handleChooserInput() {
-        val input = Gdx.input
+        val input = keyInput
         if (input.isKeyJustPressed(Input.Keys.BACK) || input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             chooserSlot = 0
         } else if (!chooserKeys(input) && input.justTouched()) {
@@ -4787,6 +4837,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private const val BASE_TILE_PX = 64f
         private val GROUND_SIDES = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(0, 1))
         private val GROUND_CORNERS = arrayOf(intArrayOf(-1, -1), intArrayOf(1, -1), intArrayOf(-1, 1), intArrayOf(1, 1))
+        private val NO_CORNERS = emptyArray<IntArray>()
+
+        /** The buttons at the bottom of the journal: the four options, then the quality, then the tag. */
+        private const val QUALITY_BUTTON = 4
+
+        /** The memory the system gives the app for each level of quality proposed the first time (spec 13, "Quality"). */
+        private const val HIGH_QUALITY_MIB = 256L
+        private const val NORMAL_QUALITY_MIB = 160L
 
         /** Colors of the world map by biome code: water, beach, mountain, snow, desert, forest, plains. */
         private val MAP_COLORS = arrayOf(

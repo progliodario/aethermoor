@@ -23,6 +23,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = gameVersion
+        // the test on the emulator of the nightly workflow (android/app/src/androidTest, item C4.2)
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "GAME_NAME", "\"$gameName\"")
         resValue("string", "app_name", gameName)
         ndk {
@@ -63,6 +65,10 @@ kotlin {
 dependencies {
     implementation(project(":game"))
     implementation(libs.gdx.backend.android)
+    implementation(libs.gdx.controllers.android) // the controller on Android (spec 16): found by gdx-controllers at run time
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.junit)
     natives("com.badlogicgames.gdx:gdx-platform:${libs.versions.gdx.get()}:natives-arm64-v8a")
     natives("com.badlogicgames.gdx:gdx-platform:${libs.versions.gdx.get()}:natives-x86_64")
 }

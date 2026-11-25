@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.graphics.glutils.PixmapTextureData
 import io.github.progliodario.aethermoor.core.FontDef
 import io.github.progliodario.aethermoor.core.Pack
 import io.github.progliodario.aethermoor.core.loadFont
@@ -117,7 +118,7 @@ class PackFont private constructor(val font: BitmapFont, private val atlas: Pixm
             data.missingGlyph = data.getGlyph('?')
             data.getGlyph(' ')?.let { data.spaceXadvance = it.xadvance.toFloat() }
 
-            val texture = Texture(atlas)
+            val texture = Texture(PixmapTextureData(atlas, null, false, false, true)) // managed: loaded again after a lost context (R6)
             texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
             val font = BitmapFont(data, TextureRegion(texture), true)
             return PackFont(font, atlas, texture)

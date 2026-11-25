@@ -86,59 +86,54 @@ fun parseTileMap(tmjText: String): Result<TileMap> =
         val width = j.getValue("width").jsonPrimitive.int
         val height = j.getValue("height").jsonPrimitive.int
         val tileSize = j.getValue("tilewidth").f()
-        val tilesetId = property(j, "tileset")?.jsonPrimitive?.content ?: ""
+        val tilesetId = propertyText(j, "tileset")
         var ground: IntArray? = null
-        var spawnX = 0f
-        var spawnY = 0f
-        var hasSpawn = false
-        val props = ArrayList<Prop>()
-        val spawners = ArrayList<SpawnPoint>()
-        val npcs = ArrayList<NpcPoint>()
+        val objects = MapObjects()
         for (layerElement in j.getValue("layers").jsonArray) {
             val layer = layerElement.jsonObject
-            val type = (layer["type"] as? JsonPrimitive)?.contentOrNull ?: ""
-            val name = (layer["name"] as? JsonPrimitive)?.contentOrNull ?: ""
+            val type = fieldText(layer, "type")
+            val name = fieldText(layer, "name")
             if (type == "tilelayer" && name == "ground") {
                 val data = layer.getValue("data").jsonArray
                 ground = IntArray(data.size) { data[it].jsonPrimitive.int }
             } else if (type == "objectgroup" && name == "objects") {
-                for (objectElement in layer.getValue("objects").jsonArray) {
-                    val obj = objectElement.jsonObject
-                    val kind = (obj["type"] as? JsonPrimitive)?.contentOrNull ?: ""
-                    val x = obj.getValue("x").f() / tileSize
-                    val y = obj.getValue("y").f() / tileSize
-                    if (kind == "spawn_player") {
-                        spawnX = x
-                        spawnY = y
-                        hasSpawn = true
-                    } else if (kind == "prop") {
-                        props.add(
-                            Prop(
-                                art = property(obj, "art")?.jsonPrimitive?.content ?: "",
-                                x = x,
-                                y = y,
-                                radius = property(obj, "radius")?.f() ?: 0.3f,
-                            ),
-                        )
-                    } else if (kind == "enemy_spawner") {
-                        spawners.add(SpawnPoint(property(obj, "enemy")?.jsonPrimitive?.content ?: "", x, y))
-                    } else if (kind == "npc") {
-                        npcs.add(
-                            NpcPoint(
-                                key = property(obj, "key")?.jsonPrimitive?.content ?: "",
-                                dialogue = property(obj, "dialogue")?.jsonPrimitive?.content ?: "",
-                                variant = property(obj, "variant")?.jsonPrimitive?.content ?: "",
-                                x = x,
-                                y = y,
-                            ),
-                        )
-                    }
-                }
+                for (objectElement in layer.getValue("objects").jsonArray) objects.add(objectElement.jsonObject, tileSize)
             }
         }
         require(width > 0 && height > 0 && ground != null && ground.size == width * height) {
             "ground layer missing or its size does not match width * height"
         }
-        require(hasSpawn) { "map has no spawn_player object" }
-        TileMap(width, height, tilesetId, ground, spawnX, spawnY, props, spawners, npcs)
+        require(objects.hasSpawn) { "map has no spawn_player object" }
+        TileMap(width, height, tilesetId, ground, objects.spawnX, objects.spawnY, objects.props, objects.spawners, objects.npcs)
     }
+
+/** A text field of a Tiled object or layer: empty when it is not there. */
+private fun fieldText(obj: JsonObject, key: String): String = (obj[key] as? JsonPrimitive)?.contentOrNull ?: ""
+
+/** A text of the custom properties of a Tiled object: empty when it is not there. */
+private fun propertyText(obj: JsonObject, name: String): String = property(obj, name)?.jsonPrimitive?.content ?: ""
+
+/** What the object layer of a map holds: the start of the player, the props, the spawners and the people. */
+private class MapObjects {
+    var spawnX = 0f
+    var spawnY = 0f
+    var hasSpawn = false
+    val props = ArrayList<Prop>()
+    val spawners = ArrayList<SpawnPoint>()
+    val npcs = ArrayList<NpcPoint>()
+
+    fun add(obj: JsonObject, tileSize: Float) {
+        val x = obj.getValue("x").f() / tileSize
+        val y = obj.getValue("y").f() / tileSize
+        when (fieldText(obj, "type")) {
+            "spawn_player" -> {
+                spawnX = x
+                spawnY = y
+                hasSpawn = true
+            }
+            "prop" -> props.add(Prop(art = propertyText(obj, "art"), x = x, y = y, radius = property(obj, "radius")?.f() ?: 0.3f))
+            "enemy_spawner" -> spawners.add(SpawnPoint(propertyText(obj, "enemy"), x, y))
+            "npc" -> npcs.add(NpcPoint(key = propertyText(obj, "key"), dialogue = propertyText(obj, "dialogue"), variant = propertyText(obj, "variant"), x = x, y = y))
+        }
+    }
+}

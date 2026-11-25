@@ -318,3 +318,25 @@ def test_every_person_of_the_world_has_a_dialogue_of_its_own():
     dialogues = [n["dialogue"] for n in world["npcs"]]
     twins = sorted({d for d in dialogues if dialogues.count(d) > 1})
     assert not twins, twins
+
+
+# The levels of the graphics quality (spec 13, "Quality"): the largest bucket and the budget of the textures, in MiB. The same table is
+# in desktop/src/vector/quality.hpp and android/core/.../core/vector/Quality.kt, whose tests check the same budget.
+QUALITY_LEVELS = {"low": (64, 32), "normal": (128, 128), "high": (256, 512)}
+
+
+def test_all_the_art_fits_the_texture_budget_of_every_quality():
+    import math
+
+    canvases = []
+    for path in sorted((DATA / "art").rglob("*.json")):
+        if path.parent.name in ("rigs", "clips") or "rigs" in path.parts or "clips" in path.parts:
+            continue
+        canvas = json.loads(path.read_text(encoding="utf-8")).get("canvas")
+        if canvas:
+            canvases.append((canvas["w"], canvas["h"]))
+    assert len(canvases) > 100
+    for level, (bucket, budget_mib) in QUALITY_LEVELS.items():
+        scale = bucket / 32
+        total = sum(max(1, math.ceil(w * scale)) * max(1, math.ceil(h * scale)) * 4 for w, h in canvases)
+        assert total <= budget_mib * 1024 * 1024, f"quality {level}: {total / 2**20:.1f} MiB, the budget is {budget_mib}"

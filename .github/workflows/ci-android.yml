@@ -9,12 +9,14 @@ on:
       - "data/**"
       - "project.json"
       - ".github/workflows/ci-android.yml"
+  workflow_call:  # the release workflow builds the APK with this same workflow (item E3.1)
 
 permissions:
   contents: read
 
+# The group is named, not ${{ github.workflow }}: called by the release workflow, that would be the name of the caller for both builds.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ci-android-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
@@ -32,6 +34,9 @@ jobs:
       - name: Unit tests (pure JVM core)
         working-directory: android
         run: gradle --no-daemon :core:test
+      - name: The numbers of the performance test (docs/design/performance.md)
+        if: always()
+        run: cat android/core/build/performance.txt || true
       - name: Assemble debug APK
         working-directory: android
         run: gradle --no-daemon :app:assembleDebug

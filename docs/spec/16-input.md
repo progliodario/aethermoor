@@ -64,8 +64,7 @@ Several things share a key because they never happen together: `E` talks next to
 | Title screen | a tap chooses a game, the cross twice deletes it |
 | Back key | closes the open panel; with none open it saves the game and returns to the list of games; on the list it leaves the app |
 | Keyboard | as on desktop (`WASD`, `J`, `Space`, `E`, `I`, `Q`, `M`, `F2`) for a physical keyboard |
-
-Android controller support is not implemented.
+| Controller | the gamepad of the desktop (the row Gamepad above), the first connected controller (gdx-controllers): left stick moves; `A` (south) attacks, and confirms in a dialogue, a list or a panel; `X` (west) talks and confirms; `RB` is the power strike; `LB` the parry; `B` (east) rolls in the game and closes a panel; `Y` (north) switches buy and sell in a shop; the D-pad moves in lists and choices (and the view of the world map). On the title screen `A` and `X` choose a game and the D-pad moves; `B` does nothing there (Back would leave the app). The buttons of the panels reach the game as the keys of a physical keyboard for the same action, so every panel works with a controller as with a keyboard |
 
 The last used device decides which hints are shown: not implemented yet; the HUD shows the keys of the desktop and the buttons of Android.
 
@@ -89,7 +88,7 @@ default keys. Presentation only: nothing of it is in the simulation or in the ve
 
 ## Settings
 
-The settings are kept in `<user data>/settings.json`: `{"language": "it", "volume_master_pm": 1000, "volume_effects_pm": 800, "volume_ambience_pm": 500, "volume_music_pm": 500}` (the volumes are permille from 0 to 1000; the numbers above are the defaults, used for what is missing). Spec 14 says what each volume scales: the master volume all of the sound, the others the sound effects, the ambience and the music. Desktop: `F10` opens a panel with four bars (`W`/`S` choose, `A`/`D` change by a tenth, `Esc` closes; the game pauses meanwhile). Android: the sound button next to the language button cycles the master volume 100, 60, 30 and 0 percent; the other three volumes can be set in the file. The language is kept in the same file as `{"language": "it"}` (desktop: next to the `saves` folder; Android: the app-private
+The settings are kept in `<user data>/settings.json`: `{"language": "it", "volume_master_pm": 1000, "volume_effects_pm": 800, "volume_ambience_pm": 500, "volume_music_pm": 500}` (the volumes are permille from 0 to 1000; the numbers above are the defaults, used for what is missing). Spec 14 says what each volume scales: the master volume all of the sound, the others the sound effects, the ambience and the music. Desktop: `F10` opens a panel with four bars (`W`/`S` choose, `A`/`D` change by a tenth, `Esc` closes; the game pauses meanwhile), the options of accessibility below them and, last, the quality of the graphics (spec 13, "Quality": `A`/`D` or `E` change it). Android: the sound button next to the language button cycles the master volume 100, 60, 30 and 0 percent; the other three volumes can be set in the file. The language is kept in the same file as `{"language": "it"}` (desktop: next to the `saves` folder; Android: the app-private
 folder). Without it the language of the system is used (`it` if it is Italian, else `en`). The language can be changed at any time: texts are resolved when they are drawn (spec 17).
 
 ## Hints
@@ -99,6 +98,10 @@ The first minutes are explained by **hints** (`data/base/hints.json`, ID `base:h
 ### Accessibility
 
 Four options are kept in the settings file as booleans: `hints` (the hints of the first minutes), `damage_numbers` (the numbers that rise from a hit) and `flashes` (the red flash of a creature that is hit), on by default, and `large_text`, off by default: the text of the interface is larger (a quarter larger on desktop, where the glyphs grow around the middle of their line and the widths of the texts grow with them; on Android the font of the pack is baked again, three tenths larger). Desktop: four more rows in the settings panel, `A`/`D` or `E` switch them. Android: four buttons at the bottom of the open journal. They change nothing of the game.
+
+### Quality of the graphics
+
+`"quality"` in the settings file is `low`, `normal` or `high` (spec 13, "Quality"; `ui.option_quality`, `ui.quality_<level>`). Desktop: the last row of the settings panel (`F10`). Android: the fifth button at the bottom of the open journal (before the button of the tag) goes low, normal, high and round again. Without the key the game chooses from the device (spec 13).
 
 During a defense of Gideon's Dungeon (spec 18) the HUD shows its wave under the clock (`ui.defense_hud`), and a notice says when a wave
 comes and how the defense ended (`ui.defense_wave`, `ui.defense_won`, `ui.defense_lost`).

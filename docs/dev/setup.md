@@ -49,10 +49,11 @@ CI (`.github/workflows/`) runs on every pull request and on pushes to `main`:
 | Workflow | What it does |
 |---|---|
 | `ci-data` | `ruff check tools`, `tools/validate_data.py` (the base pack and the example mod), `pytest tools/tests`, `gen_conformance.py --check`, `make_save_fixtures.py --check`, `make_parity.py --check`, `make_suites_map.py --check`, `licenses.py --check` |
-| `ci-desktop` | on Windows (MSVC) and Linux (GCC): vcpkg (binary cache), configure, build, `ctest` (unit tests, every conformance suite, three smoke tests), checks the smoke-test frames against `tests/frames/` (`tools/check_frames.py`), then packages the playable build and uploads it with the frames |
-| `ci-android` | job `build`: JDK 17, Gradle 8.10.2, `:core:test` (JVM tests, including every conformance suite), `:app:assembleDebug`, uploads the debug APK; job `kotlin-style`: ktlint and detekt ([`kotlin-style.md`](kotlin-style.md)) |
+| `ci-desktop` | on Windows (MSVC) and Linux (GCC): vcpkg (binary cache), configure, build, `ctest` (unit tests, every conformance suite, the performance test, three smoke tests), prints the numbers of the performance test ([`../design/performance.md`](../design/performance.md)), checks the smoke-test frames against `tests/frames/` (`tools/check_frames.py`), then packages the playable build and uploads it with the frames. Also called by `release` |
+| `ci-android` | job `build`: JDK 17, Gradle 8.10.2, `:core:test` (JVM tests, including every conformance suite and the performance test, whose numbers it prints), `:app:assembleDebug`, uploads the debug APK; job `kotlin-style`: ktlint and detekt ([`kotlin-style.md`](kotlin-style.md)). Also called by `release` |
+| `nightly` | every night on `main`, by hand, and on a pull request that changes it or `android/app/src/androidTest/`: the game on an Android emulator of API 30 and of API 34 (start, rotation, pause and resume; [`../design/performance.md`](../design/performance.md)) |
 | `labeler` | labels the pull request from the paths it touches |
-| `release` | on a `v*` tag: validates the data and creates a draft release (no artifacts yet) |
+| `release` | on a `v*` tag, or by hand for a dry run: checks the data and that the tag is the version of `project.json`, builds every package with `ci-desktop` and `ci-android`, names the files after the version, writes `SHA256SUMS` and the bill of materials (SPDX, `tools/licenses.py --sbom`) and checks the sums; on a tag it creates a **draft** release with all the files (never published: the owner publishes) |
 
 Local builds need the tools above; the project is developed on a machine without a C++ or Kotlin compiler, so for those two clients CI is the only build and a change to C++ or Kotlin is checked by pushing it. `python tools/gen_conformance.py --check` (are the committed vectors the ones the reference generates?) also runs in CI (`ci-data`), and in `tools/ship.py` before it commits.
 
