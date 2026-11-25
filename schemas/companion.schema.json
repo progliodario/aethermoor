@@ -98,6 +98,28 @@
       "minimum": 0,
       "maximum": 100,
       "description": "how much, in percent of the maximum health"
+    },
+    "duo_bond": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "the bond from which it joins a power strike (spec 10, \"Duo strike\")"
+    },
+    "duo_pct": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1000,
+      "description": "the power of its hit in a duo strike, in percent; 0: never"
+    },
+    "duo_range_x100": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 1600,
+      "description": "how near to it the creature must be, times 100"
+    },
+    "duo_cooldown_ticks": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "how long it waits after a duo strike"
     }
   }
 }

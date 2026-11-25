@@ -42,8 +42,8 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 | E4.2 | Pagina di download | **aperta**: decisione del proprietario | | #255 aperta |
 | F1 | Dopo la 1.0 | **aperta** (lungo termine) | | #256 aperta |
 
-**Le prossime voci, nell'ordine consigliato:** B1.1 a ogni batch (un po' alla volta); le abilità di coppia dei compagni (spec 10); i
-numeri del telefono di C4.2, che misura il proprietario.
+**Le prossime voci, nell'ordine consigliato:** B1.1 a ogni batch (un po' alla volta); i numeri del telefono di C4.2, che misura il
+proprietario; le voci fuori dal programma sono nella sezione 8.4 della roadmap (il colpo di coppia è fatto).
 Le voci bloccate o del proprietario aspettano la sua risposta e non fermano le altre.
 
 ## 1. Come leggere questo programma

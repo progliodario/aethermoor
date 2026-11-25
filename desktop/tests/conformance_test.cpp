@@ -886,6 +886,10 @@ Scenario scenario_from_json(const Json& in) {
         def.care_bond = c.value("care_bond", 0);
         def.care_ticks = c.value("care_ticks", 0);
         def.care_pct = c.value("care_pct", 0);
+        def.duo_bond = c.value("duo_bond", 0);
+        def.duo_pct = c.value("duo_pct", 0);
+        def.duo_range_x100 = c.value("duo_range_x100", 0);
+        def.duo_cooldown_ticks = c.value("duo_cooldown_ticks", 0);
         return def;
     };
     if (in.contains("companion")) {

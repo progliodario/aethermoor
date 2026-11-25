@@ -142,6 +142,10 @@ std::optional<CompanionDef> parse_companion(const std::string& id, const std::st
     def.care_bond = c.value("care_bond", 0);
     def.care_ticks = c.value("care_ticks", 0);
     def.care_pct = c.value("care_pct", 0);
+    def.duo_bond = c.value("duo_bond", 0);
+    def.duo_pct = c.value("duo_pct", 0);
+    def.duo_range_x100 = c.value("duo_range_x100", 0);
+    def.duo_cooldown_ticks = c.value("duo_cooldown_ticks", 0);
     if (c.contains("moments")) {
         for (const Json& m : c.at("moments")) {
             def.moments.emplace_back(m.at("bond").get<int>(), m.at("text").get<std::string>());

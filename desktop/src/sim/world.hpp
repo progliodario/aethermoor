@@ -564,10 +564,15 @@ private:
     bool m_companion_stay_ = false;
     int m_companion_bond_ = 0;
     int m_companion_care_ = 0;  // ticks since it last tended the player (spec 10, "Care"); not saved
+    int m_companion_duo_ = 0;   // ticks before the next duo strike (spec 10, "Duo strike"); not saved
     bool m_last_craft_fine_ = false;
     std::map<std::string, std::int64_t> m_sold_today_;  // the glut (spec 06): items sold on `m_sold_day_`; not saved
     std::int64_t m_sold_day_ = 0;
     void update_companion();
+    // The companion joins a power strike on this creature (spec 10, "Duo strike").
+    void duo_hit(Enemy& enemy);
+    // The attack of the companion: its own, the bond and a gift of command (spec 10, "Bond").
+    std::int64_t companion_atk() const;
     void update_friend();
     std::optional<Friend> m_friend_;
     std::map<std::pair<int, int>, std::pair<std::int64_t, int>>

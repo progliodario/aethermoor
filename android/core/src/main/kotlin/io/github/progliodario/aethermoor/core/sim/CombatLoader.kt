@@ -67,6 +67,10 @@ private fun loadCompanion(pack: Pack, id: String): CompanionDef? {
         careBond = c["care_bond"]?.jsonPrimitive?.int ?: 0,
         careTicks = c["care_ticks"]?.jsonPrimitive?.int ?: 0,
         carePct = c["care_pct"]?.jsonPrimitive?.int ?: 0,
+        duoBond = c["duo_bond"]?.jsonPrimitive?.int ?: 0,
+        duoPct = c["duo_pct"]?.jsonPrimitive?.int ?: 0,
+        duoRangeX100 = c["duo_range_x100"]?.jsonPrimitive?.int ?: 0,
+        duoCooldownTicks = c["duo_cooldown_ticks"]?.jsonPrimitive?.int ?: 0,
         moments = c["moments"]?.jsonArray?.map { m -> Pair(m.jsonObject.getValue("bond").jsonPrimitive.int, m.jsonObject.getValue("text").jsonPrimitive.content) } ?: emptyList(),
     )
 }

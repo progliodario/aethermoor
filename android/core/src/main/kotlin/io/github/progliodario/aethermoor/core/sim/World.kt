@@ -394,6 +394,7 @@ class WorldSim(
     /** The creatures the companion has killed (spec 10, "Bond"). */
     var companionBond = 0
     private var companionCare = 0 // ticks since it last tended the player (spec 10, "Care"); not saved
+    private var companionDuo = 0 // ticks before the next duo strike (spec 10, "Duo strike"); not saved
         private set
 
     /** Tells the companion to stay where it is, or to follow again; false when there is none. */
@@ -522,6 +523,7 @@ class WorldSim(
         companionStaying = false
         companionCooldown = def.cooldownTicks
         companionCare = 0
+        companionDuo = 0
     }
 
     /** A companion joins the party, last, and follows at once (spec 10, "The party"); false, changing nothing, when it is unknown or in it. */
@@ -551,6 +553,7 @@ class WorldSim(
         waitingBonds.putAll(s.bonds)
         companionDefs[s.companionId.ifEmpty { startParty.firstOrNull() ?: "" }]?.let { companionDef = it }
         companionCare = 0
+        companionDuo = 0
     }
 
     /** Calls the companion back (spec 10, "Commands"): it is next to the player at once and follows again; false when there is none. */
@@ -1284,6 +1287,34 @@ class WorldSim(
     class GatherResult(val node: Boolean, val sound: String, val items: List<Pair<String, Long>>)
 
     // The companion follows the player and hits the nearest creature in range now and then (spec 10).
+    /** The attack of the companion: its own, one more point every five kills (ten at most), a gift of command (spec 10, "Bond"; spec 18). */
+    private fun companionAtk(c: CompanionDef): Long = (c.atkBase + c.atkPerLevel * (player.level - 1) + minOf(companionBond / 5, 10)) * combat.gift.companionAtkPct / 100
+
+    /** The companion joins a power strike on [enemy], the first creature it hits that is still alive and near it (spec 10, "Duo strike"). */
+    private fun duoHit(enemy: Enemy) {
+        val c = companionDef ?: return
+        val pos = companionPosition ?: return
+        if (!player.usingStrike || companionDuo > 0 || enemy.hp <= 0 || c.duoPct <= 0 || companionBond < c.duoBond) return
+        val dx = enemy.position.x - pos.x
+        val dy = enemy.position.y - pos.y
+        if (sqrt(dx * dx + dy * dy) > c.duoRangeX100.toFloat() / 100f + enemy.radius) return
+        val amount = damage(
+            DamageInput(
+                atk = companionAtk(c),
+                powerPct = c.duoPct,
+                defTarget = enemy.def.def,
+                lvlAttacker = player.level,
+                lvlTarget = enemy.def.level,
+                variancePm = 1000,
+                crit = false,
+                critMultPm = 1500,
+            ),
+        )
+        enemy.hp -= amount
+        events.add(DamageEvent(enemy.position, amount, false, false))
+        companionDuo = c.duoCooldownTicks
+    }
+
     private fun updateCompanion() {
         val c = companionDef ?: return
         var pos = companionPosition ?: player.position
@@ -1300,6 +1331,7 @@ class WorldSim(
             pos = collision.resolve(Vec2(pos.x + dx / dist * step, pos.y + dy / dist * step), COMPANION_RADIUS)
         }
         companionPosition = pos
+        if (companionDuo > 0) companionDuo-- // the duo strike gets ready again (spec 10, "Duo strike")
         if (c.careTicks > 0 && companionBond >= c.careBond) { // care (spec 10): it tends the player now and then
             companionCare++
             if (companionCare >= c.careTicks) {
@@ -1327,7 +1359,7 @@ class WorldSim(
         val hit = target ?: return
         val amount = damage(
             DamageInput(
-                atk = (c.atkBase + c.atkPerLevel * (p.level - 1) + minOf(companionBond / 5, 10)) * combat.gift.companionAtkPct / 100, // the bond (spec 10), a gift of command (spec 18)
+                atk = companionAtk(c),
                 powerPct = 100,
                 defTarget = hit.def.def,
                 lvlAttacker = p.level,
@@ -1794,6 +1826,7 @@ class WorldSim(
             enemy.hitFlash = HIT_FLASH_TICKS
             events.add(DamageEvent(enemy.position, amount, crit, false, weak = elementMultiplier(enemy.def) > 1000))
             cues.add(SimCue("hit", enemy.def.sound, enemy.position, crit, elementMultiplier(enemy.def) > 1000))
+            duoHit(enemy) // the companion joins a power strike (spec 10, "Duo strike")
             if (enemy.hp > 0) {
                 applyStatus(enemy)
                 if (enemy.def.staggerPct > 0 && enemy.broken == 0) { // the stagger bar (spec 05, "Stagger")

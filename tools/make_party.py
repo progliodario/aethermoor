@@ -53,7 +53,9 @@ STRAYS = {
            "strays_back": "Non adesso"},
 }
 STATS = ("scale_pct", "atk_base", "atk_per_level", "range_x100", "cooldown_ticks", "speed_x100", "follow_x100", "care_bond", "care_ticks",
-         "care_pct")
+         "care_pct", "duo_bond", "duo_pct", "duo_range_x100", "duo_cooldown_ticks")
+# The duo strike of the strays (spec 10): as the companions of the protagonists, a little weaker.
+DUO = {"duo_bond": 20, "duo_pct": 250, "duo_range_x100": 400, "duo_cooldown_ticks": 600}
 
 
 def tam_nodes() -> tuple[dict, dict]:
@@ -78,7 +80,7 @@ def tam_nodes() -> tuple[dict, dict]:
 def main() -> None:
     for name, pet in PETS.items():
         doc = {"$schema": "../../../schemas/companion.schema.json", "id": f"base:companion/{name}", "name": f"$i18n:companion.{name}.name",
-               "art": f"base:art/creature/{pet['art']}", **{k: pet[k] for k in STATS if k in pet}}
+               "art": f"base:art/creature/{pet['art']}", **{k: pet.get(k, DUO.get(k)) for k in STATS if k in pet or k in DUO}}
         text = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
         (DATA / "companions" / f"{name}.json").write_text(text, encoding="utf-8", newline="\n")
     for lang in ("en", "it"):

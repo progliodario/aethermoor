@@ -210,7 +210,7 @@ The numbers (counted from the data by `tools/make_facts.py`):
 | Named people | 58 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
 | Texts | 4300 keys, in Italian and English |
-| Same rules on both clients | 31 files of conformance vectors, 634 cases, run by the C++ and the Kotlin tests |
+| Same rules on both clients | 31 files of conformance vectors, 635 cases, run by the C++ and the Kotlin tests |
 | Documents | 19 specs, 14 ADRs |
 <!-- facts:end -->
 

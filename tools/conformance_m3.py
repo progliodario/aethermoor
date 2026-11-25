@@ -388,6 +388,11 @@ def build_scenarios() -> list[dict]:
         scenario("companion_care", [enemy(4.6, 4.5, hp=10, **passive), enemy(7.43, 4.5, hp=900, atk=24)],
                  [segment(60), segment(120), segment(120), segment(120), segment(300)],
                  companion={**COMPANION, "care_bond": 1, "care_ticks": 50, "care_pct": 10}),
+        # Duo strike (spec 10): a power strike brings the companion's hit (`duo_pct` of its attack) on the first creature it hits near the companion,
+        # then the duo waits `duo_cooldown_ticks`: the second strike comes too soon, the third finds it ready. The companion never hits on its own here.
+        scenario("companion_duo", [enemy(3.0, 4.5, hp=3000, **passive)],
+                 [segment(40, strike=True), segment(100), segment(40, strike=True), segment(300), segment(40, strike=True), segment(100)],
+                 strike=STRIKE, companion={**COMPANION, "cooldown_ticks": 100000, "duo_pct": 300, "duo_range_x100": 400, "duo_cooldown_ticks": 200}),
         # Fortify (spec 06): a meal with `fortify` can be eaten at full health; while it lasts the hits are `amount` percent stronger (added to the titles'), then it wears off.
         scenario("fortify_meal", [enemy(3.0, 4.5, hp=3000, **passive)],
                  [segment(40, attack=True), segment(1, do=[{"cmd": "use", "item": "base:item/roast_meat"}]), segment(60, attack=True),

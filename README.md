@@ -41,7 +41,7 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Persone con nome | 58 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
 | Testi | 4300 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 634 casi, eseguiti dai test C++ e Kotlin |
+| Regole uguali sui due client | 31 file di vettori di conformità, 635 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
 
@@ -55,7 +55,7 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Mondo | enorme, otto regioni, città, sotterranei, meteo che nasconde e rallenta, vento che spinge, nebbia e temporali; il mondo davanti generato su un thread; prestazioni misurate in CI | i numeri di un telefono |
 | Missioni e storie | storie in sei atti per ogni protagonista, storie dei paesani, gilda, leggende, taglie, il Dungeon di Gideon | nulla |
 | Vita | raccolta, pesca, caccia, orti, animali, bauli condivisi, il cottage dell'Ospite con i suoi mobili, venditori ambulanti, ricette segrete, cibi con effetti | carri che si vedono viaggiare, una casa più grande |
-| Compagni | uno per protagonista con comandi, legame e cura; Haruka doma un secondo compagno; un gruppo con i quattro randagi del cottage, uno alla volta | le abilità di coppia |
+| Compagni | uno per protagonista con comandi, legame e cura; Haruka doma un secondo compagno; un gruppo con i quattro randagi del cottage, uno alla volta; il colpo di coppia | — |
 | Progressione | talenti con abilità, titoli con effetti, bestiario, reincarnazione con eredità, imprese che danno echi, rune sulle armi, tag da indossare, armi e armature con affissi tirati a sorte (anche su ventiquattro pezzi comuni) e ritemprati all'incudine o dai fabbri, pezzi con due affissi, affissi scelti al prisma, doni delle imprese | — |
 | Accessibilità | consigli (secondo l'ultimo dispositivo), numeri dei danni e lampi disattivabili, testo grande, tasti configurabili, controller anche su Android, pulsanti touch spostabili | — |
 | Uscita | versioni di prova dalla CI; la pipeline di rilascio (pacchetti, SHA256SUMS, SBOM, bozza) | release Alpha 0.1 e poi 1.0 (decide il proprietario) |
@@ -242,7 +242,7 @@ Il progetto è sviluppato dal proprietario insieme a Claude, un assistente AI ch
 
 Le prossime cose, in ordine. Il programma completo, con i batch, i file e i criteri di ogni voce, è in [docs/plan/07-programma-operativo.md](docs/plan/07-programma-operativo.md); la lista breve della roadmap è nella [sezione 8.4](docs/plan/06-roadmap-rischi-backlog.md#84-che-cosa-resta-da-fare-in-ordine).
 
-- **A breve:** la baseline di detekt a zero (un po' a ogni batch); le abilità di coppia dei compagni; i numeri delle prestazioni su un telefono.
+- **A breve:** la baseline di detekt a zero (un po' a ogni batch); i carri dei viaggiatori disegnati; i numeri delle prestazioni su un telefono.
 - **Verso la 1.0:** le scritte dell'HUD secondo l'ultimo dispositivo; una prova della pipeline di rilascio con un tag (decide il proprietario).
 - **Dopo la 1.0:** nuovi protagonisti, regioni e lingue; il caricamento dei mod nel gioco (la guida e il controllo dei mod ci sono già).
 - **Decide il proprietario:** quando pubblicare la prima release (Alpha 0.1), le impostazioni del repository, le chiavi di firma e le altre decisioni elencate nel programma.

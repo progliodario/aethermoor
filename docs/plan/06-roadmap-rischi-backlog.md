@@ -284,7 +284,7 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Persone con nome | 58 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
 | Testi | 4300 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 634 casi, eseguiti dai test C++ e Kotlin |
+| Regole uguali sui due client | 31 file di vettori di conformità, 635 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 14 ADR |
 <!-- facts:end -->
 
@@ -390,6 +390,9 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Il gruppo** (dal 24 novembre, C2.1, spec 10 "The party"): il vecchio Tam lascia portare via i quattro randagi del cottage (Biscotto
   il cane, Gufetto il gufo, Furbo la volpe, Brace la gelatina di brace); ne segue uno alla volta, `O` o il pulsante `Altro` fa seguire
   il prossimo, e ognuno tiene il suo legame.
+- **Il colpo di coppia** (dal 25 novembre, spec 10 "Duo strike"): da un legame di venti uccisioni, un colpo potente vicino al compagno
+  porta anche il suo colpo, tre volte il suo attacco, sulla prima creatura colpita, ogni dieci secondi (i randagi del gruppo due volte e
+  mezza). Scenario `companion_duo` nei vettori.
 
 **Progressione** (spec 11, 12)
 
@@ -480,21 +483,19 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
    16 in `World.kt`, le altre in 14 file. Si spezzano a poco a poco le funzioni più complesse, qualche voce in ogni batch.
 2. **I numeri del telefono** (C4.2, #240): il proprietario misura i fotogrammi al secondo su un telefono con la lista di rilascio e li
    scrive in `docs/design/performance.md` (rischio R4); il resto di C4.2 è fatto.
-3. **Le abilità di coppia** (spec 10): un colpo fatto insieme dal protagonista e dal compagno quando il legame è alto; regola nuova,
-   quindi spec, riferimento, vettori e due client.
-4. **I carri che si vedono viaggiare** (spec 07, "Travellers walk"): i viaggiatori camminano già; manca un carro disegnato per Odo.
+3. **I carri che si vedono viaggiare** (spec 07, "Travellers walk"): i viaggiatori camminano già; manca un carro disegnato per Odo.
 
 **Verso la 1.0**
 
-5. **Una prova del rilascio** (E3.1, #252): la pipeline c'è e la prova a mano è verde; la bozza di un tag di prova la decide il
+4. **Una prova del rilascio** (E3.1, #252): la pipeline c'è e la prova a mano è verde; la bozza di un tag di prova la decide il
    proprietario.
-6. **I suggerimenti del controller nell'HUD** (spec 16, "The last device"): oggi seguono l'ultimo dispositivo solo i consigli; le scritte
+5. **I suggerimenti del controller nell'HUD** (spec 16, "The last device"): oggi seguono l'ultimo dispositivo solo i consigli; le scritte
    dell'HUD (per esempio "E: parla") mostrano ancora i tasti.
 
 **Decide il proprietario** (programma, sezione 8; issue #234)
 
-7. La prima release (Alpha 0.1), le impostazioni del repository, la firma del codice (E3.2, #253), la pagina di download (E4.2, #255).
-8. **Un sintetizzatore con rumore filtrato** (C6.1, #242), per poter riaccendere musica e ambiente: solo con il sì del proprietario.
+6. La prima release (Alpha 0.1), le impostazioni del repository, la firma del codice (E3.2, #253), la pagina di download (E4.2, #255).
+7. **Un sintetizzatore con rumore filtrato** (C6.1, #242), per poter riaccendere musica e ambiente: solo con il sì del proprietario.
 
 **Dopo l'1.0** (F1, #256): nuovi protagonisti, nuove regioni, nuove lingue, il caricamento dei mod nel gioco, strumenti per i mod (M12+).
 

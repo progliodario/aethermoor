@@ -229,9 +229,13 @@ struct CompanionDef {
     int cooldown_ticks = 60;
     int speed_x100 = 320;
     int follow_x100 = 220;
-    int care_bond = 0;   // care (spec 10): from this bond on it heals the player
-    int care_ticks = 0;  // every so many ticks; 0: never
-    int care_pct = 0;    // by this share of the maximum health
+    int care_bond = 0;           // care (spec 10): from this bond on it heals the player
+    int care_ticks = 0;          // every so many ticks; 0: never
+    int care_pct = 0;            // by this share of the maximum health
+    int duo_bond = 0;            // the duo strike (spec 10): from this bond on it joins a power strike
+    int duo_pct = 0;             // with this power; 0: never
+    int duo_range_x100 = 0;      // on a creature this near to it
+    int duo_cooldown_ticks = 0;  // and then it waits so long
     // Moments of the bond (spec 10): at this bond the companion shows a line, once a game ($i18n: keys). Presentation.
     std::vector<std::pair<int, std::string>> moments;
 };
