@@ -72,8 +72,9 @@ class TouchLayout(val buttons: Map<String, TouchButton> = emptyMap()) {
 
         /** A button of the layout, `[dx_pm, dy_pm, size_pct]`; null when it is not three integers. */
         private fun parseButton(entry: JsonArray?): TouchButton? {
-            val values = entry?.mapNotNull { (it as? JsonPrimitive)?.intOrNull } ?: return null
-            if (entry.size != 3 || values.size != 3) return null
+            if (entry == null || entry.size != 3) return null
+            val values = entry.mapNotNull { (it as? JsonPrimitive)?.intOrNull }
+            if (values.size != 3) return null
             return TouchButton(
                 values[0].coerceIn(-MAX_MOVE_PM, MAX_MOVE_PM),
                 values[1].coerceIn(-MAX_MOVE_PM, MAX_MOVE_PM),
