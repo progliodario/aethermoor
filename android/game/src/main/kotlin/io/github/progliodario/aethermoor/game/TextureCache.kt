@@ -108,7 +108,7 @@ class TextureCache(private val pack: Pack) {
 
     companion object {
         private const val TAG = "TextureCache"
-        private val BUCKETS = intArrayOf(32, 48, 64, 96, 128, 192, 256)
+        private val BUCKETS = intArrayOf(32, 48, 64, 80, 96, 128, 192, 256)
 
         fun bucketFor(tilePx: Int): Int = BUCKETS.firstOrNull { tilePx <= it } ?: BUCKETS.last()
     }

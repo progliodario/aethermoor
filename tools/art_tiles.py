@@ -85,7 +85,7 @@ def ground(r: Recipe, seed: int, dark: str, mid: str, light: str, *, streak: tup
     sx, sy = streak
     r.rect(0, 0, w, w, nz(r, sx, seed + 2, (0.26, darken(dark, 0.45)), (0.6, "#FFFFFF"), octaves=3, scale_y=sy), blend="multiply", alpha=texture)
     r.rect(0, 0, w, w, nz(r, sx, seed + 3, (0.58, "#000000"), (0.84, tips), octaves=2, scale_y=sy), blend="add", alpha=tips_alpha)
-    r.rect(0, 0, w, w, nz(r, 0.5, seed + 4, (0.22, "#8E8680"), (0.62, "#FFFFFF"), octaves=1), blend="multiply", alpha=grain)
+    r.rect(0, 0, w, w, nz(r, 0.5, seed + 4, (0.22, "#8E8680"), (0.62, "#FFFFFF"), octaves=2), blend="multiply", alpha=grain)
 
 
 def light_and_shade(r: Recipe, seed: int, alpha: float = 0.06) -> None:
@@ -102,7 +102,7 @@ def blade(x: float, y: float, h: float, lean: float, w: float = 0.42) -> str:
 
 
 def clumps(r: Recipe, x0: float, y0: float, n: int, tones: tuple[str, str, str], h: tuple[float, float] = (3.0, 6.0),
-           blades: int = 8, margin: float = 2.6, ao: float = 0.5) -> None:
+           blades: int = 11, margin: float = 2.6, ao: float = 0.5) -> None:
     """Clumps of grass inside one tile: a soft contact shadow, then blades in three tones (dark at the back, lit in
     front), each tone one layer."""
     spots = inside(r, x0, y0, n, margin)
@@ -235,6 +235,18 @@ def leaves(r: Recipe, x0: float, y0: float, n: int, colors: list[str], size: tup
     r.path(" ".join(f"M {_f(x - dx)} {_f(y - dy)} L {_f(x + dx)} {_f(y + dy)}" for x, y, dx, dy, _ in spots), None, stroke="#2A1A0C", width=0.16, alpha=0.5)
 
 
+def needles(r: Recipe, x0: float, y0: float, n: int, color: str, margin: float = 1.5) -> None:
+    """Fallen needles and bits of grass: thin strokes in one layer, with their soft shadow."""
+    d = []
+    for x, y in inside(r, x0, y0, n, margin):
+        a = r.rng.uniform(0, math.pi)
+        length = r.rng.uniform(0.8, 1.6)
+        d.append(f"M {_f(x)} {_f(y)} L {_f(x + math.cos(a) * length)} {_f(y + math.sin(a) * length)}")
+    if d:
+        r.path(" ".join(d), None, stroke=AO, width=0.32, alpha=0.35, blend="multiply", blur=0.2)
+        r.path(" ".join(d), None, stroke=color, width=0.16, alpha=0.85)
+
+
 def sparkles(r: Recipe, x0: float, y0: float, n: int, size: tuple[float, float] = (0.25, 0.45), alpha: float = 0.8, margin: float = 3.0) -> None:
     """Small glints of light (snow, sand, water): a soft halo and a bright point, added."""
     spots = [(x, y, r.rng.uniform(*size)) for x, y in inside(r, x0, y0, n, margin)]
@@ -261,7 +273,8 @@ def grass(name: str, tones=GRASS, seed: int = 11, flowers_of=None, clover=False,
         if dry:
             for x, y in inside(r, x0, y0, 2, 8):
                 r.ellipse(x, y, r.rng.uniform(3, 8), r.rng.uniform(2, 4.5), nz(r, 2, seed + 30, (0.35, "#B8A858"), (0.65, "#D8C880"), scale_y=4.0), alpha=r.rng.uniform(0.1, 0.24), blur=2.6)
-        field_blades(r, x0, y0, 34, (darken(blades[0], 0.1), blades[1], lighten(blades[1], 0.15)))
+        field_blades(r, x0, y0, 40, (darken(blades[0], 0.25), darken(blades[0], 0.05)), (0.7, 1.6))  # the carpet of short blades
+        field_blades(r, x0, y0, 64, (darken(blades[0], 0.1), blades[1], lighten(blades[1], 0.15)), (1.2, 3.2))
         if clover:
             d = []
             for x, y in inside(r, x0, y0, 2, 6):
@@ -296,8 +309,9 @@ def forest_floor() -> Recipe:
     r.rect(0, 0, MACRO, MACRO, nz(r, 16, 25, (0.42, "#3A6A2E00"), (0.62, "#46702F")), alpha=0.4)  # green undergrowth in patches
     light_and_shade(r, 27, 0.18)  # dappled light through the leaves
     for x0, y0 in tiles_of(r):
-        leaves(r, x0, y0, 16, ["#7A4A22", "#9A6430", "#6A4020", "#A8782E", "#5A3A1E"], (0.8, 1.6))
-        field_blades(r, x0, y0, 10, ("#2E4A22", "#4E6E30"))
+        leaves(r, x0, y0, 30, ["#7A4A22", "#9A6430", "#6A4020", "#A8782E", "#5A3A1E", "#8A6A2A"], (0.6, 1.5))
+        needles(r, x0, y0, 26, "#5A4A2A")
+        field_blades(r, x0, y0, 20, ("#2E4A22", "#4E6E30"))
         clumps(r, x0, y0, 1, ("#2A4A22", "#44682E", "#76984C"), h=(2.5, 4.5), blades=6)
         if r.rng.random() < 0.5:
             pebbles(r, x0, y0, 1, "#6E6A60", 29, (0.7, 1.2))
@@ -322,7 +336,8 @@ def moss(name: str, seed: int, mushrooms: bool) -> Recipe:
                noise(0.6, seed + 3, (0.3, "#1E4426"), (0.5, "#33643A"), (0.72, "#5A8E48"), octaves=3), alpha=0.9)
         r.path(" ".join(f"M {_f(x - s * 0.8)} {_f(y - s * 0.2)} Q {_f(x - s * 0.4)} {_f(y - s * 0.75)} {_f(x + s * 0.4)} {_f(y - s * 0.6)} Q {_f(x)} {_f(y - s * 0.2)} {_f(x - s * 0.8)} {_f(y - s * 0.2)} Z"
                         for x, y, s in spots), "#D8F8A0", alpha=0.14, blend="add", blur=0.7)
-        field_blades(r, x0, y0, 12, ("#1E4426", "#3E6E3A"), (1.4, 2.8))
+        field_blades(r, x0, y0, 24, ("#1E4426", "#3E6E3A"), (1.4, 2.8))
+        gravel(r, x0, y0, 30, ("#14301A", "#9AC86A"))  # the tiny stalks of the moss
         if mushrooms and r.rng.random() < 0.6:
             x, y = inside(r, x0, y0, 1, 7)[0]
             r.ellipse(x + 0.5, y + 2.6, 2.4, 0.9, AO, alpha=0.5, blend="multiply", blur=0.5)
@@ -345,8 +360,9 @@ def dirt(name: str, tones, seed: int, ruts: bool = False, pebbles_n: int = 2) ->
                 r.rect(0, y - 1.6, MACRO, 2.8, darken(tones[0], 0.2), alpha=0.28, blend="multiply", blur=1.4)
                 r.rect(0, y + 1.3, MACRO, 0.7, LIGHT, alpha=0.1, blend="add", blur=0.6)
     for x0, y0 in tiles_of(r):
-        gravel(r, x0, y0, 26, (darken(tones[0], 0.3), lighten(tones[2], 0.2)))
-        pebbles(r, x0, y0, pebbles_n + r.rng.randrange(2), mix(tones[1], "#8A8682", 0.6), seed + 40)
+        gravel(r, x0, y0, 64, (darken(tones[0], 0.3), lighten(tones[2], 0.2)))
+        pebbles(r, x0, y0, pebbles_n + r.rng.randrange(3), mix(tones[2], "#A8A49C", 0.65), seed + 40, (0.7, 1.7))
+        pebbles(r, x0, y0, 3, mix(tones[1], "#9A948C", 0.5), seed + 41, (0.3, 0.6), 1.5)  # small grit
         if r.rng.random() < 0.4:
             clumps(r, x0, y0, 1, ("#3E5A2C", "#5E7E3A", "#8CA65A"), h=(2.0, 3.4), blades=5, margin=4)
     return r
@@ -360,7 +376,7 @@ def sand(name: str = "sand") -> Recipe:
     r.rect(0, 0, MACRO, MACRO, nz(r, 8, 44, (0.76, "#000000"), (0.97, "#FFF6E0"), octaves=3, scale_y=2, ridged=True), blend="add", alpha=0.14)
     light_and_shade(r, 47, 0.1)
     for x0, y0 in tiles_of(r):
-        gravel(r, x0, y0, 14, ("#A08A64", "#F8ECCC"))
+        gravel(r, x0, y0, 48, ("#A08A64", "#F8ECCC"))
         if r.rng.random() < 0.45:
             pebbles(r, x0, y0, 1, "#C8B898", 49, (0.5, 1.0))
         sparkles(r, x0, y0, 2, (0.2, 0.32), 0.6)
@@ -376,7 +392,7 @@ def coast(name: str, seed: int) -> Recipe:
             rx, ry = r.rng.uniform(4, 6.5), r.rng.uniform(2.6, 4)
             r.ellipse(x, y, rx, ry, nz(r, 1, seed, (0.3, "#C8B080"), (0.7, "#EADCB0"), octaves=2), blur=1.3)
             r.ellipse(x + 0.6, y + 0.8, rx * 0.9, ry * 0.7, AO, alpha=0.18, blend="multiply", blur=1.2)
-        field_blades(r, x0, y0, 22, ("#3A6430", "#62903E", "#A4C070"))
+        field_blades(r, x0, y0, 44, ("#3A6430", "#62903E", "#A4C070"))
         clumps(r, x0, y0, 2, ("#3A6630", "#6A9A44", "#B4D07C"), h=(3.0, 5.0))
         if r.rng.random() < 0.5:
             flowers(r, x0, y0, 1, ["#F4F2EA"], (0.6, 0.8))
@@ -393,10 +409,11 @@ def rocky(name: str, seed: int, boulders: int) -> Recipe:
     ground(r, 53, "#46603E", "#6A8258", "#9AAE7A", streak=(1.0, 3.2), texture=0.55, tips="#F0F0C0", tips_alpha=0.16)
     light_and_shade(r, 57)
     for x0, y0 in tiles_of(r):
-        field_blades(r, x0, y0, 20, ("#3E5A34", "#64824A", "#98B070"))
+        field_blades(r, x0, y0, 40, ("#3E5A34", "#64824A", "#98B070"))
         spots = [(x, y, r.rng.uniform(3.0, 4.8)) for x, y in inside(r, x0, y0, boulders, 8)]
         stones(r, spots, "#8E8E8A", seed, moss="#5E8A40", flat=0.68)
-        pebbles(r, x0, y0, 2, "#94928E", seed + 2)
+        pebbles(r, x0, y0, 4, "#94928E", seed + 2)
+        gravel(r, x0, y0, 24, ("#4A4A44", "#B8B8B0"))
         clumps(r, x0, y0, 2, ("#405E36", "#6A8A4C", "#A4BC7A"), h=(2.6, 4.4), blades=6)
     return r
 
@@ -406,8 +423,8 @@ def savanna(name: str, seed: int, crack: bool) -> Recipe:
     ground(r, 61, "#8A7638", "#B4A05A", "#D8C688", streak=(1.0, 4.0), texture=0.55, tips="#FFF6C8", tips_alpha=0.24)
     light_and_shade(r, 63, 0.12)
     for x0, y0 in tiles_of(r):
-        field_blades(r, x0, y0, 30, ("#8A7432", "#B8A058", "#E2D294"), (2.0, 4.2))
-        clumps(r, x0, y0, 4, ("#8A7430", "#C4AE62", "#EEE0A6"), h=(4.0, 7.0), blades=9)
+        field_blades(r, x0, y0, 60, ("#8A7432", "#B8A058", "#E2D294"), (2.0, 4.2))
+        clumps(r, x0, y0, 5, ("#8A7430", "#C4AE62", "#EEE0A6"), h=(4.0, 7.0), blades=12)
         clumps(r, x0, y0, 1, ("#5E6E30", "#7E8E44", "#B0BC74"), h=(3.0, 4.5), blades=6)
         if r.rng.random() < 0.5:
             pebbles(r, x0, y0, 1, "#A89A7A", seed + 3)
@@ -428,7 +445,8 @@ def snowfield(name: str, tones, seed: int, crystals: bool = False, tufts: bool =
             rx, ry = r.rng.uniform(5, 8), r.rng.uniform(2, 3.2)
             r.ellipse(x + 1, y + 1.6, rx, ry, "#7088C0", alpha=0.35, blend="multiply", blur=1.5)
             r.ellipse(x - 0.5, y - 0.6, rx * 0.9, ry * 0.8, "#FFFFFF", alpha=0.7, blur=1.1)
-        sparkles(r, x0, y0, 4, (0.25, 0.45), 0.85)
+        sparkles(r, x0, y0, 8, (0.2, 0.45), 0.85)
+        gravel(r, x0, y0, 30, ("#9AB0D0", "#FFFFFF"))  # grains of snow
         if crystals and r.rng.random() < 0.7:
             x, y = inside(r, x0, y0, 1, 6)[0]
             s = r.rng.uniform(1.6, 2.8)
@@ -448,7 +466,7 @@ def ash(name: str, tones, seed: int, embers: int, cracks: int) -> Recipe:
     for x0, y0 in tiles_of(r):
         for x, y in inside(r, x0, y0, 2, 6):  # drifts of pale ash
             r.ellipse(x, y, r.rng.uniform(4, 7), r.rng.uniform(1.6, 2.8), lighten(tones[2], 0.2), alpha=0.35, blur=1.3)
-        gravel(r, x0, y0, 18, ("#141216", "#7A7478"))
+        gravel(r, x0, y0, 44, ("#141216", "#7A7478"))
         if cracks and r.rng.random() < 0.5:
             x, y = inside(r, x0, y0, 1, 7)[0]
             pts = [(x - 5, y)]
@@ -475,6 +493,7 @@ def water() -> Recipe:
     r.rect(0, 0, MACRO, MACRO, nz(r, 4, 83, (0.62, "#FFFFFF"), (0.9, "#1A3E5A"), octaves=3, scale_y=1, ridged=True), blend="multiply", alpha=0.45)
     r.rect(0, 0, MACRO, MACRO, nz(r, 4, 84, (0.72, "#000000"), (0.95, "#BFE0F0"), octaves=3, scale_y=1, ridged=True), blend="add", alpha=0.32)
     r.rect(0, 0, MACRO, MACRO, nz(r, 4, 85, (0.8, "#000000"), (0.96, "#8CC8E0"), octaves=2, ridged=True), blend="add", alpha=0.25)  # light deep down
+    r.rect(0, 0, MACRO, MACRO, nz(r, 1, 87, (0.74, "#000000"), (0.95, "#D8F0FA"), octaves=2, scale_y=0.5, ridged=True), blend="add", alpha=0.18)  # wavelets
     light_and_shade(r, 86, 0.14)
     for x0, y0 in tiles_of(r):
         sparkles(r, x0, y0, 2, (0.3, 0.6), 0.85, 5)
@@ -491,8 +510,9 @@ def shallows() -> Recipe:
     r.rect(0, 0, MACRO, MACRO, nz(r, 4, 96, (0.82, "#000000"), (0.97, "#E0F8F0"), octaves=2, ridged=True), blend="add", alpha=0.18)
     r.rect(0, 0, MACRO, MACRO, nz(r, 8, 97, (0.66, "#FFFFFF"), (0.9, "#2A6A84"), octaves=2, scale_y=1, ridged=True), blend="multiply", alpha=0.3)
     for x0, y0 in tiles_of(r):
-        if r.rng.random() < 0.4:
-            pebbles(r, x0, y0, 1, "#9A9C90", 98, (0.6, 1.0))
+        if r.rng.random() < 0.6:
+            pebbles(r, x0, y0, 2, "#9A9C90", 98, (0.5, 1.0))
+        gravel(r, x0, y0, 20, ("#7A8478", "#E8E0C0"))  # grains on the bottom
         sparkles(r, x0, y0, 2, (0.25, 0.5), 0.85, 5)
     return r
 

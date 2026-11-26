@@ -183,6 +183,39 @@
       },
       "fill": {
         "noise": {
+          "scale": 1,
+          "seed": 87,
+          "octaves": 2,
+          "stops": [
+            [
+              0.74,
+              "#000000"
+            ],
+            [
+              0.95,
+              "#D8F0FA"
+            ]
+          ],
+          "period": 128,
+          "scale_y": 0.5,
+          "period_y": 256,
+          "ridged": true
+        }
+      },
+      "alpha": 0.18,
+      "blend": "add"
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          128,
+          128
+        ]
+      },
+      "fill": {
+        "noise": {
           "scale": 64,
           "seed": 86,
           "octaves": 2,

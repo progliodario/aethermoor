@@ -465,11 +465,22 @@ def textures(layers: list[dict], base: str, seed: int) -> list[dict]:
         if "$p.hair" in paint:
             out.append({"shape": layer["shape"], "fill": noise(0.26, seed + i, (0.3, "#3E3450"), (0.62, "#FFFFFF"), octaves=3, scale_y=3.2),
                         "blend": "multiply", "alpha": 0.6, **keep})
+            out.append({"shape": layer["shape"], "fill": noise(0.12, seed + i + 250, (0.3, "#2E2640"), (0.6, "#FFFFFF"), octaves=2, scale_y=1.6),
+                        "blend": "multiply", "alpha": 0.4, **keep})  # single hairs
             out.append({"shape": layer["shape"], "fill": noise(0.26, seed + i + 500, (0.6, "#000000"), (0.86, "#FFF2DC"), octaves=2, scale_y=3.2),
                         "blend": "add", "clip": True, "alpha": 0.32, **keep})
         elif base in CLOTH_PARTS and "$p.skin" not in paint:
             out.append({"shape": layer["shape"], "fill": noise(0.45, seed + i, (0.32, "#8A8498"), (0.6, "#FFFFFF"), octaves=3),
                         "blend": "multiply", "alpha": 0.18, **keep})
+            out.append({"shape": layer["shape"], "fill": noise(0.14, seed + i + 250, (0.3, "#7A7488"), (0.62, "#FFFFFF"), octaves=1, scale_y=0.14),
+                        "blend": "multiply", "alpha": 0.14, **keep})  # the threads of the weave
+            out.append({"shape": layer["shape"], "fill": noise(0.9, seed + i + 500, (0.66, "#FFFFFF"), (0.9, "#3A3050"), octaves=3, scale_y=4.5, ridged=True),
+                        "blend": "multiply", "alpha": 0.32, **keep})  # folds of the cloth along the fall
+            out.append({"shape": layer["shape"], "fill": noise(0.9, seed + i + 750, (0.6, "#000000"), (0.85, "#FFF6E8"), octaves=2, scale_y=4.5),
+                        "blend": "add", "clip": True, "alpha": 0.14, **keep})  # their lit ridges
+        elif "$p.skin" in paint:
+            out.append({"shape": layer["shape"], "fill": noise(0.6, seed + i, (0.36, "#C08080"), (0.6, "#FFFFFF"), octaves=3),
+                        "blend": "multiply", "alpha": 0.12, **keep})  # the warmth and unevenness of skin
     return out
 
 

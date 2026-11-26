@@ -195,7 +195,8 @@ A **mirrored** pose (facing left) negates every `x` and every rotation.
 ## Scale buckets and caching
 
 The renderer asks for `tile_px` pixels per tile and rasterizes at `s = tile_px / 32`. `tile_px` is rounded up to a
-bucket `{32, 48, 64, 96, 128, 192, 256}` (the base size of a tile on screen is 64 pixels times the density of the screen) and the texture is drawn scaled to the exact size. Textures are cached by
+bucket `{32, 48, 64, 80, 96, 128, 192, 256}` (the base size of a tile on screen is 80 pixels on the desktop and 64 on Android, times the
+density of the screen) and the texture is drawn scaled to the exact size. Textures are cached by
 `(recipe id, variant, bucket)`; a change of bucket (zoom, screen density) re-bakes in the background. After a lost
 graphics context (Android) all textures are re-created from the CPU bitmaps: the textures are managed by libGDX, which keeps
 the bitmap of each and loads it again by itself (risk R6; the test on the emulator of the nightly workflow, item C4.2).

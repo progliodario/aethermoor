@@ -414,7 +414,9 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
   (fili d'erba a ciuffi con la loro ombra, ghiaia e sassi, increspature della sabbia, foglie secche nei boschi, la rete di luce sul fondo
   dell'acqua bassa, braci nella cenere); alberi fatti di foglie su tronchi di corteccia; oggetti, persone e creature senza contorni da
   fumetto, con luce morbida, volume e grana; visi con occhi, naso e labbra veri, capelli a ciocche, stoffe con la trama, pelliccia e
-  armature consumate. Il rasterizzatore ha il rumore allungato e a creste (spec 13, v3).
+  armature consumate. Il rasterizzatore ha il rumore allungato e a creste (spec 13, v3). Dettaglio molto più fitto ovunque (un centinaio
+  di fili d'erba per tile, ghiaia, aghi, foglie con le nervature, corteccia a placche, pieghe e trama delle stoffe, peli singoli) e, sul
+  desktop, il mondo visto più da vicino (tile di 80 pixel invece di 64).
 - Persone con le proporzioni di un corpo vero, un po' basse, con la testa generosa e il collo corto (cinque teste e mezza, dal 26 novembre) con vista di fronte, di lato e di spalle, terreni dipinti che sfumano, oggetti di scena (dal 18 novembre anche sette mobili), creature che si girano verso di te, ombre lunghe all'alba e al tramonto, acqua e vento che si muovono, luci di notte.
 
 **Suono** (spec 14)

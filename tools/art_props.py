@@ -13,7 +13,7 @@ from artkit import ART, Recipe, darken, lighten, linear, mix, noise, radial  # n
 
 INK = "#1E1830"
 # the realistic finish of every prop (artkit.finish): a faint edge, soft shades, a volume, a grain, colours a little less vivid
-FINISH = {"outline": 0.32, "desat": 0.18, "form": 0.34, "grain": 0.16, "sky": 0.1}
+FINISH = {"outline": 0.32, "desat": 0.18, "form": 0.34, "grain": 0.16, "sky": 0.1, "wear": 0.2}
 
 
 def prop(name: str, w, h, origin, palette: dict) -> Recipe:
@@ -85,11 +85,11 @@ def crown(r: Recipe, clumps: list[tuple[float, float, float, float]], dark: str,
     for i, (cx, cy, rx, ry) in enumerate(clumps):
         body = wobble(r, cx, cy, rx, ry, 14, 0.16)
         edge = []  # leaves that stick out of the silhouette
-        for k in range(int(rx * 2.2)):
-            a = 2 * math.pi * k / int(rx * 2.2) + r.rng.uniform(-0.1, 0.1)
-            m = r.rng.uniform(0.92, 1.04)
+        for k in range(int(rx * 3.4)):
+            a = 2 * math.pi * k / int(rx * 3.4) + r.rng.uniform(-0.1, 0.1)
+            m = r.rng.uniform(0.9, 1.05)
             ex, ey = cx + math.cos(a) * rx * m, cy + math.sin(a) * ry * m
-            edge.append(leaf_d(ex, ey, r.rng.uniform(1.0, 1.8), a + r.rng.uniform(-0.6, 0.6)))
+            edge.append(leaf_d(ex, ey, r.rng.uniform(0.8, 1.6), a + r.rng.uniform(-0.6, 0.6)))
         r.path(body + " " + " ".join(edge), noise(1.1, seed + i, (0.25, dark), (0.5, mid), (0.78, light), octaves=4))
         # clusters of leaves: a coarser texture, multiplied
         r.path(body, noise(max(2.0, rx * 0.28), seed + 40 + i, (0.3, ink), (0.62, "#FFFFFF"), octaves=3), blend="multiply", alpha=0.55)
@@ -97,17 +97,25 @@ def crown(r: Recipe, clumps: list[tuple[float, float, float, float]], dark: str,
         r.path(body + " " + " ".join(edge), radial(cx - rx * 0.35, cy - ry * 0.45, max(rx, ry) * 1.7, (0, "#FFFFFF"), (0.35, "#FFFFFF"), (1, ink)),
                blend="multiply", alpha=0.75)
         r.lit(wobble(r, cx - rx * 0.3, cy - ry * 0.38, rx * 0.6, ry * 0.48, 9, 0.22), 0.3, "#FFF2C0", blur=rx * 0.16)
-        lit, gaps = [], []
-        for _ in range(int(rx * 2.4)):  # leaves picked out by the light
+        lit, gaps, middle, veins = [], [], [], []
+        for _ in range(int(rx * 4.4)):  # leaves picked out by the light
             a, m = r.rng.uniform(0, 2 * math.pi), r.rng.uniform(0, 0.85) ** 0.7
             lx, ly = cx - rx * 0.22 + math.cos(a) * rx * m * 0.75, cy - ry * 0.28 + math.sin(a) * ry * m * 0.65
-            lit.append(leaf_d(lx, ly, r.rng.uniform(0.7, 1.3), r.rng.uniform(-0.4, 0.9)))
-        for _ in range(int(rx * 1.2)):  # dark gaps between the leaves
+            size, turn = r.rng.uniform(0.6, 1.2), r.rng.uniform(-0.4, 0.9)
+            lit.append(leaf_d(lx, ly, size, turn))
+            veins.append(f"M {_f(lx - math.cos(turn) * size * 0.8)} {_f(ly - math.sin(turn) * size * 0.8)} L {_f(lx + math.cos(turn) * size * 0.8)} {_f(ly + math.sin(turn) * size * 0.8)}")
+        for _ in range(int(rx * 3.0)):  # leaves of the middle tone, all over the clump
+            a, m = r.rng.uniform(0, 2 * math.pi), r.rng.uniform(0, 0.95)
+            lx, ly = cx + math.cos(a) * rx * m * 0.85, cy + math.sin(a) * ry * m * 0.8
+            middle.append(leaf_d(lx, ly, r.rng.uniform(0.6, 1.2), r.rng.uniform(-1.2, 1.2)))
+        r.path(" ".join(middle), mid, alpha=0.55, clip=True)
+        for _ in range(int(rx * 2.0)):  # dark gaps between the leaves
             a, m = r.rng.uniform(0, 2 * math.pi), r.rng.uniform(0.25, 0.9)
             gx, gy = cx + rx * 0.12 + math.cos(a) * rx * m * 0.8, cy + ry * 0.18 + math.sin(a) * ry * m * 0.7
             gs = r.rng.uniform(0.5, 1.1)
             gaps.append(f"M {_f(gx - gs)} {_f(gy)} Q {_f(gx)} {_f(gy - gs * 0.7)} {_f(gx + gs)} {_f(gy)} Q {_f(gx)} {_f(gy + gs * 0.7)} {_f(gx - gs)} {_f(gy)} Z")
         r.path(" ".join(lit), tip or light, alpha=0.75, clip=True)
+        r.path(" ".join(veins), None, stroke=ink, width=0.1, alpha=0.35, clip=True)  # the midribs
         r.path(" ".join(gaps), ink, alpha=0.55, blend="multiply", blur=0.25)
 
 
@@ -122,6 +130,17 @@ def trunk(r: Recipe, x: float, foot: float, top: float, w: float, tone: str, see
     r.path(d, linear(x - w * 0.7, 0, x + w * 0.8, 0, (0, "#FFF0D8"), (0.3, "#FFFFFF"), (0.65, "#8A7E96"), (1, "#3A2E48")), blend="multiply", alpha=0.85)
     r.lit(box(x - w * 0.55, top, w * 0.28, foot - top), 0.22, "#FFE8B8", blur=0.6)
     r.path(d, linear(0, foot - 8, 0, foot + 1, (0, "#FFFFFF"), (1, "#2A2230")), blend="multiply", alpha=0.6)  # the dark of the ground
+    plates = []  # the plates of the bark, with their dark cracks between them
+    for _ in range(int((foot - top) * w * 0.35)):
+        bx, by = x + r.rng.uniform(-w * 0.45, w * 0.45), r.rng.uniform(top + 1, foot - 3)
+        bh = r.rng.uniform(1.2, 2.6)
+        plates.append(f"M {_f(bx - 0.12)} {_f(by)} L {_f(bx + 0.12)} {_f(by)} L {_f(bx + 0.05)} {_f(by + bh)} L {_f(bx - 0.05)} {_f(by + bh)} Z")
+    if plates:
+        r.path(" ".join(plates), "#1A120C", alpha=0.6, clip=True)
+    for _ in range(2):  # knots
+        kx, ky = x + r.rng.uniform(-w * 0.25, w * 0.25), r.rng.uniform(top + 4, foot - 8)
+        r.ellipse(kx, ky, w * 0.09, w * 0.13, radial(kx + 0.2, ky + 0.2, w * 0.15, (0, "#140C08"), (1, darken(tone, 0.3))), clip=True)
+        r.ellipse(kx - w * 0.03, ky - w * 0.05, w * 0.12, w * 0.16, None, stroke=lighten(tone, 0.2), width=0.15, alpha=0.4, clip=True)
     for k in range(3):  # moss in the furrows on the shaded side
         mx = x + w * (0.1 + 0.12 * k)
         r.ellipse(mx, foot - 4 - k * 3, w * 0.12, 2.2, noise(0.5, seed + 5 + k, (0.35, "#2E4A22"), (0.7, "#5A7A38"), octaves=2), alpha=0.5, blur=0.5, clip=True)
