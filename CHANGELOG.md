@@ -4,6 +4,21 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Changed
+
+- **The graphics are realistic** (ADR 0015, spec 13 v3): the whole art of the game is painted again to look real, not drawn.
+  - **The ground** has the matter of real ground: grass made of blades in clumps with their contact shadow, grit and pebbles on the
+    paths, ripples on the sand, leaf litter in the forests, cushions of moss, the net of light on the bottom of the shallows and long
+    ripples on deep water, ember cracks in the ash, cobbles worn round, boards with their grain, plaster and stone with their roughness.
+  - **Trees** are a mass of leaves (leaves on the edge of the crown, dark gaps, leaves picked out by the light) on trunks of furrowed
+    bark; pines have ragged boughs; rocks have cracks, pits, lichen and moss.
+  - **Every object, person and creature** loses its cartoon outline and its hard shade: soft light from the top left, a volume, a fine
+    grain, colours a little less vivid. People have the face of a real face (smaller almond eyes, a nose, lips), strands in their hair
+    and a weave in their clothes; beasts have fur, armours scratches and rust.
+  - **The rasterizer** of both clients gains stretched noise (`scale_y`, `period_y`: fibres, blades, strands, ripples) and ridged noise
+    (`ridged`: cracks, veins, caustics), with conformance probes of their own; old recipes draw as before.
+- **The desktop window opens maximized**, at the full resolution of the screen (spec 16, "Desktop"); it can still be resized.
+
 ### Added
 
 - **The duo strike** (spec 10, "Duo strike"): once the bond with a companion reaches twenty kills, a power strike near it brings its

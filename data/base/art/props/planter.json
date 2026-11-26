@@ -20,7 +20,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112B"
       },
       "alpha": 0.4,
       "blur": 1.12
@@ -35,7 +35,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112B"
       },
       "alpha": 0.32,
       "blur": 0.8
@@ -46,29 +46,35 @@
       },
       "fill": {
         "noise": {
-          "scale": 3,
+          "scale": 1.8,
           "seed": 971,
-          "octaves": 3,
+          "octaves": 5,
           "stops": [
             [
               0.28,
-              "#867A66"
+              "#7E7465"
             ],
             [
               0.5,
-              "#A89880"
+              "#A59885"
             ],
             [
-              0.74,
-              "#B8AB97"
+              0.72,
+              "#B4A898"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4 18 L 40 18 L 37 29 L 7 29 Z"
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.5
-      }
+        "color": "#1E192C",
+        "width": 0.4
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -81,29 +87,40 @@
       },
       "fill": {
         "noise": {
-          "scale": 2,
+          "scale": 1.2,
           "seed": 972,
-          "octaves": 3,
+          "octaves": 5,
           "stops": [
             [
               0.28,
-              "#9A8D7A"
+              "#908678"
             ],
             [
               0.5,
-              "#C0B098"
+              "#BDB09D"
             ],
             [
-              0.74,
-              "#CBBEAB"
+              0.72,
+              "#C8BDAC"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          3,
+          16.4,
+          38,
+          2.4
+        ]
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.4
-      }
+        "color": "#1E192C",
+        "width": 0.32
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -119,7 +136,7 @@
         "path": "M 9 16.6 Q 12 13.100000000000001 11 10.3"
       },
       "stroke": {
-        "color": "#7AB85A",
+        "color": "#80B366",
         "width": 1.1
       }
     },
@@ -133,12 +150,23 @@
         ]
       },
       "fill": {
-        "color": "#8AC86A"
+        "color": "#90C376"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          7.4,
+          9.6,
+          1.2,
+          0.8
+        ]
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.2
-      }
+        "color": "#1E192C",
+        "width": 0.16
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -154,7 +182,7 @@
         "path": "M 15 16.6 Q 18 11.600000000000001 17 7.600000000000001"
       },
       "stroke": {
-        "color": "#7AB85A",
+        "color": "#80B366",
         "width": 1.1
       }
     },
@@ -168,12 +196,23 @@
         ]
       },
       "fill": {
-        "color": "#8AC86A"
+        "color": "#90C376"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13.4,
+          6.6,
+          1.2,
+          0.8
+        ]
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.2
-      }
+        "color": "#1E192C",
+        "width": 0.16
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -189,7 +228,7 @@
         "path": "M 21 16.6 Q 24 12.100000000000001 23 8.500000000000002"
       },
       "stroke": {
-        "color": "#7AB85A",
+        "color": "#80B366",
         "width": 1.1
       }
     },
@@ -203,12 +242,23 @@
         ]
       },
       "fill": {
-        "color": "#8AC86A"
+        "color": "#90C376"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          19.4,
+          7.6,
+          1.2,
+          0.8
+        ]
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.2
-      }
+        "color": "#1E192C",
+        "width": 0.16
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -224,7 +274,7 @@
         "path": "M 27 16.6 Q 30 12.600000000000001 29 9.400000000000002"
       },
       "stroke": {
-        "color": "#7AB85A",
+        "color": "#80B366",
         "width": 1.1
       }
     },
@@ -238,12 +288,23 @@
         ]
       },
       "fill": {
-        "color": "#8AC86A"
+        "color": "#90C376"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.4,
+          8.6,
+          1.2,
+          0.8
+        ]
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.2
-      }
+        "color": "#1E192C",
+        "width": 0.16
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -259,7 +320,7 @@
         "path": "M 33 16.6 Q 36 13.100000000000001 35 10.3"
       },
       "stroke": {
-        "color": "#7AB85A",
+        "color": "#80B366",
         "width": 1.1
       }
     },
@@ -273,31 +334,48 @@
         ]
       },
       "fill": {
-        "color": "#8AC86A"
+        "color": "#90C376"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          31.4,
+          9.6,
+          1.2,
+          0.8
+        ]
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.2
-      }
+        "color": "#1E192C",
+        "width": 0.16
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
         "path": "M 36 10 L 42 10 L 41 16 L 37 16 Z"
       },
       "fill": {
-        "color": "#7A8A9A"
+        "color": "#7C8997"
+      }
+    },
+    {
+      "shape": {
+        "path": "M 36 10 L 42 10 L 41 16 L 37 16 Z"
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.35
-      }
+        "color": "#1E192C",
+        "width": 0.28
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
         "path": "M 36 11 L 32 8"
       },
       "stroke": {
-        "color": "#6A7A8A",
+        "color": "#6C7987",
         "width": 0.8
       }
     },
@@ -306,7 +384,7 @@
         "path": "M 30 18 L 40 18 L 37 29 L 30 29 Z"
       },
       "fill": {
-        "color": "#5A4E9A"
+        "color": "#5A508F"
       },
       "alpha": 0.3,
       "blur": 0.8,
@@ -318,15 +396,109 @@
         "path": "M 4.00 16.40 L 38.00 16.40 L 38.00 17.10 L 4.00 17.10 Z"
       },
       "fill": {
-        "color": "#FFF4E0"
+        "color": "#FDF4E4"
       },
       "alpha": 0.4,
       "clip": true,
-      "blend": "add"
+      "blend": "add",
+      "blur": 0.32
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          44,
+          34
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 3,
+          "y0": 5.8,
+          "x1": 12.75,
+          "y1": 18.56,
+          "stops": [
+            [
+              0,
+              "#FFF6E0"
+            ],
+            [
+              1,
+              "#FFF6E000"
+            ]
+          ]
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.1
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          44,
+          34
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 14.7,
+          "cy": 10.9,
+          "r": 40.95,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              0.38,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#4A4068"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.34
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          44,
+          34
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.7,
+          "seed": 2097,
+          "octaves": 2,
+          "stops": [
+            [
+              0.28,
+              "#9C94A4"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.16
     }
   ],
   "palette": {
-    "stone": "#A89880",
-    "leaf": "#5A9A4A"
+    "stone": "#A59885",
+    "leaf": "#609553"
   }
 }

@@ -14,7 +14,7 @@ import json
 import math
 
 from art_props import box
-from artkit import ART, Recipe, linear, radial, transform_layers
+from artkit import ART, Recipe, linear, noise, radial, shape_box, transform_layers
 
 CREATURES = ART / "creatures"
 GOLD = "#F2C94C"
@@ -26,7 +26,10 @@ def palette_of(name: str) -> dict:
 
 
 def new(name: str, w: float, h: float, origin: tuple[float, float]) -> Recipe:
-    return Recipe(f"base:art/creature/{name}", w, h, origin, palette_of(name), seed="v3")
+    r = Recipe(f"base:art/creature/{name}", w, h, origin, palette_of(name), seed="v3")
+    # the realistic finish (artkit.finish); the palette is read back from the file, so the finish leaves it as it is
+    r.finish = {"outline": 0.38, "desat": 0.15, "form": 0.32, "grain": 0.14, "sky": 0.1, "palette": False}
+    return r
 
 
 def star(r: Recipe, x: float, y: float, s: float, color: str = "#FFFFFF", alpha: float = 0.95) -> None:
@@ -819,9 +822,40 @@ def build_creatures() -> list[Recipe]:
     return out
 
 
+def matter(r: Recipe) -> None:
+    """The texture of what a creature is made of, after every large shape of it: fur (strands along the body of a beast
+    seen from the side, and their sheen) or worn metal (fine scratches and pits on an armour)."""
+    fur = "fur" in r.palette
+    metal = "slit" in r.palette
+    if not (fur or metal):
+        return
+    out = []
+    for i, layer in enumerate(r.layers):
+        out.append(layer)
+        if layer.get("blend") or layer.get("clip") or "fill" not in layer or layer.get("alpha", 1) < 0.6:
+            continue
+        box = shape_box(layer["shape"])
+        if box is None or (box[2] - box[0]) * (box[3] - box[1]) < 6:
+            continue
+        paint = json.dumps(layer["fill"])
+        keep = {k: layer[k] for k in ("only", "except") if k in layer}
+        if fur and ("$p.fur" in paint or "$p.light" in paint or "$p.dark" in paint):
+            out.append({"shape": layer["shape"], "fill": noise(1.6, 600 + i, (0.3, "#3A3040"), (0.62, "#FFFFFF"), octaves=3, scale_y=0.32),
+                        "blend": "multiply", "alpha": 0.55, **keep})
+            out.append({"shape": layer["shape"], "fill": noise(1.6, 700 + i, (0.62, "#000000"), (0.86, "#FFF4E4"), octaves=2, scale_y=0.32),
+                        "blend": "add", "clip": True, "alpha": 0.25, **keep})
+        elif metal and ("$p.body" in paint or "$p.light" in paint or "$p.dark" in paint):
+            out.append({"shape": layer["shape"], "fill": noise(0.5, 800 + i, (0.7, "#FFFFFF"), (0.9, "#2A2830"), octaves=3, ridged=True),
+                        "blend": "multiply", "alpha": 0.35, **keep})
+            out.append({"shape": layer["shape"], "fill": noise(2.5, 900 + i, (0.4, "#FFFFFF"), (0.66, "#7A5A3A"), octaves=3),
+                        "blend": "multiply", "alpha": 0.25, **keep})  # old rust
+    r.layers = out
+
+
 def main() -> None:
     recipes = build_creatures()
     for r in recipes:
+        matter(r)
         r.write(CREATURES / (r.id.rsplit("/", 1)[1] + ".json"))
     print(f"wrote {len(recipes)} creatures (the Echoes come from make_echoes.py)")
 

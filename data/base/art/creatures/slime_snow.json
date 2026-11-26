@@ -20,7 +20,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112C"
       },
       "alpha": 0.36,
       "blur": 1.19
@@ -35,7 +35,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112C"
       },
       "alpha": 0.288,
       "blur": 0.85
@@ -64,11 +64,17 @@
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4 26 Q 3 12 18 10 Q 33 12 32 26 Q 32 30.5 18 30.5 Q 4 30.5 4 26 Z"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.5
-      }
+        "width": 0.4
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -92,7 +98,7 @@
         "path": "M 20 10.2 Q 33 12 32 26 Q 32 30.5 18 30.5 Q 10 30.5 6.6 29 Q 26 28 20 10.2 Z"
       },
       "fill": {
-        "color": "#5A4E9A"
+        "color": "#5A5090"
       },
       "alpha": 0.4,
       "blur": 1.6,
@@ -231,16 +237,23 @@
             ],
             [
               1,
-              "#D6ECF8"
+              "#D9EBF5"
             ]
           ]
         }
       },
-      "stroke": {
-        "color": "#7AA6C4",
-        "width": 0.35
-      },
       "clip": true
+    },
+    {
+      "shape": {
+        "path": "M 6.4 17 Q 8 10.6 18 10 Q 28 10.6 29.6 17 Q 27 15.6 25 17.4 Q 22.6 15.4 20 17.6 Q 17 15.2 14.6 17.4 Q 11.4 15.6 9.4 17.6 Q 7.8 16.2 6.4 17 Z"
+      },
+      "stroke": {
+        "color": "#7FA5BE",
+        "width": 0.28
+      },
+      "clip": true,
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -503,11 +516,22 @@
       },
       "fill": {
         "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          21.2,
+          1.7,
+          2.3
+        ]
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.25
-      }
+        "width": 0.2
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -547,11 +571,22 @@
       },
       "fill": {
         "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          21.2,
+          1.7,
+          2.3
+        ]
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.25
-      }
+        "width": 0.2
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -599,7 +634,7 @@
         ]
       },
       "fill": {
-        "color": "#FF6A8A"
+        "color": "#F0718C"
       },
       "alpha": 0.3,
       "blur": 0.4
@@ -614,17 +649,110 @@
         ]
       },
       "fill": {
-        "color": "#FF6A8A"
+        "color": "#F0718C"
       },
       "alpha": 0.3,
       "blur": 0.4
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          36,
+          34
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 3,
+          "y0": 1.6,
+          "x1": 10.5,
+          "y1": 17.5,
+          "stops": [
+            [
+              0,
+              "#FFF6E0"
+            ],
+            [
+              1,
+              "#FFF6E000"
+            ]
+          ]
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.1
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          36,
+          34
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 12,
+          "cy": 7.96,
+          "r": 31.5,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              0.38,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#4A4068"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          36,
+          34
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.7,
+          "seed": 2837,
+          "octaves": 2,
+          "stops": [
+            [
+              0.28,
+              "#9C94A4"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14
     }
   ],
   "palette": {
-    "body": "#E4F2FA",
+    "body": "#E6F2F8",
     "light": "#FFFFFF",
-    "dark": "#8EB4CC",
-    "outline": "#2A4A5E",
-    "eye": "#1E1B28"
+    "dark": "#92B3C7",
+    "outline": "#2E495A",
+    "eye": "#1E1B26"
   }
 }

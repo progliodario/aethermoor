@@ -2,11 +2,12 @@
 
     python tools/art_chars.py
 
-A person is about 59 art units tall (1.8 tiles) and 4.6 heads: the proportions of an anime character, not of a mascot.
+A person is about 59 art units tall (1.8 tiles) and 4.6 heads, with the face of a real face (almond eyes, a nose, lips).
 The rig has a soft shadow, two legs, two arms, a torso, a head and a `cape` part behind the body (capes, long hair); the
 torso, the head and the cape have a second recipe for the view from behind (`art_back`, spec 13). Every part is drawn
-around its joint (the origin of its canvas) with flat tones, a hard violet shade away from the light (top left) and a thin
-dark line. The palette variants are the protagonists and the kinds of people; what each one wears is in `art_looks.py`
+around its joint (the origin of its canvas) with its tones and a violet shade away from the light (top left); `textures()`
+adds the strands of the hair and the weave of the cloth, and the finish of `artkit.finish` softens the shades, fades the
+outlines and gives every part a volume (ADR 0015). The palette variants are the protagonists and the kinds of people; what each one wears is in `art_looks.py`
 (`only` and `except` layers). The shading is multiplied or added, so it works with every palette.
 """
 from __future__ import annotations
@@ -15,7 +16,7 @@ import json
 
 from art_looks import LOOKS, PEOPLE, PROTAGONISTS
 from art_looks_side import SIDE
-from artkit import ART, ROOT, Recipe, linear, transform_layers
+from artkit import ART, ROOT, Recipe, linear, noise, radial, shape_box, transform_layers
 
 OUT = "$p.outline"
 CHAR = ART / "characters" / "ren"
@@ -45,7 +46,9 @@ CANVAS = {"head": (44, 50, 22, 38), "torso": (40, 52, 20, 22), "arm": (14, 26, 7
 
 def part(name: str) -> Recipe:
     w, h, _, _ = CANVAS[name.replace("_back", "").replace("_side", "")]
-    return Recipe(f"base:art/char/ren/{name}", w, h, (0, 0), seed="v3")
+    r = Recipe(f"base:art/char/ren/{name}", w, h, (0, 0), seed="v3")
+    r.finish = {"outline": 0.45, "desat": 0.12, "form": 0.26, "grain": 0.07, "sky": 0.08}  # the realistic finish (artkit.finish)
+    return r
 
 
 # ------------------------------------------------------------------------------------------------ head
@@ -57,17 +60,21 @@ SKULL_BACK = "M -6.3 -7 Q -7 -15.8 0 -16 Q 7 -15.8 6.3 -7 Q 6.2 -2.2 3.4 -1.2 Q 
 
 
 def eye(r: Recipe, x: float, only=None, skip=None) -> None:
-    """An anime eye: a white, a tall iris that is darker at the top, a pupil, two sparks, a heavy upper lash."""
+    """An eye in the proportions of a real face: an almond white, a round iris half under the upper lid, a pupil, one
+    catchlight, the shade of the lid, a fine line of lashes and the crease above."""
     kw = {"only": only, "skip": skip}
-    r.ellipse(x, -6.0, 1.5, 1.6, "#FFFFFF", **kw)
-    r.ellipse(x, -5.9, 1.1, 1.45, linear(x, -7.4, x, -4.4, (0, OUT), (0.35, "$p.eye"), (1, "#FFFFFF")), **kw)
-    r.ellipse(x, -5.9, 1.1, 1.45, "$p.eye", alpha=0.45, **kw)
-    r.ellipse(x, -6.0, 0.48, 0.75, OUT, **kw)
-    r.rect(x - 1.5, -7.6, 3, 0.9, "#201838", alpha=0.35, **kw)  # the shade of the lid
-    r.ellipse(x - 0.45, -6.6, 0.4, 0.4, "#FFFFFF", **kw)
-    r.ellipse(x + 0.42, -5.2, 0.22, 0.22, "#FFFFFF", alpha=0.9, **kw)
-    r.path(f"M {x - 1.75} -6.4 Q {x - 1.2} -7.9 {x} -7.95 Q {x + 1.3} -7.9 {x + 1.8} -6.5", None, stroke=OUT, width=0.55, **kw)
-    r.path(f"M {x - 1.2} -4.45 Q {x} -4.2 {x + 1.2} -4.5", None, stroke=OUT, width=0.2, alpha=0.6, **kw)
+    s = -1 if x < 0 else 1  # the outer corner is a little higher
+    almond = (f"M {x - 1.3 * s:.2f} -5.85 Q {x - 0.45 * s:.2f} -7.0 {x + 0.35 * s:.2f} -6.9 Q {x + 1.05 * s:.2f} -6.75 {x + 1.35 * s:.2f} -6.05 "
+              f"Q {x + 0.55 * s:.2f} -5.25 {x - 0.2 * s:.2f} -5.3 Q {x - 0.95 * s:.2f} -5.35 {x - 1.3 * s:.2f} -5.85 Z")
+    r.path(almond, linear(x, -6.9, x, -5.3, (0, "#C8BCC0"), (0.45, "#F0EAE6"), (1, "#E4DCDA")), **kw)
+    r.ellipse(x + 0.05, -6.08, 0.64, 0.66, radial(x - 0.05, -6.25, 0.7, (0, "$p.eye"), (0.7, "$p.eye"), (1, "#1E1626")), **kw)
+    r.ellipse(x + 0.05, -6.08, 0.64, 0.66, linear(x, -6.8, x, -5.5, (0, "#1E1626"), (0.5, "#1E162600")), alpha=0.7, **kw)  # the lid's shade on it
+    r.ellipse(x + 0.05, -6.08, 0.27, 0.28, "#0E0A12", **kw)
+    r.ellipse(x - 0.2, -6.3, 0.15, 0.15, "#FFFFFF", alpha=0.9, **kw)
+    r.path(f"M {x - 1.4 * s:.2f} -5.8 Q {x - 0.45 * s:.2f} -7.1 {x + 0.35 * s:.2f} -7.0 Q {x + 1.1 * s:.2f} -6.85 {x + 1.45 * s:.2f} -6.05",
+           None, stroke=OUT, width=0.34, **kw)  # the upper lid and its lashes
+    r.path(f"M {x - 1.1 * s:.2f} -5.5 Q {x - 0.1 * s:.2f} -5.15 {x + 1.1 * s:.2f} -5.75", None, stroke="#6A4A50", width=0.16, alpha=0.5, **kw)
+    r.path(f"M {x - 1.1 * s:.2f} -7.2 Q {x:.2f} -7.75 {x + 1.2 * s:.2f} -7.15", None, stroke="#8A5A5A", width=0.16, alpha=0.35, **kw)  # the crease
 
 
 def head() -> Recipe:
@@ -79,14 +86,22 @@ def head() -> Recipe:
     r.path(FACE, "$p.skin", stroke=OUT, width=0.45)
     r.shade("M -5.6 -11 L 5.6 -11 L 5.5 -8.3 Q 0 -9.6 -5.5 -8.3 Z", 0.3, "#B06A80")  # the shade of the fringe
     r.shade("M 2.6 -11 Q 6.4 -6 3.7 -2.3 Q 1.7 -0.4 0 -0.3 Q 2.8 -2 3.4 -5 Q 3.6 -8 2.6 -11 Z", 0.22, "#B06A80")
-    for sx in (-1, 1):  # a blush
-        r.ellipse(sx * 3.5, -4.0, 1.25, 0.6, "#F06A7A", alpha=0.3, blur=0.35)
+    for sx in (-1, 1):  # the warmth of the cheeks
+        r.ellipse(sx * 3.4, -4.0, 1.6, 0.9, "#D8706A", alpha=0.12, blur=0.8)
+    r.ellipse(-1.5, -9.6, 2.6, 1.2, "#FFF4E8", alpha=0.16, blend="add", clip=True, blur=0.8)  # the light on the forehead
+    r.path("M 0.35 -6.4 Q 0.9 -4.6 0.95 -3.6 L 0.2 -3.3 Q 0.5 -4.8 0.35 -6.4 Z", "#9A5A60", alpha=0.3, blend="multiply", blur=0.25)  # the side of the nose
+    r.ellipse(-0.15, -3.75, 0.35, 0.22, "#FFF4E8", alpha=0.3, blend="add", clip=True, blur=0.15)  # the tip of the nose
+    for sx in (-1, 1):
+        r.ellipse(sx * 0.42, -3.35, 0.2, 0.12, "#5A3038", alpha=0.6)  # the nostrils
     eye(r, -2.55)
     eye(r, 2.55)
     for sx in (-1, 1):
-        r.path(f"M {sx * 1.1} -9.0 Q {sx * 2.4} -9.5 {sx * 4.0} -8.9", None, stroke=OUT, width=0.32, alpha=0.85)  # eyebrows
-    r.path("M 0.15 -4.0 L -0.1 -3.4", None, stroke="#A8607A", width=0.3, alpha=0.7)  # the nose
-    r.path("M -0.9 -2.25 Q 0 -1.85 0.9 -2.25", None, stroke="#A84A5A", width=0.35)  # the mouth
+        r.path(f"M {sx * 1.0} -8.35 Q {sx * 2.3} -8.95 {sx * 3.9} -8.2", None, stroke=OUT, width=0.36, alpha=0.75)  # eyebrows
+        r.path(f"M {sx * 1.3} -8.45 Q {sx * 2.3} -8.85 {sx * 3.4} -8.4", None, stroke="$p.hair", width=0.22, alpha=0.6)
+    r.path("M -1.0 -2.2 Q -0.4 -2.45 0 -2.3 Q 0.4 -2.45 1.0 -2.2 Q 0.5 -2.0 0 -2.05 Q -0.5 -2.0 -1.0 -2.2 Z", "#A8606A", alpha=0.75)  # the upper lip
+    r.path("M -0.8 -2.1 Q 0 -1.45 0.8 -2.1 Q 0 -1.8 -0.8 -2.1 Z", "#C07878", alpha=0.6)  # the lower lip
+    r.path("M -1.0 -2.15 Q 0 -1.95 1.0 -2.15", None, stroke="#6A3A40", width=0.16, alpha=0.8)
+    r.ellipse(0, -1.25, 0.6, 0.2, "#9A5A60", alpha=0.25, blend="multiply", blur=0.2)  # the shade under the lip
     r.path(FRINGE, "$p.hair", stroke=OUT, width=0.45)
     r.shade("M 0.5 -15.7 Q 6.8 -15.5 6 -7.4 Q 5.5 -9.6 4.6 -10.3 L 4 -7.9 Q 3.2 -10.1 2.1 -10.7 Q 3.6 -13 0.5 -15.7 Z", 0.4)
     r.path("M -4.6 -12.2 Q -1 -14.2 3.2 -13", None, stroke="#FFFFFF", width=0.9, alpha=0.3, blend="add", clip=True)  # the ring of light
@@ -124,13 +139,12 @@ def head_side() -> Recipe:
     r.ellipse(-0.5, -6.0, 0.5, 0.8, "#C8607A", alpha=0.3)
     r.ellipse(2.4, -4.0, 1.2, 0.6, "#F06A7A", alpha=0.3, blur=0.35)
     # the eye, narrower from the side
-    r.ellipse(3.5, -6.3, 1.0, 1.5, "#FFFFFF")
-    r.ellipse(3.7, -6.2, 0.75, 1.35, linear(3.7, -7.6, 3.7, -4.8, (0, OUT), (0.35, "$p.eye"), (1, "#FFFFFF")))
-    r.ellipse(3.7, -6.2, 0.75, 1.35, "$p.eye", alpha=0.45)
-    r.ellipse(3.85, -6.3, 0.32, 0.7, OUT)
-    r.ellipse(3.4, -6.8, 0.3, 0.3, "#FFFFFF")
-    r.path("M 2.3 -6.8 Q 3 -8.1 4 -8 Q 4.7 -7.8 4.9 -6.9", None, stroke=OUT, width=0.5)
-    r.path("M 2 -9.2 Q 3.4 -9.7 4.9 -9", None, stroke=OUT, width=0.32, alpha=0.85)
+    r.path("M 2.9 -6.1 Q 3.6 -6.95 4.6 -6.6 Q 4.5 -5.6 4.2 -5.4 Q 3.4 -5.4 2.9 -6.1 Z", "#ECE4E2")
+    r.ellipse(4.05, -6.1, 0.42, 0.62, radial(4.0, -6.25, 0.6, (0, "$p.eye"), (0.7, "$p.eye"), (1, "#1E1626")))
+    r.ellipse(4.15, -6.1, 0.18, 0.28, "#0E0A12")
+    r.ellipse(3.92, -6.32, 0.12, 0.12, "#FFFFFF", alpha=0.9)
+    r.path("M 2.8 -6.05 Q 3.6 -7.05 4.7 -6.65", None, stroke=OUT, width=0.32)
+    r.path("M 2.2 -8.4 Q 3.5 -9.0 4.9 -8.5", None, stroke=OUT, width=0.34, alpha=0.75)
     r.path("M 4.5 -2.5 Q 5 -2.3 5.4 -2.6", None, stroke="#A84A5A", width=0.35)
     r.path(HAIR_SIDE, "$p.hair", stroke=OUT, width=0.45)
     r.shade("M -6.4 -7 Q -7.1 -16 -1 -16 Q -4.4 -12 -3.6 -7 Q -3.2 -3.6 -5.6 -3 Q -6.4 -4.6 -6.4 -7 Z", 0.4)
@@ -304,6 +318,33 @@ def write_rig() -> None:
         (ART / "clips" / f"{name}.json").write_text(json.dumps(clip, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
+CLOTH_PARTS = ("torso", "arm", "leg", "cape")
+
+
+def textures(layers: list[dict], base: str, seed: int) -> list[dict]:
+    """After every shape of hair, its strands (a noise stretched along the fall of the hair, multiplied) and their sheen;
+    after every large shape of cloth of the torso, the arms, the legs and the cape, the weave of the cloth."""
+    out = []
+    for i, layer in enumerate(layers):
+        out.append(layer)
+        if layer.get("blend") or layer.get("clip") or "fill" not in layer or layer.get("alpha", 1) < 0.6:
+            continue
+        box = shape_box(layer["shape"])
+        if box is None or (box[2] - box[0]) * (box[3] - box[1]) < 4:
+            continue
+        keep = {k: layer[k] for k in ("only", "except") if k in layer}
+        paint = json.dumps(layer["fill"])
+        if "$p.hair" in paint:
+            out.append({"shape": layer["shape"], "fill": noise(0.26, seed + i, (0.3, "#3E3450"), (0.62, "#FFFFFF"), octaves=3, scale_y=3.2),
+                        "blend": "multiply", "alpha": 0.6, **keep})
+            out.append({"shape": layer["shape"], "fill": noise(0.26, seed + i + 500, (0.6, "#000000"), (0.86, "#FFF2DC"), octaves=2, scale_y=3.2),
+                        "blend": "add", "clip": True, "alpha": 0.32, **keep})
+        elif base in CLOTH_PARTS and "$p.skin" not in paint:
+            out.append({"shape": layer["shape"], "fill": noise(0.45, seed + i, (0.32, "#8A8498"), (0.6, "#FFFFFF"), octaves=3),
+                        "blend": "multiply", "alpha": 0.18, **keep})
+    return out
+
+
 def finish(recipe: Recipe, name: str) -> None:
     """Applies the looks, moves the drawing from joint units to the canvas and writes the file."""
     base = name.replace("_back", "").replace("_side", "")
@@ -322,6 +363,7 @@ def finish(recipe: Recipe, name: str) -> None:
                 else:
                     layer["only"] = [person]
             recipe.layers = x.layers + recipe.layers if behind else recipe.layers + x.layers
+    recipe.layers = textures(recipe.layers, base, sum(ord(ch) for ch in name))
     w, h, ox, oy = CANVAS[base]
     recipe.layers = transform_layers(recipe.layers, 1.0, ox, oy)
     recipe.origin = [ox, oy]

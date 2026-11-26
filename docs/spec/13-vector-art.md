@@ -1,6 +1,7 @@
 # 13. Vector art
 
-Status: **v2** (blur, clip, blend, noise fills, macro tiles and the view from behind were added to v1). Schemas: `art_recipe`, `rig`, `clip`, `tileset`. Conformance suites: `raster`, `rig_pose`.
+Status: **v3** (blur, clip, blend, noise fills, macro tiles and the view from behind were added to v1; v3 adds stretched and ridged
+noise, ADR 0015). Schemas: `art_recipe`, `rig`, `clip`, `tileset`. Conformance suites: `raster`, `rig_pose`.
 See ADR 0012 for why both clients use the same in-house software rasterizer.
 
 ## Recipes
@@ -21,7 +22,10 @@ image (feet of a character, joint of a limb, base of a tree).
   `stops` are `[[t, color], ...]` with `t` in 0..1, increasing. Outside the first/last stop the end color is kept.
   `{"noise": {scale, seed, octaves, period, stops}}` is a cloudy texture (see "Noise" below): `scale` is the size of the largest
   clouds in art units, `seed` (default 0) picks the pattern, `octaves` (1 to 6, default 3) adds finer clouds, `period` (default 0:
-  none) makes the pattern repeat every `period * scale` art units, so that a tile joins itself.
+  none) makes the pattern repeat every `period * scale` art units, so that a tile joins itself. **v3:** `scale_y` (default `scale`) is the
+  size of the clouds along y, so that they are stretched (the fibres of wood, blades, strands, fur, ripples), and `period_y` (default
+  `period`) is the period along y in cells of `scale_y`; `ridged` (default false) folds every octave around its middle, which turns
+  the clouds into thin creases (cracks, veins, furrows, the net of light on water).
 - **Stroke** (optional): `{"color": c, "width": w}` in art units, round joins and round caps.
 - **alpha** (optional, default 1): layer opacity.
 - **blur** (optional, default 0, art units): softens the edge of the layer (a soft shadow, a glow, an airbrushed shade).
@@ -87,14 +91,17 @@ The value of a noise fill at the art point `(px, py)` is a sum of `octaves` laye
 ```
 total = 0; norm = 0; amp = 1
 for o in 0 .. octaves-1:
-    f = 2^o / scale;  u = px * f;  v = py * f
+    fx = 2^o / scale;  fy = 2^o / scale_y;  u = px * fx;  v = py * fy
     ix = floor(u); iy = floor(v); fu = u - ix; fv = v - iy
     su = fu*fu*(3 - 2*fu);  sv = fv*fv*(3 - 2*fv)
     ix1 = ix + 1; iy1 = iy + 1
-    if period > 0:  per = period * 2^o;  ix, iy, ix1, iy1 are taken modulo per
+    if period > 0:    ix, ix1 are taken modulo period * 2^o
+    if period_y > 0:  iy, iy1 are taken modulo period_y * 2^o
     a = H(ix, iy, seed+o);  b = H(ix1, iy, seed+o);  c = H(ix, iy1, seed+o);  d = H(ix1, iy1, seed+o)
     top = a + (b - a)*su;  bottom = c + (d - c)*su
-    total += (top + (bottom - top)*sv) * amp;  norm += amp;  amp = amp / 2
+    n = top + (bottom - top)*sv
+    if ridged:  n = 1 - |2*n - 1|
+    total += n * amp;  norm += amp;  amp = amp / 2
 t = total / norm
 
 H(i, j, s):  h = i*0x9E3779B1 + j*0x85EBCA77 + s*0xC2B2AE3D
@@ -102,7 +109,8 @@ H(i, j, s):  h = i*0x9E3779B1 + j*0x85EBCA77 + s*0xC2B2AE3D
              return (h >> 8) / 16777215
 ```
 
-`t` is in 0..1 and stays near 0.5, so the stops of a noise fill are usually between 0.25 and 0.75.
+`t` is in 0..1 and stays near 0.5, so the stops of a noise fill are usually between 0.25 and 0.75; a ridged noise is near 1 on its
+creases, so its stops are usually between 0.6 and 1. A recipe without the options of v3 draws as in v2.
 
 Tolerances in the conformance suite are +/-2 per channel for probes and a relative area tolerance for shapes.
 The two clients must agree with the *geometry*, not bit by bit.

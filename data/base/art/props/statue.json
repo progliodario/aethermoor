@@ -20,7 +20,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112B"
       },
       "alpha": 0.4,
       "blur": 1.19
@@ -35,7 +35,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112B"
       },
       "alpha": 0.32,
       "blur": 0.85
@@ -46,29 +46,35 @@
       },
       "fill": {
         "noise": {
-          "scale": 5,
+          "scale": 3,
           "seed": 341,
-          "octaves": 3,
+          "octaves": 5,
           "stops": [
             [
               0.28,
-              "#868A93"
+              "#81838A"
             ],
             [
               0.5,
-              "#A8ADB8"
+              "#A9ADB6"
             ],
             [
-              0.74,
-              "#B8BCC5"
+              0.72,
+              "#B7BAC1"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 5 46 L 6.5 39 L 25.5 39 L 27 46 Z"
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.45
-      }
+        "color": "#1E192C",
+        "width": 0.36
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -81,29 +87,40 @@
       },
       "fill": {
         "noise": {
-          "scale": 5,
+          "scale": 3,
           "seed": 341,
-          "octaves": 3,
+          "octaves": 5,
           "stops": [
             [
               0.28,
-              "#868A93"
+              "#81838A"
             ],
             [
               0.5,
-              "#A8ADB8"
+              "#A9ADB6"
             ],
             [
-              0.74,
-              "#B8BCC5"
+              0.72,
+              "#B7BAC1"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          8,
+          35,
+          16,
+          4.2
+        ]
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.45
-      }
+        "color": "#1E192C",
+        "width": 0.36
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -111,29 +128,35 @@
       },
       "fill": {
         "noise": {
-          "scale": 5,
+          "scale": 3,
           "seed": 341,
-          "octaves": 3,
+          "octaves": 5,
           "stops": [
             [
               0.28,
-              "#868A93"
+              "#81838A"
             ],
             [
               0.5,
-              "#A8ADB8"
+              "#A9ADB6"
             ],
             [
-              0.74,
-              "#B8BCC5"
+              0.72,
+              "#B7BAC1"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 10 35 Q 9 24 11.5 17 Q 16 14.5 20.5 17 Q 23 24 22 35 Z"
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.45
-      }
+        "color": "#1E192C",
+        "width": 0.36
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -141,29 +164,35 @@
       },
       "fill": {
         "noise": {
-          "scale": 5,
+          "scale": 3,
           "seed": 341,
-          "octaves": 3,
+          "octaves": 5,
           "stops": [
             [
               0.28,
-              "#868A93"
+              "#81838A"
             ],
             [
               0.5,
-              "#A8ADB8"
+              "#A9ADB6"
             ],
             [
-              0.74,
-              "#B8BCC5"
+              0.72,
+              "#B7BAC1"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 11.5 17 Q 7 19 7.5 26 L 10.5 27 Q 10 21 12.5 19 Z"
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.4
-      }
+        "color": "#1E192C",
+        "width": 0.32
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -171,29 +200,35 @@
       },
       "fill": {
         "noise": {
-          "scale": 5,
+          "scale": 3,
           "seed": 341,
-          "octaves": 3,
+          "octaves": 5,
           "stops": [
             [
               0.28,
-              "#868A93"
+              "#81838A"
             ],
             [
               0.5,
-              "#A8ADB8"
+              "#A9ADB6"
             ],
             [
-              0.74,
-              "#B8BCC5"
+              0.72,
+              "#B7BAC1"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 20.5 17 Q 25 19 24.5 26 L 21.5 27 Q 22 21 19.5 19 Z"
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.4
-      }
+        "color": "#1E192C",
+        "width": 0.32
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -206,29 +241,40 @@
       },
       "fill": {
         "noise": {
-          "scale": 5,
+          "scale": 3,
           "seed": 341,
-          "octaves": 3,
+          "octaves": 5,
           "stops": [
             [
               0.28,
-              "#868A93"
+              "#81838A"
             ],
             [
               0.5,
-              "#A8ADB8"
+              "#A9ADB6"
             ],
             [
-              0.74,
-              "#B8BCC5"
+              0.72,
+              "#B7BAC1"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16,
+          11,
+          4.2,
+          4.8
+        ]
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.45
-      }
+        "color": "#1E192C",
+        "width": 0.36
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -236,29 +282,35 @@
       },
       "fill": {
         "noise": {
-          "scale": 5,
+          "scale": 3,
           "seed": 341,
-          "octaves": 3,
+          "octaves": 5,
           "stops": [
             [
               0.28,
-              "#868A93"
+              "#81838A"
             ],
             [
               0.5,
-              "#A8ADB8"
+              "#A9ADB6"
             ],
             [
-              0.74,
-              "#B8BCC5"
+              0.72,
+              "#B7BAC1"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 11.6 10.5 Q 11 4.5 16 4.5 Q 21 4.5 20.4 10.5 Q 18.5 7.5 16 7.8 Q 13.5 7.5 11.6 10.5 Z"
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.4
-      }
+        "color": "#1E192C",
+        "width": 0.32
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -278,19 +330,30 @@
           "stops": [
             [
               0,
-              "#F0F4FA"
+              "#F1F4F9"
             ],
             [
               1,
-              "#7A8090"
+              "#7B808D"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          15.2,
+          19,
+          1.6,
+          17
+        ]
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.3
-      }
+        "color": "#1E192C",
+        "width": 0.24
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -303,36 +366,47 @@
       },
       "fill": {
         "noise": {
-          "scale": 5,
+          "scale": 3,
           "seed": 341,
-          "octaves": 3,
+          "octaves": 5,
           "stops": [
             [
               0.28,
-              "#868A93"
+              "#81838A"
             ],
             [
               0.5,
-              "#A8ADB8"
+              "#A9ADB6"
             ],
             [
-              0.74,
-              "#B8BCC5"
+              0.72,
+              "#B7BAC1"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "rect": [
+          12.6,
+          18.4,
+          6.8,
+          1.6
+        ]
       },
       "stroke": {
-        "color": "#1E1830",
-        "width": 0.3
-      }
+        "color": "#1E192C",
+        "width": 0.24
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
         "path": "M 16.5 4 L 28 4 L 28 47 L 15.5 47 Q 19 28 16.5 4 Z"
       },
       "fill": {
-        "color": "#5A4E9A"
+        "color": "#5A508F"
       },
       "alpha": 0.45,
       "blur": 0.5,
@@ -344,18 +418,19 @@
         "path": "M 4 46 L 6.5 39 L 9 39 L 8 35 L 10 35 Q 8.5 24 11 17 Q 7 19 7.5 26 L 9 26.5 Q 9 20 12 17.5 L 11.6 10.5 Q 11 4.5 16 4.5 L 16 5.5 Q 12.5 6 12.8 10.5 L 13 17 Q 10.5 24 11.5 35 L 9.5 39 L 7 46 Z"
       },
       "fill": {
-        "color": "#FFF6E0"
+        "color": "#FDF6E4"
       },
       "alpha": 0.5,
       "clip": true,
-      "blend": "add"
+      "blend": "add",
+      "blur": 0.32
     },
     {
       "shape": {
         "path": "M 13 31 Q 14 26 13.2 21 M 19 32 Q 18.4 27 19.4 22"
       },
       "stroke": {
-        "color": "#1E1830",
+        "color": "#1E192C",
         "width": 0.3
       },
       "alpha": 0.5
@@ -391,12 +466,105 @@
       "alpha": 0.7,
       "blur": 0.4,
       "clip": true
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          50
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 5,
+          "y0": 4.5,
+          "x1": 10.5,
+          "y1": 27.33,
+          "stops": [
+            [
+              0,
+              "#FFF6E0"
+            ],
+            [
+              1,
+              "#FFF6E000"
+            ]
+          ]
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.1
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          50
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 11.6,
+          "cy": 13.63,
+          "r": 43.58,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              0.38,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#4A4068"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.34
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          32,
+          50
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.7,
+          "seed": 2001,
+          "octaves": 2,
+          "stops": [
+            [
+              0.28,
+              "#9C94A4"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.16
     }
   ],
   "palette": {
-    "stone": "#A8ADB8",
-    "light": "#E4E8F0",
-    "dark": "#5A5E70",
-    "moss": "#6E9A55"
+    "stone": "#A9ADB6",
+    "light": "#E5E8EF",
+    "dark": "#5B5E6D",
+    "moss": "#72965E"
   }
 }

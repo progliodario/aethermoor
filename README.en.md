@@ -41,8 +41,8 @@ The numbers of the game, counted from the data (never written by hand: `python t
 | Named people | 58 in the world data, besides the generated villagers |
 | Sound | 174 synthesized sound effects (music and ambience are off) |
 | Texts | 4300 keys, in Italian and English |
-| Same rules on both clients | 31 files of conformance vectors, 635 cases, run by the C++ and the Kotlin tests |
-| Documents | 19 specs, 14 ADRs |
+| Same rules on both clients | 31 files of conformance vectors, 639 cases, run by the C++ and the Kotlin tests |
+| Documents | 19 specs, 15 ADRs |
 <!-- facts:end -->
 
 **Done and to do, one line per part** (item by item in [section 8 of the roadmap](docs/plan/06-roadmap-rischi-backlog.md#8-stato-e-prossimi-passi), in Italian):

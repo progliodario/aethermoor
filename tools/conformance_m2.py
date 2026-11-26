@@ -231,6 +231,14 @@ def suite_raster() -> list[dict]:
     reference("noise_scaled", _recipe(8, 8, [{"shape": {"rect": [0, 0, 8, 8]}, "fill": {"noise": {"scale": 3, "seed": 77, "octaves": 2, "stops": stops}}}]), 2.0, grid, tol=4)
     periodic = _recipe(16, 16, [{"shape": {"rect": [0, 0, 16, 16]}, "fill": {"noise": {"scale": 4, "seed": 9, "octaves": 4, "period": 2, "stops": [[0.3, "#203080"], [0.7, "#F0E060"]]}}}])
     reference("noise_periodic", periodic, 1.0, grid + [(0, 3), (8, 3), (3, 0), (3, 8)], tol=4)
+    # v3: stretched clouds (scale_y, period_y) and creases (ridged)
+    stretched = {"scale": 2, "scale_y": 8, "seed": 21, "octaves": 3, "period": 8, "period_y": 2, "stops": stops}
+    reference("noise_stretched", _recipe(16, 16, [{"shape": {"rect": [0, 0, 16, 16]}, "fill": {"noise": stretched}}]), 1.0, grid, tol=4)
+    reference("noise_stretched_scaled", _recipe(8, 8, [{"shape": {"rect": [0, 0, 8, 8]}, "fill": {"noise": dict(stretched, scale=1.5, scale_y=0.5)}}]), 2.0, grid, tol=4)
+    ridged = {"scale": 5, "seed": 33, "octaves": 2, "ridged": True, "stops": [[0.6, "#102040"], [0.95, "#E0F0FF"]]}
+    reference("noise_ridged", _recipe(16, 16, [{"shape": {"rect": [0, 0, 16, 16]}, "fill": {"noise": ridged}}]), 1.0, grid, tol=4)
+    reference("noise_ridged_periodic", _recipe(16, 16, [{"shape": {"rect": [0, 0, 16, 16]}, "fill": {"noise": dict(ridged, scale=4, period=4, octaves=3)}}]), 1.0,
+              grid + [(0, 3), (3, 0)], tol=4)
     # the same recipe drawn as a macro tile of 2 x 2 cells: the right half repeats the left one
     image = raster.rasterize(periodic, 1.0)
     assert all(abs(a - b) <= 1 for x in range(8) for y in range(16) for a, b in zip(raster.pixel(image, x, y), raster.pixel(image, x + 8, y)))

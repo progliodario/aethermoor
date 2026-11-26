@@ -37,6 +37,9 @@ Paint parse_paint(const Json& fill) {
         paint.noise_seed = n.value("seed", 0);
         paint.noise_octaves = n.value("octaves", 3);
         paint.noise_period = n.value("period", 0);
+        paint.noise_scale_y = n.value("scale_y", paint.noise_scale);
+        paint.noise_period_y = n.value("period_y", paint.noise_period);
+        paint.noise_ridged = n.value("ridged", false);
         for (const Json& stop : n.at("stops")) {
             paint.stops.push_back({stop.at(0).get<float>(), stop.at(1).get<std::string>()});
         }

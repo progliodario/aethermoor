@@ -36,7 +36,10 @@ struct Paint {
     float noise_scale = 1.0F;                          // Noise: the size of the largest clouds, in art units
     int noise_seed = 0;
     int noise_octaves = 3;
-    int noise_period = 0;             // Noise: repeats every period cells of the scale (0: never)
+    int noise_period = 0;        // Noise: repeats every period cells of the scale (0: never)
+    float noise_scale_y = 1.0F;  // Noise: the size of the clouds along y (the scale unless given: stretched clouds)
+    int noise_period_y = 0;      // Noise: the period along y (the period unless given)
+    bool noise_ridged = false;   // Noise: every octave folded around its middle (creases, veins, cracks)
     std::vector<GradientStop> stops;  // Linear, Radial and Noise
 };
 

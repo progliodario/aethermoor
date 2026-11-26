@@ -1,17 +1,29 @@
 # Stile grafico
 
-Regole per tutta l'arte del gioco (ricette vettoriali in `data/base/art/`, formato in [spec 13](../spec/13-vector-art.md)). Servono a tenere insieme l'aspetto di cose scritte in momenti diversi. Lo stile è quello di un anime: figure con proporzioni credibili, tinte piatte con un'ombra netta, sfondi dipinti. La scelta è spiegata nell'[ADR 0013](../adr/0013-painted-anime-art.md).
+Regole per tutta l'arte del gioco (ricette vettoriali in `data/base/art/`, formato in [spec 13](../spec/13-vector-art.md)). Servono a tenere insieme l'aspetto di cose scritte in momenti diversi. Lo stile è **realistico e dipinto**: terreni con la materia vera (fili d'erba, ghiaia, sassi, increspature), oggetti, persone e creature con luce morbida, volume e grana, senza contorni da fumetto. La scelta è spiegata nell'[ADR 0015](../adr/0015-realistic-painted-art.md), che prende il posto dell'aspetto da anime dell'[ADR 0013](../adr/0013-painted-anime-art.md) tenendone ricette, rasterizzatore e strumenti.
 
 ![Un pezzo di mondo con l'arte del gioco](img/scene.png)
 
 ## Principi
 
-- **Luce da in alto a sinistra.** Ogni forma ha la sua tinta, un'**ombra netta** sul lato lontano dalla luce e un filo di luce sul lato vicino. L'ombra è un viola freddo **moltiplicato** sui colori (`Recipe.shade()`: strato `blend: multiply`), così ogni tavolozza conserva la sua tinta; la luce è un bianco caldo **aggiunto** dentro la sagoma (`Recipe.lit()`: `blend: add` con `clip`). Niente ombre fatte con nero semitrasparente sopra il colore: ingrigiscono.
-- **Linea sottile, nel colore della cosa.** Oggetti, creature e persone hanno un contorno di 0,35-0,5 unità in un colore molto scuro della loro stessa tinta (`#1E1830` per gli oggetti, `outline` della tavolozza per persone e creature). I terreni non hanno contorno.
-- **Ombra a terra morbida.** Tutto ciò che sta sul terreno ha ai piedi un'ombra sfumata (`Recipe.shadow()`: due ellissi con `blur`).
-- **Materia, non tinta unita.** Legno, pietra, stoffa, fogliame e terreno sono riempiti con un **rumore** (`noise()` di `artkit.py`): nuvole morbide di tre toni vicini. Sopra vanno pochi segni disegnati (venature, crepe, foglie illuminate).
+- **Luce da in alto a sinistra, morbida.** Ogni forma ha la sua tinta, un'ombra **sfumata** sul lato lontano dalla luce e una luce sul lato vicino. L'ombra è un viola freddo **moltiplicato** sui colori (`blend: multiply`), così ogni tavolozza conserva la sua tinta; la luce è un bianco caldo **aggiunto** dentro la sagoma (`blend: add` con `clip`). Niente ombre nette da cel shading e niente nero semitrasparente sopra il colore: ingrigisce.
+- **Niente contorni da fumetto.** Una sagoma si legge dalla sua luce e dalla sua ombra; resta al più un filo appena visibile nel suo colore. I terreni non hanno contorno.
+- **La materia, non la tinta.** Legno, corteccia, pietra, stoffa, capelli, pelliccia, foglie, sabbia e acqua hanno la loro grana: il **rumore** di `artkit.py` (`noise()`), **allungato** per fibre, fili, ciocche e increspature (`scale_y`) e **a creste** per crepe, venature, solchi e la rete di luce sul fondo dell'acqua (`ridged`).
+- **Ombra di contatto.** Tutto ciò che sta sul terreno ha ai piedi un'ombra sfumata (`Recipe.shadow()`); ogni sasso, ciuffo, foglia o fiore dei terreni ha la sua, moltiplicata.
 - **Luci che splendono.** Fuochi, lampade, rune e occhi che brillano hanno un alone (`Recipe.glow()`: un'ellisse sfumata con `blend: add`).
-- **Colori:** terreni saturi ma non accesi, con chiazze di sole; oggetti e personaggi più saturi; luce calda sui punti importanti. Le creature di una stessa famiglia condividono il corpo e cambiano la tavolozza e il tratto che le distingue.
+- **Colori naturali:** terreni poco saturi con chiazze di sole e d'ombra; oggetti e personaggi un po' più vivi ma non accesi; luce calda sui punti importanti. Le creature di una stessa famiglia condividono il corpo e cambiano la tavolozza e il tratto che le distingue.
+
+## La rifinitura
+
+`artkit.finish()` è applicata a ogni oggetto, persona e creatura quando la ricetta viene scritta (`Recipe.finish`, con le regolazioni di ogni generatore: `FINISH` in `art_props.py`, `part()` in `art_chars.py`, `new()` in `art_creatures.py`). Senza ridisegnare nulla:
+
+- il contorno di una forma piena diventa un filo tenue (`outline`: quanto resta della sua opacità);
+- ogni ombra e ogni luce nette diventano sfumate (`soften`);
+- i colori perdono una parte della saturazione (`desat`); le tavolozze delle creature, lette dai loro file, non sono toccate;
+- una luce morbida da in alto a sinistra e la sua ombra danno volume a tutto il disegno (`form`), la luce del cielo cade sui bordi alti (`sky`);
+- una grana fine copre il disegno (`grain`).
+
+Sopra la rifinitura ogni generatore aggiunge la materia di ciò che disegna: foglie, lacune scure e luce per le chiome e corteccia a solchi per i tronchi (`crown()` e `trunk()` in `art_props.py`), ciocche e riflessi per i capelli e trama per le stoffe (`textures()` in `art_chars.py`), pelliccia per le bestie e graffi e ruggine per le armature (`matter()` in `art_creatures.py`).
 
 ## Misure
 
@@ -38,10 +50,14 @@ Tutta l'arte è scritta da codice Python e salvata come JSON, che resta il forma
 
 Per guardare il risultato senza il gioco: `python tools/art_preview.py <schema>` disegna le ricette in PNG con il rasterizzatore di riferimento (lo stesso algoritmo dei client) e le raccoglie in una pagina e in un'immagine sola; `--figures` disegna ogni persona di fronte, in cammino e di spalle; `--scene` un pezzo di mondo. Nel gioco: `aethermoor --smoke-test --screenshot-dir=...`.
 
+## Terreni
+
+Un terreno naturale è fatto di **cinque strati di rumore**, uguali per tutte le varianti di un terreno (`ground()` in `art_tiles.py`): la luce e l'ombra larghe della terra, le sue chiazze, la sua materia moltiplicata (allungata lungo y per l'erba), le punte illuminate di quella materia, e una grana più fine di un pixel. Sopra vanno centinaia di cose piccole per tile, disegnate **a gruppi**: uno strato tiene tutti i fili d'erba di un tono di un tile (`clumps()`, `field_blades()`), così come la ghiaia (`gravel()`), i sassi (`stones()`), le foglie (`leaves()`) e i fiori (`flowers()`). Le figure dentro uno stesso strato girano tutte nello stesso verso, perché la regola del riempimento (nonzero) non apra buchi dove si sovrappongono.
+
 ## Persone
 
 - La figura di base è Ren. Ogni protagonista e ogni gente è una **variante**: una tavolozza (`VARIANTS` in `art_chars.py`: pelle, capelli, occhi, abiti) e i suoi strati (`art_looks.py`, con `only`; quelli di Ren con `except`). Un look è una funzione `@look("nome", "parte")` che disegna nelle unità della parte, attorno al suo giunto, e riceve `back` per la vista di spalle; `behind=True` lo mette dietro la parte (una coda, un mantello).
-- Gli occhi sono grandi e hanno il colore `eye` della variante: bianco, iride più scura in alto, pupilla, due luci, ciglio superiore spesso.
+- Il viso ha le proporzioni di un viso vero: occhi a mandorla con l'iride del colore `eye` della variante mezza coperta dalla palpebra, una luce sola, ciglia sottili e la piega della palpebra; un'ombra sul lato del naso, le narici, due labbra.
 - Un abito lungo (camice, grembiule, tunica) è un look del busto che scende sopra le gambe: il busto si disegna dopo le gambe.
 
 ## Creature

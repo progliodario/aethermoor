@@ -326,23 +326,34 @@ def noise_hash(ix: int, iy: int, seed: int) -> float:
     return (h >> 8) / 16777215.0
 
 
-def noise_value(px: float, py: float, scale: float, seed: int, octaves: int, period: int) -> float:
+def noise_value(px: float, py: float, scale: float, seed: int, octaves: int, period: int, scale_y: float | None = None,
+                period_y: int | None = None, ridged: bool = False) -> float:
+    """The noise of spec 13: `scale_y` (default `scale`) stretches the clouds along y, `period_y` (default `period`) is the
+    period along y, and `ridged` folds every octave around its middle (thin creases: veins, cracks, the net of light on water)."""
+    sy = scale if scale_y is None else scale_y
+    py_per = period if period_y is None else period_y
     total, norm, amp = 0.0, 0.0, 1.0
     for o in range(octaves):
-        f = (1 << o) / scale
-        u, v = px * f, py * f
+        fx, fy = (1 << o) / scale, (1 << o) / sy
+        u, v = px * fx, py * fy
         ix, iy = int(math.floor(u)), int(math.floor(v))
         fu, fv = u - ix, v - iy
         su, sv = fu * fu * (3 - 2 * fu), fv * fv * (3 - 2 * fv)
         ix1, iy1 = ix + 1, iy + 1
         if period > 0:
             per = period << o
-            ix, iy, ix1, iy1 = ix % per, iy % per, ix1 % per, iy1 % per
+            ix, ix1 = ix % per, ix1 % per
+        if py_per > 0:
+            per = py_per << o
+            iy, iy1 = iy % per, iy1 % per
         s = seed + o
         a, b = noise_hash(ix, iy, s), noise_hash(ix1, iy, s)
         c, d = noise_hash(ix, iy1, s), noise_hash(ix1, iy1, s)
         top, bottom = a + (b - a) * su, c + (d - c) * su
-        total += (top + (bottom - top) * sv) * amp
+        n = top + (bottom - top) * sv
+        if ridged:
+            n = 1 - abs(2 * n - 1)
+        total += n * amp
         norm += amp
         amp *= 0.5
     return total / norm
@@ -366,7 +377,8 @@ def _paint_fn(fill: dict, palette: dict):
     g = fill["noise"]
     stops = [(t, _resolve(c, palette)) for t, c in g["stops"]]
     scale, seed, octaves, period = g["scale"], g.get("seed", 0), g.get("octaves", 3), g.get("period", 0)
-    return lambda px, py: _from_stops(stops, noise_value(px, py, scale, seed, octaves, period))
+    scale_y, period_y, ridged = g.get("scale_y", scale), g.get("period_y", period), bool(g.get("ridged", False))
+    return lambda px, py: _from_stops(stops, noise_value(px, py, scale, seed, octaves, period, scale_y, period_y, ridged))
 
 
 def _composite(acc: list[float], mask: Mask, paint, alpha: float, s: float, clip: bool, blend: str) -> None:
