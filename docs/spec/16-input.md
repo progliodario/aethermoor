@@ -11,6 +11,9 @@ open a panel, save, load. While a dialogue is open the movement and the attack o
 
 ## Desktop
 
+The window opens maximized, at the full resolution of the screen, and can be resized; the smoke test keeps a window of 1280 x 720
+so that its frames stay comparable.
+
 | Device | Mapping |
 |---|---|
 | Keyboard, move | `W A S D` and the arrows (diagonals are normalized) |

@@ -17,6 +17,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
     and a weave in their clothes; beasts have fur, armours scratches and rust.
   - **The rasterizer** of both clients gains stretched noise (`scale_y`, `period_y`: fibres, blades, strands, ripples) and ridged noise
     (`ridged`: cracks, veins, caustics), with conformance probes of their own; old recipes draw as before.
+- **The desktop window opens maximized**, at the full resolution of the screen (spec 16, "Desktop"); it can still be resized.
 
 ### Added
 

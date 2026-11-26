@@ -77,10 +77,10 @@ def _f(v: float) -> str:
 
 # ------------------------------------------------------------------------------------------------ the base
 def ground(r: Recipe, seed: int, dark: str, mid: str, light: str, *, streak: tuple[float, float] = (1.0, 1.0), texture: float = 0.55,
-           tips: str = LIGHT, tips_alpha: float = 0.22, grain: float = 0.3, patches: float = 0.42) -> None:
+           tips: str = LIGHT, tips_alpha: float = 0.22, grain: float = 0.3, patches: float = 0.28) -> None:
     """The five layers of a ground (see the docstring of the module)."""
     w = r.w
-    r.rect(0, 0, w, w, nz(r, 32, seed, (0.3, mix(mid, dark, 0.32)), (0.5, mid), (0.7, mix(mid, light, 0.3)), octaves=4))
+    r.rect(0, 0, w, w, nz(r, 32, seed, (0.3, mix(mid, dark, 0.2)), (0.5, mid), (0.7, mix(mid, light, 0.18)), octaves=4))
     r.rect(0, 0, w, w, nz(r, 16, seed + 1, (0.34, dark), (0.46, dark + "00"), (0.56, light + "00"), (0.68, light), octaves=3), alpha=patches)
     sx, sy = streak
     r.rect(0, 0, w, w, nz(r, sx, seed + 2, (0.26, darken(dark, 0.45)), (0.6, "#FFFFFF"), octaves=3, scale_y=sy), blend="multiply", alpha=texture)
@@ -88,7 +88,7 @@ def ground(r: Recipe, seed: int, dark: str, mid: str, light: str, *, streak: tup
     r.rect(0, 0, w, w, nz(r, 0.5, seed + 4, (0.22, "#8E8680"), (0.62, "#FFFFFF"), octaves=1), blend="multiply", alpha=grain)
 
 
-def light_and_shade(r: Recipe, seed: int, alpha: float = 0.1) -> None:
+def light_and_shade(r: Recipe, seed: int, alpha: float = 0.06) -> None:
     """Broad soft light and shadow over the ground, as of clouds and of the canopy (the same for every variant)."""
     r.rect(0, 0, r.w, r.h, nz(r, 64, seed, (0.36, "#3A3460"), (0.5, "#FFFFFF"), octaves=2), blend="multiply", alpha=alpha)
     r.rect(0, 0, r.w, r.h, nz(r, 64, seed + 1, (0.55, "#000000"), (0.72, "#FFE6A8"), octaves=2), blend="add", alpha=alpha * 0.8)
@@ -102,7 +102,7 @@ def blade(x: float, y: float, h: float, lean: float, w: float = 0.42) -> str:
 
 
 def clumps(r: Recipe, x0: float, y0: float, n: int, tones: tuple[str, str, str], h: tuple[float, float] = (3.0, 6.0),
-           blades: int = 8, margin: float = 4.0, ao: float = 0.5) -> None:
+           blades: int = 8, margin: float = 2.6, ao: float = 0.5) -> None:
     """Clumps of grass inside one tile: a soft contact shadow, then blades in three tones (dark at the back, lit in
     front), each tone one layer."""
     spots = inside(r, x0, y0, n, margin)
@@ -125,7 +125,7 @@ def clumps(r: Recipe, x0: float, y0: float, n: int, tones: tuple[str, str, str],
             r.path(" ".join(d), linear(0, y0 + TILE, 0, top, (0, darken(tone, 0.35)), (0.6, tone), (1, lighten(tone, 0.3))))
 
 
-def field_blades(r: Recipe, x0: float, y0: float, n: int, tones: tuple[str, ...], h: tuple[float, float] = (1.6, 3.4), margin: float = 1.5) -> None:
+def field_blades(r: Recipe, x0: float, y0: float, n: int, tones: tuple[str, ...], h: tuple[float, float] = (1.6, 3.4), margin: float = 0.5) -> None:
     """Many small loose blades over a tile, in a few tones (one layer each): the grass between the clumps."""
     groups: list[list[str]] = [[] for _ in tones]
     for x, y in inside(r, x0, y0, n, margin):
@@ -260,7 +260,7 @@ def grass(name: str, tones=GRASS, seed: int = 11, flowers_of=None, clover=False,
     for x0, y0 in tiles_of(r):
         if dry:
             for x, y in inside(r, x0, y0, 2, 8):
-                r.ellipse(x, y, r.rng.uniform(4, 7), r.rng.uniform(2.5, 4), nz(r, 2, seed + 30, (0.35, "#B8A858"), (0.65, "#D8C880"), scale_y=4.0), alpha=0.35, blur=2.2)
+                r.ellipse(x, y, r.rng.uniform(3, 8), r.rng.uniform(2, 4.5), nz(r, 2, seed + 30, (0.35, "#B8A858"), (0.65, "#D8C880"), scale_y=4.0), alpha=r.rng.uniform(0.1, 0.24), blur=2.6)
         field_blades(r, x0, y0, 34, (darken(blades[0], 0.1), blades[1], lighten(blades[1], 0.15)))
         if clover:
             d = []
@@ -277,7 +277,7 @@ def grass(name: str, tones=GRASS, seed: int = 11, flowers_of=None, clover=False,
             pebbles(r, x0, y0, pebbles_n, "#8E8C88", seed + 40)
         if flowers_of:
             flowers(r, x0, y0, 3, flowers_of)
-        if mushrooms and r.rng.random() < 0.3:  # a few rings of mushrooms in a meadow, not one in every tile
+        if mushrooms and r.rng.random() < 0.08:  # a rare ring of mushrooms in a meadow, not one in every tile
             x, y = inside(r, x0, y0, 1, 9)[0]
             for (dx, dy, s) in ((0, 0, 1.0), (4.5, 2.5, 0.75), (-3.5, 3, 0.6)):
                 mx, my = x + dx, y + dy
@@ -285,9 +285,8 @@ def grass(name: str, tones=GRASS, seed: int = 11, flowers_of=None, clover=False,
                 r.rect(mx - 0.8 * s, my, 1.6 * s, 3 * s, linear(mx - s, my, mx + s, my, (0, "#F4EAD8"), (1, "#B8A68A")))
                 r.path(f"M {_f(mx - 3.2 * s)} {_f(my + 0.6 * s)} Q {_f(mx - 2.6 * s)} {_f(my - 2.6 * s)} {_f(mx)} {_f(my - 2.6 * s)} Q {_f(mx + 2.6 * s)} {_f(my - 2.6 * s)} "
                        f"{_f(mx + 3.2 * s)} {_f(my + 0.6 * s)} Q {_f(mx)} {_f(my + 1.5 * s)} {_f(mx - 3.2 * s)} {_f(my + 0.6 * s)} Z",
-                       radial(mx - s, my - 1.6 * s, 4.5 * s, (0, "#D86A4E"), (0.6, "#A8382C"), (1, "#6A1C20")))
-                r.ellipse(mx - 1.1 * s, my - 1.2 * s, 0.55 * s, 0.4 * s, "#F2EAE0", alpha=0.85)
-                r.ellipse(mx + 1.0 * s, my - 0.5 * s, 0.42 * s, 0.32 * s, "#F2EAE0", alpha=0.85)
+                       radial(mx - s, my - 1.6 * s, 4.5 * s, (0, "#B88A5E"), (0.6, "#8A5A34"), (1, "#4A2A18")))
+                r.ellipse(mx - 1.1 * s, my - 1.2 * s, 0.8 * s, 0.5 * s, "#FFF0D8", alpha=0.25, blend="add", blur=0.3)
     return r
 
 

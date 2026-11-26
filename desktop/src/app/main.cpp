@@ -5094,8 +5094,12 @@ int run_game(int argc, char** argv) {
     const std::string title(aether::game_name());
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
+    // The game opens maximized, at the full resolution of the screen (spec 16, "Desktop"); the smoke test keeps its
+    // 1280 x 720 so that its frames stay comparable.
+    const SDL_WindowFlags maximized = smoke_test ? SDL_WindowFlags{0} : SDL_WINDOW_MAXIMIZED;
     if (!SDL_CreateWindowAndRenderer(title.c_str(), kWindowWidth, kWindowHeight,
-                                     SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY, &window, &renderer)) {
+                                     SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY | maximized, &window,
+                                     &renderer)) {
         SDL_Log("Window creation failed: %s", SDL_GetError());
         SDL_Quit();
         return 1;
