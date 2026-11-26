@@ -15,15 +15,15 @@ conformance tests; the vectors of `tests/conformance/` were written later with o
 | `xp_table` | the table of experience | `xp` (all 15 cases) |
 | `status_ticks` | the status effects, on the creatures and the player | `combat`: `player_status_fire`, `player_status_water`, `player_status_wind`, `player_status_earth`, `player_status_dark`, `status_burn`, `status_chill`, `status_storm`, `status_quake`, `status_weaken` |
 | `loot_roll` | the drops | `combat`: `bestiary_titles`, `affixes_rolled`, `loot_pick`, `loot_in_season`, `loot_out_of_season` |
-| `economy_price` | the prices of the shops: market days, renown, glut, weather, goods from afar | `combat`: `shop_buy_and_sell`, `renown_prices`, `market_days`, `rain_prices`, `snow_prices`, `rain_prices_light`, `renown_wares`, `goods_from_afar`, `shop_glut`, `season_goods` |
+| `economy_price` | the prices of the shops: market days, renown, glut, weather, goods from afar | `combat`: `game_rules_prices`, `shop_buy_and_sell`, `renown_prices`, `market_days`, `rain_prices`, `snow_prices`, `rain_prices_light`, `renown_wares`, `goods_from_afar`, `shop_glut`, `season_goods` |
 | `time_season` | world time, the days and the seasons | `worldtime` (all 3 cases)<br>`combat`: `gather_in_autumn`, `gather_in_spring`, `farming_in_winter`, `farming_in_spring`, `day_cycle`, `season_slows`, `season_slows_with_rain`, `season_hides`, `season_hides_little`, `season_fog_and_night`, `loot_in_season`, `loot_out_of_season`, `season_goods` |
 | `weather` | the weather and what it does | `worldtime` (all 3 cases)<br>`combat`: `rain_hides`, `rain_light`, `night_hides`, `night_dusk`, `night_and_rain`, `rain_slows`, `rain_slows_light`, `rain_and_gift`, `rain_prices`, `snow_prices`, `rain_prices_light`, `farming_in_the_rain`, `lightning_strikes`, `lightning_needs_wind`, `fog_hides`, `fog_light`, `fog_rain_and_night`, `season_slows_with_rain`, `season_fog_and_night`, `wind_full`, `wind_light`, `wind_and_haste` |
 | `quest_state_machine` | quests: stages, objectives, rewards, repeatable and timed | `story`: `clerk_quest`, `repeatable_quest`, `timed_quests`<br>`combat`: `board_quest_rewards` |
 | `dialogue_eval` | the dialogues | `story`: `clerk_quest`, `decline_then_busy`, `dialogue_freezes_player`, `trader_conditions_and_effects`, `trader_barter`, `trader_inn`, `resident_arrives`, `traveller_moves`, `smith_tempers`, `traveller_walks` |
 | `condition_eval` | the conditions of the dialogues | `story`: `trader_conditions_and_effects`, `resident_arrives`, `timed_quests`<br>`combat`: `renown_dialogue`, `faction_dialogue` |
 | `effect_apply` | the effects of the dialogues | `story`: `trader_conditions_and_effects`, `trader_barter`, `trader_inn`, `smith_tempers` |
-| `save_roundtrip` | save and resume | `save` (all 33 cases) |
-| `save_migration` | the frozen saves of every version | `save_fixtures` (all 34 cases) |
+| `save_roundtrip` | save and resume | `save` (all 35 cases) |
+| `save_migration` | the frozen saves of every version | `save_fixtures` (all 36 cases) |
 | `i18n_format` | the format of the texts | `i18n_format` (all 16 cases) |
 | `vector_recipe_parse` | the art recipes and the rasterizer | `raster` (all 35 cases)<br>`rig_pose` (all 26 cases) |
 | `crafting_quality` | crafting and the fine pieces | `combat`: `craft_at_fire`, `craft_recipes`, `craft_quality`, `recipe_taught` |

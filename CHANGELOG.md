@@ -4,6 +4,23 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ## [Unreleased]
 
+### Added
+
+- **The rules of the game** (spec 04, "The rules of the game"): every game has fifteen rules of its own, from 10% to 1000%, that can
+  be changed at any time and are saved with it: your health, mana, attack, defense and speed; the health, attack, defense, speed and
+  sight of the creatures; the experience, the loot, the prices to buy and to sell, the attack of the companion. Same rules in the
+  reference, the vectors (scenarios `game_rules`, `game_rules_prices`, `game_rules_companion`) and both clients.
+- **A settings panel with everything** (spec 16, "Settings"), the same on desktop (`F10`) and Android (`Options`): the view distance
+  (near, normal, far, farthest), the quality, the small map, the hints, the damage numbers, the flashes, the larger text, the language,
+  the four volumes and the rules of this game.
+
+### Fixed
+
+- **The HUD of Android**: the small map covered the buttons of the companion and of the abilities, which could not be touched. The
+  HUD is now two compact rows of buttons under the bars (`Bag`, `Map`, `Journal`, `Craft`, `Options`; the companion and the
+  abilities), the small map under them and smaller, the talk button left of the strike button (it covered the parry button on short
+  screens), the status effects beside the level; the language and sound buttons moved into the options.
+
 ### Changed
 
 - **Far more detail everywhere**, and a closer view on the desktop.

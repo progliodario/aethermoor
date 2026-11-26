@@ -55,8 +55,8 @@ constexpr int kWindowHeight = 720;
 constexpr int kSmokeTestFrames = 90;
 constexpr int kMaxTicksPerFrame = 5;
 constexpr double kMaxFrameSeconds = 0.25;
-constexpr float kBaseTilePx =
-    80.0F;  // a tile on the screen of the desktop (spec 13, "Scale buckets"): close enough for the details
+// The size of a tile on the screen comes from the view distance (kViewTilePx, spec 13 "Scale buckets", spec 16
+// "Settings").
 constexpr const char* kProtagonistId = "base:protagonist/ren";
 // Who is played in this run (spec 18), chosen for a new game and kept in the folder of the slot.
 std::string g_protagonist_id = kProtagonistId;
@@ -86,6 +86,11 @@ constexpr float kLargeText = 1.25F;  // how much larger the text is with the opt
 // The quality of the graphics (spec 13, "Quality"): an index of aether::kQualityLevels, kept in the settings as
 // "quality". The desktop starts at the highest level.
 int g_quality = 2;
+// The view distance (spec 16, "Settings"): near, normal, far, farthest, and the size of a tile on the screen for each.
+constexpr std::array<const char*, 4> kViewIds = {"near", "normal", "far", "farthest"};
+constexpr std::array<float, 4> kViewTilePx = {96.0F, 80.0F, 64.0F, 48.0F};
+int g_view = 1;
+bool g_minimap = true;  // the small map in the corner (N, or the settings)
 const aether::QualityLevel& quality() { return aether::kQualityLevels[static_cast<std::size_t>(g_quality)]; }
 
 // The size of the text against the layout: 1, or larger with the option `large_text`.
@@ -153,7 +158,6 @@ struct Ui {
     mutable float map_view_y = 0.0F;
     mutable float map_view_side = 1.0F;
     mutable int analyze_frames = 0;  // frames left of the Analyze panel (Z), 0: hidden
-    bool show_minimap = true;        // N shows or hides the small map in the corner
     mutable std::vector<std::uint8_t>
         mini_codes;           // biome codes of the sampled tiles around the player, 255 where unexplored
     mutable int mini_ox = 0;  // the tile of the top left sample
@@ -1142,7 +1146,7 @@ void draw_analyze(SDL_Renderer* renderer, const Assets& assets, const aether::Wo
 
 void draw_minimap(SDL_Renderer* renderer, const aether::WorldSim& sim, const Ui& ui, float density) {
     const aether::ChunkStore* store = sim.chunks();
-    if (store == nullptr || !ui.show_minimap || ui.show_map || sim.story().dialogue_active()) {
+    if (store == nullptr || !g_minimap || ui.show_map || sim.story().dialogue_active()) {
         return;
     }
     constexpr int kN = 40;
@@ -2173,7 +2177,9 @@ void write_settings(const std::optional<std::string>& lang) {
     for (int i = 0; i < kOptions; ++i) {  // the options of accessibility (spec 16, "Settings")
         out += std::string("  \"") + kOptionKeys[i] + "\": " + (g_option[i] ? "true" : "false") + ",\n";
     }
-    out += "  \"quality\": \"" + std::string(quality().id) + "\",\n";  // spec 13, "Quality"
+    out += "  \"quality\": \"" + std::string(quality().id) + "\",\n";                             // spec 13, "Quality"
+    out += "  \"view\": \"" + std::string(kViewIds[static_cast<std::size_t>(g_view)]) + "\",\n";  // spec 16, "Settings"
+    out += std::string("  \"minimap\": ") + (g_minimap ? "true" : "false") + ",\n";
     for (int i = 0; i < kVolumeKinds; ++i) {
         out += std::string("  \"") + kVolumeKeys[i] + "\": " + std::to_string(g_volume[i]);
         out += i + 1 < kVolumeKinds ? ",\n" : "\n";
@@ -2269,6 +2275,25 @@ void load_volumes() {
         if (quality_close != std::string::npos) {
             g_quality =
                 aether::quality_index(text->substr(quality_open + 1, quality_close - quality_open - 1), g_quality);
+        }
+        // the view distance (spec 16, "Settings"): "view": "<id>"
+        const std::size_t view_at = text->find("\"view\"");
+        const std::size_t view_colon = view_at == std::string::npos ? view_at : text->find(':', view_at);
+        const std::size_t view_open = view_colon == std::string::npos ? view_colon : text->find('"', view_colon);
+        const std::size_t view_close = view_open == std::string::npos ? view_open : text->find('"', view_open + 1);
+        if (view_close != std::string::npos) {
+            const std::string id = text->substr(view_open + 1, view_close - view_open - 1);
+            for (std::size_t i = 0; i < kViewIds.size(); ++i) {
+                if (id == kViewIds[i]) {
+                    g_view = static_cast<int>(i);
+                }
+            }
+        }
+        const std::size_t minimap_at = text->find("\"minimap\"");  // the small map: "minimap": false hides it
+        if (minimap_at != std::string::npos) {
+            const std::size_t colon = text->find(':', minimap_at);
+            const std::size_t value = colon == std::string::npos ? colon : text->find_first_not_of(" \t", colon + 1);
+            g_minimap = !(value != std::string::npos && text->compare(value, 5, "false") == 0);
         }
         for (int i = 0; i < kVolumeKinds; ++i) {
             const std::string key = std::string("\"") + kVolumeKeys[i] + "\"";
@@ -3430,32 +3455,147 @@ std::vector<JournalLine> journal_lines(const Assets& assets, const aether::World
     return lines;
 }
 
-// The volume panel (F10): four rows, W/S choose, A/D change by a tenth, Esc closes.
-void handle_settings_key(Ui& ui, SDL_Keycode key) {
-    constexpr int kRows = kVolumeKinds + kOptions + 1;  // the volumes, the options, the quality of the graphics
-    if (key == SDLK_UP || key == SDLK_W) {
-        ui.settings_cursor = (ui.settings_cursor + kRows - 1) % kRows;
-    } else if (key == SDLK_DOWN || key == SDLK_S) {
-        ui.settings_cursor = (ui.settings_cursor + 1) % kRows;
-    } else if (ui.settings_cursor == kVolumeKinds + kOptions &&
-               (key == SDLK_LEFT || key == SDLK_A || key == SDLK_RIGHT || key == SDLK_D || key == SDLK_E ||
-                key == SDLK_RETURN || key == SDLK_SPACE)) {  // the quality of the graphics (spec 13, "Quality")
-        const int count = static_cast<int>(aether::kQualityLevels.size());
-        g_quality = (g_quality + ((key == SDLK_LEFT || key == SDLK_A) ? count - 1 : 1)) % count;
-        write_settings();
-    } else if (ui.settings_cursor >= kVolumeKinds &&
-               (key == SDLK_LEFT || key == SDLK_A || key == SDLK_RIGHT || key == SDLK_D || key == SDLK_E ||
-                key == SDLK_RETURN || key == SDLK_SPACE)) {  // an option of accessibility: on or off
-        g_option[ui.settings_cursor - kVolumeKinds] = !g_option[ui.settings_cursor - kVolumeKinds];
-        write_settings();
-    } else if (key == SDLK_LEFT || key == SDLK_A || key == SDLK_RIGHT || key == SDLK_D) {
-        const int step = (key == SDLK_LEFT || key == SDLK_A) ? -100 : 100;
-        g_volume[ui.settings_cursor] = std::clamp(g_volume[ui.settings_cursor] + step, 0, 1000);
-        g_sound.set_volumes(g_volume[0], g_volume[1], g_volume[2], g_volume[3]);
-        write_settings();
-        if (ui.settings_cursor == 1) {
-            g_sound.play_event("pickup");  // a sample of the effects
+// The rows of the settings panel (F10, spec 16 "Settings"): the screen, the language, the sound, and the rules of this
+// game (spec 04, "The rules of the game"), the same rows as on Android. A row is a group title or something A/D change.
+enum class SettingKind { Title, View, Quality, Minimap, Option, Language, Volume, Rule, RulesReset };
+struct SettingRow {
+    SettingKind kind;
+    int index;  // the option, the volume or the rule; for a title, the group
+};
+
+const std::vector<SettingRow>& settings_rows() {
+    static const std::vector<SettingRow> rows = [] {
+        std::vector<SettingRow> out = {{SettingKind::Title, 0},   {SettingKind::View, 0},   {SettingKind::Quality, 0},
+                                       {SettingKind::Minimap, 0}, {SettingKind::Option, 0}, {SettingKind::Option, 1},
+                                       {SettingKind::Option, 2},  {SettingKind::Option, 3}, {SettingKind::Language, 0},
+                                       {SettingKind::Title, 1},   {SettingKind::Volume, 0}, {SettingKind::Volume, 1},
+                                       {SettingKind::Volume, 2},  {SettingKind::Volume, 3}, {SettingKind::Title, 2}};
+        for (std::size_t i = 0; i < aether::kRuleCount; ++i) {
+            out.push_back({SettingKind::Rule, static_cast<int>(i)});
         }
+        out.push_back({SettingKind::RulesReset, 0});
+        return out;
+    }();
+    return rows;
+}
+
+std::string setting_label(const Assets& assets, const Ui& ui, const SettingRow& row) {
+    static const char* const kTitles[] = {"$i18n:ui.settings_screen", "$i18n:ui.settings_sound",
+                                          "$i18n:ui.settings_rules"};
+    static const char* const kOptionLabels[kOptions] = {"$i18n:ui.option_hints", "$i18n:ui.option_numbers",
+                                                        "$i18n:ui.option_flashes", "$i18n:ui.option_large_text"};
+    static const char* const kVolumeLabels[kVolumeKinds] = {"$i18n:ui.volume_master", "$i18n:ui.volume_effects",
+                                                            "$i18n:ui.volume_ambience", "$i18n:ui.volume_music"};
+    const auto i = static_cast<std::size_t>(row.index);
+    switch (row.kind) {
+        case SettingKind::Title:
+            return assets.pack.text(ui.lang, kTitles[i]);
+        case SettingKind::View:
+            return assets.pack.text(ui.lang, "$i18n:ui.option_view");
+        case SettingKind::Quality:
+            return assets.pack.text(ui.lang, "$i18n:ui.option_quality");
+        case SettingKind::Minimap:
+            return assets.pack.text(ui.lang, "$i18n:ui.option_minimap");
+        case SettingKind::Option:
+            return assets.pack.text(ui.lang, kOptionLabels[i]);
+        case SettingKind::Language:
+            return assets.pack.text(ui.lang, "$i18n:ui.option_language");
+        case SettingKind::Volume:
+            return assets.pack.text(ui.lang, kVolumeLabels[i]);
+        case SettingKind::Rule:
+            return assets.pack.text(ui.lang, std::string("$i18n:ui.rule_") + aether::kRuleKeys[i]);
+        case SettingKind::RulesReset:
+            return assets.pack.text(ui.lang, "$i18n:ui.rules_reset");
+    }
+    return {};
+}
+
+std::string setting_value(const Assets& assets, const Ui& ui, const aether::WorldSim& sim, const SettingRow& row) {
+    const auto i = static_cast<std::size_t>(row.index);
+    const auto on_off = [&](bool on) {
+        return assets.pack.text(ui.lang, on ? "$i18n:ui.option_on" : "$i18n:ui.option_off");
+    };
+    switch (row.kind) {
+        case SettingKind::View:
+            return assets.pack.text(ui.lang,
+                                    std::string("$i18n:ui.view_") + kViewIds[static_cast<std::size_t>(g_view)]);
+        case SettingKind::Quality:
+            return assets.pack.text(ui.lang, "$i18n:ui.quality_" + std::string(quality().id));
+        case SettingKind::Minimap:
+            return on_off(g_minimap);
+        case SettingKind::Option:
+            return on_off(g_option[i]);
+        case SettingKind::Language:
+            return ui.lang == "it" ? "Italiano" : "English";
+        case SettingKind::Volume:
+            return std::to_string(g_volume[i] / 10) + "%";
+        case SettingKind::Rule:
+            return std::to_string(sim.rules().*aether::kRuleFields[i]) + "%";
+        case SettingKind::RulesReset:
+            return "100%";
+        case SettingKind::Title:
+            break;
+    }
+    return {};
+}
+
+// Changes a row by one step (`step` -1 or +1); E and Enter count as +1.
+void change_setting(aether::WorldSim& sim, const Assets& assets, Ui& ui, const SettingRow& row, int step) {
+    const auto i = static_cast<std::size_t>(row.index);
+    switch (row.kind) {
+        case SettingKind::View:
+            g_view = std::clamp(g_view + step, 0, static_cast<int>(kViewIds.size()) - 1);
+            break;
+        case SettingKind::Quality:  // spec 13, "Quality"
+            g_quality = std::clamp(g_quality + step, 0, static_cast<int>(aether::kQualityLevels.size()) - 1);
+            break;
+        case SettingKind::Minimap:
+            g_minimap = !g_minimap;
+            break;
+        case SettingKind::Option:
+            g_option[i] = !g_option[i];
+            break;
+        case SettingKind::Language:
+            ui.lang = ui.lang == "it" ? "en" : "it";
+            save_language(ui.lang);
+            notify(ui, assets.pack.text(ui.lang, "$i18n:ui.language_set"));
+            return;
+        case SettingKind::Volume:
+            g_volume[i] = std::clamp(g_volume[i] + step * 100, 0, 1000);
+            g_sound.set_volumes(g_volume[0], g_volume[1], g_volume[2], g_volume[3]);
+            if (i == 1) {
+                g_sound.play_event("pickup");  // a sample of the effects
+            }
+            break;
+        case SettingKind::Rule: {  // the rules of the game (spec 04): at once, saved with the game
+            aether::Rules rules = sim.rules();
+            rules.*aether::kRuleFields[i] = aether::next_rule_step(rules.*aether::kRuleFields[i], step);
+            sim.set_rules(rules);
+            return;
+        }
+        case SettingKind::RulesReset:
+            sim.set_rules(aether::Rules{});
+            return;
+        case SettingKind::Title:
+            return;
+    }
+    write_settings();
+}
+
+// The settings panel (F10): W/S choose a row, A/D (or E) change it, Esc closes; the game pauses meanwhile.
+void handle_settings_key(aether::WorldSim& sim, const Assets& assets, Ui& ui, SDL_Keycode key) {
+    const std::vector<SettingRow>& rows = settings_rows();
+    const int count = static_cast<int>(rows.size());
+    if (key == SDLK_UP || key == SDLK_W || key == SDLK_DOWN || key == SDLK_S) {
+        const int step = (key == SDLK_UP || key == SDLK_W) ? count - 1 : 1;
+        do {  // a group title is never chosen
+            ui.settings_cursor = (ui.settings_cursor + step) % count;
+        } while (rows[static_cast<std::size_t>(ui.settings_cursor)].kind == SettingKind::Title);
+    } else if (key == SDLK_LEFT || key == SDLK_A || key == SDLK_RIGHT || key == SDLK_D || key == SDLK_E ||
+               key == SDLK_RETURN || key == SDLK_SPACE) {
+        ui.settings_cursor = std::clamp(ui.settings_cursor, 0, count - 1);
+        change_setting(sim, assets, ui, rows[static_cast<std::size_t>(ui.settings_cursor)],
+                       (key == SDLK_LEFT || key == SDLK_A) ? -1 : 1);
     }
 }
 
@@ -3533,58 +3673,45 @@ void draw_keys(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, int o
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
-void draw_settings(SDL_Renderer* renderer, const Assets& assets, const Ui& ui, int out_w, int out_h, float density) {
+void draw_settings(SDL_Renderer* renderer, const Assets& assets, const aether::WorldSim& sim, const Ui& ui, int out_w,
+                   int out_h, float density) {
     if (!ui.show_settings) {
         return;
     }
+    const std::vector<SettingRow>& rows = settings_rows();
     constexpr float kScale = 1.5F;
-    const float row = 8.0F * kScale + 22.0F;
-    const float w = std::min(static_cast<float>(out_w) - 40.0F, 520.0F * density);
-    const float h = 60.0F + row * static_cast<float>(kVolumeKinds + kOptions + 1) + 36.0F;
+    const float row = 8.0F * kScale + 16.0F;
+    const float w = std::min(static_cast<float>(out_w) - 40.0F, 560.0F * density);
+    const float h = std::min(static_cast<float>(out_h) - 40.0F, 60.0F + row * static_cast<float>(rows.size()) + 36.0F);
     const float x = (static_cast<float>(out_w) - w) / 2.0F;
     const float y = (static_cast<float>(out_h) - h) / 2.0F;
+    // a window of the rows that follows the cursor (spec 16, "Lists that do not fit")
+    const int visible = std::max(1, static_cast<int>((h - 60.0F - 36.0F) / row));
+    const int count = static_cast<int>(rows.size());
+    const int first = std::clamp(ui.settings_cursor - visible / 2, 0, std::max(0, count - visible));
     draw_panel(renderer, x, y, w, h, 255, 215, 120, 245);
-    static const char* const kLabels[kVolumeKinds] = {"$i18n:ui.volume_master", "$i18n:ui.volume_effects",
-                                                      "$i18n:ui.volume_ambience", "$i18n:ui.volume_music"};
     SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
     debug_text(renderer, (x + 16.0F) / kScale, (y + 14.0F) / kScale,
                assets.pack.text(ui.lang, "$i18n:ui.settings").c_str());
-    for (int i = 0; i < kVolumeKinds; ++i) {
-        const float ty = y + 48.0F + row * static_cast<float>(i);
-        SDL_SetRenderDrawColor(renderer, i == ui.settings_cursor ? 255 : 170, i == ui.settings_cursor ? 255 : 190,
-                               i == ui.settings_cursor ? 255 : 215, 255);
-        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, assets.pack.text(ui.lang, kLabels[i]).c_str());
-        debug_text(renderer, (x + w - 70.0F) / kScale, ty / kScale, (std::to_string(g_volume[i] / 10) + "%").c_str());
+    for (int i = first; i < std::min(count, first + visible); ++i) {
+        const SettingRow& r = rows[static_cast<std::size_t>(i)];
+        const float ty = y + 48.0F + row * static_cast<float>(i - first);
+        const bool chosen = i == ui.settings_cursor;
+        if (r.kind == SettingKind::Title) {
+            SDL_SetRenderDrawColor(renderer, 255, 215, 120, 255);
+        } else {
+            SDL_SetRenderDrawColor(renderer, chosen ? 255 : 170, chosen ? 255 : 190, chosen ? 255 : 215, 255);
+        }
+        const std::string label =
+            (chosen ? "> " : (r.kind == SettingKind::Title ? "" : "  ")) + setting_label(assets, ui, r);
+        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, label.c_str());
+        const std::string value = setting_value(assets, ui, sim, r);
+        if (!value.empty()) {
+            SDL_SetRenderDrawColor(renderer, 111, 227, 255, 255);
+            debug_text(renderer, (x + w - 16.0F) / kScale - text_columns(value) * 8.0F, ty / kScale, value.c_str());
+        }
     }
-    static const char* const kOptionLabels[kOptions] = {"$i18n:ui.option_hints", "$i18n:ui.option_numbers",
-                                                        "$i18n:ui.option_flashes", "$i18n:ui.option_large_text"};
-    for (int i = 0; i < kOptions; ++i) {  // the options of accessibility (spec 16, "Settings")
-        const int index = kVolumeKinds + i;
-        const float ty = y + 48.0F + row * static_cast<float>(index);
-        SDL_SetRenderDrawColor(renderer, index == ui.settings_cursor ? 255 : 170,
-                               index == ui.settings_cursor ? 255 : 190, index == ui.settings_cursor ? 255 : 215, 255);
-        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale, assets.pack.text(ui.lang, kOptionLabels[i]).c_str());
-        const std::string state = assets.pack.text(ui.lang, g_option[i] ? "$i18n:ui.option_on" : "$i18n:ui.option_off");
-        debug_text(renderer, (x + w - 70.0F) / kScale, ty / kScale, state.c_str());
-    }
-    {  // the quality of the graphics (spec 13, "Quality"), the last row
-        const int index = kVolumeKinds + kOptions;
-        const float ty = y + 48.0F + row * static_cast<float>(index);
-        SDL_SetRenderDrawColor(renderer, index == ui.settings_cursor ? 255 : 170,
-                               index == ui.settings_cursor ? 255 : 190, index == ui.settings_cursor ? 255 : 215, 255);
-        debug_text(renderer, (x + 16.0F) / kScale, ty / kScale,
-                   assets.pack.text(ui.lang, "$i18n:ui.option_quality").c_str());
-        const std::string level_text = assets.pack.text(ui.lang, "$i18n:ui.quality_" + std::string(quality().id));
-        debug_text(renderer, (x + w - 110.0F) / kScale, ty / kScale, level_text.c_str());
-    }
-    SDL_SetRenderScale(renderer, 1.0F, 1.0F);
-    for (int i = 0; i < kVolumeKinds; ++i) {
-        const float ty = y + 48.0F + row * static_cast<float>(i);
-        draw_bar(renderer, x + 16.0F, ty + 18.0F, w - 100.0F, 8.0F, static_cast<float>(g_volume[i]) / 1000.0F, 90, 170,
-                 255);
-    }
-    SDL_SetRenderScale(renderer, kScale, kScale);
     SDL_SetRenderDrawColor(renderer, 150, 170, 200, 255);
     debug_text(renderer, (x + 16.0F) / kScale, (y + h - 28.0F) / kScale,
                assets.pack.text(ui.lang, "$i18n:ui.settings_hint").c_str());
@@ -4551,7 +4678,7 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_board(renderer, assets, sim, ui, out_w, out_h, density);
     draw_travel(renderer, assets, sim, ui, out_w, out_h, density);
     draw_journal(renderer, assets, sim, ui, out_w, out_h, density);
-    draw_settings(renderer, assets, ui, out_w, out_h, density);
+    draw_settings(renderer, assets, sim, ui, out_w, out_h, density);
     draw_keys(renderer, assets, ui, out_w, out_h, density);
     draw_craft(renderer, assets, sim, ui, out_w, out_h, density);
 
@@ -5425,7 +5552,8 @@ int run_game(int argc, char** argv) {
                         cycle_tag(sim, assets, ui);  // the next tag earned (spec 11, "Tags")
                     } else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_N && !smoke_test &&
                                !ui.show_map) {
-                        ui.show_minimap = !ui.show_minimap;
+                        g_minimap = !g_minimap;
+                        write_settings();
                     } else if (event.type == SDL_EVENT_KEY_DOWN && !smoke_test &&
                                (event.key.key == SDLK_F5 || event.key.key == SDLK_F9 || event.key.key == SDLK_F7 ||
                                 event.key.key == SDLK_I || event.key.key == SDLK_M || event.key.key == SDLK_Q ||
@@ -5439,6 +5567,7 @@ int run_game(int argc, char** argv) {
                             ui.show_journal = false;
                         } else if (event.key.key == SDLK_F10) {
                             ui.show_settings = !ui.show_settings;
+                            ui.settings_cursor = 1;  // the first row under the title of its group
                             ui.show_inventory = false;
                             ui.show_map = false;
                             ui.show_journal = false;
@@ -5487,7 +5616,7 @@ int run_game(int argc, char** argv) {
                         } else if (ui.show_craft) {
                             handle_craft_key(sim, assets, ui, event.key.key);
                         } else if (ui.show_settings) {
-                            handle_settings_key(ui, event.key.key);
+                            handle_settings_key(sim, assets, ui, event.key.key);
                         } else if (ui.show_map) {
                             handle_map_key(sim, assets, ui, event.key.key);
                         } else if (ui.show_journal) {
@@ -5876,7 +6005,8 @@ int run_game(int argc, char** argv) {
                 if (density <= 0.0F) {
                     density = 1.0F;
                 }
-                const int tile_px = std::max(16, static_cast<int>(std::lround(kBaseTilePx * density)));
+                const int tile_px = std::max(
+                    16, static_cast<int>(std::lround(kViewTilePx[static_cast<std::size_t>(g_view)] * density)));
                 cache.set_bucket_cap(quality().bucket_cap);  // spec 13, "Quality"
                 cache.release_other_buckets(tile_px);
                 // The first frames bake all they show (the world appears whole); after them a frame bakes for a few

@@ -315,8 +315,9 @@ struct DefenseDef {
     std::string reward_counter;
 };
 
-// The rules of the game (spec 04, "The rules of the game"): percents the player sets for each game, saved with it; 100 is
-// the game as it is made. The creatures take theirs when they come into the world; the player's apply to the derived stats.
+// The rules of the game (spec 04, "The rules of the game"): percents the player sets for each game, saved with it; 100
+// is the game as it is made. The creatures take theirs when they come into the world; the player's apply to the derived
+// stats.
 struct Rules {
     int player_hp_pct = 100;
     int player_mp_pct = 100;
@@ -340,18 +341,38 @@ inline constexpr int kRuleMax = 1000;
 inline constexpr std::size_t kRuleCount = 15;
 // The names of the rules in the save, in the order of the settings, and their fields.
 inline constexpr std::array<const char*, kRuleCount> kRuleKeys = {
-    "player_hp_pct", "player_mp_pct",   "player_atk_pct",  "player_def_pct", "player_speed_pct",
-    "enemy_hp_pct",  "enemy_atk_pct",   "enemy_def_pct",   "enemy_speed_pct", "enemy_sight_pct",
-    "xp_pct",        "drop_pct",        "buy_price_pct",   "sell_price_pct", "companion_atk_pct"};
+    "player_hp_pct", "player_mp_pct", "player_atk_pct", "player_def_pct",  "player_speed_pct",
+    "enemy_hp_pct",  "enemy_atk_pct", "enemy_def_pct",  "enemy_speed_pct", "enemy_sight_pct",
+    "xp_pct",        "drop_pct",      "buy_price_pct",  "sell_price_pct",  "companion_atk_pct"};
 inline constexpr std::array<int Rules::*, kRuleCount> kRuleFields = {
-    &Rules::player_hp_pct,  &Rules::player_mp_pct,   &Rules::player_atk_pct, &Rules::player_def_pct,
-    &Rules::player_speed_pct, &Rules::enemy_hp_pct,  &Rules::enemy_atk_pct,  &Rules::enemy_def_pct,
-    &Rules::enemy_speed_pct, &Rules::enemy_sight_pct, &Rules::xp_pct,        &Rules::drop_pct,
-    &Rules::buy_price_pct,  &Rules::sell_price_pct,  &Rules::companion_atk_pct};
+    &Rules::player_hp_pct,    &Rules::player_mp_pct,   &Rules::player_atk_pct,   &Rules::player_def_pct,
+    &Rules::player_speed_pct, &Rules::enemy_hp_pct,    &Rules::enemy_atk_pct,    &Rules::enemy_def_pct,
+    &Rules::enemy_speed_pct,  &Rules::enemy_sight_pct, &Rules::xp_pct,           &Rules::drop_pct,
+    &Rules::buy_price_pct,    &Rules::sell_price_pct,  &Rules::companion_atk_pct};
+
+// The values the settings offer for a rule (spec 16, "Settings"), and the next one from `now` up (direction > 0) or
+// down; the ends stay.
+inline constexpr std::array<int, 11> kRuleSteps = {10, 25, 50, 75, 100, 125, 150, 200, 300, 500, 1000};
+inline int next_rule_step(int now, int direction) {
+    if (direction > 0) {
+        for (const int value : kRuleSteps) {
+            if (value > now) {
+                return value;
+            }
+        }
+        return kRuleSteps.back();
+    }
+    for (auto it = kRuleSteps.rbegin(); it != kRuleSteps.rend(); ++it) {
+        if (*it < now) {
+            return *it;
+        }
+    }
+    return kRuleSteps.front();
+}
 
 // The rules with every value kept within kRuleMin..kRuleMax.
 inline Rules clamped_rules(Rules r) {
-    for (int Rules::*field : kRuleFields) {
+    for (int Rules::* field : kRuleFields) {
         r.*field = r.*field < kRuleMin ? kRuleMin : (r.*field > kRuleMax ? kRuleMax : r.*field);
     }
     return r;
@@ -359,7 +380,7 @@ inline Rules clamped_rules(Rules r) {
 
 struct CombatSetup {
     bool enabled = false;
-    Rules rules;  // the rules of the game at its start (spec 04); the save keeps those of the game
+    Rules rules;                     // the rules of the game at its start (spec 04); the save keeps those of the game
     std::vector<TalentDef> talents;  // the talents that can be learned, in the order of the data
     int talent_points_per_level = 1;
     int echo_pct = 0;  // percent added to the maximum health, from the profile of past games (spec 11, "Echoes")

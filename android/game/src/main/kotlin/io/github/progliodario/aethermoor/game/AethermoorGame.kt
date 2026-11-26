@@ -46,6 +46,8 @@ import io.github.progliodario.aethermoor.core.sim.ObjectiveKind
 import io.github.progliodario.aethermoor.core.sim.Profile
 import io.github.progliodario.aethermoor.core.sim.Prop
 import io.github.progliodario.aethermoor.core.sim.QuestStage
+import io.github.progliodario.aethermoor.core.sim.Rule
+import io.github.progliodario.aethermoor.core.sim.Rules
 import io.github.progliodario.aethermoor.core.sim.SaveMeta
 import io.github.progliodario.aethermoor.core.sim.StreamConfig
 import io.github.progliodario.aethermoor.core.sim.TICK_DT
@@ -56,6 +58,7 @@ import io.github.progliodario.aethermoor.core.sim.claimHeirloom
 import io.github.progliodario.aethermoor.core.sim.loadCombatSetup
 import io.github.progliodario.aethermoor.core.sim.makeStreamMap
 import io.github.progliodario.aethermoor.core.sim.mergeProfile
+import io.github.progliodario.aethermoor.core.sim.nextRuleStep
 import io.github.progliodario.aethermoor.core.sim.parseDeeds
 import io.github.progliodario.aethermoor.core.sim.parseProfile
 import io.github.progliodario.aethermoor.core.sim.parseTileset
@@ -191,8 +194,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private var journalScroll = 0
     private var journalRect: FloatArray? = null
     private var journalPanel: FloatArray? = null
-    private var languageRect: FloatArray? = null
-    private var soundRect: FloatArray? = null
+    private var settingsRect: FloatArray? = null // the options (spec 16, "Settings")
+    private val settings = SettingsPanel()
     private val volumes = intArrayOf(1000, 800, 500, 500) // master, effects, ambience, music in permille (spec 16, "Settings")
     private var mapRect: FloatArray? = null
     private var protagonistId = PROTAGONIST_ID // who is played in this game (spec 18), kept in the folder of the slot
@@ -307,7 +310,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     }
 
     /** A panel or a list is open: the bag, the map, the journal, crafting, a shop, a chest, the board or the stones (they pause the game). */
-    private fun panelOpen(world: WorldSim): Boolean = editingLayout || showInventory || showMap || showJournal || showCraft || world.shop != null || world.chestOpen || world.board != null || world.travel != null
+    private fun panelOpen(world: WorldSim): Boolean = settings.open || editingLayout || showInventory || showMap || showJournal || showCraft || world.shop != null || world.chestOpen || world.board != null || world.travel != null
 
     /** Where the player is, for the buttons of a controller ([GamePad]). */
     private fun padContext(world: WorldSim?): PadContext = when {
@@ -696,6 +699,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
     /** The options of accessibility (spec 16, "Settings"): hints, damage numbers, the flash of a creature that is hit, larger text. */
     private val optionKeys = arrayOf("hints", "damage_numbers", "flashes", "large_text")
+
+    /** The view distance (spec 16, "Settings"): an index of [VIEW_IDS], kept in the settings as `view`. */
+    private var view = 1
+
     private val options = booleanArrayOf(true, true, true, false)
     private var optionRects: List<FloatArray> = emptyList()
 
@@ -725,6 +732,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                 Regex("\"$key\"\\s*:\\s*(true|false)").find(text)?.groupValues?.get(1)?.let { options[i] = it == "true" }
             }
             Regex("\"quality\"\\s*:\\s*\"(\\w+)\"").find(text)?.groupValues?.get(1)?.let { quality = qualityIndex(it, quality) }
+            Regex("\"view\"\\s*:\\s*\"(\\w+)\"").find(text)?.groupValues?.get(1)?.let { id -> view = VIEW_IDS.indexOf(id).takeIf { it >= 0 } ?: view }
+            Regex("\"minimap\"\\s*:\\s*(true|false)").find(text)?.groupValues?.get(1)?.let { showMinimap = it == "true" }
             touchLayout = TouchLayout.fromSettings(text) // spec 16, "The layout of the buttons"
             for ((i, key) in volumeKeys.withIndex()) {
                 Regex("\"$key\"\\s*:\\s*(\\d+)").find(text)?.groupValues?.get(1)?.toIntOrNull()?.let { volumes[i] = it.coerceIn(0, 1000) }
@@ -740,7 +749,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         try {
             val volumeText = volumeKeys.indices.joinToString(",\n") { "  \"${volumeKeys[it]}\": ${volumes[it]}" }
             val optionText = optionKeys.indices.joinToString("") { "  \"${optionKeys[it]}\": ${options[it]},\n" }
-            val qualityText = "  \"quality\": \"${gfx.id}\",\n" // spec 13, "Quality"
+            val qualityText = "  \"quality\": \"${gfx.id}\",\n  \"view\": \"${VIEW_IDS[view]}\",\n  \"minimap\": $showMinimap,\n" // spec 13, "Quality"; spec 16
             val layoutText = "  \"touch_layout\": ${touchLayout.toJson()},\n" // spec 16, "The layout of the buttons"
             settingsFile().writeString("{\n  \"language\": \"$language\",\n$optionText$qualityText$layoutText$volumeText\n}\n", false, "UTF-8")
         } catch (e: com.badlogic.gdx.utils.GdxRuntimeException) {
@@ -871,19 +880,6 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     private fun cycleQuality() {
         quality = (quality + 1) % QUALITY_LEVELS.size
         writeSettings()
-    }
-
-    /** The sound button: the whole volume goes 100, 60, 30, 0 percent and round again. */
-    private fun cycleVolume() {
-        volumes[0] = when {
-            volumes[0] > 600 -> 600
-            volumes[0] > 300 -> 300
-            volumes[0] > 0 -> 0
-            else -> 1000
-        }
-        sound.setVolumes(volumes[0], volumes[1], volumes[2], volumes[3])
-        writeSettings()
-        sound.playEvent("pickup")
     }
 
     private fun toggleLanguage(data: Assets) {
@@ -1100,7 +1096,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         floating.forEach { it.age++ }
         floating.removeAll { it.age > FLOATING_TEXT_FRAMES }
 
-        val tilePx = max(16, (BASE_TILE_PX * Gdx.graphics.density).roundToInt())
+        val tilePx = max(16, (VIEW_TILE_PX[view] * Gdx.graphics.density).roundToInt()) // the view distance (spec 16, "Settings")
         cache.bucketCap = gfx.bucketCap // spec 13, "Quality"
         cache.releaseOtherBuckets(tilePx)
         // The first frames bake all they show (the world appears whole); after them a frame bakes for a few milliseconds
@@ -1324,6 +1320,81 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         drawLayoutEditor(data)
         drawGuardianBar(world, data)
         drawStick()
+        drawSettings(world, data)
+    }
+
+    /** The rows of the options of the last frame: the touches act on what was shown. */
+    private var settingsRowsNow: List<SettingRow> = emptyList()
+
+    /** The options panel (spec 16, "Settings"), over everything else when it is open. */
+    private fun drawSettings(world: WorldSim, data: Assets) {
+        if (!settings.open) {
+            settingsRowsNow = emptyList()
+            return
+        }
+        settingsRowsNow = settingsRows(world, data)
+        settings.title = data.pack.text(language, "\$i18n:ui.settings")
+        settings.done = data.pack.text(language, "\$i18n:ui.layout_done")
+        settings.draw(shapes, batch, font, camera.combined, settingsRowsNow)
+    }
+
+    private fun onOff(data: Assets, on: Boolean): String = data.pack.text(language, if (on) "\$i18n:ui.option_on" else "\$i18n:ui.option_off")
+
+    /**
+     * The rows of the options (spec 16, "Settings"), the same as the desktop's: the screen, the language, the sound, and the rules of
+     * this game (spec 04, "The rules of the game"), which apply at once and are saved with the game.
+     */
+    private fun settingsRows(world: WorldSim, data: Assets): List<SettingRow> {
+        val t = { key: String -> data.pack.text(language, "\$i18n:$key") }
+        val rows = ArrayList<SettingRow>()
+        rows.add(SettingRow(t("ui.settings_screen")))
+        rows.add(
+            SettingRow(t("ui.option_view"), t("ui.view_${VIEW_IDS[view]}")) { step ->
+                view = (view + step).coerceIn(0, VIEW_IDS.size - 1)
+                writeSettings()
+            },
+        )
+        rows.add(
+            SettingRow(t("ui.option_quality"), t("ui.quality_${gfx.id}")) { step ->
+                quality = (quality + step).coerceIn(0, QUALITY_LEVELS.size - 1)
+                writeSettings()
+            },
+        )
+        rows.add(
+            SettingRow(t("ui.option_minimap"), onOff(data, showMinimap)) {
+                showMinimap = !showMinimap
+                writeSettings()
+            },
+        )
+        val labels = arrayOf("ui.option_hints", "ui.option_numbers", "ui.option_flashes", "ui.option_large_text")
+        for (i in labels.indices) {
+            rows.add(
+                SettingRow(t(labels[i]), onOff(data, options[i])) {
+                    options[i] = !options[i]
+                    writeSettings()
+                    if (i == 3) buildFont(data.pack) // larger text: the font is built again
+                },
+            )
+        }
+        rows.add(SettingRow(t("ui.option_language"), if (language == "it") "Italiano" else "English") { toggleLanguage(data) })
+        rows.add(SettingRow(t("ui.settings_sound")))
+        val volumeLabels = arrayOf("ui.volume_master", "ui.volume_effects", "ui.volume_ambience", "ui.volume_music")
+        for (i in volumeLabels.indices) {
+            rows.add(
+                SettingRow(t(volumeLabels[i]), "${volumes[i] / 10}%") { step ->
+                    volumes[i] = (volumes[i] + step * 100).coerceIn(0, 1000)
+                    sound.setVolumes(volumes[0], volumes[1], volumes[2], volumes[3])
+                    writeSettings()
+                    if (i == 1) sound.playEvent("pickup") // a sample of the effects
+                },
+            )
+        }
+        rows.add(SettingRow(t("ui.settings_rules")))
+        for (rule in Rule.entries) {
+            rows.add(SettingRow(t("ui.rule_${rule.key}"), "${world.rules[rule]}%") { step -> world.setRules(world.rules.with(rule, nextRuleStep(world.rules[rule], step))) })
+        }
+        rows.add(SettingRow(t("ui.rules_reset"), "100%") { world.setRules(Rules()) })
+        return rows
     }
 
     private val blendVertices = FloatArray(20)
@@ -1986,13 +2057,16 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val p = world.player
         font.color = Color.WHITE
         font.draw(batch, "${data.pack.text(language, "\$i18n:ui.hp")} ${p.hp}/${world.derived.maxHp}", 12f * density + 4f, 12f * density + 2f)
-        font.draw(batch, data.pack.text(language, "\$i18n:ui.level", mapOf("level" to p.level)), 12f * density, 12f * density + 16f * density + 20f + 10f * density)
+        val levelText = data.pack.text(language, "\$i18n:ui.level", mapOf("level" to p.level))
+        font.draw(batch, levelText, 12f * density, 12f * density + 16f * density + 20f + 10f * density)
+        layout.setText(font, levelText)
+        val statusX = 12f * density + layout.width + 12f * density
         // The status effects on the player (spec 05), one word each, under the level.
         val status = listOf(p.burn to "burn", p.chill to "chill", p.stun to "stun", p.weaken to "weaken", p.fortify to "fortify", p.ward to "ward", p.regen to "regen", p.haste to "haste")
             .filter { it.first > 0 }.joinToString("  ") { data.pack.text(language, "\$i18n:ui.status_${it.second}") }
         if (status.isNotEmpty()) {
             font.color = Color(1f, 0.59f, 0.35f, 1f)
-            font.draw(batch, status, 12f * density, 12f * density + 16f * density + 20f + 10f * density + font.lineHeight * 1.2f)
+            font.draw(batch, status, statusX, 12f * density + 16f * density + 20f + 10f * density) // beside the level, above the buttons
             font.color = Color.WHITE
         }
         world.time()?.let { time ->
@@ -2251,6 +2325,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val story = world.story
         val input = keyInput
         val view = story.dialogueView()
+        // the options (spec 16, "Settings"): while they are open, every touch is theirs; Back or Esc closes them
+        if (settings.touch(settingsRowsNow, input.isKeyJustPressed(Input.Keys.ESCAPE) || input.isKeyJustPressed(Input.Keys.BACK))) return
         if (world.travel != null) {
             handleTravelInput(world)
             return
@@ -2373,6 +2449,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         }
         if (input.isKeyJustPressed(Input.Keys.N)) {
             showMinimap = !showMinimap
+            writeSettings()
             return
         }
         if (input.isKeyJustPressed(Input.Keys.Z) && hasAnalyze) {
@@ -2480,14 +2557,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
                     craftCursor = 0
                     return
                 }
-                val snd = soundRect
-                if (snd != null && x >= snd[0] && x <= snd[0] + snd[2] && y >= snd[1] && y <= snd[1] + snd[3]) {
-                    cycleVolume()
-                    return
-                }
-                val lang = languageRect
-                if (lang != null && x >= lang[0] && x <= lang[0] + lang[2] && y >= lang[1] && y <= lang[1] + lang[3]) {
-                    assets?.let { toggleLanguage(it) }
+                val optionsButton = settingsRect
+                if (optionsButton != null && inside(optionsButton, x, y)) {
+                    settings.open = true
                     return
                 }
                 val bag = bagRect
@@ -2551,7 +2623,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
 
         // Talk button for touch screens.
         val canTalk = !view.active && canInteract(world)
-        val button = floatArrayOf(width - 150f * density, height / 2f - 40f * density, 130f * density, 60f * density)
+        val button = floatArrayOf(width - 108f * density - 12f * density - 130f * density, height - 192f * density, 130f * density, 60f * density)
         talkRect = button
 
         shapes.projectionMatrix = camera.combined
@@ -2952,12 +3024,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val density = Gdx.graphics.density
         val width = Gdx.graphics.width.toFloat()
         val height = Gdx.graphics.height.toFloat()
-        val journalButton = floatArrayOf(12f * density, 114f * density, 96f * density, 34f * density)
-        val languageButton = floatArrayOf(12f * density + 104f * density, 114f * density, 96f * density, 34f * density)
-        val soundButton = floatArrayOf(12f * density + 208f * density, 114f * density, 80f * density, 34f * density)
+        val journalButton = hudSlot(0, 2)
+        val settingsButton = hudSlot(0, 4) // the options (spec 16, "Settings"): language, sound, view, quality, the rules of the game
         journalRect = journalButton
-        languageRect = languageButton
-        soundRect = soundButton
+        settingsRect = settingsButton
         val panelW = min(width - 40f, 560f * density)
         val panelH = min(height - 40f, 480f * density)
         val panelX = (width - panelW) / 2f
@@ -2969,8 +3039,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         shapes.begin(ShapeRenderer.ShapeType.Filled)
         shapes.color = Color(0.04f, 0.12f, 0.23f, 0.8f)
         shapes.rect(journalButton[0], journalButton[1], journalButton[2], journalButton[3])
-        shapes.rect(languageButton[0], languageButton[1], languageButton[2], languageButton[3])
-        shapes.rect(soundButton[0], soundButton[1], soundButton[2], soundButton[3])
+        shapes.rect(settingsButton[0], settingsButton[1], settingsButton[2], settingsButton[3])
         if (showJournal) {
             shapes.color = Color(0.04f, 0.12f, 0.23f, 0.96f)
             shapes.rect(panelX, panelY, panelW, panelH)
@@ -2982,9 +3051,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.projectionMatrix = camera.combined
         batch.begin()
         font.color = Color.WHITE
-        font.draw(batch, data.pack.text(language, "\$i18n:ui.journal"), journalButton[0] + 8f * density, journalButton[1] + (journalButton[3] - font.lineHeight) / 2f)
-        font.draw(batch, language.uppercase(Locale.ROOT), languageButton[0] + 8f * density, languageButton[1] + (languageButton[3] - font.lineHeight) / 2f)
-        font.draw(batch, "${volumes[0] / 10}%", soundButton[0] + 8f * density, soundButton[1] + (soundButton[3] - font.lineHeight) / 2f)
+        buttonLabel(data.pack.text(language, "\$i18n:ui.journal"), journalButton)
+        buttonLabel(data.pack.text(language, "\$i18n:ui.touch_settings"), settingsButton)
         if (showJournal) {
             font.color = Color(1f, 0.84f, 0.47f, 1f)
             font.draw(batch, data.pack.text(language, "\$i18n:ui.journal"), panelX + 16f * density, panelY + 12f * density)
@@ -3399,10 +3467,10 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             miniOy = oy
         }
         val density = Gdx.graphics.density
-        val cell = 3f * density
+        val cell = 2f * density
         val side = cell * n
         val x0 = 12f * density
-        val y0 = 156f * density
+        val y0 = (HUD_ROW_TOP + 2 * HUD_ROW_STEP) * density // under the two rows of buttons (spec 16, "Android")
         miniRect = floatArrayOf(x0, y0, side, side)
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
@@ -3679,7 +3747,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             abilityRects = emptyList()
             return
         }
-        val rects = kinds.mapIndexed { i, kind -> Pair(kind, floatArrayOf(12f * density + i * 104f * density, 194f * density, 96f * density, 34f * density)) }
+        val rects = kinds.mapIndexed { i, kind -> Pair(kind, hudSlot(1, 3 + i)) } // after the three of the companion
         abilityRects = rects
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
@@ -3693,7 +3761,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.begin()
         font.color = Color.WHITE
         for ((kind, r) in rects) {
-            font.draw(batch, data.pack.text(language, "\$i18n:ui.ability_${kind}_button"), r[0] + 8f * density, r[1] + (r[3] - font.lineHeight) / 2f)
+            buttonLabel(data.pack.text(language, "\$i18n:ui.ability_${kind}_button"), r)
         }
         batch.end()
     }
@@ -3726,7 +3794,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     /** The button of the party (spec 10, "The party"), next to Stay and Come, when the party has another companion. */
     private fun drawSwitchButton(world: WorldSim, data: Assets) {
         val density = Gdx.graphics.density
-        val button = floatArrayOf(12f * density + 208f * density, 154f * density, 96f * density, 34f * density)
+        val button = hudSlot(1, 2)
         switchRect = if (world.party.size > 1 && companionRect != null) button else null
         if (switchRect == null) return
         shapes.projectionMatrix = camera.combined
@@ -3738,14 +3806,14 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.projectionMatrix = camera.combined
         batch.begin()
         font.color = Color.WHITE
-        font.draw(batch, data.pack.text(language, "\$i18n:ui.companion_switch_button"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+        buttonLabel(data.pack.text(language, "\$i18n:ui.companion_switch_button"), button)
         batch.end()
     }
 
     /** The button that tells the companion to stay or to follow (spec 10, "Commands"), in a second row under the other buttons. */
     private fun drawCompanionButton(world: WorldSim, data: Assets) {
         val density = Gdx.graphics.density
-        val button = floatArrayOf(12f * density, 154f * density, 96f * density, 34f * density)
+        val button = hudSlot(1, 0)
         if (world.companionDef == null || showCraft || world.story.dialogueActive || showMap || showInventory || showJournal) {
             companionRect = null
             recallRect = null
@@ -3753,7 +3821,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             return
         }
         companionRect = button
-        val recall = floatArrayOf(12f * density + 104f * density, 154f * density, 96f * density, 34f * density)
+        val recall = hudSlot(1, 1)
         recallRect = recall
         shapes.projectionMatrix = camera.combined
         Gdx.gl.glEnable(GL20.GL_BLEND)
@@ -3766,8 +3834,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.projectionMatrix = camera.combined
         batch.begin()
         font.color = Color.WHITE
-        font.draw(batch, data.pack.text(language, "\$i18n:ui.companion_recall_button"), recall[0] + 8f * density, recall[1] + (recall[3] - font.lineHeight) / 2f)
-        font.draw(batch, data.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_follow_button" else "\$i18n:ui.companion_stay_button"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+        buttonLabel(data.pack.text(language, "\$i18n:ui.companion_recall_button"), recall)
+        buttonLabel(data.pack.text(language, if (world.companionStaying) "\$i18n:ui.companion_follow_button" else "\$i18n:ui.companion_stay_button"), button)
         batch.end()
         drawSwitchButton(world, data)
     }
@@ -3828,7 +3896,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val density = Gdx.graphics.density
         val width = Gdx.graphics.width.toFloat()
         val height = Gdx.graphics.height.toFloat()
-        val button = floatArrayOf(12f * density + 296f * density, 114f * density, 96f * density, 34f * density)
+        val button = hudSlot(0, 3)
         craftRect = if (showCraft || world.story.dialogueActive || showMap || showInventory || showJournal) null else button
         val recipes = world.combat.recipes.filter { world.recipeKnown(it) } // only those taught (spec 06, "Recipe book")
         if (!showCraft) {
@@ -3847,7 +3915,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             batch.projectionMatrix = camera.combined
             batch.begin()
             font.color = Color.WHITE
-            font.draw(batch, data.pack.text(language, "\$i18n:ui.craft"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+            buttonLabel(data.pack.text(language, "\$i18n:ui.touch_craft"), button)
             batch.end()
             return
         }
@@ -4217,7 +4285,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         val density = Gdx.graphics.density
         val width = Gdx.graphics.width.toFloat()
         val height = Gdx.graphics.height.toFloat()
-        val button = floatArrayOf(12f * density + 104f * density, 74f * density, 96f * density, 34f * density)
+        val button = hudSlot(0, 1)
         mapRect = button
 
         // Geometry of the view: a square, with the keys, the position and the buttons beside it (wide screens) or under it.
@@ -4413,7 +4481,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.projectionMatrix = camera.combined
         batch.begin()
         font.color = Color.WHITE
-        font.draw(batch, data.pack.text(language, "\$i18n:ui.map_hint"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+        buttonLabel(data.pack.text(language, "\$i18n:ui.touch_map"), button)
         if (view != null) {
             val v = view
             font.draw(batch, data.pack.text(language, "\$i18n:ui.map"), v.x, v.y - 30f * density)
@@ -4493,12 +4561,29 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.end()
     }
 
+    /**
+     * A button of the two compact rows of the HUD, under the bars at the top left (spec 16, "Android"): [row] 0 holds the panels
+     * (bag, map, journal, crafting, options), row 1 the companion and the abilities; [slot] counts from the left. The buttons
+     * shrink so that five fit on a narrow screen, and nothing else of the HUD lies under them.
+     */
+    private fun hudSlot(row: Int, slot: Int): FloatArray {
+        val d = Gdx.graphics.density
+        val w = min(84f * d, (Gdx.graphics.width - 24f * d - 4 * 6f * d) / 5f)
+        return floatArrayOf(12f * d + slot * (w + 6f * d), HUD_ROW_TOP * d + row * HUD_ROW_STEP * d, w, HUD_BUTTON_H * d)
+    }
+
+    /** The label of a button of the HUD: centred, and cut with a dot when it does not fit. */
+    private fun buttonLabel(text: String, r: FloatArray) {
+        val d = Gdx.graphics.density
+        font.draw(batch, text, r[0] + 3f * d, r[1] + (r[3] - font.lineHeight) / 2f, 0, text.length, r[2] - 6f * d, com.badlogic.gdx.utils.Align.center, false, ".")
+    }
+
     /** The bag button, the inventory panel and short notices. */
     private fun drawBagAndNotice(world: WorldSim, data: Assets) {
         val density = Gdx.graphics.density
         val width = Gdx.graphics.width.toFloat()
         val height = Gdx.graphics.height.toFloat()
-        val button = floatArrayOf(12f * density, 74f * density, 96f * density, 34f * density)
+        val button = hudSlot(0, 0)
         bagRect = button
         val items = world.inventory.entries.toList()
         val rowH = font.lineHeight * 1.5f
@@ -4529,7 +4614,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.projectionMatrix = camera.combined
         batch.begin()
         font.color = Color.WHITE
-        font.draw(batch, data.pack.text(language, "\$i18n:ui.bag_hint"), button[0] + 8f * density, button[1] + (button[3] - font.lineHeight) / 2f)
+        buttonLabel(data.pack.text(language, "\$i18n:ui.touch_bag"), button)
         if (showInventory) {
             font.color = Color(1f, 0.84f, 0.47f, 1f)
             font.draw(batch, data.pack.text(language, "\$i18n:ui.inventory"), panelX + 16f * density, panelY + 14f * density)
@@ -4991,13 +5076,22 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         private const val PROTAGONIST_ID = "base:protagonist/ren"
         private const val MAP_WORLD = "world"
         private const val SLOT_COUNT = 3
-        private const val BASE_TILE_PX = 64f
+
+        /** The view distance (spec 16, "Settings"): near, normal, far, farthest, and the size of a tile on the screen for each, in dp. */
+        private val VIEW_IDS = arrayOf("near", "normal", "far", "farthest")
+        private val VIEW_TILE_PX = floatArrayOf(80f, 64f, 48f, 40f)
+
         private val GROUND_SIDES = arrayOf(intArrayOf(-1, 0), intArrayOf(1, 0), intArrayOf(0, -1), intArrayOf(0, 1))
         private val GROUND_CORNERS = arrayOf(intArrayOf(-1, -1), intArrayOf(1, -1), intArrayOf(-1, 1), intArrayOf(1, 1))
         private val NO_CORNERS = emptyArray<IntArray>()
 
         /** The buttons at the bottom of the journal: the four options, then the quality, then the tag. */
         private const val QUALITY_BUTTON = 4
+
+        /** The compact rows of buttons of the HUD (spec 16, "Android"), in dp: the top of the first, the step to the next, their height. */
+        private const val HUD_ROW_TOP = 70f
+        private const val HUD_ROW_STEP = 36f
+        private const val HUD_BUTTON_H = 30f
 
         /** How much a touch of - or + changes the size of a button in the editor of the layout (spec 16). */
         private const val LAYOUT_STEP_PCT = 10

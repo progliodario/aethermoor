@@ -338,6 +338,13 @@ data class Rules(val pcts: List<Int> = List(Rule.entries.size) { 100 }) {
     }
 }
 
+/** The values the settings offer for a rule of the game (spec 16, "Settings"), in percent. */
+val RULE_STEPS = listOf(10, 25, 50, 75, 100, 125, 150, 200, 300, 500, 1000)
+
+/** The next value of a rule in the settings: the step above [now] when [direction] is positive, else the one below; the ends stay. */
+fun nextRuleStep(now: Int, direction: Int): Int =
+    if (direction > 0) RULE_STEPS.firstOrNull { it > now } ?: RULE_STEPS.last() else RULE_STEPS.lastOrNull { it < now } ?: RULE_STEPS.first()
+
 /** A copy of the definition of a creature with the rules of the game (spec 04): health, attack, defense, speed and sight. */
 fun ruledEnemy(def: EnemyDef, r: Rules): EnemyDef = def.copy(
     hp = maxOf(1L, def.hp * r[Rule.ENEMY_HP] / 100),
