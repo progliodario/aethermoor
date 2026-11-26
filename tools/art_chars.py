@@ -2,7 +2,7 @@
 
     python tools/art_chars.py
 
-A person is about 60 art units tall (1.9 tiles) with the proportions of a real body (about seven heads: see PROPORTIONS) and
+A person is about 56 art units tall (1.75 tiles) with the proportions of a real body (six heads: see PROPORTIONS) and
 the face of a real face (almond eyes, a nose, lips).
 The rig has a soft shadow, two legs, two arms, a torso, a head and a `cape` part behind the body (capes, long hair); the
 torso, the head and the cape have a second recipe for the view from behind (`art_back`, spec 13). Every part is drawn
@@ -247,18 +247,18 @@ def shadow() -> Recipe:
 # ------------------------------------------------------------------------------------------------ rig and clips
 RIG = [  # the joints of a body of real proportions (see PROPORTIONS)
     ("shadow", None, (0, 0), 0, None, "shadow", None),
-    ("cape", "torso", (0, -19.6), 1, 6, "cape", "cape_back"),
-    ("leg_l", "shadow", (-2.8, -31.5), 2, None, "leg", None),
-    ("leg_r", "shadow", (2.8, -31.5), 2, None, "leg", None),
-    ("arm_l", "torso", (-6.8, -16.45), 3, None, "arm", None),
+    ("cape", "torso", (0, -15.2), 1, 6, "cape", "cape_back"),
+    ("leg_l", "shadow", (-2.8, -29), 2, None, "leg", None),
+    ("leg_r", "shadow", (2.8, -29), 2, None, "leg", None),
+    ("arm_l", "torso", (-6.8, -12.55), 3, None, "arm", None),
     ("torso", "shadow", (0, -29), 4, None, "torso", "torso_back"),
-    ("arm_r", "torso", (6.8, -16.45), 5, None, "arm", None),
-    ("head", "torso", (0, -22.4), 7, None, "head", "head_back"),
+    ("arm_r", "torso", (6.8, -12.55), 5, None, "arm", None),
+    ("head", "torso", (0, -17.6), 7, None, "head", "head_back"),
 ]
 # seen from the side (spec 13): the parts that have a picture of their own, and where the limbs hang (the far arm and leg
 # are a little behind the near ones)
 SIDE_ART = {"head": "head_side", "torso": "torso_side", "cape": "cape_side"}
-SIDE_OFFSET = {"leg_l": (-0.8, -31.5), "leg_r": (0.65, -31.5), "arm_l": (-0.8, -17.45), "arm_r": (0.55, -17.45), "head": (0.35, -22.4)}
+SIDE_OFFSET = {"leg_l": (-0.8, -29), "leg_r": (0.65, -29), "arm_l": (-0.8, -13.75), "arm_r": (0.55, -13.75), "head": (0.35, -17.6)}
 
 
 def write_rig() -> None:
@@ -320,12 +320,13 @@ def write_rig() -> None:
 
 
 # ------------------------------------------------------------------------------------------------ the proportions of a real body
-# Every part (and every look of it) is drawn in the units of its joint, then **warped** to the proportions of a real body: about
-# seven heads, 60 units from the soles to the crown. The head is made smaller (0.56) while what hangs below the chin (long hair)
+# Every part (and every look of it) is drawn in the units of its joint, then **warped** to the proportions of a real body, a little
+# short and with a generous head so that people stay pleasant to look at: six heads, 56 units from the soles to the crown. The head
+# is made smaller (0.6) while what hangs below the chin (long hair)
 # keeps more of its length and width; the neck shows between the chin and the shoulders; the torso is a little narrower; the arms
 # reach the middle of the thigh (the sleeve grows, the hand less); the waist narrows; the legs are half of the height. The joints
-# of the rig follow (RIG, SIDE_OFFSET). Landmarks from the soles (y up is negative): crown -60, chin -51.4, shoulders -48.6, elbow
-# and belt -37 to -34, crotch -29.6, fingertips -23.3, knee -17.
+# of the rig follow (RIG, SIDE_OFFSET). Landmarks from the soles (y up is negative): crown -56, chin -46.8, shoulders -44.2, elbow
+# and belt -34 to -32, crotch -27, fingertips -21.6, knee -16.
 def _piecewise(knots: list[tuple[float, float]]):
     """A piecewise linear map through the knots (sorted by their first value), straight on beyond the ends."""
     def f(v: float) -> float:
@@ -344,20 +345,20 @@ def _shoulder_drop(x: float, y: float) -> float:
 
 
 def _head_point(x: float, y: float) -> tuple[float, float]:
-    kx = 0.56 if y <= -1 else (0.8 if y >= 4 else 0.56 + (y + 1) / 5 * 0.24)  # hair below the jaw keeps more of its width
-    return x * kx, y * 0.56 if y <= 0 else y * 0.95
+    kx = 0.6 if y <= -1 else (0.8 if y >= 4 else 0.6 + (y + 1) / 5 * 0.2)  # hair below the jaw keeps more of its width
+    return x * kx, y * 0.6 if y <= 0 else y * 0.9
 
 
-_TORSO_Y = _piecewise([(-30.0, -33.4), (-19.4, -22.8), (-16.6, -19.6), (0.0, -5.0), (4.2, -0.6), (40.0, 42.4)])
+_TORSO_Y = _piecewise([(-30.0, -29.0), (-19.4, -18.4), (-16.6, -15.2), (0.0, -3.0), (4.2, 2.0), (40.0, 41.4)])
 _TORSO_X = _piecewise([(-30.0, 0.92), (-16.6, 0.92), (-12.0, 0.9), (-5.0, 0.8), (0.0, 0.84), (4.2, 0.9), (40.0, 0.9)])  # a waist
-_ARM_Y = _piecewise([(-5.0, -5.0), (0.0, 0.0), (13.6, 17.8), (18.8, 23.4), (30.0, 35.5)])
-_LEG_Y = _piecewise([(-5.0, -5.0), (-0.5, -0.5), (17.2, 20.9), (27.2, 31.6), (40.0, 45.3)])
+_ARM_Y = _piecewise([(-5.0, -5.0), (0.0, 0.0), (13.6, 15.2), (18.8, 20.2), (30.0, 31.0)])
+_LEG_Y = _piecewise([(-5.0, -5.0), (-0.5, -0.5), (17.2, 19.0), (27.2, 29.0), (40.0, 41.8)])
 PROPORTIONS = {
     "head": _head_point,
     "torso": lambda x, y: (x * _TORSO_X(y), _TORSO_Y(y) + _shoulder_drop(x, y)),
     "arm": lambda x, y: (x * 0.85, _ARM_Y(y)),
     "leg": lambda x, y: (x * 0.9, _LEG_Y(y)),
-    "cape": lambda x, y: (x * 0.92, y * 1.067),
+    "cape": lambda x, y: (x * 0.92, y * 0.97),
 }
 
 

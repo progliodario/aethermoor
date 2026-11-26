@@ -415,7 +415,7 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
   dell'acqua bassa, braci nella cenere); alberi fatti di foglie su tronchi di corteccia; oggetti, persone e creature senza contorni da
   fumetto, con luce morbida, volume e grana; visi con occhi, naso e labbra veri, capelli a ciocche, stoffe con la trama, pelliccia e
   armature consumate. Il rasterizzatore ha il rumore allungato e a creste (spec 13, v3).
-- Persone con le proporzioni di un corpo vero (circa sette teste, dal 26 novembre) con vista di fronte, di lato e di spalle, terreni dipinti che sfumano, oggetti di scena (dal 18 novembre anche sette mobili), creature che si girano verso di te, ombre lunghe all'alba e al tramonto, acqua e vento che si muovono, luci di notte.
+- Persone con le proporzioni di un corpo vero, un po' basse e con la testa generosa (sei teste, dal 26 novembre) con vista di fronte, di lato e di spalle, terreni dipinti che sfumano, oggetti di scena (dal 18 novembre anche sette mobili), creature che si girano verso di te, ombre lunghe all'alba e al tramonto, acqua e vento che si muovono, luci di notte.
 
 **Suono** (spec 14)
 
