@@ -29,7 +29,7 @@
       "parent": "torso",
       "offset": [
         0,
-        -16.6
+        -19.6
       ],
       "z": 1,
       "art": "base:art/char/ren/cape",
@@ -41,56 +41,56 @@
       "id": "leg_l",
       "parent": "shadow",
       "offset": [
-        -3.1,
-        -27
+        -2.8,
+        -31.5
       ],
       "z": 2,
       "art": "base:art/char/ren/leg",
       "offset_side": [
-        -0.9,
-        -27
+        -0.8,
+        -31.5
       ]
     },
     {
       "id": "leg_r",
       "parent": "shadow",
       "offset": [
-        3.1,
-        -27
+        2.8,
+        -31.5
       ],
       "z": 2,
       "art": "base:art/char/ren/leg",
       "offset_side": [
-        0.7,
-        -27
+        0.65,
+        -31.5
       ]
     },
     {
       "id": "arm_l",
       "parent": "torso",
       "offset": [
-        -7.4,
-        -14.6
+        -6.8,
+        -16.45
       ],
       "z": 3,
       "art": "base:art/char/ren/arm",
       "offset_side": [
-        -0.9,
-        -14.6
+        -0.8,
+        -17.45
       ]
     },
     {
       "id": "arm_r",
       "parent": "torso",
       "offset": [
-        7.4,
-        -14.6
+        6.8,
+        -16.45
       ],
       "z": 5,
       "art": "base:art/char/ren/arm",
       "offset_side": [
-        0.6,
-        -14.6
+        0.55,
+        -17.45
       ]
     },
     {
@@ -98,15 +98,15 @@
       "parent": "torso",
       "offset": [
         0,
-        -16.6
+        -22.4
       ],
       "z": 7,
       "art": "base:art/char/ren/head",
       "art_back": "base:art/char/ren/head_back",
       "art_side": "base:art/char/ren/head_side",
       "offset_side": [
-        0.4,
-        -16.6
+        0.35,
+        -22.4
       ]
     }
   ]

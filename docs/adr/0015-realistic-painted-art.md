@@ -33,6 +33,9 @@ The art stays vector recipes drawn by the same rasterizers, and becomes realisti
   light from the top left and its shade give the picture a volume, and a fine grain covers it. On top of it the generators add the
   matter of what they draw: leaves and bark for the trees, strands for the hair, a weave for the cloth, fur for the beasts, scratches and
   rust for the armours. Faces have the proportions of a real face (smaller almond eyes, a nose, lips).
+- **People have the proportions of a real body** (about seven heads instead of 4.6): every part of the rig and every look of it is
+  drawn as before and then warped (`PROPORTIONS` in `tools/art_chars.py`): a smaller head, a neck, shoulders that slope, a waist,
+  arms to the middle of the thigh, legs of half the height; the joints of the rig follow. The clips do not change.
 
 ## Consequences
 
