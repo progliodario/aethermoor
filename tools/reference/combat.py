@@ -82,9 +82,38 @@ def primary_at_level(base: dict, growth_pm: dict, level: int) -> rules.Primary:
     return rules.Primary(stat("str"), stat("vit"), stat("dex"), stat("agi"), stat("int"), stat("wis"), stat("luk"))
 
 
+# The rules of the game (spec 04, "The rules of the game"): percents the player sets for each game, saved with it; 100 is the game
+# as it is made. The creatures take theirs when they come into the world; the player's apply to the derived stats at once.
+RULE_KEYS = ("player_hp_pct", "player_mp_pct", "player_atk_pct", "player_def_pct", "player_speed_pct",
+             "enemy_hp_pct", "enemy_atk_pct", "enemy_def_pct", "enemy_speed_pct", "enemy_sight_pct",
+             "xp_pct", "drop_pct", "buy_price_pct", "sell_price_pct", "companion_atk_pct")
+DEFAULT_RULES = {key: 100 for key in RULE_KEYS}
+RULE_MIN, RULE_MAX = 10, 1000
+
+
+def ruled_rules(given: dict | None) -> dict:
+    """The rules with the defaults for what is missing, every value kept within RULE_MIN..RULE_MAX."""
+    out = dict(DEFAULT_RULES)
+    for key, value in (given or {}).items():
+        if key in out:
+            out[key] = max(RULE_MIN, min(RULE_MAX, int(value)))
+    return out
+
+
+def ruled_enemy(d: dict, r: dict) -> dict:
+    """A copy of the definition of a creature with the rules of the game (spec 04): health, attack, defense, speed and sight."""
+    out = dict(d)
+    out["hp"] = max(1, d["hp"] * r["enemy_hp_pct"] // 100)
+    out["atk"] = d["atk"] * r["enemy_atk_pct"] // 100
+    out["def"] = d["def"] * r["enemy_def_pct"] // 100
+    out["speed_x100"] = d["speed_x100"] * r["enemy_speed_pct"] // 100
+    out["behavior"] = dict(d["behavior"], aggro_x100=d["behavior"]["aggro_x100"] * r["enemy_sight_pct"] // 100)
+    return out
+
+
 class _Enemy:
-    def __init__(self, spec: dict) -> None:
-        self.d = spec["def"]
+    def __init__(self, spec: dict, rules: dict | None = None) -> None:
+        self.d = ruled_enemy(spec["def"], rules) if rules is not None else spec["def"]
         self.x, self.y = spec["pos"]
         self.home = (self.x, self.y)
         self.hp = self.d["hp"]
@@ -109,6 +138,7 @@ class CombatSim:
             self.props += [(n["pos"][0], n["pos"][1], NPC_RADIUS) for n in story_setup["npcs"] if "when" not in n and "route" not in n]
         seed = int(scenario["seed"], 16)
         self.seed = seed
+        self.rules = ruled_rules(scenario.get("rules"))  # the rules of the game (spec 04, "The rules of the game")
         # Gathering (spec 06, "Gathering"): the nodes by prop art, the props that can be gathered from, and what is gathered: (x100, y100) -> (tick it grows back, times)
         self.gather_nodes = {n["prop"]: n for n in scenario.get("gather_nodes", [])}
         self.gather_props = [(g["art"], g["x"], g["y"], g["radius"]) for g in scenario.get("gather_props", [])]
@@ -211,7 +241,7 @@ class CombatSim:
         self.hit_set: set[int] = set()
         self.kills = 0
         self.deaths = 0
-        self.enemies = [_Enemy(e) for e in scenario["enemies"]]
+        self.enemies = [_Enemy(e, self.rules) for e in scenario["enemies"]]
         self.story = Story(self, story_setup) if story_setup else None
         if self.story is not None:
             self.story.gold = scenario.get("start_gold", 0)
@@ -238,7 +268,23 @@ class CombatSim:
         for block in self._flat_bonuses():
             for key, stat in (("atk", "atk"), ("matk", "matk"), ("def", "def"), ("mdef", "mdef"), ("max_hp", "max_hp"), ("crit_pm", "crit_chance_pm")):
                 derived[stat] += block.get(key, 0)
+        r = self.rules  # the rules of the game come last (spec 04, "The rules of the game")
+        derived["max_hp"] = max(1, derived["max_hp"] * r["player_hp_pct"] // 100)
+        derived["max_mp"] = derived["max_mp"] * r["player_mp_pct"] // 100
+        derived["atk"] = derived["atk"] * r["player_atk_pct"] // 100
+        derived["matk"] = derived["matk"] * r["player_atk_pct"] // 100
+        derived["def"] = derived["def"] * r["player_def_pct"] // 100
+        derived["mdef"] = derived["mdef"] * r["player_def_pct"] // 100
+        derived["move_speed_x100"] = max(1, derived["move_speed_x100"] * r["player_speed_pct"] // 100)
         return derived
+
+    def set_rules(self, given: dict) -> None:
+        """Changes the rules of the game in the middle of it (spec 04): the derived stats at once, the health and the mana kept within
+        their new maxima; the creatures already in the world keep theirs."""
+        self.rules = ruled_rules(given)
+        self.derived = self._derive()
+        self.hp = min(self.hp, self.derived["max_hp"])
+        self.mp_u = min(self.mp_u, self.derived["max_mp"] * 6000)
 
     def _flat_bonuses(self) -> list[dict]:
         """The blocks of flat bonuses worn (spec 06, "Equipment", "Affixes"): the accessory, then the affix of the weapon, then the armor's."""
@@ -501,7 +547,7 @@ class CombatSim:
         """The attack of the companion (spec 10, "Bond"): its own, one more point every five kills (ten at most), and a gift of command (spec 18)."""
         c = self.companion
         atk = c["atk_base"] + c["atk_per_level"] * (self.level - 1) + min(self.comp_bond // COMPANION_BOND_STEP, COMPANION_BOND_MAX)
-        return atk * self.gift.get("companion_atk_pct", 100) // 100
+        return atk * self.gift.get("companion_atk_pct", 100) // 100 * self.rules["companion_atk_pct"] // 100  # and the rule (spec 04)
 
     def _duo_hit(self, enemy, skill: dict) -> None:
         """The duo strike (spec 10, "Duo strike"): a power strike brings the companion's hit on the first creature it hits that is still alive and
@@ -797,7 +843,7 @@ class CombatSim:
         if enemy.d.get("id", ""):
             self.bestiary[enemy.d["id"]] = self.bestiary.get(enemy.d["id"], 0) + 1
         for drop in enemy.d["drops"]:
-            if self.loot.next_bounded(1000) < drop["weight_pm"]:
+            if self.loot.next_bounded(1000) < drop["weight_pm"] * self.rules["drop_pct"] // 100:  # the rule of the loot (spec 04)
                 qty = drop["qty_min"]
                 if drop["qty_max"] > drop["qty_min"]:
                     qty += self.loot.next_bounded(drop["qty_max"] - drop["qty_min"] + 1)
@@ -849,7 +895,7 @@ class CombatSim:
         self.mp_u = self.derived["max_mp"] * 6000
 
     def grant_xp(self, amount: int) -> None:
-        self.xp += amount
+        self.xp += amount * self.rules["xp_pct"] // 100  # the rule of the experience (spec 04)
         while self.level < MAX_LEVEL and self.level - 1 < len(self.xp_table) and self.xp >= self.xp_table[self.level - 1]:
             self.xp -= self.xp_table[self.level - 1]
             self.level += 1
@@ -937,7 +983,7 @@ class CombatSim:
         self.defense_wave += 1
         self.defense_clock = 0
         for i, cid in enumerate(ids):
-            e = _Enemy({"def": d["enemies"][cid], "pos": [d["gate"][0] + (i - (len(ids) - 1) / 2) * 0.8, d["gate"][1]]})
+            e = _Enemy({"def": d["enemies"][cid], "pos": [d["gate"][0] + (i - (len(ids) - 1) / 2) * 0.8, d["gate"][1]]}, self.rules)
             e.defense = True
             self.enemies.append(e)
             self.hit_set.discard(len(self.enemies) - 1)
@@ -1499,7 +1545,8 @@ class CombatSim:
         price = max(1, self.items[item_id]["price"] * self.shop["price_pm"] // 1000)
         price = max(1, price * self.market_pm() // 1000)
         price = max(1, price * self.weather_price_pm(item_id) // 1000)
-        return max(1, price * (1000 - self.renown_discount_pm()) // 1000)
+        price = max(1, price * (1000 - self.renown_discount_pm()) // 1000)
+        return max(1, price * self.rules["buy_price_pct"] // 100)  # the rule of the prices (spec 04)
 
     def day(self) -> int:
         """The day of the world (spec 08): `world_ticks / day_ticks + 1`, and 1 without a clock."""
@@ -1513,7 +1560,8 @@ class CombatSim:
         price = max(1, self.items[item_id]["price"] // 2 * self.market_pm() // 1000)
         price = max(1, price * self.weather_price_pm(item_id) // 1000)  # the weather (spec 06, "Weather and prices")
         step, floor = (self.shop or {}).get("glut_step_pm", 0), (self.shop or {}).get("glut_floor_pm", 1000)
-        return max(1, price * max(floor, 1000 - step * self.sold_today.get(item_id, 0)) // 1000)
+        price = max(1, price * max(floor, 1000 - step * self.sold_today.get(item_id, 0)) // 1000)
+        return max(1, price * self.rules["sell_price_pct"] // 100)  # the rule of the prices (spec 04)
 
     def sell(self, item_id: str) -> bool:
         """Sells one item of the inventory to the open shop (spec 06). Returns False, changing nothing, when refused."""
@@ -1569,11 +1617,14 @@ class CombatSim:
                if self.companion is not None else {}),
             **({"party": list(self.party)} if self.party != self.start_party else {}),
             **({"bonds": dict(sorted(self.bonds.items()))} if self.bonds else {}),
+            # the rules of the game (spec 04, spec 12): only those that are not 100
+            **({"rules": {k: v for k, v in self.rules.items() if v != 100}} if self.rules != DEFAULT_RULES else {}),
             "story": self.story.save_state() if self.story is not None else None,
             "world_ticks": self.world_ticks,  # the clock (spec 08, spec 12): the day of the market, of the travellers, of the plots
         }
 
     def load_state(self, save: dict) -> None:
+        self.rules = ruled_rules(save.get("rules"))  # first: the derived stats depend on them (spec 04)
         p = save["player"]
         self.x, self.y = p["x"], p["y"]
         self.facing = (p["facing"][0], p["facing"][1])
@@ -1649,7 +1700,9 @@ class CombatSim:
             **({"furniture": [[k[0], k[1], item] for k, item in sorted(self.furniture.items())]} if self.home is not None else {}),
             **({"runes": dict(sorted(self.runes.items())), "atk": self.derived["atk"]} if any("rune" in i for i in self.items.values()) else {}),
             **({"derived": {k: self.derived[k] for k in ("atk", "matk", "def", "mdef", "max_hp", "crit_chance_pm")}}
-               if any("affix" in i for i in self.items.values()) else {}),
+               if any("affix" in i for i in self.items.values()) and self.rules == DEFAULT_RULES else {}),
+            **({"derived": {k: self.derived[k] for k in ("atk", "matk", "def", "mdef", "max_hp", "crit_chance_pm", "max_mp", "move_speed_x100")}}
+               if self.rules != DEFAULT_RULES else {}),
             **({"rolls": dict(sorted(self.rolls.items()))} if any("affix_roll" in i for i in self.items.values()) else {}),
             **({"affix_offers": self.affix_offers()} if any("reforge" in i for i in self.items.values()) else {}),
             **({"friend": {"enemy": self.friend["d"].get("id", ""), "x": self.friend["x"], "y": self.friend["y"], "stay": self.friend["stay"]}}
@@ -1723,6 +1776,9 @@ def run_segment(sim: CombatSim, segment: dict) -> None:
             continue
         if command["cmd"] == "close_shop":
             sim.close_shop()
+            continue
+        if command["cmd"] == "rules":  # the rules of the game changed in the middle of it (spec 04)
+            sim.set_rules(command["rules"])
             continue
         if sim.story is None:
             continue

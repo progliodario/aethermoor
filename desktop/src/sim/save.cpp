@@ -207,6 +207,15 @@ std::string save_to_json(const SaveState& s, const SaveMeta& meta) {
         }
         j["bonds"] = bonds;
     }
+    if (!(s.rules == Rules{})) {  // the rules of the game (spec 04, spec 12): only those that are not 100
+        Json rules = Json::object();
+        for (std::size_t i = 0; i < kRuleCount; ++i) {
+            if (s.rules.*kRuleFields[i] != 100) {
+                rules[kRuleKeys[i]] = s.rules.*kRuleFields[i];
+            }
+        }
+        j["rules"] = rules;
+    }
     if (s.has_friend) {  // the tamed friend (spec 10)
         j["friend"] = {
             {"enemy", s.friend_enemy}, {"x", s.friend_x}, {"y", s.friend_y}, {"cooldown", s.friend_cooldown}};
@@ -330,6 +339,13 @@ std::optional<SaveState> save_from_json(std::string_view json_text, std::string&
             for (const auto& [id, bond] : j.at("bonds").items()) {
                 s.bonds[id] = bond.get<int>();
             }
+        }
+        if (j.contains("rules")) {  // the rules of the game (spec 04)
+            const Json& rules = j.at("rules");
+            for (std::size_t i = 0; i < kRuleCount; ++i) {
+                s.rules.*kRuleFields[i] = rules.value(kRuleKeys[i], 100);
+            }
+            s.rules = clamped_rules(s.rules);
         }
         if (j.contains("friend")) {
             const Json& f = j.at("friend");

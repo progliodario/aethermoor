@@ -70,6 +70,20 @@ float distance(float ax, float ay, float bx, float by) {
 
 }  // namespace
 
+namespace {
+
+// A copy of the definition of a creature with the rules of the game (spec 04): health, attack, defense, speed and sight.
+EnemyDef ruled_enemy(EnemyDef def, const Rules& r) {
+    def.hp = std::max<std::int64_t>(1, def.hp * r.enemy_hp_pct / 100);
+    def.atk = def.atk * r.enemy_atk_pct / 100;
+    def.def = def.def * r.enemy_def_pct / 100;
+    def.speed_x100 = def.speed_x100 * r.enemy_speed_pct / 100;
+    def.behavior.aggro_x100 = def.behavior.aggro_x100 * r.enemy_sight_pct / 100;
+    return def;
+}
+
+}  // namespace
+
 WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, CombatSetup combat,
                    std::optional<StreamConfig> stream)
     : m_map_(std::move(map)),
@@ -78,6 +92,7 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
       m_collision_(m_store_ ? CollisionWorld(m_store_.get()) : build_collision(m_map_, m_tileset_)),
       m_speed_(speed_tiles_per_s),
       m_setup_(std::move(combat)),
+      m_rules_(clamped_rules(m_setup_.rules)),
       m_combat_rng_(derive_stream(m_setup_.seed, "combat")),
       m_loot_rng_(derive_stream(m_setup_.seed, "loot")),
       m_story_(m_setup_.story, *this) {
@@ -138,10 +153,10 @@ WorldSim::WorldSim(TileMap map, Tileset tileset, float speed_tiles_per_s, Combat
         m_player_.mp_u = m_derived_.max_mp * 6000;
         for (const EnemySpawn& spawn : m_setup_.spawns) {
             Enemy enemy;
-            enemy.def = spawn.def;
+            enemy.def = ruled_enemy(spawn.def, m_rules_);  // the rules of the game (spec 04)
             enemy.position = {spawn.x, spawn.y};
             enemy.home = enemy.position;
-            enemy.hp = spawn.def.hp;
+            enemy.hp = enemy.def.hp;
             m_enemies_.push_back(std::move(enemy));
         }
         m_hit_set_.assign(m_enemies_.size(), false);
@@ -262,7 +277,7 @@ void WorldSim::add_chunk_enemies(int cx, int cy) {
             m_cleared_.erase(died);
         }
         Enemy enemy;
-        enemy.def = stream_enemy_at(sx, sy);
+        enemy.def = ruled_enemy(stream_enemy_at(sx, sy), m_rules_);  // the rules of the game (spec 04)
         enemy.position = {static_cast<float>(sx) + 0.5F, static_cast<float>(sy) + 0.5F};
         enemy.home = enemy.position;
         enemy.hp = enemy.def.hp;
@@ -386,6 +401,21 @@ void WorldSim::recompute_derived() {
             m_derived_.crit_chance_pm += held_affix(*worn, piece->second.aff_crit_pm);
         }
     }
+    const Rules& r = m_rules_;  // the rules of the game come last (spec 04, "The rules of the game")
+    m_derived_.max_hp = std::max<std::int64_t>(1, m_derived_.max_hp * r.player_hp_pct / 100);
+    m_derived_.max_mp = m_derived_.max_mp * r.player_mp_pct / 100;
+    m_derived_.atk = m_derived_.atk * r.player_atk_pct / 100;
+    m_derived_.matk = m_derived_.matk * r.player_atk_pct / 100;
+    m_derived_.def = m_derived_.def * r.player_def_pct / 100;
+    m_derived_.mdef = m_derived_.mdef * r.player_def_pct / 100;
+    m_derived_.move_speed_x100 = std::max<std::int64_t>(1, m_derived_.move_speed_x100 * r.player_speed_pct / 100);
+}
+
+void WorldSim::set_rules(const Rules& rules) {
+    m_rules_ = clamped_rules(rules);
+    recompute_derived();
+    m_player_.hp = std::min(m_player_.hp, m_derived_.max_hp);
+    m_player_.mp_u = std::min<std::int64_t>(m_player_.mp_u, m_derived_.max_mp * 6000);
 }
 
 std::int64_t WorldSim::held_affix(const std::string& item_id, std::int64_t value) const {
@@ -799,7 +829,8 @@ std::int64_t WorldSim::buy_price(const std::string& item_id) const {
     std::int64_t price = std::max<std::int64_t>(1, item->second.price * m_shop_->price_pm / 1000);
     price = std::max<std::int64_t>(1, price * market_pm() / 1000);                   // the market of the day (spec 06)
     price = std::max<std::int64_t>(1, price * weather_price_pm(item_id) / 1000);     // and the weather (spec 06)
-    return std::max<std::int64_t>(1, price * (1000 - renown_discount_pm()) / 1000);  // the renown (spec 07)
+    price = std::max<std::int64_t>(1, price * (1000 - renown_discount_pm()) / 1000);  // the renown (spec 07)
+    return std::max<std::int64_t>(1, price * m_rules_.buy_price_pct / 100);          // the rule of the prices (spec 04)
 }
 
 std::int64_t WorldSim::sell_price(const std::string& item_id) const {
@@ -810,14 +841,14 @@ std::int64_t WorldSim::sell_price(const std::string& item_id) const {
     std::int64_t price =
         std::max<std::int64_t>(1, item->second.price / 2 * market_pm() / 1000);   // the market of the day (spec 06)
     price = std::max<std::int64_t>(1, price * weather_price_pm(item_id) / 1000);  // and the weather (spec 06)
-    if (!m_shop_ || m_shop_->glut_step_pm <= 0) {
-        return price;
+    if (m_shop_ && m_shop_->glut_step_pm > 0) {
+        // the glut (spec 06, "Glut"): less for every one of the same item sold today
+        const auto sold = m_sold_today_.find(item_id);
+        const std::int64_t count = m_sold_day_ != day_now() || sold == m_sold_today_.end() ? 0 : sold->second;
+        price = std::max<std::int64_t>(
+            1, price * std::max<std::int64_t>(m_shop_->glut_floor_pm, 1000 - m_shop_->glut_step_pm * count) / 1000);
     }
-    // the glut (spec 06, "Glut"): less for every one of the same item sold today
-    const auto sold = m_sold_today_.find(item_id);
-    const std::int64_t count = m_sold_day_ != day_now() || sold == m_sold_today_.end() ? 0 : sold->second;
-    return std::max<std::int64_t>(
-        1, price * std::max<std::int64_t>(m_shop_->glut_floor_pm, 1000 - m_shop_->glut_step_pm * count) / 1000);
+    return std::max<std::int64_t>(1, price * m_rules_.sell_price_pct / 100);  // the rule of the prices (spec 04)
 }
 
 std::int64_t WorldSim::day_now() const {
@@ -1362,7 +1393,8 @@ void WorldSim::update_companion() {
 std::int64_t WorldSim::companion_atk() const {
     const CompanionDef& c = *m_setup_.companion;
     const std::int64_t atk = c.atk_base + c.atk_per_level * (m_player_.level - 1) + std::min(m_companion_bond_ / 5, 10);
-    return atk * m_setup_.gift.companion_atk_pct / 100;  // a gift of command (spec 18)
+    // a gift of command (spec 18), then the rule of the companion (spec 04)
+    return atk * m_setup_.gift.companion_atk_pct / 100 * m_rules_.companion_atk_pct / 100;
 }
 
 void WorldSim::duo_hit(Enemy& enemy) {
@@ -2274,7 +2306,8 @@ void WorldSim::on_kill(Enemy& enemy) {
         m_cleared_[{enemy.spawner_x, enemy.spawner_y}] = m_world_ticks_;
     }
     for (const DropDef& drop : enemy.def.drops) {
-        if (static_cast<std::int64_t>(m_loot_rng_.next_bounded(1000)) < drop.weight_pm) {
+        if (static_cast<std::int64_t>(m_loot_rng_.next_bounded(1000)) <
+            drop.weight_pm * m_rules_.drop_pct / 100) {  // the rule of the loot (spec 04)
             std::int64_t quantity = drop.qty_min;
             if (drop.qty_max > drop.qty_min) {
                 quantity += static_cast<std::int64_t>(
@@ -2429,7 +2462,7 @@ std::int64_t WorldSim::title_attack_pct() const {
 
 void WorldSim::grant_xp(std::int64_t amount) {
     Player& p = m_player_;
-    p.xp += amount;
+    p.xp += amount * m_rules_.xp_pct / 100;  // the rule of the experience (spec 04)
     while (p.level < kMaxLevel && p.level - 1 < static_cast<std::int64_t>(m_setup_.xp_table.size()) &&
            p.xp >= m_setup_.xp_table[static_cast<std::size_t>(p.level - 1)]) {
         p.xp -= m_setup_.xp_table[static_cast<std::size_t>(p.level - 1)];
@@ -2601,7 +2634,7 @@ void WorldSim::spawn_defense_wave() {
             continue;
         }
         Enemy enemy;
-        enemy.def = def->second;
+        enemy.def = ruled_enemy(def->second, m_rules_);  // the rules of the game (spec 04)
         enemy.position = {d.gate_x + (static_cast<float>(i) - middle) * 0.8F, d.gate_y};
         enemy.home = enemy.position;
         enemy.hp = enemy.def.hp;
@@ -2856,6 +2889,7 @@ SaveState WorldSim::capture() const {
         s.party = m_party_;
     }
     s.bonds = m_bonds_;
+    s.rules = m_rules_;
     if (m_friend_) {
         s.has_friend = true;
         s.friend_enemy = m_friend_->def.id;
@@ -2923,7 +2957,7 @@ bool WorldSim::restore(const SaveState& saved, std::string& error) {
             if (cleared.count(spawner) == 0 && found.count(spawner) == 0 && !m_setup_.stream_enemies.empty()) {
                 SaveEnemy fresh;
                 fresh.position = {static_cast<float>(spawner.first) + 0.5F, static_cast<float>(spawner.second) + 0.5F};
-                fresh.hp = stream_enemy_at(spawner.first, spawner.second).hp;
+                fresh.hp = ruled_enemy(stream_enemy_at(spawner.first, spawner.second), clamped_rules(s.rules)).hp;
                 fresh.has_spawner = true;
                 fresh.spawner_x = spawner.first;
                 fresh.spawner_y = spawner.second;
@@ -2945,6 +2979,7 @@ bool WorldSim::restore(const SaveState& saved, std::string& error) {
         error = "the save refers to a quest or dialogue that does not exist";
         return false;
     }
+    m_rules_ = clamped_rules(s.rules);  // first: the derived stats and the creatures depend on them (spec 04)
     Player& p = m_player_;
     p.position = s.position;
     p.facing = s.facing;
@@ -2979,7 +3014,7 @@ bool WorldSim::restore(const SaveState& saved, std::string& error) {
         m_enemies_.clear();
         for (const SaveEnemy& e : s.enemies) {
             Enemy enemy;
-            enemy.def = stream_enemy_at(e.spawner_x, e.spawner_y);
+            enemy.def = ruled_enemy(stream_enemy_at(e.spawner_x, e.spawner_y), m_rules_);  // spec 04
             enemy.home = {static_cast<float>(e.spawner_x) + 0.5F, static_cast<float>(e.spawner_y) + 0.5F};
             enemy.spawner_x = e.spawner_x;
             enemy.spawner_y = e.spawner_y;

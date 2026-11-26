@@ -28,6 +28,7 @@ import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
 import io.github.progliodario.aethermoor.core.sim.TitleDef
 import io.github.progliodario.aethermoor.core.sim.WeaponStats
+import io.github.progliodario.aethermoor.core.sim.parseRules
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.accessoryOf
 import io.github.progliodario.aethermoor.core.sim.furnitureOf
@@ -118,6 +119,7 @@ internal fun scenarioFromJson(input: JsonObject): ScenarioWorld {
             s["element"]?.jsonPrimitive?.content ?: "none",
         ),
         echoPct = input["echo_pct"]?.jsonPrimitive?.int ?: 0,
+        rules = parseRules(input["rules"] as? JsonObject), // the rules of the game (spec 04)
         rainPm = input["weather"]?.jsonObject?.get("rain_pm")?.jsonPrimitive?.int ?: 0,
         rainAggroCutPm = input["weather"]?.jsonObject?.get("rain_aggro_cut_pm")?.jsonPrimitive?.int ?: 0,
         rainSlowPm = input["weather"]?.jsonObject?.get("rain_slow_pm")?.jsonPrimitive?.int ?: 0,
@@ -362,6 +364,7 @@ internal fun runSegment(sim: WorldSim, segment: JsonObject) {
             "chest_put" -> sim.chestPut(cmd.getValue("item").jsonPrimitive.content)
             "chest_take" -> sim.chestTake(cmd.getValue("item").jsonPrimitive.content)
             "close_shop" -> sim.closeShop()
+            "rules" -> sim.setRules(parseRules(cmd.getValue("rules").jsonObject)) // the rules changed in the middle of the game (spec 04)
             "interact" -> sim.story.interact()
             "advance" -> sim.story.advance()
             "choose" -> sim.story.choose(cmd.getValue("index").jsonPrimitive.int)
@@ -419,6 +422,10 @@ internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: S
         assertEquals(wd.long("mdef"), sim.derived.mdef, "$at mdef")
         assertEquals(wd.long("max_hp"), sim.derived.maxHp, "$at max hp")
         assertEquals(wd.long("crit_chance_pm"), sim.derived.critChancePm, "$at crit")
+        if (wd.containsKey("max_mp")) { // with the rules of the game (spec 04)
+            assertEquals(wd.long("max_mp"), sim.derived.maxMp, "$at max mp")
+            assertEquals(wd.long("move_speed_x100"), sim.derived.moveSpeedX100, "$at move speed")
+        }
     }
     want["tags"]?.jsonArray?.let { wt ->
         // the tags earned and the one worn (spec 11, "Tags")

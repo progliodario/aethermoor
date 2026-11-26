@@ -254,6 +254,7 @@ SAVE_SPLITS = {
     "cottage_rooms": (4,),            # the flag of a bought room is saved: its places stay places after a load (spec 06, "Rooms")
     "timed_quests": (7, 9),
     "traveller_walks": (4, 8),
+    "game_rules": (1, 3),              # the rules of the game are saved (spec 04): before and after they change in the middle of it
     "week_of_play": (4, 12),          # the week: on the morning of the harvest, and on the fifth day with the traveller at its stop        # a traveller on its way out, then in: where it is comes from the time, not from the save           # the day a timed quest started is saved (spec 07, "Timed quests"): one over, one in time; then restarted
 }
 

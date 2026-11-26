@@ -202,6 +202,17 @@ private fun distance(ax: Float, ay: Float, bx: Float, by: Float): Float {
 /**
  * [speedTilesPerS] is used while combat is disabled; with combat the speed comes from the derived stats.
  */
+/** The derived stats with the rules of the game, which come last (spec 04, "The rules of the game"). */
+internal fun ruledDerived(d: DerivedStats, r: Rules): DerivedStats = d.copy(
+    maxHp = maxOf(1L, d.maxHp * r[Rule.PLAYER_HP] / 100),
+    maxMp = d.maxMp * r[Rule.PLAYER_MP] / 100,
+    atk = d.atk * r[Rule.PLAYER_ATK] / 100,
+    matk = d.matk * r[Rule.PLAYER_ATK] / 100,
+    def = d.def * r[Rule.PLAYER_DEF] / 100,
+    mdef = d.mdef * r[Rule.PLAYER_DEF] / 100,
+    moveSpeedX100 = maxOf(1L, d.moveSpeedX100 * r[Rule.PLAYER_SPEED] / 100),
+)
+
 class WorldSim(
     val map: TileMap,
     val tileset: Tileset,
@@ -222,6 +233,10 @@ class WorldSim(
 
     val player = Player(spawn)
     var derived: DerivedStats = derivedStats(1, combat.player.base, Equipment())
+        private set
+
+    /** The rules of the game (spec 04, "The rules of the game"): [setRules] applies them at once to the player; the creatures already in the world keep theirs. */
+    var rules: Rules = combat.rules.clamped()
         private set
     val enemies = ArrayList<Enemy>()
     override val inventory = java.util.TreeMap<String, Long>()
@@ -826,7 +841,7 @@ class WorldSim(
             recomputeDerived()
             player.hp = derived.maxHp
             player.mpU = derived.maxMp * 6000L
-            for (s in combat.spawns) enemies.add(Enemy(s.def, Vec2(s.x, s.y)))
+            for (s in combat.spawns) enemies.add(Enemy(ruledEnemy(s.def, rules), Vec2(s.x, s.y))) // the rules of the game (spec 04)
             inventory.putAll(combat.startInventory)
             syncWindow()
             markExplored()
@@ -917,7 +932,7 @@ class WorldSim(
                 if (worldTicks - died < store.params.spawnerRespawnTicks) continue
                 cleared.remove(Pair(sx, sy))
             }
-            val enemy = Enemy(streamEnemyAt(sx, sy), Vec2(sx + 0.5f, sy + 0.5f))
+            val enemy = Enemy(ruledEnemy(streamEnemyAt(sx, sy), rules), Vec2(sx + 0.5f, sy + 0.5f)) // the rules of the game (spec 04)
             enemy.spawnerX = sx
             enemy.spawnerY = sy
             enemies.add(enemy)
@@ -999,6 +1014,15 @@ class WorldSim(
                 critChancePm = derived.critChancePm + a.critPm,
             )
         }
+        derived = ruledDerived(derived, rules)
+    }
+
+    /** Changes the rules of the game in the middle of it (spec 04): the derived stats at once, the health and the mana kept within their new maxima. */
+    fun setRules(given: Rules) {
+        rules = given.clamped()
+        recomputeDerived()
+        player.hp = minOf(player.hp, derived.maxHp)
+        player.mpU = minOf(player.mpU, derived.maxMp * 6000L)
     }
 
     /** The blocks of flat bonuses worn (spec 06, "Equipment", "Affixes"): the accessory, then the affix of the weapon, then the armor's. */
@@ -1145,7 +1169,8 @@ class WorldSim(
         if (item.price <= 0) return 0L
         val today = maxOf(1L, maxOf(1L, item.price * open.pricePm / 1000) * marketPm() / 1000) // the market of the day (spec 06)
         val weather = maxOf(1L, today * weatherPricePm(itemId) / 1000) // and the weather (spec 06)
-        return maxOf(1L, weather * (1000 - renownDiscountPm()) / 1000) // the renown (spec 07)
+        val renown = maxOf(1L, weather * (1000 - renownDiscountPm()) / 1000) // the renown (spec 07)
+        return maxOf(1L, renown * rules[Rule.BUY_PRICE] / 100) // the rule of the prices (spec 04)
     }
 
     /** What the shop pays for an item, 0 when it cannot be sold. */
@@ -1154,9 +1179,14 @@ class WorldSim(
         if (item.price <= 0) return 0L
         val today = maxOf(1L, item.price / 2 * marketPm() / 1000) // the market of the day (spec 06)
         val price = maxOf(1L, today * weatherPricePm(itemId) / 1000) // and the weather (spec 06)
+        return maxOf(1L, glutted(itemId, price) * rules[Rule.SELL_PRICE] / 100) // the rule of the prices (spec 04)
+    }
+
+    /** The glut (spec 06, "Glut"): less for every one of the same item sold today. */
+    private fun glutted(itemId: String, price: Long): Long {
         val open = shop ?: return price
         if (open.glutStepPm <= 0) return price
-        val count = if (soldDay != dayNow()) 0L else soldToday[itemId] ?: 0L // the glut (spec 06, "Glut"): less for every one sold today
+        val count = if (soldDay != dayNow()) 0L else soldToday[itemId] ?: 0L
         return maxOf(1L, price * maxOf(open.glutFloorPm.toLong(), 1000L - open.glutStepPm * count) / 1000)
     }
 
@@ -1288,7 +1318,8 @@ class WorldSim(
 
     // The companion follows the player and hits the nearest creature in range now and then (spec 10).
     /** The attack of the companion: its own, one more point every five kills (ten at most), a gift of command (spec 10, "Bond"; spec 18). */
-    private fun companionAtk(c: CompanionDef): Long = (c.atkBase + c.atkPerLevel * (player.level - 1) + minOf(companionBond / 5, 10)) * combat.gift.companionAtkPct / 100
+    private fun companionAtk(c: CompanionDef): Long =
+        (c.atkBase + c.atkPerLevel * (player.level - 1) + minOf(companionBond / 5, 10)) * combat.gift.companionAtkPct / 100 * rules[Rule.COMPANION_ATK] / 100
 
     /** The companion joins a power strike on [enemy], the first creature it hits that is still alive and near it (spec 10, "Duo strike"). */
     private fun duoHit(enemy: Enemy) {
@@ -1902,7 +1933,7 @@ class WorldSim(
         p.kills++
         if (enemy.def.id.isNotEmpty()) bestiary[enemy.def.id] = (bestiary[enemy.def.id] ?: 0) + 1
         for (drop in enemy.def.drops) {
-            if (lootRng.nextBounded(1000) < drop.weightPm) {
+            if (lootRng.nextBounded(1000) < drop.weightPm * rules[Rule.DROP] / 100) { // the rule of the loot (spec 04)
                 var quantity = drop.qtyMin
                 if (drop.qtyMax > drop.qtyMin) quantity += lootRng.nextBounded(drop.qtyMax - drop.qtyMin + 1)
                 if (drop.pick.isEmpty()) quantity += enemy.def.seasonBonus[seasonId()] ?: 0 // the season of the creature (spec 05, "Loot")
@@ -1980,7 +2011,7 @@ class WorldSim(
 
     override fun grantXp(amount: Long) {
         val p = player
-        p.xp += amount
+        p.xp += amount * rules[Rule.XP] / 100 // the rule of the experience (spec 04)
         while (p.level < MAX_LEVEL && p.level - 1 < combat.xpTable.size && p.xp >= combat.xpTable[(p.level - 1).toInt()]) {
             p.xp -= combat.xpTable[(p.level - 1).toInt()]
             p.level++
@@ -2121,7 +2152,7 @@ class WorldSim(
         val middle = (ids.size - 1) / 2f
         for ((i, id) in ids.withIndex()) {
             val def = d.enemies[id] ?: continue
-            val enemy = Enemy(def, Vec2(d.gateX + (i - middle) * 0.8f, d.gateY))
+            val enemy = Enemy(ruledEnemy(def, rules), Vec2(d.gateX + (i - middle) * 0.8f, d.gateY)) // the rules of the game (spec 04)
             enemy.defense = true
             enemy.spawnerX = floor(d.gateX).toInt()
             enemy.spawnerY = floor(d.gateY).toInt()
@@ -2325,6 +2356,7 @@ class WorldSim(
             companionId = savedParty().first,
             party = savedParty().second,
             bonds = waitingBonds.toMap(),
+            rules = rules,
             tamedFriend = tamedFriend?.let { FriendSave(it.def.id, it.position.x, it.position.y, it.cooldown, it.stay) },
             counters = counters.toMap(),
             talents = talents.toMap(),
@@ -2369,7 +2401,7 @@ class WorldSim(
             }
             for (spawner in inWindow) {
                 if (spawner in clearedSet || spawner in found || combat.streamEnemies.isEmpty()) continue
-                enemiesOut.add(SaveEnemy(spawner.first + 0.5f, spawner.second + 0.5f, streamEnemyAt(spawner.first, spawner.second).hp, EnemyState.IDLE, 0, spawner))
+                enemiesOut.add(SaveEnemy(spawner.first + 0.5f, spawner.second + 0.5f, ruledEnemy(streamEnemyAt(spawner.first, spawner.second), s.rules.clamped()).hp, EnemyState.IDLE, 0, spawner))
                 hitsOut.add(false)
             }
             s = s.copy(enemies = enemiesOut, hitSet = hitsOut)
@@ -2386,6 +2418,7 @@ class WorldSim(
         p.facingLeft = s.facingLeft
         p.moving = s.moving
         p.clipTick = s.clipTick
+        rules = s.rules.clamped() // first: the derived stats and the creatures depend on them (spec 04)
         p.level = s.level
         recomputeDerived()
         p.hp = s.hp
@@ -2411,7 +2444,7 @@ class WorldSim(
             enemies.clear()
             for (e in s.enemies) {
                 val spawner = requireNotNull(e.spawner)
-                val enemy = Enemy(streamEnemyAt(spawner.first, spawner.second), Vec2(spawner.first + 0.5f, spawner.second + 0.5f))
+                val enemy = Enemy(ruledEnemy(streamEnemyAt(spawner.first, spawner.second), rules), Vec2(spawner.first + 0.5f, spawner.second + 0.5f))
                 enemy.spawnerX = spawner.first
                 enemy.spawnerY = spawner.second
                 enemies.add(enemy)

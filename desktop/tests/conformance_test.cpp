@@ -57,6 +57,15 @@ std::uint64_t hex(const Json& value) { return std::stoull(value.get<std::string>
 
 std::int64_t integer(const Json& object, const char* key) { return object.at(key).get<std::int64_t>(); }
 
+// The rules of the game of a scenario or of its command `rules` (spec 04): 100 for what is not given.
+aether::Rules parse_rules(const Json& j) {
+    aether::Rules rules;
+    for (std::size_t i = 0; i < aether::kRuleCount; ++i) {
+        rules.*aether::kRuleFields[i] = j.value(aether::kRuleKeys[i], 100);
+    }
+    return rules;
+}
+
 const aether::Pack& base_pack() {
     static const aether::Pack pack = [] {
         std::vector<std::string> errors;
@@ -798,6 +807,9 @@ Scenario scenario_from_json(const Json& in) {
     setup.skill.magical = skill.value("kind", "physical") == "magical";
     setup.skill.element = skill.value("element", "none");
     setup.echo_pct = in.value("echo_pct", 0);
+    if (in.contains("rules")) {  // the rules of the game (spec 04)
+        setup.rules = parse_rules(in.at("rules"));
+    }
     if (in.contains("weather")) {
         setup.rain_pm = in.at("weather").value("rain_pm", 0);
         setup.rain_aggro_cut_pm = in.at("weather").value("rain_aggro_cut_pm", 0);
@@ -1221,6 +1233,8 @@ void run_segment(aether::WorldSim& sim, const Json& segment) {
                 sim.wear_tag(command.at("tag").get<std::string>());
             } else if (cmd == "close_shop") {
                 sim.close_shop();
+            } else if (cmd == "rules") {  // the rules of the game changed in the middle of it (spec 04)
+                sim.set_rules(parse_rules(command.at("rules")));
             } else if (cmd == "interact") {
                 sim.story().interact();
             } else if (cmd == "advance") {
@@ -1294,6 +1308,10 @@ void check_checkpoint(const aether::WorldSim& sim, const Json& want, float tol) 
         REQUIRE(sim.derived().mdef == integer(wd, "mdef"));
         REQUIRE(sim.derived().max_hp == integer(wd, "max_hp"));
         REQUIRE(sim.derived().crit_chance_pm == integer(wd, "crit_chance_pm"));
+        if (wd.contains("max_mp")) {  // with the rules of the game (spec 04)
+            REQUIRE(sim.derived().max_mp == integer(wd, "max_mp"));
+            REQUIRE(sim.derived().move_speed_x100 == integer(wd, "move_speed_x100"));
+        }
     }
     if (want.contains("tags")) {  // the tags earned and the one worn (spec 11, "Tags")
         const std::vector<std::string> tags = sim.earned_tags();

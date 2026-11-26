@@ -59,3 +59,16 @@ Every `/` is a floor division, applied at each step (the order matters and is pa
 The world data may have `difficulty {enemy_hp_pct, enemy_atk_pct}` (percent, default 100 each, 10 to 2000). The clients scale the `hp` (at least 1) and the `atk` of every creature of the streamed world when they load its
 definition (integer division by 100); nothing else changes, and maps without a world (the demo, the conformance scenarios) are not affected. The base pack sets 100 percent health and 70 percent attack (the owner's choice of 2026-11-10: the protagonist of an isekai is overpowered, so fights must be too easy; with it a creature of the player's level falls in about a second and costs a few points of health, and what `docs/design/balance.md` calls outliers are creatures that are easier than their level, which is wanted). From 2026-11-06 to that day it was 200 and 175. It is the one number to change to make every fight longer or harder,
 until the numbers of the creatures themselves are tuned (`docs/design/balance.md`).
+
+## The rules of the game
+
+Every game has its own **rules**: fifteen percents (10 to 1000, default 100) the player may change at any time, saved with the game
+(`rules` in the save, only the values that are not 100; spec 12). `player_hp_pct`, `player_mp_pct`, `player_atk_pct` (attack and
+magic attack), `player_def_pct` (defense and magic defense) and `player_speed_pct` multiply the derived stats last, after the
+equipment, the talents and the affixes (`max_hp` and the speed at least 1). `enemy_hp_pct` (at least 1), `enemy_atk_pct`,
+`enemy_def_pct`, `enemy_speed_pct` and `enemy_sight_pct` (the aggro distance) multiply the definition of a creature when it comes into
+the world (placed, spawned, of a wave, loaded); the creatures already in the world keep theirs when the rules change. `xp_pct`
+multiplies every experience granted; `drop_pct` the chance of every drop of a kill (`weight_pm * drop_pct / 100`, the roll is drawn
+as before); `buy_price_pct` and `sell_price_pct` the final prices of a shop (at least 1); `companion_atk_pct` the attack of the
+companion, after the gift. All integer, `value * pct / 100`. When the rules change, the derived stats are computed again and the health
+and the mana are kept within their new maxima. Scenarios: `game_rules`, `game_rules_prices`, `game_rules_companion`.
