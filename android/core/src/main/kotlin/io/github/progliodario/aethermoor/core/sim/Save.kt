@@ -94,6 +94,8 @@ data class SaveState(
     val companionId: String = "",
     val party: List<String> = emptyList(),
     val bonds: Map<String, Int> = emptyMap(),
+    /** The rules of the game (spec 04); 100 everywhere when the save has none. */
+    val rules: Rules = Rules(),
     /** The tamed friend (spec 10): its creature, where it is and its cooldown; null: none. */
     val tamedFriend: FriendSave? = null,
     /** The item ids worn (spec 06); null: not in the save (the starting weapon, no armor). */
@@ -271,6 +273,7 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         }
         if (s.party.isNotEmpty()) put("party", JsonArray(s.party.map { JsonPrimitive(it) })) // spec 10, "The party"
         if (s.bonds.isNotEmpty()) put("bonds", JsonObject(s.bonds.mapValues { JsonPrimitive(it.value) }))
+        if (!s.rules.isDefault) put("rules", rulesJson(s.rules)) // the rules of the game (spec 04): only those that are not 100
         if (meta.map == "world") {
             put("explored", JsonArray(s.explored.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
             put("stones", JsonArray(s.stones.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
@@ -414,6 +417,7 @@ fun saveFromJson(text: String): Result<SaveState> =
             companionId = ((j["companion"] as? JsonObject)?.get("id") as? JsonPrimitive)?.content ?: "",
             party = (j["party"] as? JsonArray)?.map { it.jsonPrimitive.content } ?: emptyList(),
             bonds = (j["bonds"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
+            rules = parseRules(j["rules"] as? JsonObject),
             tamedFriend = (j["friend"] as? JsonObject)?.let { f ->
                 FriendSave(f.getValue("enemy").jsonPrimitive.content, f.getValue("x").jsonPrimitive.float, f.getValue("y").jsonPrimitive.float, f.getValue("cooldown").jsonPrimitive.int, (f["stay"] as? JsonPrimitive)?.content == "true")
             },
@@ -424,3 +428,10 @@ fun saveFromJson(text: String): Result<SaveState> =
             story = story,
         )
     }
+
+/** The rules of the game of a save or a scenario (spec 04): 100 for what is not given, every value kept within the bounds. */
+fun parseRules(j: JsonObject?): Rules =
+    if (j == null) Rules() else Rules(Rule.entries.map { (j[it.key] as? JsonPrimitive)?.content?.toIntOrNull() ?: 100 }).clamped()
+
+/** The rules of the game as the save writes them: only those that are not 100. */
+fun rulesJson(r: Rules): JsonObject = JsonObject(Rule.entries.filter { r[it] != 100 }.associate { it.key to JsonPrimitive(r[it]) })

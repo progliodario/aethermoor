@@ -53,6 +53,12 @@ Several things share a key because they never happen together: `E` talks next to
 
 ## Android
 
+**The HUD** stays small and nothing of it lies over a button: the bars at the top left; under them two compact rows of buttons
+(30 dp tall), the first with `Bag`, `Map`, `Journal`, `Craft` and `Options`, the second with the commands of the companion and the
+abilities; the small map under the two rows; the clock at the top right; the talk button left of the strike button; the buttons of
+the fight at the bottom right (they can be moved, "The layout of the buttons"). The buttons of a row shrink to fit five on a narrow
+screen.
+
 | Device | Mapping |
 |---|---|
 | Touch, move | **Floating stick**: the first touch on the left half of the screen is the origin of the stick; dragging up to 64 dp from it gives the vector, scaled to length 1 at 64 dp |
@@ -97,8 +103,26 @@ default keys. Presentation only: nothing of it is in the simulation or in the ve
 
 ## Settings
 
-The settings are kept in `<user data>/settings.json`: `{"language": "it", "volume_master_pm": 1000, "volume_effects_pm": 800, "volume_ambience_pm": 500, "volume_music_pm": 500}` (the volumes are permille from 0 to 1000; the numbers above are the defaults, used for what is missing). Spec 14 says what each volume scales: the master volume all of the sound, the others the sound effects, the ambience and the music. Desktop: `F10` opens a panel with four bars (`W`/`S` choose, `A`/`D` change by a tenth, `Esc` closes; the game pauses meanwhile), the options of accessibility below them and, last, the quality of the graphics (spec 13, "Quality": `A`/`D` or `E` change it). Android: the sound button next to the language button cycles the master volume 100, 60, 30 and 0 percent; the other three volumes can be set in the file. The language is kept in the same file as `{"language": "it"}` (desktop: next to the `saves` folder; Android: the app-private
-folder). Without it the language of the system is used (`it` if it is Italian, else `en`). The language can be changed at any time: texts are resolved when they are drawn (spec 17).
+The settings are kept in `<user data>/settings.json`: `{"language": "it", "quality": "high", "view": "normal", "minimap": true,
+"hints": true, "damage_numbers": true, "flashes": true, "large_text": false, "volume_master_pm": 1000, "volume_effects_pm": 800,
+"volume_ambience_pm": 500, "volume_music_pm": 500}` (the volumes are permille from 0 to 1000; what is missing takes these defaults).
+Spec 14 says what each volume scales. Without `language` the language of the system is used (`it` if it is Italian, else `en`); the
+language can be changed at any time: texts are resolved when they are drawn (spec 17). Desktop: next to the `saves` folder; Android:
+the app-private folder.
+
+**The settings panel** holds the same rows on both clients, in three groups:
+
+- *Screen*: the **view distance** (`view`: `near`, `normal`, `far`, `farthest`; a tile is 96, 80, 64 or 48 pixels on the desktop and
+  80, 64, 48 or 40 dp on Android, times the density of the screen; presentation only), the quality of the graphics (spec 13,
+  "Quality"), the small map, the hints, the damage numbers, the flashes, the larger text, the language;
+- *Sound*: the four volumes, by a tenth;
+- *Rules of this game* (spec 04, "The rules of the game"): the fifteen rules, each moving along 10, 25, 50, 75, 100, 125, 150, 200,
+  300, 500 and 1000 percent, and a row that puts them all back to 100. They apply at once and are saved with the game, not in the
+  settings file.
+
+Desktop: `F10` opens it (`W`/`S` choose a row, `A`/`D` or `E` change it, `Esc` closes; the game pauses meanwhile); the rows that do not
+fit scroll with the cursor. Android: `Options` in the first row of the HUD opens it; every row has `-` and `+`, the list scrolls with a
+drag or the arrows, `Done`, Back or a tap outside closes it.
 
 ## Hints
 
@@ -150,4 +174,4 @@ run (`python tools/check_frames.py --write <folders>`). Windows and Linux draw t
 
 The app allows portrait and landscape (`fullUser`) and handles configuration changes itself (no activity restart).
 The camera adapts: the visible area in tiles is `screen_px / tile_px`, with `tile_px` derived from the screen density
-(`tile_px = round(48 * density)`, bucketed).
+(`tile_px = round(view * density)`, bucketed, where `view` is the size of a tile of the view distance, "Settings").

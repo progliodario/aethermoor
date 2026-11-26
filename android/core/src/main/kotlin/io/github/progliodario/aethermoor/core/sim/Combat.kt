@@ -297,6 +297,63 @@ class GatherDrop(val item: String, val qtyMin: Long, val qtyMax: Long, val weigh
 /** [seasonBonus]: more of every drop found in a season (spec 06, "Seasons of the gathering"). */
 class GatherNode(val sound: String, val cooldownTicks: Int, val reachX100: Int, val drops: List<GatherDrop>, val seasonBonus: Map<String, Int> = emptyMap())
 
+/** The rules of the game (spec 04, "The rules of the game"), in the order of the settings, with their names in the save. */
+enum class Rule(val key: String) {
+    PLAYER_HP("player_hp_pct"),
+    PLAYER_MP("player_mp_pct"),
+    PLAYER_ATK("player_atk_pct"),
+    PLAYER_DEF("player_def_pct"),
+    PLAYER_SPEED("player_speed_pct"),
+    ENEMY_HP("enemy_hp_pct"),
+    ENEMY_ATK("enemy_atk_pct"),
+    ENEMY_DEF("enemy_def_pct"),
+    ENEMY_SPEED("enemy_speed_pct"),
+    ENEMY_SIGHT("enemy_sight_pct"),
+    XP("xp_pct"),
+    DROP("drop_pct"),
+    BUY_PRICE("buy_price_pct"),
+    SELL_PRICE("sell_price_pct"),
+    COMPANION_ATK("companion_atk_pct"),
+}
+
+/**
+ * The rules of the game (spec 04): percents the player sets for each game, saved with it; 100 is the game as it is made. The
+ * creatures take theirs when they come into the world; the player's apply to the derived stats.
+ */
+data class Rules(val pcts: List<Int> = List(Rule.entries.size) { 100 }) {
+    operator fun get(rule: Rule): Int = pcts[rule.ordinal]
+
+    /** The same rules with [rule] at [value], kept within [MIN]..[MAX]. */
+    fun with(rule: Rule, value: Int): Rules = Rules(pcts.toMutableList().also { it[rule.ordinal] = value.coerceIn(MIN, MAX) })
+
+    /** Every value kept within [MIN]..[MAX]. */
+    fun clamped(): Rules = Rules(pcts.map { it.coerceIn(MIN, MAX) })
+
+    val isDefault: Boolean
+        get() = pcts.all { it == 100 }
+
+    companion object {
+        const val MIN = 10
+        const val MAX = 1000
+    }
+}
+
+/** The values the settings offer for a rule of the game (spec 16, "Settings"), in percent. */
+val RULE_STEPS = listOf(10, 25, 50, 75, 100, 125, 150, 200, 300, 500, 1000)
+
+/** The next value of a rule in the settings: the step above [now] when [direction] is positive, else the one below; the ends stay. */
+fun nextRuleStep(now: Int, direction: Int): Int =
+    if (direction > 0) RULE_STEPS.firstOrNull { it > now } ?: RULE_STEPS.last() else RULE_STEPS.lastOrNull { it < now } ?: RULE_STEPS.first()
+
+/** A copy of the definition of a creature with the rules of the game (spec 04): health, attack, defense, speed and sight. */
+fun ruledEnemy(def: EnemyDef, r: Rules): EnemyDef = def.copy(
+    hp = maxOf(1L, def.hp * r[Rule.ENEMY_HP] / 100),
+    atk = def.atk * r[Rule.ENEMY_ATK] / 100,
+    def = def.def * r[Rule.ENEMY_DEF] / 100,
+    speedX100 = def.speedX100 * r[Rule.ENEMY_SPEED] / 100,
+    behavior = def.behavior.copy(aggroX100 = def.behavior.aggroX100 * r[Rule.ENEMY_SIGHT] / 100),
+)
+
 class CombatSetup(
     val enabled: Boolean = false,
     val player: PlayerSetup = PlayerSetup(),
@@ -387,6 +444,8 @@ class CombatSetup(
     val dayTicks: Int = 0,
     /** The shops of other regions of a world without regions, by region (spec 06, "Goods from afar"). */
     val farShops: Map<String, ShopDef> = emptyMap(),
+    /** The rules of the game at its start (spec 04); the save keeps those of the game. */
+    val rules: Rules = Rules(),
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

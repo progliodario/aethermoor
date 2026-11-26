@@ -40,8 +40,8 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Progressione | 50 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 58 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4300 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 639 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 4330 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 31 file di vettori di conformità, 646 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 15 ADR |
 <!-- facts:end -->
 

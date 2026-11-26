@@ -158,6 +158,7 @@ struct SaveState {
     std::string companion_id;        // the companion that follows, when the party is not the one of the start (spec 10)
     std::vector<std::string> party;  // the party (spec 10, "The party"); empty: the one of the start
     std::map<std::string, int> bonds;  // the bonds of the companions that wait
+    Rules rules;                       // the rules of the game (spec 04); 100 everywhere when the save has none
     bool has_friend = false;           // the tamed friend (spec 10, "The tamed friend"): its creature, where, cooldown
     std::string friend_enemy;
     float friend_x = 0.0F;
@@ -266,6 +267,10 @@ public:
     // Calls `fn` for every prop inside the rectangle (in tiles).
     void for_each_prop(float x0, float y0, float x1, float y1, const std::function<void(const Prop&)>& fn) const;
     const CombatSetup& combat() const { return m_setup_; }
+    // The rules of the game (spec 04, "The rules of the game"): set_rules applies them at once to the player; the creatures
+    // already in the world keep the rules they came with.
+    const Rules& rules() const { return m_rules_; }
+    void set_rules(const Rules& rules);
     Story& story() { return m_story_; }
     // Puts the player at (x, y) in tiles, loading the chunks around (developer option --start, later the Threshold
     // Stones).
@@ -537,6 +542,7 @@ private:
     CollisionWorld m_collision_;
     float m_speed_;
     CombatSetup m_setup_;
+    Rules m_rules_;
     Pcg32 m_combat_rng_;
     Pcg32 m_loot_rng_;
     Player m_player_;

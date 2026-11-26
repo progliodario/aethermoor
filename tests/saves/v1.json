@@ -2391,6 +2391,174 @@
     },
     "world_ticks": 238
    }
+  },
+  {
+   "scenario": "game_rules",
+   "split": 1,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 60,
+     "hp": 284,
+     "level": 1,
+     "xp": 0,
+     "deaths": 0,
+     "kills": 0,
+     "iframes": 0,
+     "cooldown": 0,
+     "phase": "none",
+     "phase_tick": 0,
+     "hit_set": [
+      false,
+      false,
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0xe7c42fc2c24cb470",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xceb2d59802171b7d",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 4.4125,
+      "y": 4.5,
+      "hp": 84,
+      "state": "chase",
+      "state_tick": 0
+     },
+     {
+      "x": 3.6,
+      "y": 4.7,
+      "hp": 120,
+      "state": "idle",
+      "state_tick": 0
+     },
+     {
+      "x": 14.0,
+      "y": 4.5,
+      "hp": 84,
+      "state": "idle",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {},
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "rules": {
+     "player_hp_pct": 200,
+     "player_mp_pct": 80,
+     "player_atk_pct": 150,
+     "player_def_pct": 120,
+     "player_speed_pct": 125,
+     "enemy_hp_pct": 300,
+     "enemy_atk_pct": 50,
+     "enemy_def_pct": 200,
+     "enemy_speed_pct": 150,
+     "enemy_sight_pct": 250,
+     "xp_pct": 300,
+     "drop_pct": 200
+    },
+    "story": null,
+    "world_ticks": 60
+   }
+  },
+  {
+   "scenario": "game_rules",
+   "split": 3,
+   "save": {
+    "save_version": 1,
+    "player": {
+     "x": 2.2,
+     "y": 4.5,
+     "facing": [
+      1.0,
+      0.0
+     ],
+     "facing_left": false,
+     "moving": false,
+     "clip_tick": 151,
+     "hp": 202,
+     "level": 4,
+     "xp": 205,
+     "deaths": 0,
+     "kills": 2,
+     "iframes": 0,
+     "cooldown": 6,
+     "phase": "recovery",
+     "phase_tick": 9,
+     "hit_set": [
+      true,
+      true,
+      false
+     ]
+    },
+    "rng": {
+     "combat": {
+      "state": "0x15eaea5ecfb93280",
+      "inc": "0x9417f2f99ce2f643"
+     },
+     "loot": {
+      "state": "0xa52462ac54df5481",
+      "inc": "0x9bd9d15ae1ab096f"
+     }
+    },
+    "enemies": [
+     {
+      "x": 3.3499999999999996,
+      "y": 4.5,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 12
+     },
+     {
+      "x": 3.6,
+      "y": 4.7,
+      "hp": 0,
+      "state": "dead",
+      "state_tick": 0
+     },
+     {
+      "x": 14.0,
+      "y": 4.5,
+      "hp": 84,
+      "state": "chase",
+      "state_tick": 0
+     }
+    ],
+    "inventory": {
+     "base:item/slime_gel": 3
+    },
+    "equipped": {
+     "weapon": "",
+     "armor": ""
+    },
+    "rules": {
+     "player_atk_pct": 150,
+     "player_def_pct": 120,
+     "enemy_hp_pct": 300,
+     "enemy_speed_pct": 150,
+     "xp_pct": 50,
+     "drop_pct": 200
+    },
+    "story": null,
+    "world_ticks": 151
+   }
   }
  ],
  "game": {

@@ -283,8 +283,8 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Progressione | 50 titoli, 8 tag, 16 talenti, 29 imprese |
 | Persone con nome | 58 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
-| Testi | 4300 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 639 casi, eseguiti dai test C++ e Kotlin |
+| Testi | 4330 chiavi, in italiano e inglese |
+| Regole uguali sui due client | 31 file di vettori di conformità, 646 casi, eseguiti dai test C++ e Kotlin |
 | Documenti | 19 specifiche, 15 ADR |
 <!-- facts:end -->
 
@@ -418,6 +418,12 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
   di fili d'erba per tile, ghiaia, aghi, foglie con le nervature, corteccia a placche, pieghe e trama delle stoffe, peli singoli) e, sul
   desktop, il mondo visto più da vicino (tile di 80 pixel invece di 64).
 - Persone con le proporzioni di un corpo vero, un po' basse, con la testa generosa e il collo corto (cinque teste e mezza, dal 26 novembre) con vista di fronte, di lato e di spalle, terreni dipinti che sfumano, oggetti di scena (dal 18 novembre anche sette mobili), creature che si girano verso di te, ombre lunghe all'alba e al tramonto, acqua e vento che si muovono, luci di notte.
+
+- **Impostazioni e regole della partita** (dal 27 novembre, spec 04 e 16): un pannello unico su desktop (`F10`) e Android (`Opzioni`)
+  con la distanza della vista, la qualità, la minimappa, i consigli, i numeri, i lampi, il testo grande, la lingua, i volumi e le
+  quindici regole della partita (vita, mana, attacco, difesa e velocità tue e delle creature, vista delle creature, esperienza,
+  bottino, prezzi, attacco del compagno), salvate con ogni partita e cambiabili in ogni momento. L'HUD di Android è compatto e
+  nessun tasto è più coperto dalla minimappa.
 
 **Suono** (spec 14)
 

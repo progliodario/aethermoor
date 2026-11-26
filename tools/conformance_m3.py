@@ -393,6 +393,33 @@ def build_scenarios() -> list[dict]:
         scenario("companion_duo", [enemy(3.0, 4.5, hp=3000, **passive)],
                  [segment(40, strike=True), segment(100), segment(40, strike=True), segment(300), segment(40, strike=True), segment(100)],
                  strike=STRIKE, companion={**COMPANION, "cooldown_ticks": 100000, "duo_pct": 300, "duo_range_x100": 400, "duo_cooldown_ticks": 200}),
+        # The rules of the game (spec 04, "The rules of the game"): the player tougher, stronger and quicker, the creatures tougher, weaker,
+        # quicker and keener-eyed, three times the experience and twice the loot; in the middle of the fight the rules change again (the
+        # player back to its health, half the experience): the creatures already in the world keep the rules they came with.
+        scenario("game_rules", [enemy(8.1, 4.5), enemy(3.6, 4.7, hp=40, xp=200, **passive), enemy(14.0, 4.5)],
+                 [segment(60), segment(90, attack=True),
+                  segment(1, do=[{"cmd": "rules", "rules": {"player_atk_pct": 150, "player_def_pct": 120, "xp_pct": 50, "drop_pct": 200,
+                                                           "enemy_hp_pct": 300, "enemy_speed_pct": 150}}]),
+                  segment(150, attack=True), segment(60, move=(1, 0))],
+                 rules={"player_hp_pct": 200, "player_mp_pct": 80, "player_atk_pct": 150, "player_def_pct": 120, "player_speed_pct": 125,
+                        "enemy_hp_pct": 300, "enemy_atk_pct": 50, "enemy_def_pct": 200, "enemy_speed_pct": 150, "enemy_sight_pct": 250,
+                        "xp_pct": 300, "drop_pct": 200}),
+        # The prices of the rules (spec 04): half the price to buy, three times to sell.
+        scenario("game_rules_prices", [enemy(12.0, 7.5, **passive)],
+                 [segment(1, do=[{"cmd": "open_shop"}, {"cmd": "buy", "item": "base:item/bread"}, {"cmd": "buy", "item": "base:item/iron_sword"}]),
+                  segment(1, do=[{"cmd": "sell", "item": "base:item/slime_gel"}, {"cmd": "sell", "item": "base:item/slime_gel"},
+                                 {"cmd": "sell", "item": "base:item/leather_vest"}]),
+                  segment(1, do=[{"cmd": "rules", "rules": {"buy_price_pct": 1000, "sell_price_pct": 10}},
+                                 {"cmd": "buy", "item": "base:item/iron_sword"}, {"cmd": "sell", "item": "base:item/bread"}])],
+                 inventory={"base:item/practice_sword": 1, "base:item/slime_gel": 2, "base:item/leather_vest": 1},
+                 equipped={"weapon": "base:item/practice_sword"}, story=EMPTY_STORY, start_gold=200,
+                 shop={"price_pm": 1200, "stock": ["base:item/bread", "base:item/iron_sword", "base:item/leather_vest"]},
+                 rules={"buy_price_pct": 50, "sell_price_pct": 300}),
+        # The companion of the rules (spec 04): twice its attack in a duo strike.
+        scenario("game_rules_companion", [enemy(3.0, 4.5, hp=3000, **passive)],
+                 [segment(40, strike=True), segment(300), segment(40, strike=True), segment(100)],
+                 strike=STRIKE, companion={**COMPANION, "cooldown_ticks": 100000, "duo_pct": 300, "duo_range_x100": 400, "duo_cooldown_ticks": 200},
+                 rules={"companion_atk_pct": 200, "enemy_hp_pct": 50}),
         # Fortify (spec 06): a meal with `fortify` can be eaten at full health; while it lasts the hits are `amount` percent stronger (added to the titles'), then it wears off.
         scenario("fortify_meal", [enemy(3.0, 4.5, hp=3000, **passive)],
                  [segment(40, attack=True), segment(1, do=[{"cmd": "use", "item": "base:item/roast_meat"}]), segment(60, attack=True),
