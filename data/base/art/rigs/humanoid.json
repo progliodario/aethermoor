@@ -98,7 +98,7 @@
       "parent": "torso",
       "offset": [
         0,
-        -17.6
+        -16.3
       ],
       "z": 7,
       "art": "base:art/char/ren/head",
@@ -106,7 +106,7 @@
       "art_side": "base:art/char/ren/head_side",
       "offset_side": [
         0.35,
-        -17.6
+        -16.3
       ]
     }
   ]
