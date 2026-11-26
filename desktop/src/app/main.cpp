@@ -55,7 +55,8 @@ constexpr int kWindowHeight = 720;
 constexpr int kSmokeTestFrames = 90;
 constexpr int kMaxTicksPerFrame = 5;
 constexpr double kMaxFrameSeconds = 0.25;
-constexpr float kBaseTilePx = 64.0F;
+constexpr float kBaseTilePx =
+    80.0F;  // a tile on the screen of the desktop (spec 13, "Scale buckets"): close enough for the details
 constexpr const char* kProtagonistId = "base:protagonist/ren";
 // Who is played in this run (spec 18), chosen for a new game and kept in the folder of the slot.
 std::string g_protagonist_id = kProtagonistId;

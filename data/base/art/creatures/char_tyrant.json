@@ -1095,7 +1095,7 @@
         "noise": {
           "scale": 0.7,
           "seed": 2932,
-          "octaves": 2,
+          "octaves": 3,
           "stops": [
             [
               0.28,

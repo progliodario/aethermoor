@@ -297,7 +297,8 @@ def transform_layers(layers: list[dict], s: float = 1.0, dx: float = 0.0, dy: fl
 # - every hard shade (a multiplied layer with no blur) and every hard light (an added, clipped layer) gets a soft edge;
 # - the colours lose a part of their saturation (`desat`), as real things under real light;
 # - a soft light from the top left and its shade on the far side give the whole picture a volume (`form`);
-# - a fine grain of the matter covers it (`grain`), and a faint light of the sky falls on its upper edges.
+# - a fine grain of the matter covers it (`grain`), and a faint light of the sky falls on its upper edges;
+# - fine scratches, pits and cracks of wear cover it (`wear`, for the props and the creatures).
 SHADOW_INK = "#141030"
 
 
@@ -376,7 +377,7 @@ def _body_box(layers: list[dict], w: float, h: float) -> tuple[float, float, flo
 
 
 def finish(r: "Recipe", outline: float = 0.4, desat: float = 0.15, form: float = 0.32, grain: float = 0.16, sky: float = 0.1,
-           soften: float = 0.45, palette: bool = True) -> tuple[list[dict], dict, dict]:
+           soften: float = 0.45, palette: bool = True, wear: float = 0.0) -> tuple[list[dict], dict, dict]:
     """The layers, palette and variants of `r` with the realistic finish (see above). The recipe itself is not changed."""
     layers: list[dict] = []
     for layer in r.layers:
@@ -414,8 +415,12 @@ def finish(r: "Recipe", outline: float = 0.4, desat: float = 0.15, form: float =
                        "blend": "multiply", "alpha": _n(form)})
     if grain > 0:  # the grain of the matter
         layers.append({"shape": whole,
-                       "fill": noise(0.7, seed, (0.28, "#9C94A4"), (0.6, "#FFFFFF"), octaves=2),
+                       "fill": noise(0.7, seed, (0.28, "#9C94A4"), (0.6, "#FFFFFF"), octaves=3),
                        "blend": "multiply", "alpha": _n(grain)})
+    if wear > 0:  # the wear of things: scratches, pits and fine cracks
+        layers.append({"shape": whole,
+                       "fill": noise(1.2, seed + 1, (0.72, "#FFFFFF"), (0.94, "#3A3040"), octaves=3, ridged=True),
+                       "blend": "multiply", "alpha": _n(wear)})
     if not palette:  # the palette is read back from the file it is written to (the creatures): it is left as it is
         return layers, dict(r.palette), dict(r.variants)
     palette = {k: desaturate(v, desat) for k, v in r.palette.items()}

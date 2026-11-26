@@ -88,6 +88,39 @@
       },
       "fill": {
         "noise": {
+          "scale": 0.12,
+          "seed": 652,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          26.91,
+          2.11,
+          1.72
+        ]
+      },
+      "fill": {
+        "noise": {
           "scale": 0.26,
           "seed": 902,
           "octaves": 2,
@@ -214,6 +247,33 @@
     },
     {
       "shape": {
+        "path": "M 18.3 32.72 L 15.4 31.53 L 17.91 34.96 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.6,
+          "seed": 406,
+          "octaves": 3,
+          "stops": [
+            [
+              0.36,
+              "#BB8282"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.12,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
         "path": "M 24.11 29.16 Q 27.54 27.7 28.34 23.48 Q 25.7 25.2 26.09 30.08 Z"
       },
       "fill": {
@@ -290,6 +350,33 @@
     },
     {
       "shape": {
+        "path": "M 25.7 32.72 L 28.6 31.53 L 26.09 34.96 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.6,
+          "seed": 409,
+          "octaves": 3,
+          "stops": [
+            [
+              0.36,
+              "#BB8282"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.12,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
         "ellipse": [
           22,
           26.78,
@@ -351,6 +438,39 @@
       },
       "blend": "multiply",
       "alpha": 0.6,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          22,
+          26.78,
+          2.24,
+          1.78
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.12,
+          "seed": 660,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
       "only": [
         "lena"
       ]
@@ -461,6 +581,34 @@
       },
       "fill": {
         "noise": {
+          "scale": 0.12,
+          "seed": 662,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.64 32.72 Q 16.98 36.68 17.43 39.26 Q 22 40.34 26.57 39.26 Q 27.02 36.68 26.36 32.72 Z"
+      },
+      "fill": {
+        "noise": {
           "scale": 0.26,
           "seed": 912,
           "octaves": 2,
@@ -547,6 +695,34 @@
       },
       "blend": "multiply",
       "alpha": 0.6,
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 23.72 27.84 Q 29.66 25.46 29.52 33.38 Q 29.39 37.34 28.77 40.16 Q 28.2 35.36 26.75 32.32 Q 26.09 30.34 24.24 29.68 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.12,
+          "seed": 664,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
       "only": [
         "haruka"
       ]
@@ -654,6 +830,34 @@
       },
       "fill": {
         "noise": {
+          "scale": 0.12,
+          "seed": 666,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 18.3 29.68 Q 13.82 29.02 14.08 36.68 Q 12.32 42.5 14.29 46.64 Q 14.28 40.7 16.59 37.34 Q 17.12 34.04 18.17 32.06 Z"
+      },
+      "fill": {
+        "noise": {
           "scale": 0.26,
           "seed": 916,
           "octaves": 2,
@@ -751,6 +955,34 @@
       },
       "fill": {
         "noise": {
+          "scale": 0.12,
+          "seed": 668,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 25.7 29.68 Q 30.18 29.02 29.92 36.68 Q 31.68 42.5 29.71 46.64 Q 29.72 40.7 27.41 37.34 Q 26.88 34.04 25.83 32.06 Z"
+      },
+      "fill": {
+        "noise": {
           "scale": 0.26,
           "seed": 918,
           "octaves": 2,
@@ -832,6 +1064,31 @@
       },
       "blend": "multiply",
       "alpha": 0.6
+    },
+    {
+      "shape": {
+        "path": "M 17.91 33.12 Q 17.45 27.57 22 27.44 Q 26.55 27.57 26.09 33.12 Q 26.03 34.44 25.56 34.96 L 25.17 33.38 L 18.83 33.38 L 18.44 34.96 Q 17.97 34.44 17.91 33.12 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.12,
+          "seed": 670,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4
     },
     {
       "shape": {
@@ -961,6 +1218,30 @@
         "width": 0.24
       },
       "alpha": 0.45
+    },
+    {
+      "shape": {
+        "path": "M 18.44 32.06 Q 18.3 34.96 19.56 36.48 Q 20.85 37.74 22 37.8 Q 23.15 37.74 24.44 36.48 Q 25.7 34.96 25.56 32.06 Q 25.43 28.96 22 28.83 Q 18.57 28.96 18.44 32.06 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.6,
+          "seed": 425,
+          "octaves": 3,
+          "stops": [
+            [
+              0.36,
+              "#BB8282"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.12
     },
     {
       "shape": {
@@ -1506,6 +1787,31 @@
       },
       "fill": {
         "noise": {
+          "scale": 0.12,
+          "seed": 709,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4
+    },
+    {
+      "shape": {
+        "path": "M 18.04 33.12 Q 17.51 27.77 22 27.64 Q 26.49 27.77 25.96 33.12 Q 25.63 31.66 25.04 31.2 L 24.64 32.79 Q 24.11 31.33 23.39 30.94 L 22.99 32.52 Q 22.33 31.07 21.47 30.81 L 21.21 32.39 Q 20.55 31.2 19.82 31.07 L 19.43 32.65 Q 18.9 31.47 18.5 31.4 Z"
+      },
+      "fill": {
+        "noise": {
           "scale": 0.26,
           "seed": 959,
           "octaves": 2,
@@ -1618,6 +1924,34 @@
       },
       "fill": {
         "noise": {
+          "scale": 0.12,
+          "seed": 713,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.97 31.66 Q 17.45 34.7 17.97 36.94 Q 18.52 37.54 18.9 36.28 Q 18.5 34.7 18.77 31.8 Z"
+      },
+      "fill": {
+        "noise": {
           "scale": 0.26,
           "seed": 963,
           "octaves": 2,
@@ -1690,6 +2024,34 @@
       },
       "blend": "multiply",
       "alpha": 0.6,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 26.03 31.66 Q 26.55 34.7 26.03 36.94 Q 25.48 37.54 25.1 36.28 Q 25.5 34.7 25.23 31.8 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.12,
+          "seed": 714,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
       "only": [
         "sakura"
       ]
@@ -2258,6 +2620,34 @@
       },
       "fill": {
         "noise": {
+          "scale": 0.12,
+          "seed": 734,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.97 31.66 Q 17.45 34.7 17.97 36.28 Q 18.57 36.88 18.9 35.62 Q 18.5 34.7 18.77 31.8 Z"
+      },
+      "fill": {
+        "noise": {
           "scale": 0.26,
           "seed": 984,
           "octaves": 2,
@@ -2330,6 +2720,34 @@
       },
       "blend": "multiply",
       "alpha": 0.6,
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 26.03 31.66 Q 26.55 34.7 26.03 36.28 Q 25.43 36.88 25.1 35.62 Q 25.5 34.7 25.23 31.8 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.12,
+          "seed": 735,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
       "only": [
         "haruka"
       ]
@@ -3091,6 +3509,34 @@
       },
       "fill": {
         "noise": {
+          "scale": 0.12,
+          "seed": 768,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.97 31.66 Q 17.45 34.7 17.9 37.6 Q 18.35 38.27 18.9 36.94 Q 18.5 34.7 18.77 31.8 Z"
+      },
+      "fill": {
+        "noise": {
           "scale": 0.26,
           "seed": 1018,
           "octaves": 2,
@@ -3163,6 +3609,34 @@
       },
       "blend": "multiply",
       "alpha": 0.6,
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 26.03 31.66 Q 26.55 34.7 26.1 37.6 Q 25.65 38.27 25.1 36.94 Q 25.5 34.7 25.23 31.8 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.12,
+          "seed": 769,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
       "only": [
         "yuki"
       ]
@@ -4714,6 +5188,34 @@
       },
       "fill": {
         "noise": {
+          "scale": 0.12,
+          "seed": 827,
+          "octaves": 2,
+          "stops": [
+            [
+              0.3,
+              "#2E273E"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ],
+          "scale_y": 1.6
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.4,
+      "only": [
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 18.77 35.1 Q 17.77 39.8 22 40.34 Q 26.23 39.8 25.23 35.1 Q 23.98 36.94 22.66 36.75 Q 22 37.27 21.34 36.75 Q 20.02 36.94 18.77 35.1 Z"
+      },
+      "fill": {
+        "noise": {
           "scale": 0.26,
           "seed": 1077,
           "octaves": 2,
@@ -5077,7 +5579,7 @@
         "noise": {
           "scale": 0.7,
           "seed": 2078,
-          "octaves": 2,
+          "octaves": 3,
           "stops": [
             [
               0.28,

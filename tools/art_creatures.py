@@ -827,8 +827,7 @@ def matter(r: Recipe) -> None:
     seen from the side, and their sheen) or worn metal (fine scratches and pits on an armour)."""
     fur = "fur" in r.palette
     metal = "slit" in r.palette
-    if not (fur or metal):
-        return
+    jelly = not (fur or metal) and "body" in r.palette and r.id.rsplit("/", 1)[1].startswith(("slime_", "gel_", "mint_", "amber_", "coral_", "pearl_", "nebula_", "magma_"))
     out = []
     for i, layer in enumerate(r.layers):
         out.append(layer)
@@ -842,6 +841,8 @@ def matter(r: Recipe) -> None:
         if fur and ("$p.fur" in paint or "$p.light" in paint or "$p.dark" in paint):
             out.append({"shape": layer["shape"], "fill": noise(1.6, 600 + i, (0.3, "#3A3040"), (0.62, "#FFFFFF"), octaves=3, scale_y=0.32),
                         "blend": "multiply", "alpha": 0.55, **keep})
+            out.append({"shape": layer["shape"], "fill": noise(0.7, 650 + i, (0.3, "#2A2030"), (0.6, "#FFFFFF"), octaves=2, scale_y=0.14),
+                        "blend": "multiply", "alpha": 0.35, **keep})  # single hairs
             out.append({"shape": layer["shape"], "fill": noise(1.6, 700 + i, (0.62, "#000000"), (0.86, "#FFF4E4"), octaves=2, scale_y=0.32),
                         "blend": "add", "clip": True, "alpha": 0.25, **keep})
         elif metal and ("$p.body" in paint or "$p.light" in paint or "$p.dark" in paint):
@@ -849,6 +850,13 @@ def matter(r: Recipe) -> None:
                         "blend": "multiply", "alpha": 0.35, **keep})
             out.append({"shape": layer["shape"], "fill": noise(2.5, 900 + i, (0.4, "#FFFFFF"), (0.66, "#7A5A3A"), octaves=3),
                         "blend": "multiply", "alpha": 0.25, **keep})  # old rust
+            out.append({"shape": layer["shape"], "fill": noise(3.0, 950 + i, (0.6, "#000000"), (0.82, "#E8F0FF"), octaves=2, scale_y=0.6),
+                        "blend": "add", "clip": True, "alpha": 0.2, **keep})  # the sheen of the steel
+        elif jelly and ("$p.body" in paint or "$p.light" in paint):
+            out.append({"shape": layer["shape"], "fill": noise(2.0, 1000 + i, (0.35, "#2A3040"), (0.62, "#FFFFFF"), octaves=4),
+                        "blend": "multiply", "alpha": 0.25, **keep})  # the depth of the jelly
+            out.append({"shape": layer["shape"], "fill": noise(1.2, 1050 + i, (0.78, "#000000"), (0.95, "#FFFFFF"), octaves=2, ridged=True),
+                        "blend": "add", "clip": True, "alpha": 0.18, **keep})  # light caught inside
     r.layers = out
 
 

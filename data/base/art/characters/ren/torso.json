@@ -64,6 +64,47 @@
     },
     {
       "shape": {
+        "polygon": [
+          [
+            18.44,
+            7.8
+          ],
+          [
+            21.56,
+            7.8
+          ],
+          [
+            21.56,
+            10.68
+          ],
+          [
+            18.44,
+            10.68
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.6,
+          "seed": 567,
+          "octaves": 3,
+          "stops": [
+            [
+              0.36,
+              "#BB8282"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.12
+    },
+    {
+      "shape": {
         "path": "M 18.44 7.8 L 21.56 7.8 L 21.56 9.8 Q 20 9.09 18.44 9.8 Z"
       },
       "fill": {
@@ -132,6 +173,83 @@
     },
     {
       "shape": {
+        "path": "M 12.99 12.51 Q 12.41 11.98 14.5 11.35 L 17.98 9.85 L 22.02 9.85 L 25.5 11.35 Q 27.59 11.98 27.01 12.51 L 25.22 16.86 Q 24.65 19.8 25.12 22 L 25.94 27 Q 20 28.54 14.06 27 L 14.88 22 Q 15.35 19.8 14.78 16.86 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 819,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14
+    },
+    {
+      "shape": {
+        "path": "M 12.99 12.51 Q 12.41 11.98 14.5 11.35 L 17.98 9.85 L 22.02 9.85 L 25.5 11.35 Q 27.59 11.98 27.01 12.51 L 25.22 16.86 Q 24.65 19.8 25.12 22 L 25.94 27 Q 20 28.54 14.06 27 L 14.88 22 Q 15.35 19.8 14.78 16.86 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1069,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32
+    },
+    {
+      "shape": {
+        "path": "M 12.99 12.51 Q 12.41 11.98 14.5 11.35 L 17.98 9.85 L 22.02 9.85 L 25.5 11.35 Q 27.59 11.98 27.01 12.51 L 25.22 16.86 Q 24.65 19.8 25.12 22 L 25.94 27 Q 20 28.54 14.06 27 L 14.88 22 Q 15.35 19.8 14.78 16.86 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1319,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 22.21 9.9 L 25.5 11.35 Q 27.59 11.98 27.01 12.51 L 25.22 16.86 Q 24.65 19.8 25.12 22 L 25.94 27 L 22.34 28.1 Q 23.56 19.06 22.21 9.9 Z"
       },
       "fill": {
@@ -170,6 +288,30 @@
         "width": 0.2
       },
       "alpha": 0.45
+    },
+    {
+      "shape": {
+        "path": "M 17.98 9.85 L 20 12.15 L 22.02 9.85 Q 20 10.68 17.98 9.85 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.6,
+          "seed": 572,
+          "octaves": 3,
+          "stops": [
+            [
+              0.36,
+              "#BB8282"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.12
     },
     {
       "shape": {
@@ -215,6 +357,83 @@
     },
     {
       "shape": {
+        "path": "M 17.61 9.88 L 19.73 12.74 L 16.9 11.74 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 823,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14
+    },
+    {
+      "shape": {
+        "path": "M 17.61 9.88 L 19.73 12.74 L 16.9 11.74 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1073,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32
+    },
+    {
+      "shape": {
+        "path": "M 17.61 9.88 L 19.73 12.74 L 16.9 11.74 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1323,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 22.39 9.88 L 20.27 12.74 L 23.1 11.74 Z"
       },
       "fill": {
@@ -254,6 +473,83 @@
       },
       "blend": "multiply",
       "alpha": 0.18
+    },
+    {
+      "shape": {
+        "path": "M 22.39 9.88 L 20.27 12.74 L 23.1 11.74 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 824,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14
+    },
+    {
+      "shape": {
+        "path": "M 22.39 9.88 L 20.27 12.74 L 23.1 11.74 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1074,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32
+    },
+    {
+      "shape": {
+        "path": "M 22.39 9.88 L 20.27 12.74 L 23.1 11.74 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1324,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -375,6 +671,83 @@
     },
     {
       "shape": {
+        "path": "M 14.81 21.78 Q 20 23.07 25.19 21.78 L 25.52 23.9 Q 20 25.33 14.48 23.9 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 831,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14
+    },
+    {
+      "shape": {
+        "path": "M 14.81 21.78 Q 20 23.07 25.19 21.78 L 25.52 23.9 Q 20 25.33 14.48 23.9 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1081,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32
+    },
+    {
+      "shape": {
+        "path": "M 14.81 21.78 Q 20 23.07 25.19 21.78 L 25.52 23.9 Q 20 25.33 14.48 23.9 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1331,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 14.81 21.78 Q 20 23.07 25.19 21.78"
       },
       "stroke": {
@@ -480,6 +853,134 @@
       "shape": {
         "polygon": [
           [
+            19.07,
+            22.12
+          ],
+          [
+            20.93,
+            22.12
+          ],
+          [
+            20.96,
+            24.62
+          ],
+          [
+            19.04,
+            24.62
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 833,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            19.07,
+            22.12
+          ],
+          [
+            20.93,
+            22.12
+          ],
+          [
+            20.96,
+            24.62
+          ],
+          [
+            19.04,
+            24.62
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1083,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            19.07,
+            22.12
+          ],
+          [
+            20.93,
+            22.12
+          ],
+          [
+            20.96,
+            24.62
+          ],
+          [
+            19.04,
+            24.62
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1333,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "blur": 0.32
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
             19.62,
             22.83
           ],
@@ -532,6 +1033,83 @@
       },
       "blend": "multiply",
       "alpha": 0.18
+    },
+    {
+      "shape": {
+        "path": "M 14.35 24.38 Q 20 25.81 25.65 24.38 L 25.94 27 Q 20 28.54 14.06 27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 835,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14
+    },
+    {
+      "shape": {
+        "path": "M 14.35 24.38 Q 20 25.81 25.65 24.38 L 25.94 27 Q 20 28.54 14.06 27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1085,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32
+    },
+    {
+      "shape": {
+        "path": "M 14.35 24.38 Q 20 25.81 25.65 24.38 L 25.94 27 Q 20 28.54 14.06 27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1335,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -610,6 +1188,92 @@
     },
     {
       "shape": {
+        "path": "M 12.8 12.47 Q 12.31 11.83 14.5 11.28 L 17.61 9.96 L 18.7 17.59 L 17.66 37.13 Q 14.96 37.35 12.62 36.24 L 14.63 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 837,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.8 12.47 Q 12.31 11.83 14.5 11.28 L 17.61 9.96 L 18.7 17.59 L 17.66 37.13 Q 14.96 37.35 12.62 36.24 L 14.63 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1087,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.8 12.47 Q 12.31 11.83 14.5 11.28 L 17.61 9.96 L 18.7 17.59 L 17.66 37.13 Q 14.96 37.35 12.62 36.24 L 14.63 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1337,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "sakura"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 17.61 9.96 L 19.23 15.68 L 16.26 13.78 Z"
       },
       "fill": {
@@ -658,6 +1322,92 @@
       "only": [
         "sakura"
       ]
+    },
+    {
+      "shape": {
+        "path": "M 17.61 9.96 L 19.23 15.68 L 16.26 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 838,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.61 9.96 L 19.23 15.68 L 16.26 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1088,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.61 9.96 L 19.23 15.68 L 16.26 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1338,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "sakura"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -740,6 +1490,92 @@
     },
     {
       "shape": {
+        "path": "M 27.2 12.47 Q 27.69 11.83 25.5 11.28 L 22.39 9.96 L 21.3 17.59 L 22.34 37.13 Q 25.04 37.35 27.38 36.24 L 25.37 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 840,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 27.2 12.47 Q 27.69 11.83 25.5 11.28 L 22.39 9.96 L 21.3 17.59 L 22.34 37.13 Q 25.04 37.35 27.38 36.24 L 25.37 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1090,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 27.2 12.47 Q 27.69 11.83 25.5 11.28 L 22.39 9.96 L 21.3 17.59 L 22.34 37.13 Q 25.04 37.35 27.38 36.24 L 25.37 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1340,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "sakura"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 22.39 9.96 L 20.77 15.68 L 23.74 13.78 Z"
       },
       "fill": {
@@ -788,6 +1624,92 @@
       "only": [
         "sakura"
       ]
+    },
+    {
+      "shape": {
+        "path": "M 22.39 9.96 L 20.77 15.68 L 23.74 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 841,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22.39 9.96 L 20.77 15.68 L 23.74 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1091,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22.39 9.96 L 20.77 15.68 L 23.74 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1341,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "sakura"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -917,6 +1839,143 @@
       "only": [
         "sakura"
       ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.93,
+            23.9
+          ],
+          [
+            25.35,
+            23.9
+          ],
+          [
+            25.58,
+            27.66
+          ],
+          [
+            23.06,
+            27.66
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 844,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.93,
+            23.9
+          ],
+          [
+            25.35,
+            23.9
+          ],
+          [
+            25.58,
+            27.66
+          ],
+          [
+            23.06,
+            27.66
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1094,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "sakura"
+      ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.93,
+            23.9
+          ],
+          [
+            25.35,
+            23.9
+          ],
+          [
+            25.58,
+            27.66
+          ],
+          [
+            23.06,
+            27.66
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1344,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "sakura"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -1139,6 +2198,92 @@
     },
     {
       "shape": {
+        "path": "M 19.19 12.45 L 20.81 12.45 L 20.75 21.71 L 19.25 21.71 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 852,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 19.19 12.45 L 20.81 12.45 L 20.75 21.71 L 19.25 21.71 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1102,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "daichi"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 19.19 12.45 L 20.81 12.45 L 20.75 21.71 L 19.25 21.71 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1352,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "daichi"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "polygon": [
           [
             19.51,
@@ -1289,6 +2434,92 @@
     },
     {
       "shape": {
+        "path": "M 16.1 14.04 L 23.9 14.04 L 24.66 21.27 L 26.3 36.02 Q 20 37.79 13.7 36.02 L 15.34 21.27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 856,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.1 14.04 L 23.9 14.04 L 24.66 21.27 L 26.3 36.02 Q 20 37.79 13.7 36.02 L 15.34 21.27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1106,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.1 14.04 L 23.9 14.04 L 24.66 21.27 L 26.3 36.02 Q 20 37.79 13.7 36.02 L 15.34 21.27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1356,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "haruka"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 21.42 13.92 L 23.9 14.04 L 24.66 21.27 L 26.3 36.02 L 22.7 37.13 Q 23.47 24.38 21.42 13.92 Z"
       },
       "fill": {
@@ -1373,6 +2604,107 @@
       "only": [
         "haruka"
       ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          19.35,
+          1.22,
+          0.88
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 860,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          19.35,
+          1.22,
+          0.88
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1110,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "haruka"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20,
+          19.35,
+          1.22,
+          0.88
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1360,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "haruka"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -1506,6 +2838,92 @@
     },
     {
       "shape": {
+        "path": "M 16.27 15.83 L 23.73 15.83 L 24.66 21.27 L 26.3 36.02 Q 20 37.79 13.7 36.02 L 15.34 21.27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 865,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.27 15.83 L 23.73 15.83 L 24.66 21.27 L 26.3 36.02 Q 20 37.79 13.7 36.02 L 15.34 21.27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1115,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.27 15.83 L 23.73 15.83 L 24.66 21.27 L 26.3 36.02 Q 20 37.79 13.7 36.02 L 15.34 21.27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1365,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 15.79 16.12 L 16.8 16.12 L 15.48 36.46 L 14.22 36.46 Z"
       },
       "fill": {
@@ -1542,6 +2960,92 @@
       "only": [
         "marco"
       ]
+    },
+    {
+      "shape": {
+        "path": "M 15.79 16.12 L 16.8 16.12 L 15.48 36.46 L 14.22 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 866,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.79 16.12 L 16.8 16.12 L 15.48 36.46 L 14.22 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1116,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.79 16.12 L 16.8 16.12 L 15.48 36.46 L 14.22 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1366,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -1584,6 +3088,92 @@
     },
     {
       "shape": {
+        "path": "M 18.23 16.12 L 19.24 16.12 L 18.87 36.46 L 17.61 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 867,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 18.23 16.12 L 19.24 16.12 L 18.87 36.46 L 17.61 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1117,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 18.23 16.12 L 19.24 16.12 L 18.87 36.46 L 17.61 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1367,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 20.76 16.12 L 21.77 16.12 L 22.39 36.46 L 21.13 36.46 Z"
       },
       "fill": {
@@ -1623,6 +3213,92 @@
     },
     {
       "shape": {
+        "path": "M 20.76 16.12 L 21.77 16.12 L 22.39 36.46 L 21.13 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 868,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20.76 16.12 L 21.77 16.12 L 22.39 36.46 L 21.13 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1118,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 20.76 16.12 L 21.77 16.12 L 22.39 36.46 L 21.13 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1368,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 23.2 16.12 L 24.21 16.12 L 25.78 36.46 L 24.52 36.46 Z"
       },
       "fill": {
@@ -1659,6 +3335,92 @@
       "only": [
         "marco"
       ]
+    },
+    {
+      "shape": {
+        "path": "M 23.2 16.12 L 24.21 16.12 L 25.78 36.46 L 24.52 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 869,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 23.2 16.12 L 24.21 16.12 L 25.78 36.46 L 24.52 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1119,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 23.2 16.12 L 24.21 16.12 L 25.78 36.46 L 24.52 36.46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1369,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -1803,6 +3565,143 @@
     },
     {
       "shape": {
+        "polygon": [
+          [
+            22.7,
+            27.44
+          ],
+          [
+            25.4,
+            27.44
+          ],
+          [
+            25.4,
+            30.08
+          ],
+          [
+            22.7,
+            30.08
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 873,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.7,
+            27.44
+          ],
+          [
+            25.4,
+            27.44
+          ],
+          [
+            25.4,
+            30.08
+          ],
+          [
+            22.7,
+            30.08
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1123,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.7,
+            27.44
+          ],
+          [
+            25.4,
+            27.44
+          ],
+          [
+            25.4,
+            30.08
+          ],
+          [
+            22.7,
+            30.08
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1373,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "ellipse": [
           16.76,
           29.42,
@@ -1866,6 +3765,107 @@
       "only": [
         "marco"
       ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16.76,
+          29.42,
+          1.35,
+          1.65
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 874,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16.76,
+          29.42,
+          1.35,
+          1.65
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1124,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "marco"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          16.76,
+          29.42,
+          1.35,
+          1.65
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1374,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "marco"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -1936,6 +3936,92 @@
     },
     {
       "shape": {
+        "path": "M 14.72 21.78 Q 20 23.07 25.28 21.78 L 25.52 23.9 Q 20 25.33 14.48 23.9 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 876,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.72 21.78 Q 20 23.07 25.28 21.78 L 25.52 23.9 Q 20 25.33 14.48 23.9 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1126,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.72 21.78 Q 20 23.07 25.28 21.78 L 25.52 23.9 Q 20 25.33 14.48 23.9 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1376,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "yuki"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 15.95 9.28 Q 20 10.24 24.05 9.28 L 24.74 12.04 Q 20 13.47 15.26 12.04 Z"
       },
       "fill": {
@@ -1999,6 +4085,92 @@
       "only": [
         "yuki"
       ]
+    },
+    {
+      "shape": {
+        "path": "M 15.95 9.28 Q 20 10.24 24.05 9.28 L 24.74 12.04 Q 20 13.47 15.26 12.04 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 877,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.95 9.28 Q 20 10.24 24.05 9.28 L 24.74 12.04 Q 20 13.47 15.26 12.04 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1127,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 15.95 9.28 Q 20 10.24 24.05 9.28 L 24.74 12.04 Q 20 13.47 15.26 12.04 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1377,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "yuki"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -2080,6 +4252,92 @@
     },
     {
       "shape": {
+        "path": "M 21.45 12 L 24.55 12.1 L 24.81 26.29 L 22.11 25.1 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 879,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 21.45 12 L 24.55 12.1 L 24.81 26.29 L 22.11 25.1 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1129,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "yuki"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 21.45 12 L 24.55 12.1 L 24.81 26.29 L 22.11 25.1 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1379,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "yuki"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 21.8 19.8 L 24.27 20.24 M 21.95 22.48 L 24.53 23.19"
       },
       "stroke": {
@@ -2158,6 +4416,92 @@
     },
     {
       "shape": {
+        "path": "M 12.8 12.47 Q 12.31 11.83 14.5 11.28 L 17.61 9.96 L 18.7 17.59 L 17.66 37.13 Q 14.96 37.35 12.62 36.24 L 14.63 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 881,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.8 12.47 Q 12.31 11.83 14.5 11.28 L 17.61 9.96 L 18.7 17.59 L 17.66 37.13 Q 14.96 37.35 12.62 36.24 L 14.63 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1131,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.8 12.47 Q 12.31 11.83 14.5 11.28 L 17.61 9.96 L 18.7 17.59 L 17.66 37.13 Q 14.96 37.35 12.62 36.24 L 14.63 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1381,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "lena"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 17.61 9.96 L 19.23 15.68 L 16.26 13.78 Z"
       },
       "fill": {
@@ -2206,6 +4550,92 @@
       "only": [
         "lena"
       ]
+    },
+    {
+      "shape": {
+        "path": "M 17.61 9.96 L 19.23 15.68 L 16.26 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 882,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.61 9.96 L 19.23 15.68 L 16.26 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1132,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 17.61 9.96 L 19.23 15.68 L 16.26 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1382,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "lena"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -2288,6 +4718,92 @@
     },
     {
       "shape": {
+        "path": "M 27.2 12.47 Q 27.69 11.83 25.5 11.28 L 22.39 9.96 L 21.3 17.59 L 22.34 37.13 Q 25.04 37.35 27.38 36.24 L 25.37 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 884,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 27.2 12.47 Q 27.69 11.83 25.5 11.28 L 22.39 9.96 L 21.3 17.59 L 22.34 37.13 Q 25.04 37.35 27.38 36.24 L 25.37 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1134,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 27.2 12.47 Q 27.69 11.83 25.5 11.28 L 22.39 9.96 L 21.3 17.59 L 22.34 37.13 Q 25.04 37.35 27.38 36.24 L 25.37 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1384,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "lena"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 22.39 9.96 L 20.77 15.68 L 23.74 13.78 Z"
       },
       "fill": {
@@ -2336,6 +4852,92 @@
       "only": [
         "lena"
       ]
+    },
+    {
+      "shape": {
+        "path": "M 22.39 9.96 L 20.77 15.68 L 23.74 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 885,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22.39 9.96 L 20.77 15.68 L 23.74 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1135,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 22.39 9.96 L 20.77 15.68 L 23.74 13.78 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1385,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "lena"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -2468,6 +5070,143 @@
     },
     {
       "shape": {
+        "polygon": [
+          [
+            22.93,
+            23.9
+          ],
+          [
+            25.35,
+            23.9
+          ],
+          [
+            25.58,
+            27.66
+          ],
+          [
+            23.06,
+            27.66
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 888,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.93,
+            23.9
+          ],
+          [
+            25.35,
+            23.9
+          ],
+          [
+            25.58,
+            27.66
+          ],
+          [
+            23.06,
+            27.66
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1138,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "lena"
+      ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.93,
+            23.9
+          ],
+          [
+            25.35,
+            23.9
+          ],
+          [
+            25.58,
+            27.66
+          ],
+          [
+            23.06,
+            27.66
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1388,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "lena"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 18.56 12.74 Q 17.02 16.86 17.4 19.5"
       },
       "stroke": {
@@ -2583,6 +5322,107 @@
         "ellipse": [
           14.9,
           12.13,
+          1.37,
+          0.82
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 891,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14.9,
+          12.13,
+          1.37,
+          0.82
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1141,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14.9,
+          12.13,
+          1.37,
+          0.82
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1391,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "gideon"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
+        "ellipse": [
+          14.9,
+          12.13,
           0.5,
           0.3
         ]
@@ -2659,6 +5499,107 @@
       "only": [
         "gideon"
       ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.1,
+          12.13,
+          1.37,
+          0.82
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 893,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.1,
+          12.13,
+          1.37,
+          0.82
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1143,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "ellipse": [
+          25.1,
+          12.13,
+          1.37,
+          0.82
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1393,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "gideon"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -2805,6 +5746,92 @@
     },
     {
       "shape": {
+        "path": "M 14.51 11.72 L 17.8 10.2 Q 20 11.12 22.2 10.2 L 25.49 11.72 L 24.52 19.06 Q 20 20.97 15.48 19.06 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 898,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.51 11.72 L 17.8 10.2 Q 20 11.12 22.2 10.2 L 25.49 11.72 L 24.52 19.06 Q 20 20.97 15.48 19.06 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1148,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.51 11.72 L 17.8 10.2 Q 20 11.12 22.2 10.2 L 25.49 11.72 L 24.52 19.06 Q 20 20.97 15.48 19.06 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1398,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "red"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 20 11.27 L 20 20.09"
       },
       "stroke": {
@@ -2900,6 +5927,92 @@
     },
     {
       "shape": {
+        "path": "M 12.36 12.66 Q 12.64 10.53 15.77 10.48 L 15.12 12.98 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 901,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.36 12.66 Q 12.64 10.53 15.77 10.48 L 15.12 12.98 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1151,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.36 12.66 Q 12.64 10.53 15.77 10.48 L 15.12 12.98 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1401,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "red"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 27.64 12.66 Q 27.36 10.53 24.23 10.48 L 24.88 12.98 Z"
       },
       "fill": {
@@ -2970,6 +6083,92 @@
     },
     {
       "shape": {
+        "path": "M 27.64 12.66 Q 27.36 10.53 24.23 10.48 L 24.88 12.98 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 902,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 27.64 12.66 Q 27.36 10.53 24.23 10.48 L 24.88 12.98 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1152,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "red"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 27.64 12.66 Q 27.36 10.53 24.23 10.48 L 24.88 12.98 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1402,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "red"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 12.35 12.56 Q 12.1 11.25 15.4 10.58 L 24.6 10.58 Q 27.9 11.25 27.65 12.56 L 26.06 14.94 Q 20 17.15 13.94 14.94 Z"
       },
       "fill": {
@@ -3033,6 +6232,92 @@
       "only": [
         "green"
       ]
+    },
+    {
+      "shape": {
+        "path": "M 12.35 12.56 Q 12.1 11.25 15.4 10.58 L 24.6 10.58 Q 27.9 11.25 27.65 12.56 L 26.06 14.94 Q 20 17.15 13.94 14.94 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 903,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.35 12.56 Q 12.1 11.25 15.4 10.58 L 24.6 10.58 Q 27.9 11.25 27.65 12.56 L 26.06 14.94 Q 20 17.15 13.94 14.94 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1153,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "green"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.35 12.56 Q 12.1 11.25 15.4 10.58 L 24.6 10.58 Q 27.9 11.25 27.65 12.56 L 26.06 14.94 Q 20 17.15 13.94 14.94 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1403,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "green"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -3170,6 +6455,92 @@
     },
     {
       "shape": {
+        "path": "M 12.8 12.47 Q 12.31 11.83 14.5 11.28 L 17.79 9.9 L 20 11.71 L 22.21 9.9 L 25.5 11.28 Q 27.69 11.83 27.2 12.47 L 25.37 17.59 L 27.74 48.79 Q 20 51.43 12.26 48.79 L 14.63 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 909,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.8 12.47 Q 12.31 11.83 14.5 11.28 L 17.79 9.9 L 20 11.71 L 22.21 9.9 L 25.5 11.28 Q 27.69 11.83 27.2 12.47 L 25.37 17.59 L 27.74 48.79 Q 20 51.43 12.26 48.79 L 14.63 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1159,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 12.8 12.47 Q 12.31 11.83 14.5 11.28 L 17.79 9.9 L 20 11.71 L 22.21 9.9 L 25.5 11.28 Q 27.69 11.83 27.2 12.47 L 25.37 17.59 L 27.74 48.79 Q 20 51.43 12.26 48.79 L 14.63 17.59 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1409,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "purple"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 22.21 9.9 L 25.5 11.28 Q 27.69 11.83 27.2 12.47 L 25.37 17.59 L 27.74 48.79 L 23.06 50.55 Q 24.49 26.76 22.21 9.9 Z"
       },
       "fill": {
@@ -3232,6 +6603,92 @@
       "only": [
         "purple"
       ]
+    },
+    {
+      "shape": {
+        "path": "M 14.74 21.56 Q 20 22.95 25.26 21.56 L 25.47 23.19 Q 20 24.86 14.53 23.19 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 911,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.74 21.56 Q 20 22.95 25.26 21.56 L 25.47 23.19 Q 20 24.86 14.53 23.19 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1161,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "purple"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 14.74 21.56 Q 20 22.95 25.26 21.56 L 25.47 23.19 Q 20 24.86 14.53 23.19 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1411,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "purple"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -3379,6 +6836,92 @@
     },
     {
       "shape": {
+        "path": "M 13.59 11.83 L 15.96 10.72 L 25.14 20.97 L 25.21 23.19 L 23.43 23.43 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 916,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.59 11.83 L 15.96 10.72 L 25.14 20.97 L 25.21 23.19 L 23.43 23.43 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1166,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "teal"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 13.59 11.83 L 15.96 10.72 L 25.14 20.97 L 25.21 23.19 L 23.43 23.43 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1416,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "teal"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 16.23 15.39 L 23.77 15.39 L 24.66 21.27 L 26.3 36.02 Q 20 37.79 13.7 36.02 L 15.34 21.27 Z"
       },
       "fill": {
@@ -3442,6 +6985,92 @@
       "only": [
         "cream"
       ]
+    },
+    {
+      "shape": {
+        "path": "M 16.23 15.39 L 23.77 15.39 L 24.66 21.27 L 26.3 36.02 Q 20 37.79 13.7 36.02 L 15.34 21.27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 917,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.23 15.39 L 23.77 15.39 L 24.66 21.27 L 26.3 36.02 Q 20 37.79 13.7 36.02 L 15.34 21.27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1167,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "cream"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 16.23 15.39 L 23.77 15.39 L 24.66 21.27 L 26.3 36.02 Q 20 37.79 13.7 36.02 L 15.34 21.27 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1417,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "cream"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -3607,6 +7236,143 @@
       "only": [
         "brown"
       ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.23,
+            23.43
+          ],
+          [
+            24.63,
+            23.43
+          ],
+          [
+            24.86,
+            27
+          ],
+          [
+            22.34,
+            27
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 923,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.23,
+            23.43
+          ],
+          [
+            24.63,
+            23.43
+          ],
+          [
+            24.86,
+            27
+          ],
+          [
+            22.34,
+            27
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1173,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            22.23,
+            23.43
+          ],
+          [
+            24.63,
+            23.43
+          ],
+          [
+            24.86,
+            27
+          ],
+          [
+            22.34,
+            27
+          ]
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1423,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "brown"
+      ],
+      "blur": 0.32
     },
     {
       "shape": {
@@ -3777,6 +7543,131 @@
     },
     {
       "shape": {
+        "path": "M 19.28 13.03 L 20.72 13.03 L 21.23 20.09 L 20 21.41 L 18.77 20.09 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 926,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "except": [
+        "sakura",
+        "daichi",
+        "haruka",
+        "marco",
+        "yuki",
+        "lena",
+        "gideon",
+        "red",
+        "green",
+        "ochre",
+        "purple",
+        "teal",
+        "cream",
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 19.28 13.03 L 20.72 13.03 L 21.23 20.09 L 20 21.41 L 18.77 20.09 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1176,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "except": [
+        "sakura",
+        "daichi",
+        "haruka",
+        "marco",
+        "yuki",
+        "lena",
+        "gideon",
+        "red",
+        "green",
+        "ochre",
+        "purple",
+        "teal",
+        "cream",
+        "brown"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 19.28 13.03 L 20.72 13.03 L 21.23 20.09 L 20 21.41 L 18.77 20.09 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1426,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "except": [
+        "sakura",
+        "daichi",
+        "haruka",
+        "marco",
+        "yuki",
+        "lena",
+        "gideon",
+        "red",
+        "green",
+        "ochre",
+        "purple",
+        "teal",
+        "cream",
+        "brown"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 19.23 15.39 L 20.84 16.12 M 19.1 17.59 L 20.96 18.33"
       },
       "stroke": {
@@ -3878,7 +7769,7 @@
         "noise": {
           "scale": 0.7,
           "seed": 2243,
-          "octaves": 2,
+          "octaves": 3,
           "stops": [
             [
               0.28,

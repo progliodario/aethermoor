@@ -9,7 +9,7 @@ namespace aether {
 
 namespace {
 
-constexpr std::array<int, 7> kBuckets = {32, 48, 64, 96, 128, 192, 256};
+constexpr std::array<int, 8> kBuckets = {32, 48, 64, 80, 96, 128, 192, 256};
 
 }  // namespace
 

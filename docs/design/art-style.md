@@ -27,7 +27,7 @@ Sopra la rifinitura ogni generatore aggiunge la materia di ciò che disegna: fog
 
 ## Misure
 
-- 32 unità d'arte = 1 tile; il gioco disegna un tile a 64 pixel (scala 2) per la densità dello schermo.
+- 32 unità d'arte = 1 tile; il desktop disegna un tile a 80 pixel (scala 2,5) e Android a 64 (scala 2), per la densità dello schermo.
 - **Terreni: tasselli grandi.** Un terreno naturale è una ricetta di 128 x 128 unità che copre 4 x 4 tile (spec 13, "Macro tiles"), così il dipinto non si ripete a ogni tile. La base è un rumore che si ripete ogni 128 unità ed è **la stessa per tutte le varianti di un terreno** (da `grass_a` a `grass_f`), così ogni variante si unisce a ogni altra; le cose piccole (ciuffi, fiori, sassi) stanno dentro il proprio tile, lontano dai bordi (`cells()` in `art_tiles.py`). Muri, pavimenti e ponte sono tasselli semplici di 32 x 32.
 - **Bordi sfumati.** Nel tileset ogni terreno naturale ha un rango `blend`: il terreno di rango più alto sfuma sul bordo del vicino (l'erba sul sentiero, la sabbia sull'acqua). Lo fanno i client (spec 13, "Ground blending"): nelle ricette non serve nulla.
 - **Oggetti:** l'origine è ai piedi (ordine di disegno e collisione). Alberi: 96 x 128, origine (48, 120).
@@ -52,7 +52,7 @@ Per guardare il risultato senza il gioco: `python tools/art_preview.py <schema>`
 
 ## Terreni
 
-Un terreno naturale è fatto di **cinque strati di rumore**, uguali per tutte le varianti di un terreno (`ground()` in `art_tiles.py`): la luce e l'ombra larghe della terra, le sue chiazze, la sua materia moltiplicata (allungata lungo y per l'erba), le punte illuminate di quella materia, e una grana più fine di un pixel. Sopra vanno centinaia di cose piccole per tile, disegnate **a gruppi**: uno strato tiene tutti i fili d'erba di un tono di un tile (`clumps()`, `field_blades()`), così come la ghiaia (`gravel()`), i sassi (`stones()`), le foglie (`leaves()`) e i fiori (`flowers()`). Le figure dentro uno stesso strato girano tutte nello stesso verso, perché la regola del riempimento (nonzero) non apra buchi dove si sovrappongono.
+Un terreno naturale è fatto di **cinque strati di rumore**, uguali per tutte le varianti di un terreno (`ground()` in `art_tiles.py`): la luce e l'ombra larghe della terra, le sue chiazze, la sua materia moltiplicata (allungata lungo y per l'erba), le punte illuminate di quella materia, e una grana più fine di un pixel. Sopra vanno centinaia di cose piccole per tile (un centinaio di fili d'erba e un tappeto di fili corti, decine di granelli di ghiaia, aghi e foglie), disegnate **a gruppi**: uno strato tiene tutti i fili d'erba di un tono di un tile (`clumps()`, `field_blades()`), così come la ghiaia (`gravel()`), i sassi (`stones()`), le foglie (`leaves()`) e i fiori (`flowers()`). Le figure dentro uno stesso strato girano tutte nello stesso verso, perché la regola del riempimento (nonzero) non apra buchi dove si sovrappongono.
 
 ## Persone
 

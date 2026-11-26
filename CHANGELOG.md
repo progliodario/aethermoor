@@ -6,6 +6,16 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
+- **Far more detail everywhere**, and a closer view on the desktop.
+  - **The view:** the desktop shows the world closer, a tile is 80 pixels instead of 64 (spec 13, new scale bucket 80, in both
+    clients), so every detail has more pixels; Android, already close, does not change.
+  - **The ground:** about a hundred blades per tile, a carpet of short ones under them, twice the grit, pebbles and grains on paths,
+    sand, snow, ash and the bottom of the shallows, leaf litter and needles in the forests, the stalks of the moss, wavelets on water.
+  - **Trees:** twice the leaves, with their midribs and leaves of a middle tone; bark with plates, cracks and knots.
+  - **Props and armours:** fine scratches, pits and cracks of wear; steel with its sheen.
+  - **People:** single hairs over the strands, the threads of the weave, folds of the cloth along its fall, the unevenness of skin.
+  - **Creatures:** single hairs in the fur, the depth of the jelly and the light caught inside the slimes.
+
 - **The graphics are realistic** (ADR 0015, spec 13 v3): the whole art of the game is painted again to look real, not drawn.
   - **The ground** has the matter of real ground: grass made of blades in clumps with their contact shadow, grit and pebbles on the
     paths, ripples on the sand, leaf litter in the forests, cushions of moss, the net of light on the bottom of the shallows and long

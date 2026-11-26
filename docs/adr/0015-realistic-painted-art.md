@@ -46,6 +46,8 @@ The art stays vector recipes drawn by the same rasterizers, and becomes realisti
   behaviour).
 - Baking costs a little more per pixel (more octaves of noise) and less per recipe (fewer layers); the budget of the textures of every
   quality level does not change, because no canvas grows.
+- The desktop shows a tile at 80 pixels instead of 64 (a new scale bucket of 80 in both clients), so that the details have pixels to
+  show in: one sees a little less of the world. Android, whose tiles are already large on a phone, keeps 64 times the density.
 - The smoke-test frames of the desktop CI are written again from the frames of the new art.
 - A new recipe follows `docs/design/art-style.md`: a ground is the five layers and batches of small things; an object, a person or a
   creature gets the finish of its generator and the matter of what it is.

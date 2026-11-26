@@ -934,7 +934,7 @@
         "noise": {
           "scale": 0.7,
           "seed": 2178,
-          "octaves": 2,
+          "octaves": 3,
           "stops": [
             [
               0.28,
@@ -949,6 +949,36 @@
       },
       "blend": "multiply",
       "alpha": 0.16
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          36,
+          40
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 1.2,
+          "seed": 2179,
+          "octaves": 3,
+          "stops": [
+            [
+              0.72,
+              "#FFFFFF"
+            ],
+            [
+              0.94,
+              "#3A3040"
+            ]
+          ],
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.2
     }
   ],
   "palette": {

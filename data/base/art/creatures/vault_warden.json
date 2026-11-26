@@ -124,6 +124,33 @@
     },
     {
       "shape": {
+        "path": "M 17 30 Q 10 50 13 66 Q 32 69 51 66 Q 54 50 47 30 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 952,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 23.4 51 L 30.4 51 L 29.8 63 L 31 67.6 L 22.8 67.6 L 24 63 Z"
       },
       "fill": {
@@ -207,6 +234,33 @@
       },
       "blend": "multiply",
       "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 23.4 51 L 30.4 51 L 29.8 63 L 31 67.6 L 22.8 67.6 L 24 63 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 953,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -306,6 +360,38 @@
     },
     {
       "shape": {
+        "ellipse": [
+          26.9,
+          55,
+          2.6,
+          1.9
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 955,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 33.6 51 L 40.6 51 L 40 63 L 41.2 67.6 L 33 67.6 L 34.2 63 Z"
       },
       "fill": {
@@ -389,6 +475,33 @@
       },
       "blend": "multiply",
       "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 33.6 51 L 40.6 51 L 40 63 L 41.2 67.6 L 33 67.6 L 34.2 63 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 956,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -488,6 +601,38 @@
     },
     {
       "shape": {
+        "ellipse": [
+          37.1,
+          55,
+          2.6,
+          1.9
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 958,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 12 32 L 18.8 32 L 18.4 46 L 12.4 46 Z"
       },
       "fill": {
@@ -574,6 +719,33 @@
     },
     {
       "shape": {
+        "path": "M 12 32 L 18.8 32 L 18.4 46 L 12.4 46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 959,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 11.6 44.4 L 19.2 44.4 L 18.8 52.6 Q 15.4 54.6 12 52.6 Z"
       },
       "fill": {
@@ -657,6 +829,33 @@
       },
       "blend": "multiply",
       "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 11.6 44.4 L 19.2 44.4 L 18.8 52.6 Q 15.4 54.6 12 52.6 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 960,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -755,6 +954,33 @@
     },
     {
       "shape": {
+        "path": "M 45.2 32 L 52 32 L 51.6 46 L 45.6 46 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 962,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 44.8 44.4 L 52.4 44.4 L 52 52.6 Q 48.6 54.6 45.2 52.6 Z"
       },
       "fill": {
@@ -838,6 +1064,33 @@
       },
       "blend": "multiply",
       "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 44.8 44.4 L 52.4 44.4 L 52 52.6 Q 48.6 54.6 45.2 52.6 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 963,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -933,6 +1186,33 @@
       },
       "blend": "multiply",
       "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 20.6 46 Q 32 51.6 43.4 46 L 45 55 Q 32 60 19 55 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 965,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -1032,6 +1312,33 @@
     },
     {
       "shape": {
+        "path": "M 19.6 30 Q 32 25 44.4 30 L 42.6 47 Q 32 52.6 21.4 47 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 967,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 32 28.6 L 32 50"
       },
       "stroke": {
@@ -1120,6 +1427,33 @@
     },
     {
       "shape": {
+        "path": "M 21 45 Q 32 50.4 43 45 L 43.2 47.4 Q 32 52.8 20.8 47.4 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 970,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 23.4 30 Q 21 23 14 24.6 Q 8.4 27 9.4 35 Q 17 36.6 23.4 30 Z"
       },
       "fill": {
@@ -1203,6 +1537,33 @@
       },
       "blend": "multiply",
       "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 23.4 30 Q 21 23 14 24.6 Q 8.4 27 9.4 35 Q 17 36.6 23.4 30 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 971,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -1299,6 +1660,33 @@
       },
       "blend": "multiply",
       "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 40.6 30 Q 43 23 50 24.6 Q 55.6 27 54.6 35 Q 47 36.6 40.6 30 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 973,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -1405,6 +1793,33 @@
     },
     {
       "shape": {
+        "path": "M 24.4 17 Q 17.4 16 16.4 8.6 Q 22 11.4 25 13.4 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 976,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 39.6 17 Q 46.6 16 47.6 8.6 Q 42 11.4 39 13.4 Z"
       },
       "fill": {
@@ -1484,6 +1899,33 @@
       },
       "blend": "multiply",
       "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 39.6 17 Q 46.6 16 47.6 8.6 Q 42 11.4 39 13.4 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 977,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -1570,6 +2012,33 @@
       },
       "blend": "multiply",
       "alpha": 0.25
+    },
+    {
+      "shape": {
+        "path": "M 22.6 20 Q 22.6 10.6 32 10.6 Q 41.4 10.6 41.4 20 L 40.4 28.6 Q 32 32 23.6 28.6 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 3,
+          "seed": 978,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.82,
+              "#E9F0FD"
+            ]
+          ],
+          "scale_y": 0.6
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.2,
+      "blur": 0.32
     },
     {
       "shape": {
@@ -1977,7 +2446,7 @@
         "noise": {
           "scale": 0.7,
           "seed": 3041,
-          "octaves": 2,
+          "octaves": 3,
           "stops": [
             [
               0.28,

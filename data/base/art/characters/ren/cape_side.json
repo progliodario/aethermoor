@@ -78,6 +78,92 @@
     },
     {
       "shape": {
+        "path": "M 21.61 6.39 Q 14.25 21.52 15.17 46.74 Q 20.32 49.07 24.55 47.32 Q 21.24 25.4 25.47 6.58 Q 24 5.42 21.61 6.39 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 1175,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 21.61 6.39 Q 14.25 21.52 15.17 46.74 Q 20.32 49.07 24.55 47.32 Q 21.24 25.4 25.47 6.58 Q 24 5.42 21.61 6.39 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1425,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 21.61 6.39 Q 14.25 21.52 15.17 46.74 Q 20.32 49.07 24.55 47.32 Q 21.24 25.4 25.47 6.58 Q 24 5.42 21.61 6.39 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1675,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "gideon"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "path": "M 21.61 6.39 Q 14.25 21.52 15.17 46.74 L 18.48 48.1 Q 17.93 23.46 23.45 6 Z"
       },
       "fill": {
@@ -156,6 +242,92 @@
     },
     {
       "shape": {
+        "path": "M 21.42 6.19 Q 24 5.13 25.84 6.39 L 25.47 8.33 Q 24 7.16 21.24 8.33 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.14,
+          "seed": 1178,
+          "octaves": 1,
+          "stops": [
+            [
+              0.3,
+              "#7A7486"
+            ],
+            [
+              0.62,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 21.42 6.19 Q 24 5.13 25.84 6.39 L 25.47 8.33 Q 24 7.16 21.24 8.33 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1428,
+          "octaves": 3,
+          "stops": [
+            [
+              0.66,
+              "#FFFFFF"
+            ],
+            [
+              0.9,
+              "#3A314D"
+            ]
+          ],
+          "scale_y": 4.5,
+          "ridged": true
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32,
+      "only": [
+        "gideon"
+      ]
+    },
+    {
+      "shape": {
+        "path": "M 21.42 6.19 Q 24 5.13 25.84 6.39 L 25.47 8.33 Q 24 7.16 21.24 8.33 Z"
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.9,
+          "seed": 1678,
+          "octaves": 2,
+          "stops": [
+            [
+              0.6,
+              "#000000"
+            ],
+            [
+              0.85,
+              "#FEF6EA"
+            ]
+          ],
+          "scale_y": 4.5
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.14,
+      "only": [
+        "gideon"
+      ],
+      "blur": 0.32
+    },
+    {
+      "shape": {
         "rect": [
           0,
           0,
@@ -231,7 +403,7 @@
         "noise": {
           "scale": 0.7,
           "seed": 2601,
-          "octaves": 2,
+          "octaves": 3,
           "stops": [
             [
               0.28,
