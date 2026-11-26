@@ -2,7 +2,8 @@
 
     python tools/art_chars.py
 
-A person is about 59 art units tall (1.8 tiles) and 4.6 heads, with the face of a real face (almond eyes, a nose, lips).
+A person is about 60 art units tall (1.9 tiles) with the proportions of a real body (about seven heads: see PROPORTIONS) and
+the face of a real face (almond eyes, a nose, lips).
 The rig has a soft shadow, two legs, two arms, a torso, a head and a `cape` part behind the body (capes, long hair); the
 torso, the head and the cape have a second recipe for the view from behind (`art_back`, spec 13). Every part is drawn
 around its joint (the origin of its canvas) with its tones and a violet shade away from the light (top left); `textures()`
@@ -41,7 +42,7 @@ VARIANTS = {
 }
 
 # canvas (w, h) and joint of every part: what is drawn below is in units around the joint
-CANVAS = {"head": (44, 50, 22, 38), "torso": (40, 52, 20, 22), "arm": (14, 26, 7, 3), "leg": (14, 32, 7, 2), "cape": (48, 54, 24, 6)}
+CANVAS = {"head": (44, 50, 22, 38), "torso": (40, 56, 20, 25), "arm": (14, 30, 7, 3), "leg": (14, 34, 7, 2), "cape": (48, 56, 24, 6)}
 
 
 def part(name: str) -> Recipe:
@@ -244,20 +245,20 @@ def shadow() -> Recipe:
 
 
 # ------------------------------------------------------------------------------------------------ rig and clips
-RIG = [
+RIG = [  # the joints of a body of real proportions (see PROPORTIONS)
     ("shadow", None, (0, 0), 0, None, "shadow", None),
-    ("cape", "torso", (0, -16.6), 1, 6, "cape", "cape_back"),
-    ("leg_l", "shadow", (-3.1, -27), 2, None, "leg", None),
-    ("leg_r", "shadow", (3.1, -27), 2, None, "leg", None),
-    ("arm_l", "torso", (-7.4, -14.6), 3, None, "arm", None),
+    ("cape", "torso", (0, -19.6), 1, 6, "cape", "cape_back"),
+    ("leg_l", "shadow", (-2.8, -31.5), 2, None, "leg", None),
+    ("leg_r", "shadow", (2.8, -31.5), 2, None, "leg", None),
+    ("arm_l", "torso", (-6.8, -16.45), 3, None, "arm", None),
     ("torso", "shadow", (0, -29), 4, None, "torso", "torso_back"),
-    ("arm_r", "torso", (7.4, -14.6), 5, None, "arm", None),
-    ("head", "torso", (0, -16.6), 7, None, "head", "head_back"),
+    ("arm_r", "torso", (6.8, -16.45), 5, None, "arm", None),
+    ("head", "torso", (0, -22.4), 7, None, "head", "head_back"),
 ]
 # seen from the side (spec 13): the parts that have a picture of their own, and where the limbs hang (the far arm and leg
 # are a little behind the near ones)
 SIDE_ART = {"head": "head_side", "torso": "torso_side", "cape": "cape_side"}
-SIDE_OFFSET = {"leg_l": (-0.9, -27), "leg_r": (0.7, -27), "arm_l": (-0.9, -14.6), "arm_r": (0.6, -14.6), "head": (0.4, -16.6)}
+SIDE_OFFSET = {"leg_l": (-0.8, -31.5), "leg_r": (0.65, -31.5), "arm_l": (-0.8, -17.45), "arm_r": (0.55, -17.45), "head": (0.35, -22.4)}
 
 
 def write_rig() -> None:
@@ -318,6 +319,132 @@ def write_rig() -> None:
         (ART / "clips" / f"{name}.json").write_text(json.dumps(clip, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
+# ------------------------------------------------------------------------------------------------ the proportions of a real body
+# Every part (and every look of it) is drawn in the units of its joint, then **warped** to the proportions of a real body: about
+# seven heads, 60 units from the soles to the crown. The head is made smaller (0.56) while what hangs below the chin (long hair)
+# keeps more of its length and width; the neck shows between the chin and the shoulders; the torso is a little narrower; the arms
+# reach the middle of the thigh (the sleeve grows, the hand less); the waist narrows; the legs are half of the height. The joints
+# of the rig follow (RIG, SIDE_OFFSET). Landmarks from the soles (y up is negative): crown -60, chin -51.4, shoulders -48.6, elbow
+# and belt -37 to -34, crotch -29.6, fingertips -23.3, knee -17.
+def _piecewise(knots: list[tuple[float, float]]):
+    """A piecewise linear map through the knots (sorted by their first value), straight on beyond the ends."""
+    def f(v: float) -> float:
+        for (a0, b0), (a1, b1) in zip(knots, knots[1:]):
+            if v <= a1 or (a1, b1) == knots[-1]:
+                return b0 + (v - a0) * (b1 - b0) / (a1 - a0)
+        return v
+    return f
+
+
+def _shoulder_drop(x: float, y: float) -> float:
+    """Shoulders slope down from the neck, as on a real body: the top of the torso sinks towards its sides."""
+    across = min(max((abs(x) - 2.0) / 5.0, 0.0), 1.0)
+    along = min(max((-10.0 - y) / 5.0, 0.0), 1.0)
+    return 1.3 * across * along
+
+
+def _head_point(x: float, y: float) -> tuple[float, float]:
+    kx = 0.56 if y <= -1 else (0.8 if y >= 4 else 0.56 + (y + 1) / 5 * 0.24)  # hair below the jaw keeps more of its width
+    return x * kx, y * 0.56 if y <= 0 else y * 0.95
+
+
+_TORSO_Y = _piecewise([(-30.0, -33.4), (-19.4, -22.8), (-16.6, -19.6), (0.0, -5.0), (4.2, -0.6), (40.0, 42.4)])
+_TORSO_X = _piecewise([(-30.0, 0.92), (-16.6, 0.92), (-12.0, 0.9), (-5.0, 0.8), (0.0, 0.84), (4.2, 0.9), (40.0, 0.9)])  # a waist
+_ARM_Y = _piecewise([(-5.0, -5.0), (0.0, 0.0), (13.6, 17.8), (18.8, 23.4), (30.0, 35.5)])
+_LEG_Y = _piecewise([(-5.0, -5.0), (-0.5, -0.5), (17.2, 20.9), (27.2, 31.6), (40.0, 45.3)])
+PROPORTIONS = {
+    "head": _head_point,
+    "torso": lambda x, y: (x * _TORSO_X(y), _TORSO_Y(y) + _shoulder_drop(x, y)),
+    "arm": lambda x, y: (x * 0.85, _ARM_Y(y)),
+    "leg": lambda x, y: (x * 0.9, _LEG_Y(y)),
+    "cape": lambda x, y: (x * 0.92, y * 1.067),
+}
+
+
+def _scales(pt, x: float, y: float) -> tuple[float, float]:
+    e = 0.05
+    sx = (pt(x + e, y)[0] - pt(x - e, y)[0]) / (2 * e)
+    sy = (pt(x, y + e)[1] - pt(x, y - e)[1]) / (2 * e)
+    return sx, sy
+
+
+def _r(v: float) -> float:
+    v = round(v, 2)
+    return int(v) if v == int(v) else v
+
+
+def _warp_path(d: str, pt) -> str:
+    out: list[str] = []
+    cmd = ""
+    nums: list[float] = []
+    last = [0.0, 0.0]
+
+    def flush() -> None:
+        if cmd in ("H", "V"):
+            for v in nums:
+                if cmd == "H":
+                    last[0] = v
+                else:
+                    last[1] = v
+                nx, ny = pt(last[0], last[1])
+                out.append(f"{_r(nx)} {_r(ny)}")
+        else:
+            for i in range(0, len(nums) - 1, 2):
+                last[0], last[1] = nums[i], nums[i + 1]
+                nx, ny = pt(last[0], last[1])
+                out.append(f"{_r(nx)} {_r(ny)}")
+        nums.clear()
+
+    for tok in d.replace(",", " ").split():
+        if tok.isalpha():
+            flush()
+            cmd = tok
+            out.append("L" if tok in ("H", "V") else tok)  # a warped horizontal or vertical line may slant
+        else:
+            nums.append(float(tok))
+    flush()
+    return " ".join(out)
+
+
+def warp(layers: list[dict], pt) -> list[dict]:
+    """The layers with every point moved by pt(x, y); radii, widths and blurs follow the local scale."""
+    out = []
+    for layer in layers:
+        new = dict(layer)
+        shape = layer["shape"]
+        box = shape_box(shape) or (0, 0, 0, 0)
+        sx, sy = _scales(pt, (box[0] + box[2]) / 2, (box[1] + box[3]) / 2)
+        mean = (sx + sy) / 2
+        if "rect" in shape:  # a warped rect may lean: it becomes its four corners
+            x, y, w, h = shape["rect"]
+            new["shape"] = {"polygon": [[_r(a) for a in pt(px, py)] for px, py in ((x, y), (x + w, y), (x + w, y + h), (x, y + h))]}
+        elif "ellipse" in shape:
+            cx, cy, rx, ry = shape["ellipse"]
+            nx, ny = pt(cx, cy)
+            ex, ey = _scales(pt, cx, cy)
+            new["shape"] = {"ellipse": [_r(nx), _r(ny), _r(rx * ex), _r(ry * ey)]}
+        elif "polygon" in shape:
+            new["shape"] = {"polygon": [[_r(a) for a in pt(x, y)] for x, y in shape["polygon"]]}
+        else:
+            new["shape"] = {"path": _warp_path(shape["path"], pt)}
+        fill = layer.get("fill")
+        if fill and "linear" in fill:
+            g = dict(fill["linear"])
+            (g["x0"], g["y0"]), (g["x1"], g["y1"]) = [tuple(_r(a) for a in pt(g["x0"], g["y0"])), tuple(_r(a) for a in pt(g["x1"], g["y1"]))]
+            new["fill"] = {"linear": g}
+        elif fill and "radial" in fill:
+            g = dict(fill["radial"])
+            g["cx"], g["cy"] = (_r(a) for a in pt(g["cx"], g["cy"]))
+            g["r"] = _r(g["r"] * mean)
+            new["fill"] = {"radial": g}
+        if "stroke" in layer:
+            new["stroke"] = dict(layer["stroke"], width=_r(max(0.12, layer["stroke"]["width"] * mean)))
+        if layer.get("blur"):
+            new["blur"] = _r(layer["blur"] * mean)
+        out.append(new)
+    return out
+
+
 CLOTH_PARTS = ("torso", "arm", "leg", "cape")
 
 
@@ -363,6 +490,7 @@ def finish(recipe: Recipe, name: str) -> None:
                 else:
                     layer["only"] = [person]
             recipe.layers = x.layers + recipe.layers if behind else recipe.layers + x.layers
+    recipe.layers = warp(recipe.layers, PROPORTIONS[base])  # the proportions of a real body
     recipe.layers = textures(recipe.layers, base, sum(ord(ch) for ch in name))
     w, h, ox, oy = CANVAS[base]
     recipe.layers = transform_layers(recipe.layers, 1.0, ox, oy)
