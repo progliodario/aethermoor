@@ -15,7 +15,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
   - **Every object, person and creature** loses its cartoon outline and its hard shade: soft light from the top left, a volume, a fine
     grain, colours a little less vivid. People have the face of a real face (smaller almond eyes, a nose, lips), strands in their hair
     and a weave in their clothes; beasts have fur, armours scratches and rust.
-  - **People have the proportions of a real body**: about seven heads instead of 4.6, a smaller head on a neck, shoulders that slope,
+  - **People have the proportions of a real body**, a little short and with a generous head so that they stay pleasant: six heads
+    instead of 4.6, a smaller head on a neck, shoulders that slope,
     a waist, arms that reach the middle of the thigh and legs of half the height, for every protagonist and every kind of person, in
     the three views (the rig `humanoid` and every look are warped to them).
   - **The rasterizer** of both clients gains stretched noise (`scale_y`, `period_y`: fibres, blades, strands, ripples) and ridged noise

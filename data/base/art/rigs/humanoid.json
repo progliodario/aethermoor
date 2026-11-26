@@ -29,7 +29,7 @@
       "parent": "torso",
       "offset": [
         0,
-        -19.6
+        -15.2
       ],
       "z": 1,
       "art": "base:art/char/ren/cape",
@@ -42,13 +42,13 @@
       "parent": "shadow",
       "offset": [
         -2.8,
-        -31.5
+        -29
       ],
       "z": 2,
       "art": "base:art/char/ren/leg",
       "offset_side": [
         -0.8,
-        -31.5
+        -29
       ]
     },
     {
@@ -56,13 +56,13 @@
       "parent": "shadow",
       "offset": [
         2.8,
-        -31.5
+        -29
       ],
       "z": 2,
       "art": "base:art/char/ren/leg",
       "offset_side": [
         0.65,
-        -31.5
+        -29
       ]
     },
     {
@@ -70,13 +70,13 @@
       "parent": "torso",
       "offset": [
         -6.8,
-        -16.45
+        -12.55
       ],
       "z": 3,
       "art": "base:art/char/ren/arm",
       "offset_side": [
         -0.8,
-        -17.45
+        -13.75
       ]
     },
     {
@@ -84,13 +84,13 @@
       "parent": "torso",
       "offset": [
         6.8,
-        -16.45
+        -12.55
       ],
       "z": 5,
       "art": "base:art/char/ren/arm",
       "offset_side": [
         0.55,
-        -17.45
+        -13.75
       ]
     },
     {
@@ -98,7 +98,7 @@
       "parent": "torso",
       "offset": [
         0,
-        -22.4
+        -17.6
       ],
       "z": 7,
       "art": "base:art/char/ren/head",
@@ -106,7 +106,7 @@
       "art_side": "base:art/char/ren/head_side",
       "offset_side": [
         0.35,
-        -22.4
+        -17.6
       ]
     }
   ]
