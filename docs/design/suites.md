@@ -25,6 +25,6 @@ conformance tests; the vectors of `tests/conformance/` were written later with o
 | `save_roundtrip` | save and resume | `save` (all 33 cases) |
 | `save_migration` | the frozen saves of every version | `save_fixtures` (all 34 cases) |
 | `i18n_format` | the format of the texts | `i18n_format` (all 16 cases) |
-| `vector_recipe_parse` | the art recipes and the rasterizer | `raster` (all 31 cases)<br>`rig_pose` (all 26 cases) |
+| `vector_recipe_parse` | the art recipes and the rasterizer | `raster` (all 35 cases)<br>`rig_pose` (all 26 cases) |
 | `crafting_quality` | crafting and the fine pieces | `combat`: `craft_at_fire`, `craft_recipes`, `craft_quality`, `recipe_taught` |
 | `week_of_play` | a week of play (M6): farming, cooking, shops, hunting, a feast, a traveller, a timed quest | `combat`: `week_of_play` |

@@ -20,7 +20,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112C"
       },
       "alpha": 0.36,
       "blur": 2.38
@@ -35,7 +35,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112C"
       },
       "alpha": 0.288,
       "blur": 1.7
@@ -64,11 +64,17 @@
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 10 58 Q 8 30 38 26 Q 68 30 66 58 Q 66 67 38 67 Q 10 67 10 58 Z"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 1
-      }
+        "width": 0.8
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -92,7 +98,7 @@
         "path": "M 42 26.4 Q 68 30 66 58 Q 66 67 38 67 Q 22 67 15.2 64 Q 54 62 42 26.4 Z"
       },
       "fill": {
-        "color": "#5A4E9A"
+        "color": "#5A5090"
       },
       "alpha": 0.4,
       "blur": 3.2,
@@ -244,19 +250,38 @@
             ],
             [
               0.5,
-              "#BFE8FF"
+              "#C4E7FA"
             ],
             [
               1,
-              "#5A9ADC"
+              "#6298D0"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            20,
+            35.1
+          ],
+          [
+            21,
+            21.1
+          ],
+          [
+            28,
+            35.1
+          ]
+        ]
       },
       "stroke": {
-        "color": "#2A5A9A",
-        "width": 0.6
-      }
+        "color": "#30598F",
+        "width": 0.48
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -310,19 +335,38 @@
             ],
             [
               0.5,
-              "#BFE8FF"
+              "#C4E7FA"
             ],
             [
               1,
-              "#5A9ADC"
+              "#6298D0"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            30.8,
+            31.5
+          ],
+          [
+            36,
+            11.5
+          ],
+          [
+            41.2,
+            31.5
+          ]
+        ]
       },
       "stroke": {
-        "color": "#2A5A9A",
-        "width": 0.6
-      }
+        "color": "#30598F",
+        "width": 0.48
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -376,19 +420,38 @@
             ],
             [
               0.5,
-              "#BFE8FF"
+              "#C4E7FA"
             ],
             [
               1,
-              "#5A9ADC"
+              "#6298D0"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            45.6,
+            35.1
+          ],
+          [
+            53.2,
+            20.1
+          ],
+          [
+            54.4,
+            35.1
+          ]
+        ]
       },
       "stroke": {
-        "color": "#2A5A9A",
-        "width": 0.6
-      }
+        "color": "#30598F",
+        "width": 0.48
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -589,11 +652,22 @@
       },
       "fill": {
         "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          28,
+          48.4,
+          3.4,
+          4.6
+        ]
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.5
-      }
+        "width": 0.4
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -633,11 +707,22 @@
       },
       "fill": {
         "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          48,
+          48.4,
+          3.4,
+          4.6
+        ]
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.5
-      }
+        "width": 0.4
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -685,7 +770,7 @@
         ]
       },
       "fill": {
-        "color": "#FF6A8A"
+        "color": "#F0718C"
       },
       "alpha": 0.3,
       "blur": 0.8
@@ -700,7 +785,7 @@
         ]
       },
       "fill": {
-        "color": "#FF6A8A"
+        "color": "#F0718C"
       },
       "alpha": 0.3,
       "blur": 0.8
@@ -747,23 +832,58 @@
           "stops": [
             [
               0,
-              "#FFF4B0"
+              "#FDF3BA"
             ],
             [
               0.5,
-              "#F2C94C"
+              "#ECC95E"
             ],
             [
               1,
-              "#A8741E"
+              "#A1752C"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            25.2,
+            28.8
+          ],
+          [
+            24.56,
+            17.7
+          ],
+          [
+            31.6,
+            22.88
+          ],
+          [
+            38,
+            14
+          ],
+          [
+            44.4,
+            22.88
+          ],
+          [
+            51.44,
+            17.7
+          ],
+          [
+            50.8,
+            28.8
+          ]
+        ]
       },
       "stroke": {
-        "color": "#5A3A08",
-        "width": 0.8
-      }
+        "color": "#563B10",
+        "width": 0.64
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -775,7 +895,7 @@
         ]
       },
       "fill": {
-        "color": "#A8741E"
+        "color": "#A1752C"
       },
       "alpha": 0.6
     },
@@ -789,12 +909,23 @@
         ]
       },
       "fill": {
-        "color": "#FFF8D0"
+        "color": "#FEF8D6"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          24.56,
+          17.7,
+          1.66,
+          1.66
+        ]
       },
       "stroke": {
-        "color": "#5A3A08",
-        "width": 0.5
-      }
+        "color": "#563B10",
+        "width": 0.4
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -806,12 +937,23 @@
         ]
       },
       "fill": {
-        "color": "#FFF8D0"
+        "color": "#FEF8D6"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          38,
+          14,
+          1.66,
+          1.66
+        ]
       },
       "stroke": {
-        "color": "#5A3A08",
-        "width": 0.5
-      }
+        "color": "#563B10",
+        "width": 0.4
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -823,12 +965,23 @@
         ]
       },
       "fill": {
-        "color": "#FFF8D0"
+        "color": "#FEF8D6"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          51.44,
+          17.7,
+          1.66,
+          1.66
+        ]
       },
       "stroke": {
-        "color": "#5A3A08",
-        "width": 0.5
-      }
+        "color": "#563B10",
+        "width": 0.4
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -840,12 +993,23 @@
         ]
       },
       "fill": {
-        "color": "#4A7AE0"
+        "color": "#517AD0"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          38,
+          23.18,
+          2.56,
+          3.08
+        ]
       },
       "stroke": {
-        "color": "#5A3A08",
-        "width": 0.5
-      }
+        "color": "#563B10",
+        "width": 0.4
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -860,14 +1024,107 @@
         "color": "#FFFFFF"
       },
       "alpha": 0.9
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          76,
+          74
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 8,
+          "y0": 11.5,
+          "x1": 23,
+          "y1": 42.03,
+          "stops": [
+            [
+              0,
+              "#FFF6E0"
+            ],
+            [
+              1,
+              "#FFF6E000"
+            ]
+          ]
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.1
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          76,
+          74
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 26,
+          "cy": 23.71,
+          "r": 63,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              0.38,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#4A4068"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          76,
+          74
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.7,
+          "seed": 3380,
+          "octaves": 2,
+          "stops": [
+            [
+              0.28,
+              "#9C94A4"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14
     }
   ],
   "palette": {
-    "body": "#BFE4FF",
+    "body": "#C3E3FA",
     "light": "#FFFFFF",
-    "dark": "#5F8FBF",
-    "outline": "#16283F",
-    "eye": "#16283F",
-    "gold": "#CFF3FF"
+    "dark": "#658EB6",
+    "outline": "#18283B",
+    "eye": "#18283B",
+    "gold": "#D3F2FC"
   }
 }

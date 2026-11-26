@@ -284,8 +284,8 @@ I numeri, contati dai dati da `tools/make_facts.py` (dove si guarda: il [catalog
 | Persone con nome | 58 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
 | Testi | 4300 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 635 casi, eseguiti dai test C++ e Kotlin |
-| Documenti | 19 specifiche, 14 ADR |
+| Regole uguali sui due client | 31 file di vettori di conformità, 639 casi, eseguiti dai test C++ e Kotlin |
+| Documenti | 19 specifiche, 15 ADR |
 <!-- facts:end -->
 
 ### 8.2 Stato delle milestone
@@ -407,9 +407,14 @@ Ogni voce dice la regola (con la sua specifica) e da quando c'è. Tutto ciò che
 - **Tag** (dal 18 novembre, seconda PR): otto tratti guadagnati da come giochi (Berserker, Sentinella, Cercatore, Artefice, Epicureo, Coltivatore, Naturalista, Campione del popolo); se ne indossa uno alla volta (`Y`, o il pulsante Tag del diario) e solo quello dà il suo effetto, più forte di quello di un titolo.
 - Profilo comune a tutte le partite: echi (vita in più per ogni titolo e vita passata), reincarnazione dal livello 10 con eredità di metà dell'oro e dell'arma impugnata, imprese (dal 17 novembre) lette dal profilo e elencate dalla schermata del titolo.
 
-**Grafica** (spec 13, ADR 0012 e 0013)
+**Grafica** (spec 13, ADR 0012, 0013 e 0015)
 
-- Rasterizzatore vettoriale scritto due volte (C++ e Kotlin) e verificato con le stesse sonde; arte da anime scritta da strumenti in Python.
+- Rasterizzatore vettoriale scritto due volte (C++ e Kotlin) e verificato con le stesse sonde; arte scritta da strumenti in Python.
+- **Grafica realistica** (dal 26 novembre, ADR 0015): tutto ridipinto perché sembri vero e non disegnato. Terreni con la materia vera
+  (fili d'erba a ciuffi con la loro ombra, ghiaia e sassi, increspature della sabbia, foglie secche nei boschi, la rete di luce sul fondo
+  dell'acqua bassa, braci nella cenere); alberi fatti di foglie su tronchi di corteccia; oggetti, persone e creature senza contorni da
+  fumetto, con luce morbida, volume e grana; visi con occhi, naso e labbra veri, capelli a ciocche, stoffe con la trama, pelliccia e
+  armature consumate. Il rasterizzatore ha il rumore allungato e a creste (spec 13, v3).
 - Persone di 4,6 teste con vista di fronte e di spalle, terreni dipinti che sfumano, oggetti di scena (dal 18 novembre anche sette mobili), creature che si girano verso di te, ombre lunghe all'alba e al tramonto, acqua e vento che si muovono, luci di notte.
 
 **Suono** (spec 14)

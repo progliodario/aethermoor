@@ -20,7 +20,7 @@
         ]
       },
       "fill": {
-        "color": "#7D75A3"
+        "color": "#7D76A1"
       },
       "alpha": 0.36,
       "blur": 1.19
@@ -35,7 +35,7 @@
         ]
       },
       "fill": {
-        "color": "#7D75A3"
+        "color": "#7D76A1"
       },
       "alpha": 0.288,
       "blur": 0.85
@@ -64,11 +64,17 @@
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "path": "M 4 26 Q 3 12 18 10 Q 33 12 32 26 Q 32 30.5 18 30.5 Q 4 30.5 4 26 Z"
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.5
-      }
+        "width": 0.4
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -92,7 +98,7 @@
         "path": "M 20 10.2 Q 33 12 32 26 Q 32 30.5 18 30.5 Q 10 30.5 6.6 29 Q 26 28 20 10.2 Z"
       },
       "fill": {
-        "color": "#9C90D2"
+        "color": "#9C91CD"
       },
       "alpha": 0.4,
       "blur": 1.6,
@@ -219,7 +225,7 @@
         "path": "M 9 16 L 12 20 L 10.5 24 L 13 27"
       },
       "stroke": {
-        "color": "#E59D9C",
+        "color": "#DD9FA3",
         "width": 1.8
       },
       "alpha": 0.5,
@@ -232,7 +238,7 @@
         "path": "M 9 16 L 12 20 L 10.5 24 L 13 27"
       },
       "stroke": {
-        "color": "#E5D7DB",
+        "color": "#E3D7DF",
         "width": 0.5
       },
       "clip": true
@@ -242,7 +248,7 @@
         "path": "M 22 12.4 L 21 16.6 L 24.6 19 L 23.6 23"
       },
       "stroke": {
-        "color": "#E59D9C",
+        "color": "#DD9FA3",
         "width": 1.8
       },
       "alpha": 0.5,
@@ -255,7 +261,7 @@
         "path": "M 22 12.4 L 21 16.6 L 24.6 19 L 23.6 23"
       },
       "stroke": {
-        "color": "#E5D7DB",
+        "color": "#E3D7DF",
         "width": 0.5
       },
       "clip": true
@@ -265,7 +271,7 @@
         "path": "M 27 18 L 29 22 L 27.6 26"
       },
       "stroke": {
-        "color": "#E59D9C",
+        "color": "#DD9FA3",
         "width": 1.8
       },
       "alpha": 0.5,
@@ -278,7 +284,7 @@
         "path": "M 27 18 L 29 22 L 27.6 26"
       },
       "stroke": {
-        "color": "#E5D7DB",
+        "color": "#E3D7DF",
         "width": 0.5
       },
       "clip": true
@@ -345,11 +351,22 @@
       },
       "fill": {
         "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          13,
+          21.2,
+          1.7,
+          2.3
+        ]
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.25
-      }
+        "width": 0.2
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -389,11 +406,22 @@
       },
       "fill": {
         "color": "$p.eye"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23,
+          21.2,
+          1.7,
+          2.3
+        ]
       },
       "stroke": {
         "color": "$p.outline",
-        "width": 0.25
-      }
+        "width": 0.2
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -441,7 +469,7 @@
         ]
       },
       "fill": {
-        "color": "#E59DCB"
+        "color": "#DE9FCB"
       },
       "alpha": 0.3,
       "blur": 0.4
@@ -456,7 +484,7 @@
         ]
       },
       "fill": {
-        "color": "#E59DCB"
+        "color": "#DE9FCB"
       },
       "alpha": 0.3,
       "blur": 0.4
@@ -478,19 +506,30 @@
           "stops": [
             [
               0,
-              "#E5DBEA"
+              "#E4DBEC"
             ],
             [
               1,
-              "#C6A9A0"
+              "#C3A9A7"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          9.6,
+          26.6,
+          0.9,
+          0.9
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.2
-      }
+        "color": "#9B8895",
+        "width": 0.16
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -509,19 +548,30 @@
           "stops": [
             [
               0,
-              "#E5DBEA"
+              "#E4DBEC"
             ],
             [
               1,
-              "#C6A9A0"
+              "#C3A9A7"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12.4,
+          27.55,
+          0.9,
+          0.9
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.2
-      }
+        "color": "#9B8895",
+        "width": 0.16
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -540,19 +590,30 @@
           "stops": [
             [
               0,
-              "#E5DBEA"
+              "#E4DBEC"
             ],
             [
               1,
-              "#C6A9A0"
+              "#C3A9A7"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          15.2,
+          28.25,
+          0.9,
+          0.9
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.2
-      }
+        "color": "#9B8895",
+        "width": 0.16
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -571,19 +632,30 @@
           "stops": [
             [
               0,
-              "#E5DBEA"
+              "#E4DBEC"
             ],
             [
               1,
-              "#C6A9A0"
+              "#C3A9A7"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          28.5,
+          0.9,
+          0.9
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.2
-      }
+        "color": "#9B8895",
+        "width": 0.16
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -602,19 +674,30 @@
           "stops": [
             [
               0,
-              "#E5DBEA"
+              "#E4DBEC"
             ],
             [
               1,
-              "#C6A9A0"
+              "#C3A9A7"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          20.8,
+          28.25,
+          0.9,
+          0.9
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.2
-      }
+        "color": "#9B8895",
+        "width": 0.16
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -633,19 +716,30 @@
           "stops": [
             [
               0,
-              "#E5DBEA"
+              "#E4DBEC"
             ],
             [
               1,
-              "#C6A9A0"
+              "#C3A9A7"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23.6,
+          27.55,
+          0.9,
+          0.9
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.2
-      }
+        "color": "#9B8895",
+        "width": 0.16
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -664,19 +758,30 @@
           "stops": [
             [
               0,
-              "#E5DBEA"
+              "#E4DBEC"
             ],
             [
               1,
-              "#C6A9A0"
+              "#C3A9A7"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          26.4,
+          26.6,
+          0.9,
+          0.9
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.2
-      }
+        "color": "#9B8895",
+        "width": 0.16
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -720,23 +825,58 @@
           "stops": [
             [
               0,
-              "#E5D9DB"
+              "#E3D9E0"
             ],
             [
               0.5,
-              "#DFC7AF"
+              "#DCC7B7"
             ],
             [
               1,
-              "#BFA19B"
+              "#BBA2A1"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "polygon": [
+          [
+            12.8,
+            11.4
+          ],
+          [
+            12.54,
+            7.2
+          ],
+          [
+            15.4,
+            9.16
+          ],
+          [
+            18,
+            5.8
+          ],
+          [
+            20.6,
+            9.16
+          ],
+          [
+            23.46,
+            7.2
+          ],
+          [
+            23.2,
+            11.4
+          ]
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.4
-      }
+        "color": "#9B8895",
+        "width": 0.32
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -748,7 +888,7 @@
         ]
       },
       "fill": {
-        "color": "#BFA19B"
+        "color": "#BBA2A1"
       },
       "alpha": 0.6
     },
@@ -762,12 +902,23 @@
         ]
       },
       "fill": {
-        "color": "#E5DBEA"
+        "color": "#E4DBEC"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          12.54,
+          7.2,
+          0.68,
+          0.68
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.25
-      }
+        "color": "#9B8895",
+        "width": 0.2
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -779,12 +930,23 @@
         ]
       },
       "fill": {
-        "color": "#E5DBEA"
+        "color": "#E4DBEC"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          5.8,
+          0.68,
+          0.68
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.25
-      }
+        "color": "#9B8895",
+        "width": 0.2
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -796,12 +958,23 @@
         ]
       },
       "fill": {
-        "color": "#E5DBEA"
+        "color": "#E4DBEC"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          23.46,
+          7.2,
+          0.68,
+          0.68
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.25
-      }
+        "color": "#9B8895",
+        "width": 0.2
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -813,12 +986,23 @@
         ]
       },
       "fill": {
-        "color": "#D783A0"
+        "color": "#CF87A4"
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          18,
+          9.27,
+          1.04,
+          1.25
+        ]
       },
       "stroke": {
-        "color": "#9C8792",
-        "width": 0.25
-      }
+        "color": "#9B8895",
+        "width": 0.2
+      },
+      "alpha": 0.38
     },
     {
       "shape": {
@@ -833,13 +1017,106 @@
         "color": "#E5DEFF"
       },
       "alpha": 0.9
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          36,
+          34
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 3,
+          "y0": 5.12,
+          "x1": 10.5,
+          "y1": 19.08,
+          "stops": [
+            [
+              0,
+              "#E5DBF0"
+            ],
+            [
+              1,
+              "#E5DBF000"
+            ]
+          ]
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.1
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          36,
+          34
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 12,
+          "cy": 10.7,
+          "r": 31.5,
+          "stops": [
+            [
+              0,
+              "#E5DEFF"
+            ],
+            [
+              0.38,
+              "#E5DEFF"
+            ],
+            [
+              1,
+              "#958ABB"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          36,
+          34
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.7,
+          "seed": 2932,
+          "octaves": 2,
+          "stops": [
+            [
+              0.28,
+              "#B9AFD6"
+            ],
+            [
+              0.6,
+              "#E5DEFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14
     }
   ],
   "palette": {
-    "body": "#847898",
-    "light": "#B1879A",
+    "body": "#847999",
+    "light": "#AD899D",
     "dark": "#797191",
     "outline": "#756F8F",
-    "eye": "#E5BB8E"
+    "eye": "#E0BC9A"
   }
 }

@@ -1,6 +1,7 @@
 package io.github.progliodario.aethermoor.core.vector
 
 import kotlin.math.PI
+import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.cos
 import kotlin.math.floor
@@ -429,7 +430,16 @@ private sealed interface ResolvedPaint {
 
     class Radial(val cx: Float, val cy: Float, val r: Float, val stops: List<ResolvedStop>) : ResolvedPaint
 
-    class Noise(val scale: Float, val seed: Int, val octaves: Int, val period: Int, val stops: List<ResolvedStop>) : ResolvedPaint
+    class Noise(
+        val scale: Float,
+        val seed: Int,
+        val octaves: Int,
+        val period: Int,
+        val stops: List<ResolvedStop>,
+        val scaleY: Float,
+        val periodY: Int,
+        val ridged: Boolean,
+    ) : ResolvedPaint
 }
 
 private fun resolveStops(stops: List<GradientStop>, palette: Palette) =
@@ -447,6 +457,9 @@ private fun resolvePaint(paint: Paint, palette: Palette): ResolvedPaint? =
             paint.octaves.coerceIn(1, 6),
             max(paint.period, 0),
             resolveStops(paint.stops, palette),
+            paint.scaleY,
+            max(paint.periodY, 0),
+            paint.ridged,
         )
     }
 
@@ -495,9 +508,10 @@ private fun noiseValue(paint: ResolvedPaint.Noise, px: Float, py: Float): Float 
     var norm = 0f
     var amp = 1f
     for (o in 0 until paint.octaves) {
-        val f = (1 shl o).toFloat() / paint.scale
-        val u = px * f
-        val v = py * f
+        val fx = (1 shl o).toFloat() / paint.scale
+        val fy = (1 shl o).toFloat() / paint.scaleY
+        val u = px * fx
+        val v = py * fy
         val floorU = floor(u)
         val floorV = floor(v)
         val fu = u - floorU
@@ -511,9 +525,12 @@ private fun noiseValue(paint: ResolvedPaint.Noise, px: Float, py: Float): Float 
         if (paint.period > 0) {
             val per = paint.period.toLong() shl o
             ix = ix.mod(per)
-            iy = iy.mod(per)
             ix1 = ix1.mod(per)
-            iy1 = iy1.mod(per)
+        }
+        if (paint.periodY > 0) {
+            val perY = paint.periodY.toLong() shl o
+            iy = iy.mod(perY)
+            iy1 = iy1.mod(perY)
         }
         val seed = paint.seed + o
         val a = noiseHash(ix.toInt(), iy.toInt(), seed)
@@ -522,7 +539,9 @@ private fun noiseValue(paint: ResolvedPaint.Noise, px: Float, py: Float): Float 
         val d = noiseHash(ix1.toInt(), iy1.toInt(), seed)
         val top = a + (b - a) * su
         val bottom = c + (d - c) * su
-        total += (top + (bottom - top) * sv) * amp
+        val n = top + (bottom - top) * sv
+        // folded around the middle: thin creases (spec 13, "Noise")
+        total += (if (paint.ridged) 1f - abs(2f * n - 1f) else n) * amp
         norm += amp
         amp *= 0.5f
     }
@@ -545,7 +564,7 @@ private fun paintAt(paint: ResolvedPaint, px: Float, py: Float): Color =
             val t = if (paint.r <= 0f) 1f else clamp01(sqrt(ex * ex + ey * ey) / paint.r)
             colorFromStops(paint.stops, t)
         }
-        is ResolvedPaint.Noise -> colorFromStops(paint.stops, if (paint.scale <= 0f) 0.5f else noiseValue(paint, px, py))
+        is ResolvedPaint.Noise -> colorFromStops(paint.stops, if (paint.scale <= 0f || paint.scaleY <= 0f) 0.5f else noiseValue(paint, px, py))
     }
 
 private fun composite(acc: FloatArray, mask: Mask, paint: ResolvedPaint, layer: Layer, scale: Float) {

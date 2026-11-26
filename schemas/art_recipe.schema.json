@@ -239,6 +239,21 @@
               "maximum": 4096,
               "description": "The noise repeats every period cells of `scale` (0: it does not repeat)."
             },
+            "scale_y": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "description": "The size of the clouds along y (default `scale`): stretched clouds, for grain, ripples and blades (spec 13, v3)."
+            },
+            "period_y": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4096,
+              "description": "The period along y, in cells of `scale_y` (default `period`)."
+            },
+            "ridged": {
+              "type": "boolean",
+              "description": "Every octave folded around its middle: thin creases (veins, cracks, the net of light on water)."
+            },
             "stops": {
               "$ref": "#/$defs/stops"
             }

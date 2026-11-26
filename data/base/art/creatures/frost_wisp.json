@@ -20,7 +20,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112C"
       },
       "alpha": 0.2,
       "blur": 0.8
@@ -261,14 +261,107 @@
       "fill": {
         "color": "#FFFFFF"
       }
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          36,
+          46
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 5,
+          "y0": 2.6,
+          "x1": 11.5,
+          "y1": 23.45,
+          "stops": [
+            [
+              0,
+              "#FFF6E0"
+            ],
+            [
+              1,
+              "#FFF6E000"
+            ]
+          ]
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.1
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          36,
+          46
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 12.8,
+          "cy": 10.94,
+          "r": 39.8,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              0.38,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#4A4068"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.32
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          36,
+          46
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.7,
+          "seed": 2853,
+          "octaves": 2,
+          "stops": [
+            [
+              0.28,
+              "#9C94A4"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.14
     }
   ],
   "palette": {
-    "body": "#BFE8FF",
+    "body": "#C4E7FA",
     "light": "#FFFFFF",
-    "dark": "#5A8AD8",
-    "outline": "#1E3A6A",
-    "eye": "#1E3A6A",
-    "halo": "#D8F4FF"
+    "dark": "#6089CB",
+    "outline": "#223A62",
+    "eye": "#223A62",
+    "halo": "#DBF3FC"
   }
 }

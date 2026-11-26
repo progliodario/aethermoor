@@ -41,8 +41,8 @@ I numeri del gioco, contati dai dati (non si scrivono a mano: li aggiorna `pytho
 | Persone con nome | 58 nei dati del mondo, oltre ai paesani generati |
 | Suono | 174 effetti sonori sintetizzati (musica e ambiente spenti) |
 | Testi | 4300 chiavi, in italiano e inglese |
-| Regole uguali sui due client | 31 file di vettori di conformità, 635 casi, eseguiti dai test C++ e Kotlin |
-| Documenti | 19 specifiche, 14 ADR |
+| Regole uguali sui due client | 31 file di vettori di conformità, 639 casi, eseguiti dai test C++ e Kotlin |
+| Documenti | 19 specifiche, 15 ADR |
 <!-- facts:end -->
 
 **Fatto e da fare, in una riga per parte** (il dettaglio voce per voce è nella [sezione 8 della roadmap](docs/plan/06-roadmap-rischi-backlog.md#8-stato-e-prossimi-passi)):

@@ -20,7 +20,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112B"
       },
       "alpha": 0.3,
       "blur": 0.98
@@ -35,7 +35,7 @@
         ]
       },
       "fill": {
-        "color": "#141030"
+        "color": "#14112B"
       },
       "alpha": 0.24,
       "blur": 0.7
@@ -45,7 +45,7 @@
         "path": "M 4 14 Q 14 8 26 10 Q 32 11 37 7"
       },
       "stroke": {
-        "color": "#1E1830",
+        "color": "#1E192C",
         "width": 4.3
       }
     },
@@ -63,7 +63,7 @@
         "path": "M 4 14 Q 14 8 26 10 Q 32 11 37 7"
       },
       "stroke": {
-        "color": "#F2E8D6",
+        "color": "#F0E8D9",
         "width": 1.02
       },
       "alpha": 0.7
@@ -73,7 +73,7 @@
         "path": "M 20 10 Q 23 5 28 3"
       },
       "stroke": {
-        "color": "#1E1830",
+        "color": "#1E192C",
         "width": 2.9
       }
     },
@@ -91,7 +91,7 @@
         "path": "M 20 10 Q 23 5 28 3"
       },
       "stroke": {
-        "color": "#F2E8D6",
+        "color": "#F0E8D9",
         "width": 0.6
       },
       "alpha": 0.7
@@ -101,7 +101,7 @@
         "path": "M 12 11.6 Q 10 7 6 6"
       },
       "stroke": {
-        "color": "#1E1830",
+        "color": "#1E192C",
         "width": 2.5
       }
     },
@@ -119,7 +119,7 @@
         "path": "M 12 11.6 Q 10 7 6 6"
       },
       "stroke": {
-        "color": "#F2E8D6",
+        "color": "#F0E8D9",
         "width": 0.48
       },
       "alpha": 0.7
@@ -155,15 +155,26 @@
             ],
             [
               1,
-              "#E8C8B8"
+              "#E4C9BC"
             ]
           ]
         }
+      }
+    },
+    {
+      "shape": {
+        "ellipse": [
+          30,
+          15.4,
+          1.6,
+          1.1
+        ]
       },
       "stroke": {
-        "color": "#A88070",
-        "width": 0.2
-      }
+        "color": "#A38275",
+        "width": 0.16
+      },
+      "alpha": 0.32
     },
     {
       "shape": {
@@ -175,14 +186,107 @@
         ]
       },
       "fill": {
-        "color": "#3E7A6A"
+        "color": "#457669"
       },
       "alpha": 0.6,
       "blur": 0.4
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          40,
+          20
+        ]
+      },
+      "fill": {
+        "linear": {
+          "x0": 8,
+          "y0": 14.3,
+          "x1": 13.9,
+          "y1": 15.51,
+          "stops": [
+            [
+              0,
+              "#FFF6E0"
+            ],
+            [
+              1,
+              "#FFF6E000"
+            ]
+          ]
+        }
+      },
+      "blend": "add",
+      "clip": true,
+      "alpha": 0.1
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          40,
+          20
+        ]
+      },
+      "fill": {
+        "radial": {
+          "cx": 15.08,
+          "cy": 14.78,
+          "r": 24.78,
+          "stops": [
+            [
+              0,
+              "#FFFFFF"
+            ],
+            [
+              0.38,
+              "#FFFFFF"
+            ],
+            [
+              1,
+              "#4A4068"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.34
+    },
+    {
+      "shape": {
+        "rect": [
+          0,
+          0,
+          40,
+          20
+        ]
+      },
+      "fill": {
+        "noise": {
+          "scale": 0.7,
+          "seed": 2317,
+          "octaves": 2,
+          "stops": [
+            [
+              0.28,
+              "#9C94A4"
+            ],
+            [
+              0.6,
+              "#FFFFFF"
+            ]
+          ]
+        }
+      },
+      "blend": "multiply",
+      "alpha": 0.16
     }
   ],
   "palette": {
-    "wood": "#B8A890",
-    "dark": "#6A5E50"
+    "wood": "#B5A895",
+    "dark": "#685E53"
   }
 }

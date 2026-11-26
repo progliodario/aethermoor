@@ -488,6 +488,9 @@ struct ResolvedPaint {
     std::uint32_t noise_seed = 0;
     int noise_octaves = 3;
     int noise_period = 0;
+    float noise_scale_y = 1.0F;
+    int noise_period_y = 0;
+    bool noise_ridged = false;
     std::vector<ResolvedStop> stops;
 };
 
@@ -508,6 +511,9 @@ ResolvedPaint resolve_paint(const Paint& paint, const Palette& palette) {
     out.noise_seed = static_cast<std::uint32_t>(paint.noise_seed);
     out.noise_octaves = std::clamp(paint.noise_octaves, 1, 6);
     out.noise_period = std::max(paint.noise_period, 0);
+    out.noise_scale_y = paint.noise_scale_y;
+    out.noise_period_y = std::max(paint.noise_period_y, 0);
+    out.noise_ridged = paint.noise_ridged;
     for (const GradientStop& s : paint.stops) {
         out.stops.push_back({s.t, resolve_color(s.color, palette)});
     }
@@ -555,9 +561,10 @@ float noise_value(const ResolvedPaint& paint, float px, float py) {
     float norm = 0.0F;
     float amp = 1.0F;
     for (int o = 0; o < paint.noise_octaves; ++o) {
-        const float f = static_cast<float>(1 << o) / paint.noise_scale;
-        const float u = px * f;
-        const float v = py * f;
+        const float fx = static_cast<float>(1 << o) / paint.noise_scale;
+        const float fy = static_cast<float>(1 << o) / paint.noise_scale_y;
+        const float u = px * fx;
+        const float v = py * fy;
         const float floor_u = std::floor(u);
         const float floor_v = std::floor(v);
         const float fu = u - floor_u;
@@ -572,9 +579,13 @@ float noise_value(const ResolvedPaint& paint, float px, float py) {
             const std::int64_t per = static_cast<std::int64_t>(paint.noise_period) << o;
             const auto wrap = [per](std::int64_t value) { return ((value % per) + per) % per; };
             ix = wrap(ix);
-            iy = wrap(iy);
             ix1 = wrap(ix1);
-            iy1 = wrap(iy1);
+        }
+        if (paint.noise_period_y > 0) {
+            const std::int64_t per_y = static_cast<std::int64_t>(paint.noise_period_y) << o;
+            const auto wrap_y = [per_y](std::int64_t value) { return ((value % per_y) + per_y) % per_y; };
+            iy = wrap_y(iy);
+            iy1 = wrap_y(iy1);
         }
         const std::uint32_t seed = paint.noise_seed + static_cast<std::uint32_t>(o);
         const auto cell = [seed](std::int64_t x, std::int64_t y) {
@@ -586,7 +597,11 @@ float noise_value(const ResolvedPaint& paint, float px, float py) {
         const float d = cell(ix1, iy1);
         const float top = a + (b - a) * su;
         const float bottom = c + (d - c) * su;
-        total += (top + (bottom - top) * sv) * amp;
+        float n = top + (bottom - top) * sv;
+        if (paint.noise_ridged) {  // folded around the middle: thin creases (spec 13, "Noise")
+            n = 1.0F - std::fabs(2.0F * n - 1.0F);
+        }
+        total += n * amp;
         norm += amp;
         amp *= 0.5F;
     }
@@ -611,7 +626,9 @@ Color paint_at(const ResolvedPaint& paint, float px, float py) {
             return color_from_stops(paint.stops, t);
         }
         case Paint::Kind::Noise:
-            return color_from_stops(paint.stops, paint.noise_scale <= 0.0F ? 0.5F : noise_value(paint, px, py));
+            return color_from_stops(paint.stops, paint.noise_scale <= 0.0F || paint.noise_scale_y <= 0.0F
+                                                     ? 0.5F
+                                                     : noise_value(paint, px, py));
         case Paint::Kind::None:
             break;
     }

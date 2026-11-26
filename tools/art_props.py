@@ -1,8 +1,9 @@
-"""The props of data/base/art/props/: trees, rocks, camp and town things, painted in the anime way (docs/design/art-style.md).
+"""The props of data/base/art/props/: trees, rocks, camp and town things, painted to look real (docs/design/art-style.md).
 
 Every prop has its origin at its foot (the draw order and the collision of the world data use it), a soft shadow on the
-ground, a thin dark line in its own hue, flat tones broken by a noise fill, a hard violet shade on the side away from the
-light (top left) and a warm rim where the light lands. Used by `make_art.py`.
+ground, the matter of what it is made of (noise fills: the fibres of wood, the grain of stone, leaves), a soft shade on the
+side away from the light (top left) and a warm light where the light lands; the finish of `artkit.finish` (`FINISH`) then
+fades its outlines and gives it a volume and a grain. Used by `make_art.py`.
 """
 from __future__ import annotations
 
@@ -11,10 +12,14 @@ import math
 from artkit import ART, Recipe, darken, lighten, linear, mix, noise, radial  # noqa: F401
 
 INK = "#1E1830"
+# the realistic finish of every prop (artkit.finish): a faint edge, soft shades, a volume, a grain, colours a little less vivid
+FINISH = {"outline": 0.32, "desat": 0.18, "form": 0.34, "grain": 0.16, "sky": 0.1}
 
 
 def prop(name: str, w, h, origin, palette: dict) -> Recipe:
-    return Recipe(f"base:art/prop/{name}", w, h, origin, palette, seed="v3")
+    r = Recipe(f"base:art/prop/{name}", w, h, origin, palette, seed="v3")
+    r.finish = FINISH
+    return r
 
 
 def wobble(r: Recipe, cx: float, cy: float, rx: float, ry: float, n: int = 9, jitter: float = 0.18) -> str:
@@ -48,134 +53,178 @@ def box(x: float, y: float, w: float, h: float) -> str:
 
 
 def wood(seed: int, tone: str, scale: float = 5.0):
-    return noise(scale, seed, (0.3, darken(tone, 0.16)), (0.5, tone), (0.72, lighten(tone, 0.14)), octaves=3)
+    """The matter of wood: fine fibres along the length (a stretched noise) over slow knots of tone."""
+    return noise(scale * 0.35, seed, (0.28, darken(tone, 0.22)), (0.5, tone), (0.72, lighten(tone, 0.14)), octaves=4, scale_y=scale * 1.6)
 
 
 def stone(seed: int, tone: str, scale: float = 5.0):
-    return noise(scale, seed, (0.28, darken(tone, 0.2)), (0.5, tone), (0.74, lighten(tone, 0.18)), octaves=3)
+    """The matter of stone: grains and speckles over slow patches of tone."""
+    return noise(scale * 0.6, seed, (0.28, darken(tone, 0.24)), (0.5, tone), (0.72, lighten(tone, 0.16)), octaves=5)
+
+
+def _f(v: float) -> str:
+    return f"{v:.2f}".rstrip("0").rstrip(".")
+
+
+def leaf_d(x: float, y: float, s: float, a: float) -> str:
+    """One leaf of size s at (x, y), turned by the angle a (radians)."""
+    dx, dy = math.cos(a) * s, math.sin(a) * s
+    nx, ny = -dy * 0.42, dx * 0.42
+    # turned the same way as the silhouettes of wobble() (a positive area), so that a leaf over a silhouette in the same
+    # path adds to it and never cuts a hole (nonzero rule)
+    return (f"M {_f(x - dx)} {_f(y - dy)} Q {_f(x - nx)} {_f(y - ny)} {_f(x + dx)} {_f(y + dy)} "
+            f"Q {_f(x + nx)} {_f(y + ny)} {_f(x - dx)} {_f(y - dy)} Z")
 
 
 # ------------------------------------------------------------------------------------------------ trees and plants
 def crown(r: Recipe, clumps: list[tuple[float, float, float, float]], dark: str, mid: str, light: str, seed: int, ink: str,
           tip: str | None = None) -> None:
-    """The foliage of a tree: clumps drawn back to front, each one dark below, lit from the top left, with leaf strokes."""
+    """The foliage of a tree, painted as a mass of leaves: clumps drawn back to front, each one a silhouette broken by leaves
+    on its edge, filled with the fine texture of leaves, rounded by a soft shade away from the light (top left), with
+    leaves picked out by the light and dark gaps between them. `ink` is the colour of the deepest shade."""
     for i, (cx, cy, rx, ry) in enumerate(clumps):
-        outline = wobble(r, cx, cy, rx, ry, 10, 0.14)
-        r.path(outline, noise(rx * 0.7, seed + i, (0.25, dark), (0.5, mid), (0.85, light), octaves=3), stroke=ink, width=0.45)
-        # the lower right of the clump is in shade, the upper left catches the light
-        r.shade(ell(cx + rx * 0.3, cy + ry * 0.5, rx * 1.05, ry * 0.8), 0.5, blur=rx * 0.22, clip=True)
-        r.lit(wobble(r, cx - rx * 0.28, cy - ry * 0.36, rx * 0.62, ry * 0.5, 8, 0.2), 0.5, light, blur=rx * 0.1)
-        for _ in range(int(rx * 1.6)):  # leaves picked out by the light
-            a, m = r.rng.uniform(0, 2 * math.pi), r.rng.uniform(0, 0.8)
-            lx, ly = cx - rx * 0.2 + math.cos(a) * rx * m * 0.8, cy - ry * 0.25 + math.sin(a) * ry * m * 0.7
-            s = r.rng.uniform(0.7, 1.4)
-            r.path(f"M {lx - s:.2f} {ly + s * 0.3:.2f} Q {lx:.2f} {ly - s * 0.9:.2f} {lx + s:.2f} {ly - s * 0.2:.2f} Q {lx:.2f} {ly + s * 0.2:.2f} {lx - s:.2f} {ly + s * 0.3:.2f} Z",
-                   tip or light, alpha=r.rng.uniform(0.45, 0.9), clip=True)
-        for _ in range(int(rx * 0.8)):  # dark gaps between the leaves
-            a, m = r.rng.uniform(0, 2 * math.pi), r.rng.uniform(0.2, 0.85)
-            lx, ly = cx + rx * 0.15 + math.cos(a) * rx * m * 0.8, cy + ry * 0.2 + math.sin(a) * ry * m * 0.7
-            s = r.rng.uniform(0.6, 1.2)
-            r.ellipse(lx, ly, s, s * 0.6, "#0A2418", alpha=0.4, clip=True)
+        body = wobble(r, cx, cy, rx, ry, 14, 0.16)
+        edge = []  # leaves that stick out of the silhouette
+        for k in range(int(rx * 2.2)):
+            a = 2 * math.pi * k / int(rx * 2.2) + r.rng.uniform(-0.1, 0.1)
+            m = r.rng.uniform(0.92, 1.04)
+            ex, ey = cx + math.cos(a) * rx * m, cy + math.sin(a) * ry * m
+            edge.append(leaf_d(ex, ey, r.rng.uniform(1.0, 1.8), a + r.rng.uniform(-0.6, 0.6)))
+        r.path(body + " " + " ".join(edge), noise(1.1, seed + i, (0.25, dark), (0.5, mid), (0.78, light), octaves=4))
+        # clusters of leaves: a coarser texture, multiplied
+        r.path(body, noise(max(2.0, rx * 0.28), seed + 40 + i, (0.3, ink), (0.62, "#FFFFFF"), octaves=3), blend="multiply", alpha=0.55)
+        # the volume: the lower right in shade, the upper left in the sun
+        r.path(body + " " + " ".join(edge), radial(cx - rx * 0.35, cy - ry * 0.45, max(rx, ry) * 1.7, (0, "#FFFFFF"), (0.35, "#FFFFFF"), (1, ink)),
+               blend="multiply", alpha=0.75)
+        r.lit(wobble(r, cx - rx * 0.3, cy - ry * 0.38, rx * 0.6, ry * 0.48, 9, 0.22), 0.3, "#FFF2C0", blur=rx * 0.16)
+        lit, gaps = [], []
+        for _ in range(int(rx * 2.4)):  # leaves picked out by the light
+            a, m = r.rng.uniform(0, 2 * math.pi), r.rng.uniform(0, 0.85) ** 0.7
+            lx, ly = cx - rx * 0.22 + math.cos(a) * rx * m * 0.75, cy - ry * 0.28 + math.sin(a) * ry * m * 0.65
+            lit.append(leaf_d(lx, ly, r.rng.uniform(0.7, 1.3), r.rng.uniform(-0.4, 0.9)))
+        for _ in range(int(rx * 1.2)):  # dark gaps between the leaves
+            a, m = r.rng.uniform(0, 2 * math.pi), r.rng.uniform(0.25, 0.9)
+            gx, gy = cx + rx * 0.12 + math.cos(a) * rx * m * 0.8, cy + ry * 0.18 + math.sin(a) * ry * m * 0.7
+            gs = r.rng.uniform(0.5, 1.1)
+            gaps.append(f"M {_f(gx - gs)} {_f(gy)} Q {_f(gx)} {_f(gy - gs * 0.7)} {_f(gx + gs)} {_f(gy)} Q {_f(gx)} {_f(gy + gs * 0.7)} {_f(gx - gs)} {_f(gy)} Z")
+        r.path(" ".join(lit), tip or light, alpha=0.75, clip=True)
+        r.path(" ".join(gaps), ink, alpha=0.55, blend="multiply", blur=0.25)
 
 
 def trunk(r: Recipe, x: float, foot: float, top: float, w: float, tone: str, seed: int, roots: bool = True) -> None:
+    """A trunk with roots: furrowed bark (stretched and creased noise), round under the light from the left, dark at its foot."""
     d = (f"M {x - w * 0.5:.2f} {top:.2f} L {x + w * 0.5:.2f} {top:.2f} Q {x + w * 0.42:.2f} {(top + foot) / 2:.2f} {x + w * 0.62:.2f} {foot - 2:.2f} "
          + (f"L {x + w * 1.1:.2f} {foot:.2f} L {x + w * 0.2:.2f} {foot - 0.6:.2f} L {x:.2f} {foot + 0.8:.2f} L {x - w * 0.3:.2f} {foot - 0.6:.2f} L {x - w * 1.15:.2f} {foot:.2f} "
             if roots else f"L {x + w * 0.62:.2f} {foot:.2f} L {x - w * 0.62:.2f} {foot:.2f} ")
          + f"L {x - w * 0.62:.2f} {foot - 2:.2f} Q {x - w * 0.42:.2f} {(top + foot) / 2:.2f} {x - w * 0.5:.2f} {top:.2f} Z")
-    r.path(d, wood(seed, tone, 3.5), stroke=INK, width=0.45)
-    r.shade(box(x + w * 0.05, top, w * 1.2, foot - top + 1), 0.55, blur=0.6, clip=True)
-    r.lit(box(x - w * 0.7, top, w * 0.3, foot - top), 0.3, "#FFE8B8", blur=0.4)
-    for k in range(4):  # the bark
-        bx = x - w * 0.3 + k * w * 0.2
-        r.path(f"M {bx:.2f} {top + 2 + k:.2f} Q {bx + 0.6:.2f} {(top + foot) / 2:.2f} {bx - 0.3:.2f} {foot - 3 - k:.2f}", None, stroke=darken(tone, 0.55), width=0.3, alpha=0.6, clip=True)
+    r.path(d, noise(0.7, seed, (0.28, darken(tone, 0.3)), (0.5, tone), (0.72, lighten(tone, 0.12)), octaves=4, scale_y=5))
+    r.path(d, noise(0.9, seed + 1, (0.68, "#FFFFFF"), (0.9, darken(tone, 0.65)), octaves=3, scale_y=6, ridged=True), blend="multiply", alpha=0.7)  # furrows
+    r.path(d, linear(x - w * 0.7, 0, x + w * 0.8, 0, (0, "#FFF0D8"), (0.3, "#FFFFFF"), (0.65, "#8A7E96"), (1, "#3A2E48")), blend="multiply", alpha=0.85)
+    r.lit(box(x - w * 0.55, top, w * 0.28, foot - top), 0.22, "#FFE8B8", blur=0.6)
+    r.path(d, linear(0, foot - 8, 0, foot + 1, (0, "#FFFFFF"), (1, "#2A2230")), blend="multiply", alpha=0.6)  # the dark of the ground
+    for k in range(3):  # moss in the furrows on the shaded side
+        mx = x + w * (0.1 + 0.12 * k)
+        r.ellipse(mx, foot - 4 - k * 3, w * 0.12, 2.2, noise(0.5, seed + 5 + k, (0.35, "#2E4A22"), (0.7, "#5A7A38"), octaves=2), alpha=0.5, blur=0.5, clip=True)
 
 
 def tree_oak() -> Recipe:
-    r = prop("tree_oak", 96, 128, (48, 120), {"trunk": "#7A5236", "leaf": "#3E8E45", "leaf_light": "#9AD86A", "leaf_dark": "#1F5A3A"})
-    r.shadow(50, 120, 30, 7, 0.4)
-    trunk(r, 48, 120, 62, 9, "#7A5236", 201)
-    r.path("M 44 86 Q 34 80 30 70", None, stroke=INK, width=3.4)
-    r.path("M 44 86 Q 34 80 30 70", None, stroke="#6A4630", width=2.6)
-    r.path("M 52 82 Q 62 76 66 66", None, stroke=INK, width=3.0)
-    r.path("M 52 82 Q 62 76 66 66", None, stroke="#553824", width=2.2)
+    r = prop("tree_oak", 96, 128, (48, 120), {"trunk": "#6A4A32", "leaf": "#3E7A3A", "leaf_light": "#8CB85A", "leaf_dark": "#1E4628"})
+    r.shadow(50, 120, 30, 7, 0.45)
+    r.ellipse(52, 112, 26, 9, "#141030", alpha=0.25, blur=4)  # the shade of the crown on the ground
+    trunk(r, 48, 120, 62, 9, "#6A4A32", 201)
+    for d, w in (("M 44 86 Q 34 80 30 70", 2.8), ("M 52 82 Q 62 76 66 66", 2.4)):
+        r.path(d, None, stroke="#4A3220", width=w)
+        r.path(d, None, stroke="#8A6A4A", width=w * 0.3, alpha=0.5)
     clumps = [(48, 62, 34, 22), (24, 56, 17, 15), (72, 56, 17, 15), (36, 36, 21, 17), (62, 36, 20, 17), (48, 20, 20, 15), (30, 68, 14, 10), (64, 70, 14, 9), (48, 50, 18, 14)]
-    crown(r, clumps, "$p.leaf_dark", "$p.leaf", "$p.leaf_light", 211, "#143A2A")
-    r.variants = {"autumn": {"leaf": "#D2813A", "leaf_light": "#F8C860", "leaf_dark": "#8A3E22"}}
+    crown(r, clumps, "$p.leaf_dark", "$p.leaf", "$p.leaf_light", 211, "#10281A")
+    r.variants = {"autumn": {"leaf": "#B8702E", "leaf_light": "#E8B050", "leaf_dark": "#6A2E18"}}
     return r
 
 
 def pine() -> Recipe:
-    r = prop("pine", 80, 128, (40, 120), {"trunk": "#6B4A32", "dark": "#1E5A44", "mid": "#2F7A58", "light": "#6FBE84", "snow": "#F4F8FF"})
-    r.shadow(42, 120, 22, 6, 0.4)
-    trunk(r, 40, 120, 92, 6.5, "#6B4A32", 221)
+    r = prop("pine", 80, 128, (40, 120), {"trunk": "#5A3E2A", "dark": "#18402E", "mid": "#2A5E44", "light": "#5E9468", "snow": "#F4F8FF"})
+    r.shadow(42, 120, 22, 6, 0.45)
+    trunk(r, 40, 120, 92, 6.5, "#5A3E2A", 221)
     tiers = [(96, 30, 22), (78, 26, 22), (60, 21, 21), (43, 16, 19), (27, 11, 17)]
     for i, (base_y, half, height) in enumerate(tiers):
         top = base_y - height
         pts = [(40, top)]
-        teeth = 5
-        for k in range(teeth + 1):  # the ragged lower edge, right to left
+        sides = max(3, int(height / 3))
+        for j in range(1, sides + 1):  # the right side, ragged with tufts of needles
+            t = j / (sides + 1)
+            pts.append((40 + half * t + (1.4 if j % 2 else -0.4) + r.rng.uniform(-0.3, 0.5), top + (height - 2.5) * t + r.rng.uniform(-0.5, 0.5)))
+        teeth = max(6, int(half * 0.55))
+        for k in range(teeth + 1):  # the drooping lower edge of the boughs, right to left
             x = 40 + half - k * (2 * half / teeth)
-            pts.append((x, base_y - (2.5 if k in (0, teeth) else 0) + r.rng.uniform(-1, 1)))
+            pts.append((x + r.rng.uniform(-0.4, 0.4), base_y - (2.5 if k in (0, teeth) else 0) + r.rng.uniform(-0.6, 1.4)))
             if k < teeth:
-                pts.append((x - half / teeth, base_y - 5 + r.rng.uniform(-1, 1)))
+                pts.append((x - half / teeth + r.rng.uniform(-0.3, 0.3), base_y - 2.4 + r.rng.uniform(-0.8, 0.6)))
+        for j in range(sides, 0, -1):  # the left side, back to the top
+            t = j / (sides + 1)
+            pts.append((40 - half * t - (1.4 if j % 2 else -0.4) - r.rng.uniform(-0.3, 0.5), top + (height - 2.5) * t + r.rng.uniform(-0.5, 0.5)))
         d = "M " + " L ".join(f"{x:.2f} {y:.2f}" for x, y in pts) + " Z"
-        r.ellipse(40, base_y - 1, half * 0.8, 3, "#0A2A20", alpha=0.5, blur=1.2, clip=True)  # the shade under a tier, on the one below
-        r.path(d, noise(6, 231 + i, (0.25, "$p.dark"), (0.5, "$p.mid"), (0.78, "$p.light"), octaves=3), stroke="#0E3226", width=0.45)
-        r.shade(f"M 40 {top} L {40 + half} {base_y} L {40 + half * 0.1:.1f} {base_y} L {40 + half * 0.25:.1f} {top + height * 0.5:.1f} Z", 0.5, blur=1.0, clip=True)
-        for _ in range(int(half * 0.9)):  # needles
-            nx = 40 + r.rng.uniform(-half * 0.7, half * 0.5)
-            ny = r.rng.uniform(top + height * 0.35, base_y - 3)
+        r.ellipse(40, base_y - 1, half * 0.85, 3.2, "#06140E", alpha=0.6, blur=1.4, clip=True)  # the shade under a tier, on the one below
+        r.path(d, noise(0.6, 231 + i, (0.25, "$p.dark"), (0.5, "$p.mid"), (0.78, "$p.light"), octaves=4, scale_y=1.4))
+        r.path(d, noise(2.2, 251 + i, (0.32, "#0A2016"), (0.62, "#FFFFFF"), octaves=3), blend="multiply", alpha=0.5)  # boughs
+        r.path(d, linear(40 - half, top, 40 + half, base_y, (0, "#FFFFFF"), (0.45, "#FFFFFF"), (1, "#14281E")), blend="multiply", alpha=0.75)
+        r.path(d, linear(0, top, 0, base_y, (0, "#FFFFFF"), (0.7, "#FFFFFF"), (1, "#2A3A30")), blend="multiply", alpha=0.5)
+        needles = []
+        for _ in range(int(half * 2.2)):  # needles in the light
+            nx = 40 + r.rng.uniform(-half * 0.8, half * 0.45)
+            ny = r.rng.uniform(top + height * 0.3, base_y - 2.5)
             if abs(nx - 40) > half * (ny - top) / height:
                 continue
-            r.path(f"M {nx:.2f} {ny:.2f} L {nx - 1.6:.2f} {ny + 2.6:.2f} L {nx + 0.6:.2f} {ny + 1.8:.2f} Z", "$p.light", alpha=r.rng.uniform(0.3, 0.7), clip=True)
-        # snow on the upper left of the tier
+            side = -1 if nx < 40 else 1
+            needles.append(f"M {nx:.2f} {ny:.2f} L {nx + side * 1.8:.2f} {ny + 2.4:.2f} L {nx + side * 0.6:.2f} {ny + 2.6:.2f} Z")
+        if needles:
+            r.path(" ".join(needles), "$p.light", alpha=0.6, clip=True)
+        # a little snow on the upper left of the tier
         r.path(f"M 40 {top} L {40 - half * 0.42:.1f} {top + height * 0.5:.1f} Q {40 - half * 0.25:.1f} {top + height * 0.42:.1f} {40 - half * 0.1:.1f} {top + height * 0.56:.1f} "
                f"Q {40 + half * 0.05:.1f} {top + height * 0.4:.1f} {40 + half * 0.2:.1f} {top + height * 0.46:.1f} Z",
-               linear(40 - half, top, 40 + half, top + height, (0, "$p.snow"), (1, "#B4C8F0")), stroke="#7A90C0", width=0.25)
+               linear(40 - half, top, 40 + half, top + height, (0, "$p.snow"), (1, "#A8B8D8")), alpha=0.5, blur=0.5)
     return r
 
 
 def dead_tree() -> Recipe:
-    r = prop("dead_tree", 80, 112, (40, 104), {"trunk": "#5A4A48", "dark": "#2A2028", "light": "#9A8A84"})
-    r.shadow(42, 104, 18, 5, 0.38)
+    r = prop("dead_tree", 80, 112, (40, 104), {"trunk": "#5A4E4A", "dark": "#2A2028", "light": "#9A8A84"})
+    r.shadow(42, 104, 18, 5, 0.42)
     limbs = [("M 40 60 Q 30 46 16 40 Q 12 34 10 24", 3.2), ("M 40 54 Q 50 40 62 36 Q 68 28 70 18", 3.0), ("M 40 44 Q 36 30 38 12", 3.4),
              ("M 22 42 Q 20 34 24 26", 1.8), ("M 58 37 Q 56 28 50 22", 1.8), ("M 38 28 Q 44 22 48 12", 1.6), ("M 14 34 Q 8 34 4 30", 1.3), ("M 66 28 Q 72 28 76 24", 1.3)]
-    trunk(r, 40, 104, 44, 10, "#5A4A48", 241)
+    trunk(r, 40, 104, 44, 10, "#5A4E4A", 241)
     for d, w in limbs:
-        r.path(d, None, stroke=INK, width=w + 0.9)
-    for d, w in limbs:
-        r.path(d, None, stroke="$p.trunk", width=w)
+        r.path(d, None, stroke="#3A302E", width=w)
     for d, w in limbs:  # the light along the upper left of the limbs
-        r.path(d, None, stroke="$p.light", width=w * 0.3, alpha=0.6, clip=True)
-    r.path("M 37 70 Q 34 76 37 83 Q 41 86 43 80 Q 44 73 37 70 Z", "#140E18", stroke=INK, width=0.3)  # a hollow
-    r.path("M 38 72 Q 36 76 38 81", None, stroke="#7A6A64", width=0.4, alpha=0.7)
+        r.path(d, None, stroke="$p.light", width=w * 0.3, alpha=0.45, clip=True)
+    r.path("M 37 70 Q 34 76 37 83 Q 41 86 43 80 Q 44 73 37 70 Z", "#120C14", blur=0.3)  # a hollow
+    r.path("M 38 72 Q 36 76 38 81", None, stroke="#7A6A64", width=0.4, alpha=0.6)
     return r
 
 
 def bush() -> Recipe:
-    r = prop("bush", 40, 30, (20, 26), {"leaf": "#3E8E45", "light": "#9AD86A", "dark": "#1F5A3A", "berry": "#E0402E"})
-    r.shadow(21, 26, 16, 4, 0.36)
-    crown(r, [(20, 17, 15, 8.5), (10, 15, 8, 7), (30, 15, 8, 7), (20, 10, 10, 7)], "$p.dark", "$p.leaf", "$p.light", 251, "#143A2A")
+    r = prop("bush", 40, 30, (20, 26), {"leaf": "#3E7A3A", "light": "#8CB85A", "dark": "#1E4628", "berry": "#C0302A"})
+    r.shadow(21, 26, 16, 4, 0.42)
+    crown(r, [(20, 17, 15, 8.5), (10, 15, 8, 7), (30, 15, 8, 7), (20, 10, 10, 7)], "$p.dark", "$p.leaf", "$p.light", 251, "#10281A")
     for x, y in ((9, 15), (15, 9), (24, 12), (30, 17), (19, 19), (27, 21), (12, 20)):
-        r.ellipse(x + 0.2, y + 0.3, 1.3, 1.3, "#5A0E18")
-        r.ellipse(x, y, 1.2, 1.2, radial(x - 0.4, y - 0.4, 1.6, (0, "#FF9A7A"), (0.5, "$p.berry"), (1, "#8A1420")))
-        r.ellipse(x - 0.4, y - 0.4, 0.3, 0.3, "#FFFFFF", alpha=0.9)
+        r.ellipse(x + 0.3, y + 0.4, 1.2, 1.1, "#200810", alpha=0.6, blur=0.3)
+        r.ellipse(x, y, 1.1, 1.1, radial(x - 0.4, y - 0.4, 1.5, (0, "#F08A70"), (0.5, "$p.berry"), (1, "#5A0A14")))
+        r.ellipse(x - 0.4, y - 0.4, 0.28, 0.28, "#FFFFFF", alpha=0.75)
     return r
 
 
 def rock() -> Recipe:
-    r = prop("rock", 36, 30, (18, 26), {"base": "#8D949F", "light": "#D0D6E0", "dark": "#4A4E60"})
-    r.shadow(19.5, 26, 15, 4, 0.4)
+    r = prop("rock", 36, 30, (18, 26), {"base": "#8A8A88", "light": "#D0D0CC", "dark": "#4A4A50"})
+    r.shadow(19.5, 26, 15, 4, 0.5)
     body = "M 3 25 L 4 15 L 10 7 L 19 4 L 28 8 L 33 17 L 32 25 Q 18 28 3 25 Z"
-    r.path(body, stone(261, "#8D949F", 6), stroke=INK, width=0.5)
-    r.shade("M 19 4 L 28 8 L 33 17 L 32 25 L 16 27 L 20 15 Z", 0.55, clip=True)
-    r.shade("M 3 25 L 4 21 Q 18 25 32 21 L 32 25 Q 18 28 3 25 Z", 0.4, blur=0.8, clip=True)
-    r.lit("M 4 15 L 10 7 L 19 4 L 20 15 L 11 13 Z", 0.4, "#FFF0D0")
-    r.path("M 10 7 L 11 13 L 4 15 M 11 13 L 20 15 L 19 4 M 20 15 L 16 27", None, stroke=INK, width=0.3, alpha=0.6)
-    r.path("M 23 12 L 25 16 L 24 19", None, stroke=INK, width=0.3, alpha=0.7)
-    r.ellipse(8, 24, 5, 1.8, "#5E9A50", alpha=0.75, blur=0.5, clip=True)  # moss
-    r.ellipse(27, 24.5, 3.5, 1.4, "#5E9A50", alpha=0.6, blur=0.5, clip=True)
+    r.path(body, stone(261, "#8A8A88", 4))
+    r.path(body, noise(2.5, 262, (0.68, "#FFFFFF"), (0.9, "#2E2C30"), octaves=4, ridged=True), blend="multiply", alpha=0.55)  # cracks and pits
+    r.path(body, noise(1.2, 263, (0.4, "#6A7A5A"), (0.6, "#FFFFFF"), octaves=3), blend="multiply", alpha=0.3)  # lichen
+    r.path("M 19 4 L 28 8 L 33 17 L 32 25 L 16 27 L 20 15 Z", "#3A3456", alpha=0.5, blend="multiply", blur=0.9)
+    r.path("M 3 25 L 4 21 Q 18 25 32 21 L 32 25 Q 18 28 3 25 Z", "#2A2440", alpha=0.45, blend="multiply", blur=1.0)
+    r.lit("M 4 15 L 10 7 L 19 4 L 20 15 L 11 13 Z", 0.32, "#FFF0D0", blur=0.7)
+    r.path("M 10 7 L 11 13 L 4 15 M 11 13 L 20 15 L 19 4 M 20 15 L 16 27", None, stroke="#2A2830", width=0.25, alpha=0.4, blur=0.15)
+    r.path("M 23 12 L 25 16 L 24 19", None, stroke="#1E1C22", width=0.3, alpha=0.6)
+    r.ellipse(8, 24, 5, 1.8, noise(0.6, 264, (0.3, "#3E6A30"), (0.7, "#6E9A48"), octaves=3), alpha=0.8, blur=0.5, clip=True)  # moss
+    r.ellipse(27, 24.5, 3.5, 1.4, noise(0.6, 265, (0.3, "#3E6A30"), (0.7, "#6E9A48"), octaves=3), alpha=0.7, blur=0.5, clip=True)
     return r
 
 

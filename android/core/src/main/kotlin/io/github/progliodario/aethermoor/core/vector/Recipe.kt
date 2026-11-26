@@ -50,8 +50,20 @@ sealed interface Paint {
 
     data class Radial(val cx: Float, val cy: Float, val r: Float, val stops: List<GradientStop>) : Paint
 
-    /** A cloudy texture (spec 13, "Noise"): [scale] is the size of the largest clouds, [period] makes it repeat. */
-    data class Noise(val scale: Float, val seed: Int, val octaves: Int, val period: Int, val stops: List<GradientStop>) : Paint
+    /**
+     * A cloudy texture (spec 13, "Noise"): [scale] is the size of the largest clouds, [period] makes it repeat; [scaleY] and
+     * [periodY] are the same along y (stretched clouds), and [ridged] folds every octave around its middle (creases).
+     */
+    data class Noise(
+        val scale: Float,
+        val seed: Int,
+        val octaves: Int,
+        val period: Int,
+        val stops: List<GradientStop>,
+        val scaleY: Float = scale,
+        val periodY: Int = period,
+        val ridged: Boolean = false,
+    ) : Paint
 }
 
 enum class Blend { NORMAL, MULTIPLY, ADD }
@@ -124,22 +136,28 @@ private fun parsePaint(fill: JsonObject): Paint {
             parseStops(g.getValue("stops").jsonArray),
         )
     }
-    fill["noise"]?.let {
-        val n = it.jsonObject
-        return Paint.Noise(
-            n.getValue("scale").f(),
-            n["seed"]?.asInt() ?: 0,
-            n["octaves"]?.asInt() ?: 3,
-            n["period"]?.asInt() ?: 0,
-            parseStops(n.getValue("stops").jsonArray),
-        )
-    }
+    fill["noise"]?.let { return parseNoise(it.jsonObject) }
     val g = fill.getValue("radial").jsonObject
     return Paint.Radial(
         g.getValue("cx").f(),
         g.getValue("cy").f(),
         g.getValue("r").f(),
         parseStops(g.getValue("stops").jsonArray),
+    )
+}
+
+private fun parseNoise(n: JsonObject): Paint.Noise {
+    val scale = n.getValue("scale").f()
+    val period = n["period"]?.asInt() ?: 0
+    return Paint.Noise(
+        scale,
+        n["seed"]?.asInt() ?: 0,
+        n["octaves"]?.asInt() ?: 3,
+        period,
+        parseStops(n.getValue("stops").jsonArray),
+        scaleY = n["scale_y"]?.f() ?: scale,
+        periodY = n["period_y"]?.asInt() ?: period,
+        ridged = n["ridged"]?.jsonPrimitive?.boolean ?: false,
     )
 }
 

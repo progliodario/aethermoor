@@ -18,3 +18,4 @@ Records of significant decisions. To add one, copy the latest file, increment th
 | [0012](0012-in-house-software-rasterizer.md) | In-house software rasterizer for vector art |
 | [0013](0013-painted-anime-art.md) | Painted anime art, still as vector recipes |
 | [0014](0014-screens-in-code-until-1-0.md) | The screens stay in the code of each client until 1.0 |
+| [0015](0015-realistic-painted-art.md) | Realistic painted art, from the same recipes |

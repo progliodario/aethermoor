@@ -1,6 +1,6 @@
 # ADR 0013: Painted anime art, still as vector recipes
 
-- Status: accepted (extends ADR 0004 and ADR 0012)
+- Status: accepted (extends ADR 0004 and ADR 0012); its look is superseded by [ADR 0015](0015-realistic-painted-art.md)
 - Date: 2026-11-11
 
 ## Context
