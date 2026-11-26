@@ -356,8 +356,6 @@ fun ruledEnemy(def: EnemyDef, r: Rules): EnemyDef = def.copy(
 
 class CombatSetup(
     val enabled: Boolean = false,
-    /** The rules of the game at its start (spec 04); the save keeps those of the game. */
-    val rules: Rules = Rules(),
     val player: PlayerSetup = PlayerSetup(),
     val skill: SkillDef = SkillDef(),
     val spawns: List<EnemySpawn> = emptyList(),
@@ -446,6 +444,8 @@ class CombatSetup(
     val dayTicks: Int = 0,
     /** The shops of other regions of a world without regions, by region (spec 06, "Goods from afar"). */
     val farShops: Map<String, ShopDef> = emptyMap(),
+    /** The rules of the game at its start (spec 04); the save keeps those of the game. */
+    val rules: Rules = Rules(),
 )
 
 enum class AttackPhase { NONE, STARTUP, ACTIVE, RECOVERY }

@@ -28,12 +28,12 @@ import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
 import io.github.progliodario.aethermoor.core.sim.TitleDef
 import io.github.progliodario.aethermoor.core.sim.WeaponStats
-import io.github.progliodario.aethermoor.core.sim.parseRules
 import io.github.progliodario.aethermoor.core.sim.WorldSim
 import io.github.progliodario.aethermoor.core.sim.accessoryOf
 import io.github.progliodario.aethermoor.core.sim.furnitureOf
 import io.github.progliodario.aethermoor.core.sim.homeRoomsOf
 import io.github.progliodario.aethermoor.core.sim.parseDefense
+import io.github.progliodario.aethermoor.core.sim.parseRules
 import io.github.progliodario.aethermoor.core.sim.parseStorySetup
 import io.github.progliodario.aethermoor.core.sim.runeOf
 import kotlinx.serialization.json.JsonArray
