@@ -31,7 +31,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
   batch of quads for the ground, the props, the shadows and the figures, whose parts turn in the vertices; the minimap drawn once into
   a texture. Measured with `--benchmark`: 1,920 calls and 1,920 draws a frame at 1280 x 720 before, 152 calls and 33 draws after (the
   same at 2560 x 1440). `F3` shows the calls and the draws in the game, and `--benchmark --frames=400 [--size=WxH]` writes them, with
-  the times of the ground, the things, the sky, the HUD and the panels, to `benchmark.txt`.
+  the times of the ground, the things, the sky, the HUD and the panels, to `benchmark.txt`. The same change is in the Android client:
+  the cache builds no key string for each tile, the tiles resolve once per bucket in a table of the renderer, the art of a bucket is
+  laid in atlas pages shared by the ground, the props and the figures (libGDX then sends a page with one batch instead of one call for
+  each tile), and the minimap takes its 1,600 colours from a table made once instead of making them again every frame.
 
 - **Far more detail everywhere**, and a closer view on the desktop.
   - **The view:** the desktop shows the world closer, a tile is 80 pixels instead of 64 (spec 13, new scale bucket 80, in both

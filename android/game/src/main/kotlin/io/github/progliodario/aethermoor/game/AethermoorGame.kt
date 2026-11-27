@@ -51,6 +51,7 @@ import io.github.progliodario.aethermoor.core.sim.Rules
 import io.github.progliodario.aethermoor.core.sim.SaveMeta
 import io.github.progliodario.aethermoor.core.sim.StreamConfig
 import io.github.progliodario.aethermoor.core.sim.TICK_DT
+import io.github.progliodario.aethermoor.core.sim.TileDef
 import io.github.progliodario.aethermoor.core.sim.TileMap
 import io.github.progliodario.aethermoor.core.sim.Tileset
 import io.github.progliodario.aethermoor.core.sim.WorldSim
@@ -1004,6 +1005,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
     override fun render() {
         Gdx.gl.glClearColor(0.043f, 0.122f, 0.227f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+        if (::cache.isInitialized) cache.flushUploads() // the pictures baked since the last frame, with no batch open
         val world = sim
         val data = assets
         val slots = titleSlots
@@ -1191,6 +1193,34 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         sound.setMusic(choice.piece, choice.layers)
     }
 
+    /**
+     * The tiles of the tileset resolved to their definition and their picture for the current bucket (spec 13): after the
+     * first frame a tile is a lookup in an array, not a search in a map and a string for each tile of each frame.
+     */
+    private class TileArt(val tileset: Tileset, val bucket: Int, val defs: Array<TileDef?>, val sprites: Array<Sprite?>)
+
+    private var tileArt: TileArt? = null
+
+    private fun tileArt(data: Assets, tilePx: Int): TileArt {
+        val bucket = cache.bucketForTile(tilePx)
+        val current = tileArt
+        if (current != null && current.tileset === data.tileset && current.bucket == bucket) return current
+        val maxGid = data.tileset.tiles.keys.maxOrNull() ?: 0
+        val defs = arrayOfNulls<TileDef>(maxGid + 1)
+        for ((gid, def) in data.tileset.tiles) if (gid in defs.indices) defs[gid] = def
+        return TileArt(data.tileset, bucket, defs, arrayOfNulls(maxGid + 1)).also { tileArt = it }
+    }
+
+    private fun TileArt.def(gid: Int): TileDef? = if (gid in defs.indices) defs[gid] else null
+
+    /** The picture of a tile, baked the first time it is drawn and then only looked up. */
+    private fun TileArt.sprite(gid: Int, tilePx: Int): Sprite? {
+        if (gid !in sprites.indices) return null
+        sprites[gid]?.let { return it }
+        val def = defs[gid] ?: return null
+        return cache.get(def.art, tilePx).also { sprites[gid] = it }
+    }
+
     private fun draw(world: WorldSim, data: Assets, tilePx: Int) {
         val tile = tilePx.toFloat()
         val k = tile / 32f
@@ -1201,33 +1231,35 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         batch.projectionMatrix = camera.combined
         batch.begin()
         val map = world.map
+        val art = tileArt(data, tilePx)
         val x0 = max(0, floor(cam.x).toInt())
         val x1 = min(map.width, ceil(cam.x + viewW).toInt())
         val y0 = max(0, floor(cam.y).toInt())
         val y1 = min(map.height, ceil(cam.y + viewH).toInt())
         for (ty in y0 until y1) {
             for (tx in x0 until x1) {
-                val def = data.tileset.tiles[world.gidAt(tx, ty)] ?: continue
-                val sprite = cache.get(def.art, tilePx) ?: continue
+                val gid = world.gidAt(tx, ty)
+                val def = art.def(gid) ?: continue
+                val sprite = art.sprite(gid, tilePx) ?: continue
                 val sx0 = ((tx - cam.x) * tile).roundToInt().toFloat()
                 val sy0 = ((ty - cam.y) * tile).roundToInt().toFloat()
                 val sx1 = ((tx + 1 - cam.x) * tile).roundToInt().toFloat()
                 val sy1 = ((ty + 1 - cam.y) * tile).roundToInt().toFloat()
                 // one cell of a macro tile (spec 13): the texture has its first row at v = 0
                 val span = max(1, (sprite.width / 32f).roundToInt())
-                val u = (tx % span).toFloat() / span
-                val v = (ty % span).toFloat() / span
-                batch.draw(sprite.region.texture, sx0, sy0, sx1 - sx0, sy1 - sy0, u, v, u + 1f / span, v + 1f / span)
+                val u = sprite.u((tx % span).toFloat() / span)
+                val v = sprite.v((ty % span).toFloat() / span)
+                batch.draw(sprite.region.texture, sx0, sy0, sx1 - sx0, sy1 - sy0, u, v, sprite.u((tx % span + 1f) / span), sprite.v((ty % span + 1f) / span))
                 if (def.surface == "water" && span > 1 && gfx.water) {
                     // Water moves (spec 13, "Water"): the same picture, shifted by whole tiles, fades in and out over it.
                     val t = (System.currentTimeMillis() % 16336281L).toFloat()
                     val shifts = intArrayOf(1, 2, 2, 3)
                     val alphas = floatArrayOf(0.26f + 0.22f * sin(t / 1300f), 0.20f + 0.18f * sin(t / 2100f + 2f))
                     for (layer in 0..1) {
-                        val su = ((tx + shifts[layer * 2]) % span).toFloat() / span
-                        val sv = ((ty + shifts[layer * 2 + 1]) % span).toFloat() / span
+                        val cellX = ((tx + shifts[layer * 2]) % span).toFloat()
+                        val cellY = ((ty + shifts[layer * 2 + 1]) % span).toFloat()
                         batch.setColor(1f, 1f, 1f, alphas[layer])
-                        batch.draw(sprite.region.texture, sx0, sy0, sx1 - sx0, sy1 - sy0, su, sv, su + 1f / span, sv + 1f / span)
+                        batch.draw(sprite.region.texture, sx0, sy0, sx1 - sx0, sy1 - sy0, sprite.u(cellX / span), sprite.v(cellY / span), sprite.u((cellX + 1f) / span), sprite.v((cellY + 1f) / span))
                     }
                     batch.setColor(1f, 1f, 1f, 1f)
                 }
@@ -1236,25 +1268,27 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         // The soft edges of the grounds (spec 13, "Ground blending"): a neighbour of a higher rank fades over the tile.
         for (ty in y0 until y1) {
             for (tx in x0 until x1) {
-                val def = data.tileset.tiles[world.gidAt(tx, ty)] ?: continue
+                val def = art.def(world.gidAt(tx, ty)) ?: continue
                 if (def.blend <= 0) continue
                 val sx0 = ((tx - cam.x) * tile).roundToInt().toFloat()
                 val sy0 = ((ty - cam.y) * tile).roundToInt().toFloat()
                 val sx1 = ((tx + 1 - cam.x) * tile).roundToInt().toFloat()
                 val sy1 = ((ty + 1 - cam.y) * tile).roundToInt().toFloat()
                 for (side in GROUND_SIDES) {
-                    val other = data.tileset.tiles[world.gidAt(tx + side[0], ty + side[1])] ?: continue
+                    val otherGid = world.gidAt(tx + side[0], ty + side[1])
+                    val other = art.def(otherGid) ?: continue
                     if (other.blend <= def.blend) continue
-                    val over = cache.get(other.art, tilePx) ?: continue
+                    val over = art.sprite(otherGid, tilePx) ?: continue
                     drawGroundBlend(over, tx, ty, side[0], side[1], sx0, sy0, sx1 - sx0, sy1 - sy0)
                 }
                 // the corners: a higher ground that touches the tile only at a corner rounds that corner
                 for (corner in if (gfx.corners) GROUND_CORNERS else NO_CORNERS) { // not at the low quality (spec 13, "Quality")
-                    val other = data.tileset.tiles[world.gidAt(tx + corner[0], ty + corner[1])] ?: continue
+                    val cornerGid = world.gidAt(tx + corner[0], ty + corner[1])
+                    val other = art.def(cornerGid) ?: continue
                     if (other.blend <= def.blend) continue
-                    if ((data.tileset.tiles[world.gidAt(tx + corner[0], ty)]?.blend ?: 0) > def.blend) continue
-                    if ((data.tileset.tiles[world.gidAt(tx, ty + corner[1])]?.blend ?: 0) > def.blend) continue
-                    val over = cache.get(other.art, tilePx) ?: continue
+                    if ((art.def(world.gidAt(tx + corner[0], ty))?.blend ?: 0) > def.blend) continue
+                    if ((art.def(world.gidAt(tx, ty + corner[1]))?.blend ?: 0) > def.blend) continue
+                    val over = art.sprite(cornerGid, tilePx) ?: continue
                     drawGroundCorner(over, tx, ty, corner[0], corner[1], sx0, sy0, sx1 - sx0, sy1 - sy0)
                 }
             }
@@ -1437,8 +1471,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             blendVertices[i++] = x + ux * w
             blendVertices[i++] = y + uy * h
             blendVertices[i++] = color
-            blendVertices[i++] = u0 + ux * cell
-            blendVertices[i++] = v0 + uy * cell
+            blendVertices[i++] = sprite.u(u0 + ux * cell)
+            blendVertices[i++] = sprite.v(v0 + uy * cell)
         }
         vertex(ex0, ey0, opaque)
         vertex(ex1, ey1, opaque)
@@ -1465,8 +1499,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             blendVertices[i++] = x + ux * w
             blendVertices[i++] = y + uy * h
             blendVertices[i++] = color
-            blendVertices[i++] = u0 + ux * cell
-            blendVertices[i++] = v0 + uy * cell
+            blendVertices[i++] = sprite.u(u0 + ux * cell)
+            blendVertices[i++] = sprite.v(v0 + uy * cell)
         }
         vertex(cx, cy, opaque)
         vertex(0.5f, cy, clear)
@@ -1490,8 +1524,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             blendVertices[i++] = x
             blendVertices[i++] = y
             blendVertices[i++] = black
-            blendVertices[i++] = u
-            blendVertices[i++] = tv
+            blendVertices[i++] = sprite.u(u)
+            blendVertices[i++] = sprite.v(tv)
         }
         vertex(x0 + tall * lean, feetY - tall * 0.18f, 0f, 0f)
         vertex(x0, feetY, 0f, v)
@@ -1523,8 +1557,8 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             blendVertices[i++] = x
             blendVertices[i++] = y
             blendVertices[i++] = white
-            blendVertices[i++] = u
-            blendVertices[i++] = v
+            blendVertices[i++] = sprite.u(u)
+            blendVertices[i++] = sprite.v(v)
         }
         vertex(x0 + shift, y0, 0f, 0f)
         vertex(x0, y1, 0f, 1f)
@@ -3483,8 +3517,7 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
         for (k in 0 until n * n) {
             val code = miniCodes[k].toInt()
             if (code < 0) continue
-            val c = MAP_COLORS[code]
-            shapes.color = Color(c.r, c.g, c.b, 0.92f)
+            shapes.color = MAP_CELL_COLORS[code]
             shapes.rect(x0 + (k % n) * cell, y0 + (k / n) * cell, ceil(cell), ceil(cell))
         }
         fun place(tileX: Float, tileY: Float, clamp: Boolean, size: Float, color: Color) {
@@ -5107,6 +5140,9 @@ class AethermoorGame(private val info: GameInfo) : ApplicationAdapter() {
             Color(0.431f, 0.706f, 0.353f, 1f),
             Color(0.353f, 0.627f, 0.902f, 1f), Color(0.667f, 0.51f, 0.333f, 1f), // a river, a road (spec 09)
         )
+
+        /** The colours of the cells of the minimap, made once: 1,600 colours a frame would be garbage for a phone. */
+        private val MAP_CELL_COLORS = MAP_COLORS.map { Color(it.r, it.g, it.b, 0.92f) }.toTypedArray()
 
         /** The rectangle of a list row that is not on the screen: no tap can hit it. */
         private val OFF_SCREEN = floatArrayOf(-1f, -1f, 0f, 0f)
