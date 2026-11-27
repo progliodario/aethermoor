@@ -22,20 +22,15 @@
     <ID>CyclomaticComplexMethod:CombatLoader.kt$fun loadCombatSetup( pack: Pack, map: TileMap, protagonistId: String, seed: ULong, /** The enemies of the fauna of a streamed world, if the map is one. */ streamEnemyIds: Collection&lt;String&gt; = emptyList(), /** The difficulty of the world (spec 04): health and attack of the streamed creatures, in percent. */ enemyHpPct: Int = 100, enemyAtkPct: Int = 100, ): Result&lt;CombatSetup&gt;</ID>
     <ID>CyclomaticComplexMethod:ConformanceAudioDirectorTest.kt$ConformanceAudioDirectorTest$@Test fun profileSuite()</ID>
     <ID>CyclomaticComplexMethod:Director.kt$SoundDirector$fun update(s: SoundSnapshot): List&lt;SoundEvent&gt;</ID>
-    <ID>CyclomaticComplexMethod:Movement.kt$CollisionWorld$fun resolve(start: Vec2, radius: Float = PLAYER_RADIUS): Vec2</ID>
     <ID>CyclomaticComplexMethod:Music.kt$MusicDirector$fun update(ctx: MusicContext): MusicChoice</ID>
     <ID>CyclomaticComplexMethod:Music.kt$private fun voice(patch: MusicPatch, freq: Double, length: Int, total: Int, stateSeed: Int): DoubleArray</ID>
     <ID>CyclomaticComplexMethod:Raster.kt$fun rasterize(recipe: Recipe, scale: Float, variant: String? = null): Bitmap</ID>
     <ID>CyclomaticComplexMethod:Raster.kt$private fun coverage(polys: List&lt;List&lt;Pt&gt;&gt;, mask: Mask)</ID>
     <ID>CyclomaticComplexMethod:Raster.kt$private fun parsePath(d: String, scale: Float): List&lt;Subpath&gt;</ID>
-    <ID>CyclomaticComplexMethod:Save.kt$fun saveFromJson(text: String): Result&lt;SaveState&gt;</ID>
-    <ID>CyclomaticComplexMethod:Save.kt$fun saveToJson(s: SaveState, meta: SaveMeta): String</ID>
     <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: String)</ID>
     <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun runSegment(sim: WorldSim, segment: JsonObject)</ID>
     <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun scenarioFromJson(input: JsonObject): ScenarioWorld</ID>
     <ID>CyclomaticComplexMethod:SoundBoard.kt$SoundBoard$private fun mixLoop()</ID>
-    <ID>CyclomaticComplexMethod:Story.kt$Story$fun apply(effect: Effect)</ID>
-    <ID>CyclomaticComplexMethod:Story.kt$Story$fun holds(c: Condition): Boolean</ID>
     <ID>CyclomaticComplexMethod:Story.kt$private fun parseCondition(element: JsonElement): Condition</ID>
     <ID>CyclomaticComplexMethod:Synth.kt$fun synthesize(recipe: SfxRecipe): ShortArray</ID>
     <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun craft(recipeId: String): Boolean</ID>
@@ -64,7 +59,6 @@
     <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun journalEntries(world: WorldSim, data: Assets): List&lt;Pair&lt;String, Int&gt;&gt;</ID>
     <ID>NestedBlockDepth:AethermoorGame.kt$AethermoorGame$private fun questPlace(world: WorldSim, stage: QuestStage): QuestPlace?</ID>
     <ID>NestedBlockDepth:ChunkStore.kt$ChunkStore$fun forEachPropIn(x0: Float, y0: Float, x1: Float, y1: Float, fn: (Prop) -&gt; Unit)</ID>
-    <ID>NestedBlockDepth:Movement.kt$CollisionWorld$fun resolve(start: Vec2, radius: Float = PLAYER_RADIUS): Vec2</ID>
     <ID>NestedBlockDepth:Music.kt$fun renderMusic(piece: MusicPiece): Map&lt;String, ShortArray&gt;</ID>
     <ID>NestedBlockDepth:Music.kt$private fun voice(patch: MusicPatch, freq: Double, length: Int, total: Int, stateSeed: Int): DoubleArray</ID>
     <ID>NestedBlockDepth:Raster.kt$private fun coverage(polys: List&lt;List&lt;Pt&gt;&gt;, mask: Mask)</ID>

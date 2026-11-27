@@ -492,7 +492,7 @@ su GitHub; questa sezione tiene solo ciò che resta da fare. Quando una voce è 
 **A breve (le prossime PR)**
 
 1. **Ridurre la baseline di detekt** (B1.1, issue #224; ktlint e detekt in CI ci sono): le segnalazioni del codice vecchio restano in
-   `android/config/detekt-baseline.xml`, 73 (54 di complessità, 18 di annidamento, una di uscite dai cicli): 24 in `AethermoorGame.kt`,
+   `android/config/detekt-baseline.xml`, 67 (49 di complessità, 17 di annidamento, una di uscite dai cicli): 24 in `AethermoorGame.kt`,
    16 in `World.kt`, le altre in 14 file. Si spezzano a poco a poco le funzioni più complesse, qualche voce in ogni batch.
 2. **I numeri del telefono** (C4.2, #240): il proprietario misura i fotogrammi al secondo su un telefono con la lista di rilascio e li
    scrive in `docs/design/performance.md` (rischio R4); il resto di C4.2 è fatto.
