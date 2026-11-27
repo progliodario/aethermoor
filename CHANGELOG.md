@@ -23,6 +23,16 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed
 
+- **A frame of the desktop is drawn with about thirty calls instead of two thousand** (spec 13, "Atlases and batches"; item C4.3 of
+  the operating program), so that the game keeps 60 frames a second instead of stuttering while the simulation stays at a hundredth of
+  a millisecond a tick. Nothing of the game changes: same saves, same rules, same vectors, and the frames of `tests/frames` differ by
+  1.8 at most on a tolerance of 38. No string and no lookup per tile (the cache is asked with the id as it is, and a tile keeps its
+  picture for the bucket); the glyphs of the font in an atlas, so a text is one call; the art of a bucket in one atlas of shelves; one
+  batch of quads for the ground, the props, the shadows and the figures, whose parts turn in the vertices; the minimap drawn once into
+  a texture. Measured with `--benchmark`: 1,920 calls and 1,920 draws a frame at 1280 x 720 before, 152 calls and 33 draws after (the
+  same at 2560 x 1440). `F3` shows the calls and the draws in the game, and `--benchmark --frames=400 [--size=WxH]` writes them, with
+  the times of the ground, the things, the sky, the HUD and the panels, to `benchmark.txt`.
+
 - **Far more detail everywhere**, and a closer view on the desktop.
   - **The view:** the desktop shows the world closer, a tile is 80 pixels instead of 64 (spec 13, new scale bucket 80, in both
     clients), so every detail has more pixels; Android, already close, does not change.

@@ -1,6 +1,6 @@
 # Performance
 
-How fast the simulation and the drawing are, how it is measured and what the numbers are (item C4.2 of the
+How fast the simulation and the drawing are, how it is measured and what the numbers are (items C4.2 and C4.3 of the
 [operating program](../plan/07-programma-operativo.md); risks R4, performance on phones, and R6, the lost graphics context, of the
 [roadmap](../plan/06-roadmap-rischi-backlog.md)). The numbers of the CI compare one change with the last; they do not say "60 frames a
 second on a phone": only the owner's phone says that.
@@ -40,6 +40,45 @@ The test on the emulator of that pull request passed on API 30 and API 34 (one t
 
 The textures of all the art of the base pack at the largest bucket of each level: about 12 MiB at 64 (low), 49 MiB at 128 (normal) and
 196 MiB at 256 (high), counted by the same tests (Android keeps a copy of every picture on the CPU, so up to twice that).
+
+## The drawing of a frame on the desktop
+
+A frame of the desktop is drawn with a few dozen calls into the renderer, most of them one batch of quads. Before C4.3 it
+was about two thousand: every tile was its own call with its own texture, every glyph of a text was its own call, and the
+minimap alone was 1,600 filled squares.
+
+| Where | Before | After |
+|---|---|---|
+| 1280 x 720, Fenwick | 1,920 calls, 1,920 draws | 152 calls, 33 draws |
+| 2560 x 1440, Fenwick | (not measured) | 152 calls, 33 draws |
+| 2560 x 1440, a village | (not measured) | 151 calls, 32 draws |
+
+A draw is a call the renderer cannot join with the one before it: a change of texture, a geometry, a filled shape between
+two of them. The calls are the calls of the code; 1,600 filled squares of the minimap are one batch and one draw after the
+first, which is why a call is not a draw.
+
+What changed, all of it presentation (the game, the saves and the conformance vectors are untouched):
+
+- **No string and no lookup per tile**: the cache is asked with a `string_view` of the recipe id and hashes it as it is, a
+  tile keeps the pointer to its picture and its definition for the current bucket, and the sprite of a tile is baked the
+  first time it is drawn.
+- **The glyphs of the font in an atlas**: a text is one geometry whatever its length, instead of one texture for each glyph.
+- **The art of a bucket in an atlas**: the pictures are laid in shelves of a texture (2048 pixels of side up to bucket 64,
+  4096 above; 1 pixel of gap), with the pictures drawn one by one only when the atlas is full.
+- **One batch of quads for the things of a scene**: the ground, the water, the props, the long shadows, the crops and the
+  parts of the figures, turned about their joints in the vertices. A transparency or a tint is the colour of the corners.
+- **The minimap drawn once**: its 1,600 cells become a texture of 120 pixels of side, remade when the player walks 16 tiles
+  or the cells change, and drawn as one picture.
+
+Measuring it: `aethermoor --benchmark --frames=400 [--size=2560x1440] [--start=7520.5,7598.5]` opens a fixed scene without
+vsync, runs the frames and writes `benchmark.txt` with the mean, the p50, p95 and p99 of the frame, the worst frame, the
+calls and the draws of a frame, and the milliseconds of the ground, of the things, of the sky, of the HUD and of the panels.
+`F3` shows the same calls and draws in the game. The frames of the tests (`tests/frames`, `tools/check_frames.py`) are the
+proof that the pixels did not change: the biggest difference after C4.3 is 1.8 on a tolerance of 38.
+
+The times of `--benchmark` in this VM are those of the software renderer of SDL (about 0.3 ms of p50 a frame at 1280 x 720,
+0.44 at 2560 x 1440, the first frame a second of baking); they say how much the code costs, not what a GPU draws. The
+number that matters on the owner's machine is the one he reads with `F3` and `--benchmark` on his own card.
 
 ## On the emulator, every night
 
