@@ -27,8 +27,6 @@
     <ID>CyclomaticComplexMethod:Raster.kt$fun rasterize(recipe: Recipe, scale: Float, variant: String? = null): Bitmap</ID>
     <ID>CyclomaticComplexMethod:Raster.kt$private fun coverage(polys: List&lt;List&lt;Pt&gt;&gt;, mask: Mask)</ID>
     <ID>CyclomaticComplexMethod:Raster.kt$private fun parsePath(d: String, scale: Float): List&lt;Subpath&gt;</ID>
-    <ID>CyclomaticComplexMethod:Save.kt$fun saveFromJson(text: String): Result&lt;SaveState&gt;</ID>
-    <ID>CyclomaticComplexMethod:Save.kt$fun saveToJson(s: SaveState, meta: SaveMeta): String</ID>
     <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun assertCheckpoint(sim: WorldSim, want: JsonObject, tol: Float, at: String)</ID>
     <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun runSegment(sim: WorldSim, segment: JsonObject)</ID>
     <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun scenarioFromJson(input: JsonObject): ScenarioWorld</ID>
