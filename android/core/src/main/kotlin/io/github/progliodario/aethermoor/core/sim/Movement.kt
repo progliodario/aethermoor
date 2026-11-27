@@ -34,61 +34,6 @@ private fun clampf(v: Float, lo: Float, hi: Float) = if (v < lo) {
     v
 }
 
-/** A body being pushed out of what it overlaps, one piece at a time (spec 02, "Collisions"). */
-private class Pushed(var x: Float, var y: Float, private val r: Float) {
-    /** Pushes the body out of a solid cell; says whether it moved. */
-    fun outOfTile(tx: Int, ty: Int): Boolean {
-        val cx = clampf(x, tx.toFloat(), (tx + 1).toFloat())
-        val cy = clampf(y, ty.toFloat(), (ty + 1).toFloat())
-        val dx = x - cx
-        val dy = y - cy
-        val d2 = dx * dx + dy * dy
-        if (d2 >= r * r) return false
-        if (d2 > 0f) {
-            val d = sqrt(d2)
-            val k = (r - d) / d
-            x += dx * k
-            y += dy * k
-            return true
-        }
-        // The body sits exactly on the corner: it leaves by the nearest side.
-        val left = x - tx.toFloat()
-        val right = (tx + 1).toFloat() - x
-        val top = y - ty.toFloat()
-        val bottom = (ty + 1).toFloat() - y
-        val m = min(min(left, right), min(top, bottom))
-        if (m == left) {
-            x = tx.toFloat() - r
-        } else if (m == right) {
-            x = (tx + 1).toFloat() + r
-        } else if (m == top) {
-            y = ty.toFloat() - r
-        } else {
-            y = (ty + 1).toFloat() + r
-        }
-        return true
-    }
-
-    /** Pushes the body out of a prop circle; says whether it moved. */
-    fun outOfCircle(cx: Float, cy: Float, radius: Float): Boolean {
-        if (radius <= 0f) return false // a prop of radius 0 is a mark on the ground (a trap): it blocks nothing (spec 02)
-        val dx = x - cx
-        val dy = y - cy
-        val d2 = dx * dx + dy * dy
-        val md = r + radius
-        if (d2 >= md * md) return false
-        if (d2 > 0f) {
-            val d = sqrt(d2)
-            val k = (md - d) / d
-            x += dx * k
-            y += dy * k
-        } else {
-            x = cx + md
-        }
-        return true
-    }
-}
-
 class CollisionWorld(
     val width: Int,
     val height: Int,
@@ -115,32 +60,75 @@ class CollisionWorld(
 
     /** Pushes (x, y) out of solid tiles and prop circles (spec: resolve). */
     fun resolve(start: Vec2, radius: Float = PLAYER_RADIUS): Vec2 {
-        val body = Pushed(start.x, start.y, radius)
+        var x = start.x
+        var y = start.y
+        val r = radius
         var moved = true
         var pass = 0
         while (moved && pass < RESOLVE_PASSES) { // until nothing pushes, at most RESOLVE_PASSES times
+            moved = false
             pass++
-            moved = pushOutOfTiles(body, radius)
-            for (prop in props) moved = body.outOfCircle(prop.x, prop.y, prop.radius) || moved
-            for (prop in dynamicProps) moved = body.outOfCircle(prop.x, prop.y, prop.radius) || moved
-            chunks?.forEachPropNear(body.x, body.y) { moved = body.outOfCircle(it.x, it.y, it.radius) || moved }
-        }
-        return Vec2(body.x, body.y)
-    }
-
-    /** Pushes the body out of the solid cells it overlaps; says whether it moved. */
-    private fun pushOutOfTiles(body: Pushed, radius: Float): Boolean {
-        var moved = false
-        val ty0 = floor(body.y - radius).toInt()
-        val ty1 = floor(body.y + radius).toInt()
-        val tx0 = floor(body.x - radius).toInt()
-        val tx1 = floor(body.x + radius).toInt()
-        for (ty in ty0..ty1) {
-            for (tx in tx0..tx1) {
-                if (isSolid(tx, ty)) moved = body.outOfTile(tx, ty) || moved
+            val ty0 = floor(y - r).toInt()
+            val ty1 = floor(y + r).toInt()
+            val tx0 = floor(x - r).toInt()
+            val tx1 = floor(x + r).toInt()
+            for (ty in ty0..ty1) {
+                for (tx in tx0..tx1) {
+                    if (!isSolid(tx, ty)) continue
+                    val cx = clampf(x, tx.toFloat(), (tx + 1).toFloat())
+                    val cy = clampf(y, ty.toFloat(), (ty + 1).toFloat())
+                    val dx = x - cx
+                    val dy = y - cy
+                    val d2 = dx * dx + dy * dy
+                    if (d2 < r * r) {
+                        if (d2 > 0f) {
+                            val d = sqrt(d2)
+                            val k = (r - d) / d
+                            x += dx * k
+                            y += dy * k
+                        } else {
+                            val left = x - tx.toFloat()
+                            val right = (tx + 1).toFloat() - x
+                            val top = y - ty.toFloat()
+                            val bottom = (ty + 1).toFloat() - y
+                            val m = min(min(left, right), min(top, bottom))
+                            if (m == left) {
+                                x = tx.toFloat() - r
+                            } else if (m == right) {
+                                x = (tx + 1).toFloat() + r
+                            } else if (m == top) {
+                                y = ty.toFloat() - r
+                            } else {
+                                y = (ty + 1).toFloat() + r
+                            }
+                        }
+                        moved = true
+                    }
+                }
             }
+            fun pushOut(cx: Float, cy: Float, radius: Float) {
+                if (radius <= 0f) return // a prop of radius 0 is a mark on the ground (a trap): it blocks nothing (spec 02)
+                val dx = x - cx
+                val dy = y - cy
+                val d2 = dx * dx + dy * dy
+                val md = r + radius
+                if (d2 < md * md) {
+                    if (d2 > 0f) {
+                        val d = sqrt(d2)
+                        val k = (md - d) / d
+                        x += dx * k
+                        y += dy * k
+                    } else {
+                        x = cx + md
+                    }
+                    moved = true
+                }
+            }
+            for (prop in props) pushOut(prop.x, prop.y, prop.radius)
+            for (prop in dynamicProps) pushOut(prop.x, prop.y, prop.radius)
+            chunks?.forEachPropNear(x, y) { pushOut(it.x, it.y, it.radius) }
         }
-        return moved
+        return Vec2(x, y)
     }
 
     /** One tick of movement: X axis, resolve, Y axis, resolve. */

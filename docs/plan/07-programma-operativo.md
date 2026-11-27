@@ -11,7 +11,7 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 
 | Voce | Che cosa | Stato | PR | Issue |
 |---|---|---|---|---|
-| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 67 | #258, #265, #268, #271, batch 14, questa PR | #224 aperta |
+| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 73 | #258, #265, #268, #271, batch 14 | #224 aperta |
 | B1.2 | Spec 15 e ADR 0014 | fatta | #258 | #225 |
 | B1.3 | Licenze in CI | fatta | #258 | #226 |
 | B1.4 | Matrice di parità | fatta | #258 | #227 |
@@ -28,7 +28,6 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 | C3.1 | Dungeon di Gideon, forma ridotta | fatta | #268 (spec), #269 | #238 |
 | C4.1 | Streaming con thread | **fatta** | batch 14 | #239 chiusa |
 | C4.2 | Misure su Android | **quasi fatta**: mancano i numeri del telefono del proprietario | batch 13 | #240 aperta |
-| C4.3 | Il disegno di un frame sul desktop | **fatta** | questa PR | |
 | C5.1 | Una settimana di gioco | fatta | #264 | #241 |
 | C6.1 | Sintetizzatore | **bloccata**: solo con il sì del proprietario | | #242 aperta |
 | D1-D4 | Storie laterali degli otto protagonisti | fatte | #261, #262, #263 | #243-#246 |
@@ -129,10 +128,6 @@ Batch unico con le voci B1.1-B1.6, più il lavoro di G1 che serve a sbloccare le
 > strumenti scaricati dalla CI (ktlint, detekt).
 
 ##### B1.1 Detekt
-- **Fatto finora:** da 104 a 67 (49 di complessità, 17 di annidamento e una di uscite dai cicli). Questo batch spezza
-  `CollisionWorld.resolve` (il corpo che viene spinto fuori da ciò che occupa), il `when` delle condizioni e degli effetti delle storie, e il
-  documento dei salvataggi: `saveToJson` scrive per sezioni, `saveFromJson` legge i campi facoltativi con piccoli aiuti invece che con un
-  `as?` e un `?:` per campo, e il testo che scrive non cambia (i test dei salvataggi congelati lo verificano).
 - **Cosa:** portare la baseline da 104 voci a zero (`android/config/detekt-baseline.xml`): 72 `CyclomaticComplexMethod`, 19 `NestedBlockDepth`, 9 `LoopWithTooManyJumpStatements`, 2 `SwallowedException`, 1 `UnusedPrivateProperty`, 1 `UnusedParameter`.
 - **Perché:** la baseline è debito che cresce con ogni funzione nuova, e le eccezioni ingoiate nascondono errori veri.
 - **Come:** prima le due `SwallowedException` (l'errore si registra o si rilancia), poi le due voci inutilizzate, poi le uscite dai cicli e l'annidamento (si estraggono funzioni), infine la complessità file per file, partendo dal file con più voci. Un commit per file, che toglie le sue voci dalla baseline. Mai aggiungere voci. A zero, il file si cancella e `docs/dev/kotlin-style.md` lo dice.
@@ -335,33 +330,6 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
   dalla schermata del titolo) ma controlla che attività e gioco restino gli stessi e che le texture siano gestite. (c) Le texture dell'arte
   e del font sono gestite (`PixmapTextureData` con il pixmap tenuto). (d) Manca: i numeri del telefono del proprietario, in
   `docs/design/performance.md`.
-
-##### C4.3 Il disegno di un frame sul desktop
-- **Cosa:** portare il frame del desktop sotto i 16,7 ms togliendo il costo del disegno: ~~1.920 chiamate al renderer per frame~~,
-  una texture e una chiamata per ogni tile, un glifo per chiamata, 1.600 rettangoli per la minimappa. Niente stringhe né ricerche per
-  tile, i tile risolti una volta per bucket, i glifi in un atlante, l'arte di un bucket in un atlante a scaffali, un solo batch di
-  quad per il terreno, le cose e le figure, la minimappa disegnata una volta in una texture.
-- **Perché:** il gioco scattava sul desktop del proprietario e la simulazione non era il collo di bottiglia (0,013-0,024 ms per tick):
-  il costo era nel disegno. È la voce che mancava per la promessa di 60 FPS fissi di M2/M5.
-- **File:** `desktop/src/app/main.cpp`, `desktop/src/app/texture_cache.{hpp,cpp}`, `docs/spec/13-vector-art.md`,
-  `docs/design/performance.md`.
-- **Accettazione:** i tre smoke test dei fotogrammi restano verdi (`tools/check_frames.py`, tolleranza 38) e il benchmark mostra un
-  crollo delle chiamate; la simulazione, i salvataggi e i vettori non cambiano.
-- **Rischi:** un atlante pieno o una modulazione di texture applicata all'atlante intero cambierebbero i pixel; la mitigazione è il
-  ritaglio per immagine, il colore per vertice e il controllo dei fotogrammi.
-- **Dipende da:** C4.2 per il confronto dei numeri. Taglia: M.
-- **Fatto (27 novembre 2026).** Misurato con `--benchmark`: 1.920 chiamate e 1.920 draw a 1280 x 720 prima, 152 chiamate e 33 draw
-  dopo (uguale a 2560 x 1440, perché il batch non dipende da quanti tile si vedono); i fotogrammi di `tests/frames` hanno una
-  differenza massima di 1,8 su una tolleranza di 38. Differenza dal progetto: la minimappa non è più 1.600 rettangoli ma una texture
-  di 120 pixel di lato; il lampeggio e il rosso del colpo sono il colore dei vertici, non una modulazione della texture (che toccherebbe
-  tutto l'atlante); i personaggi restano nell'atlante e ruotano nei vertici del quad. Non misurato: i frame sulla scheda del
-  proprietario, che li legge con `F3` e `--benchmark`.
-- **Android (27 novembre 2026).** Le stesse cose nel client Android, dove libGDX accorpa per texture: la cache non costruisce più
-  una chiave `"$id|$variant|$bucket"` per ogni tile di ogni frame, i tile si risolvono una volta per bucket in una tabella del
-  renderer, l'arte di un bucket sta in pagine d'atlante da 1024 pixel di lato fino al bucket 64 e 2048 sopra (una pagina è una
-  texture più il pixmap tenuto per il contesto perso, R6), e la minimappa prende i suoi 1.600 colori da una tabella fatta una volta.
-  L'invio di un'immagine alla GPU aspetta l'inizio del frame dopo, quando nessun batch è aperto. Compilato con `kotlinc` (core e
-  game) ma non misurato: i numeri del telefono restano quelli di C4.2.
 
 #### C5 Una settimana di gioco
 
