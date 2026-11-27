@@ -6,7 +6,6 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.buildJsonObject
@@ -164,279 +163,161 @@ fun saveToJson(s: SaveState, meta: SaveMeta): String {
         put("protagonist", meta.protagonist)
         put("seed", hex64(meta.seed))
         put("map", meta.map)
-        put("player", playerJson(s))
-        put("rng", rngJson(s))
-        put("enemies", enemiesJson(s))
-        if (meta.map == "world") put("cleared_spawners", clearedJson(s))
+        put(
+            "player",
+            buildJsonObject {
+                put("x", s.x)
+                put("y", s.y)
+                put("facing", JsonArray(listOf(JsonPrimitive(s.facingX), JsonPrimitive(s.facingY))))
+                put("facing_left", s.facingLeft)
+                put("moving", s.moving)
+                put("clip_tick", s.clipTick)
+                put("hp", s.hp)
+                put("level", s.level)
+                put("xp", s.xp)
+                put("deaths", s.deaths)
+                put("kills", s.kills)
+                put("iframes", s.iframes)
+                put("cooldown", s.cooldown)
+                put("phase", phaseName(s.phase))
+                put("phase_tick", s.phaseTick)
+                put("hit_set", JsonArray(s.hitSet.map { JsonPrimitive(it) }))
+            },
+        )
+        put(
+            "rng",
+            buildJsonObject {
+                put(
+                    "combat",
+                    buildJsonObject {
+                        put("state", hex64(s.combatState))
+                        put("inc", hex64(s.combatInc))
+                    },
+                )
+                put(
+                    "loot",
+                    buildJsonObject {
+                        put("state", hex64(s.lootState))
+                        put("inc", hex64(s.lootInc))
+                    },
+                )
+            },
+        )
+        put(
+            "enemies",
+            JsonArray(
+                s.enemies.map {
+                    buildJsonObject {
+                        put("x", it.x)
+                        put("y", it.y)
+                        put("hp", it.hp)
+                        put("state", it.state.id)
+                        put("state_tick", it.stateTick)
+                        it.spawner?.let { spawner -> put("spawner", JsonArray(listOf(JsonPrimitive(spawner.first), JsonPrimitive(spawner.second)))) }
+                    }
+                },
+            ),
+        )
+        if (meta.map == "world") {
+            put(
+                "cleared_spawners",
+                JsonArray(s.cleared.map { JsonArray(listOf(JsonPrimitive(it.x), JsonPrimitive(it.y), JsonPrimitive(it.died))) }),
+            )
+        }
         put("world_ticks", s.worldTicks)
-        put("equipped", equippedJson(s))
-        putStores(s, this)
-        putTallies(s, this)
-        putFriendAndCompanion(s, this)
-        if (meta.map == "world") putExplored(s, this)
+        put(
+            "equipped",
+            buildJsonObject {
+                put("weapon", s.equippedWeapon ?: "")
+                put("armor", s.equippedArmor)
+                if (s.equippedAccessory.isNotEmpty()) put("accessory", s.equippedAccessory)
+            },
+        )
+        if (s.chest.isNotEmpty()) put("chest", buildJsonObject { for ((item, qty) in s.chest.toSortedMap()) put(item, qty) })
+        if (s.plots.isNotEmpty()) {
+            put("plots", JsonArray(s.plots.map { p -> JsonArray(listOf(JsonPrimitive(p.x), JsonPrimitive(p.y), JsonPrimitive(p.seed), JsonPrimitive(p.ripe))) }))
+        }
+        if (s.rolls.isNotEmpty()) put("rolls", buildJsonObject { for ((item, pct) in s.rolls.toSortedMap()) put(item, pct) })
+        if (s.runes.isNotEmpty()) put("runes", buildJsonObject { for ((weapon, rune) in s.runes.toSortedMap()) put(weapon, rune) })
+        if (s.tag.isNotEmpty()) put("tag", s.tag)
+        if (s.furniture.isNotEmpty()) {
+            put("furniture", JsonArray(s.furniture.map { f -> JsonArray(listOf(JsonPrimitive(f.x), JsonPrimitive(f.y), JsonPrimitive(f.item))) }))
+        }
+        if (s.talents.isNotEmpty()) put("talents", buildJsonObject { for ((id, rank) in s.talents) put(id, rank) })
+        if (s.counters.isNotEmpty()) put("counters", buildJsonObject { for ((name, count) in s.counters) put(name, count) })
+        if (s.bestiary.isNotEmpty()) put("bestiary", buildJsonObject { for ((id, count) in s.bestiary) put(id, count) })
+        s.tamedFriend?.let { f ->
+            put(
+                "friend",
+                buildJsonObject {
+                    put("enemy", f.enemy)
+                    put("x", f.x)
+                    put("y", f.y)
+                    put("cooldown", f.cooldown)
+                    if (f.stay) put("stay", true)
+                },
+            )
+        }
+        s.companion?.let { c ->
+            put(
+                "companion",
+                buildJsonObject {
+                    put("x", c.first)
+                    put("y", c.second)
+                    put("cooldown", c.third)
+                    if (s.companionStay) put("stay", true)
+                    if (s.companionBond > 0) put("bond", s.companionBond)
+                    if (s.companionId.isNotEmpty()) put("id", s.companionId)
+                },
+            )
+        }
+        if (s.party.isNotEmpty()) put("party", JsonArray(s.party.map { JsonPrimitive(it) })) // spec 10, "The party"
+        if (s.bonds.isNotEmpty()) put("bonds", JsonObject(s.bonds.mapValues { JsonPrimitive(it.value) }))
+        if (!s.rules.isDefault) put("rules", rulesJson(s.rules)) // the rules of the game (spec 04): only those that are not 100
+        if (meta.map == "world") {
+            put("explored", JsonArray(s.explored.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
+            put("stones", JsonArray(s.stones.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
+        }
         put("inventory", buildJsonObject { for ((item, quantity) in s.inventory) put(item, quantity) })
-        put("story", storyJson(s))
-    }
-    return root.toString() + "\n"
-}
-
-/** The player of the save (spec 12). */
-private fun playerJson(s: SaveState): JsonObject =
-    buildJsonObject {
-        put("x", s.x)
-        put("y", s.y)
-        put("facing", JsonArray(listOf(JsonPrimitive(s.facingX), JsonPrimitive(s.facingY))))
-        put("facing_left", s.facingLeft)
-        put("moving", s.moving)
-        put("clip_tick", s.clipTick)
-        put("hp", s.hp)
-        put("level", s.level)
-        put("xp", s.xp)
-        put("deaths", s.deaths)
-        put("kills", s.kills)
-        put("iframes", s.iframes)
-        put("cooldown", s.cooldown)
-        put("phase", phaseName(s.phase))
-        put("phase_tick", s.phaseTick)
-        put("hit_set", JsonArray(s.hitSet.map { JsonPrimitive(it) }))
-    }
-
-/** The two random generators the save carries. */
-private fun rngJson(s: SaveState): JsonObject =
-    buildJsonObject {
         put(
-            "combat",
+            "story",
             buildJsonObject {
-                put("state", hex64(s.combatState))
-                put("inc", hex64(s.combatInc))
-            },
-        )
-        put(
-            "loot",
-            buildJsonObject {
-                put("state", hex64(s.lootState))
-                put("inc", hex64(s.lootInc))
-            },
-        )
-    }
-
-private fun enemiesJson(s: SaveState): JsonArray =
-    JsonArray(
-        s.enemies.map {
-            buildJsonObject {
-                put("x", it.x)
-                put("y", it.y)
-                put("hp", it.hp)
-                put("state", it.state.id)
-                put("state_tick", it.stateTick)
-                it.spawner?.let { spawner -> put("spawner", JsonArray(listOf(JsonPrimitive(spawner.first), JsonPrimitive(spawner.second)))) }
-            }
-        },
-    )
-
-private fun clearedJson(s: SaveState): JsonArray =
-    JsonArray(s.cleared.map { JsonArray(listOf(JsonPrimitive(it.x), JsonPrimitive(it.y), JsonPrimitive(it.died))) })
-
-private fun equippedJson(s: SaveState): JsonObject =
-    buildJsonObject {
-        put("weapon", s.equippedWeapon ?: "")
-        put("armor", s.equippedArmor)
-        if (s.equippedAccessory.isNotEmpty()) put("accessory", s.equippedAccessory)
-    }
-
-/** What only some saves have: a chest, the plots, the rolls, the runes, the home, the talents, the counters, the bestiary. */
-private fun putStores(s: SaveState, root: JsonObjectBuilder) {
-    if (s.chest.isNotEmpty()) root.put("chest", buildJsonObject { for ((item, qty) in s.chest.toSortedMap()) put(item, qty) })
-    if (s.plots.isNotEmpty()) {
-        root.put(
-            "plots",
-            JsonArray(s.plots.map { p -> JsonArray(listOf(JsonPrimitive(p.x), JsonPrimitive(p.y), JsonPrimitive(p.seed), JsonPrimitive(p.ripe))) }),
-        )
-    }
-    if (s.rolls.isNotEmpty()) root.put("rolls", buildJsonObject { for ((item, pct) in s.rolls.toSortedMap()) put(item, pct) })
-    if (s.runes.isNotEmpty()) root.put("runes", buildJsonObject { for ((weapon, rune) in s.runes.toSortedMap()) put(weapon, rune) })
-    if (s.tag.isNotEmpty()) root.put("tag", s.tag)
-    if (s.furniture.isNotEmpty()) {
-        root.put(
-            "furniture",
-            JsonArray(s.furniture.map { f -> JsonArray(listOf(JsonPrimitive(f.x), JsonPrimitive(f.y), JsonPrimitive(f.item))) }),
-        )
-    }
-}
-
-/** The tallies of a save: the talents, the counters of the world and the bestiary. */
-private fun putTallies(s: SaveState, root: JsonObjectBuilder) {
-    if (s.talents.isNotEmpty()) root.put("talents", buildJsonObject { for ((id, rank) in s.talents) put(id, rank) })
-    if (s.counters.isNotEmpty()) root.put("counters", buildJsonObject { for ((name, count) in s.counters) put(name, count) })
-    if (s.bestiary.isNotEmpty()) root.put("bestiary", buildJsonObject { for ((id, count) in s.bestiary) put(id, count) })
-}
-
-/** The tamed friend, the companion, the party, the bonds and the rules of the game (spec 10, spec 04). */
-private fun putFriendAndCompanion(s: SaveState, root: JsonObjectBuilder) {
-    s.tamedFriend?.let { f ->
-        root.put(
-            "friend",
-            buildJsonObject {
-                put("enemy", f.enemy)
-                put("x", f.x)
-                put("y", f.y)
-                put("cooldown", f.cooldown)
-                if (f.stay) put("stay", true)
-            },
-        )
-    }
-    s.companion?.let { c ->
-        root.put(
-            "companion",
-            buildJsonObject {
-                put("x", c.first)
-                put("y", c.second)
-                put("cooldown", c.third)
-                if (s.companionStay) put("stay", true)
-                if (s.companionBond > 0) put("bond", s.companionBond)
-                if (s.companionId.isNotEmpty()) put("id", s.companionId)
-            },
-        )
-    }
-    if (s.party.isNotEmpty()) root.put("party", JsonArray(s.party.map { JsonPrimitive(it) })) // spec 10, "The party"
-    if (s.bonds.isNotEmpty()) root.put("bonds", JsonObject(s.bonds.mapValues { JsonPrimitive(it.value) }))
-    if (!s.rules.isDefault) root.put("rules", rulesJson(s.rules)) // the rules of the game (spec 04): only those that are not 100
-}
-
-/** What a streamed world has: the explored tiles and the stones of the world map. */
-private fun putExplored(s: SaveState, root: JsonObjectBuilder) {
-    root.put("explored", JsonArray(s.explored.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
-    root.put("stones", JsonArray(s.stones.map { JsonArray(listOf(JsonPrimitive(it.first), JsonPrimitive(it.second))) }))
-}
-
-/** The story of the save: flags, gold, guild points, quests, and the dialogue open, if any. */
-private fun storyJson(s: SaveState): JsonObject =
-    buildJsonObject {
-        put("flags", buildJsonObject { for ((flag, value) in s.story.flags) put(flag, value) })
-        put("gold", s.story.gold)
-        put("guild_points", s.story.guildPoints)
-        put(
-            "quests",
-            buildJsonObject {
-                for ((id, q) in s.story.quests) {
+                put("flags", buildJsonObject { for ((flag, value) in s.story.flags) put(flag, value) })
+                put("gold", s.story.gold)
+                put("guild_points", s.story.guildPoints)
+                put(
+                    "quests",
+                    buildJsonObject {
+                        for ((id, q) in s.story.quests) {
+                            put(
+                                id,
+                                buildJsonObject {
+                                    put("stage", q.stage)
+                                    put("progress", JsonArray(q.progress.map { JsonPrimitive(it) }))
+                                    put("done", q.done)
+                                    if (q.day > 0L) put("day", q.day) // a timed quest (spec 07, "Timed quests")
+                                },
+                            )
+                        }
+                    },
+                )
+                if (s.story.dialogueActive) {
                     put(
-                        id,
+                        "dialogue",
                         buildJsonObject {
-                            put("stage", q.stage)
-                            put("progress", JsonArray(q.progress.map { JsonPrimitive(it) }))
-                            put("done", q.done)
-                            if (q.day > 0L) put("day", q.day) // a timed quest (spec 07, "Timed quests")
+                            put("id", s.story.dialogueId)
+                            put("node", s.story.node)
+                            if (s.story.dialogueArgs.isNotEmpty()) put("args", buildJsonObject { for ((k, v) in s.story.dialogueArgs) put(k, v) })
                         },
                     )
+                } else {
+                    put("dialogue", JsonNull)
                 }
             },
         )
-        if (s.story.dialogueActive) {
-            put(
-                "dialogue",
-                buildJsonObject {
-                    put("id", s.story.dialogueId)
-                    put("node", s.story.node)
-                    if (s.story.dialogueArgs.isNotEmpty()) put("args", buildJsonObject { for ((k, v) in s.story.dialogueArgs) put(k, v) })
-                },
-            )
-        } else {
-            put("dialogue", JsonNull)
-        }
     }
-
-/** The story of a save; empty when the document has none. */
-private fun storyOf(element: JsonElement): StoryState {
-    if (element is JsonNull) return StoryState(emptyMap(), 0, emptyMap(), false, "", "")
-    val st = element.jsonObject
-    val dialogue = st.getValue("dialogue")
-    return StoryState(
-        flags = st.getValue("flags").jsonObject.mapValues { it.value.jsonPrimitive.boolean },
-        gold = st.getValue("gold").jsonPrimitive.long,
-        guildPoints = st["guild_points"]?.jsonPrimitive?.long ?: 0L,
-        quests = st.getValue("quests").jsonObject.mapValues { (_, value) -> questProgressOf(value) },
-        dialogueActive = dialogue !is JsonNull,
-        dialogueId = if (dialogue is JsonNull) "" else dialogue.jsonObject.getValue("id").jsonPrimitive.content,
-        node = if (dialogue is JsonNull) "" else dialogue.jsonObject.getValue("node").jsonPrimitive.content,
-        dialogueArgs = if (dialogue is JsonNull) emptyMap() else (dialogue.jsonObject["args"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap(),
-    )
+    return root.toString() + "\n"
 }
-
-private fun questProgressOf(value: JsonElement): QuestProgress {
-    val q = value.jsonObject
-    val progress = q.getValue("progress").jsonArray
-    return QuestProgress(
-        q.getValue("stage").jsonPrimitive.content,
-        LongArray(progress.size) { progress[it].jsonPrimitive.long },
-        q.getValue("done").jsonPrimitive.boolean,
-        q["day"]?.jsonPrimitive?.long ?: 0L,
-    )
-}
-
-private fun enemiesOf(array: JsonArray): List<SaveEnemy> =
-    array.map {
-        val e = it.jsonObject
-        SaveEnemy(
-            e.getValue("x").f(),
-            e.getValue("y").f(),
-            e.getValue("hp").jsonPrimitive.long,
-            parseEnemyState(e.getValue("state").jsonPrimitive.content),
-            e.getValue("state_tick").jsonPrimitive.int,
-            e["spawner"]?.jsonArray?.let { sp -> Pair(sp[0].jsonPrimitive.int, sp[1].jsonPrimitive.int) },
-        )
-    }
-
-/** The spawners whose enemy was killed, with the tick of the death. */
-private fun clearedOf(j: JsonObject): List<ClearedSpawner> =
-    (j["cleared_spawners"] as? JsonArray)?.map { c ->
-        val a = c.jsonArray
-        ClearedSpawner(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, if (a.size > 2) a[2].jsonPrimitive.long else 0L)
-    } ?: emptyList()
-
-private fun plotsOf(j: JsonObject): List<PlotSave> =
-    j.optArr("plots")?.map { p ->
-        val a = p.jsonArray
-        PlotSave(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, a[2].jsonPrimitive.content, a[3].jsonPrimitive.long)
-    } ?: emptyList()
-
-private fun furnitureSavesOf(j: JsonObject): List<FurnitureSave> =
-    j.optArr("furniture")?.map { f ->
-        val a = f.jsonArray
-        FurnitureSave(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, a[2].jsonPrimitive.content)
-    } ?: emptyList()
-
-private fun partyOf(j: JsonObject): List<String> = j.optArr("party")?.map { it.jsonPrimitive.content } ?: emptyList()
-
-private fun friendOf(j: JsonObject): FriendSave? =
-    j.optObj("friend")?.let { f ->
-        FriendSave(
-            f.getValue("enemy").jsonPrimitive.content,
-            f.getValue("x").jsonPrimitive.float,
-            f.getValue("y").jsonPrimitive.float,
-            f.getValue("cooldown").jsonPrimitive.int,
-            f.optFlag("stay"),
-        )
-    }
-
-// The fields a save may not have: the value of a save of an older version, and the default of this one.
-private fun JsonObject?.optObj(key: String): JsonObject? = this?.get(key) as? JsonObject
-
-private fun JsonObject?.optArr(key: String): JsonArray? = this?.get(key) as? JsonArray
-
-private fun JsonObject?.optStr(key: String): String = (this?.get(key) as? JsonPrimitive)?.content ?: ""
-
-private fun JsonObject?.optFlag(key: String): Boolean = optStr(key) == "true"
-
-private fun JsonObject?.optInt(key: String): Int = (this?.get(key) as? JsonPrimitive)?.content?.toIntOrNull() ?: 0
-
-private fun JsonArray?.optPairs(): List<Pair<Int, Int>> =
-    this?.map { Pair(it.jsonArray[0].jsonPrimitive.int, it.jsonArray[1].jsonPrimitive.int) } ?: emptyList()
-
-private fun JsonObject?.optIntMap(): Map<String, Int> = this?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap()
-
-private fun JsonObject?.optLongMap(): Map<String, Long> = this?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap()
-
-private fun JsonObject?.optStrMap(): Map<String, String> = this?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap()
 
 /** Parses a save document; the failure carries the reason (invalid JSON, missing field, newer save_version). */
 fun saveFromJson(text: String): Result<SaveState> =
@@ -447,8 +328,32 @@ fun saveFromJson(text: String): Result<SaveState> =
         val rng = j.getValue("rng").jsonObject
         val combat = rng.getValue("combat").jsonObject
         val loot = rng.getValue("loot").jsonObject
-        val equipped = j.optObj("equipped")
-        val companion = j.optObj("companion")
+        val storyElement = j.getValue("story")
+        val story =
+            if (storyElement is JsonNull) {
+                StoryState(emptyMap(), 0, emptyMap(), false, "", "")
+            } else {
+                val st = storyElement.jsonObject
+                val dialogue = st.getValue("dialogue")
+                StoryState(
+                    flags = st.getValue("flags").jsonObject.mapValues { it.value.jsonPrimitive.boolean },
+                    gold = st.getValue("gold").jsonPrimitive.long,
+                    guildPoints = st["guild_points"]?.jsonPrimitive?.long ?: 0L,
+                    quests = st.getValue("quests").jsonObject.mapValues { (_, value) ->
+                        val q = value.jsonObject
+                        QuestProgress(
+                            q.getValue("stage").jsonPrimitive.content,
+                            LongArray(q.getValue("progress").jsonArray.size) { q.getValue("progress").jsonArray[it].jsonPrimitive.long },
+                            q.getValue("done").jsonPrimitive.boolean,
+                            q["day"]?.jsonPrimitive?.long ?: 0L,
+                        )
+                    },
+                    dialogueActive = dialogue !is JsonNull,
+                    dialogueId = if (dialogue is JsonNull) "" else dialogue.jsonObject.getValue("id").jsonPrimitive.content,
+                    node = if (dialogue is JsonNull) "" else dialogue.jsonObject.getValue("node").jsonPrimitive.content,
+                    dialogueArgs = if (dialogue is JsonNull) emptyMap() else (dialogue.jsonObject["args"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap(),
+                )
+            }
         SaveState(
             x = p.getValue("x").f(),
             y = p.getValue("y").f(),
@@ -471,33 +376,56 @@ fun saveFromJson(text: String): Result<SaveState> =
             combatInc = parseHex64(combat.getValue("inc")),
             lootState = parseHex64(loot.getValue("state")),
             lootInc = parseHex64(loot.getValue("inc")),
-            enemies = enemiesOf(j.getValue("enemies").jsonArray),
-            cleared = clearedOf(j),
+            enemies = j.getValue("enemies").jsonArray.map {
+                val e = it.jsonObject
+                SaveEnemy(
+                    e.getValue("x").f(),
+                    e.getValue("y").f(),
+                    e.getValue("hp").jsonPrimitive.long,
+                    parseEnemyState(e.getValue("state").jsonPrimitive.content),
+                    e.getValue("state_tick").jsonPrimitive.int,
+                    e["spawner"]?.jsonArray?.let { sp -> Pair(sp[0].jsonPrimitive.int, sp[1].jsonPrimitive.int) },
+                )
+            },
+            cleared = (j["cleared_spawners"] as? JsonArray)?.map { c ->
+                val a = c.jsonArray
+                ClearedSpawner(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, if (a.size > 2) a[2].jsonPrimitive.long else 0L)
+            } ?: emptyList(),
             worldTicks = j["world_ticks"]?.jsonPrimitive?.long ?: -1L,
-            equippedWeapon = equipped.optStr("weapon"),
-            equippedArmor = equipped.optStr("armor"),
-            equippedAccessory = equipped.optStr("accessory"),
-            explored = j.optArr("explored").optPairs(),
-            companion = companion?.let { Triple(it.getValue("x").jsonPrimitive.float, it.getValue("y").jsonPrimitive.float, it.getValue("cooldown").jsonPrimitive.int) },
-            talents = j.optObj("talents").optIntMap(),
-            chest = j.optObj("chest").optLongMap(),
-            plots = plotsOf(j),
-            tag = j.optStr("tag"),
-            runes = j.optObj("runes").optStrMap(),
-            rolls = j.optObj("rolls").optLongMap(),
-            furniture = furnitureSavesOf(j),
-            counters = j.optObj("counters").optIntMap(),
-            companionStay = companion.optFlag("stay"),
-            companionBond = companion.optInt("bond"),
-            companionId = companion.optStr("id"),
-            party = partyOf(j),
-            bonds = j.optObj("bonds").optIntMap(),
-            rules = parseRules(j.optObj("rules")),
-            tamedFriend = friendOf(j),
-            bestiary = j.optObj("bestiary").optIntMap(),
-            stones = j.optArr("stones").optPairs(),
+            equippedWeapon = (j["equipped"] as? JsonObject)?.let { (it["weapon"] as? JsonPrimitive)?.content ?: "" },
+            equippedArmor = (j["equipped"] as? JsonObject)?.let { (it["armor"] as? JsonPrimitive)?.content } ?: "",
+            equippedAccessory = (j["equipped"] as? JsonObject)?.let { (it["accessory"] as? JsonPrimitive)?.content } ?: "",
+            explored = (j["explored"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
+                ?: emptyList(),
+            companion = (j["companion"] as? JsonObject)?.let { c -> Triple(c.getValue("x").jsonPrimitive.float, c.getValue("y").jsonPrimitive.float, c.getValue("cooldown").jsonPrimitive.int) },
+            talents = (j["talents"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
+            chest = (j["chest"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
+            plots = (j["plots"] as? JsonArray)?.map { p ->
+                val a = p.jsonArray
+                PlotSave(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, a[2].jsonPrimitive.content, a[3].jsonPrimitive.long)
+            } ?: emptyList(),
+            tag = (j["tag"] as? JsonPrimitive)?.content ?: "",
+            runes = (j["runes"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.content } ?: emptyMap(),
+            rolls = (j["rolls"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.long } ?: emptyMap(),
+            furniture = (j["furniture"] as? JsonArray)?.map { f ->
+                val a = f.jsonArray
+                FurnitureSave(a[0].jsonPrimitive.int, a[1].jsonPrimitive.int, a[2].jsonPrimitive.content)
+            } ?: emptyList(),
+            counters = (j["counters"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
+            companionStay = ((j["companion"] as? JsonObject)?.get("stay") as? JsonPrimitive)?.content == "true",
+            companionBond = ((j["companion"] as? JsonObject)?.get("bond") as? JsonPrimitive)?.content?.toIntOrNull() ?: 0,
+            companionId = ((j["companion"] as? JsonObject)?.get("id") as? JsonPrimitive)?.content ?: "",
+            party = (j["party"] as? JsonArray)?.map { it.jsonPrimitive.content } ?: emptyList(),
+            bonds = (j["bonds"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
+            rules = parseRules(j["rules"] as? JsonObject),
+            tamedFriend = (j["friend"] as? JsonObject)?.let { f ->
+                FriendSave(f.getValue("enemy").jsonPrimitive.content, f.getValue("x").jsonPrimitive.float, f.getValue("y").jsonPrimitive.float, f.getValue("cooldown").jsonPrimitive.int, (f["stay"] as? JsonPrimitive)?.content == "true")
+            },
+            bestiary = (j["bestiary"] as? JsonObject)?.mapValues { it.value.jsonPrimitive.int } ?: emptyMap(),
+            stones = (j["stones"] as? JsonArray)?.map { c -> Pair(c.jsonArray[0].jsonPrimitive.int, c.jsonArray[1].jsonPrimitive.int) }
+                ?: emptyList(),
             inventory = j.getValue("inventory").jsonObject.mapValues { it.value.jsonPrimitive.long },
-            story = storyOf(j.getValue("story")),
+            story = story,
         )
     }
 
