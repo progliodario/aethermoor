@@ -17,6 +17,7 @@
 #include <iterator>
 #include <map>
 #include <optional>
+#include <unordered_map>
 #include <set>
 #include <string>
 #include <vector>
@@ -71,6 +72,204 @@ constexpr int kFloatingTextFrames = 50;
 constexpr double kAutosaveSeconds = 30.0;
 constexpr const char* kWorldId = "base:world/overworld";
 
+// What a frame costs and how many calls it makes into the renderer (F3, --benchmark; docs/design/performance.md).
+// Presentation only: nothing here is read by the game, and the counters cost a few clock reads a frame.
+std::uint64_t g_calls = 0;  // the calls into the renderer of this frame
+std::uint64_t g_draws = 0;  // of those, the ones SDL cannot join with the one before: a change of texture, a
+                            // geometry, a filled shape between two of them
+SDL_Texture* g_batch_texture = nullptr;
+bool g_batch_started = false;
+
+class QuadBatch;
+
+// The quads of the things of the scene, in the order they are drawn: shadows, swaying props and sprites share one
+// texture (the atlas of the bucket) and so reach the renderer with one call instead of one for each (spec 13,
+// "Atlas of the textures"). It is empty outside a frame, and every other call into the renderer sends it first, so
+// that the order of the drawing does not change.
+QuadBatch* g_scene = nullptr;
+void flush_scene();
+
+void draw_geometry(SDL_Renderer* renderer, SDL_Texture* texture, const SDL_Vertex* vertices, int count,
+                   const int* indices, int index_count) {
+    ++g_calls;
+    ++g_draws;  // a geometry is a command of its own, whatever the texture
+    g_batch_texture = texture;
+    g_batch_started = true;
+    SDL_RenderGeometry(renderer, texture, vertices, count, indices, index_count);
+}
+
+// A run of quads that share a texture, sent with one call into the renderer instead of one for each: the vertices are
+// exactly those the single calls would have made, in the same order (spec 13, "Atlas of the textures").
+class QuadBatch {
+public:
+    explicit QuadBatch(SDL_Renderer* renderer) : m_renderer_(renderer) {
+        m_vertices_.reserve(4096);
+        m_indices_.reserve(6144);
+    }
+    ~QuadBatch() { flush(); }
+    QuadBatch(const QuadBatch&) = delete;
+    QuadBatch& operator=(const QuadBatch&) = delete;
+
+    // `alpha` is the opacity of the four corners, top left, top right, bottom right, bottom left.
+    void add(SDL_Texture* texture, float tex_w, float tex_h, const SDL_FRect& src, const SDL_FRect& dst,
+             const Uint8 alpha[4]) {
+        const SDL_FPoint corners[4] = {{dst.x, dst.y},
+                                       {dst.x + dst.w, dst.y},
+                                       {dst.x + dst.w, dst.y + dst.h},
+                                       {dst.x, dst.y + dst.h}};
+        const SDL_FColor colors[4] = {{1.0F, 1.0F, 1.0F, static_cast<float>(alpha[0]) / 255.0F},
+                                      {1.0F, 1.0F, 1.0F, static_cast<float>(alpha[1]) / 255.0F},
+                                      {1.0F, 1.0F, 1.0F, static_cast<float>(alpha[2]) / 255.0F},
+                                      {1.0F, 1.0F, 1.0F, static_cast<float>(alpha[3]) / 255.0F}};
+        add_quad(texture, src.x / tex_w, src.y / tex_h, (src.x + src.w) / tex_w, (src.y + src.h) / tex_h, corners,
+                 colors);
+    }
+
+    // Four corners, top left, top right, bottom right, bottom left, with their texture coordinates and colours (a
+    // shadow tints them black, a sprite leaves them white).
+    void add_quad(SDL_Texture* texture, float u0, float v0, float u1, float v1, const SDL_FPoint corners[4],
+                  const SDL_FColor colors[4]) {
+        if (texture != m_texture_) {
+            flush();
+        }
+        m_texture_ = texture;
+        const int base = static_cast<int>(m_vertices_.size());
+        for (int i = 0; i < 4; ++i) {
+            const float u = (i == 1 || i == 2) ? u1 : u0;
+            const float v = i >= 2 ? v1 : v0;
+            m_vertices_.push_back(SDL_Vertex{corners[i], colors[i], {u, v}});
+        }
+        for (const int index : {0, 1, 2, 0, 2, 3}) {
+            m_indices_.push_back(base + index);
+        }
+    }
+
+    void flush() {
+        if (!m_vertices_.empty()) {
+            draw_geometry(m_renderer_, m_texture_, m_vertices_.data(), static_cast<int>(m_vertices_.size()),
+                          m_indices_.data(), static_cast<int>(m_indices_.size()));
+            m_vertices_.clear();
+            m_indices_.clear();
+        }
+        m_texture_ = nullptr;
+    }
+
+private:
+    SDL_Renderer* m_renderer_;
+    SDL_Texture* m_texture_ = nullptr;
+    std::vector<SDL_Vertex> m_vertices_;
+    std::vector<int> m_indices_;
+};
+
+void flush_scene() {
+    if (g_scene != nullptr) {
+        g_scene->flush();
+    }
+}
+
+void draw_texture(SDL_Renderer* renderer, SDL_Texture* texture, const SDL_FRect* src, const SDL_FRect* dst) {
+    flush_scene();
+    ++g_calls;
+    if (!g_batch_started || texture != g_batch_texture) {
+        ++g_draws;
+        g_batch_texture = texture;
+        g_batch_started = true;
+    }
+    SDL_RenderTexture(renderer, texture, src, dst);
+}
+
+void draw_texture_rotated(SDL_Renderer* renderer, SDL_Texture* texture, const SDL_FRect* src, const SDL_FRect* dst,
+                          double angle, const SDL_FPoint* center, SDL_FlipMode flip) {
+    flush_scene();
+    ++g_calls;
+    if (!g_batch_started || texture != g_batch_texture) {
+        ++g_draws;
+        g_batch_texture = texture;
+        g_batch_started = true;
+    }
+    SDL_RenderTextureRotated(renderer, texture, src, dst, angle, center, flip);
+}
+
+void draw_fill_rect(SDL_Renderer* renderer, const SDL_FRect* rect) {
+    flush_scene();
+    ++g_calls;
+    if (!g_batch_started || g_batch_texture != nullptr) {
+        ++g_draws;
+        g_batch_texture = nullptr;
+        g_batch_started = true;
+    }
+    SDL_RenderFillRect(renderer, rect);
+}
+
+void draw_line(SDL_Renderer* renderer, float x1, float y1, float x2, float y2) {
+    flush_scene();
+    ++g_calls;
+    if (!g_batch_started || g_batch_texture != nullptr) {
+        ++g_draws;
+        g_batch_texture = nullptr;
+        g_batch_started = true;
+    }
+    SDL_RenderLine(renderer, x1, y1, x2, y2);
+}
+
+void draw_point(SDL_Renderer* renderer, float x, float y) {
+    flush_scene();
+    ++g_calls;
+    if (!g_batch_started || g_batch_texture != nullptr) {
+        ++g_draws;
+        g_batch_texture = nullptr;
+        g_batch_started = true;
+    }
+    SDL_RenderPoint(renderer, x, y);
+}
+
+void draw_debug_text(SDL_Renderer* renderer, float x, float y, const char* text) {
+    flush_scene();
+    ++g_calls;
+    if (!g_batch_started || g_batch_texture != nullptr) {
+        ++g_draws;
+        g_batch_texture = nullptr;
+        g_batch_started = true;
+    }
+    SDL_RenderDebugText(renderer, x, y, text);
+}
+
+// Where the frame goes, in milliseconds (F3). Each section is timed with two clock reads around it.
+struct FrameCost {
+    double ground = 0.0;
+    double entities = 0.0;
+    double sky = 0.0;  // the atmosphere, the lights and the ambience
+    double hud = 0.0;  // the bars, the quest tracker, the minimap and the arrow of the goal
+    double panels = 0.0;
+    double frame = 0.0;  // everything but the wait of the present
+    std::uint64_t draws_ground = 0;
+    std::uint64_t draws_entities = 0;
+    std::uint64_t draws_sky = 0;
+    std::uint64_t draws_hud = 0;
+    std::uint64_t draws_panels = 0;
+};
+
+FrameCost g_cost;
+
+struct Measure {
+    double* slot;
+    Uint64 start = SDL_GetTicksNS();
+    explicit Measure(double& target) : slot(&target) {}
+    ~Measure() { *slot += static_cast<double>(SDL_GetTicksNS() - start) / 1.0e6; }
+    Measure(const Measure&) = delete;
+    Measure& operator=(const Measure&) = delete;
+};
+
+// The calls of a section of the frame, counted by the difference of the counter.
+struct CountDraws {
+    std::uint64_t start = g_draws;
+    std::uint64_t* slot;
+    explicit CountDraws(std::uint64_t& target) : slot(&target) {}
+    ~CountDraws() { *slot = g_draws - start; }
+    CountDraws(const CountDraws&) = delete;
+    CountDraws& operator=(const CountDraws&) = delete;
+};
+
 std::vector<aether::LightDef> g_lights;  // the props that shine at night (spec 08, "Lights")
 std::vector<aether::HintDef> g_hints;    // the hints of the first minutes (spec 16, "Hints")
 bool g_last_pad =
@@ -100,8 +299,6 @@ float text_zoom() { return g_option[3] ? kLargeText : 1.0F; }
 // sizes the screens ask for. The textures belong to a renderer: they are forgotten when it changes.
 struct UiFont {
     aether::FontDef def;
-    SDL_Renderer* renderer = nullptr;
-    std::map<long long, SDL_Texture*> textures;  // by code point and size
 };
 UiFont g_font;
 aether::Grading g_grading;  // the colour of the hour (spec 08)
@@ -427,19 +624,78 @@ float text_columns(const std::string& text) {
     return static_cast<float>(columns);
 }
 
-// The texture of a glyph, white, baked at `size` pixels for each font unit (a few sizes, so that the cache stays
-// small).
-SDL_Texture* glyph_texture(SDL_Renderer* renderer, int code, const aether::FontGlyph& glyph, int size_x2) {
-    if (g_font.renderer != renderer) {  // the textures of another renderer died with it
-        g_font.textures.clear();
-        g_font.renderer = renderer;
+// The glyphs of the font of the pack, baked white into one texture for each size (spec 13, "Font"): a text is one
+// call into the renderer whatever its length. The UVs are the centres of the first and the last pixel of a glyph, so
+// that a glyph samples the same pixels as the single texture it replaced.
+struct GlyphSlot {
+    float u0 = 0.0F;
+    float v0 = 0.0F;
+    float u1 = 0.0F;
+    float v1 = 0.0F;
+};
+
+struct GlyphAtlas {
+    SDL_Texture* texture = nullptr;
+    int width = 0;
+    int height = 0;
+    int cell_w = 0;  // a slot, with its one pixel of gap, in pixels
+    int cell_h = 0;
+    int next_x = 0;
+    int next_y = 0;
+    std::map<int, GlyphSlot> slots;  // by code point
+};
+
+std::map<int, GlyphAtlas> g_atlases;  // by size (x2)
+SDL_Renderer* g_atlas_renderer = nullptr;
+
+// The atlas of this size, made on the first glyph that needs it.
+GlyphAtlas* glyph_atlas(SDL_Renderer* renderer, int size_x2) {
+    if (g_atlas_renderer != renderer) {  // the textures of another renderer died with it
+        for (auto& [size, atlas] : g_atlases) {
+            if (atlas.texture != nullptr) {
+                SDL_DestroyTexture(atlas.texture);
+            }
+        }
+        g_atlases.clear();
+        g_atlas_renderer = renderer;
     }
-    const long long key = static_cast<long long>(code) * 64 + size_x2;
-    const auto found = g_font.textures.find(key);
-    if (found != g_font.textures.end()) {
-        return found->second;
+    GlyphAtlas& atlas = g_atlases[size_x2];
+    if (atlas.texture != nullptr) {
+        return &atlas;
     }
     const float scale = static_cast<float>(size_x2) / 2.0F;
+    atlas.cell_w = static_cast<int>(std::ceil(g_font.def.cell_w * scale)) + 1;
+    atlas.cell_h = static_cast<int>(std::ceil(g_font.def.cell_h * scale)) + 1;
+    atlas.width = size_x2 >= 6 ? 2048 : 1024;
+    atlas.height = atlas.width;
+    atlas.texture =
+        SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, atlas.width, atlas.height);
+    if (atlas.texture == nullptr) {
+        SDL_Log("Cannot make the atlas of the font: %s", SDL_GetError());
+        return nullptr;
+    }
+    SDL_SetTextureScaleMode(atlas.texture, SDL_SCALEMODE_LINEAR);
+    SDL_SetTextureBlendMode(atlas.texture, SDL_BLENDMODE_BLEND);
+    return &atlas;
+}
+
+// The slot of a glyph, baked and added the first time it is asked.
+const GlyphSlot* glyph_slot(SDL_Renderer* renderer, GlyphAtlas* atlas, int code, const aether::FontGlyph& glyph,
+                            int size_x2) {
+    (void)renderer;
+    const auto found = atlas->slots.find(code);
+    if (found != atlas->slots.end()) {
+        return &found->second;
+    }
+    const float scale = static_cast<float>(size_x2) / 2.0F;
+    if (atlas->next_x + atlas->cell_w > atlas->width) {
+        atlas->next_x = 0;
+        atlas->next_y += atlas->cell_h;
+    }
+    if (atlas->next_y + atlas->cell_h > atlas->height) {
+        SDL_Log("The atlas of the font is full at %d half pixels for a unit", size_x2);
+        return nullptr;
+    }
     aether::Recipe recipe;
     recipe.width = g_font.def.cell_w;
     recipe.height = g_font.def.cell_h;
@@ -452,23 +708,25 @@ SDL_Texture* glyph_texture(SDL_Renderer* renderer, int code, const aether::FontG
     layer.stroke.width = std::max(g_font.def.stroke, 1.15F / scale);
     recipe.layers.push_back(std::move(layer));
     const aether::Bitmap bitmap = aether::rasterize(recipe, scale);
-    SDL_Texture* texture = nullptr;
-    if (SDL_Surface* surface = SDL_CreateSurfaceFrom(bitmap.width, bitmap.height, SDL_PIXELFORMAT_RGBA32,
-                                                     const_cast<std::uint8_t*>(bitmap.rgba.data()), bitmap.width * 4)) {
-        texture = SDL_CreateTextureFromSurface(renderer, surface);
-        SDL_DestroySurface(surface);
-        if (texture != nullptr) {
-            SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_LINEAR);
-            SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
-        }
+    const SDL_Rect at{atlas->next_x, atlas->next_y, bitmap.width, bitmap.height};
+    if (!SDL_UpdateTexture(atlas->texture, &at, bitmap.rgba.data(), bitmap.width * 4)) {
+        SDL_Log("Cannot put a glyph in the atlas of the font: %s", SDL_GetError());
+        return nullptr;
     }
-    g_font.textures[key] = texture;
-    return texture;
+    GlyphSlot slot;
+    slot.u0 = (static_cast<float>(atlas->next_x) + 0.5F) / static_cast<float>(atlas->width);
+    slot.v0 = (static_cast<float>(atlas->next_y) + 0.5F) / static_cast<float>(atlas->height);
+    slot.u1 = (static_cast<float>(atlas->next_x + bitmap.width) - 0.5F) / static_cast<float>(atlas->width);
+    slot.v1 = (static_cast<float>(atlas->next_y + bitmap.height) - 0.5F) / static_cast<float>(atlas->height);
+    atlas->next_x += atlas->cell_w;
+    return &atlas->slots.emplace(code, slot).first->second;
 }
 
 // Draws a UTF-8 text with the font of the pack, in the current color, with its top left at (x, y) as the debug font of
-// SDL (so the screens keep their layout). False when the pack has no font.
+// SDL (so the screens keep their layout). False when the pack has no font. One call into the renderer for the whole
+// text (spec 13, "Font").
 bool font_text(SDL_Renderer* renderer, float x, float y, const char* text) {
+    flush_scene();  // the glyphs are a geometry of their own: what was queued comes first
     if (!g_font.def.loaded()) {
         return false;
     }
@@ -491,6 +749,14 @@ bool font_text(SDL_Renderer* renderer, float x, float y, const char* text) {
     Uint8 b = 255;
     Uint8 a = 255;
     SDL_GetRenderDrawColor(renderer, &r, &g, &b, &a);
+    GlyphAtlas* atlas = glyph_atlas(renderer, size_x2);
+    if (atlas == nullptr) {
+        return false;
+    }
+    const SDL_FColor color{static_cast<float>(r) / 255.0F, static_cast<float>(g) / 255.0F,
+                           static_cast<float>(b) / 255.0F, static_cast<float>(a) / 255.0F};
+    std::vector<SDL_Vertex> vertices;
+    vertices.reserve(std::strlen(text) * 6);
     float pen = x;
     for (std::size_t i = 0; text[i] != 0;) {
         int length = 1;
@@ -502,18 +768,25 @@ bool font_text(SDL_Renderer* renderer, float x, float y, const char* text) {
             continue;
         }
         if (!glyph->path.empty()) {
-            if (SDL_Texture* texture = glyph_texture(renderer, code, *glyph, size_x2)) {
+            if (const GlyphSlot* slot = glyph_slot(renderer, atlas, code, *glyph, size_x2)) {
                 // on whole pixels, or the thin strokes blur
                 const float left =
                     std::round((pen - (g_font.def.cell_w - glyph->width) * zoom / 2.0F) * scale_x) / scale_x;
                 const float top = std::round((y - g_font.def.top * zoom) * scale_y) / scale_y;
-                const SDL_FRect dst{left, top, g_font.def.cell_w * zoom, g_font.def.cell_h * zoom};
-                SDL_SetTextureColorMod(texture, r, g, b);
-                SDL_SetTextureAlphaMod(texture, a);
-                SDL_RenderTexture(renderer, texture, nullptr, &dst);
+                const float right = left + g_font.def.cell_w * zoom;
+                const float bottom = top + g_font.def.cell_h * zoom;
+                vertices.push_back({{left, top}, color, {slot->u0, slot->v0}});
+                vertices.push_back({{right, top}, color, {slot->u1, slot->v0}});
+                vertices.push_back({{right, bottom}, color, {slot->u1, slot->v1}});
+                vertices.push_back({{left, top}, color, {slot->u0, slot->v0}});
+                vertices.push_back({{right, bottom}, color, {slot->u1, slot->v1}});
+                vertices.push_back({{left, bottom}, color, {slot->u0, slot->v1}});
             }
         }
         pen += glyph->width * zoom;
+    }
+    if (!vertices.empty()) {
+        draw_geometry(renderer, atlas->texture, vertices.data(), static_cast<int>(vertices.size()), nullptr, 0);
     }
     return true;
 }
@@ -541,7 +814,7 @@ void debug_text(SDL_Renderer* renderer, float x, float y, const char* text) {
     float pen = x;
     const auto flush = [&]() {
         if (!run.empty()) {
-            SDL_RenderDebugText(renderer, run_x, y, run.c_str());
+            draw_debug_text(renderer, run_x, y, run.c_str());
             run.clear();
         }
     };
@@ -581,14 +854,14 @@ void debug_text(SDL_Renderer* renderer, float x, float y, const char* text) {
         if (accent != nullptr) {
             glyph[0] = accent->base;
             const float top = y + (accent->upper ? -1.0F : 0.0F);
-            SDL_RenderPoint(renderer, pen + (accent->acute ? 4.0F : 2.0F), top);
-            SDL_RenderPoint(renderer, pen + 3.0F, top + 1.0F);
+            draw_point(renderer, pen + (accent->acute ? 4.0F : 2.0F), top);
+            draw_point(renderer, pen + 3.0F, top + 1.0F);
         } else if (code == 0xAB || code == 0xBB || code == 0x201C || code == 0x201D) {
             glyph[0] = '"';
         } else if (code == 0x2018 || code == 0x2019) {
             glyph[0] = '\'';
         }
-        SDL_RenderDebugText(renderer, pen, y, glyph);
+        draw_debug_text(renderer, pen, y, glyph);
         pen += 8.0F;
     }
     flush();
@@ -598,7 +871,7 @@ void fill_rect(SDL_Renderer* renderer, float x, float y, float w, float h, Uint8
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(renderer, r, g, b, a);
     const SDL_FRect rect{x, y, w, h};
-    SDL_RenderFillRect(renderer, &rect);
+    draw_fill_rect(renderer, &rect);
 }
 
 // A panel of the interface: night-violet glass with a thread of the accent color around it, a soft shadow under it, a
@@ -663,38 +936,34 @@ void draw_bar(SDL_Renderer* renderer, float x, float y, float w, float h, float 
 
 // `flip` mirrors the picture about its origin (a beast that turns to face the player: spec 13, "Facing").
 void draw_sprite(SDL_Renderer* renderer, const aether::Sprite& sprite, float feet_x, float feet_y, float k,
-                 float squash = 1.0F, bool flip = false) {
+                 float squash = 1.0F, bool flip = false, const SDL_FColor& tint = {1.0F, 1.0F, 1.0F, 1.0F}) {
     const float w = sprite.width * k * (2.0F - squash);
     const float h = sprite.height * k * squash;
     const float left = (flip ? sprite.width - sprite.origin_x : sprite.origin_x) * k * (2.0F - squash);
     const SDL_FRect dst{feet_x - left, feet_y - sprite.origin_y * k * squash, w, h};
+    float u0 = sprite.u0();
+    float u1 = sprite.u1();
     if (flip) {
-        SDL_RenderTextureRotated(renderer, sprite.texture, nullptr, &dst, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
+        std::swap(u0, u1);
+    }
+    if (g_scene != nullptr) {
+        const SDL_FPoint corners[4] = {{dst.x, dst.y},
+                                       {dst.x + dst.w, dst.y},
+                                       {dst.x + dst.w, dst.y + dst.h},
+                                       {dst.x, dst.y + dst.h}};
+        const SDL_FColor colors[4] = {tint, tint, tint, tint};
+        g_scene->add_quad(sprite.texture, u0, sprite.v0(), u1, sprite.v1(), corners, colors);
+        return;
+    }
+    const SDL_FRect src = sprite.source();
+    if (flip) {
+        draw_texture_rotated(renderer, sprite.texture, &src, &dst, 0.0, nullptr, SDL_FLIP_HORIZONTAL);
     } else {
-        SDL_RenderTexture(renderer, sprite.texture, nullptr, &dst);
+        draw_texture(renderer, sprite.texture, &src, &dst);
     }
 }
 
 SDL_FRect tile_source(const aether::Sprite& sprite, int tx, int ty);
-
-// The corner of a tile under a higher ground that touches it only there (spec 13, "Ground blending"): the picture of
-// that ground, opaque at the corner and gone at the middle of the two edges and of the tile.
-void draw_ground_corner(SDL_Renderer* renderer, const aether::Sprite& sprite, int tx, int ty, int dx, int dy,
-                        const SDL_FRect& dst) {
-    const SDL_FRect src = tile_source(sprite, tx, ty);
-    const float cx = dx > 0 ? 1.0F : 0.0F;
-    const float cy = dy > 0 ? 1.0F : 0.0F;
-    const auto vertex = [&](float ux, float uy, float alpha) {
-        return SDL_Vertex{{dst.x + ux * dst.w, dst.y + uy * dst.h},
-                          {1.0F, 1.0F, 1.0F, alpha},
-                          {(src.x + ux * src.w) / static_cast<float>(sprite.px_w),
-                           (src.y + uy * src.h) / static_cast<float>(sprite.px_h)}};
-    };
-    const SDL_Vertex vertices[4] = {vertex(cx, cy, 1.0F), vertex(0.5F, cy, 0.0F), vertex(0.5F, 0.5F, 0.0F),
-                                    vertex(cx, 0.5F, 0.0F)};
-    const int indices[6] = {0, 1, 2, 0, 2, 3};
-    SDL_RenderGeometry(renderer, sprite.texture, vertices, 4, indices, 6);
-}
 
 // The long shadow of something at dawn or dusk (spec 08): its own picture above the feet, black, laid on the ground. It
 // leans `lean` times its height sideways and rises 0.18 times its height.
@@ -704,13 +973,24 @@ void draw_long_shadow(SDL_Renderer* renderer, const aether::Sprite& sprite, floa
     const float x1 = x0 + sprite.width * k;
     const float tall = sprite.origin_y * k;
     const float v = sprite.height > 0.0F ? sprite.origin_y / sprite.height : 1.0F;
+    const float u0 = sprite.u0();
+    const float u1 = sprite.u1();
+    const float t0 = sprite.v0();
+    const float t1 = t0 + (sprite.v1() - t0) * v;
     const SDL_FColor black{0.02F, 0.01F, 0.08F, alpha};
-    const SDL_Vertex vertices[4] = {{{x0 + tall * lean, feet_y - tall * 0.18F}, black, {0.0F, 0.0F}},
-                                    {{x1 + tall * lean, feet_y - tall * 0.18F}, black, {1.0F, 0.0F}},
-                                    {{x1, feet_y}, black, {1.0F, v}},
-                                    {{x0, feet_y}, black, {0.0F, v}}};
+    const SDL_Vertex vertices[4] = {{{x0 + tall * lean, feet_y - tall * 0.18F}, black, {u0, t0}},
+                                    {{x1 + tall * lean, feet_y - tall * 0.18F}, black, {u1, t0}},
+                                    {{x1, feet_y}, black, {u1, t1}},
+                                    {{x0, feet_y}, black, {u0, t1}}};
+    if (g_scene != nullptr) {
+        const SDL_FPoint corners[4] = {vertices[0].position, vertices[1].position, vertices[2].position,
+                                       vertices[3].position};
+        const SDL_FColor colors[4] = {black, black, black, black};
+        g_scene->add_quad(sprite.texture, u0, t0, u1, t1, corners, colors);
+        return;
+    }
     const int indices[6] = {0, 1, 2, 0, 2, 3};
-    SDL_RenderGeometry(renderer, sprite.texture, vertices, 4, indices, 6);
+    draw_geometry(renderer, sprite.texture, vertices, 4, indices, 6);
 }
 
 // A prop that the wind moves (spec 13, "Sway"): its foot stays, its top goes sideways by `shift` pixels (a shear).
@@ -721,12 +1001,23 @@ void draw_swaying(SDL_Renderer* renderer, const aether::Sprite& sprite, float fe
     const float x1 = x0 + sprite.width * k;
     const float y1 = y0 + sprite.height * k;
     const SDL_FColor white{1.0F, 1.0F, 1.0F, 1.0F};
-    const SDL_Vertex vertices[4] = {{{x0 + shift, y0}, white, {0.0F, 0.0F}},
-                                    {{x1 + shift, y0}, white, {1.0F, 0.0F}},
-                                    {{x1, y1}, white, {1.0F, 1.0F}},
-                                    {{x0, y1}, white, {0.0F, 1.0F}}};
+    const float u0 = sprite.u0();
+    const float v0 = sprite.v0();
+    const float u1 = sprite.u1();
+    const float v1 = sprite.v1();
+    const SDL_Vertex vertices[4] = {{{x0 + shift, y0}, white, {u0, v0}},
+                                    {{x1 + shift, y0}, white, {u1, v0}},
+                                    {{x1, y1}, white, {u1, v1}},
+                                    {{x0, y1}, white, {u0, v1}}};
+    if (g_scene != nullptr) {
+        const SDL_FPoint corners[4] = {vertices[0].position, vertices[1].position, vertices[2].position,
+                                       vertices[3].position};
+        const SDL_FColor colors[4] = {white, white, white, white};
+        g_scene->add_quad(sprite.texture, u0, v0, u1, v1, corners, colors);
+        return;
+    }
     const int indices[6] = {0, 1, 2, 0, 2, 3};
-    SDL_RenderGeometry(renderer, sprite.texture, vertices, 4, indices, 6);
+    draw_geometry(renderer, sprite.texture, vertices, 4, indices, 6);
 }
 
 // The part of a tile picture that the tile at (tx, ty) shows: all of it, or one cell of a macro tile (spec 13).
@@ -734,43 +1025,44 @@ SDL_FRect tile_source(const aether::Sprite& sprite, int tx, int ty) {
     const int span = std::max(1, static_cast<int>(std::lround(sprite.width / 32.0F)));
     const float cell_w = static_cast<float>(sprite.px_w) / static_cast<float>(span);
     const float cell_h = static_cast<float>(sprite.px_h) / static_cast<float>(span);
-    return SDL_FRect{static_cast<float>(tx % span) * cell_w, static_cast<float>(ty % span) * cell_h, cell_w, cell_h};
+    return SDL_FRect{sprite.sx + static_cast<float>(tx % span) * cell_w,
+                     sprite.sy + static_cast<float>(ty % span) * cell_h, cell_w, cell_h};
 }
 
-// A ground of a higher rank fades over the edge of the tile at `dst` (spec 13, "Ground blending"): the picture of the
-// neighbour in the direction (dx, dy), opaque on the shared edge and gone at the middle of the tile.
-void draw_ground_blend(SDL_Renderer* renderer, const aether::Sprite& sprite, int tx, int ty, int dx, int dy,
-                       const SDL_FRect& dst) {
-    const SDL_FRect src = tile_source(sprite, tx, ty);
-    // the corners of the half next to the neighbour, in the unit square of the tile: two on the edge, two in the middle
-    float ex0 = 0.0F;
-    float ey0 = 0.0F;
-    float ex1 = 0.0F;
-    float ey1 = 1.0F;
-    float mx0 = 0.5F;
-    float my0 = 0.0F;
-    float mx1 = 0.5F;
-    float my1 = 1.0F;
-    if (dx > 0) {
-        ex0 = ex1 = 1.0F;
-    } else if (dy != 0) {
-        ex0 = 0.0F;
-        ex1 = 1.0F;
-        ey0 = ey1 = dy > 0 ? 1.0F : 0.0F;
-        mx0 = 0.0F;
-        mx1 = 1.0F;
-        my0 = my1 = 0.5F;
+// A picture turned by `angle` about `center` (relative to its top left), as the four corners of the batch of the scene:
+// the same quad that SDL_RenderTextureRotated would send, so that a part of a figure joins the other pictures of the
+// frame instead of being a call of its own (spec 13, "Atlas of the textures"). `flip` mirrors it, `color` tints it.
+void add_rotated(SDL_Renderer* renderer, const aether::Sprite& sprite, const SDL_FRect& dst, double angle,
+                 const SDL_FPoint& center, bool flip, const SDL_FColor& color) {
+    float u0 = sprite.u0();
+    float u1 = sprite.u1();
+    if (flip) {
+        std::swap(u0, u1);
     }
-    const auto vertex = [&](float ux, float uy, float alpha) {
-        return SDL_Vertex{{dst.x + ux * dst.w, dst.y + uy * dst.h},
-                          {1.0F, 1.0F, 1.0F, alpha},
-                          {(src.x + ux * src.w) / static_cast<float>(sprite.px_w),
-                           (src.y + uy * src.h) / static_cast<float>(sprite.px_h)}};
-    };
-    const SDL_Vertex vertices[4] = {vertex(ex0, ey0, 1.0F), vertex(ex1, ey1, 1.0F), vertex(mx1, my1, 0.0F),
-                                    vertex(mx0, my0, 0.0F)};
-    const int indices[6] = {0, 1, 2, 0, 2, 3};
-    SDL_RenderGeometry(renderer, sprite.texture, vertices, 4, indices, 6);
+    if (g_scene == nullptr) {
+        const SDL_FRect src = sprite.source();
+        draw_texture_rotated(renderer, sprite.texture, &src, &dst, angle, &center,
+                             flip ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
+        return;
+    }
+    const double radians = angle * SDL_PI_D / 180.0;
+    const double c = std::cos(radians);
+    const double s = std::sin(radians);
+    const float cx = dst.x + center.x;
+    const float cy = dst.y + center.y;
+    const SDL_FPoint corners[4] = {{dst.x, dst.y},
+                                   {dst.x + dst.w, dst.y},
+                                   {dst.x + dst.w, dst.y + dst.h},
+                                   {dst.x, dst.y + dst.h}};
+    SDL_FPoint turned[4];
+    for (int i = 0; i < 4; ++i) {
+        const double dx = static_cast<double>(corners[i].x) - static_cast<double>(cx);
+        const double dy = static_cast<double>(corners[i].y) - static_cast<double>(cy);
+        turned[i] = SDL_FPoint{static_cast<float>(static_cast<double>(cx) + dx * c - dy * s),
+                               static_cast<float>(static_cast<double>(cy) + dx * s + dy * c)};
+    }
+    const SDL_FColor colors[4] = {color, color, color, color};
+    g_scene->add_quad(sprite.texture, u0, sprite.v0(), u1, sprite.v1(), turned, colors);
 }
 
 // `back`: the figure is seen from behind (spec 13): its parts use their `art_back` and `z_back`.
@@ -806,10 +1098,8 @@ void draw_character(SDL_Renderer* renderer, aether::TextureCache& cache, const A
         const float pivot_y = sprite->origin_y * k;
         const SDL_FRect dst{px - pivot_x, py - pivot_y, w, h};
         const SDL_FPoint center{pivot_x, pivot_y};
-        SDL_SetTextureAlphaMod(sprite->texture, blink ? 120 : 255);
-        SDL_RenderTextureRotated(renderer, sprite->texture, nullptr, &dst, static_cast<double>(posed.rotation_deg),
-                                 &center, facing_left ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);
-        SDL_SetTextureAlphaMod(sprite->texture, 255);
+        const SDL_FColor tint{1.0F, 1.0F, 1.0F, blink ? 120.0F / 255.0F : 1.0F};
+        add_rotated(renderer, *sprite, dst, static_cast<double>(posed.rotation_deg), center, facing_left, tint);
     }
 }
 
@@ -822,11 +1112,11 @@ void draw_enemy(SDL_Renderer* renderer, aether::TextureCache& cache, const aethe
     const float phase = static_cast<float>((now_ms / 16 + static_cast<Uint64>(enemy.home.x * 37.0F)) % 60);
     const float wave = phase < 30.0F ? phase / 30.0F : (60.0F - phase) / 30.0F;
     const float squash = 0.95F + 0.1F * wave;
-    if (enemy.hit_flash > 0 && g_option[2]) {  // the flash of a creature that is hit, unless it is turned off
-        SDL_SetTextureColorMod(sprite->texture, 255, 120, 120);
-    }
-    draw_sprite(renderer, *sprite, feet_x, feet_y, k, squash, sprite->faces_left && player_x > enemy.position.x);
-    SDL_SetTextureColorMod(sprite->texture, 255, 255, 255);
+    // the flash of a creature that is hit, unless it is turned off: the colour of its corners, not of the texture
+    const bool flash = enemy.hit_flash > 0 && g_option[2];
+    const SDL_FColor tint = flash ? SDL_FColor{1.0F, 120.0F / 255.0F, 120.0F / 255.0F, 1.0F}
+                                  : SDL_FColor{1.0F, 1.0F, 1.0F, 1.0F};
+    draw_sprite(renderer, *sprite, feet_x, feet_y, k, squash, sprite->faces_left && player_x > enemy.position.x, tint);
     if (enemy.hp < enemy.def.hp) {
         const float bar_w = 28.0F * k;
         const float ratio = static_cast<float>(enemy.hp) / static_cast<float>(enemy.def.hp);
@@ -874,7 +1164,7 @@ void draw_swing(SDL_Renderer* renderer, const aether::WorldSim& sim, float feet_
         indices.push_back(i + 1);
     }
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_RenderGeometry(renderer, nullptr, vertices.data(), static_cast<int>(vertices.size()), indices.data(),
+    draw_geometry(renderer, nullptr, vertices.data(), static_cast<int>(vertices.size()), indices.data(),
                        static_cast<int>(indices.size()));
 }
 
@@ -1144,6 +1434,18 @@ void draw_analyze(SDL_Renderer* renderer, const Assets& assets, const aether::Wo
     SDL_SetRenderScale(renderer, 1.0F, 1.0F);
 }
 
+// The cells of the minimap, drawn once into a small texture and shown as one picture: 1.600 filled squares a frame
+// were most of the calls of a frame (F3, --benchmark). Presentation only.
+struct MiniMapArt {
+    SDL_Texture* texture = nullptr;
+    SDL_Renderer* renderer = nullptr;
+    int width = 0;
+    int cell_px = 0;
+    bool valid = false;
+};
+
+MiniMapArt g_minimap_art;
+
 void draw_minimap(SDL_Renderer* renderer, const aether::WorldSim& sim, const Ui& ui, float density) {
     const aether::ChunkStore* store = sim.chunks();
     if (store == nullptr || !g_minimap || ui.show_map || sim.story().dialogue_active()) {
@@ -1172,6 +1474,7 @@ void draw_minimap(SDL_Renderer* renderer, const aether::WorldSim& sim, const Ui&
         }
         ui.mini_ox = ox;
         ui.mini_oy = oy;
+        g_minimap_art.valid = false;  // the codes changed: the picture of the cells is made again
     }
     static const Uint8 kColors[9][3] = {{60, 110, 190},  {222, 206, 150}, {130, 130, 140},
                                         {235, 240, 245}, {222, 206, 150}, {60, 130, 70},
@@ -1183,14 +1486,59 @@ void draw_minimap(SDL_Renderer* renderer, const aether::WorldSim& sim, const Ui&
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     fill_rect(renderer, x0 - 2.0F, y0 - 2.0F, side + 4.0F, side + 4.0F, 20, 36, 66, 230);
     fill_rect(renderer, x0, y0, side, side, 8, 16, 34, 200);
-    for (int j = 0; j < kN; ++j) {
-        for (int i = 0; i < kN; ++i) {
-            const std::uint8_t code = ui.mini_codes[static_cast<std::size_t>(j * kN + i)];
-            if (code < 7) {
-                fill_rect(renderer, x0 + cell * static_cast<float>(i), y0 + cell * static_cast<float>(j),
-                          std::ceil(cell), std::ceil(cell), kColors[code][0], kColors[code][1], kColors[code][2], 235);
-            }
+    const int map_px = static_cast<int>(std::ceil(side));
+    const int cell_px = static_cast<int>(std::ceil(cell));
+    if (g_minimap_art.renderer != renderer) {
+        if (g_minimap_art.texture != nullptr) {
+            SDL_DestroyTexture(g_minimap_art.texture);
         }
+        g_minimap_art = MiniMapArt{};
+        g_minimap_art.renderer = renderer;
+    }
+    if (!g_minimap_art.valid || g_minimap_art.width != map_px || g_minimap_art.cell_px != cell_px) {
+        if (g_minimap_art.texture == nullptr || g_minimap_art.width != map_px) {
+            if (g_minimap_art.texture != nullptr) {
+                SDL_DestroyTexture(g_minimap_art.texture);
+            }
+            g_minimap_art.texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STREAMING, map_px,
+                                                  map_px);
+            if (g_minimap_art.texture != nullptr) {
+                SDL_SetTextureScaleMode(g_minimap_art.texture, SDL_SCALEMODE_NEAREST);
+                SDL_SetTextureBlendMode(g_minimap_art.texture, SDL_BLENDMODE_BLEND);
+            }
+            g_minimap_art.width = map_px;
+        }
+        g_minimap_art.cell_px = cell_px;
+        if (g_minimap_art.texture != nullptr) {
+            std::vector<std::uint8_t> pixels(static_cast<std::size_t>(map_px) * static_cast<std::size_t>(map_px) * 4, 0);
+            for (int j = 0; j < kN; ++j) {
+                for (int i = 0; i < kN; ++i) {
+                    const std::uint8_t code = ui.mini_codes[static_cast<std::size_t>(j * kN + i)];
+                    if (code >= 7) {
+                        continue;
+                    }
+                    const int px = static_cast<int>(std::lround(static_cast<double>(i) * static_cast<double>(cell)));
+                    const int py = static_cast<int>(std::lround(static_cast<double>(j) * static_cast<double>(cell)));
+                    for (int y = py; y < std::min(map_px, py + cell_px); ++y) {
+                        for (int x = px; x < std::min(map_px, px + cell_px); ++x) {
+                            std::uint8_t* pixel = &pixels[(static_cast<std::size_t>(y) * static_cast<std::size_t>(map_px) +
+                                                           static_cast<std::size_t>(x)) *
+                                                          4];
+                            pixel[0] = kColors[code][0];
+                            pixel[1] = kColors[code][1];
+                            pixel[2] = kColors[code][2];
+                            pixel[3] = 235;
+                        }
+                    }
+                }
+            }
+            SDL_UpdateTexture(g_minimap_art.texture, nullptr, pixels.data(), map_px * 4);
+        }
+        g_minimap_art.valid = true;
+    }
+    if (g_minimap_art.texture != nullptr) {
+        const SDL_FRect map_rect{x0, y0, side, side};
+        draw_texture(renderer, g_minimap_art.texture, nullptr, &map_rect);
     }
     const auto place = [&](float tile_x, float tile_y, bool clamp, float size, Uint8 r, Uint8 g, Uint8 b) {
         float sx = x0 + (tile_x - static_cast<float>(ox)) / static_cast<float>(kStep) * cell;
@@ -1705,7 +2053,7 @@ void draw_world_map(SDL_Renderer* renderer, const Assets& assets, const aether::
         const float gy =
             std::clamp(g.to_y(ui.goal_y / static_cast<float>(aether::kMapCell)), g.y + margin, g.y + g.side - margin);
         SDL_SetRenderDrawColor(renderer, 90, 255, 120, 200);
-        SDL_RenderLine(renderer, dx, dy, gx, gy);
+        draw_line(renderer, dx, dy, gx, gy);
         fill_rect(renderer, gx - 5.0F * density - 2.0F, gy - 5.0F * density - 2.0F, 10.0F * density + 4.0F,
                   10.0F * density + 4.0F, 20, 20, 30, 255);
         fill_rect(renderer, gx - 5.0F * density, gy - 5.0F * density, 10.0F * density, 10.0F * density, 90, 255, 120,
@@ -1785,7 +2133,7 @@ void draw_lights(SDL_Renderer* renderer, const aether::WorldSim& sim, const aeth
                     indices[i * 3 + 1] = i + 1;
                     indices[i * 3 + 2] = (i + 1) % kSides + 1;
                 }
-                SDL_RenderGeometry(renderer, nullptr, vertices, kSides + 1, indices, kSides * 3);
+                draw_geometry(renderer, nullptr, vertices, kSides + 1, indices, kSides * 3);
             }
         });
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -1824,11 +2172,11 @@ void draw_ambience(SDL_Renderer* renderer, const aether::WorldSim& sim, int out_
             SDL_SetRenderDrawColor(renderer, static_cast<Uint8>(tint[0]), static_cast<Uint8>(tint[1]),
                                    static_cast<Uint8>(tint[2]), static_cast<Uint8>(level / 3));
             const SDL_FRect halo{x - size * 2.0F, y - size * 2.0F, size * 4.0F, size * 4.0F};
-            SDL_RenderFillRect(renderer, &halo);
+            draw_fill_rect(renderer, &halo);
             SDL_SetRenderDrawColor(renderer, static_cast<Uint8>(tint[0]), static_cast<Uint8>(tint[1]),
                                    static_cast<Uint8>(tint[2]), level);
             const SDL_FRect core{x - size * 0.5F, y - size * 0.5F, size, size};
-            SDL_RenderFillRect(renderer, &core);
+            draw_fill_rect(renderer, &core);
         }
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     }
@@ -1846,7 +2194,7 @@ void draw_ambience(SDL_Renderer* renderer, const aether::WorldSim& sim, int out_
             {{w, 0.0F}, dark, uv},    {{w, h}, dark, uv},    {{w - bx, h}, clear, uv}, {{w - bx, 0.0F}, clear, uv}};
         const int indices[24] = {0, 1, 2, 0, 2, 3, 4, 5, 6, 4, 6, 7, 8, 9, 10, 8, 10, 11, 12, 13, 14, 12, 14, 15};
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-        SDL_RenderGeometry(renderer, nullptr, vertices, 16, indices, 24);
+        draw_geometry(renderer, nullptr, vertices, 16, indices, 24);
     }
 }
 
@@ -1872,7 +2220,7 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_MOD);
         SDL_SetRenderDrawColor(renderer, channel(color[0]), channel(color[1]), channel(color[2]), 255);
         const SDL_FRect all{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
-        SDL_RenderFillRect(renderer, &all);
+        draw_fill_rect(renderer, &all);
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
     };
     multiply(g_grading.night, night);
@@ -1885,7 +2233,7 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
             SDL_SetRenderDrawColor(renderer, static_cast<Uint8>(season.tint[0]), static_cast<Uint8>(season.tint[1]),
                                    static_cast<Uint8>(season.tint[2]), static_cast<Uint8>(season.tint[3]));
             const SDL_FRect all{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
-            SDL_RenderFillRect(renderer, &all);
+            draw_fill_rect(renderer, &all);
         }
     }
     bool snow = false;  // in the cold regions the rain is snow (spec 08)
@@ -1914,7 +2262,7 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
             const float size = (1.5F + 1.5F * b) * density;
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, static_cast<Uint8>(150 + static_cast<int>(90.0F * a)));
             const SDL_FRect flake{x, y, size, size};
-            SDL_RenderFillRect(renderer, &flake);
+            draw_fill_rect(renderer, &flake);
         }
     } else if (time->rain_pm > 0) {
         const int drops = 160 * time->rain_pm / 1000;
@@ -1924,14 +2272,14 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
             const float x =
                 static_cast<float>((static_cast<Uint64>(i) * 7919 + now_ms / 5) % static_cast<Uint64>(out_w));
             const float y = static_cast<float>(fall % static_cast<Uint64>(out_h));
-            SDL_RenderLine(renderer, x, y, x - 3.0F * density, y + 12.0F * density);
+            draw_line(renderer, x, y, x - 3.0F * density, y + 12.0F * density);
         }
     }
     if (time->fog_pm > 0) {  // the fog (spec 08, "Fog"): a pale veil, and banks of mist drifting with the hour
         SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
         SDL_SetRenderDrawColor(renderer, 214, 220, 228, static_cast<Uint8>(110 * time->fog_pm / 1000));
         const SDL_FRect veil{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
-        SDL_RenderFillRect(renderer, &veil);
+        draw_fill_rect(renderer, &veil);
         const float t = static_cast<float>(now_ms % 6000000ULL);
         for (int i = 0; i < 7; ++i) {
             const float fi = static_cast<float>(i);
@@ -1945,7 +2293,7 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
                 const float grow = static_cast<float>(k) * 14.0F * density;
                 SDL_SetRenderDrawColor(renderer, 236, 240, 244, static_cast<Uint8>(22 * time->fog_pm / 1000));
                 const SDL_FRect bank{x - grow, y - band_h / 2.0F - grow / 2.0F, band_w + 2.0F * grow, band_h + grow};
-                SDL_RenderFillRect(renderer, &bank);
+                draw_fill_rect(renderer, &bank);
             }
         }
     }
@@ -1957,7 +2305,7 @@ void draw_atmosphere(SDL_Renderer* renderer, const Assets& assets, const aether:
             SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
             SDL_SetRenderDrawColor(renderer, 236, 240, 255, 110);
             const SDL_FRect all{0.0F, 0.0F, static_cast<float>(out_w), static_cast<float>(out_h)};
-            SDL_RenderFillRect(renderer, &all);
+            draw_fill_rect(renderer, &all);
         }
     }
     const int hour = time->tod_pm * 24 / 1000;
@@ -4352,6 +4700,60 @@ void draw_inventory_and_notice(SDL_Renderer* renderer, const Assets& assets, con
     }
 }
 
+// The tiles of the tileset, resolved to their definition and their texture for the current scale bucket: after the
+// first frame a tile is a lookup in a vector, not a search in a map and a string (spec 13, "Scale buckets and caching").
+struct TileArt {
+    const aether::Tileset* tileset = nullptr;
+    int bucket = -1;
+    int max_gid = 0;
+    std::vector<const aether::TileDef*> defs;
+    std::vector<const aether::Sprite*> sprites;
+};
+
+TileArt& tile_art(const aether::Tileset& tileset, aether::TextureCache& cache, int tile_px) {
+    static TileArt table;
+    const int bucket = cache.bucket_for_tile(tile_px);
+    if (table.tileset != &tileset || table.bucket != bucket) {
+        table = TileArt{};
+        table.tileset = &tileset;
+        table.bucket = bucket;
+        for (const auto& [gid, def] : tileset.tiles) {
+            if (gid >= 0) {
+                table.max_gid = std::max(table.max_gid, gid);
+            }
+        }
+        table.defs.assign(static_cast<std::size_t>(table.max_gid) + 1, nullptr);
+        table.sprites.assign(static_cast<std::size_t>(table.max_gid) + 1, nullptr);
+        for (const auto& [gid, def] : tileset.tiles) {
+            if (gid < 0) {
+                continue;
+            }
+            table.defs[static_cast<std::size_t>(gid)] = &def;
+        }
+    }
+    return table;
+}
+
+const aether::TileDef* tile_def_at(const TileArt& art, int gid) {
+    return gid >= 0 && gid <= art.max_gid ? art.defs[static_cast<std::size_t>(gid)] : nullptr;
+}
+
+// The sprite of a tile, baked the first time it is drawn and then only looked up: the budget of the frame can leave
+// it unbaked, and the next frames ask again (spec 13, "Baking in instalments").
+const aether::Sprite* tile_sprite(TileArt& art, aether::TextureCache& cache, int gid, int tile_px) {
+    if (gid < 0 || gid > art.max_gid) {
+        return nullptr;
+    }
+    const aether::Sprite*& sprite = art.sprites[static_cast<std::size_t>(gid)];
+    if (sprite == nullptr) {
+        const aether::TileDef* def = art.defs[static_cast<std::size_t>(gid)];
+        if (def != nullptr) {
+            sprite = cache.get(def->art, tile_px);
+        }
+    }
+    return sprite;
+}
+
 void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& assets, const aether::WorldSim& sim,
             const Ui& ui, std::vector<FloatingText>& floating, int tile_px, float density, bool debug, double fps,
             const std::string& capture_path = {}) {
@@ -4364,6 +4766,14 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     const float view_h = static_cast<float>(out_h) / tile;
     const aether::Camera cam = sim.camera(view_w, view_h);
     const Uint64 now_ms = SDL_GetTicks();
+    g_calls = 0;
+    g_draws = 0;
+    g_batch_texture = nullptr;
+    g_batch_started = false;
+    g_cost = FrameCost{};
+    QuadBatch scene_batch(renderer);
+    g_scene = &scene_batch;
+    const Uint64 render_start = SDL_GetTicksNS();
 
     SDL_SetRenderDrawColor(renderer, 11, 31, 58, 255);
     SDL_RenderClear(renderer);
@@ -4373,13 +4783,19 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     const int x1 = std::min(map.width, static_cast<int>(std::ceil(cam.x + view_w)));
     const int y0 = std::max(0, static_cast<int>(std::floor(cam.y)));
     const int y1 = std::min(map.height, static_cast<int>(std::ceil(cam.y + view_h)));
+    {
+    Measure ground_scope(g_cost.ground);
+    CountDraws ground_draws(g_cost.draws_ground);
+    TileArt& art = tile_art(assets.tileset, cache, tile_px);
+    QuadBatch ground(renderer);
     for (int ty = y0; ty < y1; ++ty) {
         for (int tx = x0; tx < x1; ++tx) {
-            const auto def = assets.tileset.tiles.find(sim.gid_at(tx, ty));
-            if (def == assets.tileset.tiles.end()) {
+            const int gid = sim.gid_at(tx, ty);
+            const aether::TileDef* def = tile_def_at(art, gid);
+            if (def == nullptr) {
                 continue;
             }
-            const aether::Sprite* sprite = cache.get(def->second.art, tile_px);
+            const aether::Sprite* sprite = tile_sprite(art, cache, gid, tile_px);
             if (sprite == nullptr) {
                 continue;
             }
@@ -4389,27 +4805,38 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const float sy1 = std::round((static_cast<float>(ty + 1) - cam.y) * tile);
             const SDL_FRect dst{sx0, sy0, sx1 - sx0, sy1 - sy0};
             const SDL_FRect src = tile_source(*sprite, tx, ty);
-            SDL_RenderTexture(renderer, sprite->texture, &src, &dst);
-            if (def->second.surface == "water" && sprite->width > 48.0F && quality().water) {
+            const Uint8 opaque[4] = {255, 255, 255, 255};
+            ground.add(sprite->texture, static_cast<float>(sprite->tex_w), static_cast<float>(sprite->tex_h), src, dst,
+                       opaque);
+            if (def->surface == "water" && sprite->width > 48.0F && quality().water) {
                 // Water moves (spec 13, "Water"): the same picture, shifted by whole tiles, fades in and out over it.
                 const float t = static_cast<float>(now_ms % 16336281ULL);
                 const float first = 0.26F + 0.22F * std::sin(t / 1300.0F);
                 const float second = 0.20F + 0.18F * std::sin(t / 2100.0F + 2.0F);
                 const SDL_FRect src_a = tile_source(*sprite, tx + 1, ty + 2);
                 const SDL_FRect src_b = tile_source(*sprite, tx + 2, ty + 3);
-                SDL_SetTextureAlphaMod(sprite->texture, static_cast<Uint8>(first * 255.0F));
-                SDL_RenderTexture(renderer, sprite->texture, &src_a, &dst);
-                SDL_SetTextureAlphaMod(sprite->texture, static_cast<Uint8>(second * 255.0F));
-                SDL_RenderTexture(renderer, sprite->texture, &src_b, &dst);
-                SDL_SetTextureAlphaMod(sprite->texture, 255);
+                const Uint8 alpha_a[4] = {static_cast<Uint8>(first * 255.0F), static_cast<Uint8>(first * 255.0F),
+                                          static_cast<Uint8>(first * 255.0F), static_cast<Uint8>(first * 255.0F)};
+                const Uint8 alpha_b[4] = {static_cast<Uint8>(second * 255.0F), static_cast<Uint8>(second * 255.0F),
+                                          static_cast<Uint8>(second * 255.0F), static_cast<Uint8>(second * 255.0F)};
+                ground.add(sprite->texture, static_cast<float>(sprite->tex_w), static_cast<float>(sprite->tex_h), src_a,
+                           dst, alpha_a);
+                ground.add(sprite->texture, static_cast<float>(sprite->tex_w), static_cast<float>(sprite->tex_h), src_b,
+                           dst, alpha_b);
             }
         }
     }
+    ground.flush();
     // The soft edges of the grounds (spec 13, "Ground blending"): a neighbour of a higher rank fades over the tile.
+    QuadBatch blend(renderer);
+    const auto rank_at = [&art, &sim](int x, int y) {
+        const aether::TileDef* found = tile_def_at(art, sim.gid_at(x, y));
+        return found == nullptr ? 0 : found->blend;
+    };
     for (int ty = y0; ty < y1; ++ty) {
         for (int tx = x0; tx < x1; ++tx) {
-            const auto def = assets.tileset.tiles.find(sim.gid_at(tx, ty));
-            if (def == assets.tileset.tiles.end() || def->second.blend <= 0) {
+            const aether::TileDef* def = tile_def_at(art, sim.gid_at(tx, ty));
+            if (def == nullptr || def->blend <= 0) {
                 continue;
             }
             const float sx0 = std::round((static_cast<float>(tx) - cam.x) * tile);
@@ -4419,37 +4846,91 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             const SDL_FRect dst{sx0, sy0, sx1 - sx0, sy1 - sy0};
             constexpr int kSides[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
             for (const auto& side : kSides) {
-                const auto other = assets.tileset.tiles.find(sim.gid_at(tx + side[0], ty + side[1]));
-                if (other == assets.tileset.tiles.end() || other->second.blend <= def->second.blend) {
+                const int other_gid = sim.gid_at(tx + side[0], ty + side[1]);
+                const aether::TileDef* other = tile_def_at(art, other_gid);
+                if (other == nullptr || other->blend <= def->blend) {
                     continue;
                 }
-                if (const aether::Sprite* over = cache.get(other->second.art, tile_px)) {
-                    draw_ground_blend(renderer, *over, tx, ty, side[0], side[1], dst);
+                const aether::Sprite* over = tile_sprite(art, cache, other_gid, tile_px);
+                if (over == nullptr) {
+                    continue;
                 }
+                const SDL_FRect cell = tile_source(*over, tx, ty);
+                SDL_FRect src = cell;
+                SDL_FRect part = dst;
+                Uint8 alpha[4] = {0, 0, 0, 0};  // top left, top right, bottom right, bottom left
+                if (side[0] < 0) {
+                    src.w = cell.w / 2.0F;
+                    part.w = dst.w / 2.0F;
+                    alpha[0] = 255;
+                    alpha[3] = 255;
+                } else if (side[0] > 0) {
+                    src.x = cell.x + cell.w / 2.0F;
+                    src.w = cell.w / 2.0F;
+                    part.x = dst.x + dst.w / 2.0F;
+                    part.w = dst.w / 2.0F;
+                    alpha[1] = 255;
+                    alpha[2] = 255;
+                } else if (side[1] < 0) {
+                    src.h = cell.h / 2.0F;
+                    part.h = dst.h / 2.0F;
+                    alpha[0] = 255;
+                    alpha[1] = 255;
+                } else {
+                    src.y = cell.y + cell.h / 2.0F;
+                    src.h = cell.h / 2.0F;
+                    part.y = dst.y + dst.h / 2.0F;
+                    part.h = dst.h / 2.0F;
+                    alpha[2] = 255;
+                    alpha[3] = 255;
+                }
+                blend.add(over->texture, static_cast<float>(over->tex_w), static_cast<float>(over->tex_h), src, part,
+                          alpha);
             }
             // the corners: a higher ground that touches the tile only at a corner rounds that corner
-            const auto rank_at = [&](int x, int y) {
-                const auto found = assets.tileset.tiles.find(sim.gid_at(x, y));
-                return found == assets.tileset.tiles.end() ? 0 : found->second.blend;
-            };
             constexpr int kCorners[4][2] = {{-1, -1}, {1, -1}, {-1, 1}, {1, 1}};
             for (const auto& corner : kCorners) {
                 if (!quality().corners) {  // not at the low quality (spec 13, "Quality")
                     break;
                 }
-                const auto other = assets.tileset.tiles.find(sim.gid_at(tx + corner[0], ty + corner[1]));
-                if (other == assets.tileset.tiles.end() || other->second.blend <= def->second.blend ||
-                    rank_at(tx + corner[0], ty) > def->second.blend ||
-                    rank_at(tx, ty + corner[1]) > def->second.blend) {
+                const int other_gid = sim.gid_at(tx + corner[0], ty + corner[1]);
+                const aether::TileDef* other = tile_def_at(art, other_gid);
+                if (other == nullptr || other->blend <= def->blend ||
+                    rank_at(tx + corner[0], ty) > def->blend || rank_at(tx, ty + corner[1]) > def->blend) {
                     continue;
                 }
-                if (const aether::Sprite* over = cache.get(other->second.art, tile_px)) {
-                    draw_ground_corner(renderer, *over, tx, ty, corner[0], corner[1], dst);
+                const aether::Sprite* over = tile_sprite(art, cache, other_gid, tile_px);
+                if (over == nullptr) {
+                    continue;
                 }
+                const SDL_FRect cell = tile_source(*over, tx, ty);
+                SDL_FRect src = cell;
+                SDL_FRect part = dst;
+                src.w = cell.w / 2.0F;
+                src.h = cell.h / 2.0F;
+                part.w = dst.w / 2.0F;
+                part.h = dst.h / 2.0F;
+                if (corner[0] > 0) {
+                    src.x = cell.x + cell.w / 2.0F;
+                    part.x = dst.x + dst.w / 2.0F;
+                }
+                if (corner[1] > 0) {
+                    src.y = cell.y + cell.h / 2.0F;
+                    part.y = dst.y + dst.h / 2.0F;
+                }
+                Uint8 alpha[4] = {0, 0, 0, 0};
+                alpha[corner[0] < 0 ? (corner[1] < 0 ? 0 : 3) : (corner[1] < 0 ? 1 : 2)] = 255;
+                blend.add(over->texture, static_cast<float>(over->tex_w), static_cast<float>(over->tex_h), src, part,
+                          alpha);
             }
         }
     }
+    blend.flush();
+    }
 
+    {
+    Measure entities_scope(g_cost.entities);
+    CountDraws entity_draws(g_cost.draws_entities);
     std::vector<DrawItem> items;
     sim.for_each_prop(cam.x - 2.0F, cam.y - 1.0F, cam.x + view_w + 2.0F, cam.y + view_h + 4.0F,
                       [&items](const aether::Prop& prop) { items.push_back({prop.y, 0, &prop, nullptr, nullptr}); });
@@ -4604,9 +5085,18 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
         debug_text(renderer, sx, sy, f.text.c_str());
     }
 
+    }
+
+    {
+    Measure sky_scope(g_cost.sky);
+    CountDraws sky_draws(g_cost.draws_sky);
     draw_atmosphere(renderer, assets, sim, ui, out_w, out_h, density, now_ms);
     draw_lights(renderer, sim, cam, tile, view_w, view_h, now_ms);
     draw_ambience(renderer, sim, out_w, out_h, density, now_ms);
+    }
+    {
+    Measure hud_scope(g_cost.hud);
+    CountDraws hud_draws(g_cost.draws_hud);
     draw_hud(renderer, assets, sim, ui, density);
     draw_quest_tracker(renderer, assets, sim, ui, out_w, density);
     draw_minimap(renderer, sim, ui, density);
@@ -4632,11 +5122,11 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
                 SDL_SetRenderDrawColor(renderer, pass == 0 ? 0 : 90, pass == 0 ? 0 : 255, pass == 0 ? 0 : 120, 230);
                 for (int thick = 0; thick < 3; ++thick) {
                     const float o = static_cast<float>(thick) - 1.0F + shift;
-                    SDL_RenderLine(renderer, base_x + o, base_y + o, tip_x + o, tip_y + o);
+                    draw_line(renderer, base_x + o, base_y + o, tip_x + o, tip_y + o);
                     for (const float angle : {2.6F, -2.6F}) {
                         const float bx = (ux * std::cos(angle) - uy * std::sin(angle)) * barb;
                         const float by = (ux * std::sin(angle) + uy * std::cos(angle)) * barb;
-                        SDL_RenderLine(renderer, tip_x + o, tip_y + o, tip_x + bx + o, tip_y + by + o);
+                        draw_line(renderer, tip_x + o, tip_y + o, tip_x + bx + o, tip_y + by + o);
                     }
                 }
             }
@@ -4670,6 +5160,10 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
             }
         }
     }
+    }
+    {
+    Measure panels_scope(g_cost.panels);
+    CountDraws panel_draws(g_cost.draws_panels);
     draw_dialogue(renderer, assets, sim, ui, out_w, out_h, density);
     draw_inventory_and_notice(renderer, assets, sim, ui, out_w, out_h, density);
     draw_hint(renderer, ui, out_w, out_h, density);
@@ -4681,15 +5175,23 @@ void render(SDL_Renderer* renderer, aether::TextureCache& cache, const Assets& a
     draw_settings(renderer, assets, sim, ui, out_w, out_h, density);
     draw_keys(renderer, assets, ui, out_w, out_h, density);
     draw_craft(renderer, assets, sim, ui, out_w, out_h, density);
+    }
 
     if (debug) {
-        char line[160];
-        std::snprintf(line, sizeof(line), "%s  %.0f fps  pos %.2f,%.2f  tile %dpx  textures %zu",
+        char line[320];
+        std::snprintf(line, sizeof(line),
+                      "%s  %.0f fps  pos %.2f,%.2f  tile %dpx  textures %zu  calls %llu draws %llu  frame %.2f ms "
+                      "(ground %.2f, things %.2f, sky %.2f, hud %.2f, panels %.2f)",
                       aether::version_line().c_str(), fps, static_cast<double>(sim.player().position.x),
-                      static_cast<double>(sim.player().position.y), tile_px, cache.size());
+                      static_cast<double>(sim.player().position.y), tile_px, cache.size(),
+                      static_cast<unsigned long long>(g_calls), static_cast<unsigned long long>(g_draws),
+                      g_cost.frame, g_cost.ground, g_cost.entities, g_cost.sky, g_cost.hud, g_cost.panels);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         debug_text(renderer, 8.0F, static_cast<float>(out_h) - 16.0F, line);
     }
+    flush_scene();
+    g_scene = nullptr;
+    g_cost.frame = static_cast<double>(SDL_GetTicksNS() - render_start) / 1.0e6;
     if (!capture_path.empty()) {
         if (SDL_Surface* surface = SDL_RenderReadPixels(renderer, nullptr)) {
             if (!SDL_SavePNG(surface, capture_path.c_str())) {
@@ -4709,6 +5211,44 @@ void save_frame(SDL_Renderer* renderer, const std::string& path) {
         }
         SDL_DestroySurface(surface);
     }
+}
+
+// The numbers of --benchmark, one line for each run in benchmark.txt (docs/design/performance.md): the frame at 60 Hz
+// has 16.7 ms, and the line says how much of it the frame uses and how many calls it makes.
+void write_benchmark(const std::vector<double>& frame_ms, double calls, double draws, const FrameCost& cost) {
+    if (frame_ms.empty()) {
+        return;
+    }
+    std::vector<double> sorted = frame_ms;
+    std::sort(sorted.begin(), sorted.end());
+    const auto pick = [&sorted](double q) {
+        const std::size_t last = sorted.size() - 1;
+        return sorted[std::min(last, static_cast<std::size_t>(q * static_cast<double>(last) + 0.5))];
+    };
+    double total = 0.0;
+    for (const double ms : sorted) {
+        total += ms;
+    }
+    char line[320];
+    std::snprintf(line, sizeof(line),
+                  "desktop benchmark: %zu frames, %.2f ms mean, %.2f p50, %.2f p95, %.2f p99, %.2f max, "
+                  "%.0f calls and %.0f draws a frame, quality %s",
+                  sorted.size(), total / static_cast<double>(sorted.size()), pick(0.50), pick(0.95), pick(0.99),
+                  sorted.back(), calls, draws, std::string(quality().id).c_str());
+    const double frames = static_cast<double>(sorted.size());
+    char parts[240];
+    std::snprintf(parts, sizeof(parts), "  ground %.2f ms, things %.2f, sky %.2f, hud %.2f, panels %.2f, frame %.2f",
+                  cost.ground / frames, cost.entities / frames, cost.sky / frames, cost.hud / frames,
+                  cost.panels / frames, cost.frame / frames);
+    std::ofstream out("benchmark.txt", std::ios::app);
+    out << line << "\n";
+    out << parts << "\n";
+    std::printf("%s\n", line);
+    std::printf("%s\n", parts);
+    std::printf("  draws: ground %.0f, things %.0f, sky %.0f, hud %.0f, panels %.0f\n",
+                static_cast<double>(cost.draws_ground) / frames, static_cast<double>(cost.draws_entities) / frames,
+                static_cast<double>(cost.draws_sky) / frames, static_cast<double>(cost.draws_hud) / frames,
+                static_cast<double>(cost.draws_panels) / frames);
 }
 
 // The title screen (spec 12, "Slots"): the games to pick from. Returns the game (1..kSlotCount), or 0 when the player
@@ -5156,6 +5696,9 @@ std::string choose_protagonist(SDL_Window* window, SDL_Renderer* renderer, const
 
 int run_game(int argc, char** argv) {
     bool smoke_test = false;
+    bool benchmark = false;  // --benchmark: a fixed opening, no vsync, the frame measured (docs/design/performance.md)
+    int benchmark_frames = 1800;
+    std::pair<int, int> benchmark_size{0, 0};  // --size=WxH: the window of the benchmark
     int forced_slot = 0;     // developer option: --slot=N skips the title screen
     std::string map_choice;  // "demo" or "world"; the default depends on the mode
     std::string
@@ -5171,6 +5714,19 @@ int run_game(int argc, char** argv) {
         }
         if (std::strcmp(argv[i], "--smoke-test") == 0) {
             smoke_test = true;
+        }
+        if (std::strcmp(argv[i], "--benchmark") == 0) {
+            benchmark = true;
+        }
+        if (std::strncmp(argv[i], "--frames=", 9) == 0) {
+            benchmark_frames = std::max(1, std::atoi(argv[i] + 9));
+        }
+        if (std::strncmp(argv[i], "--size=", 7) == 0) {
+            char* end = nullptr;
+            const long w = std::strtol(argv[i] + 7, &end, 10);
+            if (end != nullptr && (*end == 'x' || *end == 'X')) {
+                benchmark_size = {static_cast<int>(w), std::atoi(end + 1)};
+            }
         }
         if (std::strncmp(argv[i], "--screenshot-dir=", 17) == 0) {
             screenshot_dir = argv[i] + 17;
@@ -5199,6 +5755,9 @@ int run_game(int argc, char** argv) {
         }
     }
 
+    if (benchmark) {
+        smoke_test = true;  // no title screen and no save of a player: the fixed opening, scripted
+    }
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
         SDL_Log("SDL_Init failed: %s", SDL_GetError());
         return 1;
@@ -5211,6 +5770,9 @@ int run_game(int argc, char** argv) {
     }
     if (map_choice.empty()) {
         map_choice = smoke_test ? "demo" : "world";
+    }
+    if (benchmark) {
+        map_choice = "world";
     }
     g_map_name = map_choice;
     if (!smoke_test) {
@@ -5232,7 +5794,21 @@ int run_game(int argc, char** argv) {
         SDL_Quit();
         return 1;
     }
-    SDL_SetRenderVSync(renderer, 1);
+    if (benchmark && benchmark_size.first > 0 && benchmark_size.second > 0) {
+        SDL_SetWindowSize(window, benchmark_size.first, benchmark_size.second);
+    }
+    if (benchmark) {
+        SDL_SetRenderVSync(renderer, 0);  // --benchmark: the frame is measured, not waited for
+    } else {
+        SDL_SetRenderVSync(renderer, 1);
+    }
+    {
+        int log_w = 0;
+        int log_h = 0;
+        SDL_GetCurrentRenderOutputSize(renderer, &log_w, &log_h);
+        SDL_Log("renderer %s, %d x %d, vsync %s", SDL_GetRendererName(renderer), log_w, log_h,
+                benchmark ? "off (benchmark)" : "on");
+    }
 
     if (smoke_test && !screenshot_dir.empty()) {  // the screens before the game, saved for a look
         std::error_code folder_error;
@@ -5255,7 +5831,7 @@ int run_game(int argc, char** argv) {
         bool back_to_title = false;
         // The game (spec 12, "Slots"): chosen on the title screen; the smoke test has a folder of its own.
         if (smoke_test) {
-            g_slot_dir = save_dir() / "smoke";
+            g_slot_dir = save_dir() / (benchmark ? "benchmark" : "smoke");
             std::error_code folder_error;
             fs::create_directories(g_slot_dir, folder_error);
         } else {
@@ -5447,6 +6023,10 @@ int run_game(int argc, char** argv) {
             bool running = true;
             bool debug = false;
             int frames = 0;
+            std::vector<double> benchmark_ms;
+            std::uint64_t benchmark_calls = 0;
+            std::uint64_t benchmark_draws = 0;
+            FrameCost benchmark_cost;
             bool captured_choice = false;
             bool smoke_save_ok = false;
             int talk_step = 0;  // smoke test: scripted conversation with the guild clerk
@@ -5740,7 +6320,9 @@ int run_game(int argc, char** argv) {
                 }
 
                 InputState input = devices.read();
-                if (smoke_test) {
+                if (benchmark) {
+                    input = {1.0F, 0.0F, false};  // --benchmark: walk east at a steady pace
+                } else if (smoke_test) {
                     input = {1.0F, 0.0F, frames % 2 == 0};  // scripted: walk right, swinging now and then
                     // Talk to the guild clerk and accept her quest while passing by (real dialogue data).
                     if (talk_step == 0 && g_map_name == "demo") {
@@ -6038,7 +6620,29 @@ int run_game(int argc, char** argv) {
                 }
                 render(renderer, cache, assets, sim, ui, floating, tile_px, density, debug, fps, capture);
 
-                if (smoke_test && ++frames >= kSmokeTestFrames) {
+                if (benchmark) {
+                    benchmark_ms.push_back(g_cost.frame);
+                    benchmark_calls += g_calls;
+                    benchmark_draws += g_draws;
+                    benchmark_cost.ground += g_cost.ground;
+                    benchmark_cost.entities += g_cost.entities;
+                    benchmark_cost.sky += g_cost.sky;
+                    benchmark_cost.hud += g_cost.hud;
+                    benchmark_cost.panels += g_cost.panels;
+                    benchmark_cost.frame += g_cost.frame;
+                    benchmark_cost.draws_ground += g_cost.draws_ground;
+                    benchmark_cost.draws_entities += g_cost.draws_entities;
+                    benchmark_cost.draws_sky += g_cost.draws_sky;
+                    benchmark_cost.draws_hud += g_cost.draws_hud;
+                    benchmark_cost.draws_panels += g_cost.draws_panels;
+                    if (++frames >= benchmark_frames) {
+                        running = false;
+                        const double count = static_cast<double>(benchmark_ms.size());
+                        write_benchmark(benchmark_ms, static_cast<double>(benchmark_calls) / count,
+                                        static_cast<double>(benchmark_draws) / count, benchmark_cost);
+                        continue;
+                    }
+                } else if (smoke_test && ++frames >= kSmokeTestFrames) {
                     running = false;
                     const bool moved = g_map_name == "world" || sim.player().position.x > spawn_x + 1.0F;
                     const bool baked = cache.size() > 10;

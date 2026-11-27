@@ -206,6 +206,14 @@ has spent a few milliseconds (6 on desktop, 8 on Android), always at least one r
 in that frame and appears in one of the next. Walking into a new place thus never freezes the game: new things pop in
 over a few frames instead.
 
+**Atlases and batches.** A client may lay the pictures of a bucket in one or more atlases, and send the quads that use them
+together: the ground, the props, the long shadows and the parts of the figures of a frame then reach the renderer with a few
+dozen calls instead of one for each picture (desktop, 1280 x 720: about thirty instead of about two thousand;
+`docs/design/performance.md`, item C4.3). The pixels do not change: a picture keeps in the atlas the size the rasterizer
+gives it, with a pixel of gap around it so that a scaled sampling does not read its neighbour. A transparency or a tint of
+one picture is the colour of its four corners, never a modulation of the texture, which would touch every picture of the
+atlas. A part of a figure is drawn from the atlas too, turned about its joint in the vertices of its quad.
+
 ## Quality
 
 The quality of the graphics is a setting of the player (spec 16, "Settings": `"quality"` in the settings file), one of three
