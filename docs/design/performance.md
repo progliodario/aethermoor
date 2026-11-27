@@ -80,6 +80,19 @@ The times of `--benchmark` in this VM are those of the software renderer of SDL 
 0.44 at 2560 x 1440, the first frame a second of baking); they say how much the code costs, not what a GPU draws. The
 number that matters on the owner's machine is the one he reads with `F3` and `--benchmark` on his own card.
 
+**Android.** The same change, in the same places of `android/game`: the cache is asked with the id as it is (no
+`"$id|$variant|$bucket"` built for each tile of each frame), the tiles are resolved once per bucket in a table of the
+renderer, the art of a bucket is laid in atlas pages of 1024 pixels of side up to bucket 64 and 2048 above (one page is a
+texture and the pixmap kept for a lost context, risk R6), the ground, the props and the figures share them, and the cells
+of the minimap take their colours from a table made once instead of 1,600 `Color` objects a frame. libGDX batches by
+texture, so the pictures of a page are one call of `SpriteBatch` and a phone screen full of ground is a handful of calls
+instead of one for each tile. The upload of a picture waits for the start of the next frame, when no batch is open: binding
+the atlas inside a batch would leave libGDX drawing with the wrong texture.
+
+The numbers of a phone are those of the owner (C4.2): the emulator and this VM draw with a software renderer, and the
+`LifecycleTest` only says that the game starts, turns and comes back with its textures. What the atlas must not do is
+change the pixels: the same recipes, the same rasterizer, the same filters, with a pixel of gap around each picture.
+
 ## On the emulator, every night
 
 `.github/workflows/nightly.yml` runs the game on an Android emulator of API 30 and of API 34 (`android/app/src/androidTest/.../LifecycleTest.kt`):

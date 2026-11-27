@@ -352,6 +352,12 @@ Le decisioni dalla sezione 8 che servono subito (Alpha 0.1, protezione del ramo,
   di 120 pixel di lato; il lampeggio e il rosso del colpo sono il colore dei vertici, non una modulazione della texture (che toccherebbe
   tutto l'atlante); i personaggi restano nell'atlante e ruotano nei vertici del quad. Non misurato: i frame sulla scheda del
   proprietario, che li legge con `F3` e `--benchmark`.
+- **Android (27 novembre 2026).** Le stesse cose nel client Android, dove libGDX accorpa per texture: la cache non costruisce più
+  una chiave `"$id|$variant|$bucket"` per ogni tile di ogni frame, i tile si risolvono una volta per bucket in una tabella del
+  renderer, l'arte di un bucket sta in pagine d'atlante da 1024 pixel di lato fino al bucket 64 e 2048 sopra (una pagina è una
+  texture più il pixmap tenuto per il contesto perso, R6), e la minimappa prende i suoi 1.600 colori da una tabella fatta una volta.
+  L'invio di un'immagine alla GPU aspetta l'inizio del frame dopo, quando nessun batch è aperto. Compilato con `kotlinc` (core e
+  game) ma non misurato: i numeri del telefono restano quelli di C4.2.
 
 #### C5 Una settimana di gioco
 
