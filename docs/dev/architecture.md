@@ -75,6 +75,14 @@ aether_tests (tests/*.cpp) links all five libraries
 `main.cpp` is long (about 6000 lines) and organised by function: `bag_use`, `handle_craft_key` and `draw_craft`, `draw_hud`,
 `run_title`, `run_game` and `main` (which writes the crash log). Search for the function of a panel rather than reading it in order.
 
+The drawing of a frame is the other thing to know before touching `main.cpp`: `render` calls `draw_*` for the sections
+(ground, things, sky, HUD, panels), `QuadBatch` sends the quads that share a texture with one call, `TextureCache` bakes a
+recipe into the atlas of its bucket and answers with a `Sprite` that carries its place in it, `font_text` sends a text as
+one geometry from the atlas of glyphs, and the minimap is a texture of its own. A tint or a transparency is the colour of
+the four corners of a quad, never a modulation of a texture: the texture is shared. `--benchmark` and `F3` count the calls
+and the draws ([`../design/performance.md`](../design/performance.md), item C4.3); the same rules are in
+`android/game` (`TextureCache`, `AethermoorGame.draw`).
+
 ## 4. The Android client (`android/`)
 
 | Module | Package | Files | What they do |
