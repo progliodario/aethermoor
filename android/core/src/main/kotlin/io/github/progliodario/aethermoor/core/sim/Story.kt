@@ -426,49 +426,62 @@ class Story(val setup: StorySetup, private val host: StoryHost) {
             is Condition.Negation -> !holds(c.inner)
             is Condition.AllOf -> c.items.all { holds(it) }
             is Condition.AnyOf -> c.items.any { holds(it) }
-            is Condition.QuestActive -> quests[c.quest]?.let { !it.done && !questOver(c.quest) } ?: false
+            is Condition.QuestActive -> questIsRunning(c.quest)
             is Condition.QuestDone -> quests[c.quest]?.done ?: false
-            is Condition.QuestStage -> quests[c.quest]?.let { !it.done && !questOver(c.quest) && it.stage == c.stage } ?: false
+            is Condition.QuestStage -> questIsRunning(c.quest) && quests.getValue(c.quest).stage == c.stage
             is Condition.HasItem -> (host.inventory[c.item] ?: 0L) >= c.qty
             is Condition.LevelAtLeast -> host.level >= c.level
             is Condition.GoldAtLeast -> gold >= c.gold
             is Condition.Season -> host.seasonId() == c.id
-            is Condition.TodBetween -> {
-                val tod = host.todPm()
-                if (c.from <= c.to) tod >= c.from && tod < c.to else tod >= c.from || tod < c.to
-            }
+            is Condition.TodBetween -> todWithin(c.from, c.to)
             is Condition.RenownAtLeast -> host.renownHere() >= c.count
             is Condition.FactionAtLeast -> host.counter("faction:${c.faction}") >= c.count
             is Condition.DayMod -> c.every > 0 && (host.day() - 1) % c.every == c.at
         }
 
+    /** A quest that was taken and is neither done nor out of the days it had (spec 07, "Timed quests"). */
+    private fun questIsRunning(questId: String): Boolean = quests[questId]?.let { !it.done && !questOver(questId) } ?: false
+
+    /** A moment of the day between two, possibly across midnight. */
+    private fun todWithin(from: Int, to: Int): Boolean {
+        val tod = host.todPm()
+        return if (from <= to) tod >= from && tod < to else tod >= from || tod < to
+    }
+
     fun apply(effect: Effect) {
         when (effect) {
             is Effect.AddXp -> host.grantXp(effect.amount)
             is Effect.AddGold -> gold += effect.amount
-            is Effect.AddItem -> {
-                host.inventory[effect.item] = (host.inventory[effect.item] ?: 0L) + effect.qty
-                refreshAll()
-            }
+            is Effect.AddItem -> giveItem(effect.item, effect.qty)
             is Effect.SpendGold -> gold = maxOf(0L, gold - effect.amount)
             is Effect.HealFull -> host.healFull()
-            is Effect.Temper -> {
-                if (gold >= effect.gold && host.temperWorn()) gold -= effect.gold // paid only when it is done
-            }
+            is Effect.Temper -> payForTempering(effect.gold)
             is Effect.RecruitCompanion -> host.recruitCompanion(effect.companion) // spec 10, "The party"
             is Effect.StartDefense -> host.startDefense() // spec 18, "Gideon's Dungeon"
-            is Effect.RemoveItem -> {
-                val held = host.inventory[effect.item] ?: 0L
-                val left = held - minOf(held, effect.qty)
-                if (left > 0L) host.inventory[effect.item] = left else host.inventory.remove(effect.item)
-                refreshAll()
-            }
+            is Effect.RemoveItem -> takeItem(effect.item, effect.qty)
             is Effect.SetFlag -> flags[effect.flag] = effect.value
             is Effect.StartQuest -> startQuest(effect.quest)
             is Effect.OpenShop -> if (effect.region.isEmpty()) host.openShop() else host.openShopOf(effect.region, effect.markupPct)
             is Effect.OpenBoard -> host.openBoard()
             is Effect.AddGuildPoints -> guildPoints += effect.amount
         }
+    }
+
+    private fun giveItem(item: String, qty: Long) {
+        host.inventory[item] = (host.inventory[item] ?: 0L) + qty
+        refreshAll()
+    }
+
+    /** Tempering is paid only when it is done. */
+    private fun payForTempering(price: Long) {
+        if (gold >= price && host.temperWorn()) gold -= price
+    }
+
+    private fun takeItem(item: String, qty: Long) {
+        val held = host.inventory[item] ?: 0L
+        val left = held - minOf(held, qty)
+        if (left > 0L) host.inventory[item] = left else host.inventory.remove(item)
+        refreshAll()
     }
 
     private fun currentStage(questId: String): QuestStage {

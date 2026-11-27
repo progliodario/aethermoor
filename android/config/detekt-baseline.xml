@@ -33,8 +33,6 @@
     <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun runSegment(sim: WorldSim, segment: JsonObject)</ID>
     <ID>CyclomaticComplexMethod:ScenarioSupport.kt$internal fun scenarioFromJson(input: JsonObject): ScenarioWorld</ID>
     <ID>CyclomaticComplexMethod:SoundBoard.kt$SoundBoard$private fun mixLoop()</ID>
-    <ID>CyclomaticComplexMethod:Story.kt$Story$fun apply(effect: Effect)</ID>
-    <ID>CyclomaticComplexMethod:Story.kt$Story$fun holds(c: Condition): Boolean</ID>
     <ID>CyclomaticComplexMethod:Story.kt$private fun parseCondition(element: JsonElement): Condition</ID>
     <ID>CyclomaticComplexMethod:Synth.kt$fun synthesize(recipe: SfxRecipe): ShortArray</ID>
     <ID>CyclomaticComplexMethod:World.kt$WorldSim$fun craft(recipeId: String): Boolean</ID>
