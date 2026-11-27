@@ -11,7 +11,7 @@ progetto; la sua issue è chiusa. Questa tabella si aggiorna in ogni PR che fa u
 
 | Voce | Che cosa | Stato | PR | Issue |
 |---|---|---|---|---|
-| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 73 | #258, #265, #268, #271, batch 14 | #224 aperta |
+| B1.1 | Baseline di detekt a zero | **in corso**: da 104 a 67 | #258, #265, #268, #271, batch 14, questa PR | #224 aperta |
 | B1.2 | Spec 15 e ADR 0014 | fatta | #258 | #225 |
 | B1.3 | Licenze in CI | fatta | #258 | #226 |
 | B1.4 | Matrice di parità | fatta | #258 | #227 |
@@ -129,6 +129,10 @@ Batch unico con le voci B1.1-B1.6, più il lavoro di G1 che serve a sbloccare le
 > strumenti scaricati dalla CI (ktlint, detekt).
 
 ##### B1.1 Detekt
+- **Fatto finora:** da 104 a 67 (49 di complessità, 17 di annidamento e una di uscite dai cicli). Questo batch spezza
+  `CollisionWorld.resolve` (il corpo che viene spinto fuori da ciò che occupa), il `when` delle condizioni e degli effetti delle storie, e il
+  documento dei salvataggi: `saveToJson` scrive per sezioni, `saveFromJson` legge i campi facoltativi con piccoli aiuti invece che con un
+  `as?` e un `?:` per campo, e il testo che scrive non cambia (i test dei salvataggi congelati lo verificano).
 - **Cosa:** portare la baseline da 104 voci a zero (`android/config/detekt-baseline.xml`): 72 `CyclomaticComplexMethod`, 19 `NestedBlockDepth`, 9 `LoopWithTooManyJumpStatements`, 2 `SwallowedException`, 1 `UnusedPrivateProperty`, 1 `UnusedParameter`.
 - **Perché:** la baseline è debito che cresce con ogni funzione nuova, e le eccezioni ingoiate nascondono errori veri.
 - **Come:** prima le due `SwallowedException` (l'errore si registra o si rilancia), poi le due voci inutilizzate, poi le uscite dai cicli e l'annidamento (si estraggono funzioni), infine la complessità file per file, partendo dal file con più voci. Un commit per file, che toglie le sue voci dalla baseline. Mai aggiungere voci. A zero, il file si cancella e `docs/dev/kotlin-style.md` lo dice.
